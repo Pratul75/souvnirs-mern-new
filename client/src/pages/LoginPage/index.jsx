@@ -3,7 +3,7 @@ import LoginForm from "./LoginForm";
 
 const LoginPage = () => {
   return (
-    <div>
+    <div className="w-screen h-screen flex">
       <LoginBanner />
       <LoginForm />
     </div>
