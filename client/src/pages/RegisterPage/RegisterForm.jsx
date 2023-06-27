@@ -1,12 +1,13 @@
 import { useState } from "react";
 import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return (
     <div className="md:w-1/2 w-full">
       <div className="w-full h-full flex justify-center items-center">
@@ -29,7 +30,6 @@ const LoginForm = () => {
           <div className="flex gap-4">
             <div className="flex flex-row items-center gap-4 form-control">
               <span className="text-sm">Please select:</span>
-
               <input
                 type="radio"
                 className="radio radio-error"
