@@ -1,12 +1,7 @@
-import Form from "./components/Form";
-function App() {
-  return (
-    <>
-      <div data-theme="light">
-        <Form />
-      </div>
-    </>
-  );
-}
+
+
+const App = () => {
+  return <div>App</div>;
+};
 
 export default App;
