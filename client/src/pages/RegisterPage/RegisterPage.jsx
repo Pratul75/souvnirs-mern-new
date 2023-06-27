@@ -1,4 +1,4 @@
-import LoginBannerImg from "../../assets/images/loginBannerImg.png";
+import LoginBannerImg from "../../assets/images/registerBannerImage.png";
 
 const LoginBanner = () => {
   return (

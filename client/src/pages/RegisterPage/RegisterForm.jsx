@@ -1,6 +1,12 @@
+import { useState } from "react";
 import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
-
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
   return (
     <div className="md:w-1/2 w-full">
       <div className="w-full h-full flex justify-center items-center">
@@ -86,15 +92,28 @@ const LoginForm = () => {
           </div>
           {/* row 6 */}
           <div className="flex gap-4">
-            <div className="form-control w-1/2 ">
+            {/* row 6 */}
+            <div className="form-control w-1/2">
               <label className="label" htmlFor="firstName">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="text"
-                className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
-                placeholder="Minimum 8 characters"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
+                  placeholder="Minimum 8 characters"
+                />
+                <button
+                  className="absolute top-1/2 right-4 transform -translate-y-1/2 focus:outline-none"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <FaEyeSlash size={20} />
+                  ) : (
+                    <FaEye size={20} />
+                  )}
+                </button>
+              </div>
             </div>
             <div className="form-control w-1/2  ">
               <label className="label" htmlFor="firstName">

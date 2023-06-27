@@ -1,5 +1,5 @@
-import LoginBanner from "./LoginBanner";
-import LoginForm from "./LoginForm";
+import LoginBanner from "./RegisterPage";
+import LoginForm from "./RegisterForm";
 
 const LoginPage = () => {
   return (
