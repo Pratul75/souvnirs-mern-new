@@ -1,4 +1,4 @@
-import RegisterBanner from "./RegisterPage";
+import RegisterBanner from "./RegisterBanner";
 import RegisterForm from "./RegisterForm";
 
 const LoginPage = () => {
