@@ -2,7 +2,7 @@ import { useState } from "react";
 import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -126,6 +126,7 @@ const LoginForm = () => {
               />
             </div>
           </div>
+
           {/* row 7 */}
           <div className="flex mt-5">
             <div className="flex justify-center items-center w-1/2 p-4 rounded-[4px] bg-gray-100 border-[2px] border-gray-300">
@@ -183,4 +184,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
