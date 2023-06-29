@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,12 +20,13 @@ const RegisterForm = () => {
           {/* row 2 */}
           <div className="flex justify-center gap-2">
             <p>Already have an account?</p>
-            <span
+            <Link
+              to={"/login"}
               id="gradient-text"
               className="bg-gradient-to-r from-violet-700 via-red-500 to-yellow-500 text-transparent bg-clip-text underline"
             >
               Sign in here
-            </span>
+            </Link>
           </div>
           {/* row 3 */}
           <div className="flex gap-4">

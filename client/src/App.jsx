@@ -1,9 +1,13 @@
-import { LoginPage } from "./pages";
-
+import { Route, Routes } from "react-router-dom";
+import { RegisterPage, LoginPage } from "./pages";
 const App = () => {
   return (
     <div data-theme="light">
-      <LoginPage />
+      <Routes>
+        <Route element={<RegisterPage />} path="/" />
+        <Route element={<LoginPage />} path="/login" />
+        <Route path="/*" element={<LoginPage />} />
+      </Routes>
     </div>
   );
 };

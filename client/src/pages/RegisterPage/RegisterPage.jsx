@@ -1,8 +1,8 @@
 import LoginBannerImg from "../../assets/images/registerBannerImage.png";
 
-const LoginBanner = () => {
+const RegisterBanner = () => {
   return (
-    <div className="hidden md:flex w-1/2">
+    <div className="hidden md:flex md:w-full">
       <img
         className="object-cover w-full h-full"
         src={LoginBannerImg}
@@ -12,4 +12,4 @@ const LoginBanner = () => {
   );
 };
 
-export default LoginBanner;
+export default RegisterBanner;

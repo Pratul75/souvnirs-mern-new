@@ -1,11 +1,11 @@
-import LoginBanner from "./RegisterPage";
-import LoginForm from "./RegisterForm";
+import RegisterBanner from "./RegisterPage";
+import RegisterForm from "./RegisterForm";
 
 const LoginPage = () => {
   return (
     <div className="w-screen h-screen flex">
-      <LoginBanner />
-      <LoginForm />
+      <RegisterBanner />
+      <RegisterForm />
     </div>
   );
 };
