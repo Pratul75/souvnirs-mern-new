@@ -1,12 +1,27 @@
 import { useState } from "react";
-import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "../../validations";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(registerSchema()),
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
@@ -37,6 +52,7 @@ const RegisterForm = () => {
                 className="radio radio-error"
                 name="option"
                 id="buy"
+                {...register("option")}
               />
               <label className="label" htmlFor="buy">
                 <span className="label-text uppercase font-semibold">
@@ -50,6 +66,7 @@ const RegisterForm = () => {
                 className="radio radio-error"
                 name="option"
                 id="sell"
+                {...register("option")}
               />
               <label className="label" htmlFor="sell">
                 <span className="label-text uppercase">Sell on Souvnirs</span>
@@ -66,37 +83,49 @@ const RegisterForm = () => {
                 type="text"
                 className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                 placeholder="enter here"
+                {...register("firstName")}
               />
+              {errors.firstName && (
+                <p className="text-red-500">{errors.firstName.message}</p>
+              )}
             </div>
             <div className="form-control w-1/2 ">
-              <label className="label" htmlFor="firstName">
+              <label className="label" htmlFor="lastName">
                 <span className="label-text"> Last Name</span>
               </label>
               <input
                 type="text"
                 className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                 placeholder="enter here"
+                {...register("lastName")}
               />
+              {errors.lastName && (
+                <p className="text-red-500">{errors.lastName.message}</p>
+              )}
             </div>
           </div>
           {/* row 5 */}
           <div className="flex">
             <div className="form-control w-full ">
-              <label className="label" htmlFor="firstName">
+              <label className="label" htmlFor="email">
                 <span className="label-text"> Email</span>
               </label>
               <input
                 type="text"
                 className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                 placeholder="ename@companyname.com"
+                {...register("email")}
               />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
             </div>
           </div>
           {/* row 6 */}
           <div className="flex gap-4">
             {/* row 6 */}
             <div className="form-control w-1/2">
-              <label className="label" htmlFor="firstName">
+              <label className="label" htmlFor="password">
                 <span className="label-text">Password</span>
               </label>
               <div className="relative">
@@ -104,6 +133,7 @@ const RegisterForm = () => {
                   type={showPassword ? "text" : "password"}
                   className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                   placeholder="Minimum 8 characters"
+                  {...register("password")}
                 />
                 <button
                   className="absolute top-1/2 right-4 transform -translate-y-1/2 focus:outline-none"
@@ -116,16 +146,23 @@ const RegisterForm = () => {
                   )}
                 </button>
               </div>
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
             </div>
             <div className="form-control w-1/2  ">
-              <label className="label" htmlFor="firstName">
+              <label className="label" htmlFor="mobile">
                 <span className="label-text">Mobile</span>
               </label>
               <input
                 type="text"
                 className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                 placeholder="enter without country code"
+                {...register("mobile")}
               />
+              {errors.mobile && (
+                <p className="text-red-500">{errors.mobile.message}</p>
+              )}
             </div>
           </div>
 
@@ -133,7 +170,11 @@ const RegisterForm = () => {
           <div className="flex mt-5">
             <div className="flex justify-center items-center w-1/2 p-4 rounded-[4px] bg-gray-100 border-[2px] border-gray-300">
               <div className="form-control flex flex-row gap-4">
-                <input type="checkbox" className="checkbox checkbox-primary" />
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-primary"
+                  {...register("checkbox1")}
+                />
                 <span>I am not robot</span>
               </div>
             </div>
@@ -171,12 +212,15 @@ const RegisterForm = () => {
               <div className="form-control">
                 <input type="checkbox" className="checkbox checkbox-error" />
               </div>
-              <p>Happy to receive non promotional Order updastes on Whatsaap</p>
+              <p>Happy to receive non-promotional Order updates on WhatsApp</p>
             </div>
           </div>
 
           <div className="flex mt-5">
-            <button className="bg-gradient-to-r w-full from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-6 px-8  hover:shadow-lg rounded-[4px] text-2xl">
+            <button
+              className="bg-gradient-to-r w-full from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-6 px-8  hover:shadow-lg rounded-[4px] text-2xl"
+              onClick={handleSubmit(onSubmit)}
+            >
               CREATE ACCOUNT
             </button>
           </div>

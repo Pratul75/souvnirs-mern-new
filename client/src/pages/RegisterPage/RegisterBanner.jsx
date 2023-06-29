@@ -6,7 +6,7 @@ const RegisterBanner = () => {
       <img
         className="object-cover w-full h-full"
         src={LoginBannerImg}
-        alt="Login Banner"
+        alt="Register Banner"
       />
     </div>
   );
