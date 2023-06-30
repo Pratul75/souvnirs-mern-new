@@ -1,0 +1,160 @@
+import {
+  OrderManagementIcon,
+  ProductManagement,
+  CategoriesIcon,
+  AttributeIcon,
+  ReviewsIcon,
+  CollectionIcon,
+  CartIcon,
+  CheckoutIcon,
+  ShipmentsIcon,
+  RefundIcon,
+  ReplacementIcon,
+  PaymentsIcon,
+  CustomerIcon,
+  CmsSeoIcon,
+  CouponDiscountIcon,
+  EmailMarketingIcon,
+  CouriersIcon,
+  SupplierIcon,
+  ProductInventoryIcon,
+  InventoryManagementIcon,
+  FinancialManagementIcon,
+  AnalyticsIcon,
+  SupportIcon,
+  AuthenticationIcon,
+  KnowledgeCenterIcon,
+} from "../icons/sidebarIcons";
+
+export const sidebarMapping = [
+  {
+    title: "Dashboard",
+    navLink: "/dashnboard",
+    Icon: OrderManagementIcon,
+  },
+  {
+    title: "Product Management",
+    navLink: "/product-management",
+    Icon: ProductManagement,
+  },
+  {
+    title: "Order Management",
+    navLink: "/order-management",
+    Icon: OrderManagementIcon,
+  },
+  {
+    title: "Categories",
+    navLink: "/categories",
+    Icon: CategoriesIcon,
+  },
+  {
+    title: "Attributes",
+    navLink: "/attributes",
+    Icon: AttributeIcon,
+  },
+  {
+    title: "Reviews",
+    navLink: "/reviews",
+    Icon: ReviewsIcon,
+  },
+  {
+    title: "Collection",
+    navLink: "/collections",
+    Icon: CollectionIcon,
+  },
+  {
+    title: "Cart",
+    navLink: "/cart",
+    Icon: CartIcon,
+  },
+  {
+    title: "Checkout",
+    navLink: "/checkout",
+    Icon: CheckoutIcon,
+  },
+  {
+    title: "Shipments",
+    navLink: "/shipments",
+    Icon: ShipmentsIcon,
+  },
+  {
+    title: "Refund",
+    navLink: "/refunds",
+    Icon: RefundIcon,
+  },
+  {
+    title: "Replacement",
+    navLink: "/replacements",
+    Icon: ReplacementIcon,
+  },
+  {
+    title: "Payments",
+    navLink: "/payments",
+    Icon: PaymentsIcon,
+  },
+  {
+    title: "Customer",
+    navLink: "/customer",
+    Icon: CustomerIcon,
+  },
+  {
+    title: "CMS & SEO",
+    navLink: "/cms-&-seo",
+    Icon: CmsSeoIcon,
+  },
+  {
+    title: "Coupons & Discount",
+    navLink: "/coupons&Discount",
+    Icon: CouponDiscountIcon,
+  },
+  {
+    title: "Email Marketing",
+    navLink: "/email-marketing",
+    Icon: EmailMarketingIcon,
+  },
+  {
+    title: "Couriers",
+    navLink: "/couriers",
+    Icon: CouriersIcon,
+  },
+  {
+    title: "Supplier",
+    navLink: "/suppliers",
+    Icon: SupplierIcon,
+  },
+  {
+    title: "Product Inventory",
+    navLink: "/product-inventory",
+    Icon: ProductInventoryIcon,
+  },
+  {
+    title: "Inventory Management",
+    navLink: "/inventory-management",
+    Icon: InventoryManagementIcon,
+  },
+  {
+    title: "Financial Management",
+    navLink: "/financial-management",
+    Icon: FinancialManagementIcon,
+  },
+  {
+    title: "Analytics",
+    navLink: "/analytics",
+    Icon: AnalyticsIcon,
+  },
+  {
+    title: "Support",
+    navLink: "/support",
+    Icon: SupportIcon,
+  },
+  {
+    title: "Authentication",
+    navLink: "/authentication",
+    Icon: AuthenticationIcon,
+  },
+  {
+    title: "Knowledge Center",
+    navLink: "/knowledge-center",
+    Icon: KnowledgeCenterIcon,
+  },
+];

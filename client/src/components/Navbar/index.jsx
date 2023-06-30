@@ -9,7 +9,7 @@ import { toggleSidebar } from "../../features/appConfig/appSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   return (
-    <nav className=" p-4 bg-blue-50">
+    <nav className=" p-4 bg-[#F8F9FAB2]">
       {/* mobile-screen navbar */}
       <div className=" flex  md:hidden justify-between place-items-center ">
         <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
