@@ -1,11 +1,8 @@
 import { useState } from "react";
-
+import { AiOutlineBars } from "react-icons/ai";
+import { useSelector } from "react-redux";
 const Sidebar = () => {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsExpanded(!isExpanded);
-  };
+  const isExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
 
   return (
     <div
@@ -17,9 +14,9 @@ const Sidebar = () => {
       <div className={`p-4 ${isExpanded ? "hidden" : "block"}`}>
         <button
           className="text-white text-xl focus:outline-none"
-          onClick={toggleSidebar}
+          // onClick={toggleSidebar}
         >
-          <i className="fas fa-bars"></i>
+          <AiOutlineBars />
         </button>
       </div>
 
@@ -27,7 +24,7 @@ const Sidebar = () => {
       <div className={`p-4 ${isExpanded ? "block" : "hidden"}`}>
         <button
           className="text-white text-xl focus:outline-none"
-          onClick={toggleSidebar}
+          // onClick={toggleSidebar}
         >
           <i className="fas fa-times"></i>
         </button>

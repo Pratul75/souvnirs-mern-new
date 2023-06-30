@@ -3,7 +3,10 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
+import { useDispatch } from "react-redux";
+import { toggleSidebar } from "../../features/appConfig/appSlice";
 const Navbar = () => {
+  const dispatch = useDispatch();
   return (
     <nav className=" p-2 bg-blue-50">
       {/* mobile-screen navbar */}
@@ -51,7 +54,7 @@ const Navbar = () => {
       <div className="w-full justify-between items-center hidden md:flex ">
         {/* left side of nav */}
         <div className="flex gap-2">
-          <RxHamburgerMenu />
+          <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
           <CiSearch />
         </div>
 
