@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { RegisterPage, LoginPage, AdminDashboard } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
+import { PATHS } from "./Routes/paths";
 const App = () => {
   return (
     <div data-theme="light">
@@ -13,7 +14,7 @@ const App = () => {
               <AdminDashboard />
             </AppLayout>
           }
-          path="/dashboard"
+          path={PATHS.adminDashboard}
         />
         <Route path="/*" element={<LoginPage />} />
       </Routes>

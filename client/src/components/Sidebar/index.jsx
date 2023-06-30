@@ -6,32 +6,44 @@ import { SmallVIcon } from "../../icons";
 import { BsFilter } from "react-icons/bs";
 import Avatar from "../Avatar";
 import SidebarItem from "./SidebarItem";
-// import { sidebarMapping } from "../../mappings";
 import { nanoid } from "@reduxjs/toolkit";
-import { OrderManagementIcon } from "../../icons/sidebarIcons";
 import { sidebarMapping } from "../../mappings";
+
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isExpanded = useSelector((state) => state.appConfig.sidebarExpanded);
+
   return (
     <>
       {/* desktop sidebar */}
       <div
-        className={`w-16 md:border-r-[1px] overflow-y-auto  border-gray-500 hidden md:block bg-#F8F9FAB2[] h-screen ${
+        className={`w-16 md:border-r-[1px] overflow-y-auto border-gray-500 hidden md:block bg-[#F8F9FAB2] h-screen ${
           isExpanded ? "lg:w-96" : "lg:w-28"
         } transition-all duration-500`}
       >
         {/* Collapsed State */}
         <div
-          className={` flex justify-center items-center mt-4 ${
+          className={`flex w-full flex-col justify-center items-center mt-4 ${
             isExpanded ? "hidden" : "block"
           }`}
         >
           <SmallVIcon />
+          <div className="flex flex-col justify-center items-center">
+            {sidebarMapping.map(({ Icon, navLink }) => {
+              return (
+                <SidebarItem
+                  to={navLink}
+                  key={nanoid()}
+                  Icon={<Icon />}
+                  // title={title}
+                />
+              );
+            })}
+          </div>
         </div>
 
         {/* Expanded State */}
-        <div className={` ${isExpanded ? "block" : "hidden"}`}>
+        <div className={`${isExpanded ? "block" : "hidden"}`}>
           <div className="flex flex-col mx-2 items-center justify-center pt-4">
             {/* Add your expanded sidebar content here */}
             {isExpanded ? (
@@ -39,7 +51,7 @@ const Sidebar = () => {
             ) : (
               "logo"
             )}
-            <div className="w-full p-4 py-8 rounded-xl bg-base-200 mx-5 mt-4 flex items-center gap-2 justify-around border-[1px] border-base-300 cursor-pointer">
+            <div className="w-full p-4 py-8 rounded-xl bg-gray-200 mx-5 mt-4 flex items-center gap-2 justify-around border-[1px] border-gray-300 cursor-pointer">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div>
                 <h2>Vishesh Bajpayee</h2>
@@ -49,9 +61,14 @@ const Sidebar = () => {
             </div>
 
             <div className="mt-28 w-full">
-              {sidebarMapping.map(({ title, Icon }) => {
+              {sidebarMapping.map(({ title, Icon, navLink }) => {
                 return (
-                  <SidebarItem key={nanoid()} Icon={<Icon />} title={title} />
+                  <SidebarItem
+                    to={navLink}
+                    key={nanoid()}
+                    Icon={<Icon />}
+                    title={title}
+                  />
                 );
               })}
             </div>
@@ -61,10 +78,20 @@ const Sidebar = () => {
 
       {/* mobile view */}
       <nav
-        className={`w-[50%] md:hidden h-screen  ${
+        className={`w-[50%] md:hidden h-screen ${
           isExpanded ? "translate-x-0" : " translate-x-[-100%]"
-        } absolute bg-teal-600 transition-all duration-300`}
+        } absolute bg-teal-600 transition-all duration-300 overflow-y-auto`}
       >
+        {sidebarMapping.map(({ title, Icon, navLink }) => {
+          return (
+            <SidebarItem
+              to={navLink}
+              key={nanoid()}
+              Icon={<Icon />}
+              title={title}
+            />
+          );
+        })}
         <button
           onClick={() => dispatch(toggleSidebar())}
           className="absolute top-5 right-5 text-white"

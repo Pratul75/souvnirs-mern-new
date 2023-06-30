@@ -33,7 +33,7 @@ const Navbar = () => {
             <li>
               <a>
                 <SettingsSvg />
-                Settings˙˙
+                Settings
               </a>
             </li>
             <li>
@@ -55,7 +55,7 @@ const Navbar = () => {
       {/* desktop-screen navbar */}
       <div className="w-full justify-between items-center hidden md:flex ">
         {/* left side of nav */}
-        <div className="flex gap-2">
+        <div className="flex gap-8">
           <RxHamburgerMenu
             className="text-2xl cursor-pointer"
             onClick={() => dispatch(toggleSidebar())}
@@ -64,7 +64,7 @@ const Navbar = () => {
         </div>
 
         {/* right side of nav */}
-        <div className="flex  gap-2">
+        <div className="flex  gap-4">
           <BellSvg />
           <LightSvg />
           <SettingsSvg />
