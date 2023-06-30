@@ -127,7 +127,7 @@ const RegisterForm = () => {
                   <p className="text-red-500">{errors.email.message}</p>
                 )}
               </div>
-            </div>
+            </div>   
             {/* row 6 */}
             <div className="flex gap-4">
               {/* row 6 */}
