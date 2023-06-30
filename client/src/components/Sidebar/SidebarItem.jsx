@@ -1,19 +1,19 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveLink } from "../../features/appConfig/appSlice";
 
 const SidebarItem = ({ Icon, title, to }) => {
-  const activeStyle = {
-    // Define your active styles here
-    backgroundColor: "yellow",
-    fontWeight: "bold",
-    // Add more styles as needed
-  };
+  const dispatch = useDispatch();
+  const isActiveLink = useSelector((x) => x.appConfig.activeLink.payload);
 
   return (
     <NavLink
       to={to}
-      activeStyle={activeStyle}
-      className="p-4 rounded-xl flex items-center text-black cursor-pointer mb-3 hover:bg-gray-300"
+      className={`p-4 rounded-xl flex items-center text-black cursor-pointer mb-3 hover:bg-gray-300 ${
+        isActiveLink === to ? "bg-blue-100 text-[#4E62C2 ]" : ""
+      }`}
+      onClick={() => dispatch(setActiveLink(to))}
     >
       {Icon} {/* Render the SVG icon */}
       <p>{title}</p>

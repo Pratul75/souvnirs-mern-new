@@ -16,6 +16,7 @@ const App = () => {
           }
           path={PATHS.adminDashboard}
         />
+        <Route element={<AppLayout></AppLayout>} />
         <Route path="/*" element={<LoginPage />} />
       </Routes>
     </div>

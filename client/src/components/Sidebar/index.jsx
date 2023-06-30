@@ -9,15 +9,15 @@ import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
 import { sidebarMapping } from "../../mappings";
 
+// sidebar
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isExpanded = useSelector((state) => state.appConfig.sidebarExpanded);
-
   return (
     <>
       {/* desktop sidebar */}
       <div
-        className={`w-16 md:border-r-[1px] overflow-y-auto border-gray-500 hidden md:block bg-[#F8F9FAB2] h-screen ${
+        className={`w-16 md:border-r-[1px] overflow-y-auto  border-gray-500 hidden md:block bg-[#F8F9FAB2] h-screen ${
           isExpanded ? "lg:w-96" : "lg:w-28"
         } transition-all duration-500`}
       >
@@ -80,7 +80,7 @@ const Sidebar = () => {
       <nav
         className={`w-[50%] md:hidden h-screen ${
           isExpanded ? "translate-x-0" : " translate-x-[-100%]"
-        } absolute bg-teal-600 transition-all duration-300 overflow-y-auto`}
+        }  absolute bg-rose-50 transition-all duration-300 overflow-y-auto`}
       >
         {sidebarMapping.map(({ title, Icon, navLink }) => {
           return (
