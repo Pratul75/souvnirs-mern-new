@@ -5,14 +5,16 @@ import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
 import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../../features/appConfig/appSlice";
+
 const Navbar = () => {
   const dispatch = useDispatch();
   return (
-    <nav className=" p-2 bg-blue-50">
+    <nav className=" p-4 bg-blue-50">
       {/* mobile-screen navbar */}
-      <div className=" flex md:hidden justify-end ">
+      <div className=" flex  md:hidden justify-between place-items-center ">
+        <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
         <details className="dropdown dropdown-bottom dropdown-left ">
-          <summary className="m-1 btn">
+          <summary className="btn">
             <BsThreeDotsVertical />
           </summary>
           <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
@@ -31,7 +33,7 @@ const Navbar = () => {
             <li>
               <a>
                 <SettingsSvg />
-                Settings
+                Settings˙˙
               </a>
             </li>
             <li>
@@ -42,7 +44,7 @@ const Navbar = () => {
             </li>
             <li>
               <a>
-                <Avatar bgColor="bg-primary" initials="VB" />
+                <Avatar bgColor="bg-info" initials="VB" />
                 Profile
               </a>
             </li>
@@ -54,8 +56,11 @@ const Navbar = () => {
       <div className="w-full justify-between items-center hidden md:flex ">
         {/* left side of nav */}
         <div className="flex gap-2">
-          <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
-          <CiSearch />
+          <RxHamburgerMenu
+            className="text-2xl cursor-pointer"
+            onClick={() => dispatch(toggleSidebar())}
+          />
+          <CiSearch className="text-2xl cursor-pointer" />
         </div>
 
         {/* right side of nav */}
@@ -64,6 +69,7 @@ const Navbar = () => {
           <LightSvg />
           <SettingsSvg />
           <SunSvg />
+          <Avatar bgColor={"bg-info"} initials="VB" />
         </div>
       </div>
     </nav>

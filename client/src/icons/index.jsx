@@ -1,8 +1,8 @@
 export const BellSvg = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -29,8 +29,8 @@ export const BellSvg = () => {
 export const LightSvg = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +58,8 @@ export const LightSvg = () => {
 export const SettingsSvg = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -87,8 +87,8 @@ export const SettingsSvg = () => {
 export const SunSvg = () => {
   return (
     <svg
-      width="20"
-      height="20"
+      width="28"
+      height="28"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +107,57 @@ export const SunSvg = () => {
         <clipPath id="clip0_1_817">
           <rect width="24" height="24" fill="white" />
         </clipPath>
+      </defs>
+    </svg>
+  );
+};
+
+export const SouvnirsMobileLogo = () => {
+  return (
+    <svg
+      width="45"
+      height="40"
+      viewBox="0 0 273 391"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M139.08 390.47L0.73999 154.96H88.4L167.07 314.43L121.66 312.85L189.77 154.96H272.15L141.19 390.47H139.08Z"
+        fill="url(#paint0_linear_223_11)"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M61.1999 39.55C61.1999 18.73 89.6699 7.56001 109.3 40.18C112.51 45.51 115.01 50.35 117.95 56.19C122.29 64.82 123.19 70.14 124.97 73.84C121.75 73.09 118.11 72.88 114.48 72.3C110.71 71.69 107.9 71.21 104.26 70.49C93.9599 68.44 76.5999 63.22 69.1599 56.26C64.0099 51.44 61.1999 47.45 61.1999 39.56V39.55ZM77.7799 0.450012H82.3599C92.0799 1.00001 101.75 4.99002 110.02 11.19C118.19 17.32 120.1 20.21 126.09 27.6C129.88 32.27 135.49 45.55 135.79 49.18H136.99C138.1 44.42 149.65 25.69 153.69 20.77C159.58 13.6 162.78 10.46 170.87 6.07002C176.72 2.89002 183.54 0.860022 190.41 0.460022H195.35C200.15 0.750022 204.86 1.89002 209.18 4.07002C211.36 5.17002 212.87 5.82002 214.94 7.33002C223.03 13.22 229.02 24.64 229.02 36.56C229.02 44.95 228.98 46.93 225.22 54.41C222.36 60.11 221.39 60.24 218.21 64.24L198.95 78.66H271.13V118.36C271.13 126.54 271.73 132.49 271.73 140.62H144.2V79.26H128.56V140.62H1.62994L1.55994 79.2C2.90994 77.85 63.1299 78.66 67.7999 78.66C67.4199 78.33 67.0799 78 66.4799 77.58L63.0099 75.63C52.5399 69.27 41.9299 56.59 41.9299 42.57C41.9299 30.46 46.9799 18.27 53.1299 11.66C53.2099 11.57 53.3299 11.44 53.4199 11.35L56.9599 8.27002C63.4299 3.31002 70.5499 0.880022 77.7599 0.460022L77.7799 0.450012ZM147.82 75.04C148.73 64.08 168.31 32.14 173.85 27.08C180.88 20.66 196.05 16 204.61 23.66C214.73 32.72 208.85 47.39 198.49 55.93C197.15 57.04 196.1 57.74 194.63 58.68C191.96 60.4 189.11 61.6 186.32 63C175.13 68.65 161.48 71.85 147.82 75.03V75.04Z"
+        fill="url(#paint1_linear_223_11)"
+      />
+      <defs>
+        <linearGradient
+          id="paint0_linear_223_11"
+          x1="105.832"
+          y1="374.358"
+          x2="376.122"
+          y2="403.027"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#4E5BA4" />
+          <stop offset="0.36" stopColor="#E73A4F" />
+          <stop offset="0.65" stopColor="#EB6237" />
+          <stop offset="1" stopColor="#FACB35" />
+        </linearGradient>
+        <linearGradient
+          id="paint1_linear_223_11"
+          x1="125.532"
+          y1="158.802"
+          x2="394.427"
+          y2="230.917"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#4E5BA4" />
+          <stop offset="0.36" stopColor="#E73A4F" />
+          <stop offset="0.65" stopColor="#EB6237" />
+          <stop offset="1" stopColor="#FACB35" />
+        </linearGradient>
       </defs>
     </svg>
   );

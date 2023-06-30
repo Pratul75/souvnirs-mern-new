@@ -1,39 +1,52 @@
-import { useState } from "react";
-import { AiOutlineBars } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { AiOutlineClose } from "react-icons/ai";
+import SovniersLogo from "../../assets/images/souvnirsLogo.png";
+import { toggleSidebar } from "../../features/appConfig/appSlice";
+import { SouvnirsMobileLogo } from "../../icons";
 const Sidebar = () => {
-  const isExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
-
+  const dispatch = useDispatch();
+  const isExpanded = useSelector((state) => state.appConfig.sidebarExpanded);
   return (
-    <div
-      className={`w-16 bg-blue-500 h-screen ${
-        isExpanded ? "lg:w-64" : "lg:w-16"
-      } transition-all duration-500`}
-    >
-      {/* Collapsed State */}
-      <div className={`p-4 ${isExpanded ? "hidden" : "block"}`}>
-        <button
-          className="text-white text-xl focus:outline-none"
-          // onClick={toggleSidebar}
+    <>
+      {/* desktop sidebar */}
+      <div
+        className={`w-16 md:border-r-[1px]  border-gray-500 hidden md:block bg-blue-50 h-screen ${
+          isExpanded ? "lg:w-96" : "lg:w-28"
+        } transition-all duration-500`}
+      >
+        {/* Collapsed State */}
+        <div
+          className={` flex justify-center items-center mt-4 ${
+            isExpanded ? "hidden" : "block"
+          }`}
         >
-          <AiOutlineBars />
-        </button>
-      </div>
+          <SouvnirsMobileLogo />
+        </div>
 
-      {/* Expanded State */}
-      <div className={`p-4 ${isExpanded ? "block" : "hidden"}`}>
-        <button
-          className="text-white text-xl focus:outline-none"
-          // onClick={toggleSidebar}
-        >
-          <i className="fas fa-times"></i>
-        </button>
-        <div className="mt-4">
-          {/* Add your expanded sidebar content here */}
-          <p className="text-white">Expanded Content</p>
+        {/* Expanded State */}
+        <div className={` ${isExpanded ? "block" : "hidden"}`}>
+          <div className="flex items-center justify-center pt-4">
+            {/* Add your expanded sidebar content here */}
+            {isExpanded ? <img src={SovniersLogo} alt="" /> : "logo"}
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* mobile view */}
+
+      <nav
+        className={`w-[50%] md:hidden h-screen  ${
+          isExpanded ? "translate-x-0" : " translate-x-[-100%]"
+        } absolute bg-teal-600 transition-all duration-300`}
+      >
+        <button
+          onClick={() => dispatch(toggleSidebar())}
+          className="absolute top-5 right-5 text-white"
+        >
+          <AiOutlineClose />
+        </button>
+      </nav>
+    </>
   );
 };
 
