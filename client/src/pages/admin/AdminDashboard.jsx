@@ -23,7 +23,7 @@ const AdminDashboard = () => {
         />
         <DashboardCard
           number={232}
-          subheading="No of Orders¯"
+          subheading="No. of Orders"
           iconColor="bg-warning"
         />
         <DashboardCard
