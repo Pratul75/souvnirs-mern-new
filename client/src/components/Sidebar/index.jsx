@@ -76,7 +76,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      {/* mobile view */}
+      {/* mobile sidebar view */}
       <nav
         className={`w-[50%] md:hidden h-screen ${
           isExpanded ? "translate-x-0" : " translate-x-[-100%]"
