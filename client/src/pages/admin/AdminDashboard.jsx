@@ -1,6 +1,13 @@
-import { Header, DashboardCard } from "../../components";
+import { Header, DashboardCard, Tabs } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
 const AdminDashboard = () => {
+  const tabs = [
+    { label: "Total Sales", content: "Content 1" },
+    { label: "By Month", content: "Content 2" },
+    { label: "By Year", content: "Content 3" },
+    { label: "By Weekly", content: "Content 4" },
+  ];
+
   return (
     <div className="flex flex-col ">
       <Header
@@ -30,6 +37,7 @@ const AdminDashboard = () => {
           iconColor="bg-success"
         />
       </div>
+      <Tabs tabs={tabs} />
     </div>
   );
 };
