@@ -1,9 +1,21 @@
 import { Header, DashboardCard, Tabs } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
 import BarChartImg from "../../assets/images/barChartImg.png";
+import DetailsCard from "../../components/DetailsCard";
+
 const AdminDashboard = () => {
   const tabs = [
-    { label: "Total Sales", content: <img src={BarChartImg} /> },
+    {
+      label: "Total Sales",
+      content: (
+        <div className="flex gap-2 bg-error">
+          <img src={BarChartImg} />
+          <div className="w-full">
+            <DetailsCard />
+          </div>
+        </div>
+      ),
+    },
     { label: "By Month", content: "Content 2" },
     { label: "By Year", content: "Content 3" },
     { label: "By Weekly", content: "Content 4" },
