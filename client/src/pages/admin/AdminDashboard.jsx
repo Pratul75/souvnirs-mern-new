@@ -1,8 +1,9 @@
 import { Header, DashboardCard, Tabs } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
+import BarChartImg from "../../assets/images/barChartImg.png";
 const AdminDashboard = () => {
   const tabs = [
-    { label: "Total Sales", content: "Content 1" },
+    { label: "Total Sales", content: <img src={BarChartImg} /> },
     { label: "By Month", content: "Content 2" },
     { label: "By Year", content: "Content 3" },
     { label: "By Weekly", content: "Content 4" },
@@ -19,17 +20,17 @@ const AdminDashboard = () => {
         <DashboardCard
           number={13323}
           subheading="Total Sales"
-          iconColor="bg-info"
+          iconColor="bg-error"
         />
         <DashboardCard
           number={232}
-          subheading="No. of Orders"
+          subheading="No of Orders¯"
           iconColor="bg-warning"
         />
         <DashboardCard
           number={2312}
           subheading="Total No. of Products "
-          iconColor="bg-error"
+          iconColor="bg-info"
         />
         <DashboardCard
           number={9853}
@@ -37,6 +38,8 @@ const AdminDashboard = () => {
           iconColor="bg-success"
         />
       </div>
+
+      {/* tabs are spefcificaslly provided */}
       <Tabs tabs={tabs} />
     </div>
   );

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+// dynamic tabs component
 
 const Tabs = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0);
-
   return (
     <div className="border-b mt-4 rounded-xl border-[1px] border-gray-300">
       <div className="flex">
@@ -21,6 +21,7 @@ const Tabs = ({ tabs }) => {
           </button>
         ))}
       </div>
+
       <div className="mt-2">
         {tabs.map((tab, index) => (
           <div
@@ -43,6 +44,7 @@ const Tabs = ({ tabs }) => {
   );
 };
 
+// tabs props
 Tabs.propTypes = {
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
