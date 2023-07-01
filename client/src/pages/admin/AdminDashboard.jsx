@@ -2,15 +2,20 @@ import { Header, DashboardCard, Tabs } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
 import BarChartImg from "../../assets/images/barChartImg.png";
 import DetailsCard from "../../components/DetailsCard";
+import { TotalSalesIcon } from "../../icons";
 
 const AdminDashboard = () => {
   const tabs = [
     {
       label: "Total Sales",
       content: (
-        <div className="flex gap-2 bg-error">
+        <div className="flex gap-4 bg-white">
+          {/* add barchart later */}
           <img src={BarChartImg} />
-          <div className="w-full">
+          <div className="w-full flex flex-col gap-2">
+            <DetailsCard icon={<TotalSalesIcon />} />
+            <DetailsCard />
+            <DetailsCard />
             <DetailsCard />
           </div>
         </div>
@@ -21,6 +26,7 @@ const AdminDashboard = () => {
     { label: "By Weekly", content: "Content 4" },
   ];
 
+  // specific return statement ius provided here
   return (
     <div className="flex flex-col ">
       <Header
@@ -36,7 +42,7 @@ const AdminDashboard = () => {
         />
         <DashboardCard
           number={232}
-          subheading="No of Orders¯"
+          subheading="No of Orders"
           iconColor="bg-warning"
         />
         <DashboardCard

@@ -62,14 +62,23 @@ const Navbar = () => {
           />
           <CiSearch className="text-2xl cursor-pointer" />
         </div>
-
         {/* right side of nav */}
         <div className="flex  gap-4">
-          <BellSvg />
-          <LightSvg />
-          <SettingsSvg />
-          <SunSvg />
-          <Avatar bgColor={"bg-info"} initials="VB" />
+          <span className="cursor-pointer">
+            <BellSvg />
+          </span>
+          <span className="cursor-pointer">
+            <LightSvg />
+          </span>
+          <span className="cursor-pointer">
+            <SettingsSvg />
+          </span>
+          <span className="cursor-pointer">
+            <SunSvg />
+          </span>
+          <span className="cursor-pointer">
+            <Avatar bgColor={"bg-info"} initials="VB" />
+          </span>
         </div>
       </div>
     </nav>

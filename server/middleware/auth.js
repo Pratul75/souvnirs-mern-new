@@ -9,20 +9,19 @@ exports.checkLoginOrNot = async (req, res, next) => {
   // req.cookies.token
   // req.body.token
 
-
   if (!token) {
     return res.status(404).json("token is missing, Please login");
   }
   try {
     const decode = jwt.verify(token, process.env.SECRET_KEY);
-   
+
     if (!decode) {
       return res.status(400).json({
         success: false,
         message: "invalid token",
       });
     }
-   
+
     // for get route we do not send data in body so we send data in params
     const userDetails = await Usermodel.findById(decode?.id);
     if (userDetails) {
@@ -45,10 +44,8 @@ exports.checkLoginOrNot = async (req, res, next) => {
       }
     }
 
-    
     return next();
   } catch (error) {
-  
     return res.status(500).json({
       success: false,
       message: error.message,

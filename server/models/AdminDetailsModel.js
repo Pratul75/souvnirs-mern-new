@@ -1,45 +1,43 @@
 const mongoose = require("mongoose");
-const AdminDetailsModel = new mongoose.Schema({
-    firstName:{
-        type:String,
-        required:true,
-        min:2,
-        max:25,
+const AdminDetailsModel = new mongoose.Schema(
+  {
+    firstName: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 25,
     },
-    lastName:{
-        type:String,
-        required:true,
-        min:2,
-        max:25,
+    lastName: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 25,
     },
-    gender:{
-        type:String,
+    gender: {
+      type: String,
     },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
+    email: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    password:{
-        type:String,
-        required:true,
+    password: {
+      type: String,
+      required: true,
     },
-    mobile:{
-        type:Number,
+    mobile: {
+      type: Number,
     },
-    profilePicture:{
-        id:String,
-        secure_url:String,
+    profilePicture: {
+      id: String,
+      secure_url: String,
     },
-    role:{
-        type:String,
-        default:"admin",
+    role: {
+      type: String,
+      default: "admin",
     },
-   
-},
-{ timestamps: true }
+  },
+  { timestamps: true }
 );
 
-
-
-module.exports  = mongoose.model("admindetailsmodel",AdminDetailsModel);
+module.exports = mongoose.model("admindetailsmodel", AdminDetailsModel);
