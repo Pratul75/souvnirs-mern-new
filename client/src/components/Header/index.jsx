@@ -11,7 +11,7 @@ const Header = ({ heading, subheading, image }) => {
       />
       <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center px-8 text-black">
         <h1 className="text-4xl font-bold mb-4 text-white">{heading}</h1>
-        <p className="text-xl text-white w-3/4">{subheading}</p>
+        <p className="text-xl text-white w-3/4 mt-4">{subheading}</p>
         <img
           className="absolute right-0 top-0"
           src={image}
