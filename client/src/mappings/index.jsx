@@ -1,3 +1,4 @@
+import { PATHS } from "../Routes/paths";
 import {
   OrderManagementIcon,
   ProductManagement,
@@ -29,132 +30,132 @@ import {
 export const sidebarMapping = [
   {
     title: "Dashboard",
-    navLink: "/dashnboard",
+    navLink: PATHS.adminDashboard,
     Icon: OrderManagementIcon,
   },
   {
     title: "Product Management",
-    navLink: "/product-management",
+    navLink: PATHS.adminProductManagement,
     Icon: ProductManagement,
   },
   {
     title: "Order Management",
-    navLink: "/order-management",
+    navLink: PATHS.adminOrderManagement,
     Icon: OrderManagementIcon,
   },
   {
     title: "Categories",
-    navLink: "/categories",
+    navLink: PATHS.adminCategories,
     Icon: CategoriesIcon,
   },
   {
     title: "Attributes",
-    navLink: "/attributes",
+    navLink: PATHS.adminDashboard,
     Icon: AttributeIcon,
   },
   {
     title: "Reviews",
-    navLink: "/reviews",
+    navLink: PATHS.adminReviews,
     Icon: ReviewsIcon,
   },
   {
     title: "Collection",
-    navLink: "/collections",
+    navLink: PATHS.adminCollection,
     Icon: CollectionIcon,
   },
   {
     title: "Cart",
-    navLink: "/cart",
+    navLink: PATHS.adminCart,
     Icon: CartIcon,
   },
   {
     title: "Checkout",
-    navLink: "/checkout",
+    navLink: PATHS.adminCheckout,
     Icon: CheckoutIcon,
   },
   {
     title: "Shipments",
-    navLink: "/shipments",
+    navLink: PATHS.adminShipments,
     Icon: ShipmentsIcon,
   },
   {
     title: "Refund",
-    navLink: "/refunds",
+    navLink: PATHS.adminRefund,
     Icon: RefundIcon,
   },
   {
     title: "Replacement",
-    navLink: "/replacements",
+    navLink: PATHS.adminReplacement,
     Icon: ReplacementIcon,
   },
   {
     title: "Payments",
-    navLink: "/payments",
+    navLink: PATHS.adminPayments,
     Icon: PaymentsIcon,
   },
   {
     title: "Customer",
-    navLink: "/customer",
+    navLink: PATHS.adminbCustomer,
     Icon: CustomerIcon,
   },
   {
     title: "CMS & SEO",
-    navLink: "/cms-&-seo",
+    navLink: PATHS.adminCmsAndSeo,
     Icon: CmsSeoIcon,
   },
   {
     title: "Coupons & Discount",
-    navLink: "/coupons&Discount",
+    navLink: PATHS.adminCouponsAndDiscounts,
     Icon: CouponDiscountIcon,
   },
   {
     title: "Email Marketing",
-    navLink: "/email-marketing",
+    navLink: PATHS.adminEmailMarketing,
     Icon: EmailMarketingIcon,
   },
   {
     title: "Couriers",
-    navLink: "/couriers",
+    navLink: PATHS.adminCouriers,
     Icon: CouriersIcon,
   },
   {
     title: "Supplier",
-    navLink: "/suppliers",
+    navLink: PATHS.adminSupply,
     Icon: SupplierIcon,
   },
   {
     title: "Product Inventory",
-    navLink: "/product-inventory",
+    navLink: PATHS.adminProductInventory,
     Icon: ProductInventoryIcon,
   },
   {
     title: "Inventory Management",
-    navLink: "/inventory-management",
+    navLink: PATHS.adminInventoryManagement,
     Icon: InventoryManagementIcon,
   },
   {
     title: "Financial Management",
-    navLink: "/financial-management",
+    navLink: PATHS.adminFinancialManagement,
     Icon: FinancialManagementIcon,
   },
   {
     title: "Analytics",
-    navLink: "/analytics",
+    navLink: PATHS.adminAnalytics,
     Icon: AnalyticsIcon,
   },
   {
     title: "Support",
-    navLink: "/support",
+    navLink: PATHS.adminSupport,
     Icon: SupportIcon,
   },
   {
     title: "Authentication",
-    navLink: "/authentication",
+    navLink: PATHS.adminAuthentication,
     Icon: AuthenticationIcon,
   },
   {
     title: "Knowledge Center",
-    navLink: "/knowledge-center",
+    navLink: PATHS.adminKnowledgeCenter,
     Icon: KnowledgeCenterIcon,
   },
 ];

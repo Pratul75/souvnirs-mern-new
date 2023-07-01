@@ -35,7 +35,7 @@ const Sidebar = () => {
                   to={navLink}
                   key={nanoid()}
                   Icon={<Icon />}
-                  // title={title}
+                  title={""}
                 />
               );
             })}
