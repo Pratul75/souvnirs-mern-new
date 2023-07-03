@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const Tabs = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0);
   return (
-    <div className="border-b mt-4 rounded-xl border-[1px] border-gray-300 bg-gray-50">
+    <div className="border-b h-full mt-4 rounded-xl border-[1px] border-gray-300">
       <div className="flex">
         {tabs.map((tab, index) => (
           <button
