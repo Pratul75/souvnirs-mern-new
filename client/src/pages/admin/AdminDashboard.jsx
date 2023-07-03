@@ -487,23 +487,16 @@ const AdminDashboard = () => {
             <DashboardPieChartCard
               label="Income"
               labelColor="bg-blue-500"
-              amount={2321}
-              addAmount={123}
+              amount={2311}
+              addAmount={231}
               icon={<BlueIncomeIcon />}
             />
             <DashboardPieChartCard
-              label="Income"
-              labelColor="bg-blue-500"
-              amount={2321}
-              addAmount={123}
-              icon={<BlueIncomeIcon />}
-            />
-            <DashboardPieChartCard
-              label="Income"
-              labelColor="bg-blue-500"
-              amount={2321}
-              addAmount={123}
-              icon={<BlueIncomeIcon />}
+              label="Query 1"
+              labelColor="bg-green-500"
+              amount={7234}
+              addAmount={323}
+              icon={<GreenProductsIcon />}
             />
             <VendorListComponent />
           </div>

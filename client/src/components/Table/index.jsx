@@ -2,6 +2,8 @@ import PropTypes from "prop-types";
 import { useTable } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
+import { FiEdit2 } from "react-icons/fi";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -37,16 +39,16 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                 ))}
                 <td>
                   <button
-                    className="btn btn-xs btn-primary mr-2"
+                    className="btn btn-circle btn-success mr-2"
                     onClick={() => onEdit(row.original)}
                   >
-                    Edit
+                    <FiEdit2 color="white" />
                   </button>
                   <button
-                    className="btn btn-xs btn-error"
+                    className="btn btn-circle btn-error  mr-2"
                     onClick={() => onDelete(row.original.id)}
                   >
-                    Delete
+                    <RiDeleteBinLine color="white" />
                   </button>
                 </td>
               </tr>

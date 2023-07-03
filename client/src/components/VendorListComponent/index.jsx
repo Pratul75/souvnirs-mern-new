@@ -1,5 +1,6 @@
 import Avatar from "../Avatar";
 
+// TODO: Make this responsive
 const VendorListComponent = () => {
   return (
     <div className="w-full p-4 bg-base-200 rounded-xl flex justify-between gap-2 items-center">
