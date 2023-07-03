@@ -16,7 +16,7 @@ const Sidebar = () => {
   return (
     <>
       {/* desktop sidebar */}
-      <div
+      <nav
         className={`w-16 md:border-r-[1px] overflow-y-auto  border-gray-500 hidden md:block bg-[#F8F9FAB2] h-screen ${
           isExpanded ? "lg:w-96" : "lg:w-28"
         } transition-all duration-500`}
@@ -74,7 +74,7 @@ const Sidebar = () => {
             </div>
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* mobile sidebar view */}
       <nav

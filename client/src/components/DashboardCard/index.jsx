@@ -8,7 +8,11 @@ const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
         <p>{subheading}</p>
       </div>
 
-      <div className={` w-12 h-12 rounded-xl  ${iconColor}`}></div>
+      <div
+        className={` w-12 h-12 flex justify-center items-center rounded-xl  ${iconColor}`}
+      >
+        {iconSvg}
+      </div>
     </div>
   );
 };
@@ -19,5 +23,4 @@ DashboardCard.propTypes = {
   iconSvg: PropTypes.object.isRequired,
   iconColor: PropTypes.string.isRequired,
 };
-
 export default DashboardCard;

@@ -2,7 +2,12 @@ import { Header, DashboardCard, Tabs } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
 import BarChartImg from "../../assets/images/barChartImg.png";
 import DetailsCard from "../../components/DetailsCard";
-import { TotalSalesIcon } from "../../icons";
+import {
+  TotalSalesIcon,
+  NoOfOrders,
+  NoOfProducts,
+  NoOfVendors,
+} from "../../icons";
 
 const AdminDashboard = () => {
   const tabs = [
@@ -39,25 +44,28 @@ const AdminDashboard = () => {
           number={13323}
           subheading="Total Sales"
           iconColor="bg-error"
+          iconSvg={<TotalSalesIcon />}
         />
         <DashboardCard
           number={232}
           subheading="No of Orders"
-          iconColor="bg-warning"
+          iconColor="bg-success"
+          iconSvg={<NoOfOrders />}
         />
         <DashboardCard
           number={2312}
           subheading="Total No. of Products "
-          iconColor="bg-info"
+          iconColor="bg-orange-500"
+          iconSvg={<NoOfProducts />}
         />
         <DashboardCard
           number={9853}
           subheading="No. of Vendors"
-          iconColor="bg-success"
+          iconColor="bg-blue-500"
+          iconSvg={<NoOfVendors />}
         />
       </div>
 
-      {/* tabs are spefcificaslly provided */}
       <Tabs tabs={tabs} />
     </div>
   );
