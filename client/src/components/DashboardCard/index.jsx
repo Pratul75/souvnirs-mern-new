@@ -24,3 +24,4 @@ DashboardCard.propTypes = {
   iconColor: PropTypes.string.isRequired,
 };
 export default DashboardCard;
+ 

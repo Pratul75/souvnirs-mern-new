@@ -2,8 +2,9 @@ import {
   Header,
   DashboardCard,
   Tabs,
-  Avatar,
   DashboardPieChartCard,
+  Avatar,
+  VendorListComponent,
 } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
 import ProductOverviewOneImg from "../../assets/images/productOverviewImgOne.png";
@@ -13,6 +14,7 @@ import NewUsersGreenChart from "../../assets/images/newUsersGreenChart.png";
 import BarChartImg from "../../assets/images/barChartImg.png";
 import DetailsCard from "../../components/DashboardChartCard";
 import { AiOutlinePlus } from "react-icons/ai";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import {
   TotalSalesIcon,
   TotalSalesBlack,
@@ -426,9 +428,44 @@ const AdminDashboard = () => {
       </div>
 
       {/* new row */}
-      <div className="flex gap-4 w-full mt-4"> </div>
-      {/* Vendor List */}
-      {/* <div className="w-1/3  border-[1px] border-gray-300"></div> */}
+      <div className="flex gap-4 w-full mt-4">
+        <div className="w-1/3 p-4 border-[1px] border-gray-400 rounded-xl overflow-y-auto">
+          <div className="w-full flex items-center justify-between">
+            <h5 className="font-semibold">Vendor List</h5>
+            <button className="btn btn-square btn-outline btn-error">
+              <BsThreeDotsVertical />
+            </button>
+          </div>
+          <div className="flex  flex-col gap-2 mt-2">
+            <DashboardPieChartCard
+              label="Income"
+              labelColor="bg-blue-500"
+              amount={2321}
+              addAmount={123}
+              icon={<BlueIncomeIcon />}
+            />
+            <DashboardPieChartCard
+              label="Income"
+              labelColor="bg-blue-500"
+              amount={2321}
+              addAmount={123}
+              icon={<BlueIncomeIcon />}
+            />
+            <DashboardPieChartCard
+              label="Income"
+              labelColor="bg-blue-500"
+              amount={2321}
+              addAmount={123}
+              icon={<BlueIncomeIcon />}
+            />
+            <VendorListComponent />
+          </div>
+        </div>
+        {/* recent */}
+        <div className="w-2/3 p-4  border-[1px] border-gray-400 rounded-xl ">
+          Orders Table
+        </div>
+      </div>
     </div>
   );
 };
