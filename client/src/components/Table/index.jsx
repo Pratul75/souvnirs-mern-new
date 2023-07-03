@@ -1,5 +1,6 @@
+import React from "react";
 import PropTypes from "prop-types";
-import { useTable } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
 import { FiEdit2 } from "react-icons/fi";
@@ -7,10 +8,13 @@ import { RiDeleteBinLine } from "react-icons/ri";
 
 const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
-      columns,
-      data,
-    });
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useSortBy // Add the useSortBy plugin
+    );
 
   return (
     <div className="overflow-x-auto">
@@ -19,8 +23,22 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th key={nanoid()} {...column.getHeaderProps()}>
+                <th
+                  key={nanoid()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())} // Enable sorting on column header
+                >
                   {column.render("Header")}
+                  <span>
+                    {column.isSorted ? (
+                      column.isSortedDesc ? (
+                        <i className="fas fa-arrow-down ml-1"></i>
+                      ) : (
+                        <i className="fas fa-arrow-up ml-1"></i>
+                      )
+                    ) : (
+                      ""
+                    )}
+                  </span>
                 </th>
               ))}
               <th>Action</th>
