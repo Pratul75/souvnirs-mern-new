@@ -3,7 +3,6 @@ import {
   DashboardCard,
   Tabs,
   DashboardPieChartCard,
-  Avatar,
   VendorListComponent,
 } from "../../components";
 import HeaderImgOne from "../../assets/images/headerImgOne.png";
@@ -29,6 +28,8 @@ import {
   SalesRedIcon,
   GrayVendors,
 } from "../../icons";
+import { useMemo } from "react";
+import ReusableTable from "../../components/Table";
 
 const AdminDashboard = () => {
   const tabs = [
@@ -250,7 +251,52 @@ const AdminDashboard = () => {
       ),
     },
   ];
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "Job",
+        accessor: "job",
+      },
+      {
+        Header: "Favorite Color",
+        accessor: "color",
+      },
+    ],
+    []
+  );
 
+  const data = useMemo(
+    () => [
+      {
+        id: 1,
+        name: "John Doe",
+        job: "Developer",
+        color: "Blue",
+      },
+      {
+        id: 2,
+        name: "Jane Smith",
+        job: "Designer",
+        color: "Red",
+      },
+      // Add more data as needed
+    ],
+    []
+  );
+
+  const handleEdit = (row) => {
+    // Handle edit action
+    console.log("Edit:", row);
+  };
+
+  const handleDelete = (id) => {
+    // Handle delete action
+    console.log("Delete:", id);
+  };
   // specific return statement ius provided here
   return (
     <div className="flex flex-col ">
@@ -464,6 +510,12 @@ const AdminDashboard = () => {
         {/* recent */}
         <div className="w-2/3 p-4  border-[1px] border-gray-400 rounded-xl ">
           Orders Table
+          <ReusableTable
+            columns={columns}
+            data={data}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         </div>
       </div>
     </div>
