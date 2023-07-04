@@ -29,3 +29,4 @@ export { default as Reviews } from "./admin/Reviews";
 export { default as Shipments } from "./admin/Shipments";
 export { default as Supply } from "./admin/Supply";
 export { default as Support } from "./admin/Support";
+export { default as AddProduct } from "./admin/AddProduct";

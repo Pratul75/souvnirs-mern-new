@@ -29,6 +29,7 @@ import {
   Shipments,
   Supply,
   Support,
+  AddProduct,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 
@@ -157,5 +158,10 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminbCustomer,
     Component: Customers,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddProducts,
+    Component: AddProduct,
   },
 ];

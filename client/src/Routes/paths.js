@@ -30,4 +30,5 @@ export const PATHS = {
   adminSupply: "/admin-supply",
   adminSupport: "/admin-support",
   admin: "/admin-support",
+  adminAddProducts: "/admin-add-products",
 };

@@ -5,6 +5,7 @@ require("dotenv").config();
 const { connect } = require("./db/db");
 const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
+const storeRoutes = require("./routes/storeRoutes");
 
 // app initialization
 const app = express();
@@ -16,8 +17,12 @@ app.use(cors());
 connect();
 
 // routes
+// product routes
 app.use(productRoutes);
+// vendor routes
 app.use(vendorRoutes);
+// store routes
+app.use(storeRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;
