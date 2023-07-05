@@ -28,10 +28,32 @@ import {
   SalesRedIcon,
   GrayVendors,
 } from "../../icons";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReusableTable from "../../components/Table";
-
+import API_WRAPPER from "../../api";
 const AdminDashboard = () => {
+  const [productCount, setProductCount] = useState(null);
+  const [vendorsCount, setVendorsCount] = useState(null);
+  const getProductsCount = async () => {
+    const response = await API_WRAPPER.get("/products/get-products-count");
+    console.log("PRODUCTS COUNT: ", response.data.count);
+    if (response.status === 200) {
+      setProductCount(response?.data?.count);
+    }
+  };
+  const getVendorsCount = async () => {
+    const response = await API_WRAPPER.get("/vendors/get-vendors-count");
+    console.log("VENDORS COUNT: ", response.data.count);
+    if (response.status === 200) {
+      setVendorsCount(response?.data?.count);
+    }
+  };
+
+  useEffect(() => {
+    getProductsCount();
+    getVendorsCount();
+  }, []);
+
   const tabs = [
     {
       label: "Total Sales",
@@ -320,13 +342,13 @@ const AdminDashboard = () => {
           iconSvg={<NoOfOrders />}
         />
         <DashboardCard
-          number={2312}
+          number={productCount}
           subheading="Total No. of Products "
           iconColor="bg-orange-500"
           iconSvg={<NoOfProducts />}
         />
         <DashboardCard
-          number={9853}
+          number={vendorsCount}
           subheading="No. of Vendors"
           iconColor="bg-blue-500"
           iconSvg={<NoOfVendors />}

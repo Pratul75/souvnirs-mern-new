@@ -120,9 +120,27 @@ const editProduct = async (req, res) => {
   }
 };
 
+// get total products
+const getProductsCount = async (req, res) => {
+  try {
+    // Get the total number of products
+    const productsCount = await Product.countDocuments({});
+    console.log("PRODUCT COUNT: ", productsCount);
+
+    // Send the productsCount to the frontend
+    res.status(200).json({ count: productsCount });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Failed to get the total number of products" });
+  }
+};
+
 module.exports = {
   getProducts,
   getProduct,
+  getProductsCount,
   createProduct,
   deleteProduct,
   editProduct,

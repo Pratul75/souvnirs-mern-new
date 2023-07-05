@@ -95,10 +95,26 @@ const deleteVendor = async (req, res) => {
   }
 };
 
+// get vendor count
+const getVendorsCount = async (req, res) => {
+  try {
+    // get total number of vendors
+    const vendorsCount = await Vendor.countDocuments({});
+    console.log("VENDOR COUNT: ", vendorsCount);
+
+    res.status(200).json({ count: vendorsCount });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to get the total number of vendors" });
+  }
+};
+
 module.exports = {
   createVendor,
   getVendors,
   getVendorById,
+  getVendorsCount,
   updateVendor,
   deleteVendor,
 };

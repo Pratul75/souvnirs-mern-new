@@ -4,7 +4,7 @@ const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
   return (
     <div className="w-full flex justify-between items-center p-4 rounded-xl bg-[#f9f9f9]">
       <div>
-        <h2 className="text-2xl">${number}</h2>
+        <h2 className="text-2xl">{number}</h2>
         <p>{subheading}</p>
       </div>
 
@@ -24,4 +24,3 @@ DashboardCard.propTypes = {
   iconColor: PropTypes.string.isRequired,
 };
 export default DashboardCard;
- 
