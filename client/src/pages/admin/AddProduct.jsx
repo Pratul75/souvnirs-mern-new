@@ -1,7 +1,19 @@
 import { Header } from "../../components";
 import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import { TextEditor } from "../../components";
+import { BiReset } from "react-icons/bi";
+import { useEffect } from "react";
+import API_WRAPPER from "../../api";
 const AddProduct = () => {
+  const getAllProducts = async () => {
+    const data = await API_WRAPPER.get("/products/get-all-products");
+    console.log("DATA: ", data);
+  };
+
+  useEffect(() => {
+    getAllProducts();
+  }, []);
+
   return (
     <div>
       <Header
@@ -67,6 +79,12 @@ const AddProduct = () => {
           <button className="btn btn-outline bg-[#4680FF] font-thin w-full text-white hover:bg-[#6c98f8]">
             Preview Changed
           </button>
+          <div className="flex justify-between items-center mt-4">
+            <h3 className="text-2xl mt-4">Published</h3>
+            <button className="btn btn-outline btn-info text-white">
+              <BiReset size={20} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

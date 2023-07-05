@@ -22,6 +22,7 @@ const AppLayout = ({ children }) => {
     </div>
   );
 };
+
 AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
