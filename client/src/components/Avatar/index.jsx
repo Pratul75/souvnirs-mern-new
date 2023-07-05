@@ -4,7 +4,7 @@ const Avatar = ({ initials, bgColor }) => {
   return (
     <div className="avatar placeholder">
       <div className={`${bgColor} text-neutral-content rounded-full w-8`}>
-        <span className="text-xs">{initials}</span>
+        <span className="text-md">{initials}</span>
       </div>
     </div>
   );

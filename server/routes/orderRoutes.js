@@ -6,6 +6,7 @@ const {
   deleteOrder,
   getTotalSales,
   getTotalOrders,
+  getOrderTableData,
 } = require("../controllers/ordersController");
 
 const router = require("express").Router();
@@ -19,4 +20,6 @@ router.delete("/order/delete-order/:id", deleteOrder);
 router.get("/order/get-total-sales", getTotalSales);
 // get total orders count
 router.get("/order/get-total-orders-count", getTotalOrders);
+// get order table data for admin dashboard ui
+router.get("/order/get-order-table-data", getOrderTableData);
 module.exports = router;

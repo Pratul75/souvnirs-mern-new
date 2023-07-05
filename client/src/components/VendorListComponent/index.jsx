@@ -1,26 +1,27 @@
+import PropTypes from "prop-types";
 import Avatar from "../Avatar";
-
-// TODO: Make this responsive
-const VendorListComponent = () => {
+import { getRandomColor } from "../../../utils";
+const VendorListComponent = ({ firstName, lastName }) => {
   return (
-    <div className="w-full p-4 bg-base-200 rounded-xl flex justify-between gap-2 items-center">
+    <div className="w-full p-4 bg-base-200 rounded-xl flex  gap-2 items-center">
       <div>
-        <Avatar bgColor="bg-secondary" initials="VB" />
+        <Avatar
+          bgColor={getRandomColor()}
+          initials={`${firstName[0]}${lastName[0]}`}
+        />
       </div>
       <div>
-        <div>
-          <h5>Vishesh Bajpayee</h5>
-          <p>
-            @ <span className="text-gray-500">v_baj</span>
-          </p>
-        </div>
-      </div>
-      <div className="flex gap-4 ml-4">
-        <div>2 orders</div>
-        <span>$1213</span>
+        <h3>
+          {firstName} {lastName}
+        </h3>
       </div>
     </div>
   );
+};
+
+VendorListComponent.propTypes = {
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
 };
 
 export default VendorListComponent;

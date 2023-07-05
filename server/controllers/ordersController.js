@@ -1,5 +1,7 @@
 const Order = require("../schema/orderModal");
-
+const Product = require("../schema/productModal");
+const Customer = require("../schema/customerModal");
+const Vendor = require("../schema/vendorModal");
 // Create a new order
 const addOrder = async (req, res) => {
   try {
@@ -92,6 +94,42 @@ const getTotalOrders = async (req, res) => {
   }
 };
 
+// order table data
+// this api is specific to ui for admin dashboard
+
+const getOrderTableData = async (req, res) => {
+  try {
+    const allOrders = await Order.find({});
+
+    const orderData = await Promise.all(
+      allOrders.map(async (order) => {
+        const { product_id, vendor_id, customer_id, price, invoice_id } = order;
+
+        const product = await Product.findById(product_id);
+        const vendor = await Vendor.findById(vendor_id);
+        const customer = await Customer.findById(customer_id);
+
+        const productName = product ? product.name : "N/A";
+        const vendorName = vendor ? vendor.firstName : "N/A";
+        const customerName = customer ? customer.firstName : "N/A";
+
+        return {
+          invoiceId: invoice_id,
+          productName,
+          vendorName,
+          customerName,
+          price,
+        };
+      })
+    );
+
+    console.log("ORDER TABLE DATA: ", orderData);
+    res.json(orderData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve order table data" });
+  }
+};
+
 module.exports = {
   addOrder,
   getOrder,
@@ -100,4 +138,5 @@ module.exports = {
   deleteOrder,
   getTotalSales,
   getTotalOrders,
+  getOrderTableData,
 };

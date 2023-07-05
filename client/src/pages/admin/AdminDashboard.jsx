@@ -31,12 +31,15 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import ReusableTable from "../../components/Table";
 import API_WRAPPER from "../../api";
+import { nanoid } from "nanoid";
 const AdminDashboard = () => {
   // component states
   const [productCount, setProductCount] = useState(null);
   const [vendorsCount, setVendorsCount] = useState(null);
   const [totalSales, setTotalSales] = useState(null);
   const [totalOrdersCount, setTotalOrderCount] = useState(null);
+  const [allVendorsList, setAllVendorsList] = useState([]);
+  const [orderTableData, setOrderTableData] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingVendors, setLoadingVendors] = useState(true);
 
@@ -88,6 +91,29 @@ const AdminDashboard = () => {
       console.error("Error in getting total orders count");
     }
   };
+  const getAllVendors = async () => {
+    try {
+      const response = await API_WRAPPER.get("/vendors/get-vendors");
+      if (response.status === 200) {
+        console.log("ALL VENDORS LIST: ", response.data?.data);
+        setAllVendorsList(response.data?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all vendors", error);
+    }
+  };
+
+  const getOrdersTableData = async () => {
+    try {
+      const response = await API_WRAPPER.get("/order/get-order-table-data");
+      if (response.status === 200) {
+        console.log("ORDERS TABLE DATA: ", response?.data);
+        setOrderTableData(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting order table data", error);
+    }
+  };
 
   useEffect(() => {
     setLoadingProducts(true);
@@ -96,6 +122,8 @@ const AdminDashboard = () => {
     getVendorsCount();
     getTotalOrdersCount();
     getTotalSales();
+    getAllVendors();
+    getOrdersTableData();
   }, []);
 
   const tabs = [
@@ -320,39 +348,30 @@ const AdminDashboard = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Name",
-        accessor: "name",
+        Header: "Invoice Id",
+        accessor: "invoiceId",
       },
       {
-        Header: "Job",
-        accessor: "job",
+        Header: "Product Name",
+        accessor: "productName",
       },
       {
-        Header: "Favorite Color",
-        accessor: "color",
+        Header: "Vendor Name",
+        accessor: "vendorName",
+      },
+      {
+        Header: "Customer Name",
+        accessor: "customerName",
+      },
+      {
+        Header: "Price",
+        accessor: "price",
       },
     ],
     []
   );
 
-  const data = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "John Doe",
-        job: "Developer",
-        color: "Blue",
-      },
-      {
-        id: 2,
-        name: "Jane Smith",
-        job: "Designer",
-        color: "Red",
-      },
-      // Add more data as needed
-    ],
-    []
-  );
+  const data = useMemo(() => orderTableData, [orderTableData]);
 
   const handleEdit = (row) => {
     // Handle edit action
@@ -554,21 +573,19 @@ const AdminDashboard = () => {
             </button>
           </div>
           <div className="flex  flex-col gap-2 mt-2">
-            <DashboardPieChartCard
-              label="Income"
-              labelColor="bg-blue-500"
-              amount={2311}
-              addAmount={231}
-              icon={<BlueIncomeIcon />}
-            />
-            <DashboardPieChartCard
-              label="Query 1"
-              labelColor="bg-green-500"
-              amount={7234}
-              addAmount={323}
-              icon={<GreenProductsIcon />}
-            />
-            <VendorListComponent />
+            {allVendorsList.length > 0 ? (
+              allVendorsList.map(({ firstName, lastName }) => {
+                return (
+                  <VendorListComponent
+                    key={nanoid()}
+                    firstName={firstName}
+                    lastName={lastName}
+                  />
+                );
+              })
+            ) : (
+              <p>No data found</p>
+            )}
           </div>
         </div>
         {/* recent */}
