@@ -68,10 +68,36 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+// total sales
+const getTotalSales = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    const totalAmount = orders.reduce(
+      (sum, order) => sum + order.total_paid,
+      0
+    );
+    res.json({ totalSales: totalAmount });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve orders" });
+  }
+};
+
+// total orders count
+const getTotalOrders = async (req, res) => {
+  try {
+    const totalOrders = await Order.countDocuments();
+    res.json({ totalOrders: totalOrders });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve total orders" });
+  }
+};
+
 module.exports = {
   addOrder,
   getOrder,
   getOrders,
   updateOrderById,
   deleteOrder,
+  getTotalSales,
+  getTotalOrders,
 };

@@ -32,10 +32,15 @@ import { useEffect, useMemo, useState } from "react";
 import ReusableTable from "../../components/Table";
 import API_WRAPPER from "../../api";
 const AdminDashboard = () => {
+  // component states
   const [productCount, setProductCount] = useState(null);
   const [vendorsCount, setVendorsCount] = useState(null);
+  const [totalSales, setTotalSales] = useState(null);
+  const [totalOrdersCount, setTotalOrderCount] = useState(null);
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingVendors, setLoadingVendors] = useState(true);
+
+  // api handlers
   const getProductsCount = async () => {
     try {
       const response = await API_WRAPPER.get("/products/get-products-count");
@@ -62,12 +67,35 @@ const AdminDashboard = () => {
       setLoadingVendors(false);
     }
   };
+  const getTotalSales = async () => {
+    try {
+      const response = await API_WRAPPER.get("/order/get-total-sales");
+      if (response.status === 200) {
+        setTotalSales(response?.data?.totalSales);
+      }
+      console.log("TOTAL SALES: ", response?.data?.totalSales);
+    } catch (error) {
+      console.error("Error in getting total sales", error);
+    }
+  };
+  const getTotalOrdersCount = async () => {
+    try {
+      const response = await API_WRAPPER.get("/order/get-total-orders-count");
+      if (response.status === 200) {
+        setTotalOrderCount(response?.data?.totalOrders);
+      }
+    } catch (error) {
+      console.error("Error in getting total orders count");
+    }
+  };
 
   useEffect(() => {
     setLoadingProducts(true);
     setLoadingVendors(true);
     getProductsCount();
     getVendorsCount();
+    getTotalOrdersCount();
+    getTotalSales();
   }, []);
 
   const tabs = [
@@ -347,14 +375,14 @@ const AdminDashboard = () => {
       <div className="flex gap-4 mt-4">
         {/* Total Sales Card */}
         <DashboardCard
-          number={loadingProducts ? "Loading..." : 13323}
+          number={loadingProducts ? "Loading..." : totalSales}
           subheading="Total Sales"
           iconColor="bg-error"
           iconSvg={<TotalSalesIcon />}
         />
         {/* No of Orders Card */}
         <DashboardCard
-          number={loadingProducts ? "Loading..." : 232}
+          number={loadingProducts ? "Loading..." : totalOrdersCount}
           subheading="No of Orders"
           iconColor="bg-success"
           iconSvg={<NoOfOrders />}
