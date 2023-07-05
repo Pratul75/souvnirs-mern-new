@@ -28,6 +28,7 @@ import {
   SalesRedIcon,
   GrayVendors,
 } from "../../icons";
+
 import { useEffect, useMemo, useState } from "react";
 import ReusableTable from "../../components/Table";
 import API_WRAPPER from "../../api";
@@ -102,7 +103,6 @@ const AdminDashboard = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
-
   const getOrdersTableData = async () => {
     try {
       const response = await API_WRAPPER.get("/order/get-order-table-data");
@@ -345,6 +345,7 @@ const AdminDashboard = () => {
       ),
     },
   ];
+  // table columns
   const columns = useMemo(
     () => [
       {
@@ -370,7 +371,7 @@ const AdminDashboard = () => {
     ],
     []
   );
-
+  // table data
   const data = useMemo(() => orderTableData, [orderTableData]);
 
   const handleEdit = (row) => {
@@ -383,7 +384,7 @@ const AdminDashboard = () => {
     console.log("Delete:", id);
   };
 
-  // specific return statement ius provided here
+  // specific return statement is provided here
   return (
     <div className="flex flex-col ">
       <Header
