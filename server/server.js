@@ -7,7 +7,7 @@ const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const storeRoutes = require("./routes/storeRoutes");
 const customerRoutes = require("./routes/customerRoutes");
-
+const addressRoutes = require("./routes/addressRoutes");
 // app initialization
 const app = express();
 // middleware
@@ -27,6 +27,8 @@ app.use(storeRoutes);
 // customer routes
 // customer is end user
 app.use(customerRoutes);
+// address routes
+app.use(addressRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;
