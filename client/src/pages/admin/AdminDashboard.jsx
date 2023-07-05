@@ -34,22 +34,38 @@ import API_WRAPPER from "../../api";
 const AdminDashboard = () => {
   const [productCount, setProductCount] = useState(null);
   const [vendorsCount, setVendorsCount] = useState(null);
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [loadingVendors, setLoadingVendors] = useState(true);
   const getProductsCount = async () => {
-    const response = await API_WRAPPER.get("/products/get-products-count");
-    console.log("PRODUCTS COUNT: ", response.data.count);
-    if (response.status === 200) {
-      setProductCount(response?.data?.count);
+    try {
+      const response = await API_WRAPPER.get("/products/get-products-count");
+      console.log("PRODUCTS COUNT: ", response.data.count);
+      if (response.status === 200) {
+        setProductCount(response?.data?.count);
+      }
+    } catch (error) {
+      console.error("Error fetching products count:", error);
+    } finally {
+      setLoadingProducts(false);
     }
   };
   const getVendorsCount = async () => {
-    const response = await API_WRAPPER.get("/vendors/get-vendors-count");
-    console.log("VENDORS COUNT: ", response.data.count);
-    if (response.status === 200) {
-      setVendorsCount(response?.data?.count);
+    try {
+      const response = await API_WRAPPER.get("/vendors/get-vendors-count");
+      console.log("VENDORS COUNT: ", response.data.count);
+      if (response.status === 200) {
+        setVendorsCount(response?.data?.count);
+      }
+    } catch (error) {
+      console.error("Error fetching vendors count:", error);
+    } finally {
+      setLoadingVendors(false);
     }
   };
 
   useEffect(() => {
+    setLoadingProducts(true);
+    setLoadingVendors(true);
     getProductsCount();
     getVendorsCount();
   }, []);
@@ -329,26 +345,30 @@ const AdminDashboard = () => {
         image={HeaderImgOne}
       />
       <div className="flex gap-4 mt-4">
+        {/* Total Sales Card */}
         <DashboardCard
-          number={13323}
+          number={loadingProducts ? "Loading..." : 13323}
           subheading="Total Sales"
           iconColor="bg-error"
           iconSvg={<TotalSalesIcon />}
         />
+        {/* No of Orders Card */}
         <DashboardCard
-          number={232}
+          number={loadingProducts ? "Loading..." : 232}
           subheading="No of Orders"
           iconColor="bg-success"
           iconSvg={<NoOfOrders />}
         />
+        {/* Total No. of Products Card */}
         <DashboardCard
-          number={productCount}
-          subheading="Total No. of Products "
+          number={loadingProducts ? "Loading..." : productCount}
+          subheading="Total No. of Products"
           iconColor="bg-orange-500"
           iconSvg={<NoOfProducts />}
         />
+        {/* No. of Vendors Card */}
         <DashboardCard
-          number={vendorsCount}
+          number={loadingVendors ? "Loading..." : vendorsCount}
           subheading="No. of Vendors"
           iconColor="bg-blue-500"
           iconSvg={<NoOfVendors />}

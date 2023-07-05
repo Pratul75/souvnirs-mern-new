@@ -34,6 +34,7 @@ const createProduct = async (req, res) => {
     res.status(500).json({ error: "Failed to create product" });
   }
 };
+
 // get all products
 const getProducts = async (req, res) => {
   try {

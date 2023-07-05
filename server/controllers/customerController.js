@@ -62,7 +62,7 @@ const getCustomers = async (req, res) => {
 // Get a customer by ID
 const getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.id);
+    const customer = await Customer.findById(req.params.id.substring(1));
     if (!customer) {
       return res
         .status(404)
@@ -79,7 +79,7 @@ const getCustomerById = async (req, res) => {
 const updateCustomerById = async (req, res) => {
   try {
     const customer = await Customer.findByIdAndUpdate(
-      req.params.id,
+      req.params.id.substring(1),
       { $set: req.body },
       { new: true }
     );
@@ -100,7 +100,9 @@ const updateCustomerById = async (req, res) => {
 // Delete a customer by ID
 const deleteCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findByIdAndDelete(req.params.id);
+    const customer = await Customer.findByIdAndDelete(
+      req.params.id.substring(1)
+    );
     if (!customer) {
       return res
         .status(404)
