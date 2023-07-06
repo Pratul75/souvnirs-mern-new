@@ -3,7 +3,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleSidebar } from "../../features/appConfig/appSlice";
 
 const Navbar = () => {
