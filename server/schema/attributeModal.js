@@ -8,10 +8,6 @@ const AttributeSchema = new mongoose.Schema(
       unique: true,
     },
 
-    type: {
-      type: String,
-      required: true,
-    },
     status: {
       type: String,
     },

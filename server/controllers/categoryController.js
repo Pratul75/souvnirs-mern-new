@@ -12,7 +12,7 @@ const addCategory = async (req, res) => {
 };
 
 // get all categories
-const getAllCategories = async (res, res) => {
+const getAllCategories = async (req, res) => {
   try {
     const categoryList = await Category.find({});
     console.log("CATEGORY LIST: ", categoryList);
@@ -38,11 +38,60 @@ const getCategoryById = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const categoryId = req.params.id.substring(1);
-    const updatedCategory = await Category.findByIdAndUpdate(
-      categoryId,
-      req.body,
-      { new: true }
+    const existingCategory = await Category.findById(categoryId);
+    if (!existingCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    const { attributes } = req.body;
+    const existingAttributeIds = existingCategory.attributes.map((attr) =>
+      attr.toString()
     );
+
+    // Check if each attribute ID is already present in the attributes array
+    const duplicateAttributeIds = attributes.filter((attrId) =>
+      existingAttributeIds.includes(attrId)
+    );
+
+    if (duplicateAttributeIds.length > 0) {
+      return res.status(400).json({
+        message: "Duplicate attribute IDs found",
+        duplicateAttributeIds,
+      });
+    }
+
+    existingCategory.attributes =
+      existingCategory.attributes.concat(attributes);
+    const updatedCategory = await existingCategory.save();
+    res.status(200).json(updatedCategory);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Remove an attribute ID from a category
+const removeAttributeFromCategory = async (req, res) => {
+  try {
+    const categoryId = req.params.categoryId.substring(1);
+    const attributeId = req.params.attributeId.substring(1);
+
+    const category = await Category.findById(categoryId);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Find the index of the attribute ID in the attributes array
+    const attributeIndex = category.attributes.indexOf(attributeId);
+    if (attributeIndex === -1) {
+      return res
+        .status(404)
+        .json({ message: "Attribute ID not found in the category" });
+    }
+
+    // Remove the attribute ID from the attributes array
+    category.attributes.splice(attributeIndex, 1);
+
+    const updatedCategory = await category.save();
     res.status(200).json(updatedCategory);
   } catch (error) {
     res.status(500).json({ error: error.message });

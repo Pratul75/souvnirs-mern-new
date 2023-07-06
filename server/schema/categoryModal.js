@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const CategorySchema = new mongoose.Schema(
+const CategorySchema = new Schema(
   {
     parentId: {
       type: String,
@@ -22,6 +23,12 @@ const CategorySchema = new mongoose.Schema(
     status: {
       type: String,
     },
+    attributes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Attribute",
+      },
+    ],
   },
   {
     timestamps: true,
