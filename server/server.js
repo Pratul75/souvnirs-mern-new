@@ -11,6 +11,7 @@ const addressRoutes = require("./routes/addressRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const attributeRoutes = require("./routes/attributeRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const attributeTypeRoutes = require("./routes/attributeTypeRoutes");
 
 // app initialization
 const app = express();
@@ -39,6 +40,8 @@ app.use(orderRoutes);
 app.use(attributeRoutes);
 // category routes
 app.use(categoryRoutes);
+// attributeType routes
+app.use(attributeTypeRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

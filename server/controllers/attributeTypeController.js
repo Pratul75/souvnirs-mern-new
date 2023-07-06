@@ -1,5 +1,4 @@
-import AttributeType from "../schema/attributeTypeModal";
-
+const AttributeType = require("../schema/attributeTypeModal");
 // Create a new product-to-attribute mapping
 const addAttributeType = async (req, res) => {
   try {
