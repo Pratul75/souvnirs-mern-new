@@ -9,6 +9,8 @@ const storeRoutes = require("./routes/storeRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const addressRoutes = require("./routes/addressRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const attributeRoutes = require("./routes/attributeRoutes");
+
 // app initialization
 const app = express();
 // middleware
@@ -32,6 +34,8 @@ app.use(customerRoutes);
 app.use(addressRoutes);
 // order routes
 app.use(orderRoutes);
+// attribute routes
+app.use(attributeRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

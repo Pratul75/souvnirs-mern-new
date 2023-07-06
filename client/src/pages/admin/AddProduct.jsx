@@ -8,8 +8,8 @@ import API_WRAPPER from "../../api";
 
 const AddProduct = () => {
   const getAllProducts = async () => {
-    const data = await API_WRAPPER.get("/products/get-all-products");
-    console.log("DATA: ", data);
+    const response = await API_WRAPPER.get("/products/get-all-products");
+    console.log("ALL PRODUCTS: ", response?.data);
   };
 
   useEffect(() => {

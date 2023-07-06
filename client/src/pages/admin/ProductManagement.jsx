@@ -1,58 +1,9 @@
 import { Header } from "../../components";
 import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
-import ReusableTable from "../../components/Table";
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 
 const ProductManagement = () => {
-  const columns = useMemo(
-    () => [
-      {
-        Header: "Name",
-        accessor: "name",
-      },
-      {
-        Header: "Job",
-        accessor: "job",
-      },
-      {
-        Header: "Favorite Color",
-        accessor: "color",
-      },
-    ],
-    []
-  );
-
-  const data = useMemo(
-    () => [
-      {
-        id: 1,
-        name: "John Doe",
-        job: "Developer",
-        color: "Blue",
-      },
-      {
-        id: 2,
-        name: "Jane Smith",
-        job: "Designer",
-        color: "Red",
-      },
-      // Add more data as needed
-    ],
-    []
-  );
-
-  const handleEdit = (row) => {
-    // Handle edit action
-    console.log("Edit:", row);
-  };
-
-  const handleDelete = (id) => {
-    // Handle delete action
-    console.log("Delete:", id);
-  };
-
   return (
     <div>
       <Header
@@ -66,12 +17,12 @@ const ProductManagement = () => {
       >
         Add Product
       </Link>
-      <ReusableTable
+      {/* <ReusableTable
         columns={columns}
         data={data}
         onDelete={handleDelete}
         onEdit={handleEdit}
-      />
+      /> */}
     </div>
   );
 };
