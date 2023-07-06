@@ -5,7 +5,6 @@ export { default as LoginPage } from "./LoginPage";
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
 export { default as Analytics } from "./admin/Analytics";
-export { default as Attributes } from "./admin/Attributes";
 export { default as Authentication } from "./admin/Authentication";
 export { default as Cart } from "./admin/Cart";
 export { default as Categories } from "./admin/Categories";
@@ -31,3 +30,5 @@ export { default as Supply } from "./admin/Supply";
 export { default as Support } from "./admin/Support";
 export { default as AddProduct } from "./admin/AddProduct";
 export { default as AddCategory } from "./admin/AddCategory";
+export { default as AddAttributes } from "./admin/AddAttributes";
+export { default as Attribute } from "./admin/Attribute";

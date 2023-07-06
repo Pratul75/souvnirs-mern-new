@@ -3,7 +3,6 @@ import { PATHS } from "./paths";
 import {
   AdminDashboard,
   Analytics,
-  Attributes,
   Authentication,
   Cart,
   Categories,
@@ -31,6 +30,8 @@ import {
   Support,
   AddProduct,
   AddCategory,
+  AddAttributes,
+  Attribute,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 
@@ -169,5 +170,15 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddCategory,
     Component: AddCategory,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddAttributes,
+    Component: AddAttributes,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAttribute,
+    Component: Attribute,
   },
 ];

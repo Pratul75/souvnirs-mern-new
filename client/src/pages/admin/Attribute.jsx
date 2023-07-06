@@ -4,58 +4,44 @@ import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-const Categories = () => {
+const Attributes = () => {
   const columns = [
     {
       Header: "Name",
       accessor: "name",
-    },
-    {
-      Header: "Sub Category",
-      accessor: "subCategory",
     },
   ];
 
   const data = [
     {
       name: "Product 1",
-      subCategory: "Category A",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
     {
       name: "Product 2",
-      subCategory: "Category B",
     },
   ];
 
@@ -69,15 +55,15 @@ const Categories = () => {
 
       <div className="w-full flex justify-end gap-4 mt-2">
         <select className="select select-info">
-          <option value="Sort by (Category)">Sort by Category</option>
+          <option value="Sort by (Category)">Sort by Attributes</option>
         </select>
 
         <Link
-          to={PATHS.adminAddCategory}
+          to={PATHS.adminAddAttributes}
           className="btn bg-[#4680FF] text-white font-thin"
         >
           <GoPlus stroke="1px" size={20} />
-          Add Category
+          Add Attribute
         </Link>
       </div>
       <div className="mt-5">
@@ -87,4 +73,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default Attributes;

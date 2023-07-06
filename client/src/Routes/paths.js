@@ -32,4 +32,6 @@ export const PATHS = {
   admin: "/admin-support",
   adminAddProducts: "/admin-add-products",
   adminAddCategory: "/admin-add-category",
+  adminAddAttributes: "/admin-add-attributes",
+  adminAttribute: "/admin/attribute",
 };

@@ -5,7 +5,7 @@ import { adminRoutes } from "./Routes/routes";
 import { PATHS } from "./Routes/paths";
 const App = () => {
   return (
-    <div data-theme="light">
+    <div className="font-sans" data-theme="light">
       <Routes>
         <Route element={<RegisterPage />} path={PATHS.register} />
         <Route element={<LoginPage />} path={PATHS.login} />
