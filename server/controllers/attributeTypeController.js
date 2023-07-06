@@ -1,5 +1,6 @@
 const AttributeType = require("../schema/attributeTypeModal");
 // Create a new product-to-attribute mapping
+
 const addAttributeType = async (req, res) => {
   try {
     const { productId, attributeId, attributeValue } = req.body;

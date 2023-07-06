@@ -71,7 +71,7 @@ const updateCategory = async (req, res) => {
 };
 
 // Remove an attribute ID from a category
-// can create sapecific api in future if required
+// can create specific api in future if required
 const removeAttributeFromCategory = async (req, res) => {
   try {
     const categoryId = req.params.categoryId.substring(1);
@@ -120,4 +120,5 @@ module.exports = {
   getCategoryById,
   updateCategory,
   deleteCategory,
+  removeAttributeFromCategory,
 };

@@ -30,6 +30,7 @@ import {
   Supply,
   Support,
   AddProduct,
+  AddCategory,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 
@@ -163,5 +164,10 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddProducts,
     Component: AddProduct,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddCategory,
+    Component: AddCategory,
   },
 ];
