@@ -11,6 +11,7 @@ const AddProduct = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [formData, setFormData] = useState({});
 
   const getAllCategories = async () => {
     try {
@@ -33,6 +34,11 @@ const AddProduct = () => {
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   useEffect(() => {
@@ -157,13 +163,19 @@ const AddProduct = () => {
       <div className="w-full  mt-4">
         <div className="flex">
           <div className="bg-white shadow-md p-4 mx-4 w-2/3">
-            <h3 className="font-semibold">Data List</h3>
+            <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Datalist Example</span>
+                <span className="label-text">Product Title</span>
               </label>
-              <input className="input input-accent" type="text" name="" id="" />
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-accent"
+                type="text"
+                name=""
+                id=""
+              />
             </div>
           </div>
           <div className="bg-white shadow-md p-4 mx-4 w-1/3">
