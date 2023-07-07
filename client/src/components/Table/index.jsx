@@ -5,6 +5,10 @@ import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
 import { FiEdit2 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
+import {
+  AiOutlineSortAscending,
+  AiOutlineSortDescending,
+} from "react-icons/ai";
 
 const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -18,27 +22,26 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
 
   return (
     <div className="overflow-x-auto">
-      <table className="table">
+      <table className="table" {...getTableProps()}>
+        {/* Add getTableProps() to table */}
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th
                   key={nanoid()}
-                  {...column.getHeaderProps(column.getSortByToggleProps())} // Enable sorting on column header
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
-                  {column.render("Header")}
-                  <span>
+                  <div className="flex items-center">
+                    <span>{column.render("Header")}</span>
                     {column.isSorted ? (
                       column.isSortedDesc ? (
-                        <i className="fas fa-arrow-down ml-1"></i>
+                        <AiOutlineSortDescending size={20} className="ml-1" />
                       ) : (
-                        <i className="fas fa-arrow-up ml-1"></i>
+                        <AiOutlineSortAscending size={20} className="ml-1" />
                       )
-                    ) : (
-                      ""
-                    )}
-                  </span>
+                    ) : null}
+                  </div>
                 </th>
               ))}
               <th>Action</th>
@@ -64,7 +67,7 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                   </button>
                   <button
                     className="btn btn-circle btn-error  mr-2"
-                    onClick={() => onDelete(row.original.id)}
+                    onClick={() => onDelete(row.original._id)}
                   >
                     <RiDeleteBinLine color="white" />
                   </button>
