@@ -1,295 +1,146 @@
-import { Header, Tabs } from "../../components";
+import { Dropzone, Header, Tabs } from "../../components";
 import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
-import { TextEditor } from "../../components";
-import { BiReset } from "react-icons/bi";
-import { useEffect } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { nanoid } from "nanoid";
 
 const AddProduct = () => {
-  const getAllProducts = async () => {
-    const response = await API_WRAPPER.get("/products/get-all-products");
-    console.log("ALL PRODUCTS: ", response?.data);
+  const [value, setValue] = useState("");
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [vendorsList, setVendorsList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+
+  const getAllCategories = async () => {
+    try {
+      const response = await API_WRAPPER.get("/category/get-all-categories");
+      if (response.status === 200) {
+        setCategoriesList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all categories", error);
+    }
+  };
+
+  const getAllVendors = async () => {
+    try {
+      const response = await API_WRAPPER.get("/vendors/get-vendors");
+      if (response.status === 200) {
+        setVendorsList(response?.data?.data);
+        console.log("VENDORS LIST RESPONSE: ", response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all vendors", error);
+    }
   };
 
   useEffect(() => {
-    getAllProducts();
+    getAllCategories();
+    getAllVendors();
   }, []);
 
   const tabs = [
     {
       label: "Media",
-      content: (
-        <div>
-          <div className="flex gap-8">
-            <div className="flex gap-4">
-              <h1>Add Thumbnail</h1>
-              <span className="text-gray-400">(jpeg/png)</span>
-            </div>
-            <div className="flex gap-4">
-              <h1>Add gallery</h1>
-              <span className="text-gray-400">(jpeg/png)</span>
-            </div>
-          </div>
-          <hr />
-          <div className="flex gap-8 mt-6">
-            <div className="w-60 h-60 bg-base-300 rounded-xl cursor-pointer flex items-center justify-center">
-              Recommended 800 x 800
-            </div>
-            <div className="w-60 h-60 bg-base-300 rounded-xl cursor-pointer flex items-center justify-center">
-              Recommended 800 x 800
-            </div>
-          </div>
-        </div>
-      ),
+      content: <Dropzone />,
     },
     {
       label: "Inventory",
       content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <label>SKU</label>
+        <div>
+          <div className="flex gap-4">
             <input
-              className="input input-sm w-[80%]"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="flex items-center justify-start gap-20">
-            <label>Manage Stock?</label>
-            <input
-              className="checkbox checkbox-info checkbox-sm "
               type="checkbox"
               name=""
               id=""
+              className="toggle-accent toggle"
             />
-            <span>Manage Stock Level (quantity)</span>
+            <span>Track Quantity</span>
           </div>
-          <div className="flex items-center justify-between">
-            <label>Stock Status</label>
-            <select className="select select-sm w-[80%]" id="">
-              <option value="In Stock">In Stock</option>
-              <option value="In Stock">Out of Stock</option>
-            </select>
+          <div>
+            <h1 className="font-semibold mt-4">Quantity</h1>
+            <hr className="mt-4" />
           </div>
-          <div className="flex items-center justify-start gap-14">
-            <label>Sold Individually?</label>
+          <div className="flex items-center justify-around">
+            <span>Indore</span>
             <input
-              className="checkbox checkbox-info checkbox-sm "
-              type="checkbox"
+              className="input input-accent w-2/3"
+              type="number"
               name=""
               id=""
             />
-            <span>Limit purchases to 1 item per order</span>
-          </div>
-          <div className="flex items-center justify-between">
-            <label>Product Code</label>
-            <input
-              className="input input-sm w-[80%]"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <label>Low Stock Warning</label>
-            <input
-              className="input input-sm w-[80%]"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Show Stock Quantity?</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16">
-            <label>Show Stock With Text</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start">
-            <label>Hide Stock</label>
-            <input type="checkbox" className="toggle toggle-sm ml-36" />
-          </div>
-        </div>
-      ),
-    },
-    {
-      label: "Price",
-      content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <label>Regular Price</label>
-            <select className="select select-sm w-[80%]">
-              <option value="In Stock">Regular</option>
-              <option value="In Stock">Irregular</option>
-            </select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label>Selling Price</label>
-            <input className="input input-sm w-[80%]" type="text" />
-          </div>
-          <div className="flex items-center justify-between">
-            <label>Discount</label>
-            <select className="select select-sm w-[80%]" id="">
-              <option value="In Stock">10%</option>
-              <option value="In Stock">20%</option>
-              <option value="In Stock">30%</option>
-            </select>
           </div>
         </div>
       ),
     },
     {
       label: "Attribute",
-      content: (
-        <div className="w-full flex gap-4">
-          <select className="select select-sm w-full">
-            <option value="Custom Product Attribute">
-              Custom Product Attribute{" "}
-            </option>
-            <option value="size">Size </option>
-            <option value="color">Color </option>
-          </select>
-
-          <button className="btn btn-sm btn-outline">
-            <AiOutlinePlus />{" "}
-          </button>
-        </div>
-      ),
+      content:
+        selectedCategory.length === 0 ? (
+          <p className="text-center">Select Category First</p>
+        ) : (
+          <div className="form-control w-1/2">
+            <select className="select select-accent">
+              <option value="attribute one">Attribute One</option>
+              <option value="attribute two">Attribute Two</option>
+            </select>
+          </div>
+        ),
     },
     {
       label: "Shipping Info",
       content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <label>Weight (kg)</label>
-            <input
-              placeholder="0"
-              className="input input-sm w-[80%]"
-              type="text"
-              name=""
-              id=""
-            />
+        <div>
+          <div className="flex gap-4 border-b-[1px] border-gray-500 pb-4">
+            <input className="radio radio-accent" type="radio" />
+            <span>Physical product</span>
           </div>
-
-          <div className="flex items-center justify-between">
-            <label>Dimensions (cm)</label>
-            <div className="flex gap-2 w-full ml-20">
-              <input
-                placeholder="Length"
-                className="input input-sm w-1/3"
-                type="text"
-                name=""
-                id=""
-              />
-              <input
-                placeholder="Width"
-                className="input input-sm w-1/3"
-                type="text"
-                name=""
-                id=""
-              />
-              <input
-                placeholder="Height"
-                className="input input-sm w-1/3"
-                type="text"
-                name=""
-                id=""
-              />
+          <div className="flex gap-4">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input className="input input-accent" type="text" name="" id="" />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Preference</span>
+              </label>
+              <select className="select select-accent">
+                <option value="option 1">Option 1</option>
+                <option value="option 2">Option 2</option>
+              </select>
             </div>
           </div>
-          <div className="flex items-center justify-between">
-            <label>Shipping Class</label>
-            <select className="select select-sm w-[80%]" id="">
-              <option value="No Shipping Class">No Shipping Class</option>
-              <option value="In Stock">Class One</option>
-              <option value="In Stock">Class Two</option>
-            </select>
+          <div className="flex items-center  gap-4 mt-4">
+            <input className="checkbox checkbox-accent" type="checkbox" />
+            <label className="label">
+              <span className="label-text">
+                Include custom information for international shipping
+              </span>
+            </label>
           </div>
         </div>
       ),
     },
     {
-      label: "Video",
+      label: " Pricing",
       content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <label>Video Provider</label>
-            <select className="select select-sm w-[80%]" id="">
-              <option value="Select Provider">Select Provider</option>
-              <option value="In Stock">Provider One</option>
-              <option value="In Stock">Provider Two</option>
-            </select>
-          </div>
-          <div className="flex items-center justify-between">
-            <label>Video Link</label>
-            <input
-              className="input input-sm w-[80%]"
-              placeholder="Video Link"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-          <span className="text-sm text-gray-400">
-            User proper link without extra parameter. Dont use short share
-            link/embedded iframe code
-          </span>
-        </div>
-      ),
-    },
-    {
-      label: "Shipping configuration",
-      content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <label>Estimated Shipping Time</label>
-            <input
-              className="input input-sm w-[80%]"
-              placeholder="in days"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Free Shipping</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Flat Rate</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Quantity Multiple</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Cash on Deleivery</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-        </div>
-      ),
-    },
-    {
-      label: "Offer",
-      content: (
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Flash Deal</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Today's Deal</label>
-            <input type="checkbox" className="toggle toggle-sm" />
-          </div>
-          <div className="flex items-center justify-start gap-16 ">
-            <label>Features</label>
-            <input type="checkbox" className="toggle toggle-sm" />
+        <div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Price</span>
+              </label>
+              <input className="input input-accent" />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Compare-at price</span>
+              </label>
+              <input className="input input-accent" />
+            </div>
           </div>
         </div>
       ),
@@ -303,43 +154,117 @@ const AddProduct = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to  "
         image={HeaderImgTwo}
       />
-      <div className="w-full flex">
-        <div className="w-2/3">
-          <div className="mt-6 mx-4">
-            <div className="form-control">
+      <div className="w-full  mt-4">
+        <div className="flex">
+          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+            <h3 className="font-semibold">Data List</h3>
+            <hr className="mt-4" />
+            <div className="form-control mt-4">
               <label className="label">
-                <div>
-                  <span className="label-text font-semibold">Write Title</span>
-                </div>
+                <span className="label-text">Datalist Example</span>
               </label>
-              <input
-                className="input input-sm input-bordered"
-                placeholder="Title for product"
-                type="text"
-                name=""
-                id=""
+              <input className="input input-accent" type="text" name="" id="" />
+            </div>
+          </div>
+          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+            <h3 className="font-semibold">Data List</h3>
+            <hr className="mt-4" />
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Datalist Example</span>
+              </label>
+              <select className="select select-accent">
+                <option value="ACTIVE">Active</option>
+                <option value="INACTIVE">Inactive</option>
+              </select>
+            </div>
+            <button className="btn btn-accent mt-4">Publish</button>
+            <button className="btn  mt-4 ml-4">Cancel</button>
+          </div>
+        </div>
+        <div className="flex mt-8">
+          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+            <h3 className="font-semibold">Classic Editor</h3>
+            <hr className="mt-4" />
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Datalist Example</span>
+              </label>
+              <ReactQuill
+                className="h-52"
+                theme="snow"
+                value={value}
+                onChange={setValue}
               />
             </div>
-            <h3 className="mt-4 text-2xl">Product</h3>
-            <TextEditor />
-
-            <div>
-              <h4 className="text-xl mt-16">Data</h4>
-              <div className="flex gap-2 mt-2">
-                <Tabs tabs={tabs} />
-              </div>
+          </div>
+          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+            <h3 className="font-semibold">Product Organisation</h3>
+            <hr className="mt-4" />
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Product Category</span>
+              </label>
+              <select
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="select select-accent"
+              >
+                {categoriesList?.map((category) => {
+                  return <option key={nanoid()}>{category.name}</option>;
+                })}
+              </select>
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Vendor</span>
+              </label>
+              <select className="select select-accent">
+                {vendorsList.map((vendor) => {
+                  return <option key={nanoid()}>{vendor.firstName}</option>;
+                })}
+              </select>
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Tags</span>
+              </label>
+              <input className="input input-accent" type="text" name="" id="" />
             </div>
           </div>
         </div>
-        <div className="w-1/3 border-[1px] bg-base-200 p-4">
-          <button className="btn btn-outline bg-[#4680FF] font-thin w-full text-white hover:bg-[#6c98f8]">
-            Preview Changed
-          </button>
-          <div className="flex justify-between items-center mt-4">
-            <h3 className="text-2xl mt-4">Published</h3>
-            <button className="btn btn-outline btn-info text-white">
-              <BiReset size={20} />
-            </button>
+        <div className="flex mt-8">
+          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+            <h3 className="font-semibold">Basic Tabs</h3>
+            <hr className="mt-4" />
+            <Tabs tabs={tabs} />
+          </div>
+          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+            <h3 className="font-semibold">Product Organisation</h3>
+            <hr className="mt-4" />
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Product Category</span>
+              </label>
+              <select className="select select-accent">
+                <option value="Category one">Category One</option>
+                <option value="Category two">Category Two</option>
+              </select>
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Vendor</span>
+              </label>
+              <select className="select select-accent">
+                <option value="Vendor one">Vendor One</option>
+                <option value="Vendor two">Vendor Two</option>
+              </select>
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Tags</span>
+              </label>
+              <input className="input input-accent" type="text" name="" id="" />
+            </div>
           </div>
         </div>
       </div>

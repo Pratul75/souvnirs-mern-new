@@ -8,3 +8,4 @@ export { default as DashboardPieChartCard } from "./DashboardPieChartCard";
 export { default as VendorListComponent } from "./VendorListComponent";
 export { default as TextEditor } from "./TextEditor";
 export { default as AdvanceCombobox } from "./AdvanceCombobox";
+export { default as Dropzone } from "./Dropzone";
