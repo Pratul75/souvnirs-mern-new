@@ -49,6 +49,7 @@ const getProducts = async (req, res) => {
     res.status(500).json({ error: "Failed to get all products" });
   }
 };
+
 // get product based on the id
 const getProduct = async (req, res) => {
   try {
@@ -93,6 +94,7 @@ const deleteProduct = async (req, res) => {
     res.status(500).json({ error: "Failed to delete the product" });
   }
 };
+
 // edit product
 const editProduct = async (req, res) => {
   const productId = req.params.id.substring(1);

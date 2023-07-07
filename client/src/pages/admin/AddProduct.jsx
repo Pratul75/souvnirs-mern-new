@@ -13,6 +13,7 @@ const AddProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
 
+  // get all categories
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -24,6 +25,7 @@ const AddProduct = () => {
     }
   };
 
+  // get all vendors
   const getAllVendors = async () => {
     try {
       const response = await API_WRAPPER.get("/vendors/get-vendors");
@@ -34,6 +36,17 @@ const AddProduct = () => {
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
     }
+  };
+  // add product
+  const postProduct = async () => {
+    const response = await API_WRAPPER.post("/products/add-product");
+    if (response.status === 200) {
+      console.log("RESPONSE RECEIVED: ", response?.data);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
   };
 
   const handleInputChange = (e) => {
@@ -157,7 +170,7 @@ const AddProduct = () => {
     <div>
       <Header
         heading="Add Products"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to  "
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to"
         image={HeaderImgTwo}
       />
       <div className="w-full  mt-4">
@@ -173,7 +186,7 @@ const AddProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="input input-accent"
                 type="text"
-                name=""
+                name="name"
                 id=""
               />
             </div>
@@ -231,7 +244,7 @@ const AddProduct = () => {
                 <span className="label-text">Vendor</span>
               </label>
               <select className="select select-accent">
-                {vendorsList.map((vendor) => {
+                {vendorsList?.map((vendor) => {
                   return <option key={nanoid()}>{vendor.firstName}</option>;
                 })}
               </select>
