@@ -4,46 +4,49 @@ import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import API_WRAPPER from "../../api";
+import { useEffect, useState } from "react";
+
 const Attributes = () => {
+  const [attributesList, setAttributesList] = useState([]);
+  const [getApiTrigger, setGetApiTrigger] = useState(false);
+
+  const fetchAllAttributes = async () => {
+    try {
+      const response = await API_WRAPPER.get("/attribute/get-all-attributes");
+      if (response.status === 200) {
+        console.log("ALL ATTRIBUTES LIST: ", response?.data);
+        setAttributesList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while fetching all attributes list", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllAttributes();
+  }, [getApiTrigger]);
   const columns = [
     {
-      Header: "Name",
+      Header: "Attribute Id",
+      accessor: "_id",
+    },
+    {
+      Header: "Attribute Name",
       accessor: "name",
     },
   ];
 
-  const data = [
-    {
-      name: "Product 1",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-    {
-      name: "Product 2",
-    },
-  ];
+  const handleDeleteAttribute = async (id) => {
+    try {
+      const response = API_WRAPPER.delete(`/attribute/delete-attribute/:${id}`);
+
+      setGetApiTrigger((prevState) => !prevState);
+      console.log("DELETED ATTRIBUTE RESPONSE: ", response.data);
+    } catch (error) {
+      console.error("Error occured while deleting the attribute ");
+    }
+  };
 
   return (
     <>
@@ -67,7 +70,11 @@ const Attributes = () => {
         </Link>
       </div>
       <div className="mt-5">
-        <ReusableTable data={data} columns={columns} />
+        <ReusableTable
+          data={attributesList}
+          columns={columns}
+          onDelete={handleDeleteAttribute}
+        />
       </div>
     </>
   );

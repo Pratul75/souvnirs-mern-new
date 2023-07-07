@@ -50,7 +50,7 @@ export const sidebarMapping = [
   },
   {
     title: "Attributes",
-    navLink: PATHS.adminDashboard,
+    navLink: PATHS.adminAttribute,
     Icon: AttributeIcon,
   },
   {

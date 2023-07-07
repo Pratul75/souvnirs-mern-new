@@ -4,6 +4,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { AiOutlineDelete } from "react-icons/ai";
+
 const AddCategory = () => {
   const [attributesList, setAttributesList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,7 +48,6 @@ const AddCategory = () => {
       }
     });
   };
-
   const handleAttributeDelete = (attribute) => {
     const updatedAttributes = selectedAttributes.filter(
       (selectedAttribute) => selectedAttribute._id !== attribute._id

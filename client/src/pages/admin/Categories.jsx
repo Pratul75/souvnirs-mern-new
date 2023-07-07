@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
+
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -51,7 +52,6 @@ const Categories = () => {
       accessor: "type",
     },
   ];
-
   return (
     <>
       <Header
