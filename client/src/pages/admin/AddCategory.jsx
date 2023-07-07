@@ -4,7 +4,6 @@ import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { AiOutlineDelete } from "react-icons/ai";
-import { getRandomColor } from "../../../utils";
 const AddCategory = () => {
   const [attributesList, setAttributesList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -145,7 +144,7 @@ const AddCategory = () => {
               {searchResults.map((item) => (
                 <p
                   onClick={() => handleAddAttribute(item)}
-                  className={`$ ${getRandomColor()} p-4 mb-4 cursor-pointer rounded-xl text-white font-semibold shadow-sm`}
+                  className={` bg-accent-focus p-4 mb-4 cursor-pointer rounded-xl text-white font-semibold shadow-sm`}
                   key={nanoid()}
                 >
                   {item.name}
