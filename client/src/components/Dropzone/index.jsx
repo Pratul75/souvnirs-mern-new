@@ -23,7 +23,7 @@ const Dropzone = () => {
         <p>Drop the files here ...</p>
       ) : (
         <p className="p-4 flex items-center justify-center">
-          Drag 'n' drop some files here, or click to select files
+          Drag & drop some files here, or click to select files
         </p>
       )}
       <div className="flex flex-col gap-1">

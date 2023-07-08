@@ -12,6 +12,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const attributeRoutes = require("./routes/attributeRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const attributeTypeRoutes = require("./routes/attributeTypeRoutes");
+const productReviewRoutes = require("./routes/productReviewRoutes");
 
 // app initialization
 const app = express();
@@ -30,7 +31,6 @@ app.use(vendorRoutes);
 // store routes
 app.use(storeRoutes);
 // customer routes
-// customer is end user
 app.use(customerRoutes);
 // address routes
 app.use(addressRoutes);
@@ -42,6 +42,9 @@ app.use(attributeRoutes);
 app.use(categoryRoutes);
 // attributeType routes
 app.use(attributeTypeRoutes);
+// product review routes
+app.use(productReviewRoutes);
+
 
 // start the server
 const port = process.env.PORT || 8080;
