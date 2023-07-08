@@ -5,7 +5,7 @@ import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
 
-// add product
+// add products
 const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
