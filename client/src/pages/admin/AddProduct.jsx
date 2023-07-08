@@ -12,6 +12,7 @@ const AddProduct = () => {
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
+
   // get all categories
   const getAllCategories = async () => {
     try {
@@ -39,7 +40,7 @@ const AddProduct = () => {
 
   // add product
   const postProduct = async () => {
-    const response = await API_WRAPPER.post("/products/add-product");
+    const response = await API_WRAPPER.post("/products/add-product", formData);
     if (response.status === 200) {
       console.log("RESPONSE RECEIVED: ", response?.data);
     }
@@ -47,6 +48,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    postProduct();
     console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
 
@@ -145,6 +147,7 @@ const AddProduct = () => {
         </div>
       ),
     },
+
     {
       label: " Pricing",
       content: (
@@ -200,7 +203,11 @@ const AddProduct = () => {
               <label className="label">
                 <span className="label-text">Status</span>
               </label>
-              <select className="select select-accent">
+              <select
+                onChange={(e) => handleInputChange(e)}
+                className="select select-accent"
+                name="status"
+              >
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
@@ -261,15 +268,16 @@ const AddProduct = () => {
               <input className="input input-accent" type="text" name="" id="" />
             </div>
 
-            <div className="form-contro mt-4">
+            <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">Stock Keeping Unit (SKU)</span>
               </label>
               <input
+                onChange={(e) => handleInputChange(e)}
                 className="input input-accent  w-full"
                 placeholder="Enter SKU"
                 type="text"
-                name=""
+                name="sku"
                 id=""
               />
             </div>
