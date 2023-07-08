@@ -23,7 +23,8 @@ const getAllCountries = async (req, res) => {
   }
 };
 
-// Get a specific country by ID
+
+\
 const getCountryById = async (req, res) => {
   try {
     const country = await Country.findById(req.params.id.substring());
