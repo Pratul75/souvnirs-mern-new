@@ -47,6 +47,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
 
   const handleInputChange = (e) => {
@@ -107,6 +108,7 @@ const AddProduct = () => {
           </div>
         ),
     },
+
     {
       label: "Shipping Info",
       content: (
