@@ -5,13 +5,13 @@ import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
 
+// add product
 const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
-
   // get all categories
   const getAllCategories = async () => {
     try {
@@ -282,31 +282,10 @@ const AddProduct = () => {
             <Tabs tabs={tabs} />
           </div>
           <div className="bg-white shadow-md p-4 mx-4 w-1/3">
-            <h3 className="font-semibold">Product Organisation</h3>
-            <hr className="mt-4" />
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Product Category</span>
-              </label>
-              <select className="select select-accent">
-                <option value="Category one">Category One</option>
-                <option value="Category two">Category Two</option>
-              </select>
-            </div>
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Vendor</span>
-              </label>
-              <select className="select select-accent">
-                <option value="Vendor one">Vendor One</option>
-                <option value="Vendor two">Vendor Two</option>
-              </select>
-            </div>
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Tags</span>
-              </label>
-              <input className="input input-accent" type="text" name="" id="" />
+            <h3 className="font-semibold">Add Images</h3>
+
+            <div className="bg-purple-100 rounded-xl flex items-center justify-center mt-4">
+              <Dropzone />
             </div>
           </div>
         </div>
