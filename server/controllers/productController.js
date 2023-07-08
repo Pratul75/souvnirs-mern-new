@@ -74,11 +74,11 @@ const getProduct = async (req, res) => {
     res.status(500).json({ error: "Failed to get the product" });
   }
 };
+
 // delete product based on id
 const deleteProduct = async (req, res) => {
   const productId = req.params.id.substring(1);
   console.log("PRODUCT ID: ", productId);
-
   try {
     // Find the product by ID and delete it
     const deletedProduct = await Product.findByIdAndDelete(productId);

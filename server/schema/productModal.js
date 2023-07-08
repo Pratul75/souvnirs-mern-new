@@ -36,10 +36,15 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    compareAtPrice: {
+      type: Number,
+      required: true,
+    },
     onSale: {
       type: Boolean,
       default: true,
     },
+
     stockQuantity: {
       type: Number,
     },

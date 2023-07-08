@@ -3,11 +3,10 @@ import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { nanoid } from "nanoid";
 
 const AddProduct = () => {
-  const [value, setValue] = useState("");
+  const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -37,6 +36,7 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
+
   // add product
   const postProduct = async () => {
     const response = await API_WRAPPER.post("/products/add-product");
@@ -82,7 +82,7 @@ const AddProduct = () => {
             <hr className="mt-4" />
           </div>
           <div className="flex items-center justify-around">
-            <span>Indore</span>
+            <span>Enter Quantity</span>
             <input
               className="input input-accent w-2/3"
               type="number"
@@ -192,11 +192,11 @@ const AddProduct = () => {
             </div>
           </div>
           <div className="bg-white shadow-md p-4 mx-4 w-1/3">
-            <h3 className="font-semibold">Data List</h3>
+            <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Datalist Example</span>
+                <span className="label-text">Status</span>
               </label>
               <select className="select select-accent">
                 <option value="ACTIVE">Active</option>
@@ -207,19 +207,20 @@ const AddProduct = () => {
             <button className="btn  mt-4 ml-4">Cancel</button>
           </div>
         </div>
+
         <div className="flex mt-8">
           <div className="bg-white shadow-md p-4 mx-4 w-2/3">
-            <h3 className="font-semibold">Classic Editor</h3>
+            <h3 className="font-semibold">Prdoduct Description</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Datalist Example</span>
+                <span className="label-text">Description</span>
               </label>
               <ReactQuill
                 className="h-52"
                 theme="snow"
-                value={value}
-                onChange={setValue}
+                value={description}
+                onChange={setDescription}
               />
             </div>
           </div>
@@ -249,11 +250,24 @@ const AddProduct = () => {
                 })}
               </select>
             </div>
+
+            {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">Tags</span>
               </label>
               <input className="input input-accent" type="text" name="" id="" />
+            </div>
+
+            <div className="form-contro mt-4">
+              <label className="label">Stock Keeping Unit (SKU)</label>
+              <input
+                className="input input-accent  w-full"
+                placeholder="Enter SKU"
+                type="text"
+                name=""
+                id=""
+              />
             </div>
           </div>
         </div>
