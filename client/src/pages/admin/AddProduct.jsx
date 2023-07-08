@@ -40,7 +40,11 @@ const AddProduct = () => {
 
   // add product
   const postProduct = async () => {
-    const response = await API_WRAPPER.post("/products/add-product", formData);
+    const response = await API_WRAPPER.post("/products/add-product", {
+      ...formData,
+      description,
+      slug: "aoisj12ewqds"
+    });
     if (response.status === 200) {
       console.log("RESPONSE RECEIVED: ", response?.data);
     }
@@ -55,6 +59,7 @@ const AddProduct = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    console.log("CONTROLLABLE COMPONENT: ", formData);
   };
 
   useEffect(() => {
@@ -89,7 +94,7 @@ const AddProduct = () => {
             <input
               className="input input-accent w-2/3"
               type="number"
-              name=""
+              name="stockQuantity"
               id=""
             />
           </div>
@@ -146,7 +151,6 @@ const AddProduct = () => {
         </div>
       ),
     },
-
     {
       label: " Pricing",
       content: (
@@ -156,13 +160,21 @@ const AddProduct = () => {
               <label className="label">
                 <span className="label-text">Price</span>
               </label>
-              <input className="input input-accent" />
+              <input
+                name="price"
+                onChange={(e) => handleInputChange(e)}
+                className="input input-accent"
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Compare-at price</span>
               </label>
-              <input className="input input-accent" />
+              <input
+                name="compareAtPrice"
+                onChange={(e) => handleInputChange(e)}
+                className="input input-accent"
+              />
             </div>
           </div>
         </div>
@@ -211,7 +223,9 @@ const AddProduct = () => {
                 <option value="INACTIVE">Inactive</option>
               </select>
             </div>
-            <button className="btn btn-accent mt-4">Publish</button>
+            <button onClick={handleSubmit} className="btn btn-accent mt-4">
+              Publish
+            </button>
             <button className="btn  mt-4 ml-4">Cancel</button>
           </div>
         </div>
@@ -252,9 +266,17 @@ const AddProduct = () => {
               <label className="label">
                 <span className="label-text">Vendor</span>
               </label>
-              <select className="select select-accent">
+              <select
+                onChange={(e) => handleInputChange(e)}
+                className="select select-accent"
+                name="vendorId"
+              >
                 {vendorsList?.map((vendor) => {
-                  return <option key={nanoid()}>{vendor.firstName}</option>;
+                  return (
+                    <option key={nanoid()} value={vendor._id}>
+                      {vendor.firstName}
+                    </option>
+                  );
                 })}
               </select>
             </div>

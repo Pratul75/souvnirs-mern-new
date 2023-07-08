@@ -38,7 +38,6 @@ const productSchema = new mongoose.Schema(
     },
     compareAtPrice: {
       type: Number,
-      required: true,
     },
     onSale: {
       type: Boolean,

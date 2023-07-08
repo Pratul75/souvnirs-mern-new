@@ -23,8 +23,6 @@ const getAllCountries = async (req, res) => {
   }
 };
 
-
-\
 const getCountryById = async (req, res) => {
   try {
     const country = await Country.findById(req.params.id.substring());
