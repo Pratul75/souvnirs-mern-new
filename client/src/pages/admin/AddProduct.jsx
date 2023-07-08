@@ -276,15 +276,16 @@ const AddProduct = () => {
           </div>
         </div>
         <div className="flex mt-8">
-          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+          <div className="bg-white shadow-md p-4 mx-4 w-2/3 h-auto">
             <h3 className="font-semibold">Basic Tabs</h3>
             <hr className="mt-4" />
             <Tabs tabs={tabs} />
           </div>
           <div className="bg-white shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Add Images</h3>
+            <hr className="mt-4" />
 
-            <div className="bg-purple-100 rounded-xl flex items-center justify-center mt-4">
+            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
               <Dropzone />
             </div>
           </div>
