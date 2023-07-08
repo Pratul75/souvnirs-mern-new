@@ -1,7 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
-require("dotenv").config();
 const { connect } = require("./db/db");
 const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
@@ -13,6 +13,7 @@ const attributeRoutes = require("./routes/attributeRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const attributeTypeRoutes = require("./routes/attributeTypeRoutes");
 const productReviewRoutes = require("./routes/productReviewRoutes");
+const countryRoutes = require("./routes/countryRoutes");
 
 // app initialization
 const app = express();
@@ -44,7 +45,8 @@ app.use(categoryRoutes);
 app.use(attributeTypeRoutes);
 // product review routes
 app.use(productReviewRoutes);
-
+// country routes
+app.use(countryRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

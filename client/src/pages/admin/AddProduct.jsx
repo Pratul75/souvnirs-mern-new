@@ -110,7 +110,6 @@ const AddProduct = () => {
           </div>
         ),
     },
-
     {
       label: "Shipping Info",
       content: (
