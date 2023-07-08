@@ -260,7 +260,9 @@ const AddProduct = () => {
             </div>
 
             <div className="form-contro mt-4">
-              <label className="label">Stock Keeping Unit (SKU)</label>
+              <label className="label">
+                <span className="label-text">Stock Keeping Unit (SKU)</span>
+              </label>
               <input
                 className="input input-accent  w-full"
                 placeholder="Enter SKU"
