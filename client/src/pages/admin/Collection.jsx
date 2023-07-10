@@ -1,6 +1,7 @@
 import { Dropzone, Header } from "../../components";
 import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
+
 const Collection = () => {
   return (
     <div>
@@ -42,7 +43,6 @@ const Collection = () => {
           </div>
           <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
             <h1>Description</h1>
-
             <div className="mt-4">
               <ReactQuill className="h-[200px]" />
             </div>
@@ -62,6 +62,7 @@ const Collection = () => {
                 <option value="Mercedes">Mercedes</option>
               </select>
             </div>
+
             <div className="form-control">
               <label htmlFor="productCategorySelect" className="label">
                 <span className="label-text">Vendor</span>

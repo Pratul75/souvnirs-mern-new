@@ -67,7 +67,7 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                   </button>
                   <button
                     className="btn btn-circle btn-error  mr-2"
-                    onClick={() => onDelete(row.original._id)}
+                    onClick={() => onDelete(row.original)}
                   >
                     <RiDeleteBinLine color="white" />
                   </button>
