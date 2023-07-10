@@ -10,7 +10,6 @@ const Collection = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
         image={CollectionBannerImg}
       />
-
       <div className="mt-6">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
@@ -21,7 +20,6 @@ const Collection = () => {
               <input className="input input-accent" type="text" name="" id="" />
             </div>
           </div>
-
           <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
             <div className="form-control">
               <label htmlFor="publishing-select" className="label">
@@ -82,7 +80,6 @@ const Collection = () => {
               <input className="input input-accent" type="text" name="" id="" />
             </div>
           </div>
-
           <div className="col-span-2  bg-white px-4 py-8 rounded-xl shadow-lg">
             <h1>Collections</h1>
             <div className="form-control flex-row items-center ">

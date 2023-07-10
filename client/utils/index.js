@@ -14,3 +14,15 @@ export const getRandomColor = () => {
 
   return randomColor;
 };
+
+export const convertArrToSelectLabel = (arr) => {
+  const result = arr
+    .filter((item) => item.parentId[0] === "0")
+    .map((item) => ({
+      label: item.title,
+      value: `${item.parentId[0]}-${item.title}`,
+    }));
+
+  console.log(result);
+  return result;
+};

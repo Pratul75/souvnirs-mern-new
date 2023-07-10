@@ -34,3 +34,25 @@ html::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+.rmsc {
+  --rmsc-main: #4285f4 !important;
+  --rmsc-hover: #f1f3f5 !important;
+  --rmsc-selected: #e2e6ea !important;
+  --rmsc-border: #ccc !important;
+  --rmsc-gray: #aaa !important;
+  --rmsc-bg: #fff !important;
+  --rmsc-p: 10px !important; /* Spacing */
+  --rmsc-radius: 4px !important; /* Radius */
+  --rmsc-h: 38px !important; /* Height */
+}
+
+.rmsc.dark {
+  --rmsc-main: #4285f4;
+  --rmsc-hover: #0e0c0a;
+  --rmsc-selected: #1d1915;
+  --rmsc-border: #333333;
+  --rmsc-gray: #555555;
+  --rmsc-bg: #000000;
+  color: #fff;
+}

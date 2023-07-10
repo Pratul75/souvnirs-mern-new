@@ -10,3 +10,4 @@ export { default as ReusableTable } from "./Table";
 export { default as TextEditor } from "./TextEditor";
 export { default as AdvanceCombobox } from "./AdvanceCombobox";
 export { default as Dropzone } from "./Dropzone";
+export { default as MultiSelect } from "./MultiSelect";

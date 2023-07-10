@@ -2,11 +2,12 @@ import { Header, ReusableTable } from "../../components";
 import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { nanoid } from "nanoid";
-
+import { MultiSelect } from "react-multi-select-component";
+import { convertArrToSelectLabel } from "../../../utils";
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
+  const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
 
   // table columns
@@ -96,6 +97,10 @@ const CollectionConditions = () => {
     getAllCollectionCondition();
   }, [apiTrigger]);
 
+  useEffect(() => {
+    console.log("MULTI SELECT STATE: ", selected);
+  }, [selected]);
+
   return (
     <div>
       <Header
@@ -117,20 +122,12 @@ const CollectionConditions = () => {
           />
         </div>
         <div className="form-control">
-          <select className="select select-accent w-1/2">
-            <option value="">Select Parent ID</option>
-            <option value="0">Main Category</option>
-            {collectionConditionList.map((item) => {
-              if (item.parentId[0] === "0") {
-                return (
-                  <option key={nanoid()} value={item.parentId}>
-                    {item.title}
-                  </option>
-                );
-              }
-              return null; // Return null when item.parentId is not equal to 0
-            })}
-          </select>
+          <MultiSelect
+            options={convertArrToSelectLabel(collectionConditionList)}
+            value={selected}
+            onChange={setSelected}
+            className="w-1/2 px-4 py-2"
+          />
         </div>
         <button className="btn btn-accent w-1/2 mt-4 text-white">
           Add Title
