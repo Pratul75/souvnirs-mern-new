@@ -1,4 +1,4 @@
-import { nanoid } from "@reduxjs/toolkit";
+import { nanoid } from "nanoid";
 import { PATHS } from "./paths";
 import {
   AdminDashboard,
@@ -9,6 +9,7 @@ import {
   Checkouts,
   CmsAndSeo,
   Collection,
+  CollectionConditions,
   CouponsAndDiscounts,
   Couriers,
   Customers,
@@ -70,8 +71,13 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
+    path: PATHS.adminCollectionConditions,
+    Component: CollectionConditions,
+  },
+  {
+    id: nanoid(),
     path: PATHS.adminCouponsAndDiscounts,
-    Components: CouponsAndDiscounts,
+    Component: CouponsAndDiscounts,
   },
   {
     id: nanoid(),

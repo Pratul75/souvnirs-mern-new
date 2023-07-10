@@ -11,6 +11,7 @@ export { default as Categories } from "./admin/Categories";
 export { default as Checkouts } from "./admin/Checkout";
 export { default as CmsAndSeo } from "./admin/CmsAndSeo";
 export { default as Collection } from "./admin/Collection";
+export { default as CollectionConditions } from "./admin/CollectionConditions";
 export { default as CouponsAndDiscounts } from "./admin/CouponsAndDiscounts";
 export { default as Couriers } from "./admin/Couriers";
 export { default as Customers } from "./admin/Customer";

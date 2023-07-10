@@ -64,6 +64,11 @@ export const sidebarMapping = [
     Icon: CollectionIcon,
   },
   {
+    title: "Collection Conditions",
+    navLink: PATHS.adminCollectionConditions,
+    Icon: CollectionIcon,
+  },
+  {
     title: "Cart",
     navLink: PATHS.adminCart,
     Icon: CartIcon,

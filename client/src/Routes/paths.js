@@ -12,6 +12,7 @@ export const PATHS = {
   adminCheckout: "/admin-checkout",
   adminCmsAndSeo: "/admin-cms-seo",
   adminCollection: "/admin-collection",
+  adminCollectionConditions: "/admin-collection-conditions",
   adminCouponsAndDiscounts: "/admin-coupons-and-discounts",
   adminCouriers: "/admin-couriers",
   adminbCustomer: "/admin-customer",

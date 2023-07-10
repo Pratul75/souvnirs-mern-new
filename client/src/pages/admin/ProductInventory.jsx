@@ -6,6 +6,7 @@ const ProductInventory = () => {
   const [productsList, setProductsList] = useState([]);
   const [editedProduct, setEditedProduct] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
+
   const columns = useMemo(
     () => [
       {
