@@ -26,4 +26,3 @@ AppLayout.propTypes = {
 };
 
 export default AppLayout;
- 
