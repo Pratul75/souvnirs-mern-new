@@ -49,7 +49,7 @@ const productSchema = new mongoose.Schema(
     },
     stockStatus: {
       type: String,
-      enum: ["IN_STOCK", "OUT_STOCK", "BACK_ORDER"],
+      enum: ["IN_STOCK", "OUT_OF_STOCK", "BACK_ORDER"],
       default: "IN_STOCK",
     },
     reviewId: {

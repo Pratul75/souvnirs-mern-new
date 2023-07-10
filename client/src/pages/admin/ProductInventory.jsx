@@ -27,6 +27,7 @@ const ProductInventory = () => {
     ],
     []
   );
+  const data = useMemo(() => productsList, [productsList]);
 
   const getAllProducts = async () => {
     try {
@@ -43,8 +44,6 @@ const ProductInventory = () => {
   useEffect(() => {
     getAllProducts();
   }, [editedProduct, apiTrigger]);
-
-  const data = useMemo(() => productsList, [productsList]);
 
   const handleDelete = async (data) => {
     try {
@@ -111,38 +110,6 @@ const ProductInventory = () => {
               <div>
                 <div className="form-control">
                   <label className="label">
-                    <span className="label-text">Product Name:</span>
-                    <input
-                      className="input input-accent"
-                      type="text"
-                      value={editedProduct.name}
-                      onChange={(e) =>
-                        setEditedProduct((prevProduct) => ({
-                          ...prevProduct,
-                          name: e.target.value,
-                        }))
-                      }
-                    />
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Product Price:</span>
-                    <input
-                      className="input input-accent"
-                      type="text"
-                      value={editedProduct.price}
-                      onChange={(e) =>
-                        setEditedProduct((prevProduct) => ({
-                          ...prevProduct,
-                          name: e.target.value,
-                        }))
-                      }
-                    />
-                  </label>
-                </div>
-                <div className="form-control">
-                  <label className="label">
                     <span className="label-text">Product Stock Quantity:</span>
                     <input
                       className="input input-accent"
@@ -151,10 +118,30 @@ const ProductInventory = () => {
                       onChange={(e) =>
                         setEditedProduct((prevProduct) => ({
                           ...prevProduct,
-                          name: e.target.value,
+                          stockQuantity: e.target.value,
                         }))
                       }
                     />
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Product Stock Status:</span>
+                    <select
+                      className="select select-bordered select-accent"
+                      value={editedProduct.stockStatus}
+                      onChange={(e) =>
+                        setEditedProduct((prevProduct) => ({
+                          ...prevProduct,
+                          stockStatus: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="">Select Stock Status</option>
+                      <option value="IN_STOCK">In Stock</option>
+                      <option value="OUT_OF_STOCK">Out of Stock</option>
+                      <option value="BACK_ORDER">Back Order</option>
+                    </select>
                   </label>
                 </div>
               </div>
