@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen bg-[#F8F9FA]">
       {/* Sidebar */}
       <Sidebar />
       {/* Main content */}
@@ -13,7 +13,7 @@ const AppLayout = ({ children }) => {
         <Navbar />
 
         {/* Page content */}
-        <div className=" flex-grow mx-8 md:mx-40 my-4 overflow-y-auto md:max-h-[calc(100vh-64px)]">
+        <div className=" flex-grow mx-8 md:mx-40 my-4 overflow-y-auto md:max-h-[calc(100vh-64px)] ">
           <div className="mx-10">{children}</div>
         </div>
       </div>
@@ -26,3 +26,4 @@ AppLayout.propTypes = {
 };
 
 export default AppLayout;
+ 

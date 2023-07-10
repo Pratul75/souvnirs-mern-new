@@ -43,7 +43,7 @@ const AddProduct = () => {
     const response = await API_WRAPPER.post("/products/add-product", {
       ...formData,
       description,
-      slug: "aoisj12ewqds"
+      slug: "aoisj12ewqds",
     });
     if (response.status === 200) {
       console.log("RESPONSE RECEIVED: ", response?.data);

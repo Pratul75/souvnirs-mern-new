@@ -5,6 +5,9 @@ module.exports = {
       fontFamily: {
         sans: ["'Plus Jakarta Sans'", "sans-serif"],
       },
+      colors: {
+        themeColor: "#4680FF",
+      },
     },
   },
   plugins: [require("daisyui")],
