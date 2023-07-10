@@ -60,13 +60,13 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                 ))}
                 <td>
                   <button
-                    className="btn btn-circle btn-success mr-2"
+                    className="btn btn-square btn-primary mr-2"
                     onClick={() => onEdit(row.original)}
                   >
                     <FiEdit2 color="white" />
                   </button>
                   <button
-                    className="btn btn-circle btn-error  mr-2"
+                    className="btn btn-square btn-error  mr-2"
                     onClick={() => onDelete(row.original)}
                   >
                     <RiDeleteBinLine color="white" />

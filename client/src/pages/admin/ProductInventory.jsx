@@ -109,25 +109,58 @@ const ProductInventory = () => {
             {/* Render the inputs for editing the product data */}
             {editedProduct && (
               <div>
-                <label>
-                  Product Name:
-                  <input
-                    className="input input-accent"
-                    type="text"
-                    value={editedProduct.name}
-                    onChange={(e) =>
-                      setEditedProduct((prevProduct) => ({
-                        ...prevProduct,
-                        name: e.target.value,
-                      }))
-                    }
-                  />
-                </label>
-                {/* Add inputs for other properties as needed */}
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Product Name:</span>
+                    <input
+                      className="input input-accent"
+                      type="text"
+                      value={editedProduct.name}
+                      onChange={(e) =>
+                        setEditedProduct((prevProduct) => ({
+                          ...prevProduct,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Product Price:</span>
+                    <input
+                      className="input input-accent"
+                      type="text"
+                      value={editedProduct.price}
+                      onChange={(e) =>
+                        setEditedProduct((prevProduct) => ({
+                          ...prevProduct,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                  </label>
+                </div>
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Product Stock Quantity:</span>
+                    <input
+                      className="input input-accent"
+                      type="text"
+                      value={editedProduct.stockQuantity}
+                      onChange={(e) =>
+                        setEditedProduct((prevProduct) => ({
+                          ...prevProduct,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                  </label>
+                </div>
               </div>
             )}
             <div className="modal-action">
-              <button className="btn" onClick={handleSave}>
+              <button className="btn btn-accent" onClick={handleSave}>
                 Save
               </button>
               <button
