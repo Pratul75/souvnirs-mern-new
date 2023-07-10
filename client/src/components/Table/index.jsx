@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 import { useTable, useSortBy } from "react-table";
 import "daisyui/dist/full.css";
@@ -86,11 +85,12 @@ ReusableTable.propTypes = {
     PropTypes.shape({
       Header: PropTypes.string.isRequired,
       accessor: PropTypes.string.isRequired,
+      Cell: PropTypes.elementType,
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default ReusableTable;

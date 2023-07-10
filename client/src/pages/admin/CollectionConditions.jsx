@@ -2,6 +2,7 @@ import { Header, ReusableTable } from "../../components";
 import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
+import { nanoid } from "nanoid";
 
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
@@ -56,6 +57,7 @@ const CollectionConditions = () => {
       );
       if (response.status === 200) {
         setCollectionConditionList(response?.data);
+        console.log("COLLECTION CONDITIONS LIST: ", response?.data);
       }
     } catch (error) {
       console.error(
@@ -101,11 +103,8 @@ const CollectionConditions = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
         image={CollectionBannerImg}
       />
-      <div className="mt-4">
-        <form
-          onSubmit={handleSubmit}
-          className="form-control bg-white p-4 rounded-xl"
-        >
+      <form onSubmit={handleSubmit} className="mt-4">
+        <div className="form-control bg-white p-4 rounded-xl">
           <label htmlFor="collection-condition-input" className="label">
             <span className="label-text">Title</span>
           </label>
@@ -116,10 +115,26 @@ const CollectionConditions = () => {
             type="text"
             name="colle ction-condition-input"
           />
-          <button className="btn btn-accent w-1/2 mt-4 text-white">
-            Add Title
-          </button>
-        </form>
+        </div>
+        <div className="form-control">
+          <select className="select select-accent w-1/2">
+            <option value="">Select Parent ID</option>
+            <option value="0">Main Category</option>
+            {collectionConditionList.map((item) => {
+              if (item.parentId[0] === "0") {
+                return (
+                  <option key={nanoid()} value={item.parentId}>
+                    {item.title}
+                  </option>
+                );
+              }
+              return null; // Return null when item.parentId is not equal to 0
+            })}
+          </select>
+        </div>
+        <button className="btn btn-accent w-1/2 mt-4 text-white">
+          Add Title
+        </button>
         <div className="mt-4">
           <ReusableTable
             columns={columns}
@@ -127,7 +142,7 @@ const CollectionConditions = () => {
             onDelete={handleDelete}
           />
         </div>
-      </div>
+      </form>
     </div>
   );
 };
