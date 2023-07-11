@@ -195,7 +195,10 @@ const Collection = () => {
               </p>
             </div>
             <div className="mt-4">
-              <button className="bg-themeColor font-thin rounded-[8px] btn text-white ">
+              <button
+                onClick={() => console.log("Add another collection clicked")}
+                className="bg-themeColor font-thin rounded-[8px] btn text-white"
+              >
                 Add Another Collection
               </button>
             </div>

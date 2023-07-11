@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { useTable, useSortBy } from "react-table";
+import { useState } from "react";
+import { useTable, useSortBy, useGlobalFilter } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
 import { FiEdit2 } from "react-icons/fi";
@@ -10,19 +11,37 @@ import {
 } from "react-icons/ai";
 
 const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-      },
-      useSortBy // Add the useSortBy plugin
-    );
+  const [globalFilterState, setGlobalFilterState] = useState("");
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable(
+    {
+      columns,
+      data,
+    },
+    useGlobalFilter,
+    useSortBy
+  );
 
   return (
     <div className="overflow-x-auto">
-      <table className="table" {...getTableProps()}>
-        {/* Add getTableProps() to table */}
+      <div className="mb-4 w-full">
+        <input
+          type="text"
+          value={state}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          placeholder="Search..."
+          className="input input-bordered"
+        />
+      </div>
+      <table className="table table-zebra" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
@@ -35,9 +54,9 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
                     <span>{column.render("Header")}</span>
                     {column.isSorted ? (
                       column.isSortedDesc ? (
-                        <AiOutlineSortDescending size={20} className="ml-1" />
+                        <AiOutlineSortDescending size={22} className="ml-1" />
                       ) : (
-                        <AiOutlineSortAscending size={20} className="ml-1" />
+                        <AiOutlineSortAscending size={22} className="ml-1" />
                       )
                     ) : null}
                   </div>
@@ -57,6 +76,8 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
                     {cell.render("Cell")}
                   </td>
                 ))}
+
+                {/* Conditionally rendering the component */}
                 {showButtons && (
                   <td>
                     <button
@@ -93,7 +114,7 @@ ReusableTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
-  showButtons: PropTypes.bool, // New prop
+  showButtons: PropTypes.bool,
 };
 
 export default ReusableTable;
