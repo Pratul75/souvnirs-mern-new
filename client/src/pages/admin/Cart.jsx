@@ -1,5 +1,70 @@
+import { Header, ReusableTable } from "../../components";
+import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
+import API_WRAPPER from "../../api";
+import { useEffect, useMemo, useState } from "react";
 const Cart = () => {
-  return <div>Cart</div>;
+  const [cartList, setCartList] = useState([]);
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Cart ID",
+        accessor: "_id",
+      },
+      {
+        Header: "Customer ID",
+        accessor: "customer_id",
+      },
+      {
+        Header: "Product ID",
+        accessor: "product_id",
+      },
+      {
+        Header: "Product Name",
+        accessor: "product_name",
+      },
+      {
+        Header: "Product Price",
+        accessor: "product_price",
+      },
+      {
+        Header: "Product Quantity",
+        accessor: "product_quantity",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+    ],
+    []
+  );
+  const data = useMemo(() => cartList, [cartList]);
+  const getCartList = async () => {
+    try {
+      const response = await API_WRAPPER.get("/cart/get-all-carts");
+      if (response.status === 200) {
+        setCartList(response.data);
+        console.log("Cart List: ", response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while fetching all cart list", error);
+    }
+  };
+  useEffect(() => {
+    getCartList();
+  }, []);
+
+  return (
+    <div>
+      <Header
+        heading="Cart"
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to"
+        image={HeaderImgTwo}
+      />
+      <div className="mt-4">
+        <ReusableTable columns={columns} data={data} />
+      </div>
+    </div>
+  );
 };
 
 export default Cart;

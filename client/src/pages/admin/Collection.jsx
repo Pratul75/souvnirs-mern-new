@@ -27,7 +27,7 @@ const Collection = () => {
               </label>
               <select className="select select-accent" id="publishing-select">
                 <option value="onlineStore">Online Store</option>
-                <option value="offlineStore">Ofline Store</option>
+                <option value="offlineStore">Offline Store</option>
               </select>
             </div>
             <div className="flex gap-2 mt-4">
@@ -201,8 +201,8 @@ const Collection = () => {
                 placeholder="Slug"
                 className="input input-accent"
                 type="text"
-                name=""
-                id=""
+                name="slug"
+                id="collection-slug"
               />
             </div>
           </div>

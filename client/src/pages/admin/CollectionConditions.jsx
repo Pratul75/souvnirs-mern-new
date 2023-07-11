@@ -120,15 +120,19 @@ const CollectionConditions = () => {
             type="text"
             name="colle ction-condition-input"
           />
+          <div className="form-control mt-4">
+            <label className="label">
+              <span className="label-text">Sub Category</span>
+            </label>
+            <MultiSelect
+              options={convertArrToSelectLabel(collectionConditionList)}
+              value={selected}
+              onChange={setSelected}
+              className="w-1/2   only:bg-black"
+            />
+          </div>
         </div>
-        <div className="form-control">
-          <MultiSelect
-            options={convertArrToSelectLabel(collectionConditionList)}
-            value={selected}
-            onChange={setSelected}
-            className="w-1/2 px-4 py-2"
-          />
-        </div>
+
         <button className="btn btn-accent w-1/2 mt-4 text-white">
           Add Title
         </button>

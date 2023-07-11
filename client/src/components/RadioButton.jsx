@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const RadioComponent = ({ name, options, color }) => {
   const { control, formState } = useFormContext();
   const { errors } = formState;
-
+  // const there are specifics and therefore there are so mant things in this world onw hich we donth have any control like earthquakes tsunamies and wht not but the thing is that on what we can like to forgive someone or to spread hapines without expecting any in reyturn
   const schema = yup.object().shape({
     [name]: yup.string().required("Please select an option."),
   });
