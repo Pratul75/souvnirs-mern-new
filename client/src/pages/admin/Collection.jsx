@@ -8,8 +8,9 @@ import { nanoid } from "nanoid";
 const Collection = () => {
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [radioSelection, setRadioSelection] = useState("all");
+  // "all" or "any" radio button
   const [filteredParentIds, setFilteredParentIds] = useState([]);
-  const [radioSelection, setRadioSelection] = useState("all"); // "all" or "any"
 
   const getAllCollectionConditions = async () => {
     const response = await API_WRAPPER.get(
@@ -245,7 +246,7 @@ const Collection = () => {
               />
             </div>
             <div className="form-control">
-              <label className="label">
+              <label htmlFor="collection-slug" className="label">
                 <span className="label-text">Slug</span>
               </label>
               <input
