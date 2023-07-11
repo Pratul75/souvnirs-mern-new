@@ -24,5 +24,5 @@ export const convertArrToSelectLabel = (arr) => {
     }));
 
   console.log(result);
-  return result;
+  return result; 
 };

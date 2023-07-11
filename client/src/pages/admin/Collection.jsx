@@ -1,8 +1,42 @@
 import { Dropzone, Header } from "../../components";
 import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
+import API_WRAPPER from "../../api";
+import { useEffect, useState } from "react";
+import { nanoid } from "nanoid";
 
 const Collection = () => {
+  const [collectionConditionList, setCollectionConditionList] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState("");
+  const [filteredParentIds, setFilteredParentIds] = useState([]);
+  const [radioSelection, setRadioSelection] = useState("all"); // "all" or "any"
+
+  const getAllCollectionConditions = async () => {
+    const response = await API_WRAPPER.get(
+      "/collection-condition/get-all-collection-conditions"
+    );
+    setCollectionConditionList(response?.data);
+    console.log("Collection Condition List: ", response?.data);
+  };
+
+  useEffect(() => {
+    getAllCollectionConditions();
+  }, []);
+
+  useEffect(() => {
+    // filter the collectionConditionList based on the selectedTitle
+    const filteredList = collectionConditionList.filter(
+      (item) => item.title === selectedTitle
+    );
+    // extract the parentIds from the filtered list
+    const parentIds = filteredList.map((item) => item.parentId);
+    setFilteredParentIds(parentIds);
+  }, [selectedTitle, collectionConditionList]);
+
+  const handleRadioChange = (e) => {
+    setRadioSelection(e.target.value);
+  };
+
   return (
     <div>
       <Header
@@ -82,48 +116,65 @@ const Collection = () => {
           </div>
           <div className="col-span-2  bg-white px-4 py-8 rounded-xl shadow-lg">
             <h1>Collections</h1>
-            <div className="form-control flex-row items-center ">
+            <div className="form-control flex-row items-center">
               <label className="label">
                 <span className="label-text">Product must match:</span>
               </label>
-              <div className="flex items-center gap-4">
-                <label className="label">
+              <div className="flex items-center gap-4 ml-4">
+                <input
+                  className="radio radio-accent"
+                  type="radio"
+                  name="radioSelection"
+                  id="radioAll"
+                  value="all"
+                  checked={radioSelection === "all"}
+                  onChange={handleRadioChange}
+                />
+                <label className="label" htmlFor="radioAll">
                   <span className="label-text">all conditions</span>
                 </label>
+
                 <input
                   className="radio radio-accent"
                   type="radio"
-                  name=""
-                  id=""
+                  name="radioSelection"
+                  id="radioAny"
+                  value="any"
+                  checked={radioSelection === "any"}
+                  onChange={handleRadioChange}
                 />
-                <label className="label">
+                <label className="label" htmlFor="radioAny">
                   <span className="label-text">any conditions</span>
                 </label>
-                <input
-                  className="radio radio-accent"
-                  type="radio"
-                  name=""
-                  id=""
-                />
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4 mt-4">
               <div>
                 <select
-                  placeholder="Price"
+                  onChange={(e) => setSelectedTitle(e.target.value)}
+                  placeholder="Title"
                   className="select select-accent w-full"
                 >
-                  <option value="price-1">Price 1</option>
-                  <option value="price-2">Price 2</option>
+                  <option value="">Select Title</option>
+                  {collectionConditionList?.map((item) => (
+                    <option key={nanoid()} value={item.title}>
+                      {item.title}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
                 <select
+                  id="parentIdSelect"
                   placeholder="Is greater than"
                   className="select select-accent w-full"
                 >
-                  <option value="greater-than-1">greater than 1</option>
-                  <option value="greater-than-2">greater than 2</option>
+                  <option value="">Select Parent ID</option>
+                  {filteredParentIds?.map((parentId) => (
+                    <option key={nanoid()} value={parentId}>
+                      {parentId}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>

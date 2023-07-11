@@ -15,7 +15,7 @@ const createCollectionCondition = async (req, res) => {
 const getAllCollectionConditions = async (req, res) => {
   try {
     const collectionConditions = await CollectionCondition.find();
-    res.json(collectionConditions);
+    res.status(200).json(collectionConditions);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

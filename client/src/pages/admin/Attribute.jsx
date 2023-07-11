@@ -36,7 +36,6 @@ const Attributes = () => {
       accessor: "name",
     },
   ];
-
   const handleDeleteAttribute = async (id) => {
     try {
       const response = API_WRAPPER.delete(`/attribute/delete-attribute/:${id}`);
