@@ -50,7 +50,7 @@ const updateCart = async (req, res) => {
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });
     }
-    res.json(cart);
+    res.status(200).json(cart);
   } catch (error) {
     console.error("Error updating cart:", error);
     res.status(500).json({ error: "Internal server error" });

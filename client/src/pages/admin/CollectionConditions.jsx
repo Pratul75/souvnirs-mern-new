@@ -4,6 +4,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { convertArrToSelectLabel } from "../../../utils";
+
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
@@ -36,10 +37,16 @@ const CollectionConditions = () => {
   );
 
   const addCollectionCondition = async () => {
+    let parentId = [];
+    if (selected.length === 0) {
+      parentId.push("0");
+    } else {
+      parentId = selected.map((item) => item?.value);
+    }
     try {
       const response = await API_WRAPPER.post(
         `/collection-condition/create-collection-condition`,
-        { title: collectionConditions, parentId: 0 }
+        { title: collectionConditions, parentId: parentId }
       );
       console.log("RESPONSE: ", response?.data);
       setApiTrigger((prevState) => !prevState);
@@ -122,13 +129,13 @@ const CollectionConditions = () => {
           />
           <div className="form-control mt-4">
             <label className="label">
-              <span className="label-text">Sub Category</span>
+              <span className="label-text">Sub Condition</span>
             </label>
             <MultiSelect
               options={convertArrToSelectLabel(collectionConditionList)}
               value={selected}
               onChange={setSelected}
-              className="w-1/2   only:bg-black"
+              className="w-1/2   "
             />
           </div>
         </div>

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const Cart = () => {
   const [cartList, setCartList] = useState([]);
+
   const columns = useMemo(
     () => [
       {
