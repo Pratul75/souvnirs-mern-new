@@ -5,6 +5,7 @@ const {
   getProductsCount,
   deleteProduct,
   editProduct,
+  checkProductsFromIds,
 } = require("../controllers/productController");
 
 const router = require("express").Router();
@@ -15,5 +16,5 @@ router.get("/products/get-single-product/:id", getProduct);
 router.get("/products/get-products-count", getProductsCount);
 router.delete("/products/delete-product/:id", deleteProduct);
 router.put("/products/edit-product/:id", editProduct);
-
+router.post("/products/product-name-based-on-ids", checkProductsFromIds);
 module.exports = router;

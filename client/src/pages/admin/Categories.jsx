@@ -78,6 +78,7 @@ const Categories = () => {
           data={categoriesList}
           columns={columns}
           onDelete={handleDelete}
+          showButtons={true}
         />
       </div>
     </>

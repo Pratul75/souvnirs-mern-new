@@ -4,7 +4,7 @@ const Cart = require("../schema/cartModal");
 const getAllCarts = async (req, res) => {
   try {
     const carts = await Cart.find();
-    res.json(carts);
+    res.status(200).json(carts);
   } catch (error) {
     console.error("Error fetching carts:", error);
     res.status(500).json({ error: "Internal server error" });

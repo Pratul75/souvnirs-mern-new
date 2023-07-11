@@ -141,6 +141,7 @@ const CollectionConditions = () => {
             columns={columns}
             data={data}
             onDelete={handleDelete}
+            showButtons={true}
           />
         </div>
       </form>

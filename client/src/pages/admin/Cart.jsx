@@ -2,6 +2,7 @@ import { Header, ReusableTable } from "../../components";
 import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
+
 const Cart = () => {
   const [cartList, setCartList] = useState([]);
   const columns = useMemo(
@@ -14,10 +15,7 @@ const Cart = () => {
         Header: "Customer ID",
         accessor: "customer_id",
       },
-      {
-        Header: "Product ID",
-        accessor: "product_id",
-      },
+
       {
         Header: "Product Name",
         accessor: "product_name",
@@ -37,6 +35,7 @@ const Cart = () => {
     ],
     []
   );
+
   const data = useMemo(() => cartList, [cartList]);
   const getCartList = async () => {
     try {
@@ -49,21 +48,22 @@ const Cart = () => {
       console.error("Error occured while fetching all cart list", error);
     }
   };
+
   useEffect(() => {
     getCartList();
   }, []);
 
   return (
-    <div>
+    <>
       <Header
         heading="Cart"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to"
         image={HeaderImgTwo}
       />
       <div className="mt-4">
-        <ReusableTable columns={columns} data={data} />
+        <ReusableTable columns={columns} data={data} showButtons={true} />
       </div>
-    </div>
+    </>
   );
 };
 

@@ -140,6 +140,26 @@ const getProductsCount = async (req, res) => {
   }
 };
 
+// Route to check if product IDs are associated with entries and return their names
+const checkProductsFromIds = async (req, res) => {
+  try {
+    const { productIds } = req.body;
+
+    // Find products with matching IDs
+    const products = await Product.find({
+      _id: { $in: productIds },
+    });
+
+    // Extract the names of the found products
+    const productNames = products.map((product) => product.name);
+
+    res.status(200).json(productNames);
+  } catch (error) {
+    console.error("Error occurred while checking products:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = {
   getProducts,
   getProduct,
@@ -147,4 +167,5 @@ module.exports = {
   createProduct,
   deleteProduct,
   editProduct,
+  checkProductsFromIds,
 };

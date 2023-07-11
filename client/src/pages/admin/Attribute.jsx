@@ -74,6 +74,7 @@ const Attributes = () => {
           data={attributesList}
           columns={columns}
           onDelete={handleDeleteAttribute}
+          showButtons={true}
         />
       </div>
     </>
