@@ -9,7 +9,7 @@ import {
   AiOutlineSortDescending,
 } from "react-icons/ai";
 
-const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
+const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
@@ -43,7 +43,7 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                   </div>
                 </th>
               ))}
-              <th>Action</th>
+              {showButtons && <th>Action</th>}
             </tr>
           ))}
         </thead>
@@ -57,20 +57,22 @@ const ReusableTable = ({ columns, data, onEdit, onDelete }) => {
                     {cell.render("Cell")}
                   </td>
                 ))}
-                <td>
-                  <button
-                    className="btn btn-square btn-primary mr-2"
-                    onClick={() => onEdit(row.original)}
-                  >
-                    <FiEdit2 color="white" />
-                  </button>
-                  <button
-                    className="btn btn-square btn-error  mr-2"
-                    onClick={() => onDelete(row.original)}
-                  >
-                    <RiDeleteBinLine color="white" />
-                  </button>
-                </td>
+                {showButtons && (
+                  <td>
+                    <button
+                      className="btn btn-square btn-primary mr-2"
+                      onClick={() => onEdit(row.original)}
+                    >
+                      <FiEdit2 color="white" />
+                    </button>
+                    <button
+                      className="btn btn-square btn-error  mr-2"
+                      onClick={() => onDelete(row.original)}
+                    >
+                      <RiDeleteBinLine color="white" />
+                    </button>
+                  </td>
+                )}
               </tr>
             );
           })}
@@ -91,6 +93,7 @@ ReusableTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
+  showButtons: PropTypes.bool, // New prop
 };
 
 export default ReusableTable;

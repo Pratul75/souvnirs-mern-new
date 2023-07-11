@@ -17,6 +17,8 @@ const productReviewRoutes = require("./routes/productReviewRoutes");
 const countryRoutes = require("./routes/countryRoutes");
 const collectionConditions = require("./routes/collectionConditionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const refundRoutes = require("./routes/refundRoutes");
+
 // app initialization
 const app = express();
 // middleware
@@ -53,6 +55,8 @@ app.use(countryRoutes);
 app.use(collectionConditions);
 // cart routes
 app.use(cartRoutes);
+// refund routes
+app.use(refundRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;
