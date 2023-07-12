@@ -1,6 +1,5 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-// dynamic tabs component
 
 const Tabs = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState(0);

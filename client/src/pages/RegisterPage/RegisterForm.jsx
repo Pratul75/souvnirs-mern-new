@@ -127,7 +127,7 @@ const RegisterForm = () => {
                   <p className="text-red-500">{errors.email.message}</p>
                 )}
               </div>
-            </div>   
+            </div>
             {/* row 6 */}
             <div className="flex gap-4">
               {/* row 6 */}
@@ -237,7 +237,6 @@ const RegisterForm = () => {
         </div>
       </div>
       {/* modal*/}
-
       <dialog id="my_modal_1" className="modal w-full">
         <form method="dialog" className="modal-box w-11/12 max-w-5xl">
           <button className="btn">

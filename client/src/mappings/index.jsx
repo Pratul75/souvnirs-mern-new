@@ -27,6 +27,7 @@ import {
   KnowledgeCenterIcon,
 } from "../icons/sidebarIcons";
 
+// sidebar mapping
 export const sidebarMapping = [
   {
     title: "Dashboard",
@@ -164,3 +165,5 @@ export const sidebarMapping = [
     Icon: KnowledgeCenterIcon,
   },
 ];
+
+// tabs mapping

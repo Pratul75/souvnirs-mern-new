@@ -16,6 +16,7 @@ const AddAttribute = () => {
       console.error("Error occured while adding attribute", error);
     }
   };
+
   return (
     <div className="w-full">
       <Header

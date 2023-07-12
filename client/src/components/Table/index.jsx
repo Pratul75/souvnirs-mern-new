@@ -32,7 +32,7 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
 
   return (
     <div className="overflow-x-auto">
-      <div className="mb-4 w-full">
+      <div className="mb-4 float-right">
         <input
           type="text"
           value={state}
