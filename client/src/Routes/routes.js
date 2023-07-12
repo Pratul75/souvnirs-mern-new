@@ -31,8 +31,9 @@ import {
   AddAttributes,
   Attribute,
 } from "../pages";
-import Replacement from "../pages/admin/Replacement";
 
+import Replacement from "../pages/admin/Replacement";
+// admin routes
 export const adminRoutes = [
   {
     id: nanoid(),
