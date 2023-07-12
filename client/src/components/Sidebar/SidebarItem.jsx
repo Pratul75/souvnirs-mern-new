@@ -7,16 +7,19 @@ const SidebarItem = ({ Icon, title, to }) => {
   const dispatch = useDispatch();
   const isActiveLink = useSelector((x) => x.appConfig.activeLink.payload);
 
+  const sidebarExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
+
   return (
     <NavLink
       to={to}
       className={`p-4 rounded-xl flex items-center text-black cursor-pointer mb-3 hover:bg-gray-300 ${
-        isActiveLink === to ? "bg-blue-100 text-[#4E62C2 ]" : ""
+        isActiveLink === to ? "bg-blue-100 text-[#4E62C2]" : ""
       }`}
       onClick={() => dispatch(setActiveLink(to))}
     >
-      {Icon} {/* Render the SVG icon */}
-      <p>{title}</p>
+      {Icon}
+
+      {sidebarExpanded && <p className="ml-4">{title}</p>}
     </NavLink>
   );
 };
