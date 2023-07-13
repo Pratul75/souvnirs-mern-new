@@ -140,7 +140,6 @@ const getProductsCount = async (req, res) => {
   }
 };
 
-// Route to check if product IDs are associated with entries and return their names
 const checkProductsFromIds = async (req, res) => {
   try {
     const { productIds } = req.body;

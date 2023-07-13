@@ -51,31 +51,23 @@ const getRawDataForFilter = async (req, res) => {
 
     // Perform MongoDB queries using the operator and values
 
-    // constant specifics are already provided in such a way thgat there are so manhy things in this world onwhich we dont have any control like earthquakes tsunamoes and what not but the thing is tha t on what we cna like to forgive someone or to spread hapiness without  eprecting any in return
+    const results = data.map(async (item) => {
+      const operator = getOperator(item.selectedTitle);
+      const title = conditionValueMap[item.parentId];
+      const value = item.inputValue;
 
-    const results = Promise.all(
-      data.map(async (item) => {
-        const operator = getOperator(item.selectedTitle);
-        const title = conditionValueMap[item.parentId];
-        const value = item.inputValue;
+      console.log("VALUE: ", value);
+      console.log("TITLE: ", title);
 
-        console.log("VALUE: ", value);
-        console.log("TITLE: ", title);
-
-        // Perform your MongoDB query here using the operator, title, and value
-        // there are so many things in this world on which
-        // Example query:
-        const query = { [title]: { [operator]: value } };
-        console.log("QUERY: ", query);
-        // Replace "ModelName" with your actual model name
-        const result = await Product.find(query);
-        console.log("RESULT: ", result);
-        return result;
-      })
-    );
-
-    console.log("RESULTS: ", results);
-
+      // Perform your MongoDB query here using the operator, title, and value
+      // Example query:
+      const query = { [title]: { [operator]: value } };
+      console.log("QUERY: ", query);
+      // Replace "ModelName" with your actual model name
+      const result = await Product.find(query);
+      console.log("RESULT: ", result);
+      return result;
+    });
     res.status(200).send(results);
   } catch (error) {
     res.status(500).json({ message: "Unexpected error occurred", error });
