@@ -18,6 +18,7 @@ const countryRoutes = require("./routes/countryRoutes");
 const collectionConditions = require("./routes/collectionConditionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const refundRoutes = require("./routes/refundRoutes");
+const conditionValueRoutes = require("./routes/conditionValueRoutes");
 
 // app initialization
 const app = express();
@@ -57,6 +58,8 @@ app.use(collectionConditions);
 app.use(cartRoutes);
 // refund routes
 app.use(refundRoutes);
+// condition values routes
+app.use(conditionValueRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

@@ -3,11 +3,11 @@ import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
-import { convertArrToSelectLabel } from "../../../utils";
 
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
+  const [conditionValueList, setConditionValueList] = useState([]);
   const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
 
@@ -19,8 +19,8 @@ const CollectionConditions = () => {
         accessor: "title",
       },
       {
-        Header: "Parent Id",
-        accessor: "parentId",
+        Header: "Condition Values",
+        accessor: "conditionValues",
       },
       {
         Header: "Status",
@@ -30,6 +30,14 @@ const CollectionConditions = () => {
     []
   );
 
+  const convertArr = (arr) => {
+    const convertedArr = arr.map((item) => {
+      return { label: item.conditionValue, value: item._id };
+    });
+
+    return convertedArr;
+  };
+
   // table data
   const data = useMemo(
     () => collectionConditionList,
@@ -37,16 +45,13 @@ const CollectionConditions = () => {
   );
 
   const addCollectionCondition = async () => {
-    let parentId = [];
-    if (selected.length === 0) {
-      parentId.push("0");
-    } else {
-      parentId = selected.map((item) => item?.value);
-    }
     try {
       const response = await API_WRAPPER.post(
         `/collection-condition/create-collection-condition`,
-        { title: collectionConditions, parentId: parentId }
+        {
+          title: collectionConditions,
+          conditionValues: selected.map((item) => item?.value),
+        }
       );
       console.log("RESPONSE: ", response?.data);
       setApiTrigger((prevState) => !prevState);
@@ -72,6 +77,16 @@ const CollectionConditions = () => {
         "Error occured while getting all collection conditions",
         error
       );
+    }
+  };
+
+  const getAllConditionValues = async () => {
+    const response = await API_WRAPPER.get(
+      "/condition-value/get-all-condition-values"
+    );
+    if (response.status === 200) {
+      setConditionValueList(response?.data);
+      console.log("CONDITION VALUE LIST: ", response?.data);
     }
   };
 
@@ -102,6 +117,7 @@ const CollectionConditions = () => {
 
   useEffect(() => {
     getAllCollectionCondition();
+    getAllConditionValues();
   }, [apiTrigger]);
 
   useEffect(() => {
@@ -131,8 +147,9 @@ const CollectionConditions = () => {
             <label className="label">
               <span className="label-text">Sub Condition</span>
             </label>
+
             <MultiSelect
-              options={convertArrToSelectLabel(collectionConditionList)}
+              options={convertArr(conditionValueList)}
               value={selected}
               onChange={setSelected}
               className="w-1/2   "

@@ -6,16 +6,16 @@ const CollectionConditionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    parentId: [
+    conditionValues: [
       {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Condition Value",
       },
     ],
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
-      default: "PENDING",
+      default: "ACTIVE",
     },
   },
   {

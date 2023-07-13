@@ -7,9 +7,11 @@ import { nanoid } from "nanoid";
 
 const Collection = () => {
   const [collectionConditionList, setCollectionConditionList] = useState([]);
+  const [conditionValueList, setConditionValueList] = useState([]);
+
   const [selectedTitle, setSelectedTitle] = useState("");
-  const [radioSelection, setRadioSelection] = useState("all");
   // "all" or "any" radio button
+  const [radioSelection, setRadioSelection] = useState("all");
   const [filteredParentIds, setFilteredParentIds] = useState([]);
 
   const getAllCollectionConditions = async () => {
@@ -20,19 +22,35 @@ const Collection = () => {
     console.log("Collection Condition List: ", response?.data);
   };
 
+  const getAllConditionValues = async () => {
+    const response = await API_WRAPPER.get(
+      "/condition-value/get-all-condition-values"
+    );
+    if (response.status === 200) {
+      setConditionValueList(response?.data);
+      console.log("CONDITION VALUE LIST: ", response?.data);
+    }
+  };
+
   useEffect(() => {
     getAllCollectionConditions();
+    getAllConditionValues();
   }, []);
 
   useEffect(() => {
-    // filter the collectionConditionList based on the selectedTitle
-    const filteredList = collectionConditionList.filter(
-      (item) => item.title === selectedTitle
+    console.log("SELECTED TITLE: ", selectedTitle);
+    const selectedCondition = collectionConditionList.find(
+      (condition) => condition.title === selectedTitle
     );
-    // extract the parentIds from the filtered list
-    const parentIds = filteredList.map((item) => item.parentId);
-    setFilteredParentIds(parentIds);
-  }, [selectedTitle, collectionConditionList]);
+    if (selectedCondition) {
+      const filteredIds = selectedCondition.conditionValues.filter((value) =>
+        conditionValueList.some((condition) => condition._id === value)
+      );
+      setFilteredParentIds(filteredIds);
+    } else {
+      setFilteredParentIds([]);
+    }
+  }, [selectedTitle, collectionConditionList, conditionValueList]);
 
   const handleRadioChange = (e) => {
     setRadioSelection(e.target.value);
@@ -153,6 +171,7 @@ const Collection = () => {
               <div>
                 <select
                   onChange={(e) => setSelectedTitle(e.target.value)}
+                  value={selectedTitle}
                   placeholder="Title"
                   className="select select-accent w-full"
                 >
@@ -170,12 +189,23 @@ const Collection = () => {
                   placeholder="Is greater than"
                   className="select select-accent w-full"
                 >
-                  <option value="">Select Parent ID</option>
-                  {filteredParentIds?.map((parentId) => (
-                    <option key={nanoid()} value={parentId}>
-                      {parentId}
-                    </option>
-                  ))}
+                  <option value="">Select Operator</option>
+                  {filteredParentIds.map((parentId) => {
+                    const conditionValue = conditionValueList.find(
+                      (value) => value._id === parentId
+                    );
+                    if (conditionValue) {
+                      return (
+                        <option
+                          key={conditionValue._id}
+                          value={conditionValue._id}
+                        >
+                          {conditionValue.conditionValue}
+                        </option>
+                      );
+                    }
+                    return null;
+                  })}
                 </select>
               </div>
               <div>
