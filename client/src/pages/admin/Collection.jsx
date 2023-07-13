@@ -12,7 +12,7 @@ const Collection = () => {
   const [selectedTitle, setSelectedTitle] = useState("");
   // "all" or "any" radio button
   const [radioSelection, setRadioSelection] = useState("all");
-  const [filteredParentIds, setFilteredParentIds] = useState([]);
+  const [filteredConditionValues, setFilteredConditionValues] = useState([]);
 
   const getAllCollectionConditions = async () => {
     const response = await API_WRAPPER.get(
@@ -46,9 +46,9 @@ const Collection = () => {
       const filteredIds = selectedCondition.conditionValues.filter((value) =>
         conditionValueList.some((condition) => condition._id === value)
       );
-      setFilteredParentIds(filteredIds);
+      setFilteredConditionValues(filteredIds);
     } else {
-      setFilteredParentIds([]);
+      setFilteredConditionValues([]);
     }
   }, [selectedTitle, collectionConditionList, conditionValueList]);
 
@@ -190,16 +190,13 @@ const Collection = () => {
                   className="select select-accent w-full"
                 >
                   <option value="">Select Operator</option>
-                  {filteredParentIds.map((parentId) => {
+                  {filteredConditionValues.map((parentId) => {
                     const conditionValue = conditionValueList.find(
                       (value) => value._id === parentId
                     );
                     if (conditionValue) {
                       return (
-                        <option
-                          key={conditionValue._id}
-                          value={conditionValue._id}
-                        >
+                        <option key={nanoid()} value={conditionValue._id}>
                           {conditionValue.conditionValue}
                         </option>
                       );
