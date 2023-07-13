@@ -46,12 +46,15 @@ const Sidebar = () => {
         <div className={`${isExpanded ? "block" : "hidden"}`}>
           <div className="flex flex-col mx-2 items-center justify-center pt-4">
             {/* Add your expanded sidebar content here */}
-            {isExpanded ? (
-              <img width={132} height={39} src={SovniersLogo} alt="" />
-            ) : (
-              "logo"
+            {isExpanded && (
+              <img
+                width={132}
+                height={39}
+                src={SovniersLogo}
+                alt="souvnirs-logo"
+              />
             )}
-            <div className="w-full p-4 py-8 rounded-xl bg-gray-200 mx-5 mt-4 flex items-center gap-2 justify-around border-[1px] border-gray-300 cursor-pointer">
+            <div className="w-full p-4 py-8 rounded-xl bg-gray-100 mx-5 mt-4 flex items-center gap-2 justify-around border-[1px] border-gray-300 cursor-pointer">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div>
                 <h2>Vishesh Bajpayee</h2>
