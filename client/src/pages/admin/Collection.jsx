@@ -80,15 +80,15 @@ const Collection = () => {
     }
   };
 
-  const handleRemoveFilters = () => {
-    setFilterDivCount(1);
-    setFilterDivStates([
-      {
-        selectedTitle: "",
-        parentId: "",
-        inputValue: "",
-      },
-    ]);
+  const handleRemoveFilter = (index) => {
+    if (filterDivCount > 1) {
+      setFilterDivCount((prevCount) => prevCount - 1);
+      setFilterDivStates((prevStates) => {
+        const updatedStates = [...prevStates];
+        updatedStates.splice(index, 1);
+        return updatedStates;
+      });
+    }
   };
 
   const handleTitleChange = (index, value) => {
@@ -303,6 +303,15 @@ const Collection = () => {
                     placeholder="Rs"
                   />
                 </div>
+
+                <div>
+                  <button
+                    onClick={() => handleRemoveFilter(index)}
+                    className="bg-rose-500 btn text-white btn-sm"
+                  >
+                    Remove filter
+                  </button>
+                </div>
               </div>
             ))}
             <div>
@@ -322,7 +331,7 @@ const Collection = () => {
               {filterDivCount > 1 && (
                 <button
                   id="remove-filters"
-                  onClick={handleRemoveFilters}
+                  // onClick={handleRemoveFilters}
                   className="bg-[#5B6B79] font-thin rounded-[8px] btn text-white ml-4"
                 >
                   Remove Filters
