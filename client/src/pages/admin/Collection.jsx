@@ -66,7 +66,7 @@ const Collection = () => {
   };
 
   const handleAddFilter = () => {
-    if (filterDivCount < 11) {
+    if (filterDivCount < conditionValueList.length) {
       setFilterDivCount((prevCount) => prevCount + 1);
       setFilterDivStates((prevStates) => [
         ...prevStates,
@@ -242,60 +242,7 @@ const Collection = () => {
                 </label>
               </div>
             </div>
-            {/* {[...Array(filterDivCount)].map((_, index) => (
-              <div
-                id={`filter-div-${index + 1}`}
-                className="grid grid-cols-3 gap-4 mt-4"
-                key={nanoid()}
-              >
-                <div>
-                  <select
-                    onChange={(e) => setSelectedTitle(e.target.value)}
-                    value={selectedTitle}
-                    placeholder="Title"
-                    className="select select-accent w-full"
-                  >
-                    <option value="">Select Title</option>
-                    {collectionConditionList?.map((item) => (
-                      <option key={nanoid()} value={item.title}>
-                        {item.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <select
-                    id="parentIdSelect"
-                    placeholder="Is greater than"
-                    className="select select-accent w-full"
-                  >
-                    <option value="">Select Operator</option>
-                    {filteredConditionValues.map((parentId) => {
-                      const conditionValue = conditionValueList.find(
-                        (value) => value._id === parentId
-                      );
-                      if (conditionValue) {
-                        return (
-                          <option key={nanoid()} value={conditionValue._id}>
-                            {conditionValue.conditionValue}
-                          </option>
-                        );
-                      }
-                      return null;
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <input
-                    className="input input-accent w-full"
-                    type="text"
-                    name=""
-                    id=""
-                    placeholder="Rs"
-                  />
-                </div>
-              </div>
-            ))} */}
+
             {filterDivStates.map((state, index) => (
               <div
                 id={`filter-div-${index + 1}`}
