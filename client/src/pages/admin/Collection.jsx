@@ -93,6 +93,29 @@ const Collection = () => {
   const handleTitleChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].selectedTitle = value;
+
+    // Find the selected condition from the collectionConditionList
+    const selectedCondition = collectionConditionList.find(
+      (condition) => condition.title === value
+    );
+
+    if (selectedCondition) {
+      // Filter the condition values based on the selected condition
+      const filteredIds = selectedCondition.conditionValues.filter((value) =>
+        conditionValueList.some((condition) => condition._id === value)
+      );
+
+      // Update the parent ID in the state
+      updatedStates[index].parentId = filteredIds[0] || ""; // Set the first value as the default
+
+      // Update the filteredConditionValues state
+      setFilteredConditionValues(filteredIds);
+    } else {
+      // If the selected condition is not found, clear the parent ID and filteredConditionValues state
+      updatedStates[index].parentId = "";
+      setFilteredConditionValues([]);
+    }
+
     setFilterDivStates(updatedStates);
   };
 
