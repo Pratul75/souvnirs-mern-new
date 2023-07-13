@@ -42,6 +42,21 @@ const Collection = () => {
     }
   };
 
+  const postRawFilterData = async () => {
+    try {
+      const response = API_WRAPPER.post(
+        "/collection/filter-data",
+        filterDivStates
+      );
+
+      if (response.status === 200) {
+        console.log("RESPONSE: ", response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while posting raw filter data", error);
+    }
+  };
+
   // post all the filters in request body of the api
   // fetch relevant data from the products based on the filters provided
 
@@ -322,13 +337,20 @@ const Collection = () => {
                 variant that matches Price
               </p>
             </div>
-            <div className="mt-4">
+            <div className="mt-4 flex gap-4">
               <button
                 id="add-another-collection"
                 onClick={handleAddFilter}
                 className="bg-themeColor font-thin rounded-[8px] btn text-white"
               >
                 Add Another Filter
+              </button>
+
+              <button
+                onClick={postRawFilterData}
+                className="btn btn-accent font-thin text-white"
+              >
+                Submit Filters
               </button>
             </div>
           </div>
