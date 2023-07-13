@@ -10,9 +10,16 @@ const Collection = () => {
   const [conditionValueList, setConditionValueList] = useState([]);
 
   const [selectedTitle, setSelectedTitle] = useState("");
-  // "all" or "any" radio button
   const [radioSelection, setRadioSelection] = useState("all");
   const [filteredConditionValues, setFilteredConditionValues] = useState([]);
+  const [filterDivCount, setFilterDivCount] = useState(1);
+  const [filterDivStates, setFilterDivStates] = useState([
+    {
+      selectedTitle: "",
+      parentId: "",
+      inputValue: "",
+    },
+  ]);
 
   const getAllCollectionConditions = async () => {
     const response = await API_WRAPPER.get(
@@ -56,6 +63,49 @@ const Collection = () => {
 
   const handleRadioChange = (e) => {
     setRadioSelection(e.target.value);
+  };
+
+  const handleAddFilter = () => {
+    if (filterDivCount < 11) {
+      setFilterDivCount((prevCount) => prevCount + 1);
+      setFilterDivStates((prevStates) => [
+        ...prevStates,
+        {
+          selectedTitle: "",
+          parentId: "",
+          inputValue: "",
+        },
+      ]);
+    }
+  };
+
+  const handleRemoveFilters = () => {
+    setFilterDivCount(1);
+    setFilterDivStates([
+      {
+        selectedTitle: "",
+        parentId: "",
+        inputValue: "",
+      },
+    ]);
+  };
+
+  const handleTitleChange = (index, value) => {
+    const updatedStates = [...filterDivStates];
+    updatedStates[index].selectedTitle = value;
+    setFilterDivStates(updatedStates);
+  };
+
+  const handleParentIdChange = (index, value) => {
+    const updatedStates = [...filterDivStates];
+    updatedStates[index].parentId = value;
+    setFilterDivStates(updatedStates);
+  };
+
+  const handleInputValueChange = (index, value) => {
+    const updatedStates = [...filterDivStates];
+    updatedStates[index].inputValue = value;
+    setFilterDivStates(updatedStates);
   };
 
   return (
@@ -169,54 +219,121 @@ const Collection = () => {
                 </label>
               </div>
             </div>
-            <div id="filter-div" className="grid grid-cols-3 gap-4 mt-4">
-              <div>
-                <select
-                  onChange={(e) => setSelectedTitle(e.target.value)}
-                  value={selectedTitle}
-                  placeholder="Title"
-                  className="select select-accent w-full"
-                >
-                  <option value="">Select Title</option>
-                  {collectionConditionList?.map((item) => (
-                    <option key={nanoid()} value={item.title}>
-                      {item.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <select
-                  id="parentIdSelect"
-                  placeholder="Is greater than"
-                  className="select select-accent w-full"
-                >
-                  <option value="">Select Operator</option>
-                  {filteredConditionValues.map((parentId) => {
-                    const conditionValue = conditionValueList.find(
-                      (value) => value._id === parentId
-                    );
-                    if (conditionValue) {
-                      return (
-                        <option key={nanoid()} value={conditionValue._id}>
-                          {conditionValue.conditionValue}
-                        </option>
+            {/* {[...Array(filterDivCount)].map((_, index) => (
+              <div
+                id={`filter-div-${index + 1}`}
+                className="grid grid-cols-3 gap-4 mt-4"
+                key={nanoid()}
+              >
+                <div>
+                  <select
+                    onChange={(e) => setSelectedTitle(e.target.value)}
+                    value={selectedTitle}
+                    placeholder="Title"
+                    className="select select-accent w-full"
+                  >
+                    <option value="">Select Title</option>
+                    {collectionConditionList?.map((item) => (
+                      <option key={nanoid()} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <select
+                    id="parentIdSelect"
+                    placeholder="Is greater than"
+                    className="select select-accent w-full"
+                  >
+                    <option value="">Select Operator</option>
+                    {filteredConditionValues.map((parentId) => {
+                      const conditionValue = conditionValueList.find(
+                        (value) => value._id === parentId
                       );
+                      if (conditionValue) {
+                        return (
+                          <option key={nanoid()} value={conditionValue._id}>
+                            {conditionValue.conditionValue}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <input
+                    className="input input-accent w-full"
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder="Rs"
+                  />
+                </div>
+              </div>
+            ))} */}
+            {filterDivStates.map((state, index) => (
+              <div
+                id={`filter-div-${index + 1}`}
+                className="grid grid-cols-3 gap-4 mt-4"
+                key={nanoid()}
+              >
+                <div>
+                  <select
+                    onChange={(e) => handleTitleChange(index, e.target.value)}
+                    value={state.selectedTitle}
+                    placeholder="Title"
+                    className="select select-accent w-full"
+                  >
+                    <option value="">Select Title</option>
+                    {collectionConditionList?.map((item) => (
+                      <option key={nanoid()} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <select
+                    onChange={(e) =>
+                      handleParentIdChange(index, e.target.value)
                     }
-                    return null;
-                  })}
-                </select>
+                    value={state.parentId}
+                    placeholder="Is greater than"
+                    className="select select-accent w-full"
+                  >
+                    <option value="">Select Operator</option>
+                    {filteredConditionValues.map((parentId) => {
+                      const conditionValue = conditionValueList.find(
+                        (value) => value._id === parentId
+                      );
+                      if (conditionValue) {
+                        return (
+                          <option key={nanoid()} value={conditionValue._id}>
+                            {conditionValue.conditionValue}
+                          </option>
+                        );
+                      }
+                      return null;
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <input
+                    onChange={(e) =>
+                      handleInputValueChange(index, e.target.value)
+                    }
+                    value={state.inputValue}
+                    className="input input-accent w-full"
+                    type="text"
+                    name=""
+                    id=""
+                    placeholder="Rs"
+                  />
+                </div>
               </div>
-              <div>
-                <input
-                  className="input input-accent w-full"
-                  type="text"
-                  name=""
-                  id=""
-                  placeholder="Rs"
-                />
-              </div>
-            </div>
+            ))}
             <div>
               <p className="text-[#A4A4A4] mt-4">
                 *This collection will include all products with at least one
@@ -226,11 +343,20 @@ const Collection = () => {
             <div className="mt-4">
               <button
                 id="add-another-collection"
-                onClick={() => console.log("Add another collection clicked")}
+                onClick={handleAddFilter}
                 className="bg-themeColor font-thin rounded-[8px] btn text-white"
               >
                 Add Another Filter
               </button>
+              {filterDivCount > 1 && (
+                <button
+                  id="remove-filters"
+                  onClick={handleRemoveFilters}
+                  className="bg-[#5B6B79] font-thin rounded-[8px] btn text-white ml-4"
+                >
+                  Remove Filters
+                </button>
+              )}
             </div>
           </div>
           <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
