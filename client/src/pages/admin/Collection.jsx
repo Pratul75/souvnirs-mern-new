@@ -42,25 +42,8 @@ const Collection = () => {
     }
   };
 
-  useEffect(() => {
-    getAllCollectionConditions();
-    getAllConditionValues();
-  }, []);
-
-  useEffect(() => {
-    console.log("SELECTED TITLE: ", selectedTitle);
-    const selectedCondition = collectionConditionList.find(
-      (condition) => condition.title === selectedTitle
-    );
-    if (selectedCondition) {
-      const filteredIds = selectedCondition.conditionValues.filter((value) =>
-        conditionValueList.some((condition) => condition._id === value)
-      );
-      setFilteredConditionValues(filteredIds);
-    } else {
-      setFilteredConditionValues([]);
-    }
-  }, [selectedTitle, collectionConditionList, conditionValueList]);
+  // post all the filters in request body of the api
+  // fetch relevant data from the products based on the filters provided
 
   const handleRadioChange = (e) => {
     setRadioSelection(e.target.value);
@@ -116,7 +99,6 @@ const Collection = () => {
       updatedStates[index].parentId = "";
       setFilteredConditionValues([]);
     }
-
     setFilterDivStates(updatedStates);
   };
 
@@ -131,6 +113,26 @@ const Collection = () => {
     updatedStates[index].inputValue = value;
     setFilterDivStates(updatedStates);
   };
+  // side effects
+  useEffect(() => {
+    getAllCollectionConditions();
+    getAllConditionValues();
+  }, []);
+
+  useEffect(() => {
+    console.log("SELECTED TITLE: ", selectedTitle);
+    const selectedCondition = collectionConditionList.find(
+      (condition) => condition.title === selectedTitle
+    );
+    if (selectedCondition) {
+      const filteredIds = selectedCondition.conditionValues.filter((value) =>
+        conditionValueList.some((condition) => condition._id === value)
+      );
+      setFilteredConditionValues(filteredIds);
+    } else {
+      setFilteredConditionValues([]);
+    }
+  }, [selectedTitle, collectionConditionList, conditionValueList]);
 
   return (
     <div>
@@ -298,20 +300,20 @@ const Collection = () => {
                     value={state.inputValue}
                     className="input input-accent w-full"
                     type="text"
-                    name=""
-                    id=""
-                    placeholder="Rs"
+                    placeholder="enter filter parameter"
                   />
                 </div>
 
-                <div>
-                  <button
-                    onClick={() => handleRemoveFilter(index)}
-                    className="bg-rose-500 btn text-white btn-sm"
-                  >
-                    Remove filter
-                  </button>
-                </div>
+                {filterDivStates.length !== 1 && (
+                  <div>
+                    <button
+                      onClick={() => handleRemoveFilter(index)}
+                      className="bg-rose-500 btn text-white btn-sm"
+                    >
+                      Remove filter
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
             <div>
@@ -328,15 +330,6 @@ const Collection = () => {
               >
                 Add Another Filter
               </button>
-              {filterDivCount > 1 && (
-                <button
-                  id="remove-filters"
-                  // onClick={handleRemoveFilters}
-                  className="bg-[#5B6B79] font-thin rounded-[8px] btn text-white ml-4"
-                >
-                  Remove Filters
-                </button>
-              )}
             </div>
           </div>
           <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
