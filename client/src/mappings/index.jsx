@@ -165,5 +165,3 @@ export const sidebarMapping = [
     Icon: KnowledgeCenterIcon,
   },
 ];
-
-// tabs mapping

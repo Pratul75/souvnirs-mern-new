@@ -18,8 +18,10 @@ const Collection = () => {
     const response = await API_WRAPPER.get(
       "/collection-condition/get-all-collection-conditions"
     );
-    setCollectionConditionList(response?.data);
-    console.log("Collection Condition List: ", response?.data);
+    if (response.status === 200) {
+      setCollectionConditionList(response?.data);
+      console.log("Collection Condition List: ", response?.data);
+    }
   };
 
   const getAllConditionValues = async () => {
@@ -60,7 +62,7 @@ const Collection = () => {
     <div>
       <Header
         heading="Collections"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
         image={CollectionBannerImg}
       />
       <div className="mt-6">
@@ -167,7 +169,7 @@ const Collection = () => {
                 </label>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div id="filter-div" className="grid grid-cols-3 gap-4 mt-4">
               <div>
                 <select
                   onChange={(e) => setSelectedTitle(e.target.value)}
@@ -223,10 +225,11 @@ const Collection = () => {
             </div>
             <div className="mt-4">
               <button
+                id="add-another-collection"
                 onClick={() => console.log("Add another collection clicked")}
                 className="bg-themeColor font-thin rounded-[8px] btn text-white"
               >
-                Add Another Collection
+                Add Another Filter
               </button>
             </div>
           </div>
