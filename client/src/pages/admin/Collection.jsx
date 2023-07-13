@@ -13,6 +13,7 @@ const Collection = () => {
   const [radioSelection, setRadioSelection] = useState("all");
   const [filteredConditionValues, setFilteredConditionValues] = useState([]);
   const [filterDivCount, setFilterDivCount] = useState(1);
+
   const [filterDivStates, setFilterDivStates] = useState([
     {
       selectedTitle: "",
