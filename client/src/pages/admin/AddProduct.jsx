@@ -186,10 +186,10 @@ const AddProduct = () => {
     <div>
       <Header
         heading="Add Products"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to"
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
         image={HeaderImgTwo}
       />
-      <div className="w-full  mt-4">
+      <div className="w-full  mt-8">
         <div className="flex">
           <div className="bg-white shadow-md p-4 mx-4 w-2/3">
             <h3 className="font-semibold">Product</h3>

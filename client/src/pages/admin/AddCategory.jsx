@@ -74,12 +74,15 @@ const AddCategory = () => {
       <Header
         heading="Add Category"
         image={CategoryBnnerImng}
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries"
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfs sdfsdf"
       />
 
       <div>
-        <h1 className="text-2xl mt-4">Category</h1>
-        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4 mt-4">
+        <h1 className="text-2xl mt-8">Category</h1>
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-2 gap-4 mt-4 bg-base-100 p-6 rounded-xl shadow-xl"
+        >
           <div className="form-control">
             <label className="label">
               <span className="label-text">Category Name</span>

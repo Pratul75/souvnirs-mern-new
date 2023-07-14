@@ -389,10 +389,10 @@ const AdminDashboard = () => {
     <div className="flex flex-col ">
       <Header
         heading="Welcome back Vishesh Bajpayee"
-        subheading="Seamlessly manage and monitor all aspects of your online store from a centralized hub. Gain valuable insights, streamline operations, and maximize revenue with a user-friendly interface designed to simplifdy your tasks. "
+        subheading="Seamlessly manage and monitor all aspects of your online store from a centralized hub.  "
         image={HeaderImgOne}
       />
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 mt-20">
         {/* Total Sales Card */}
         <DashboardCard
           number={loadingProducts ? "Loading..." : totalSales}

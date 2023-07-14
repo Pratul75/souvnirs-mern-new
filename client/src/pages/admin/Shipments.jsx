@@ -44,11 +44,11 @@ const Payment = () => {
     <div>
       <Header
         heading="Shipments"
-        subheading="This is a Payment page"
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w"
         image={PaymentBanner}
       />
 
-      <div className="mt-4">
+      <div className="mt-20">
         <ReusableTable columns={columns} data={data} showButtons={false} />
       </div>
     </div>

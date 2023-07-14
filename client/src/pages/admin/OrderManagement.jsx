@@ -49,10 +49,10 @@ const OrderManagement = () => {
     <div>
       <Header
         heading="Order Management"
-        subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore"
+        subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
         image={OrderManagementBannerImg}
       />
-      <div className="mt-4">
+      <div className="mt-10">
         <ReusableTable columns={columns} data={data} showButtons={true} />
       </div>
     </div>

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
   return (
-    <div className="w-full flex justify-between items-center p-4 rounded-xl bg-[#f9f9f9]">
+    <div className="w-full flex justify-between items-center p-4 rounded-xl bg-base-100 shadow-lg">
       <div>
         <h2 className="text-2xl">{number}</h2>
         <p>{subheading}</p>
