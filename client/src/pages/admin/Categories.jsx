@@ -5,7 +5,7 @@ import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -37,21 +37,23 @@ const Categories = () => {
     console.log("DELETED CATEGORY: ", response.data);
   };
 
-  // columns can be extended as per the requirement
-  const columns = [
-    {
-      Header: "Name",
-      accessor: "name",
-    },
-    {
-      Header: "HSN Id",
-      accessor: "hsn_code",
-    },
-    {
-      Header: "Type",
-      accessor: "type",
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "HSN Id",
+        accessor: "hsn_code",
+      },
+      {
+        Header: "Type",
+        accessor: "type",
+      },
+    ],
+    []
+  );
   return (
     <>
       <Header

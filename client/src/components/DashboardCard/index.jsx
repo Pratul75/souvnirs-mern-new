@@ -18,7 +18,7 @@ const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
 };
 
 DashboardCard.propTypes = {
-  number: PropTypes.number.isRequired,
+  number: PropTypes.number,
   subheading: PropTypes.string.isRequired,
   iconSvg: PropTypes.object.isRequired,
   iconColor: PropTypes.string.isRequired,

@@ -17,7 +17,7 @@ const Collection = () => {
   const [filterDivStates, setFilterDivStates] = useState([
     {
       selectedTitle: "",
-      parentId: "",
+      conditionValue: "",
       inputValue: "",
     },
   ]);
@@ -43,6 +43,42 @@ const Collection = () => {
   };
 
   const postRawFilterData = async () => {
+    // const changedTitleFilterArr = filterDivStates.map((filter) => {
+    //   switch (filter.selectedTitle) {
+    //     case "compare at price":
+    //       return (filter.selectedTitle = "compareAtPrice");
+
+    //     case "Product's Title":
+    //       return (filter.selectedTitle = "name");
+
+    //     case "Product Category":
+    //       return (filter.selectedTitle = "category");
+
+    //     case "Product Vendor":
+    //       return (filter.selectedTitle = "vendorId");
+
+    //     case "Product Tag":
+    //       return (filter.selectedTitle = "tags");
+
+    //     case "Price":
+    //       return (filter.selectedTitle = "price");
+
+    //     case "Weight":
+    //       return (filter.selectedTitle = "weight");
+
+    //     case "Inventory Stock":
+    //       return (filter.selectedTitle = "stockQuantity");
+
+    //     case "Attribute (Variants)":
+    //       return (filter.selectedTitle = "attribute");
+
+    //     default:
+    //       return "";
+    //   }
+    // });
+
+    // console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
+
     try {
       const response = API_WRAPPER.post(
         "/collection/filter-data",
@@ -57,9 +93,6 @@ const Collection = () => {
     }
   };
 
-  // post all the filters in request body of the api
-  // fetch relevant data from the products based on the filters provided
-
   const handleRadioChange = (e) => {
     setRadioSelection(e.target.value);
   };
@@ -71,7 +104,7 @@ const Collection = () => {
         ...prevStates,
         {
           selectedTitle: "",
-          parentId: "",
+          conditionValue: "",
           inputValue: "",
         },
       ]);
@@ -90,6 +123,8 @@ const Collection = () => {
   };
 
   const handleTitleChange = (index, value) => {
+    console.log("VALUE SELECTED: ", value);
+
     const updatedStates = [...filterDivStates];
     updatedStates[index].selectedTitle = value;
 
@@ -105,21 +140,21 @@ const Collection = () => {
       );
 
       // Update the parent ID in the state
-      updatedStates[index].parentId = filteredIds[0] || ""; // Set the first value as the default
+      updatedStates[index].conditionValue = filteredIds[0] || ""; // Set the first value as the default
 
       // Update the filteredConditionValues state
       setFilteredConditionValues(filteredIds);
     } else {
       // If the selected condition is not found, clear the parent ID and filteredConditionValues state
-      updatedStates[index].parentId = "";
+      updatedStates[index].conditionValue = "";
       setFilteredConditionValues([]);
     }
     setFilterDivStates(updatedStates);
   };
 
-  const handleParentIdChange = (index, value) => {
+  const handleConditionValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
-    updatedStates[index].parentId = value;
+    updatedStates[index].conditionValue = value;
     setFilterDivStates(updatedStates);
   };
 
@@ -285,16 +320,16 @@ const Collection = () => {
                 <div>
                   <select
                     onChange={(e) =>
-                      handleParentIdChange(index, e.target.value)
+                      handleConditionValueChange(index, e.target.value)
                     }
-                    value={state.parentId}
+                    value={state.conditionValue}
                     placeholder="Is greater than"
                     className="select select-accent w-full"
                   >
                     <option value="">Select Operator</option>
-                    {filteredConditionValues.map((parentId) => {
+                    {filteredConditionValues.map((conditionVal) => {
                       const conditionValue = conditionValueList.find(
-                        (value) => value._id === parentId
+                        (value) => value._id === conditionVal
                       );
                       if (conditionValue) {
                         return (
