@@ -26,7 +26,7 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
     useGlobalFilter,
     useSortBy
   );
-
+// to get global filter state 
   const { globalFilter } = state;
 
   return (
