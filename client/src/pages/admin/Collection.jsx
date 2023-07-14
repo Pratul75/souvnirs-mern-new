@@ -1,9 +1,10 @@
-import { Dropzone, Header } from "../../components";
+import { Dropzone, Header, ReusableTable } from "../../components";
 import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
+import { useMemo } from "react";
 
 const Collection = () => {
   const [collectionConditionList, setCollectionConditionList] = useState([]);
@@ -13,6 +14,56 @@ const Collection = () => {
   const [radioSelection, setRadioSelection] = useState("all");
   const [filteredConditionValues, setFilteredConditionValues] = useState([]);
   const [filterDivCount, setFilterDivCount] = useState(1);
+  const [collectionProductTableList, setCollectionProductTableList] = useState(
+    []
+  );
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Product Id",
+        accessor: "_id",
+      },
+      {
+        Header: "Product Name",
+        asccessor: "name",
+      },
+      {
+        Header: "Slug",
+        accessor: "slug",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "tags",
+        accessor: "'tags",
+      },
+      {
+        Header: "On Sale",
+        accessor: "onSale",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+      },
+      {
+        Header: "Stock Quantity",
+        accessor: "stockQuantity",
+      },
+      {
+        Header: "Stock Status",
+        accessor: "stockStatus",
+      },
+    ],
+    []
+  );
+
+  const data = useMemo(
+    () => collectionProductTableList,
+    [collectionProductTableList]
+  );
 
   const [filterDivStates, setFilterDivStates] = useState([
     {
@@ -41,6 +92,7 @@ const Collection = () => {
       console.log("CONDITION VALUE LIST: ", response?.data);
     }
   };
+
   // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
     const changedTitleFilterArr = filterDivStates.map((filter) => {
@@ -86,7 +138,8 @@ const Collection = () => {
       );
 
       if (response.status === 200) {
-        console.log("RESPONSE: ", response?.data);
+        setCollectionProductTableList(response?.data);
+        console.log("RESPONSE COLLECTION TABLE DATA: ", response?.data);
       }
     } catch (error) {
       console.error("Error occurred while posting raw filter data", error);
@@ -392,6 +445,9 @@ const Collection = () => {
               >
                 Submit Filters
               </button>
+            </div>
+            <div className="mt-4">
+              <ReusableTable data={data} columns={columns} />
             </div>
           </div>
           <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
