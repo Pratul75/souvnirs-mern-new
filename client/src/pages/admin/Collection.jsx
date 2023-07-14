@@ -43,53 +43,53 @@ const Collection = () => {
   };
 
   const postRawFilterData = async () => {
-    // const changedTitleFilterArr = filterDivStates.map((filter) => {
-    //   switch (filter.selectedTitle) {
-    //     case "compare at price":
-    //       return (filter.selectedTitle = "compareAtPrice");
+    const changedTitleFilterArr = filterDivStates.map((filter) => {
+      switch (filter.selectedTitle) {
+        case "compare at price":
+          return { ...filter, selectedTitle: "compareAtPrice" };
 
-    //     case "Product's Title":
-    //       return (filter.selectedTitle = "name");
+        case "Product's Title":
+          return { ...filter, selectedTitle: "name" };
 
-    //     case "Product Category":
-    //       return (filter.selectedTitle = "category");
+        case "Product Category":
+          return { ...filter, selectedTitle: "category" };
 
-    //     case "Product Vendor":
-    //       return (filter.selectedTitle = "vendorId");
+        case "Product Vendor":
+          return { ...filter, selectedTitle: "vendorId" };
 
-    //     case "Product Tag":
-    //       return (filter.selectedTitle = "tags");
+        case "Product Tag":
+          return { ...filter, selectedTitle: "tags" };
 
-    //     case "Price":
-    //       return (filter.selectedTitle = "price");
+        case "Price ":
+          return { ...filter, selectedTitle: "price" };
 
-    //     case "Weight":
-    //       return (filter.selectedTitle = "weight");
+        case "Weight":
+          return { ...filter, selectedTitle: "weight" };
 
-    //     case "Inventory Stock":
-    //       return (filter.selectedTitle = "stockQuantity");
+        case "Inventory Stock ":
+          return { ...filter, selectedTitle: "stockQuantity" };
 
-    //     case "Attribute (Variants)":
-    //       return (filter.selectedTitle = "attribute");
+        case "Attribute (Variants)":
+          return { ...filter, selectedTitle: "attributes" };
 
-    //     default:
-    //       return "";
-    //   }
-    // });
+        default:
+          return filter;
+      }
+    });
 
-    // console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
+    console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
 
     try {
-      const response = API_WRAPPER.post(
+      const response = await API_WRAPPER.post(
         "/collection/filter-data",
-        filterDivStates
+        changedTitleFilterArr
       );
 
       if (response.status === 200) {
         console.log("RESPONSE: ", response?.data);
       }
     } catch (error) {
-      console.error("Error occured while posting raw filter data", error);
+      console.error("Error occurred while posting raw filter data", error);
     }
   };
 
@@ -163,7 +163,8 @@ const Collection = () => {
     updatedStates[index].inputValue = value;
     setFilterDivStates(updatedStates);
   };
-  // side effects
+
+  // Side effects
   useEffect(() => {
     getAllCollectionConditions();
     getAllConditionValues();
@@ -243,22 +244,23 @@ const Collection = () => {
             </div>
 
             <div className="form-control">
-              <label htmlFor="productCategorySelect" className="label">
+              <label htmlFor="productVendorSelect" className="label">
                 <span className="label-text">Vendor</span>
               </label>
-              <select
-                className="select select-accent"
-                id="productCategorySelect"
-              >
+              <select className="select select-accent" id="productVendorSelect">
                 <option value="vendor-1">Vendor 1</option>
                 <option value="vendor-2">Vendor 2</option>
               </select>
             </div>
             <div className="form-control">
-              <label htmlFor="productCategorySelect" className="label">
+              <label htmlFor="productTagInput" className="label">
                 <span className="label-text">Tags</span>
               </label>
-              <input className="input input-accent" type="text" name="" id="" />
+              <input
+                className="input input-accent"
+                type="text"
+                id="productTagInput"
+              />
             </div>
           </div>
           <div className="col-span-2  bg-white px-4 py-8 rounded-xl shadow-lg">

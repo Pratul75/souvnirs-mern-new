@@ -7,7 +7,15 @@ const getRawDataForFilter = async (req, res) => {
     const conditionsArray = req.body; // Assuming you have the array of conditions in req.body
     console.log("CONDITIONS ARRAY: ", conditionsArray);
 
-    conditionsArray.forEach(async (condition) => {
+    // Create an array to store the filtered products
+    let filteredProducts = [];
+
+    // Create a query object with an empty $and array
+    const query = {
+      $and: [],
+    };
+
+    for (const condition of conditionsArray) {
       const { selectedTitle, conditionValue, inputValue } = condition;
 
       // Query the "ConditionValue" schema to get the actual value based on conditionValue
@@ -24,29 +32,25 @@ const getRawDataForFilter = async (req, res) => {
         const operator = getOperator(condition.conditionValue);
         console.log("CONDITION OPERATOR STRING: ", condition.conditionValue);
 
-        // Make a request to the "Products" collection using the obtained values
-        const products = await Product.find({
+        // Build the query object for the current condition
+        const conditionQuery = {
           [selectedTitle]: { [operator]: inputValue },
-        });
+        };
 
-        console.log(
-          "Selected Title:",
-          selectedTitle,
-          "Operator:",
-          operator,
-          "Input Value:",
-          inputValue
-        );
-
-        // Process the retrieved products
-        products.forEach((product) => {
-          // Do something with each product
-          console.log("Product:", product);
-        });
+        // Push the condition query to the $and array
+        query.$and.push(conditionQuery);
       }
-    });
+    }
+
+    // Make a request to the "Products" collection using the constructed query
+    filteredProducts = await Product.find(query);
+
+    // Return the filtered products or send a response to the client
+    console.log("PRODUCTS FILTERED ARRAY: ", filteredProducts);
+    res.json(filteredProducts);
   } catch (error) {
-    res.status(500).json({ message: "Unexpected error occurred", error });
+    console.error("Error occurred while filtering products", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
 
