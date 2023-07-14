@@ -248,7 +248,7 @@ const Collection = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
         image={CollectionBannerImg}
       />
-      <div className="mt-6">
+      <div className="mt-8">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
             <div className="form-control">
