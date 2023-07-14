@@ -3,37 +3,42 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Track */
+/* For WebKit-based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 1px;
-  background-color: #8fadff;
+  width: 0px; /* Adjust the width as needed */
 }
 
-/* Handle */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Set the background color of the track */
+}
+
 ::-webkit-scrollbar-thumb {
-  background-color: #888;
-  border-radius: 4px;
+  background-color: rgba(
+    15,
+    147,
+    255,
+    0.125
+  ); /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Apply rounded corners to the thumb */
+  width: 1px;
 }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
-/* Track */
-html {
+/* For Firefox */
+/* Note: Firefox currently does not support customizing the scrollbar width */
+
+/* For Microsoft Edge and IE */
+/* Note: Microsoft Edge and IE do not support customizing the scrollbar appearance */
+
+/* For modern browsers */
+/* Add vendor prefixes as needed */
+/* Customize the scrollbar color */
+/* Adjust the scrollbar width and other properties */
+/* Example:
+body {
   scrollbar-width: thin;
-  scrollbar-color: #f5f5f5 #888;
+  scrollbar-color: #888 #f1f1f1;
 }
-
-/* Handle */
-html::-webkit-scrollbar-thumb {
-  background-color: #888;
-}
-
-/* Handle on hover */
-html::-webkit-scrollbar-thumb:hover {
-  background-color: #555;
-}
+*/
 
 .rmsc {
   --rmsc-main: #4285f4 !important;

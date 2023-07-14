@@ -3,20 +3,26 @@ import HeaderBanner from "../../assets/images/HeaderBanner.png";
 
 const Header = ({ heading, subheading, image }) => {
   return (
-    <div className="w-full relative">
-      <img
-        className="w-full h-auto object-cover"
-        src={HeaderBanner}
-        alt="header-banner"
-      />
-      <div className="  absolute top-0 left-0 w-full h-full flex items-center justify-center px-8 text-black">
+    <div className="relative">
+      <div className="w-full h-auto">
+        <img
+          className="w-full h-auto object-cover"
+          src={HeaderBanner}
+          alt="header-banner"
+        />
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center px-8 text-black">
         <div className="ml-8">
           <h1 className="text-4xl mb-4 text-white">{heading}</h1>
-          <p className=" text-white text-[20px] font-thin  w-3/4 mt-4">
+          <p className="text-white text-2xl font-thin w-2/3 mt-4">
             {subheading}
           </p>
         </div>
-        <img className="w-64 h-64" src={image} alt="header image" />
+        <img
+          className="absolute right-0 top-5"
+          src={image}
+          alt="header image"
+        />
       </div>
     </div>
   );

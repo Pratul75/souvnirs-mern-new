@@ -319,7 +319,7 @@ const Collection = () => {
               />
             </div>
           </div>
-          <div className="col-span-2  bg-white px-4 py-8 rounded-xl shadow-lg">
+          <div className="col-span-3  bg-white px-4 py-8 rounded-xl shadow-lg">
             <h1>Collections</h1>
             <div className="form-control flex-row items-center">
               <label className="label">
@@ -450,13 +450,7 @@ const Collection = () => {
               <ReusableTable data={data} columns={columns} />
             </div>
           </div>
-          <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
-            <h1>Image</h1>
-            <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
-              <Dropzone />
-            </div>
-          </div>
-          <div className="col-span-3 bg-white px-4 py-8 rounded-xl shadow-lg">
+          <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
             <h1>SEO</h1>
             <hr className="mt-4" />
             <div className="form-control">
@@ -506,6 +500,12 @@ const Collection = () => {
                 name="slug"
                 id="collection-slug"
               />
+            </div>
+          </div>
+          <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
+            <h1>Image</h1>
+            <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
+              <Dropzone />
             </div>
           </div>
         </div>
