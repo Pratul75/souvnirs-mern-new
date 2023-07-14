@@ -2,14 +2,19 @@ import PropTypes from "prop-types";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
-import { FiEdit2 } from "react-icons/fi";
-import { RiDeleteBinLine } from "react-icons/ri";
 import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
-
-const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
+import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
+const ReusableTable = ({
+  columns,
+  data,
+  onEdit,
+  onDelete,
+  onShow,
+  showButtons,
+}) => {
   const {
     getTableProps,
     getTableBodyProps,
@@ -26,7 +31,8 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
     useGlobalFilter,
     useSortBy
   );
-// to get global filter state 
+
+  // to get global filter state
   const { globalFilter } = state;
 
   return (
@@ -36,11 +42,14 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
           type="text"
           value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
-          placeholder="Search..."
+          placeholder="search table here"
           className="input input-bordered"
         />
       </div>
-      <table className="table table-zebra" {...getTableProps()}>
+      <table
+        className="table table-zebra border shadow-xl"
+        {...getTableProps()}
+      >
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
@@ -78,19 +87,26 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
 
                 {/* Conditionally rendering the component */}
                 {showButtons && (
-                  <td>
-                    <button
-                      className="btn btn-square btn-primary mr-2"
+                  <td className="flex gap-4">
+                    <span
+                      onClick={() => onShow(row.original)}
+                      className="cursor-pointer"
+                    >
+                      <EyeBtnSvg />
+                    </span>
+                    <span
+                      className="cursor-pointer"
                       onClick={() => onEdit(row.original)}
                     >
-                      <FiEdit2 color="white" />
-                    </button>
-                    <button
-                      className="btn btn-square btn-error  mr-2"
+                      <EditBtnSvg />
+                    </span>
+
+                    <span
+                      className="cursor-pointer"
                       onClick={() => onDelete(row.original)}
                     >
-                      <RiDeleteBinLine color="white" />
-                    </button>
+                      <DeleteBtnSvg />
+                    </span>
                   </td>
                 )}
               </tr>
@@ -113,6 +129,7 @@ ReusableTable.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
+  onShow: PropTypes.func,
   showButtons: PropTypes.bool,
 };
 

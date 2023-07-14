@@ -27,7 +27,6 @@ import {
   AddAttributes,
   Attribute,
 } from "../pages";
-
 import Replacement from "../pages/admin/Replacement";
 
 // admin routes
@@ -37,7 +36,6 @@ export const adminRoutes = [
     path: PATHS.adminAnalytics,
     Component: Analytics,
   },
-
   {
     id: nanoid(),
     path: PATHS.adminCart,
