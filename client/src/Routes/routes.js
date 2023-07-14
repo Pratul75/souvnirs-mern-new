@@ -3,7 +3,6 @@ import { PATHS } from "./paths";
 import {
   AdminDashboard,
   Analytics,
-  Authentication,
   Cart,
   Categories,
   Checkouts,
@@ -14,9 +13,6 @@ import {
   Couriers,
   Customers,
   EmailMarketing,
-  FinancialManagement,
-  InventoryManagement,
-  KnowledgeCenter,
   OrderManagement,
   Payments,
   ProductInventory,
@@ -33,6 +29,7 @@ import {
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
+
 // admin routes
 export const adminRoutes = [
   {
@@ -40,11 +37,7 @@ export const adminRoutes = [
     path: PATHS.adminAnalytics,
     Component: Analytics,
   },
-  {
-    id: nanoid(),
-    path: PATHS.adminAuthentication,
-    Component: Authentication,
-  },
+
   {
     id: nanoid(),
     path: PATHS.adminCart,
@@ -94,21 +87,6 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminEmailMarketing,
     Component: EmailMarketing,
-  },
-  {
-    id: nanoid(),
-    path: PATHS.adminFinancialManagement,
-    Component: FinancialManagement,
-  },
-  {
-    id: nanoid(),
-    path: PATHS.adminInventoryManagement,
-    Component: InventoryManagement,
-  },
-  {
-    id: nanoid(),
-    path: PATHS.adminKnowledgeCenter,
-    Component: KnowledgeCenter,
   },
   {
     id: nanoid(),
@@ -162,7 +140,7 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.adminbCustomer,
+    path: PATHS.adminCustomer,
     Component: Customers,
   },
   {

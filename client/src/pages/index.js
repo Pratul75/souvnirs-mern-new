@@ -5,7 +5,6 @@ export { default as LoginPage } from "./LoginPage";
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
 export { default as Analytics } from "./admin/Analytics";
-export { default as Authentication } from "./admin/Authentication";
 export { default as Cart } from "./admin/Cart";
 export { default as Categories } from "./admin/Categories";
 export { default as Checkouts } from "./admin/Checkout";
@@ -16,9 +15,7 @@ export { default as CouponsAndDiscounts } from "./admin/CouponsAndDiscounts";
 export { default as Couriers } from "./admin/Couriers";
 export { default as Customers } from "./admin/Customer";
 export { default as EmailMarketing } from "./admin/EmailMarketing";
-export { default as FinancialManagement } from "./admin/FinancialManagement";
 export { default as InventoryManagement } from "./admin/InventoryManagement";
-export { default as KnowledgeCenter } from "./admin/KnowledgeCenter";
 export { default as OrderManagement } from "./admin/OrderManagement";
 export { default as Payments } from "./admin/Payment";
 export { default as ProductInventory } from "./admin/ProductInventory";

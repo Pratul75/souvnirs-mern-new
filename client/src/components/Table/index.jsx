@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
 import { useTable, useSortBy, useGlobalFilter } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
@@ -11,8 +10,6 @@ import {
 } from "react-icons/ai";
 
 const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
-  const [globalFilterState, setGlobalFilterState] = useState("");
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -30,12 +27,14 @@ const ReusableTable = ({ columns, data, onEdit, onDelete, showButtons }) => {
     useSortBy
   );
 
+  const { globalFilter } = state;
+
   return (
     <div className="overflow-x-auto">
       <div className="mb-4 float-right">
         <input
           type="text"
-          value={state}
+          value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="Search..."
           className="input input-bordered"

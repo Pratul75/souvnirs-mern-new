@@ -42,6 +42,23 @@ const getRawDataForFilter = async (req, res) => {
       }
     }
 
+    const specifics = () => {
+      const controllableComponent = () => {
+        let specificsArr = [];
+        specificsArr.map((item) =>
+          item.map((specifics) =>
+            console.log("Specifics are provided in such a way", specifics)
+          )
+        );
+        // return specific array
+        return specificsArr;
+      };
+      controllableComponent().fill(() => {
+        const specificsArr = [];
+        return specificsArr.entries((entry) => console.log("ENTRY: ", entry));
+      });
+    };
+
     // Make a request to the "Products" collection using the constructed query
     filteredProducts = await Product.find(query);
 

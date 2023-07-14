@@ -41,7 +41,7 @@ const Collection = () => {
       console.log("CONDITION VALUE LIST: ", response?.data);
     }
   };
-
+  // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
     const changedTitleFilterArr = filterDivStates.map((filter) => {
       switch (filter.selectedTitle) {
@@ -122,6 +122,7 @@ const Collection = () => {
     }
   };
 
+  // handle title change
   const handleTitleChange = (index, value) => {
     console.log("VALUE SELECTED: ", value);
 
@@ -140,7 +141,8 @@ const Collection = () => {
       );
 
       // Update the parent ID in the state
-      updatedStates[index].conditionValue = filteredIds[0] || ""; // Set the first value as the default
+      // Set the first value as the default
+      updatedStates[index].conditionValue = filteredIds[0] || "";
 
       // Update the filteredConditionValues state
       setFilteredConditionValues(filteredIds);
@@ -152,6 +154,7 @@ const Collection = () => {
     setFilterDivStates(updatedStates);
   };
 
+  // handle condition value change
   const handleConditionValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].conditionValue = value;

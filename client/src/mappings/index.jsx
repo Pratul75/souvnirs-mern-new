@@ -19,12 +19,7 @@ import {
   CouriersIcon,
   SupplierIcon,
   ProductInventoryIcon,
-  InventoryManagementIcon,
-  FinancialManagementIcon,
-  AnalyticsIcon,
   SupportIcon,
-  AuthenticationIcon,
-  KnowledgeCenterIcon,
 } from "../icons/sidebarIcons";
 
 // sidebar mapping
@@ -135,33 +130,8 @@ export const sidebarMapping = [
     Icon: ProductInventoryIcon,
   },
   {
-    title: "Inventory Management",
-    navLink: PATHS.adminInventoryManagement,
-    Icon: InventoryManagementIcon,
-  },
-  {
-    title: "Financial Management",
-    navLink: PATHS.adminFinancialManagement,
-    Icon: FinancialManagementIcon,
-  },
-  {
-    title: "Analytics",
-    navLink: PATHS.adminAnalytics,
-    Icon: AnalyticsIcon,
-  },
-  {
     title: "Support",
     navLink: PATHS.adminSupport,
     Icon: SupportIcon,
-  },
-  {
-    title: "Authentication",
-    navLink: PATHS.adminAuthentication,
-    Icon: AuthenticationIcon,
-  },
-  {
-    title: "Knowledge Center",
-    navLink: PATHS.adminKnowledgeCenter,
-    Icon: KnowledgeCenterIcon,
   },
 ];
