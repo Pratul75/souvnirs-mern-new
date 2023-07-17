@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 const CouponsAndDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
+  const [discountId, setDiscountId] = useState(null);
+  const [apiTrigger, setApiTrigger] = useState(false);
 
   const fetchDiscounts = async () => {
     try {
@@ -17,9 +19,19 @@ const CouponsAndDiscounts = () => {
     }
   };
 
-  useEffect(() => {
-    fetchDiscounts();
-  }, []);
+  const deleteDiscount = async () => {
+    const response = await API_WRAPPER.delete(
+      `/discount/delete-discount/:${discountId}`
+    );
+    setApiTrigger((prevState) => !prevState);
+    console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
+  };
+
+  const handleDiscountDelete = (id) => {
+    window.delete_discount_modal.showModal();
+    console.log("DISCOUNT ID:", id);
+    setDiscountId(id);
+  };
 
   const columns = useMemo(
     () => [
@@ -141,9 +153,11 @@ const CouponsAndDiscounts = () => {
     ],
     []
   );
-
   const data = useMemo(() => discountsList, [discountsList]);
 
+  useEffect(() => {
+    fetchDiscounts();
+  }, []);
   return (
     <div>
       <Header
@@ -152,8 +166,28 @@ const CouponsAndDiscounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Discounts List</h1>
-        <ReusableTable columns={columns} data={data} showButtons />
+        <ReusableTable
+          columns={columns}
+          data={data}
+          showButtons
+          onDelete={handleDiscountDelete}
+        />
       </div>
+      <dialog id="delete_discount_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-3xl">Hello!</h3>
+          <p className="py-4 text-2xl">
+            Are you sure you want to delete the selected discount?
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button onClick={deleteDiscount} className="btn btn-error">
+              Delete
+            </button>
+            <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };
