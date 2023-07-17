@@ -2,6 +2,8 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
 const CouponsAndDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [discountId, setDiscountId] = useState(null);
@@ -157,7 +159,8 @@ const CouponsAndDiscounts = () => {
 
   useEffect(() => {
     fetchDiscounts();
-  }, []);
+  }, [apiTrigger]);
+
   return (
     <div>
       <Header
@@ -166,6 +169,12 @@ const CouponsAndDiscounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Discounts List</h1>
+        <Link
+          to={PATHS.adminAddDiscount}
+          className="btn bg-themeColor font-thin text-white w-full my-4"
+        >
+          Add Discounts
+        </Link>
         <ReusableTable
           columns={columns}
           data={data}

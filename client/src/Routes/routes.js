@@ -25,6 +25,7 @@ import {
   AddCategory,
   AddAttributes,
   Attribute,
+  AddDiscount,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 
@@ -64,6 +65,11 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminCouponsAndDiscounts,
     Component: CouponsAndDiscounts,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddDiscount,
+    Component: AddDiscount,
   },
   {
     id: nanoid(),

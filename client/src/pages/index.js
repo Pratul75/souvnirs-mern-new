@@ -29,3 +29,5 @@ export { default as AddProduct } from "./admin/AddProduct";
 export { default as AddCategory } from "./admin/AddCategory";
 export { default as AddAttributes } from "./admin/AddAttributes";
 export { default as Attribute } from "./admin/Attribute";
+export { default as AddDiscount } from "./admin/AddDiscount";
+
