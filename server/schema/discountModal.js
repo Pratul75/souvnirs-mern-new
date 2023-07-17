@@ -11,6 +11,10 @@ const DiscountSchema = new mongoose.Schema({
     default: "percentage",
     required: true,
   },
+  typeValue: {
+    type: String,
+    required: true,
+  },
   requirementTitle: {
     type: String,
     enum: [

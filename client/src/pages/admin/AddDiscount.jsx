@@ -29,41 +29,18 @@ const AddDiscount = () => {
         onSubmit={(e) => handleSubmit(e)}
         className="mt-4 grid grid-cols-4 gap-4"
       >
-        {/* amount of prodcts -> Method */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
+        {/* amount of products -> Method */}
+        <div className="col-span-4 p-4 bg-base-100 rounded-xl shadow-xl">
           <div className="flex justify-between py-4">
             <h2 className="font-bold">Amount of products</h2>
             <p className="text-gray-400">Product discount</p>
           </div>
           <hr />
           <div>
-            <h2 className="py-4 font-bold">Method</h2>
-            <div className="form-control flex-row items-center gap-4">
-              <input
-                className="radio radio-accent"
-                type="radio"
-                name="method"
-                id=""
-              />
-              <label className="label">
-                <span className="label-text">Discount Code</span>
-              </label>
-            </div>
-            <div className="form-control flex-row items-center gap-4">
-              <input
-                className="radio radio-accent"
-                type="radio"
-                name="method"
-                id=""
-              />
-              <label className="label">
-                <span className="label-text">Automatic Discount</span>
-              </label>
-            </div>
-            <div className="form-control flex flex-row justify-between items-center gap-4">
-              <div className="form-control w-full ">
+            <div className="form-control flex flex-row items-center gap-4">
+              <div className="form-control w-full">
                 <label htmlFor="" className="label">
-                  <span className="label-text">Discount Code</span>
+                  <span className="label-text">Discount Title</span>
                 </label>
                 <input
                   onChange={(e) => handleInputChange(e)}
@@ -72,34 +49,13 @@ const AddDiscount = () => {
                   className="input input-accent w-full"
                 />
               </div>
-              <div className="mt-8">
-                <button className="btn btn-outline">Generate</button>
-              </div>
             </div>
           </div>
         </div>
-        {/* summary  */}
-        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
-          <h2 className="py-4 font-bold">Summary</h2>
-          <p className="mb-4">No discount code yet.</p>
-          <p>Type and method</p>
-          <ul className=" px-4 mb-4 ml-2">
-            <li className="list-disc">Amount off products</li>
-            <li className="list-disc">Code</li>
-          </ul>
-          <p>Details</p>
-          <ul className="px-4 ml-2">
-            <li className="list-disc">Can't combine with discounts</li>
-          </ul>
-          <hr className="my-4" />
-          <div>
-            <p>Performance</p>
-            <p className="text-gray-400">Discount is not active yet.</p>
-          </div>
-        </div>
         {/* value -> applies To */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
-          <h2 className="font-bold">Value</h2>
+        <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
+          <h2 className="font-bold mt-4">Value</h2>
+          <hr className="mt-4" />
           <div className="py-4 flex items-center">
             <div className="join w-full">
               <input
@@ -130,39 +86,51 @@ const AddDiscount = () => {
               </label>
             </div>
           </div>
-          <hr className="py-4" />
-          <div>
-            <h2 className="font-bold">Applies To</h2>
-            <div className="form-control flex flex-row items-center gap-4 mt-4">
+        </div>
+
+        <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
+          <h2 className="font-bold">Applies To</h2>
+          <hr className="mt-4" />
+          <div className="mt-4">
+            <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={(e) => handleInputChange(e)}
                 className="radio radio-accent"
                 type="radio"
-                name="appliesTo"
-                id=""
+                name="specifyCollewction"
+                id="specifyCollewction"
               />
               <label className="label">
-                <span className="label-text">Specific Collections</span>
+                <span className="label-text">Specify Collections</span>
               </label>
             </div>
-            <div className="form-control flex flex-row items-center gap-4">
+            <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={(e) => handleInputChange(e)}
                 className="radio radio-accent"
                 type="radio"
-                name="appliesTo"
-                id=""
+                name="specifyCollewction"
+                id="specifyCollewction"
               />
               <label className="label">
-                <span className="label-text">Specific Products</span>
+                <span className="label-text">Specify Products</span>
               </label>
             </div>
-            <div className="form-control mt-4">
-              <div className="input-group w-full">
+            <div className="form-control flex flex-row gap-4 items-center">
+              <input
+                className="radio radio-accent"
+                type="radio"
+                name="specifyCollewction"
+                id="specifyCollewction"
+              />
+              <label className="label">
+                <span className="label-text">Specify Categories</span>
+              </label>
+            </div>
+
+            <div className="form-control flex mt-4">
+              <div className="input-group ">
                 <input
-                  onChange={(e) => handleInputChange(e)}
                   type="text"
-                  placeholder="Search Collections"
+                  placeholder="Search…"
                   className="input input-bordered flex-grow"
                 />
                 <button className="btn btn-square">
@@ -185,46 +153,28 @@ const AddDiscount = () => {
             </div>
           </div>
         </div>
-        {/* sales channels */}
-        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
-          <div className="flex justify-between">
-            <h2 className="font-bold">Sales Channels </h2>
-            <p className="text-gray-400">0 out of 3 selected</p>
+        {/* active dates */}
+        <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
+          <h2 className="font-bold">Active Dates</h2>
+          <div className="mt-4 flex  justify-between gap-4">
+            <div className="form-control flex-grow">
+              <label className="label">
+                <span className="label-text">Start date</span>
+              </label>
+              <input className="input input-accent" type="date" />
+            </div>
+            <div className="form-control flex-grow">
+              <label className="label">
+                <span className="label-text">Start time (IST)</span>
+              </label>
+              <input className="input input-accent" type="time" />
+            </div>
           </div>
-          <div className="mt-4">
-            <div className="form-control flex flex-row items-center gap-4">
-              <input
-                onChange={(e) => handleInputChange(e)}
-                name="salesChannels"
-                className="checkbox checkbox-accent"
-                type="checkbox"
-              />
-              <label className="label">
-                <span className="label-text">Point on Sale</span>
-              </label>
-            </div>
-            <div className="form-control flex flex-row items-center gap-4">
-              <input
-                onChange={(e) => handleInputChange(e)}
-                name="salesChannels"
-                className="checkbox checkbox-accent"
-                type="checkbox"
-              />
-              <label className="label">
-                <span className="label-text">Google & YouTube</span>
-              </label>
-            </div>
-            <div className="form-control flex flex-row items-center gap-4">
-              <input
-                onChange={(e) => handleInputChange(e)}
-                name="salesChannels"
-                className="checkbox checkbox-accent"
-                type="checkbox"
-              />
-              <label className="label">
-                <span className="label-text">Facebook & Instagram</span>
-              </label>
-            </div>
+          <div className="form-control flex flex-row items-center mt-4 gap-4">
+            <input className="checkbox" type="checkbox" name="" id="" />
+            <label className="label">
+              <span className="label-text ">Set End Date</span>
+            </label>
           </div>
         </div>
         {/* minimum purchase requirements */}
@@ -306,7 +256,7 @@ const AddDiscount = () => {
           </div>
         </div>
         {/* maximum discount uses */}
-        <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
+        <div className="col-span-1  p-4 bg-base-100 rounded-xl shadow-xl">
           <h2 className="font-bold">Maximum discount uses</h2>
           <div className="mt-4">
             <div className="form-control flex-row items-center gap-4">
@@ -340,7 +290,7 @@ const AddDiscount = () => {
           </div>
         </div>
         {/* combinations */}
-        <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
+        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
           <h2 className="font-bold">Combinations</h2>
           <div className="mt-4">
             <p>This product discount can be combined with: </p>
@@ -368,30 +318,50 @@ const AddDiscount = () => {
             </div>
           </div>
         </div>
-        {/* active dates */}
+
+        {/* sales channels */}
         <div className="col-span-2 p-4 bg-base-100 rounded-xl shadow-xl">
-          <h2 className="font-bold">Active Dates</h2>
-          <div className="mt-4 flex  justify-between gap-4">
-            <div className="form-control flex-grow">
-              <label className="label">
-                <span className="label-text">Start date</span>
-              </label>
-              <input className="input input-accent" type="date" />
-            </div>
-            <div className="form-control flex-grow">
-              <label className="label">
-                <span className="label-text">Start time (IST)</span>
-              </label>
-              <input className="input input-accent" type="time" />
-            </div>
+          <div className="flex justify-between">
+            <h2 className="font-bold">Sales Channels </h2>
+            <p className="text-gray-400">0 out of 3 selected</p>
           </div>
-          <div className="form-control flex flex-row items-center mt-4 gap-4">
-            <input className="checkbox" type="checkbox" name="" id="" />
-            <label className="label">
-              <span className="label-text ">Set End Date</span>
-            </label>
+          <div className="mt-4">
+            <div className="form-control flex flex-row items-center gap-4">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                name="salesChannels"
+                className="checkbox checkbox-accent"
+                type="checkbox"
+              />
+              <label className="label">
+                <span className="label-text">Point on Sale</span>
+              </label>
+            </div>
+            <div className="form-control flex flex-row items-center gap-4">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                name="salesChannels"
+                className="checkbox checkbox-accent"
+                type="checkbox"
+              />
+              <label className="label">
+                <span className="label-text">Google & YouTube</span>
+              </label>
+            </div>
+            <div className="form-control flex flex-row items-center gap-4">
+              <input
+                onChange={(e) => handleInputChange(e)}
+                name="salesChannels"
+                className="checkbox checkbox-accent"
+                type="checkbox"
+              />
+              <label className="label">
+                <span className="label-text">Facebook & Instagram</span>
+              </label>
+            </div>
           </div>
         </div>
+
         {/* submit buttons */}
         <div className="col-span-4 flex gap-4 justify-end items-center mt-4 bg-base-100 p-4 rounded-xl shadow-xl">
           <button className="btn btn-accent flex-grow">Submit</button>
