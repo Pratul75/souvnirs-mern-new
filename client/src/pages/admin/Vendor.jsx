@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
-
+import { EyeBtnSvg } from "../../icons/tableIcons";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
   const [storeList, setStoreList] = useState([]);
@@ -55,7 +55,14 @@ const Vendor = () => {
             }}
             className="text-blue-500 cursor-pointer"
           >
-            {props?.row?.original?.store}
+            <div
+              className="tooltip tooltip-right"
+              data-tip={props?.row?.original?.store}
+            >
+              <button className="btn btn-circle ">
+                <EyeBtnSvg />
+              </button>
+            </div>
           </p>
         ),
       },
@@ -95,6 +102,12 @@ const Vendor = () => {
     }
   };
 
+  const handleModalFormSubmit = (e) => {
+    e.preventDefault();
+    console.log("SELECTED STORE: ", selectedStore);
+    window.storeFilterModal.openModal();
+  };
+
   useEffect(() => {
     fetchVendorList();
     fetchStoreList();
@@ -115,8 +128,12 @@ const Vendor = () => {
       </div>
 
       {selectedStore && (
-        <dialog id="storeFilterModal" className="modal">
-          <form method="dialog" className="modal-box">
+        <dialog id="storeFilterModal" className="modal ">
+          <form
+            onSubmit={handleModalFormSubmit}
+            method="dialog"
+            className="modal-box"
+          >
             <h3 className="font-bold text-2xl">Edit Store</h3>
             <div className="grid gap-4 grid-cols-2 py-4">
               <div className="form-control col-span-1">
@@ -126,87 +143,128 @@ const Vendor = () => {
                 <input
                   type="text"
                   id="storeName"
-                  name="storeName"
+                  name="organization_name"
                   value={selectedStore.organization_name}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => ({
+                      ...prevState,
+                      [e.target.name]: e.target.value,
+                    }))
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-1">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="organization_type" className="label">
                   Organization Type
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="organization_type"
+                  name="organization_type"
                   value={selectedStore.organization_type}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => ({
+                      ...prevState,
+                      [e.target.name]: e.target.value,
+                    }))
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-1">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="country" className="label">
                   Country
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="country"
+                  name="country"
                   value={selectedStore.country}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => {
+                      return { ...prevState, [e.target.name]: e.target.value };
+                    })
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-1">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="pinCode" className="label">
                   Pin Code
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="pinCode"
+                  name="pin_code"
                   value={selectedStore.pin_code}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => {
+                      return { ...prevState, [e.target.name]: e.target.value };
+                    })
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-1">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="order_type_interested" className="label">
                   Order Type Interested
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="order_type_interested"
+                  name="order_type_interested"
                   value={selectedStore.order_type_interested}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => {
+                      return { ...prevState, [e.target.name]: e.target.value };
+                    })
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-1">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="organization_role" className="label">
                   Organization Role
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="organization_role"
+                  name="organization_role"
                   value={selectedStore.organization_role}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => {
+                      return { ...prevState, [e.target.name]: e.target.value };
+                    })
+                  }
                   className="input input-accent w-full"
                 />
               </div>
               <div className="form-control col-span-2">
-                <label htmlFor="storeName" className="label">
+                <label htmlFor="category_type_interest" className="label">
                   Cetegory Type Interest
                 </label>
                 <input
                   type="text"
-                  id="storeName"
-                  name="storeName"
+                  id="category_type_interest"
+                  name="category_type_interest"
                   value={selectedStore.category_type_interest}
+                  onChange={(e) =>
+                    setSelectedStore((prevState) => {
+                      return { ...prevState, [e.target.name]: e.target.value };
+                    })
+                  }
                   className="input input-accent w-full"
                 />
               </div>
             </div>
             <div className="modal-action">
-              <button className="btn btn-accent">Save</button>
-              <button className="btn">Close</button>
+              <button type="submit" className="btn btn-accent">
+                Save
+              </button>
+              <button onClick={() => setSelectedStore(null)} className="btn">
+                Close
+              </button>
             </div>
           </form>
         </dialog>
