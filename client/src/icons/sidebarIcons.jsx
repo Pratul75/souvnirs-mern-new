@@ -644,7 +644,7 @@ export const CouriersIcon = () => {
   );
 };
 
-export const SupplierIcon = () => {
+export const VendorIcon = () => {
   return (
     <svg
       width="20"

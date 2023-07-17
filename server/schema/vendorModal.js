@@ -32,7 +32,7 @@ const vendorSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["ACTIVE", "INACTIVE"],
+      enum: ["ACTIVE", "INACTIVE", "PENDING"],
       default: "INACTIVE",
     },
     createdAt: {

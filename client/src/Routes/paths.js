@@ -5,7 +5,6 @@ export const PATHS = {
   register: "/register",
   // admin routes
   adminDashboard: "/admin-dashboard",
-  adminAnalytics: "/admin-analytics",
   adminCart: "/admin-cart",
   adminCategories: "/admin-categories",
   adminCheckout: "/admin-checkout",
@@ -25,7 +24,7 @@ export const PATHS = {
   adminReplacement: "/admin-replacement",
   adminReviews: "/admin-reviews",
   adminShipments: "/admin-shipments",
-  adminSupply: "/admin-supply",
+  adminVendor: "/admin-vendor",
   adminSupport: "/admin-support",
   adminAddProducts: "/admin-add-products",
   adminAddCategory: "/admin-add-category",

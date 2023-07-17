@@ -1,6 +1,6 @@
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
+// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
@@ -51,8 +51,8 @@ const Attributes = () => {
     <>
       <Header
         heading="Attribute Management"
-        image={CategoryBnnerImng}
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. asdasd wda sw3e awe "
+        // image={CategoryBnnerImng}
       />
 
       <div className="w-full flex justify-end gap-4 mt-8"></div>

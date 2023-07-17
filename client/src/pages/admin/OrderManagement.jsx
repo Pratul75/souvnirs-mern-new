@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import OrderManagementBannerImg from "../../assets/images/orderManagementBanner.png";
+// import OrderManagementBannerImg from "../../assets/images/orderManagementBanner.png";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 const OrderManagement = () => {
@@ -50,7 +50,7 @@ const OrderManagement = () => {
       <Header
         heading="Order Management"
         subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
-        image={OrderManagementBannerImg}
+        // image={OrderManagementBannerImg}
       />
       <div className="mt-10">
         <ReusableTable columns={columns} data={data} showButtons={true} />

@@ -1,5 +1,5 @@
 import { Header, ReusableTable } from "../../components";
-import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
+// import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
@@ -128,8 +128,8 @@ const CollectionConditions = () => {
     <div>
       <Header
         heading="Collection Conditions"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s"
-        image={CollectionBannerImg}
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
+        // image={CollectionBannerImg}
       />
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="form-control bg-white p-4 rounded-xl">

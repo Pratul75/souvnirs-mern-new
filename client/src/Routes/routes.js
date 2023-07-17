@@ -2,7 +2,6 @@ import { nanoid } from "nanoid";
 import { PATHS } from "./paths";
 import {
   AdminDashboard,
-  Analytics,
   Cart,
   Categories,
   Checkouts,
@@ -20,7 +19,7 @@ import {
   Refund,
   Reviews,
   Shipments,
-  Supply,
+  Vendor,
   Support,
   AddProduct,
   AddCategory,
@@ -31,11 +30,6 @@ import Replacement from "../pages/admin/Replacement";
 
 // admin routes
 export const adminRoutes = [
-  {
-    id: nanoid(),
-    path: PATHS.adminAnalytics,
-    Component: Analytics,
-  },
   {
     id: nanoid(),
     path: PATHS.adminCart,
@@ -128,8 +122,8 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.adminSupply,
-    Component: Supply,
+    path: PATHS.adminVendor,
+    Component: Vendor,
   },
   {
     id: nanoid(),

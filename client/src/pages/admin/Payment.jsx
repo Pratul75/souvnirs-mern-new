@@ -50,8 +50,8 @@ const Payment = () => {
     <div>
       <Header
         heading="Payments"
-        subheading="This is a Payment page"
-        image={PaymentBanner}
+        subheading="This is a subheading for the payments section. This subheading contins necessary details that are required by user to know about payments page"
+        // image={PaymentBanner}
       />
 
       <div className="mt-4">

@@ -45,7 +45,7 @@ const Payment = () => {
       <Header
         heading="Shipments"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w"
-        image={PaymentBanner}
+        // image={PaymentBanner}
       />
 
       <div className="mt-20">

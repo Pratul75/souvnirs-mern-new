@@ -18,11 +18,13 @@ const Header = ({ heading, subheading, image }) => {
             {subheading}
           </p>
         </div>
-        <img
-          className="absolute right-0 top-5"
-          src={image}
-          alt="header image"
-        />
+        {image && (
+          <img
+            className="absolute right-0 top-2"
+            src={image}
+            alt="header image"
+          />
+        )}
       </div>
     </div>
   );
@@ -31,7 +33,7 @@ const Header = ({ heading, subheading, image }) => {
 Header.propTypes = {
   heading: PropTypes.string.isRequired,
   subheading: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  image: PropTypes.string,
 };
 
 export default Header;

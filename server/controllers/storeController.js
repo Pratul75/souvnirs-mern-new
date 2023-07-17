@@ -1,4 +1,4 @@
-const Store = require("../schema/storesModal");
+const Store = require("../schema/storeModal");
 
 // Create a new store
 const createStore = async (req, res) => {

@@ -3,21 +3,21 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleSidebar } from "../../features/appConfig/appSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   return (
-    <nav className=" p-4 bg-[#F8F9FAB2]">
+    <nav className="">
       {/* mobile-screen navbar */}
-      <div className=" flex  md:hidden justify-between place-items-center ">
+      <div className="flex md:hidden justify-between place-items-center">
         <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
-        <details className="dropdown dropdown-bottom dropdown-left ">
+        <details className="dropdown dropdown-bottom dropdown-left">
           <summary className="btn">
             <BsThreeDotsVertical />
           </summary>
-          <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <ul className="p-2 shadow  dropdown-content z-[1] bg-base-100 rounded-box w-52">
             <li>
               <a>
                 <BellSvg />
@@ -53,7 +53,7 @@ const Navbar = () => {
       </div>
 
       {/* desktop-screen navbar */}
-      <div className="w-full justify-between items-center hidden md:flex ">
+      <div className="w-full bg-transparent justify-between items-center hidden py-4 px-8 md:flex">
         {/* left side of nav */}
         <div className="flex gap-8">
           <RxHamburgerMenu
@@ -63,7 +63,7 @@ const Navbar = () => {
           <CiSearch className="text-2xl cursor-pointer" />
         </div>
         {/* right side of nav */}
-        <div className="flex  gap-4">
+        <div className="flex gap-4">
           <span className="cursor-pointer">
             <BellSvg />
           </span>

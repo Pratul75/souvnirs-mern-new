@@ -1,5 +1,5 @@
 import { Dropzone, Header, ReusableTable } from "../../components";
-import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
+// import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
@@ -26,7 +26,7 @@ const Collection = () => {
       },
       {
         Header: "Product Name",
-        asccessor: "name",
+        accessor: "name",
       },
       {
         Header: "Slug",
@@ -43,6 +43,10 @@ const Collection = () => {
       {
         Header: "On Sale",
         accessor: "onSale",
+        // TODO:  make it work in future
+        Cell: ({ row }) => {
+          return <p>{row && "ON SALE"}</p>;
+        },
       },
       {
         Header: "Status",
@@ -246,9 +250,10 @@ const Collection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
-      <div className="mt-8">
+
+      <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
             <div className="form-control">

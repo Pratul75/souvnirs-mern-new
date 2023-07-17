@@ -17,7 +17,7 @@ import {
   CouponDiscountIcon,
   EmailMarketingIcon,
   CouriersIcon,
-  SupplierIcon,
+  VendorIcon,
   ProductInventoryIcon,
   SupportIcon,
 } from "../icons/sidebarIcons";
@@ -120,9 +120,9 @@ export const sidebarMapping = [
     Icon: CouriersIcon,
   },
   {
-    title: "Supplier",
-    navLink: PATHS.adminSupply,
-    Icon: SupplierIcon,
+    title: "Vendor",
+    navLink: PATHS.adminVendor,
+    Icon: VendorIcon,
   },
   {
     title: "Product Inventory",

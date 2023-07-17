@@ -1,6 +1,6 @@
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
+// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
@@ -24,6 +24,7 @@ const Categories = () => {
       });
     }
   };
+
   useEffect(() => {
     getAllCategories();
   }, [apiTrigger]);
@@ -58,8 +59,8 @@ const Categories = () => {
     <>
       <Header
         heading="Category Management"
-        image={CategoryBnnerImng}
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. set emmet "
+        subheading="This is a subheading for the category management section. This subheading contins necessary details that are required by user to know about category page "
+        // image={CategoryBnnerImng}
       />
 
       <div className="w-full flex justify-start gap-4 mt-14">

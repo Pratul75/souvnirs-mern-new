@@ -4,7 +4,6 @@ export { default as LoginPage } from "./LoginPage";
 
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
-export { default as Analytics } from "./admin/Analytics";
 export { default as Cart } from "./admin/Cart";
 export { default as Categories } from "./admin/Categories";
 export { default as Checkouts } from "./admin/Checkout";
@@ -24,7 +23,7 @@ export { default as Refund } from "./admin/Refund";
 export { default as Replcement } from "./admin/Replacement";
 export { default as Reviews } from "./admin/Reviews";
 export { default as Shipments } from "./admin/Shipments";
-export { default as Supply } from "./admin/Supply";
+export { default as Vendor } from "./admin/Vendor";
 export { default as Support } from "./admin/Support";
 export { default as AddProduct } from "./admin/AddProduct";
 export { default as AddCategory } from "./admin/AddCategory";

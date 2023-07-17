@@ -58,8 +58,8 @@ const Cart = () => {
     <>
       <Header
         heading="Cart"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w "
-        image={HeaderImgTwo}
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w wdefd fjhr f4 wedr w  "
+        // image={HeaderImgTwo}
       />
       <div className="mt-4">
         <ReusableTable columns={columns} data={data} showButtons={true} />

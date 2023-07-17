@@ -9,7 +9,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1; /* Set the background color of the track */
+  background-color: transparent; /* Set the background color of the track */
 }
 
 ::-webkit-scrollbar-thumb {

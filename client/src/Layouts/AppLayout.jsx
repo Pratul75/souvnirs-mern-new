@@ -14,7 +14,7 @@ const AppLayout = ({ children }) => {
 
         {/* Page content */}
         <div className=" flex-grow mx-8 md:mx-40 my-4 overflow-y-auto md:max-h-[calc(100vh-64px)] ">
-          <div className="mx-10">{children}</div>
+          <div className="mx-2 ">{children}</div>
         </div>
       </div>
     </div>

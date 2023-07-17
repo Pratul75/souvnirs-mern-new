@@ -9,7 +9,6 @@ import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
 import { sidebarMapping } from "../../mappings";
 
-// sidebar
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isExpanded = useSelector((state) => state.appConfig.sidebarExpanded);
@@ -17,9 +16,9 @@ const Sidebar = () => {
     <>
       {/* desktop sidebar */}
       <nav
-        className={`w-16 md:border-r-[1px] overflow-y-auto   hidden md:block bg-[#F8F9FAB2] h-screen ${
+        className={`w-16 md:border-r-[1px] overflow-y-auto   hidden md:block bg-[#edf5feb2] h-screen ${
           isExpanded ? "lg:w-96" : "lg:w-28"
-        } transition-all duration-500`}
+        } transition-all duration-500 ease-in-out`}
       >
         {/* Collapsed State */}
         <div
@@ -54,7 +53,7 @@ const Sidebar = () => {
                 alt="souvnirs-logo"
               />
             )}
-            <div className="w-full p-4 py-8 rounded-xl bg-gray-100 mx-5 mt-4 flex items-center gap-2 justify-around border-[1px] border-gray-300 cursor-pointer">
+            <div className="w-full p-4 py-8 rounded-xl bg-base-100 mx-5 mt-4 flex items-center gap-2 justify-around shadow-lg cursor-pointer ">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div>
                 <h2>Vishesh Bajpayee</h2>
@@ -63,7 +62,7 @@ const Sidebar = () => {
               <BsFilter size={32} />
             </div>
 
-            <div className="mt-28 w-full">
+            <div className="mt-3 w-full">
               {sidebarMapping.map(({ title, Icon, navLink }) => {
                 return (
                   <SidebarItem
