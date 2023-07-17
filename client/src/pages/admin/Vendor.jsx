@@ -55,14 +55,9 @@ const Vendor = () => {
             }}
             className="text-blue-500 cursor-pointer"
           >
-            <div
-              className="tooltip tooltip-right"
-              data-tip={props?.row?.original?.store}
-            >
-              <button className="btn btn-circle ">
-                <EyeBtnSvg />
-              </button>
-            </div>
+            <button className="btn btn-circle ">
+              <EyeBtnSvg />
+            </button>
           </p>
         ),
       },

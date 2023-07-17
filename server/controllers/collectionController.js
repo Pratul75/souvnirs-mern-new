@@ -1,6 +1,73 @@
-const ConditionValue = require("../schema/conditionValueModal");
+const Collection = require("../schema/collectionModal");
 const Product = require("../schema/productModal");
 const { getOperator } = require("../utils");
+
+// Create a new collection
+const createCollection = async (req, res) => {
+  try {
+    const collection = new Collection(req.body);
+    await collection.save();
+    res.status(201).json(collection);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create collection" });
+  }
+};
+
+// Get all collections
+const getAllCollections = async (req, res) => {
+  try {
+    const collections = await Collection.find();
+    res.status(200).json(collections);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve collections" });
+  }
+};
+
+// Get a single collection by ID
+const getCollectionById = async (req, res) => {
+  try {
+    const collection = await Collection.findById(req.params.id);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+    res.status(200).json(collection);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve collection" });
+  }
+};
+
+// Update a collection by ID
+const updateCollectionById = async (req, res) => {
+  try {
+    const collection = await Collection.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+    res.status(200).json(collection);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update collection" });
+  }
+};
+
+// Delete a collection by ID
+const deleteCollectionById = async (req, res) => {
+  try {
+    const collection = await Collection.findByIdAndDelete(req.params.id);
+    if (!collection) {
+      return res.status(404).json({ error: "Collection not found" });
+    }
+    res.status(200).json({ message: "Collection deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to delete collection" });
+  }
+};
 
 const getRawDataForFilter = async (req, res) => {
   try {
@@ -42,23 +109,6 @@ const getRawDataForFilter = async (req, res) => {
       }
     }
 
-    const specifics = () => {
-      const controllableComponent = () => {
-        let specificsArr = [];
-        specificsArr.map((item) =>
-          item.map((specifics) =>
-            console.log("Specifics are provided in such a way", specifics)
-          )
-        );
-        // return specific array
-        return specificsArr;
-      };
-      controllableComponent().fill(() => {
-        const specificsArr = [];
-        return specificsArr.entries((entry) => console.log("ENTRY: ", entry));
-      });
-    };
-
     // Make a request to the "Products" collection using the constructed query
     filteredProducts = await Product.find(query);
 
@@ -71,4 +121,11 @@ const getRawDataForFilter = async (req, res) => {
   }
 };
 
-module.exports = { getRawDataForFilter };
+module.exports = {
+  getRawDataForFilter,
+  createCollection,
+  getAllCollections,
+  getCollectionById,
+  updateCollectionById,
+  deleteCollectionById,
+};

@@ -3,6 +3,7 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
+import { nanoid } from "nanoid";
 
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
@@ -21,6 +22,17 @@ const CollectionConditions = () => {
       {
         Header: "Condition Values",
         accessor: "conditionValues",
+        Cell: (props) => {
+          return (
+            <>
+              {props.row.original.conditionValues.map((id) => (
+                <p className="" key={nanoid()}>
+                  {id}
+                </p>
+              ))}
+            </>
+          );
+        },
       },
       {
         Header: "Status",
