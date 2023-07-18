@@ -71,14 +71,16 @@ const Categories = () => {
         // image={CategoryBnnerImng}
       />
 
-      <div className="w-full flex justify-start gap-4 mt-14">
-        <Link
-          to={PATHS.adminAddCategory}
-          className="btn bg-[#4680FF] text-white font-thin w-full"
-        >
-          <GoPlus stroke="1px" size={20} />
-          Add Category
-        </Link>
+      <div className="w-full  gap-4 mt-14">
+        <div className="flex justify-end">
+          <Link
+            to={PATHS.adminAddCategory}
+            className="btn bg-themeColor text-white font-thin w-48"
+          >
+            <GoPlus size={20} />
+            Add Category
+          </Link>
+        </div>
       </div>
       <div className="mt-5">
         <ReusableTable

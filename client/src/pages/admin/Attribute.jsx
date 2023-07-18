@@ -65,13 +65,15 @@ const Attributes = () => {
 
       <div className="w-full flex justify-end gap-4 mt-8"></div>
       <div className="mt-5">
-        <Link
-          to={PATHS.adminAddAttributes}
-          className="btn bg-[#4680FF] text-white font-thin w-full mb-4 mt2"
-        >
-          <GoPlus stroke="1px" size={20} />
-          Add Attribute
-        </Link>
+        <div className="flex justify-end">
+          <Link
+            to={PATHS.adminAddAttributes}
+            className="btn bg-themeColor text-white font-thin w-48 mb-4"
+          >
+            <GoPlus stroke="1px" size={20} />
+            Add Attribute
+          </Link>
+        </div>
         <ReusableTable
           data={attributesList}
           columns={columns}

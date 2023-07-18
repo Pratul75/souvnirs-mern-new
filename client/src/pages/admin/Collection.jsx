@@ -5,7 +5,12 @@ import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
-
+import { motion } from "framer-motion";
+import {
+  fadeInFromLeftVariant,
+  fadeInFromRightVariant,
+  fadeInVariants,
+} from "../../animation";
 const Collection = () => {
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [conditionValueList, setConditionValueList] = useState([]);
@@ -255,15 +260,27 @@ const Collection = () => {
 
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
+          {/* collection title */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={fadeInFromLeftVariant}
+            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Collection Title</span>
               </label>
               <input className="input input-accent" type="text" name="" id="" />
             </div>
-          </div>
-          <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* publishing */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={fadeInFromRightVariant}
+            className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <div className="form-control">
               <label htmlFor="publishing-select" className="label">
                 <span className="label-text">Publishing</span>
@@ -281,14 +298,26 @@ const Collection = () => {
                 Cancel
               </button>
             </div>
-          </div>
-          <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* description */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={fadeInFromLeftVariant}
+            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <h1>Description</h1>
             <div className="mt-4">
               <ReactQuill className="h-[200px]" />
             </div>
-          </div>
-          <div className="col-span-1 bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* product organisation */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={fadeInFromRightVariant}
+            className="col-span-1 bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <h1>Product Organisation</h1>
             <hr className="mt-4" />
             <div className="form-control">
@@ -323,8 +352,14 @@ const Collection = () => {
                 id="productTagInput"
               />
             </div>
-          </div>
-          <div className="col-span-3  bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* collections */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variants={fadeInVariants}
+            className="col-span-3  bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <h1>Collections</h1>
             <div className="form-control flex-row items-center">
               <label className="label">
@@ -454,8 +489,14 @@ const Collection = () => {
             <div className="mt-4">
               <ReusableTable data={data} columns={columns} />
             </div>
-          </div>
-          <div className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* SEO */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variant={fadeInFromLeftVariant}
+            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <h1>SEO</h1>
             <hr className="mt-4" />
             <div className="form-control">
@@ -506,13 +547,19 @@ const Collection = () => {
                 id="collection-slug"
               />
             </div>
-          </div>
-          <div className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg">
+          </motion.div>
+          {/* Image */}
+          <motion.div
+            initial="initial"
+            animate="animate"
+            variant={fadeInFromRightVariant}
+            className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg"
+          >
             <h1>Image</h1>
             <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
               <Dropzone />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

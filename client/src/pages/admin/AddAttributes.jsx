@@ -1,5 +1,5 @@
 import { Header } from "../../components";
-import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
+// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import API_WRAPPER from "../../api";
 import { useState } from "react";
 
@@ -21,8 +21,8 @@ const AddAttribute = () => {
     <div className="w-full">
       <Header
         heading="Add Attribute"
-        image={CategoryBnnerImng}
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, "
+        // image={CategoryBnnerImng}
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the , "
       />
       <div>
         <h1 className="text-2xl mt-4">Add Attributes</h1>

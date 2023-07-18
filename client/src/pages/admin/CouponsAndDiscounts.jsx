@@ -174,12 +174,14 @@ const CouponsAndDiscounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Discounts List</h1>
-        <Link
-          to={PATHS.adminAddDiscount}
-          className="btn bg-themeColor font-thin text-white w-full my-4"
-        >
-          Add Discounts
-        </Link>
+        <div className="flex justify-end">
+          <Link
+            to={PATHS.adminAddDiscount}
+            className="btn bg-themeColor font-thin text-white"
+          >
+            Add Discounts
+          </Link>
+        </div>
         <ReusableTable
           columns={columns}
           data={data}
