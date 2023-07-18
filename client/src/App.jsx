@@ -10,25 +10,26 @@ const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   return (
     <div data-theme={darkMode ? "night" : "light"} className={`font-sans`}>
-      <AnimatePresence />
-      <Routes>
-        <Route element={<RegisterPage />} path={PATHS.register} />
-        <Route element={<LoginPage />} path={PATHS.login} />
-        <Route path={PATHS.root} element={<Navigate to={PATHS.login} />} />
-        {adminRoutes.map(({ id, path, Component }) => {
-          return (
-            <Route
-              key={id}
-              path={path}
-              element={
-                <AppLayout>
-                  <Component />
-                </AppLayout>
-              }
-            />
-          );
-        })}
-      </Routes>
+      <AnimatePresence>
+        <Routes>
+          <Route element={<RegisterPage />} path={PATHS.register} />
+          <Route element={<LoginPage />} path={PATHS.login} />
+          <Route path={PATHS.root} element={<Navigate to={PATHS.login} />} />
+          {adminRoutes.map(({ id, path, Component }) => {
+            return (
+              <Route
+                key={id}
+                path={path}
+                element={
+                  <AppLayout>
+                    <Component />
+                  </AppLayout>
+                }
+              />
+            );
+          })}
+        </Routes>
+      </AnimatePresence>
     </div>
   );
 };

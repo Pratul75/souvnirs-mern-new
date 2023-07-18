@@ -27,7 +27,6 @@ export const headerVariant = {
     },
   },
 };
-
 export const fadeInFromLeftVariant = {
   initial: {
     opacity: 0,
@@ -43,7 +42,6 @@ export const fadeInFromLeftVariant = {
     },
   },
 };
-
 export const fadeInFromRightVariant = {
   initial: {
     opacity: 0,

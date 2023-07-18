@@ -1,14 +1,10 @@
 import PropTypes from "prop-types";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div
-      id="app-div"
-      className="flex h-screen bg-base-200 dark:bg-base-200 transition-all ease-in-out duration-500"
-    >
+    <div className="flex h-screen bg-base-200">
       {/* Sidebar */}
       <Sidebar />
       {/* Main content */}
@@ -17,11 +13,9 @@ const AppLayout = ({ children }) => {
         <Navbar />
 
         {/* Page content */}
-        {/* <div className="w-full flex justify-center"> */}
-        <div className=" flex-grow  md:mx-40 my-4 overflow-y-auto md:max-h-[calc(100vh-64px)] ">
-          <div className="mx-2 ">{children}</div>
+        <div className=" flex-grow mx-8 md:mx-40 my-4 overflow-y-auto md:max-h-[calc(100vh-64px)]">
+          <div className="mx-10">{children}</div>
         </div>
-        {/* </div> */}
       </div>
     </div>
   );

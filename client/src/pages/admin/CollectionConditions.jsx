@@ -24,10 +24,10 @@ const CollectionConditions = () => {
       {
         Header: "Condition Values",
         accessor: "conditionValues",
-        Cell: (props) => {
+        Cell: ({ row }) => {
           return (
             <>
-              {props.row.original.conditionValues.map((id) => (
+              {row.original.conditionValues.map((id) => (
                 <p className="" key={nanoid()}>
                   {id}
                 </p>
