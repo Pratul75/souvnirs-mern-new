@@ -5,10 +5,16 @@ import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
+import { useGetCollectionConditionByIdQuery } from "../../services/collectionCondition";
 const CouponsAndDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [discountId, setDiscountId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
+  const { data, error, isLoading } = useGetCollectionConditionByIdQuery(
+    "64af9cfed389be304af13aed"
+  );
+
+  console.log("COLLECTION CONDITION DATA: ", data);
 
   const fetchDiscounts = async () => {
     try {
@@ -160,7 +166,7 @@ const CouponsAndDiscounts = () => {
     []
   );
 
-  const data = useMemo(() => discountsList, [discountsList]);
+  const tableData = useMemo(() => discountsList, [discountsList]);
 
   useEffect(() => {
     fetchDiscounts();
@@ -184,7 +190,7 @@ const CouponsAndDiscounts = () => {
         </div>
         <ReusableTable
           columns={columns}
-          data={data}
+          data={tableData}
           showButtons
           onDelete={handleDiscountDelete}
         />

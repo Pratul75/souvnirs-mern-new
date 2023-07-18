@@ -21,11 +21,12 @@ const getAllCollectionConditions = async (req, res) => {
   }
 };
 
+
 // Get a single CollectionCondition by ID
 const getCollectionConditionById = async (req, res) => {
   try {
     const collectionCondition = await CollectionCondition.findById(
-      req.params.id.substring(1)
+      req.params.id
     );
     if (!collectionCondition) {
       return res.status(404).json({ error: "CollectionCondition not found" });

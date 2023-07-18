@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { getStatusStyles } from "../../utils";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
+
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
