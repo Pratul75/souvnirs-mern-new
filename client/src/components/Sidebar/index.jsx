@@ -62,7 +62,8 @@ const Sidebar = () => {
               <BsFilter size={32} />
             </div>
 
-            <div className="mt-3 w-full">
+            <div className="mt-3 w-full max-h-[calc(100vh-208px)] overflow-y-auto">
+              {/* Apply fixed height and add overflow-y-auto */}
               {sidebarMapping.map(({ title, Icon, navLink }) => {
                 return (
                   <SidebarItem
