@@ -5,7 +5,8 @@ import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { nanoid } from "nanoid";
 import { getStatusStyles } from "../../utils";
-
+import { motion } from "framer-motion";
+import { fadeInVariants } from "../../animation";
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
@@ -147,18 +148,26 @@ const CollectionConditions = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
         // image={CollectionBannerImg}
       />
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="form-control bg-white p-4 rounded-xl">
-          <label htmlFor="collection-condition-input" className="label">
-            <span className="label-text">Title</span>
-          </label>
-          <input
-            onChange={(e) => handleChange(e)}
-            className="input input-accent w-1/2"
-            placeholder="Enter Title"
-            type="text"
-            name="colle ction-condition-input"
-          />
+      <motion.form
+        initial="initial"
+        animate="animate"
+        variants={fadeInVariants}
+        onSubmit={handleSubmit}
+        className="mt-4"
+      >
+        <div className="grid grid-cols-2">
+          <div className="form-control  p-4 rounded-xl">
+            <label htmlFor="collection-condition-input" className="label">
+              <span className="label-text">Title</span>
+            </label>
+            <input
+              onChange={(e) => handleChange(e)}
+              className="input input-accent"
+              placeholder="Enter Title"
+              type="text"
+              name="colle ction-condition-input"
+            />
+          </div>
           <div className="form-control mt-4">
             <label className="label">
               <span className="label-text">Sub Condition</span>
@@ -168,7 +177,6 @@ const CollectionConditions = () => {
               options={convertArr(conditionValueList)}
               value={selected}
               onChange={setSelected}
-              className="w-1/2   "
             />
           </div>
         </div>
@@ -184,7 +192,7 @@ const CollectionConditions = () => {
             showButtons={true}
           />
         </div>
-      </form>
+      </motion.form>
     </div>
   );
 };

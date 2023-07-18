@@ -265,7 +265,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <div className="form-control">
               <label className="label">
@@ -279,7 +279,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromRightVariant}
-            className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <div className="form-control">
               <label htmlFor="publishing-select" className="label">
@@ -304,7 +304,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Description</h1>
             <div className="mt-4">
@@ -316,7 +316,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromRightVariant}
-            className="col-span-1 bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-1 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Product Organisation</h1>
             <hr className="mt-4" />
@@ -358,7 +358,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInVariants}
-            className="col-span-3  bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Collections</h1>
             <div className="form-control flex-row items-center">
@@ -495,7 +495,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variant={fadeInFromLeftVariant}
-            className="col-span-2 bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>SEO</h1>
             <hr className="mt-4" />
@@ -553,7 +553,7 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variant={fadeInFromRightVariant}
-            className="col-span-1  bg-white px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Image</h1>
             <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
