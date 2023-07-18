@@ -43,7 +43,7 @@ const Sidebar = () => {
 
         {/* Expanded State */}
         <div className={`${isExpanded ? "block" : "hidden"}`}>
-          <div className="flex flex-col mx-2 items-center justify-center pt-4">
+          <div className="flex flex-col mx-2 items-center justify-center pt-4 border-r-2 border-base-300">
             {/* Add your expanded sidebar content here */}
             {isExpanded && (
               <img

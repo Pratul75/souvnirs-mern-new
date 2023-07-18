@@ -11,7 +11,7 @@ const SidebarItem = ({ Icon, title, to }) => {
   return (
     <NavLink
       to={to}
-      className={`p-4 rounded-xl flex items-center  cursor-pointer mb-3 hover:bg-gray-300 ${
+      className={`p-4 rounded-xl flex items-center  cursor-pointer mb-3 hover:bg-base-100 ${
         isActiveLink === to ? "bg-blue-100 text-[#4E62C2]" : ""
       }`}
       onClick={() => dispatch(setActiveLink(to))}
