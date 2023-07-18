@@ -1,6 +1,6 @@
 import { Header } from "../../components";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../routes/paths";
 
 const ProductManagement = () => {
   return (

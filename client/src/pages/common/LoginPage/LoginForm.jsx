@@ -2,9 +2,9 @@ import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
+import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../validations/index";
+import { loginSchema } from "../../../validations/index";
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const {

@@ -1,4 +1,4 @@
-import { PATHS } from "../Routes/paths";
+import { PATHS } from "../routes/paths";
 import {
   OrderManagementIcon,
   ProductManagement,

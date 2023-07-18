@@ -1,6 +1,6 @@
-// auth routes
-export { default as RegisterPage } from "./RegisterPage";
-export { default as LoginPage } from "./LoginPage";
+// common routes
+export { default as RegisterPage } from "./common/RegisterPage";
+export { default as LoginPage } from "./common/LoginPage";
 
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
@@ -30,4 +30,3 @@ export { default as AddCategory } from "./admin/AddCategory";
 export { default as AddAttributes } from "./admin/AddAttributes";
 export { default as Attribute } from "./admin/Attribute";
 export { default as AddDiscount } from "./admin/AddDiscount";
-

@@ -3,7 +3,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../routes/paths";
 const CouponsAndDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [discountId, setDiscountId] = useState(null);

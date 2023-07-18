@@ -2,9 +2,9 @@ import { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import SouvnirsLogoImg from "../../assets/images/souvnirsLogo.png";
+import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../../validations";
+import { registerSchema } from "../../../validations";
 import { BsArrowLeftShort } from "react-icons/bs";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -209,7 +209,7 @@ const RegisterForm = () => {
                 </div>
                 <p>
                   I would like to receive emails on new products & offers. (we
-                  don't spam)
+                  dont spam)
                 </p>
               </div>
             </div>
