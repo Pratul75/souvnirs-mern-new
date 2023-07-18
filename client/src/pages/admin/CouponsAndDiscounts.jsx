@@ -174,10 +174,10 @@ const CouponsAndDiscounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Discounts List</h1>
-        <div className="flex justify-end">
+        <div className="flex justify-end mb-4">
           <Link
             to={PATHS.adminAddDiscount}
-            className="btn bg-themeColor font-thin text-white"
+            className="btn bg-themeColor font-thin text-white w-48"
           >
             Add Discounts
           </Link>

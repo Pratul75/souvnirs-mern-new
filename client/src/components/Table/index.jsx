@@ -7,6 +7,8 @@ import {
   AiOutlineSortDescending,
 } from "react-icons/ai";
 import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
+import { motion } from "framer-motion";
+import { fadeInVariants } from "../../animation";
 const ReusableTable = ({
   columns,
   data,
@@ -36,7 +38,12 @@ const ReusableTable = ({
   const { globalFilter } = state;
 
   return (
-    <div className="overflow-x-auto">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={fadeInVariants}
+      className="overflow-x-auto"
+    >
       <div className="mb-4 float-right">
         <input
           type="text"
@@ -114,7 +121,7 @@ const ReusableTable = ({
           })}
         </tbody>
       </table>
-    </div>
+    </motion.div>
   );
 };
 
