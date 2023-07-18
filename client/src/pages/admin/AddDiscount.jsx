@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { Header } from "../../components";
-
+import { motion } from "framer-motion";
+import {
+  fadeInVariants,
+  fadeInFromLeftVariant,
+  fadeInFromRightVariant,
+} from "../../animation";
 const AddDiscount = () => {
   const [discountData, setDiscountData] = useState({});
   const [
@@ -52,7 +57,12 @@ const AddDiscount = () => {
       />
       <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-4 gap-4">
         {/* amount of products -> Method */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromLeftVariant}
+          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <div className="flex justify-between py-4">
             <h2 className="font-bold">Amount of products</h2>
             <p className="text-gray-400">Product discount</p>
@@ -73,9 +83,14 @@ const AddDiscount = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
         {/* customer eligibility */}
-        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromRightVariant}
+          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Customer Eligibility</h2>
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
@@ -150,9 +165,14 @@ const AddDiscount = () => {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
         {/* value */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromLeftVariant}
+          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Value</h2>
           <div className="py-4 grid grid-cols-2 mt-5">
             <div className="join col-span-1 ">
@@ -186,10 +206,15 @@ const AddDiscount = () => {
               </label>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* minimum purchase requirements */}
-        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromRightVariant}
+          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Minimum purchase requirements</h2>
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
@@ -266,9 +291,14 @@ const AddDiscount = () => {
               </div>
             )}
           </div>
-        </div>
+        </motion.div>
         {/* applies to */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromLeftVariant}
+          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Applies To</h2>
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
@@ -331,9 +361,14 @@ const AddDiscount = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
         {/* maximum discount uses */}
-        <div className="col-span-1  p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromRightVariant}
+          className="col-span-1  p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Maximum discount uses</h2>
           <div className="mt-4">
             <div className="form-control flex-row items-center gap-4">
@@ -365,9 +400,14 @@ const AddDiscount = () => {
               </label>
             </div>
           </div>
-        </div>
+        </motion.div>
         {/* active dates */}
-        <div className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromLeftVariant}
+          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Active Dates</h2>
           <div className="mt-4 flex  justify-between gap-4">
             <div className="form-control flex-grow">
@@ -433,10 +473,15 @@ const AddDiscount = () => {
               </div>
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* combinations */}
-        <div className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromRightVariant}
+          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+        >
           <h2 className="font-bold">Combinations</h2>
           <div className="mt-4">
             <p>This product discount can be combined with:</p>
@@ -463,15 +508,20 @@ const AddDiscount = () => {
               </label>
             </div>
           </div>
-        </div>
+        </motion.div>
 
         {/* submit buttons */}
-        <div className="col-span-4 flex gap-4 justify-end items-center mt-4  border-t-[1px] p-4 ">
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInVariants}
+          className="col-span-4 flex gap-4 justify-end items-center mt-4  border-t-[1px] p-4 "
+        >
           <div className="flex w-1/2 justify-end gap-4 mt-4">
             <button className="btn w-32  btn-accent ">Submit</button>
             <button className="btn w-32  btn-outline ">Reset</button>
           </div>
-        </div>
+        </motion.div>
       </form>
     </div>
   );

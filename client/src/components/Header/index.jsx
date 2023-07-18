@@ -1,9 +1,15 @@
 import PropTypes from "prop-types";
 import HeaderBanner from "../../assets/images/HeaderBanner.png";
-
+import { headerVariant } from "../../animation";
+import { motion } from "framer-motion";
 const Header = ({ heading, subheading, image }) => {
   return (
-    <div className="relative">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={headerVariant}
+      className="relative"
+    >
       <div className="w-full h-auto">
         <img
           className="w-full h-auto object-cover"
@@ -26,7 +32,7 @@ const Header = ({ heading, subheading, image }) => {
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
