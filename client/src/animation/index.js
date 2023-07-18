@@ -39,6 +39,7 @@ export const fadeInFromLeftVariant = {
     transition: {
       duration: 0.5,
       ease: [0.6, -0.05, 0.01, 0.99],
+      delay: 0.1,
     },
   },
 };
@@ -54,6 +55,7 @@ export const fadeInFromRightVariant = {
     transition: {
       duration: 0.5,
       ease: [0.6, -0.05, 0.01, 0.99],
+      delay: 0.2,
     },
   },
 };
