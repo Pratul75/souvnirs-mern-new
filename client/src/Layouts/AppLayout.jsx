@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div className="flex h-screen bg-[#F8F9FA]">
+    <div id="app-div" className="flex h-screen bg-[#F8F9FA]">
       {/* Sidebar */}
       <Sidebar />
       {/* Main content */}
