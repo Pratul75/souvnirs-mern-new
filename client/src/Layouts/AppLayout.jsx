@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div id="app-div" className="flex h-screen bg-[#F8F9FA]">
+    <div
+      id="app-div"
+      className="flex h-screen bg-base-200 dark:bg-base-200 transition-all ease-in-out duration-500"
+    >
       {/* Sidebar */}
       <Sidebar />
       {/* Main content */}

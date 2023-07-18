@@ -16,9 +16,13 @@ export const appConfigSlice = createSlice({
     setActiveLink: (state, payload) => {
       state.activeLink = payload;
     },
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleSidebar, setActiveLink } = appConfigSlice.actions;
+export const { toggleSidebar, toggleDarkMode, setActiveLink } =
+  appConfigSlice.actions;
 export default appConfigSlice.reducer;

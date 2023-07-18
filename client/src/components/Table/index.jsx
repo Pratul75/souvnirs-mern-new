@@ -54,7 +54,7 @@ const ReusableTable = ({
         />
       </div>
       <table
-        className="table table-zebra border shadow-xl"
+        className="table table-zebra table-zebra-zebra shadow-xl"
         {...getTableProps()}
       >
         <thead>

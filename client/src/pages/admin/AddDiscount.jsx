@@ -39,16 +39,6 @@ const AddDiscount = () => {
     console.log(discountData);
   };
 
-  const handleEndDateChange = (e) => {
-    const { name, value } = e.target;
-    const startDate = discountData.activeDate;
-    if (startDate && value < startDate) {
-      alert("End date cannot be less than start date!");
-      return;
-    }
-    handleInputChange(e);
-  };
-
   return (
     <div>
       <Header
@@ -61,7 +51,7 @@ const AddDiscount = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromLeftVariant}
-          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-3 p-4 bg-base-100  rounded-xl shadow-xl "
         >
           <div className="flex justify-between py-4">
             <h2 className="font-bold">Amount of products</h2>
@@ -78,7 +68,7 @@ const AddDiscount = () => {
                   onChange={handleInputChange}
                   name="discountTitle"
                   type="text"
-                  className="input input-accent w-full"
+                  className="input input-bordered input-accent bg-transparent t w-full"
                 />
               </div>
             </div>

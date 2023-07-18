@@ -6,13 +6,12 @@ import { setActiveLink } from "../../features/appConfig/appSlice";
 const SidebarItem = ({ Icon, title, to }) => {
   const dispatch = useDispatch();
   const isActiveLink = useSelector((x) => x.appConfig.activeLink.payload);
-
   const sidebarExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
 
   return (
     <NavLink
       to={to}
-      className={`p-4 rounded-xl flex items-center text-black cursor-pointer mb-3 hover:bg-gray-300 ${
+      className={`p-4 rounded-xl flex items-center  cursor-pointer mb-3 hover:bg-gray-300 ${
         isActiveLink === to ? "bg-blue-100 text-[#4E62C2]" : ""
       }`}
       onClick={() => dispatch(setActiveLink(to))}
@@ -25,7 +24,7 @@ const SidebarItem = ({ Icon, title, to }) => {
 };
 
 SidebarItem.propTypes = {
-  Icon: PropTypes.object.isRequired, // Use PropTypes.object for SVG
+  Icon: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
   to: PropTypes.string.isRequired,
 };

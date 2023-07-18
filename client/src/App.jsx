@@ -2,11 +2,14 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { RegisterPage, LoginPage } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
 import { adminRoutes } from "./Routes/routes";
-import { PATHS } from "./Routes/paths";
+import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
+import { useSelector } from "react-redux";
+
 const App = () => {
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
   return (
-    <div className="font-sans" data-theme="light">
+    <div data-theme={darkMode ? "night" : "light"} className={`font-sans`}>
       <AnimatePresence />
       <Routes>
         <Route element={<RegisterPage />} path={PATHS.register} />

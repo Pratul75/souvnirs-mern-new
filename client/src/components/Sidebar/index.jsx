@@ -16,7 +16,7 @@ const Sidebar = () => {
     <>
       {/* desktop sidebar */}
       <nav
-        className={`w-16 md:border-r-[1px] overflow-y-auto   hidden md:block bg-[#edf5feb2] h-screen ${
+        className={`w-16  overflow-y-auto   hidden md:block bg-base-300 h-screen ${
           isExpanded ? "lg:w-96" : "lg:w-28"
         } transition-all duration-500 ease-in-out`}
       >

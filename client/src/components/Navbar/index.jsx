@@ -4,7 +4,10 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
 import { useDispatch } from "react-redux";
-import { toggleSidebar } from "../../features/appConfig/appSlice";
+import {
+  toggleSidebar,
+  toggleDarkMode,
+} from "../../features/appConfig/appSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -67,13 +70,16 @@ const Navbar = () => {
           <span className="cursor-pointer">
             <BellSvg />
           </span>
-          <span className="cursor-pointer">
+          <span className="cursor-pointer animate-pulse">
             <LightSvg />
           </span>
           <span className="cursor-pointer">
             <SettingsSvg />
           </span>
-          <span className="cursor-pointer">
+          <span
+            onClick={() => dispatch(toggleDarkMode())}
+            className="cursor-pointer animate-spin"
+          >
             <SunSvg />
           </span>
           <span className="cursor-pointer">
