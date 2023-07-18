@@ -1,5 +1,6 @@
 const Collection = require("../schema/collectionModal");
 const Product = require("../schema/productModal");
+const ConditionValue = require("../schema/conditionValueModal");
 const { getOperator } = require("../utils");
 
 // Create a new collection
