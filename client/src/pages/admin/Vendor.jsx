@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { EyeBtnSvg } from "../../icons/tableIcons";
+import { getStatusStyles } from "../../utils";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
   const [storeList, setStoreList] = useState([]);
@@ -68,6 +69,9 @@ const Vendor = () => {
       {
         Header: "Status",
         accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     [storeList]

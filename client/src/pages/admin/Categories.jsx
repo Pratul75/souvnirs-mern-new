@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
+import { getStatusStyles } from "../../utils";
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
@@ -51,6 +52,13 @@ const Categories = () => {
       {
         Header: "Type",
         accessor: "type",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     []

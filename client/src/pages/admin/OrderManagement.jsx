@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 // import OrderManagementBannerImg from "../../assets/images/orderManagementBanner.png";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
+import { getStatusStyles } from "../../utils";
 const OrderManagement = () => {
   const [orderTableList, setOrderTableList] = useState([]);
 
@@ -37,6 +38,13 @@ const OrderManagement = () => {
       {
         Header: "Price",
         accessor: "price",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     []

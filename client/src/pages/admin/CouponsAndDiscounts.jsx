@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import { getStatusStyles } from "../../utils";
 const CouponsAndDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [discountId, setDiscountId] = useState(null);
@@ -132,10 +133,10 @@ const CouponsAndDiscounts = () => {
       {
         Header: "Product ID",
         accessor: "productId",
-        Cell: (props) => {
+        Cell: ({ row }) => {
           return (
             <>
-              {props.row.original.productId.map((id) => (
+              {row?.original?.productId?.map((id) => (
                 <p className="" key={id}>
                   {id}
                 </p>
@@ -151,10 +152,14 @@ const CouponsAndDiscounts = () => {
       {
         Header: "Status",
         accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     []
   );
+
   const data = useMemo(() => discountsList, [discountsList]);
 
   useEffect(() => {

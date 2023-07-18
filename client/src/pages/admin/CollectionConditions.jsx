@@ -4,6 +4,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { nanoid } from "nanoid";
+import { getStatusStyles } from "../../utils";
 
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
@@ -37,6 +38,9 @@ const CollectionConditions = () => {
       {
         Header: "Status",
         accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     []

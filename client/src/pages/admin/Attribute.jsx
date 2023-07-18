@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
+import { getStatusStyles } from "../../utils";
 
 const Attributes = () => {
   const [attributesList, setAttributesList] = useState([]);
@@ -34,6 +35,13 @@ const Attributes = () => {
     {
       Header: "Attribute Name",
       accessor: "name",
+    },
+    {
+      Header: "Status",
+      accessor: "status",
+      Cell: ({ row }) => {
+        return getStatusStyles(row?.original?.status);
+      },
     },
   ];
   const handleDeleteAttribute = async (id) => {

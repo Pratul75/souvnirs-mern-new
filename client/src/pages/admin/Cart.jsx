@@ -1,7 +1,8 @@
 import { Header, ReusableTable } from "../../components";
-import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
+// import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
+import { getStatusStyles } from "../../utils";
 
 const Cart = () => {
   const [cartList, setCartList] = useState([]);
@@ -32,6 +33,9 @@ const Cart = () => {
       {
         Header: "Status",
         accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
       },
     ],
     []

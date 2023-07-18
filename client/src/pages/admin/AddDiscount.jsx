@@ -95,9 +95,10 @@ const AddDiscount = () => {
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setSpecificCustomerInputToggle(false);
                   setSpecificCustomerSegmentInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="eligibilityTitle"
                 className="radio radio-accent"
@@ -110,11 +111,12 @@ const AddDiscount = () => {
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setSpecificCustomerSegmentInputToggle(
                     (prevState) => !prevState
                   );
                   setSpecificCustomerInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="eligibilityTitle"
                 value={"specific-customer-segment"}
@@ -139,9 +141,10 @@ const AddDiscount = () => {
             )}
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setSpecificCustomerInputToggle((prevState) => !prevState);
                   setSpecificCustomerSegmentInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="eligibilityTitle"
                 value="specific-customer"
@@ -219,9 +222,10 @@ const AddDiscount = () => {
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setMinimumPurchaseAmountInputToggle(false);
                   setMinimumQuantityOfItemsInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="requirementTitle"
                 className="radio radio-accent"
@@ -234,11 +238,12 @@ const AddDiscount = () => {
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setMinimumPurchaseAmountInputToggle(
                     (prevState) => !prevState
                   );
                   setMinimumQuantityOfItemsInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="requirementTitle"
                 className="radio radio-accent"
@@ -454,7 +459,7 @@ const AddDiscount = () => {
                   <span className="label-text">End Date</span>
                 </label>
                 <input
-                  onChange={handleEndDateChange}
+                  onChange={(e) => handleInputChange(e)}
                   className="input input-accent"
                   type="date"
                   name="endDate"
@@ -465,7 +470,7 @@ const AddDiscount = () => {
                   <span className="label-text">Start Time (IST)</span>
                 </label>
                 <input
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e)}
                   className="input input-accent"
                   type="time"
                   name="endTime"
