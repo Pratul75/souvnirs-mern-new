@@ -176,7 +176,7 @@ const Collection = () => {
       setFilterDivCount((prevCount) => prevCount + 1);
       setFormData((prevData) => ({
         ...prevData,
-        filterDivCount: prevCount + 1,
+        filterDivCount: prevData.filterDivCount + 1, // Use prevData.filterDivCount instead of prevCount
         filterDivStates: [
           ...prevData.filterDivStates,
           {
@@ -194,7 +194,7 @@ const Collection = () => {
       setFilterDivCount((prevCount) => prevCount - 1);
       setFormData((prevData) => ({
         ...prevData,
-        filterDivCount: prevCount - 1,
+        filterDivCount: prevData.filterDivCount - 1, // Use prevData.filterDivCount instead of prevCount
         filterDivStates: prevData.filterDivStates.filter((_, i) => i !== index),
       }));
     }
@@ -342,8 +342,8 @@ const Collection = () => {
               <ReactQuill
                 className="h-[200px]"
                 value={description} // Add value attribute to control the Quill editor content
-                onChange={(value) =>
-                  setFormData({ ...formData, description: value })
+                onChange={(e) =>
+                  setFormData({ ...formData, description: e.target.value })
                 } // Add onChange event handler to update the state
               />
             </div>
