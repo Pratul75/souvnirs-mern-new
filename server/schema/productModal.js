@@ -6,6 +6,11 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    creatorId: {
+      type: String,
+      // temperorly disabled until its figured out from where to get creatorId
+      required: false,
+    },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
