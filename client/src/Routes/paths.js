@@ -32,4 +32,5 @@ export const PATHS = {
   adminAddAttributes: "/admin-add-attributes",
   adminAttribute: "/admin/attribute",
   adminAddDiscount: "/admin/discounts/add-discount",
+  adminAddCoupon: "/admin/coupons/add-coupon",
 };

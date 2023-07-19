@@ -6,25 +6,25 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
 const Discounts = () => {
-  const [discountsList, setDiscountsList] = useState([]);
-  const [discountId, setDiscountId] = useState(null);
+  const [couponsList, setCouponsList] = useState([]);
+  const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
 
-  const fetchDiscounts = async () => {
+  const fetchCoupons = async () => {
     try {
-      const response = await API_WRAPPER.get("/discount/get-all-discounts");
+      const response = await API_WRAPPER.get("/coupon/get-all-coupons");
       if (response.status === 200) {
-        console.log("DISCOUNTS LISTS: ", response.data);
-        setDiscountsList(response?.data);
+        console.log("COUPONS LISTS: ", response.data);
+        setCouponsList(response?.data);
       }
     } catch (error) {
       console.error("ERROR occured whule fetching discounts list", error);
     }
   };
 
-  const deleteDiscount = async () => {
+  const deleteCoupons = async () => {
     const response = await API_WRAPPER.delete(
-      `/discount/delete-discount/:${discountId}`
+      `/discount/delete-discount/:${couponId}`
     );
     setApiTrigger((prevState) => !prevState);
     console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
@@ -33,7 +33,7 @@ const Discounts = () => {
   const handleDiscountDelete = (id) => {
     window.delete_discount_modal.showModal();
     console.log("DISCOUNT ID:", id);
-    setDiscountId(id);
+    setCouponId(id);
   };
 
   const columns = useMemo(
@@ -160,10 +160,10 @@ const Discounts = () => {
     []
   );
 
-  const data = useMemo(() => discountsList, [discountsList]);
+  const data = useMemo(() => couponsList, [couponsList]);
 
   useEffect(() => {
-    fetchDiscounts();
+    fetchCoupons();
   }, [apiTrigger]);
 
   return (
@@ -176,7 +176,7 @@ const Discounts = () => {
         <h1 className="text-2xl">Coupons List</h1>
         <div className="flex justify-end mb-4">
           <Link
-            to={PATHS.adminAddDiscount}
+            to={PATHS.adminAddCoupon}
             className="btn bg-themeColor font-thin text-white w-48"
           >
             Add Coupons
@@ -197,7 +197,7 @@ const Discounts = () => {
           </p>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button onClick={deleteDiscount} className="btn btn-error">
+            <button onClick={deleteCoupons} className="btn btn-error">
               Delete
             </button>
             <button className="btn">Close</button>
