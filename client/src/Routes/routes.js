@@ -8,9 +8,10 @@ import {
   CmsAndSeo,
   Collection,
   CollectionConditions,
-  CouponsAndDiscounts,
+  Coupons,
   Couriers,
   Customers,
+  Discounts,
   EmailMarketing,
   OrderManagement,
   Payments,
@@ -63,8 +64,13 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.adminCouponsAndDiscounts,
-    Component: CouponsAndDiscounts,
+    path: PATHS.adminCoupons,
+    Component: Coupons,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminDiscounts,
+    Component: Discounts,
   },
   {
     id: nanoid(),

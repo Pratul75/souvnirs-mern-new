@@ -105,8 +105,13 @@ export const sidebarMapping = [
     Icon: CmsSeoIcon,
   },
   {
-    title: "Coupons & Discount",
-    navLink: PATHS.adminCouponsAndDiscounts,
+    title: "Discounts",
+    navLink: PATHS.adminDiscounts,
+    Icon: CouponDiscountIcon,
+  },
+  {
+    title: "Coupons",
+    navLink: PATHS.adminCoupons,
     Icon: CouponDiscountIcon,
   },
   {

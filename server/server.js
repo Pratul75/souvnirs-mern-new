@@ -21,6 +21,7 @@ const refundRoutes = require("./routes/refundRoutes");
 const conditionValueRoutes = require("./routes/conditionValueRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
 const discountRoutes = require("./routes/discountRoutes");
+const couponRoutes = require("./routes/couponRoutes");
 
 // app initialization
 const app = express();
@@ -66,6 +67,8 @@ app.use(conditionValueRoutes);
 app.use(collectionRoutes);
 // discount routes
 app.use(discountRoutes);
+// coupon routes
+app.use(couponRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

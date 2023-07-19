@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
-const CouponsAndDiscounts = () => {
+const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [discountId, setDiscountId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -116,35 +116,35 @@ const CouponsAndDiscounts = () => {
           return <p>{formattedDate}</p>;
         },
       },
-      {
-        Header: "Collection ID",
-        accessor: "collectionId",
-        Cell: (props) => {
-          return (
-            <>
-              {props.row.original.collectionId.map((id) => {
-                const shortenedId = id.slice(-4);
-                return <p key={nanoid()}>{shortenedId}</p>;
-              })}
-            </>
-          );
-        },
-      },
-      {
-        Header: "Product ID",
-        accessor: "productId",
-        Cell: ({ row }) => {
-          return (
-            <>
-              {row?.original?.productId?.map((id) => (
-                <p className="" key={id}>
-                  {id}
-                </p>
-              ))}
-            </>
-          );
-        },
-      },
+      // {
+      //   Header: "Collection ID",
+      //   accessor: "collectionId",
+      //   Cell: (props) => {
+      //     return (
+      //       <>
+      //         {props.row.original.collectionId.map((id) => {
+      //           const shortenedId = id.slice(-4);
+      //           return <p key={nanoid()}>{shortenedId}</p>;
+      //         })}
+      //       </>
+      //     );
+      //   },
+      // },
+      // {
+      //   Header: "Product ID",
+      //   accessor: "productId",
+      //   Cell: ({ row }) => {
+      //     return (
+      //       <>
+      //         {row?.original?.productId?.map((id) => (
+      //           <p className="" key={id}>
+      //             {id}
+      //           </p>
+      //         ))}
+      //       </>
+      //     );
+      //   },
+      // },
       // {
       //   Header: "Category ID",
       //   accessor: "categoryId",
@@ -169,7 +169,7 @@ const CouponsAndDiscounts = () => {
   return (
     <div>
       <Header
-        heading="Coupons and Discounts"
+        heading="Discounts"
         subheading="This subheading is for coupons and discounts page. This is here to let user know that this page has coupons details."
       />
       <div className="mt-4 overflow-x-auto">
@@ -208,4 +208,4 @@ const CouponsAndDiscounts = () => {
   );
 };
 
-export default CouponsAndDiscounts;
+export default Discounts;
