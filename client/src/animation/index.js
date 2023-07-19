@@ -57,3 +57,19 @@ export const fadeInFromRightVariant = {
     },
   },
 };
+
+export const buttonVariants = {
+  // Default state
+  initial: {
+    scale: 1,
+  },
+  // Hover state
+  hover: {
+    scale: 1.02,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 10,
+    },
+  },
+};

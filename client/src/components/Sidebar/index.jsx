@@ -52,7 +52,7 @@ const Sidebar = () => {
                 src={SovniersLogo}
                 alt="souvnirs-logo"
               />
-            )}
+            )}w
             <div className="w-full p-4 py-8 rounded-xl bg-base-100 mx-5 mt-4 flex items-center gap-2 justify-around shadow-lg cursor-pointer ">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div>

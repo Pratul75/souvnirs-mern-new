@@ -177,6 +177,7 @@ const CollectionConditions = () => {
               options={convertArr(conditionValueList)}
               value={selected}
               onChange={setSelected}
+              className="only:bg-black"
             />
           </div>
         </div>

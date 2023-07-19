@@ -53,11 +53,44 @@ body {
 }
 
 .rmsc.dark {
-  --rmsc-main: #4285f4;
+  --rmsc-main: #4285f4 !important;
   --rmsc-hover: #0e0c0a;
   --rmsc-selected: #1d1915;
   --rmsc-border: #333333;
   --rmsc-gray: #555555;
   --rmsc-bg: #000000;
   color: #fff;
+}
+/* Styles for dropdown container */
+.dropdown-container {
+  background: transparent !important;
+  border-radius: 10px !important;
+  padding: 4.5px !important;
+  border: 1px solid rgb(98, 238, 238) !important;
+}
+
+/* Styles for dropdown content */
+/* .dropdown-content {
+  border-radius: 10px !important;
+  background: #000 !important;
+} */
+
+/* Styles for checkbox inputs inside dropdown content */
+.dropdown-content input[type="checkbox"] {
+  /* Your styles for checkboxes inside .dropdown-content go here */
+  /* For example: */
+  margin-right: 8px !important;
+
+  background-color: #007bff !important; /* Add some space to the right of the checkbox */
+  vertical-align: middle !important; /* Align the checkbox vertically with the text */
+  /* Add any other styles you want for checkboxes inside .dropdown-content */
+}
+
+/* Styles for checked checkboxes inside dropdown content */
+.dropdown-content input[type="checkbox"]:checked {
+  /* Your styles for checked checkboxes inside .dropdown-content go here */
+  /* For example: */
+  background-color: #007bff !important; /* Change the background color when checked */
+  border-color: #007bff !important; /* Change the border color when checked */
+  /* Add any other styles you want for checked checkboxes inside .dropdown-content */
 }

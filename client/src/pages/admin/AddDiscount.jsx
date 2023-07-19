@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../../components";
 import { motion } from "framer-motion";
 import {
   fadeInVariants,
   fadeInFromLeftVariant,
   fadeInFromRightVariant,
+  buttonVariants,
 } from "../../animation";
+import API_WRAPPER from "../../api";
+import { nanoid } from "nanoid";
 const AddDiscount = () => {
   const [discountData, setDiscountData] = useState({});
   const [
@@ -24,6 +27,86 @@ const AddDiscount = () => {
     useState(false);
   const [showEndDateAndTimeToggle, setShowEndDateAndTimeToggle] =
     useState(false);
+  const [appliedToSpecifiedInput, setAppliedToSpecifiedInput] = useState(null);
+  const [appliedToSearchInput, setAppliedToSearchInput] = useState("");
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [productsList, setProductsList] = useState([]);
+  const [collectionsList, setCollectionsList] = useState([]);
+  const [appliedToFilteredState, setAppliedToFilteredState] = useState([]);
+  const [appliedToFilteredItemsObjects, setAppliedToFilteredItemsObjects] =
+    useState([]);
+
+  // get all categories
+  const getAllCategories = async () => {
+    try {
+      const response = await API_WRAPPER.get("/category/get-all-categories");
+      if (response.status === 200) {
+        setCategoriesList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all categories", error);
+    }
+  };
+
+  // get all products
+  const getAllProducts = async () => {
+    try {
+      const response = await API_WRAPPER.get("/products/get-all-products");
+      if (response.status === 200) {
+        setProductsList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all categories", error);
+    }
+  };
+  // get all collections
+  const getAllCollections = async () => {
+    try {
+      const response = await API_WRAPPER.get("/collection/get-all-collections");
+      if (response.status === 200) {
+        setCollectionsList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all categories", error);
+    }
+  };
+
+  const appliedToSeachAndFilter = (inputValue, searchParameter) => {
+    switch (searchParameter) {
+      case "specify-collections":
+        return setAppliedToFilteredState(
+          collectionsList.filter((collection) => {
+            // Filter based on title
+            return collection?.title
+              .toLowerCase()
+              .includes(inputValue.toLowerCase());
+          })
+        );
+
+      case "specify-products":
+        return setAppliedToFilteredState(
+          productsList.filter((product) => {
+            // Filter based on product name
+            return product?.name
+              .toLowerCase()
+              .includes(inputValue.toLowerCase());
+          })
+        );
+
+      case "specify-categories":
+        return setAppliedToFilteredState(
+          categoriesList.filter((category) => {
+            // Filter based on category name
+            return category?.name
+              .toLowerCase()
+              .includes(inputValue.toLowerCase());
+          })
+        );
+
+      default:
+        return null;
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -36,8 +119,54 @@ const AddDiscount = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(discountData);
+    switch (appliedToSpecifiedInput) {
+      case "specify-collections":
+        setDiscountData((prevState) => {
+          return { ...prevState, collectionId: appliedToFilteredItemsObjects };
+        });
+        break;
+
+      case "specify-products":
+        setDiscountData((prevState) => {
+          return { ...prevState, productId: appliedToFilteredItemsObjects };
+        });
+        break;
+
+      case "specify-categories":
+        setDiscountData((prevState) => {
+          return { ...prevState, categoryId: appliedToFilteredItemsObjects };
+        });
+        break;
+
+      default:
+        break;
+    }
+    console.log("DISCOUNTS OBJECT: ", discountData);
   };
+
+  const handleAppliedToSelectInputs = (e) => {
+    setAppliedToSpecifiedInput(e.target.value);
+    console.log("APPLIED TO SELECT: ", e.target.value);
+  };
+
+  const handleAppliedToSearch = (e) => {
+    setAppliedToSearchInput(e.target.value);
+    appliedToSeachAndFilter(e.target.value, appliedToSpecifiedInput);
+  };
+
+  const handleAddFilteredItemToState = (item) => {
+    setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
+  };
+
+  useEffect(() => {
+    console.log("APPIELD SEARCH FILTERED ARR: ", appliedToFilteredState);
+  }, [appliedToSearchInput, appliedToFilteredState]);
+
+  useEffect(() => {
+    getAllCategories();
+    getAllProducts();
+    getAllCollections();
+  }, []);
 
   return (
     <div>
@@ -298,10 +427,12 @@ const AddDiscount = () => {
           <div className="mt-4">
             <div className="form-control flex flex-row gap-4 items-center">
               <input
+                onChange={(e) => handleAppliedToSelectInputs(e)}
                 className="radio radio-accent"
                 type="radio"
                 name="specifyCollection"
-                id="specifyCollection"
+                value="specify-collections"
+                id="specify-collections"
               />
               <label className="label">
                 <span className="label-text">Specify Collections</span>
@@ -309,10 +440,12 @@ const AddDiscount = () => {
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
+                onChange={(e) => handleAppliedToSelectInputs(e)}
                 className="radio radio-accent"
                 type="radio"
                 name="specifyCollection"
-                id="specifyCollection"
+                value="specify-products"
+                id="specify-products"
               />
               <label className="label">
                 <span className="label-text">Specify Products</span>
@@ -320,10 +453,12 @@ const AddDiscount = () => {
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
+                onChange={(e) => handleAppliedToSelectInputs(e)}
                 className="radio radio-accent"
                 type="radio"
                 name="specifyCollection"
-                id="specifyCollection"
+                value="specify-categories"
+                id="specify-categories"
               />
               <label className="label">
                 <span className="label-text">Specify Categories</span>
@@ -333,11 +468,15 @@ const AddDiscount = () => {
             <div className="form-control flex mt-4">
               <div className="input-group ">
                 <input
+                  onChange={(e) => handleAppliedToSearch(e)}
                   type="text"
                   placeholder="Search…"
                   className="input input-bordered flex-grow"
                 />
-                <button className="btn btn-square">
+                <button
+                  onClick={() => window.applied_to_search_modal.showModal()}
+                  className="btn btn-square btn-primary"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -518,6 +657,74 @@ const AddDiscount = () => {
           </div>
         </motion.div>
       </form>
+
+      {/* applied to search modal */}
+      <dialog id="applied_to_search_modal" className="modal ">
+        <form method="dialog" className="modal-box w-11/12 max-w-5xl">
+          <h3 className="font-bold text-lg mb-4">
+            Searching by:{" "}
+            <span className="text-accent-focus">{appliedToSpecifiedInput}</span>
+          </h3>
+          <input
+            onChange={(e) => handleAppliedToSearch(e)}
+            type="text"
+            placeholder="Search…"
+            className="input input-bordered w-full"
+            value={appliedToSearchInput}
+          />
+
+          <div className="my-4">
+            Filtered by:{" "}
+            <span className="text-teal-500">{appliedToSearchInput}</span>
+          </div>
+          {appliedToFilteredState[0]?.name
+            ? appliedToFilteredState.map((filteredObj) => {
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    whileTap={{ scale: 0.8 }}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
+                    } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
+                  >
+                    <p>Name: {filteredObj?.name}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })
+            : appliedToFilteredState.map((filteredObj) => {
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    whileTap={{ scale: 1 }}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
+                    } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
+                  >
+                    <p>Title: {filteredObj?.title}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })}
+
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };
