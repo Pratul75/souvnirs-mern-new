@@ -13,12 +13,12 @@ const DiscountSchema = new mongoose.Schema({
   },
   typeValue: {
     type: String,
-    required: true,
+    // required: true,
   },
   requirementTitle: {
     type: String,
     enum: [
-      "no_minimum",
+      "no_minimum_requirement",
       "minimum_purchase_amount",
       "minimum_quantity_of_items",
     ],
@@ -27,7 +27,6 @@ const DiscountSchema = new mongoose.Schema({
   },
   requirementValue: {
     type: String,
-    required: true,
   },
   eligiblityTitle: {
     type: String,
@@ -41,12 +40,7 @@ const DiscountSchema = new mongoose.Schema({
     },
   ],
   totalLimit: {
-    type: Number,
-    required: true,
-  },
-  usesOneTime: {
-    type: Boolean,
-    default: true,
+    type: String,
     required: true,
   },
   activeDate: {
@@ -69,23 +63,30 @@ const DiscountSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
+  endTime: {
+    type: String,
+    // required: true,
+    // validate: {
+    //   validator: function (value) {
+    //     return /^([01]\d|2[0-3]):([0-5]\d)$/.test(value);
+    //   },
+    //   message: "Invalid time format. Time should be in HH:MM format",
+    // },
+  },
+
   collectionId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Collection",
-      required: true,
     },
   ],
   productId: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
-      required: true,
     },
   ],
-  categoryId: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
-  ],
+  categoryId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   status: {
     type: String,
     enum: ["ACTIVE", "DEACTIVE", "PENDING"],

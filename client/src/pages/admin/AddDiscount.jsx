@@ -27,6 +27,8 @@ const AddDiscount = () => {
     useState(false);
   const [showEndDateAndTimeToggle, setShowEndDateAndTimeToggle] =
     useState(false);
+  const [limitNumberOfTimesInputToggle, setLimitNumberOfTimesInputToggle] =
+    useState(false);
   const [appliedToSpecifiedInput, setAppliedToSpecifiedInput] = useState(null);
   const [appliedToSearchInput, setAppliedToSearchInput] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
@@ -68,6 +70,16 @@ const AddDiscount = () => {
       }
     } catch (error) {
       console.error("Error occured while getting all categories", error);
+    }
+  };
+
+  const postDiscount = async () => {
+    const response = await API_WRAPPER.post(
+      "/discount/create-discount",
+      discountData
+    );
+    if (response.status === 200) {
+      console.log("DISCOUNT DATA POSTED: ", response.data);
     }
   };
 
@@ -114,10 +126,10 @@ const AddDiscount = () => {
       ...prevData,
       [name]: value,
     }));
-    console.log("INPUT STATE: ", discountData);
+    console.log("DISCOUNT INPUT STATE: ", discountData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     switch (appliedToSpecifiedInput) {
       case "specify-collections":
@@ -141,6 +153,7 @@ const AddDiscount = () => {
       default:
         break;
     }
+    await postDiscount();
     console.log("DISCOUNTS OBJECT: ", discountData);
   };
 
@@ -195,7 +208,7 @@ const AddDiscount = () => {
                 </label>
                 <input
                   onChange={handleInputChange}
-                  name="discountTitle"
+                  name="title"
                   type="text"
                   className="input input-bordered input-accent bg-transparent t w-full"
                 />
@@ -222,7 +235,7 @@ const AddDiscount = () => {
                 name="eligibilityTitle"
                 className="radio radio-accent"
                 type="radio"
-                value="all-customers"
+                value="all_customers"
               />
               <label className="label">
                 <span className="label-text">All Customers</span>
@@ -238,7 +251,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="eligibilityTitle"
-                value={"specific-customer-segment"}
+                value={"specific_customer_segment"}
                 className="radio radio-accent"
                 type="radio"
               />
@@ -266,7 +279,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="eligibilityTitle"
-                value="specific-customer"
+                value="specific_customer"
                 className="radio radio-accent"
                 type="radio"
               />
@@ -299,28 +312,28 @@ const AddDiscount = () => {
           <div className="py-4 grid grid-cols-2 mt-5">
             <div className="join col-span-1 ">
               <input
-                onChange={handleInputChange}
-                className="join-item btn "
-                type="radio"
-                name="typeTitle"
-                value={"fixedAmount"}
-                aria-label="Fixed Amount"
-              />
-              <input
-                onChange={handleInputChange}
+                onChange={(e) => handleInputChange(e)}
                 className="join-item btn"
                 type="radio"
                 name="typeTitle"
-                value={"Percentage"}
+                value="fixed_value"
+                aria-label="Fixed Amount"
+              />
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="join-item btn"
+                type="radio"
+                name="typeTitle"
+                value="percentage"
                 aria-label="Percentage"
               />
             </div>
             <div className="form-control col-span-1 w-full">
               <label className="input-group">
                 <input
-                  onChange={handleInputChange}
+                  onChange={(e) => handleInputChange(e)}
                   name="typeValue"
-                  type="text"
+                  type="number"
                   placeholder="0.01"
                   className="input input-bordered w-full" // Added w-full class here
                 />
@@ -349,7 +362,7 @@ const AddDiscount = () => {
                 name="requirementTitle"
                 className="radio radio-accent"
                 type="radio"
-                value="no-minimum-requirements"
+                value="no_minimum_requirement"
               />
               <label className="label">
                 <span className="label-text">No minimum requirements</span>
@@ -367,7 +380,7 @@ const AddDiscount = () => {
                 name="requirementTitle"
                 className="radio radio-accent"
                 type="radio"
-                value="minimum-purchase-amount"
+                value="minimum_purchase_amount"
               />
               <label className="label">
                 <span className="label-text">Minimum purchase amount(Rs)</span>
@@ -388,15 +401,17 @@ const AddDiscount = () => {
             )}
             <div className="form-control flex flex-row gap-4 items-center">
               <input
-                onChange={() => {
+                onChange={(e) => {
                   setMinimumQuantityOfItemsInputToggle(
                     (prevState) => !prevState
                   );
                   setMinimumPurchaseAmountInputToggle(false);
+                  handleInputChange(e);
                 }}
                 name="requirementTitle"
                 className="radio radio-accent"
                 type="radio"
+                value="minimum_quantity_of_items"
               />
               <label className="label">
                 <span className="label-text">Minimum quantity of items</span>
@@ -507,10 +522,12 @@ const AddDiscount = () => {
           <div className="mt-4">
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="checkbox checkbox-accent"
-                type="checkbox"
-                name="maximumDiscountUses"
-                onChange={handleInputChange}
+                className="radio radio-accent"
+                type="radio"
+                name="totalLimit"
+                onChange={() =>
+                  setLimitNumberOfTimesInputToggle((prevState) => !prevState)
+                }
                 id="limit-01"
               />
               <label className="label">
@@ -519,13 +536,29 @@ const AddDiscount = () => {
                 </span>
               </label>
             </div>
+            {limitNumberOfTimesInputToggle && (
+              <div>
+                <input
+                  onChange={(e) => handleInputChange(e)}
+                  className="input input-accent w-full"
+                  type="text"
+                  name="totalLimit"
+                  id="requirement-value"
+                  placeholder="enter min quantity of items"
+                />
+              </div>
+            )}
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="checkbox checkbox-accent"
-                type="checkbox"
-                name="maximumDiscountUses"
-                onChange={handleInputChange}
+                className="radio radio-accent"
+                type="radio"
+                name="totalLimit"
+                onChange={(e) => {
+                  handleInputChange(e);
+                  setLimitNumberOfTimesInputToggle(false);
+                }}
                 id="limit-02"
+                value={1}
               />
               <label className="label">
                 <span className="label-text">
@@ -596,7 +629,7 @@ const AddDiscount = () => {
               </div>
               <div className="form-control flex-grow">
                 <label className="label">
-                  <span className="label-text">Start Time (IST)</span>
+                  <span className="label-text">End Time (IST)</span>
                 </label>
                 <input
                   onChange={(e) => handleInputChange(e)}
@@ -702,7 +735,6 @@ const AddDiscount = () => {
                 return (
                   <motion.div
                     variants={buttonVariants}
-                    whileTap={{ scale: 1 }}
                     initial="initial"
                     whileHover="hover"
                     onClick={() => handleAddFilteredItemToState(filteredObj)}
