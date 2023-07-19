@@ -11,12 +11,32 @@ import {
   fadeInFromRightVariant,
   fadeInVariants,
 } from "../../animation";
+
 const Collection = () => {
+  const [formData, setFormData] = useState({
+    collectionTitle: "",
+    publishing: "onlineStore",
+    description: "",
+    radioSelection: "all",
+    filterDivStates: [
+      {
+        selectedTitle: "",
+        conditionValue: "",
+        inputValue: "",
+      },
+    ],
+  });
+
+  const {
+    collectionTitle,
+    publishing,
+    description,
+    radioSelection,
+    filterDivStates,
+  } = formData;
+
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [conditionValueList, setConditionValueList] = useState([]);
-
-  const [selectedTitle, setSelectedTitle] = useState("");
-  const [radioSelection, setRadioSelection] = useState("all");
   const [filteredConditionValues, setFilteredConditionValues] = useState([]);
   const [filterDivCount, setFilterDivCount] = useState(1);
   const [collectionProductTableList, setCollectionProductTableList] = useState(
@@ -73,14 +93,6 @@ const Collection = () => {
     () => collectionProductTableList,
     [collectionProductTableList]
   );
-
-  const [filterDivStates, setFilterDivStates] = useState([
-    {
-      selectedTitle: "",
-      conditionValue: "",
-      inputValue: "",
-    },
-  ]);
 
   const getAllCollectionConditions = async () => {
     const response = await API_WRAPPER.get(
@@ -156,38 +168,45 @@ const Collection = () => {
   };
 
   const handleRadioChange = (e) => {
-    setRadioSelection(e.target.value);
+    setFormData({ ...formData, radioSelection: e.target.value });
   };
 
   const handleAddFilter = () => {
     if (filterDivCount < conditionValueList.length) {
       setFilterDivCount((prevCount) => prevCount + 1);
-      setFilterDivStates((prevStates) => [
-        ...prevStates,
-        {
-          selectedTitle: "",
-          conditionValue: "",
-          inputValue: "",
-        },
-      ]);
+      setFormData((prevData) => ({
+        ...prevData,
+        filterDivCount: prevCount + 1,
+        filterDivStates: [
+          ...prevData.filterDivStates,
+          {
+            selectedTitle: "",
+            conditionValue: "",
+            inputValue: "",
+          },
+        ],
+      }));
     }
   };
 
   const handleRemoveFilter = (index) => {
     if (filterDivCount > 1) {
       setFilterDivCount((prevCount) => prevCount - 1);
-      setFilterDivStates((prevStates) => {
-        const updatedStates = [...prevStates];
-        updatedStates.splice(index, 1);
-        return updatedStates;
-      });
+      setFormData((prevData) => ({
+        ...prevData,
+        filterDivCount: prevCount - 1,
+        filterDivStates: prevData.filterDivStates.filter((_, i) => i !== index),
+      }));
     }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log("FORM DATA: ", formData);
   };
 
   // handle title change
   const handleTitleChange = (index, value) => {
-    console.log("VALUE SELECTED: ", value);
-
     const updatedStates = [...filterDivStates];
     updatedStates[index].selectedTitle = value;
 
@@ -213,20 +232,20 @@ const Collection = () => {
       updatedStates[index].conditionValue = "";
       setFilteredConditionValues([]);
     }
-    setFilterDivStates(updatedStates);
+    setFormData({ ...formData, filterDivStates: updatedStates });
   };
 
   // handle condition value change
   const handleConditionValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].conditionValue = value;
-    setFilterDivStates(updatedStates);
+    setFormData({ ...formData, filterDivStates: updatedStates });
   };
 
   const handleInputValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].inputValue = value;
-    setFilterDivStates(updatedStates);
+    setFormData({ ...formData, filterDivStates: updatedStates });
   };
 
   // Side effects
@@ -236,9 +255,8 @@ const Collection = () => {
   }, []);
 
   useEffect(() => {
-    console.log("SELECTED TITLE: ", selectedTitle);
     const selectedCondition = collectionConditionList.find(
-      (condition) => condition.title === selectedTitle
+      (condition) => condition.title === formData.selectedTitle
     );
     if (selectedCondition) {
       const filteredIds = selectedCondition.conditionValues.filter((value) =>
@@ -248,16 +266,15 @@ const Collection = () => {
     } else {
       setFilteredConditionValues([]);
     }
-  }, [selectedTitle, collectionConditionList, conditionValueList]);
+  }, [formData.selectedTitle, collectionConditionList, conditionValueList]);
 
   return (
     <div>
       <Header
         heading="Collections"
-        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
+        subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
         // image={CollectionBannerImg}
       />
-
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
           {/* collection title */}
@@ -271,7 +288,14 @@ const Collection = () => {
               <label className="label">
                 <span className="label-text">Collection Title</span>
               </label>
-              <input className="input input-accent" type="text" name="" id="" />
+              <input
+                className="input input-accent"
+                type="text"
+                name="collectionTitle"
+                id="collectionTitle"
+                value={collectionTitle}
+                onChange={handleChange} // Add onChange event handler to update the state
+              />
             </div>
           </motion.div>
           {/* publishing */}
@@ -285,9 +309,16 @@ const Collection = () => {
               <label htmlFor="publishing-select" className="label">
                 <span className="label-text">Publishing</span>
               </label>
-              <select className="select select-accent" id="publishing-select">
-                <option value="onlineStore">Online Store</option>
-                <option value="offlineStore">Offline Store</option>
+              <select
+                className="select select-accent"
+                id="publishing-select"
+                name="publishing" // Add name attribute for the select element
+                value={publishing}
+                onChange={handleChange} // Add onChange event handler to update the state
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="PENDING">PENDING</option>
+                <option value="DEACTIVE">DEACTIVE</option>
               </select>
             </div>
             <div className="flex gap-2 mt-4">
@@ -304,55 +335,20 @@ const Collection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Description</h1>
             <div className="mt-4">
-              <ReactQuill className="h-[200px]" />
-            </div>
-          </motion.div>
-          {/* product organisation */}
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variants={fadeInFromRightVariant}
-            className="col-span-1 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
-          >
-            <h1>Product Organisation</h1>
-            <hr className="mt-4" />
-            <div className="form-control">
-              <label htmlFor="productCategorySelect" className="label">
-                <span className="label-text">Product category</span>
-              </label>
-              <select
-                className="select select-accent"
-                id="productCategorySelect"
-              >
-                <option value="BMW">BMW</option>
-                <option value="Mercedes">Mercedes</option>
-              </select>
-            </div>
-
-            <div className="form-control">
-              <label htmlFor="productVendorSelect" className="label">
-                <span className="label-text">Vendor</span>
-              </label>
-              <select className="select select-accent" id="productVendorSelect">
-                <option value="vendor-1">Vendor 1</option>
-                <option value="vendor-2">Vendor 2</option>
-              </select>
-            </div>
-            <div className="form-control">
-              <label htmlFor="productTagInput" className="label">
-                <span className="label-text">Tags</span>
-              </label>
-              <input
-                className="input input-accent"
-                type="text"
-                id="productTagInput"
+              <ReactQuill
+                className="h-[200px]"
+                value={description} // Add value attribute to control the Quill editor content
+                onChange={(value) =>
+                  setFormData({ ...formData, description: value })
+                } // Add onChange event handler to update the state
               />
             </div>
           </motion.div>
+
           {/* collections */}
           <motion.div
             initial="initial"

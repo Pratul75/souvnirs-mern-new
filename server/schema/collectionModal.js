@@ -24,7 +24,6 @@ const CollectionSchema = new mongoose.Schema(
     },
     coverImage: {
       type: String,
-      required: true,
     },
     activeProducts: [
       {
