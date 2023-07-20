@@ -1,5 +1,11 @@
+import { useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useTable, useSortBy, useGlobalFilter } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  useRowSelect,
+} from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
 import {
@@ -9,6 +15,8 @@ import {
 import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
+import IndeterminateCheckbox from "../IndeterminateCheckbox";
+
 const ReusableTable = ({
   columns,
   data,
@@ -16,6 +24,8 @@ const ReusableTable = ({
   onDelete,
   onShow,
   showButtons,
+  onSelectedRowObjectsChange,
+  isSelectable,
 }) => {
   const {
     getTableProps,
@@ -25,17 +35,66 @@ const ReusableTable = ({
     prepareRow,
     state,
     setGlobalFilter,
+    selectedFlatRows,
   } = useTable(
     {
       columns,
       data,
     },
     useGlobalFilter,
-    useSortBy
+    useSortBy,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        isSelectable
+          ? {
+              id: "selection",
+              //
+              Header: ({ getToggleAllRowsSelectedProps }) => (
+                <div>
+                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                </div>
+              ),
+              // The cell can use the individual row's getToggleRowSelectedProps method
+              // to render a checkbox
+              Cell: ({ row }) => (
+                <div>
+                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                </div>
+              ),
+            }
+          : {},
+        ...columns,
+      ]);
+    }
   );
 
   // to get global filter state
   const { globalFilter } = state;
+
+  const memoizedOnSelectedRowObjectsChange = useCallback(
+    (selectedRows, unselectedRows) => {
+      onSelectedRowObjectsChange(selectedRows, unselectedRows);
+    },
+    [onSelectedRowObjectsChange]
+  );
+
+  // Pass the selected row IDs data to the parent component
+
+  isSelectable &&
+    useEffect(() => {
+      const selectedRows = selectedFlatRows.map((row) => row.original);
+      const unselectedRows = rows
+        .filter((row) => {
+          console.log("ROW TO BE FILTERED: ", row);
+          return !selectedFlatRows.find(
+            (selectedRow) => selectedRow.id === row.id
+          );
+        })
+        .map((row) => row.original);
+
+      memoizedOnSelectedRowObjectsChange(selectedRows, unselectedRows);
+    }, [selectedFlatRows, rows, memoizedOnSelectedRowObjectsChange]);
 
   return (
     <motion.div
@@ -53,10 +112,7 @@ const ReusableTable = ({
           className="input input-bordered"
         />
       </div>
-      <table
-        className="table table-zebra table-zebra-zebraw shadow-xl"
-        {...getTableProps()}
-      >
+      <table className="table   shadow-xl" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
@@ -85,7 +141,11 @@ const ReusableTable = ({
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr key={nanoid()} {...row.getRowProps()}>
+              <tr
+                className={`${row.isSelected ? "bg-accent" : "bg-base-200"}`}
+                key={nanoid()}
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => (
                   <td key={nanoid()} {...cell.getCellProps()}>
                     {cell.render("Cell")}
@@ -138,6 +198,8 @@ ReusableTable.propTypes = {
   onDelete: PropTypes.func,
   onShow: PropTypes.func,
   showButtons: PropTypes.bool,
+  onSelectedRowObjectsChange: PropTypes.func,
+  isSelectable: PropTypes.bool,
 };
 
 export default ReusableTable;

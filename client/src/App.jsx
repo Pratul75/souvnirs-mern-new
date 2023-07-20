@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   return (
-    <div data-theme={darkMode ? "night" : "light"} className={`font-sans`}>
+    <div data-theme={darkMode ? "black" : "light"} className={`font-sans`}>
       <AnimatePresence>
         <Routes>
           <Route element={<RegisterPage />} path={PATHS.register} />

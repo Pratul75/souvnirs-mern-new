@@ -15,8 +15,7 @@ import {
 const Collection = () => {
   const [formData, setFormData] = useState({
     collectionTitle: "",
-    publishing: "onlineStore",
-    description: "",
+    publishing: "ACTIVE",
     radioSelection: "all",
     filterDivStates: [
       {
@@ -27,13 +26,8 @@ const Collection = () => {
     ],
   });
 
-  const {
-    collectionTitle,
-    publishing,
-    description,
-    radioSelection,
-    filterDivStates,
-  } = formData;
+  const { collectionTitle, publishing, radioSelection, filterDivStates } =
+    formData;
 
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [conditionValueList, setConditionValueList] = useState([]);
@@ -42,7 +36,9 @@ const Collection = () => {
   const [collectionProductTableList, setCollectionProductTableList] = useState(
     []
   );
-
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const [deactivatedProducts, setDeactivatedProducts] = useState([]);
+  const [activeProducts, setActiveProducts] = useState([]);
   const columns = useMemo(
     () => [
       {
@@ -167,6 +163,16 @@ const Collection = () => {
     }
   };
 
+  const postCollection = async (payload) => {
+    const response = await API_WRAPPER.post(
+      "/collection/create-collection",
+      payload
+    );
+    if (response.status === 200) {
+      console.log("COLLECTION CREATED SUCCESSFULL", response?.data);
+    }
+  };
+
   const handleRadioChange = (e) => {
     setFormData({ ...formData, radioSelection: e.target.value });
   };
@@ -200,6 +206,10 @@ const Collection = () => {
     }
   };
 
+  const handleSelectedObjectChange = (selectedRows, unselectedRows) => {
+    setActiveProducts(unselectedRows);
+    setDeactivatedProducts(selectedRows);
+  };
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     console.log("FORM DATA: ", formData);
@@ -248,6 +258,33 @@ const Collection = () => {
     setFormData({ ...formData, filterDivStates: updatedStates });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let extractedConditionNames = formData.filterDivStates.map(
+      (item) => item.selectedTitle
+    );
+    let extractedConditionValue = formData.filterDivStates.map(
+      (item) => item.conditionValue
+    );
+
+    const updatedFormData = {
+      ...formData,
+      description: descriptionValue,
+      collectionConditionId: extractedConditionNames,
+      conditionValue: extractedConditionValue,
+      deactiveProducts: deactivatedProducts,
+      activeProducts: activeProducts,
+    };
+    const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
+      updatedFormData;
+
+    const { filterDivCount, ...abstractedFormData } =
+      updatedFormDataWithoutFilterDivStates;
+
+    console.log("FORM DATA ON SUBMIT: ", abstractedFormData);
+    await postCollection(abstractedFormData);
+  };
+
   // Side effects
   useEffect(() => {
     getAllCollectionConditions();
@@ -258,6 +295,7 @@ const Collection = () => {
     const selectedCondition = collectionConditionList.find(
       (condition) => condition.title === formData.selectedTitle
     );
+
     if (selectedCondition) {
       const filteredIds = selectedCondition.conditionValues.filter((value) =>
         conditionValueList.some((condition) => condition._id === value)
@@ -312,7 +350,7 @@ const Collection = () => {
               <select
                 className="select select-accent"
                 id="publishing-select"
-                name="publishing" // Add name attribute for the select element
+                name="status" // Add name attribute for the select element
                 value={publishing}
                 onChange={handleChange} // Add onChange event handler to update the state
               >
@@ -341,14 +379,11 @@ const Collection = () => {
             <div className="mt-4">
               <ReactQuill
                 className="h-[200px]"
-                value={description} // Add value attribute to control the Quill editor content
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                } // Add onChange event handler to update the state
+                value={descriptionValue}
+                onChange={setDescriptionValue}
               />
             </div>
           </motion.div>
-
           {/* collections */}
           <motion.div
             initial="initial"
@@ -483,7 +518,14 @@ const Collection = () => {
               </button>
             </div>
             <div className="mt-4">
-              <ReusableTable data={data} columns={columns} />
+              <ReusableTable
+                key={nanoid()}
+                showButtons
+                isSelectable
+                data={data}
+                columns={columns}
+                onSelectedRowObjectsChange={() => handleSelectedObjectChange()}
+              />
             </div>
           </motion.div>
           {/* SEO */}
@@ -557,6 +599,11 @@ const Collection = () => {
             </div>
           </motion.div>
         </div>
+      </div>
+      <div>
+        <button className="btn btn-accent" onClick={(e) => handleSubmit(e)}>
+          Submit
+        </button>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
@@ -51,26 +50,7 @@ const Discounts = () => {
         Header: "Title",
         accessor: "title",
       },
-      // {
-      //   Header: "Type Title",
-      //   accessor: "typeTitle",
-      // },
-      // {
-      //   Header: "Requirement Title",
-      //   accessor: "requirementTitle",
-      // },
-      // {
-      //   Header: "Requirement Value",
-      //   accessor: "requirementValue",
-      // },
-      // {
-      //   Header: "Eligiblity Title",
-      //   accessor: "eligiblityTitle",
-      // },
-      // {
-      //   Header: "Eligiblity Value",
-      //   accessor: "eligiblityValue",
-      // },
+
       {
         Header: "Total Limit",
         accessor: "totalLimit",
@@ -116,39 +96,7 @@ const Discounts = () => {
           return <p>{formattedDate}</p>;
         },
       },
-      // {
-      //   Header: "Collection ID",
-      //   accessor: "collectionId",
-      //   Cell: (props) => {
-      //     return (
-      //       <>
-      //         {props.row.original.collectionId.map((id) => {
-      //           const shortenedId = id.slice(-4);
-      //           return <p key={nanoid()}>{shortenedId}</p>;
-      //         })}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Product ID",
-      //   accessor: "productId",
-      //   Cell: ({ row }) => {
-      //     return (
-      //       <>
-      //         {row?.original?.productId?.map((id) => (
-      //           <p className="" key={id}>
-      //             {id}
-      //           </p>
-      //         ))}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Category ID",
-      //   accessor: "categoryId",
-      // },
+
       {
         Header: "Status",
         accessor: "status",

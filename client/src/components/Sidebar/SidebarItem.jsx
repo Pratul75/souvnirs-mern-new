@@ -26,7 +26,7 @@ const SidebarItem = ({ Icon, title, to }) => {
 SidebarItem.propTypes = {
   Icon: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  to: PropTypes.string.isRequired,
+  to: PropTypes.string,
 };
 
 export default SidebarItem;
