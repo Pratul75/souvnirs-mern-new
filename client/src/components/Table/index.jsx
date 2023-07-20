@@ -74,18 +74,19 @@ const ReusableTable = ({
 
   // Pass the selected row IDs data to the parent component
 
-  useEffect(() => {
-    const selectedRows = selectedFlatRows.map((row) => row.original);
-    const unselectedRows = rows
-      .filter((row) => {
-        return !selectedFlatRows.find(
-          (selectedRow) => selectedRow.id === row.id
-        );
-      })
-      .map((row) => row.original);
+  isSelectable &&
+    useEffect(() => {
+      const selectedRows = selectedFlatRows.map((row) => row.original);
+      const unselectedRows = rows
+        .filter((row) => {
+          return !selectedFlatRows.find(
+            (selectedRow) => selectedRow.id === row.id
+          );
+        })
+        .map((row) => row.original);
 
-    onSelectedRowObjectsChange(selectedRows,unselectedRows);
-  }, [selectedFlatRows, rows]);
+      onSelectedRowObjectsChange(selectedRows, unselectedRows);
+    }, [selectedFlatRows, rows]);
 
   return (
     <motion.div

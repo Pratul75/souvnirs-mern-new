@@ -35,7 +35,7 @@ const LoginForm = () => {
           <div className="flex justify-center gap-2">
             <p>Dont have an account?</p>
             <Link
-              to={"/"}
+              to={"/register"}
               id="gradient-text"
               className="bg-gradient-to-r from-violet-700 via-red-500 to-yellow-500 text-transparent bg-clip-text underline"
             >

@@ -4,12 +4,6 @@ const Vendor = require("../schema/vendorModal");
 const Customer = require("../schema/customerModal");
 const Admin = require("../schema/adminModal");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace with your secret key for JWT
-// Mocked admin data (You can use a real database in your application)
-const admin = {
-  id: 1,
-  username: "admin",
-  password: "$2b$10$jW4Kgb0L0gq9T7do/Wt1JuaIa3Q2Wb.4CL8N.5bONU9hDNjppwztO", // Password: "adminpassword"
-};
 
 // Register API for vendors and users
 const registerVendor = async (req, res) => {
@@ -59,34 +53,7 @@ const registerVendor = async (req, res) => {
   }
 };
 
-// Login API for vendors and users
-const vendorLogin = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    const vendor = await Vendor.findOne({ email });
-
-    if (!vendor) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const passwordMatch = await bcrypt.compare(password, vendor.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-
-    const token = jwt.sign({ id: vendor._id, role: "vendor" }, secretKey, {
-      expiresIn: "1h", // Token expiration time
-    });
-
-    res.status(200).json({ token });
-  } catch (error) {
-    console.error("Error logging in vendor:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
-
-const registerUser = async (req, res) => {
+const registerCustomer = async (req, res) => {
   try {
     const { username, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -100,61 +67,52 @@ const registerUser = async (req, res) => {
   }
 };
 
-const userLogin = async (req, res) => {
+const loginUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await Customer.findOne({ username });
-    if (!user) {
+    const { email, password } = req.body;
+
+    const vendor = await Vendor.findOne({ email });
+
+    const user = vendor ? null : await Customer.findOne({ email });
+
+    const admin =
+      vendor || user ? null : await Admin.findOne({ username: email });
+
+    if (!vendor && !user && !admin) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-    if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
-    const token = jwt.sign({ id: user._id, role: "user" }, secretKey, {
-      expiresIn: "1h", // Token expiration time
-    });
-    res.status(200).json({ token });
-  } catch (error) {
-    console.error("Error logging in user:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-};
 
-// Admin login API
-const adminLogin = async (req, res) => {
-  try {
-    const { username, password } = req.body;
+    const foundUser = vendor || user || admin;
 
-    // Find the admin by username in the database
-    const admin = await Admin.findOne({ username });
-
-    // Check if the admin exists in the database
-    if (!admin) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
     // Check if the password matches the hashed password from the database
-    const passwordMatch = await bcrypt.compare(password, admin.password);
+    const passwordMatch = await bcrypt.compare(password, foundUser.password);
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // Generate and send the JWT token to the front end
-    const token = jwt.sign({ id: admin._id, role: "admin" }, secretKey, {
+    // Generate and send the JWT token to the front end with appropriate role
+    let role;
+    if (vendor) {
+      role = "vendor";
+    } else if (user) {
+      role = "user";
+    } else if (admin) {
+      role = "admin";
+    }
+
+    const token = jwt.sign({ id: foundUser._id, role }, secretKey, {
       expiresIn: "1h", // Token expiration time
     });
 
     res.status(200).json({ token });
   } catch (error) {
-    console.error("Error logging in admin:", error);
+    console.error("Error logging in:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 module.exports = {
   registerVendor,
-  vendorLogin,
-  userLogin,
-  registerUser,
-  adminLogin,
+  registerCustomer,
+  loginUser,
 };
