@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
+import { toast } from "react-toastify";
 import {
   fadeInFromLeftVariant,
   fadeInFromRightVariant,
@@ -13,7 +14,7 @@ import {
 } from "../../animation";
 
 const Collection = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     title: "",
     status: "ACTIVE",
     radioSelection: "all",
@@ -24,7 +25,9 @@ const Collection = () => {
         inputValue: "",
       },
     ],
-  });
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
 
   const { title, status, radioSelection, filterDivStates } = formData;
 
@@ -172,6 +175,13 @@ const Collection = () => {
     }
   };
 
+  const resetForm = () => {
+    setFormData(initialFormData);
+    setDescriptionValue(""); // Reset descriptionValue to an empty string
+    // Add other states that need to be reset to their initial values
+  };
+
+  // Handlers
   const handleRadioChange = (e) => {
     setFormData({ ...formData, radioSelection: e.target.value });
   };
@@ -207,11 +217,6 @@ const Collection = () => {
 
   const handleSelectedObjectChange = useCallback((selectedRows) => {
     setDeactivatedProducts(selectedRows);
-    // setActiveProducts(unselected);
-
-    // store selected rows in states
-
-    // You can now access the selected rows and do whatever you want with them
   }, []);
 
   const handleChange = (e) => {
@@ -259,7 +264,7 @@ const Collection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let extractedConditionNames = formData.filterDivStates.map(
-      (item) => item._id
+      (item) => item.selectedTitle
     );
     let extractedConditionValue = formData.filterDivStates.map(
       (item) => item.conditionValue
@@ -281,6 +286,7 @@ const Collection = () => {
 
     console.log("FORM DATA ON SUBMIT: ", abstractedFormData);
     await postCollection(abstractedFormData);
+    resetForm();
   };
 
   // Side effects
@@ -600,9 +606,12 @@ const Collection = () => {
           </motion.div>
         </div>
       </div>
-      <div>
+      <div className="flex gap-4 my-8 w-full justify-end border-t-base-300">
         <button className="btn btn-accent" onClick={(e) => handleSubmit(e)}>
           Submit
+        </button>
+        <button onClick={() => resetForm()} className="btn btn-primary">
+          Reset
         </button>
       </div>
     </div>

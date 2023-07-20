@@ -4,7 +4,7 @@ const CollectionSchema = new mongoose.Schema(
   {
     collectionConditionId: [
       {
-        // need to be chaned to collection condition id
+        // need to be chaned to collection condition objectId
         // type: mongoose.Schema.Types.ObjectId,
         // ref: "Collection Condition",
         type: String,
