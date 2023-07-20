@@ -22,6 +22,8 @@ const conditionValueRoutes = require("./routes/conditionValueRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
 const discountRoutes = require("./routes/discountRoutes");
 const couponRoutes = require("./routes/couponRoutes");
+const authRoutes = require("./auth/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // app initialization
 const app = express();
@@ -69,6 +71,12 @@ app.use(collectionRoutes);
 app.use(discountRoutes);
 // coupon routes
 app.use(couponRoutes);
+// auth routes
+app.use(authRoutes);
+// admin routes
+
+// admin routes should only be exposed when its required to create a new admin, else it should be commented out
+app.use(adminRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

@@ -5,7 +5,7 @@ const {
   updateAddress,
   deleteAddress,
 } = require("../controllers/addressController");
-
+const { verifyToken } = require("../middlewares");
 const router = require("express").Router();
 
 router.post("/address/add-address", addAddress);

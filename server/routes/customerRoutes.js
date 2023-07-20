@@ -5,6 +5,7 @@ const {
   getCustomers,
   updateCustomerById,
 } = require("../controllers/customerController");
+const { verifyToken } = require("../middlewares");
 const router = require("express").Router();
 
 router.post("/customers/add-customer", createCustomer);
