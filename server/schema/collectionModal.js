@@ -4,8 +4,11 @@ const CollectionSchema = new mongoose.Schema(
   {
     collectionConditionId: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Collection Condition",
+        // need to be chaned to collection condition id
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: "Collection Condition",
+        type: String,
+        required: true,
       },
     ],
     conditionValue: [

@@ -2,7 +2,7 @@ import { Dropzone, Header, ReusableTable } from "../../components";
 // import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
 import API_WRAPPER from "../../api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
@@ -14,8 +14,8 @@ import {
 
 const Collection = () => {
   const [formData, setFormData] = useState({
-    collectionTitle: "",
-    publishing: "ACTIVE",
+    title: "",
+    status: "ACTIVE",
     radioSelection: "all",
     filterDivStates: [
       {
@@ -26,8 +26,7 @@ const Collection = () => {
     ],
   });
 
-  const { collectionTitle, publishing, radioSelection, filterDivStates } =
-    formData;
+  const { title, status, radioSelection, filterDivStates } = formData;
 
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [conditionValueList, setConditionValueList] = useState([]);
@@ -206,10 +205,15 @@ const Collection = () => {
     }
   };
 
-  const handleSelectedObjectChange = (selectedRows, unselectedRows) => {
-    setActiveProducts(unselectedRows);
+  const handleSelectedObjectChange = useCallback((selectedRows) => {
     setDeactivatedProducts(selectedRows);
-  };
+    // setActiveProducts(unselected);
+
+    // store selected rows in states
+
+    // You can now access the selected rows and do whatever you want with them
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     console.log("FORM DATA: ", formData);
@@ -220,25 +224,19 @@ const Collection = () => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].selectedTitle = value;
 
-    // Find the selected condition from the collectionConditionList
     const selectedCondition = collectionConditionList.find(
       (condition) => condition.title === value
     );
 
     if (selectedCondition) {
-      // Filter the condition values based on the selected condition
       const filteredIds = selectedCondition.conditionValues.filter((value) =>
         conditionValueList.some((condition) => condition._id === value)
       );
 
-      // Update the parent ID in the state
-      // Set the first value as the default
       updatedStates[index].conditionValue = filteredIds[0] || "";
 
-      // Update the filteredConditionValues state
       setFilteredConditionValues(filteredIds);
     } else {
-      // If the selected condition is not found, clear the parent ID and filteredConditionValues state
       updatedStates[index].conditionValue = "";
       setFilteredConditionValues([]);
     }
@@ -261,7 +259,7 @@ const Collection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let extractedConditionNames = formData.filterDivStates.map(
-      (item) => item.selectedTitle
+      (item) => item._id
     );
     let extractedConditionValue = formData.filterDivStates.map(
       (item) => item.conditionValue
@@ -272,8 +270,8 @@ const Collection = () => {
       description: descriptionValue,
       collectionConditionId: extractedConditionNames,
       conditionValue: extractedConditionValue,
-      deactiveProducts: deactivatedProducts,
-      activeProducts: activeProducts,
+      deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
+      activeProducts: activeProducts.map((product) => product._id) || [],
     };
     const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
       updatedFormData;
@@ -329,14 +327,14 @@ const Collection = () => {
               <input
                 className="input input-accent"
                 type="text"
-                name="collectionTitle"
-                id="collectionTitle"
-                value={collectionTitle}
+                name="title"
+                id="title"
+                value={title}
                 onChange={handleChange} // Add onChange event handler to update the state
               />
             </div>
           </motion.div>
-          {/* publishing */}
+          {/* status */}
           <motion.div
             initial="initial"
             animate="animate"
@@ -344,14 +342,14 @@ const Collection = () => {
             className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <div className="form-control">
-              <label htmlFor="publishing-select" className="label">
-                <span className="label-text">Publishing</span>
+              <label htmlFor="status-select" className="label">
+                <span className="label-text">status</span>
               </label>
               <select
                 className="select select-accent"
-                id="publishing-select"
+                id="status-select"
                 name="status" // Add name attribute for the select element
-                value={publishing}
+                value={status}
                 onChange={handleChange} // Add onChange event handler to update the state
               >
                 <option value="ACTIVE">ACTIVE</option>
@@ -519,12 +517,14 @@ const Collection = () => {
             </div>
             <div className="mt-4">
               <ReusableTable
-                key={nanoid()}
+                key={"react-table-23-edffk"}
                 showButtons
-                isSelectable
+                isSelectable={true}
                 data={data}
                 columns={columns}
-                onSelectedRowObjectsChange={() => handleSelectedObjectChange()}
+                onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
+                  handleSelectedObjectChange(selectedRows, unselectedRows)
+                }
               />
             </div>
           </motion.div>

@@ -72,29 +72,20 @@ const ReusableTable = ({
   // to get global filter state
   const { globalFilter } = state;
 
-  const memoizedOnSelectedRowObjectsChange = useCallback(
-    (selectedRows, unselectedRows) => {
-      onSelectedRowObjectsChange(selectedRows, unselectedRows);
-    },
-    [onSelectedRowObjectsChange]
-  );
-
   // Pass the selected row IDs data to the parent component
 
-  isSelectable &&
-    useEffect(() => {
-      const selectedRows = selectedFlatRows.map((row) => row.original);
-      const unselectedRows = rows
-        .filter((row) => {
-          console.log("ROW TO BE FILTERED: ", row);
-          return !selectedFlatRows.find(
-            (selectedRow) => selectedRow.id === row.id
-          );
-        })
-        .map((row) => row.original);
+  useEffect(() => {
+    const selectedRows = selectedFlatRows.map((row) => row.original);
+    const unselectedRows = rows
+      .filter((row) => {
+        return !selectedFlatRows.find(
+          (selectedRow) => selectedRow.id === row.id
+        );
+      })
+      .map((row) => row.original);
 
-      memoizedOnSelectedRowObjectsChange(selectedRows, unselectedRows);
-    }, [selectedFlatRows, rows, memoizedOnSelectedRowObjectsChange]);
+    onSelectedRowObjectsChange(selectedRows,unselectedRows);
+  }, [selectedFlatRows, rows]);
 
   return (
     <motion.div

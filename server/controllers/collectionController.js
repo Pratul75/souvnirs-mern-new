@@ -6,11 +6,14 @@ const { getOperator } = require("../utils");
 // Create a new collection
 const createCollection = async (req, res) => {
   try {
+    console.log("REQUEST BODY: ", req.body);
     const collection = new Collection(req.body);
     await collection.save();
     res.status(201).json(collection);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create collection" });
+    res
+      .status(500)
+      .json({ error: "Failed to create collection", message: error.message });
   }
 };
 
