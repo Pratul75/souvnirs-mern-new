@@ -8,7 +8,6 @@ import { PATHS } from "../../routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { getStatusStyles, debouncedShowToast } from "../../utils";
-
 import "react-toastify/dist/ReactToastify.css";
 
 const Attributes = () => {

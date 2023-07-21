@@ -63,7 +63,10 @@ const updateCollectionById = async (req, res) => {
 // Delete a collection by ID
 const deleteCollectionById = async (req, res) => {
   try {
-    const collection = await Collection.findByIdAndDelete(req.params.id);
+    const collection = await Collection.findByIdAndDelete(
+      req.params.id.substring(1)
+    );
+
     if (!collection) {
       return res.status(404).json({ error: "Collection not found" });
     }

@@ -33,4 +33,5 @@ export const PATHS = {
   adminAttribute: "/admin/attribute",
   adminAddDiscount: "/admin/discounts/add-discount",
   adminAddCoupon: "/admin/coupons/add-coupon",
+  adminAddCollection: "/admin/collection/add-collection",
 };

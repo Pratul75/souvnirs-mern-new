@@ -4,7 +4,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { MultiSelect } from "react-multi-select-component";
 import { nanoid } from "nanoid";
-import { getStatusStyles } from "../../utils";
+import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
 const CollectionConditions = () => {
@@ -13,6 +13,7 @@ const CollectionConditions = () => {
   const [conditionValueList, setConditionValueList] = useState([]);
   const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
 
   // table columns
   const columns = useMemo(
@@ -109,13 +110,17 @@ const CollectionConditions = () => {
 
   const deleteCollectionCondition = async (id) => {
     try {
-      const response = API_WRAPPER.delete(
+      const response = await API_WRAPPER.delete(
         `/collection-condition/delete-collection-condition/:${id}`
       );
-      setApiTrigger((prevState) => !prevState);
-      console.log("DELETE RESPONSE: ", response);
+      if (response.status === 200) {
+        setApiTrigger((prevState) => !prevState);
+        console.log("DELETE RESPONSE: ", response);
+        debouncedShowToast("Collection Condition Deleted Successfully");
+      }
     } catch (error) {
       console.error("Error occured while deleting collection condition", error);
+      debouncedShowToast(error.message, "error");
     }
   };
 
@@ -123,8 +128,15 @@ const CollectionConditions = () => {
     setCollectionConditions(e.target.value);
   };
 
-  const handleDelete = (data) => {
-    deleteCollectionCondition(data._id);
+  const handleDelete = (row) => {
+    // deleteCollectionCondition(row._id);
+    setSelectedRow(row);
+    window.collection_condition_delete_modal.showModal();
+  };
+
+  const handleEdit = (row) => {
+    setSelectedRow(row);
+    window.collection_condition_edit_modal.showModal();
   };
 
   const handleSubmit = (e) => {
@@ -188,11 +200,58 @@ const CollectionConditions = () => {
           <ReusableTable
             columns={columns}
             data={data}
+            showButtons
+            enableDelete
+            enableEdit
+            onEdit={handleEdit}
             onDelete={handleDelete}
-            showButtons={true}
           />
         </div>
       </motion.form>
+
+      {/* edit modal */}
+      <dialog id="collection_condition_edit_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              onClick={() => window.collection_condition_edit_modal.close()}
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </dialog>
+
+      {/* delete modal */}
+      <dialog id="collection_condition_delete_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              onClick={() => deleteCollectionCondition(selectedRow?._id)}
+              className="btn btn-error"
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => window.collection_condition_delete_modal.close()}
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };
