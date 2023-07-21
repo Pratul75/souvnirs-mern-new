@@ -49,7 +49,13 @@ const Payment = () => {
       />
 
       <div className="mt-20">
-        <ReusableTable columns={columns} data={data} showButtons={false} />
+        <ReusableTable
+          columns={columns}
+          data={data}
+          showButtons
+          enableDelete
+          enableEdit
+        />
       </div>
     </div>
   );
