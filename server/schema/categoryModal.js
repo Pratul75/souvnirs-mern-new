@@ -22,6 +22,8 @@ const CategorySchema = new Schema(
     },
     status: {
       type: String,
+      enum: ["ACTIVE", "DEACTIVE", "PENDING"],
+      default: "PENDING",
     },
     attributes: [
       {

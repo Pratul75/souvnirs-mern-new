@@ -10,6 +10,9 @@ const AttributeSchema = new mongoose.Schema(
 
     status: {
       type: String,
+      enum: ["ACTIVE", "DEACTIVE", "PENDING"],
+      default: "PENDING",
+      required: true,
     },
   },
   {

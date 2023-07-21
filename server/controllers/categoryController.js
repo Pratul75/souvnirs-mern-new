@@ -50,19 +50,24 @@ const updateCategory = async (req, res) => {
     );
 
     // Check if each attribute ID is already present in the attributes array
-    const duplicateAttributeIds = attributes.filter((attrId) =>
-      existingAttributeIds.includes(attrId)
+    // const duplicateAttributeIds = attributes.filter((attrId) =>
+    //   existingAttributeIds.includes(attrId)
+    // );
+
+    // if (duplicateAttributeIds.length > 0) {
+    //   return res.status(400).json({
+    //     message: "Duplicate attribute IDs found",
+    //     duplicateAttributeIds,
+    //   });
+    // }
+
+    // Remove duplicates in the attributes array before updating
+    const uniqueAttributes = attributes.filter(
+      (attrId, index) => attributes.indexOf(attrId) === index
     );
 
-    if (duplicateAttributeIds.length > 0) {
-      return res.status(400).json({
-        message: "Duplicate attribute IDs found",
-        duplicateAttributeIds,
-      });
-    }
-
     existingCategory.attributes =
-      existingCategory.attributes.concat(attributes);
+      existingCategory.attributes.concat(uniqueAttributes);
     const updatedCategory = await existingCategory.save();
     res.status(200).json(updatedCategory);
   } catch (error) {

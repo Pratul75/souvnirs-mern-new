@@ -1,16 +1,23 @@
+import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
+// import CategoryBannerImg from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import API_WRAPPER from "../../api";
-import { useEffect, useMemo, useState } from "react";
 import { getStatusStyles } from "../../utils";
+import { MultiSelect } from "react-multi-select-component";
 
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
+  const [attributesList, setAttributesList] = useState([]);
+  const [selectedRow, setSelectedRow] = useState({});
+  const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+
+  // Add selectedRow.attributes to selectedAttributes
+  const [selectedAttributes, setSelectedAttributes] = useState([]);
 
   const getAllCategories = async () => {
     try {
@@ -20,23 +27,72 @@ const Categories = () => {
         setCategoriesList(response?.data);
       }
     } catch (error) {
-      console.error("Error occured while fetching all categories", {
+      console.error("Error occurred while fetching all categories", {
         error,
       });
     }
   };
 
-  useEffect(() => {
-    getAllCategories();
-  }, [apiTrigger]);
+  const convertAttributesList = (arr) => {
+    const convertedArr = arr.map(({ _id, name }) => ({
+      label: name,
+      value: _id,
+    }));
+    console.log("CONVERTED ARR: ", convertedArr);
+    return convertedArr;
+  };
+  
 
-  const handleDelete = async (id) => {
-    console.log("ID: ", id);
-    const response = await API_WRAPPER.delete(
-      `/category/delete-category/:${id}`
+  const getAllAttributes = async () => {
+    try {
+      const response = await API_WRAPPER.get("/attribute/get-all-attributes");
+      if (response.status === 200) {
+        setAttributesList(response?.data);
+        console.log("ATTRIBUTES LIST RESPONSE: ", response?.data);
+      }
+    } catch (error) {
+      console.error("Error occurred in fetching all attributes", error);
+    }
+  };
+
+  const handleDelete = (row) => {
+    console.log("SELECTED ROW: ", row);
+    window.categories_delete_modal.showModal();
+    setSelectedRow(row);
+  };
+
+  const handleEdit = (row) => {
+    console.log("SELECTED ROW: ", row);
+    window.categories_edit_modal.showModal();
+    setSelectedRow(row);
+  };
+
+  const handleEditChange = (e) => {
+    setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+  };
+
+  const submitEditedRow = async (e) => {
+    e.preventDefault();
+    const response = await API_WRAPPER.put(
+      `/category/update-category/:${selectedRow._id}`,
+      { ...editedRow, attributes: selectedAttributes.map((item) => item.value) }
     );
-    setApiTrigger((prevState) => !prevState);
-    console.log("DELETED CATEGORY: ", response.data);
+    if (response?.status === 200) {
+      setApiTrigger((prevState) => !prevState);
+      window.categories_edit_modal.close();
+    }
+  };
+
+  const submitDeleteCategory = async (e) => {
+    e.preventDefault();
+    const response = await API_WRAPPER.delete(
+      `/category/delete-category/:${selectedRow._id}`
+    );
+    if (response.status === 200) {
+      console.log("CATEGORY DELETED", response?.data);
+      window.categories_delete_modal.close();
+      setApiTrigger((prevState) => !prevState);
+    }
   };
 
   const columns = useMemo(
@@ -63,12 +119,41 @@ const Categories = () => {
     ],
     []
   );
+
+  useEffect(() => {
+    getAllCategories();
+  }, [apiTrigger]);
+
+  useEffect(() => {
+    getAllAttributes();
+  }, []);
+
+  useEffect(() => {
+    console.log("SELECTED ATTRIBUTES: ", selectedAttributes);
+  }, [selectedAttributes]);
+
+  useEffect(() => {
+    // Set default selected values for MultiSelect based on selectedRow.attributes
+    const defaultSelectedAttributes = selectedRow.attributes
+      ? selectedRow.attributes.map((attributeId) => {
+          const attribute = attributesList.find(
+            (attr) => attr._id === attributeId
+          );
+          return {
+            label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
+            value: attributeId,
+          };
+        })
+      : [];
+    setSelectedAttributes(defaultSelectedAttributes);
+  }, [selectedRow, attributesList]);
+
   return (
     <>
       <Header
         heading="Category Management"
-        subheading="This is a subheading for the category management section. This subheading contins necessary details that are required by user to know about category page "
-        // image={CategoryBnnerImng}
+        subheading="This is a subheading for the category management section. This subheading contains necessary details that are required by the user to know about the category page "
+        // image={CategoryBannerImg}
       />
 
       <div className="w-full  gap-4 mt-14">
@@ -86,9 +171,127 @@ const Categories = () => {
         <ReusableTable
           data={categoriesList}
           columns={columns}
+          showButtons
+          enableDelete
+          enableEdit
           onDelete={handleDelete}
-          showButtons={true}
+          onEdit={handleEdit}
         />
+
+        {/* edit modal */}
+        <dialog id="categories_edit_modal" className="modal">
+          <form
+            onSubmit={(e) => submitEditedRow(e)}
+            method="dialog"
+            className="modal-box"
+          >
+            <h3 className="font-bold text-lg">Hello!</h3>
+            <div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Name</span>
+                </label>
+                <input
+                  onChange={(e) => handleEditChange(e)}
+                  defaultValue={selectedRow?.name}
+                  className="input input-accent"
+                  type="text"
+                  name="name"
+                  id=""
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Type</span>
+                </label>
+                <input
+                  onChange={(e) => handleEditChange(e)}
+                  defaultValue={selectedRow?.type}
+                  className="input input-accent"
+                  type="text"
+                  name="type"
+                  id=""
+                />
+              </div>
+              <div className="form-control">
+                <div className="label">
+                  <span>Select Attributes</span>
+                </div>
+                <MultiSelect
+                  options={convertAttributesList(attributesList)}
+                  value={selectedAttributes}
+                  onChange={setSelectedAttributes}
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">HSN ID</span>
+                </label>
+                <input
+                  onChange={(e) => handleEditChange(e)}
+                  defaultValue={selectedRow?.hsn_code}
+                  className="input input-accent"
+                  type="text"
+                  name="hsn_code"
+                  id=""
+                />
+              </div>
+              <div className="form-control col-span-1">
+                <label className="label">
+                  <span className="label-text">Status</span>
+                </label>
+                <select
+                  onChange={(e) => handleEditChange(e)}
+                  defaultValue={selectedRow?.status}
+                  className="select select-accent"
+                  name="status"
+                  id=""
+                >
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="DEACTIVE">DEACTIVE</option>
+                  <option value="PENDING">PENDING</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button type="submit" className="btn btn-accent">
+                Save changes
+              </button>
+              <button
+                onClick={() => window.categories_edit_modal.close()}
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </dialog>
+
+        {/* delete modal */}
+        <dialog id="categories_delete_modal" className="modal">
+          <form
+            onSubmit={(e) => submitDeleteCategory(e)}
+            method="dialog"
+            className="modal-box"
+          >
+            <h3 className="font-bold text-lg">Hello!</h3>
+            <p className="py-4">
+              Press ESC key or click the button below to close
+            </p>
+            <div className="modal-action">
+              <button className="btn btn-error">Delete</button>
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={() => window.categories_delete_modal.close()}
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </dialog>
       </div>
     </>
   );

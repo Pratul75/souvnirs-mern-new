@@ -11,6 +11,8 @@ import { getStatusStyles } from "../../utils";
 const Attributes = () => {
   const [attributesList, setAttributesList] = useState([]);
   const [getApiTrigger, setGetApiTrigger] = useState(false);
+  const [selectedRow, setSelectedRow] = useState({});
+  const [editedRowObject, setEditedRowObject] = useState({});
 
   const fetchAllAttributes = async () => {
     try {
@@ -24,9 +26,6 @@ const Attributes = () => {
     }
   };
 
-  useEffect(() => {
-    fetchAllAttributes();
-  }, [getApiTrigger]);
   const columns = [
     {
       Header: "Attribute Id",
@@ -44,16 +43,49 @@ const Attributes = () => {
       },
     },
   ];
-  const handleDeleteAttribute = async (id) => {
-    try {
-      const response = API_WRAPPER.delete(`/attribute/delete-attribute/:${id}`);
 
+  const handleEdit = (row) => {
+    console.log("ROW TO EDIT: ", row);
+    setSelectedRow(row);
+    window.attributes_edit_modal.showModal();
+  };
+
+  const handleEditChange = (e) => {
+    setEditedRowObject({ ...editedRowObject, [e.target.name]: e.target.value });
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const response = await API_WRAPPER.put(
+      `/attribute/update-attribute/:${selectedRow._id}`,
+      editedRowObject
+    );
+    if (response.status === 200) {
+      console.log("ATTRIBUTE EDITED: ", response?.data);
       setGetApiTrigger((prevState) => !prevState);
-      console.log("DELETED ATTRIBUTE RESPONSE: ", response.data);
-    } catch (error) {
-      console.error("Error occured while deleting the attribute ");
+      window.attributes_edit_modal.close();
     }
   };
+
+  const handleDelete = async (row) => {
+    console.log("ROW TO DELETE: ", row);
+    setSelectedRow(row);
+    window.attributes_delete_modal.showModal();
+  };
+
+  const handleDeleteSubmit = async () => {
+    const response = await API_WRAPPER.delete(
+      `/attribute/delete-attribute/:${selectedRow._id}`
+    );
+    if (response?.status === 200) {
+      console.log("DELETED ROW: ", response?.data);
+      setGetApiTrigger((prevState) => !prevState);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllAttributes();
+  }, [getApiTrigger]);
 
   return (
     <>
@@ -77,12 +109,91 @@ const Attributes = () => {
         <ReusableTable
           data={attributesList}
           columns={columns}
-          onDelete={handleDeleteAttribute}
-          showButtons={true}
+          showButtons
+          enableDelete
+          enableEdit
+          onDelete={handleDelete}
+          onEdit={handleEdit}
         />
+        {/* edit modal */}
+        <dialog id="attributes_edit_modal" className="modal">
+          <form
+            onSubmit={(e) => handleFormSubmit(e)}
+            method="dialog"
+            className="modal-box"
+          >
+            <h3 className="font-bold text-lg">Edit Attribute</h3>
+            <div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Attribute Name</span>
+                </label>
+                <input
+                  defaultValue={selectedRow?.name}
+                  onChange={(e) => handleEditChange(e)}
+                  className="input input-accent"
+                  type="text"
+                  name="name"
+                  id=""
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Status</span>
+                </label>
+                <select
+                  defaultValue={selectedRow?.status}
+                  onChange={(e) => handleEditChange(e)}
+                  className="select select-accent"
+                  name="status"
+                >
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="DEACTIVE">DEACTIVE</option>
+                  <option value="PENDING">PENDING</option>
+                </select>
+              </div>
+            </div>
+            <div className="modal-action flex gap-4">
+              <button type="submit" className="btn btn-accent">
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={() => window.attributes_edit_modal.close()}
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </dialog>
+        {/* delete modal */}
+        <dialog id="attributes_delete_modal" className="modal">
+          <form method="dialog" className="modal-box">
+            <h3 className="font-bold text-lg">Hello!</h3>
+            <p className="py-4">
+              Press ESC key or click the button below to close
+            </p>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+
+              <button
+                onClick={() => handleDeleteSubmit()}
+                className="btn btn-error"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => window.attributes_delete_modal.close()}
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        </dialog>
       </div>
     </>
   );
 };
-
 export default Attributes;
