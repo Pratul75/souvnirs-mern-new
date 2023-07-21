@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   useTable,
@@ -23,6 +23,9 @@ const ReusableTable = ({
   onEdit,
   onDelete,
   onShow,
+  enableEdit,
+  enableDelete,
+  enableShowDetials,
   showButtons,
   onSelectedRowObjectsChange,
   isSelectable,
@@ -147,25 +150,31 @@ const ReusableTable = ({
                 {/* Conditionally rendering the component */}
                 {showButtons && (
                   <td className="flex gap-4">
-                    <span
-                      onClick={() => onShow(row.original)}
-                      className="cursor-pointer"
-                    >
-                      <EyeBtnSvg />
-                    </span>
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => onEdit(row.original)}
-                    >
-                      <EditBtnSvg />
-                    </span>
+                    {enableShowDetials && (
+                      <span
+                        onClick={() => onShow(row.original)}
+                        className="cursor-pointer"
+                      >
+                        <EyeBtnSvg />
+                      </span>
+                    )}
+                    {enableEdit && (
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onEdit(row.original)}
+                      >
+                        <EditBtnSvg />
+                      </span>
+                    )}
 
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => onDelete(row.original)}
-                    >
-                      <DeleteBtnSvg />
-                    </span>
+                    {enableDelete && (
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onDelete(row.original)}
+                      >
+                        <DeleteBtnSvg />
+                      </span>
+                    )}
                   </td>
                 )}
               </tr>
@@ -190,6 +199,9 @@ ReusableTable.propTypes = {
   onDelete: PropTypes.func,
   onShow: PropTypes.func,
   showButtons: PropTypes.bool,
+  enableEdit: PropTypes.bool,
+  enableDelete: PropTypes.bool,
+  enableShowDetials: PropTypes.bool,
   onSelectedRowObjectsChange: PropTypes.func,
   isSelectable: PropTypes.bool,
 };
