@@ -5,7 +5,6 @@ import { adminRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   return (

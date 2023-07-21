@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+import debounce from "lodash.debounce";
 export const getRandomColor = () => {
   const colorArr = [
     "bg-primary",
@@ -27,3 +29,15 @@ export const getStatusStyles = (status) => {
       return <div className="badge badge-error font-bold">DEACTIVE</div>;
   }
 };
+
+// utility to show toasts
+export const showToast = (message, type) => {
+  toast(message, {
+    type, // 'success', 'error', 'warning', or 'info'
+    position: "top-right",
+    autoClose: 2000,
+  });
+};
+
+// debounced version
+export const debouncedShowToast = debounce(showToast, 1000);

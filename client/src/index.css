@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "react-toastify/dist/ReactToastify.css";
 
 /* For WebKit-based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
