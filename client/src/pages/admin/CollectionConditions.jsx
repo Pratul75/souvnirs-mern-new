@@ -7,6 +7,7 @@ import { nanoid } from "nanoid";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
+import { ToastContainer } from "react-toastify";
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
@@ -14,7 +15,6 @@ const CollectionConditions = () => {
   const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-
   // table columns
   const columns = useMemo(
     () => [
@@ -73,11 +73,16 @@ const CollectionConditions = () => {
       );
       console.log("RESPONSE: ", response?.data);
       setApiTrigger((prevState) => !prevState);
+      debouncedShowToast(
+        "Collection condition created successfully",
+        "success"
+      );
     } catch (error) {
       console.error(
         "Error occured while adding new collection condition",
         error
       );
+      debouncedShowToast(error.message, "error");
     }
   };
 
@@ -115,8 +120,11 @@ const CollectionConditions = () => {
       );
       if (response.status === 200) {
         setApiTrigger((prevState) => !prevState);
+        debouncedShowToast(
+          "Collection Condition Deleted Successfully",
+          "success"
+        );
         console.log("DELETE RESPONSE: ", response);
-        debouncedShowToast("Collection Condition Deleted Successfully");
       }
     } catch (error) {
       console.error("Error occured while deleting collection condition", error);
@@ -252,6 +260,7 @@ const CollectionConditions = () => {
           </div>
         </form>
       </dialog>
+      <ToastContainer />
     </div>
   );
 };
