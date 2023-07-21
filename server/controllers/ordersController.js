@@ -103,7 +103,8 @@ const getOrderTableData = async (req, res) => {
 
     const orderData = await Promise.all(
       allOrders.map(async (order) => {
-        const { product_id, vendor_id, customer_id, price, invoice_id } = order;
+        const { _id, product_id, vendor_id, customer_id, price, invoice_id } =
+          order;
 
         const product = await Product.findById(product_id);
         const vendor = await Vendor.findById(vendor_id);
@@ -114,6 +115,7 @@ const getOrderTableData = async (req, res) => {
         const customerName = customer ? customer.firstName : "N/A";
 
         return {
+          orderId: _id,
           invoiceId: invoice_id,
           productName,
           vendorName,

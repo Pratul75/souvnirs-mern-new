@@ -136,22 +136,24 @@ const ProductManagement = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
         // image={HeaderImgTwo}
       />
-      <Link
-        to={PATHS.adminAddProducts}
-        className="btn btn-secondary float-right "
-      >
-        Add Product
-      </Link>
+      <div className="mt-4">
+        <Link
+          to={PATHS.adminAddProducts}
+          className="btn btn-accent float-right ml-4"
+        >
+          Add Product
+        </Link>
 
-      <ReusableTable
-        columns={columns}
-        data={data}
-        showButtons
-        enableEdit
-        enableDelete
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-      />
+        <ReusableTable
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
 
       {/* edit modal  */}
       <dialog id="product_management_edit_modal" className="modal">
