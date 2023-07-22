@@ -22,15 +22,6 @@ const Discounts = () => {
     }
   };
 
-  // delete the discount
-  // const deleteDiscount = async () => {
-  //   const response = await API_WRAPPER.delete(
-  //     `/discount/delete-discount/:${discountId}`
-  //   );
-  //   setApiTrigger((prevState) => !prevState);
-  //   console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
-  // };
-
   const handleDelete = (row) => {
     window.delete_discount_modal.showModal();
     setSelectedRow(row);
@@ -206,6 +197,9 @@ const Discounts = () => {
         defaultValues={{
           title: selectedRow.title,
           totalLimit: selectedRow.totalLimit,
+          useOneTime: selectedRow.useOneTime,
+          activeDate: selectedRow.activeDate,
+
           // Add default values for other inputs
         }}
         inputs={[
@@ -219,6 +213,17 @@ const Discounts = () => {
             type: "text",
             name: "totalLimit",
           },
+          {
+            label: "Use One Times",
+            type: "text",
+            name: "useOneTime",
+          },
+          {
+            label: "Active Date",
+            type: "date",
+            name: "activeDate",
+          },
+
           // add more input objects as needed
         ]}
       />

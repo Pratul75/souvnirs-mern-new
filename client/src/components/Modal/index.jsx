@@ -69,7 +69,7 @@ export default Modal;
 Modal.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
   inputs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
