@@ -78,7 +78,6 @@ const Sidebar = () => {
           </div>
         </div>
       </nav>
-
       {/* mobile sidebar view */}
       <nav
         className={`w-[50%] md:hidden h-screen ${

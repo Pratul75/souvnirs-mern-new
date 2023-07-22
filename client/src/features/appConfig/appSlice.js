@@ -4,6 +4,7 @@ const initialState = {
   darkMode: false,
   sidebarExpanded: false,
   activeLink: "/admin-dashboard",
+  login: "",
 };
 
 export const appConfigSlice = createSlice({
@@ -19,10 +20,13 @@ export const appConfigSlice = createSlice({
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
     },
+    getLoginInfo: (state, action) => {
+      state.login = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleSidebar, toggleDarkMode, setActiveLink } =
+export const { toggleSidebar, toggleDarkMode, setActiveLink, getLoginInfo } =
   appConfigSlice.actions;
 export default appConfigSlice.reducer;

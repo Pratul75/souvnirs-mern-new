@@ -1,32 +1,63 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { RegisterPage, LoginPage } from "./pages";
-import AppLayout from "./Layouts/AppLayout";
+import {
+  RegisterPage,
+  LoginPage,
+  AdminDashboard,
+  PermissionDenied,
+} from "./pages";
+import AppLayout from "./layouts/AppLayout";
 import { adminRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
+import ReverseAuthRoute from "./routes/ReverseAuthRoute";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
+  const role = useSelector((state) => state.appConfig.login);
   return (
-    <div data-theme={darkMode ? "black" : "light"} className={`font-sans`}>
+    <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
       <AnimatePresence>
         <Routes>
-          <Route element={<RegisterPage />} path={PATHS.register} />
-          <Route element={<LoginPage />} path={PATHS.login} />
           <Route path={PATHS.root} element={<Navigate to={PATHS.login} />} />
-          {adminRoutes.map(({ id, path, Component }) => {
-            return (
-              <Route
-                key={id}
-                path={path}
-                element={
-                  <AppLayout>
-                    <Component />
-                  </AppLayout>
-                }
-              />
-            );
-          })}
+
+          <Route element={<RegisterPage />} path={PATHS.register} />
+
+          <Route
+            path={PATHS.login}
+            element={
+              <ReverseAuthRoute>
+                <LoginPage />
+              </ReverseAuthRoute>
+            }
+          />
+          <Route
+            path={PATHS.register}
+            element={
+              <ReverseAuthRoute>
+                <RegisterPage />
+              </ReverseAuthRoute>
+            }
+          />
+
+          {role === "admin" &&
+            adminRoutes.map(({ id, path, Component }) => {
+              return (
+                <Route
+                  key={id}
+                  path={path}
+                  element={
+                    <AppLayout>
+                      <ProtectedRoute roleRequired={role} path={path}>
+                        <Component />
+                      </ProtectedRoute>
+                    </AppLayout>
+                  }
+                />
+              );
+            })}
+          <Route path="/*" element={<PermissionDenied />} />
         </Routes>
       </AnimatePresence>
     </div>

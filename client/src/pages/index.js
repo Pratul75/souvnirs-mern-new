@@ -1,7 +1,7 @@
 // common routes
 export { default as RegisterPage } from "./common/RegisterPage";
 export { default as LoginPage } from "./common/LoginPage";
-
+export { default as PermissionDenied } from "./common/PermissionDenied";
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
 export { default as Cart } from "./admin/Cart";

@@ -4,11 +4,11 @@ const Admin = require("../schema/adminModal");
 // Create a new admin
 const createAdmin = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newAdmin = await Admin.create({
-      username,
+      email,
       password: hashedPassword,
     });
 
@@ -17,7 +17,9 @@ const createAdmin = async (req, res) => {
       .json({ message: "Admin created successfully!", admin: newAdmin });
   } catch (error) {
     console.error("Error creating admin:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res
+      .status(500)
+      .json({ error: "Internal Server Error", message: error.message });
   }
 };
 
@@ -39,7 +41,19 @@ const deleteAdmin = async (req, res) => {
   }
 };
 
+const getAllAdmins = async (req, res) => {
+  try {
+    const adminsList = await Admin.find({});
+    res.status(200).json(adminsList);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Internal ServerERror", message: error.message });
+  }
+};
+
 module.exports = {
   createAdmin,
   deleteAdmin,
+  getAllAdmins,
 };

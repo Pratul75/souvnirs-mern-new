@@ -1,11 +1,21 @@
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../../validations/index";
+import { loginSchema } from "../../../validations";
+import API_WRAPPER from "../../../api";
+import { debouncedShowToast } from "../../../utils";
+import { ToastContainer } from "react-toastify";
+import { decodeToken } from "react-jwt";
+import { PATHS } from "../../../routes/paths";
+import { getLoginInfo } from "../../../features/appConfig/appSlice";
+import { useDispatch } from "react-redux";
+
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -19,8 +29,30 @@ const LoginForm = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const response = await API_WRAPPER.post("/auth/login", data);
+      if (response.status === 200) {
+        const token = response?.data?.token;
+        const { id, role } = decodeToken(token);
+        console.log("DECONDED TOKEN OBJECTS: ", { id, role });
+        debouncedShowToast("You are logged in", "success");
+
+        if (response?.data) {
+          localStorage.setItem("role", JSON.stringify(role));
+
+          if (response?.data?.token) {
+            dispatch(getLoginInfo(role));
+            localStorage.setItem("token", JSON.stringify(token));
+          }
+        }
+        // TODO:  need to be conditionally rendered based on role
+        return navigate(PATHS.adminDashboard);
+      }
+    } catch (error) {
+      console.error("Error while logging in:", error);
+      debouncedShowToast(error.message, "error");
+    }
   };
 
   return (
@@ -116,6 +148,7 @@ const LoginForm = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
