@@ -69,18 +69,17 @@ const ProductInventory = () => {
     if (editedProduct) {
       try {
         const response = await API_WRAPPER.put(
-          `/products/edit-product/:${editedProduct._id}`, // Use the correct API endpoint for editing a product
+          `/products/edit-product/:${editedProduct._id}`,
           editedProduct
         );
         console.log("EDITED RESPONSE", response.data);
-        // Update the productsList state with the updated product data
         setProductsList((prevList) =>
           prevList.map((product) =>
             product._id === editedProduct._id ? response.data : product
           )
         );
-        window.editProduct_modal.close(); // Close the edit modal
-        setEditedProduct(null); // Clear the edited product data
+        window.editProduct_modal.close();
+        setEditedProduct(null);
       } catch (error) {
         console.error("Error occurred while editing product", error);
       }
@@ -96,6 +95,7 @@ const ProductInventory = () => {
       />
       <div className="mt-20">
         <ReusableTable
+          tableTitle="Product Inventory List"
           columns={columns}
           data={data}
           onEdit={handleEdit}

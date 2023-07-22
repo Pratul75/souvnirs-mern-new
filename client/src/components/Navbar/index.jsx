@@ -1,13 +1,13 @@
 import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { CiSearch } from "react-icons/ci";
 import Avatar from "../Avatar";
 import { useDispatch } from "react-redux";
 import {
   toggleSidebar,
   toggleDarkMode,
 } from "../../features/appConfig/appSlice";
+import RouteNavigator from "../RouterNavigator";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -56,14 +56,14 @@ const Navbar = () => {
       </div>
 
       {/* desktop-screen navbar */}
-      <div className="w-full bg-transparent justify-between items-center hidden py-4 px-8 md:flex">
+      <div className="w-full bg-base-300 justify-between items-center hidden py-4 px-8 md:flex">
         {/* left side of nav */}
         <div className="flex gap-8">
           <RxHamburgerMenu
             className="text-2xl cursor-pointer"
             onClick={() => dispatch(toggleSidebar())}
           />
-          <CiSearch className="text-2xl cursor-pointer" />
+          <RouteNavigator />
         </div>
         {/* right side of nav */}
         <div className="flex gap-4">
