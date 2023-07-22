@@ -69,7 +69,7 @@ export default Modal;
 Modal.propTypes = {
   id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  message: PropTypes.string,
+  message: PropTypes.string.isRequired,
   inputs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -77,7 +77,12 @@ Modal.propTypes = {
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
+  defaultValues: PropTypes.object, // New prop for default values
   onClose: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
   showCloseButton: PropTypes.bool,
+};
+
+Modal.defaultProps = {
+  showCloseButton: true,
 };
