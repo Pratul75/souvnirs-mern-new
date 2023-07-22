@@ -6,11 +6,21 @@ import { useDispatch } from "react-redux";
 import {
   toggleSidebar,
   toggleDarkMode,
+  getLoginInfo,
 } from "../../features/appConfig/appSlice";
 import RouteNavigator from "../RouterNavigator";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(getLoginInfo(""));
+    navigate(PATHS.login);
+  };
+
   return (
     <nav className="">
       {/* mobile-screen navbar */}
@@ -78,13 +88,15 @@ const Navbar = () => {
           </span>
           <span
             onClick={() => dispatch(toggleDarkMode())}
-            className="cursor-pointer animate-spin"
+            className="cursor-pointer"
           >
-            <SunSvg />
+            <SunSvg className={"animate-spin"} />
           </span>
-          <span className="cursor-pointer">
-            <Avatar bgColor={"bg-info"} initials="VB" />
-          </span>
+          <Avatar
+            onClick={() => handleLogout()}
+            bgColor={"bg-info"}
+            initials="VB"
+          />
         </div>
       </div>
     </nav>

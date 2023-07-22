@@ -84,7 +84,7 @@ export const SettingsSvg = () => {
   );
 };
 
-export const SunSvg = () => {
+export const SunSvg = ({ className }) => {
   return (
     <svg
       width="28"
@@ -92,6 +92,7 @@ export const SunSvg = () => {
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <g clipPath="url(#clip0_1_817)">
         <path

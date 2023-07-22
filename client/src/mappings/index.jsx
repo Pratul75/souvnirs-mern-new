@@ -22,8 +22,8 @@ import {
   SupportIcon,
 } from "../icons/sidebarIcons";
 
-// sidebar mapping
-export const sidebarMapping = [
+// admin sidebar mapping
+export const adminSidebarMapping = [
   {
     title: "Dashboard",
     navLink: PATHS.adminDashboard,
@@ -139,4 +139,9 @@ export const sidebarMapping = [
     navLink: PATHS.adminSupport,
     Icon: SupportIcon,
   },
+];
+
+// vendor sidebar mapping
+export const vendorSidebarMapping = [
+  
 ];

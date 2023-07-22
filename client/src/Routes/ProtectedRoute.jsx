@@ -42,7 +42,6 @@ const RouteValidate = (path, role) => {
       }
     }
   }
-  //  TODO: need to provide approprate path to it
   return false;
 };
 
@@ -66,7 +65,6 @@ export const ProtectedRoute = ({ roleRequired, path, children }) => {
 };
 
 ProtectedRoute.propTypes = {
-  // Assuming roleRequired is a string
   roleRequired: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,

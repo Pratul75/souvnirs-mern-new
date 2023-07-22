@@ -1,10 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import {
-  RegisterPage,
-  LoginPage,
-  AdminDashboard,
-  PermissionDenied,
-} from "./pages";
+import { RegisterPage, LoginPage, PermissionDenied } from "./pages";
 import AppLayout from "./layouts/AppLayout";
 import { adminRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
@@ -41,22 +36,21 @@ const App = () => {
             }
           />
 
-          {role === "admin" &&
-            adminRoutes.map(({ id, path, Component }) => {
-              return (
-                <Route
-                  key={id}
-                  path={path}
-                  element={
-                    <AppLayout>
-                      <ProtectedRoute roleRequired={role} path={path}>
-                        <Component />
-                      </ProtectedRoute>
-                    </AppLayout>
-                  }
-                />
-              );
-            })}
+          {adminRoutes.map(({ id, path, Component }) => {
+            return (
+              <Route
+                key={id}
+                path={path}
+                element={
+                  <AppLayout>
+                    <ProtectedRoute roleRequired={role} path={path}>
+                      <Component />
+                    </ProtectedRoute>
+                  </AppLayout>
+                }
+              />
+            );
+          })}
           <Route path="/*" element={<PermissionDenied />} />
         </Routes>
       </AnimatePresence>

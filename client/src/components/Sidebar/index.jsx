@@ -7,11 +7,27 @@ import { BsFilter } from "react-icons/bs";
 import Avatar from "../Avatar";
 import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
-import { sidebarMapping } from "../../mappings";
+import { adminSidebarMapping } from "../../mappings";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const isExpanded = useSelector((state) => state.appConfig.sidebarExpanded);
+
+  const conditionalSidebarMapping = () => {
+    const userRole = JSON.parse(localStorage.getItem("role"));
+    if (userRole === "user") {
+      console.log("USER IS LOGGED");
+      return userSidebarMapping;
+    } else if (userRole === "vendor") {
+      console.log("VENDOR IS LOGGED");
+      return vendorSidebarMapping;
+    } else if (userRole === "admin") {
+      return adminSidebarMapping;
+    } else {
+      return [];
+    }
+  };
+
   return (
     <>
       {/* desktop sidebar */}
@@ -28,7 +44,7 @@ const Sidebar = () => {
         >
           <SmallVIcon />
           <div className="flex flex-col justify-center items-center">
-            {sidebarMapping.map(({ Icon, navLink }) => {
+            {conditionalSidebarMapping().map(({ Icon, navLink }) => {
               return (
                 <SidebarItem
                   to={navLink}
@@ -64,7 +80,7 @@ const Sidebar = () => {
 
             <div className="mt-3 w-full max-h-[calc(100vh-208px)] overflow-y-auto">
               {/* Apply fixed height and add overflow-y-auto */}
-              {sidebarMapping.map(({ title, Icon, navLink }) => {
+              {conditionalSidebarMapping().map(({ title, Icon, navLink }) => {
                 return (
                   <SidebarItem
                     to={navLink}
@@ -84,7 +100,7 @@ const Sidebar = () => {
           isExpanded ? "translate-x-0" : " translate-x-[-100%]"
         }  absolute bg-rose-50 transition-all duration-300 overflow-y-auto`}
       >
-        {sidebarMapping.map(({ title, Icon, navLink }) => {
+        {conditionalSidebarMapping().map(({ title, Icon, navLink }) => {
           return (
             <SidebarItem
               to={navLink}
