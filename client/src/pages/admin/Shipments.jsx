@@ -24,12 +24,7 @@ const Payment = () => {
         Header: "Order ID",
         accessor: "_id",
       },
-      {
-        Header: "Shipped Status",
-        accessor: "shipped",
-        // temperorly true is static
-        Cell: (row) => <p>true</p>,
-      },
+
       {
         Header: "Order Status",
         accessor: "order_status",
@@ -49,13 +44,7 @@ const Payment = () => {
       />
 
       <div className="mt-20">
-        <ReusableTable
-          columns={columns}
-          data={data}
-          showButtons
-          enableDelete
-          enableEdit
-        />
+        <ReusableTable columns={columns} data={data} />
       </div>
     </div>
   );

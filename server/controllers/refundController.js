@@ -29,20 +29,33 @@ const getRefundById = async (req, res) => {
 // Create a new refund
 const addRefund = async (req, res) => {
   try {
-    const { orderId, productId, quantity, price, totalPrice, status } =
-      req.body;
+    const { orderId, refundDetails, status } = req.body;
 
-    // Retrieve product information based on productId
-    const products = await Product.find({ _id: { $in: productId } });
-    if (products.length !== productId.length) {
-      return res.status(400).json({ error: "Invalid product ID" });
+    if (!Array.isArray(refundDetails) || refundDetails.length === 0) {
+      return res.status(400).json({ error: "Refund details are required" });
     }
+
+    for (const refundItem of refundDetails) {
+      const { productId, quantity, price } = refundItem;
+
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(400).json({ error: "Invalid product ID" });
+      }
+
+      if (quantity <= 0 || price <= 0) {
+        return res
+          .status(400)
+          .json({ error: "Quantity and price must be greater than 0" });
+      }
+    }
+    const totalPrice = refundDetails.reduce((total, refundItem) => {
+      return total + refundItem.quantity * refundItem.price;
+    }, 0);
 
     const refund = new Refund({
       orderId,
-      productId,
-      quantity,
-      price,
+      refundDetails,
       totalPrice,
       status,
     });
@@ -96,7 +109,9 @@ const deleteRefund = async (req, res) => {
     if (!refund) {
       return res.status(404).json({ error: "Refund not found" });
     }
-    res.sendStatus(204);
+    res
+      .status(200)
+      .json({ message: "refund deleted successfully", deletedRefund: refund });
   } catch (error) {
     console.error("Error deleting refund:", error);
     res.status(500).json({ error: "Internal server error" });
