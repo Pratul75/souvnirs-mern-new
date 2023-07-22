@@ -6,6 +6,7 @@ import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../../validations";
 import { BsArrowLeftShort } from "react-icons/bs";
+import API_WRAPPER from "../../../api";
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -20,13 +21,35 @@ const RegisterForm = () => {
     resolver: yupResolver(registerSchema()),
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("REGISTER DATA: ", data);
     if (data) {
-      const modal = document.getElementById("my_modal_1");
+      const payload = {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        mobile: data.mobile,
+        password: data.password,
+      };
+      if (data.option === "vendor") {
+        const response = await API_WRAPPER.post(
+          `/auth/register/vendor`,
+          payload
+        );
+        console.log("VENDOR RESPONSE: ", response.data);
+      }
+
+      if (data.option === "customer") {
+        const response = await API_WRAPPER.post(
+          "/auth/register/customer",
+          payload
+        );
+        console.log("CUSTOMER RESPONSE: ", response.data);
+      }
+      const modal = document.getElementById("register_modal");
       modal.style.background = "white";
       modal.showModal();
-      return window.my_modal_1.showModal();
+      return window.register_modal.showModal();
     }
   };
 
@@ -59,6 +82,7 @@ const RegisterForm = () => {
                   className="radio radio-error"
                   name="option"
                   id="buy"
+                  value="customer"
                   {...register("option")}
                 />
                 <label className="label" htmlFor="buy">
@@ -73,6 +97,7 @@ const RegisterForm = () => {
                   className="radio radio-error"
                   name="option"
                   id="sell"
+                  value="vendor"
                   {...register("option")}
                 />
                 <label className="label" htmlFor="sell">
@@ -237,7 +262,7 @@ const RegisterForm = () => {
         </div>
       </div>
       {/* modal*/}
-      <dialog id="my_modal_1" className="modal w-full">
+      <dialog id="register_modal" className="modal w-full">
         <form method="dialog" className="modal-box w-11/12 max-w-5xl">
           <button className="btn">
             <BsArrowLeftShort />

@@ -142,6 +142,4 @@ export const adminSidebarMapping = [
 ];
 
 // vendor sidebar mapping
-export const vendorSidebarMapping = [
-  
-];
+export const vendorSidebarMapping = [];

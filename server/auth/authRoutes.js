@@ -6,7 +6,7 @@ const {
 } = require("../auth/authController");
 
 router.post("/auth/register/vendor", registerVendor);
-router.post("/auth/register/user", registerCustomer);
+router.post("/auth/register/customer", registerCustomer);
 router.post("/auth/login", loginUser);
 
 module.exports = router;
