@@ -172,7 +172,6 @@ const Discounts = () => {
         subheading="This subheading is for coupons and discounts page. This is here to let user know that this page has coupons details."
       />
       <div className="mt-4 overflow-x-auto">
-        <h1 className="text-2xl">Discounts List</h1>
         <div className="flex justify-end mb-4">
           <Link
             to={PATHS.adminAddDiscount}
@@ -182,6 +181,7 @@ const Discounts = () => {
           </Link>
         </div>
         <ReusableTable
+          tableTitle="Discount List"
           columns={columns}
           data={data}
           showButtons
@@ -199,8 +199,6 @@ const Discounts = () => {
           totalLimit: selectedRow.totalLimit,
           useOneTime: selectedRow.useOneTime,
           activeDate: selectedRow.activeDate,
-
-          // Add default values for other inputs
         }}
         inputs={[
           {

@@ -29,6 +29,7 @@ const ReusableTable = ({
   showButtons,
   onSelectedRowObjectsChange,
   isSelectable,
+  tableTitle,
 }) => {
   const {
     getTableProps,
@@ -76,7 +77,6 @@ const ReusableTable = ({
   const { globalFilter } = state;
 
   // Pass the selected row IDs data to the parent component
-
   isSelectable &&
     useEffect(() => {
       const selectedRows = selectedFlatRows.map((row) => row.original);
@@ -98,7 +98,8 @@ const ReusableTable = ({
       variants={fadeInVariants}
       className="overflow-x-auto"
     >
-      <div className="mb-4 float-right">
+      <div className="flex justify-between items-center my-4">
+        <h1 className="ml-16 text-xl">{tableTitle || "Table Title"}</h1>
         <input
           type="text"
           value={globalFilter || ""}
@@ -195,6 +196,7 @@ ReusableTable.propTypes = {
     })
   ).isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tableTitle: PropTypes.string.isRequired,
   onEdit: PropTypes.func,
   onDelete: PropTypes.func,
   onShow: PropTypes.func,

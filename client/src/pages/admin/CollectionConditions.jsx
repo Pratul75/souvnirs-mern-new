@@ -206,6 +206,7 @@ const CollectionConditions = () => {
         </button>
         <div className="mt-4">
           <ReusableTable
+            tableTitle="Collection Condition List"
             columns={columns}
             data={data}
             showButtons

@@ -86,11 +86,12 @@ const Collection = () => {
       />
       <div>
         <div className="flex justify-end my-4">
-          <Link to={PATHS.adminAddCollection} className="btn btn-accent">
+          <Link to={PATHS.adminAddCollection} className="btn btn-accent w-48">
             Add Collections
           </Link>
         </div>
         <ReusableTable
+          tableTitle="Collection List"
           columns={columns}
           data={data}
           showButtons

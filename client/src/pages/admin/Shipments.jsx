@@ -44,7 +44,11 @@ const Payment = () => {
       />
 
       <div className="mt-20">
-        <ReusableTable columns={columns} data={data} />
+        <ReusableTable
+          tableTitle="Shipment List"
+          columns={columns}
+          data={data}
+        />
       </div>
     </div>
   );

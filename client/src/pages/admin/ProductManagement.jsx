@@ -4,6 +4,7 @@ import { PATHS } from "../../routes/paths";
 import { useEffect, useMemo, useState } from "react";
 import { getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
+import { GoPlus } from "react-icons/go";
 
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
@@ -136,23 +137,29 @@ const ProductManagement = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
         // image={HeaderImgTwo}
       />
-      <div className="mt-4">
-        <Link
-          to={PATHS.adminAddProducts}
-          className="btn btn-accent float-right ml-4"
-        >
-          Add Product
-        </Link>
+      <div className="w-full gap-4 mt-14">
+        <div className="flex justify-end">
+          <Link
+            to={PATHS.adminAddProducts}
+            className="btn btn-accent ml-4 w-48"
+          >
+            <GoPlus size={20} />
+            Add Product
+          </Link>
+        </div>
 
-        <ReusableTable
-          columns={columns}
-          data={data}
-          showButtons
-          enableEdit
-          enableDelete
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        <div className="mt-4">
+          <ReusableTable
+            tableTitle="Products List"
+            columns={columns}
+            data={data}
+            showButtons
+            enableEdit
+            enableDelete
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
 
       {/* edit modal  */}

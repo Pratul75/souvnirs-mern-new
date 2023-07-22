@@ -123,6 +123,7 @@ const Attributes = () => {
           </Link>
         </div>
         <ReusableTable
+          tableTitle="Attributes List"
           data={attributesList}
           columns={columns}
           showButtons

@@ -131,6 +131,7 @@ const Discounts = () => {
           </Link>
         </div>
         <ReusableTable
+          tableTitle="Coupon List"
           columns={columns}
           data={data}
           showButtons

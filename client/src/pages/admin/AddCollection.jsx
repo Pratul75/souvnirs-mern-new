@@ -40,6 +40,7 @@ const AddCollection = () => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
+
   const columns = useMemo(
     () => [
       {

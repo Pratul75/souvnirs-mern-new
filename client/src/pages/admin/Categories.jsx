@@ -41,7 +41,6 @@ const Categories = () => {
     console.log("CONVERTED ARR: ", convertedArr);
     return convertedArr;
   };
-  
 
   const getAllAttributes = async () => {
     try {
@@ -169,6 +168,7 @@ const Categories = () => {
       </div>
       <div className="mt-5">
         <ReusableTable
+          tableTitle="Categories List"
           data={categoriesList}
           columns={columns}
           showButtons

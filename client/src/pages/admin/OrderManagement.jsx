@@ -98,6 +98,7 @@ const OrderManagement = () => {
       />
       <div className="mt-10">
         <ReusableTable
+          tableTitle="Orders List"
           columns={columns}
           data={data}
           showButtons

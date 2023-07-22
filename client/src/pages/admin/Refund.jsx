@@ -144,8 +144,9 @@ const Refund = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
         // image={HeaderImgTwo}
       />
-      <div className="mt-4">
+      <div className="mt-8">
         <ReusableTable
+          tableTitle="Refund List"
           columns={columns}
           data={data}
           showButtons
