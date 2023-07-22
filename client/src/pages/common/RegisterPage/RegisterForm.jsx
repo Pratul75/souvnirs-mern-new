@@ -53,6 +53,7 @@ const RegisterForm = () => {
     }
   };
 
+  
   return (
     <>
       <div className="md:w-1/2 w-full">
@@ -182,7 +183,7 @@ const RegisterForm = () => {
                   <p className="text-red-500">{errors.password.message}</p>
                 )}
               </div>
-              <div className="form-control w-1/2  ">
+              <div className="form-control w-1/2">
                 <label className="label" htmlFor="mobile">
                   <span className="label-text">Mobile</span>
                 </label>
