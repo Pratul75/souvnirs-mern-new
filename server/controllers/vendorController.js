@@ -1,5 +1,5 @@
 const Vendor = require("../schema/vendorModal");
-
+const Store = require("../schema/storeModal");
 // Create a new vendor
 const createVendor = async (req, res) => {
   try {
@@ -81,12 +81,24 @@ const updateVendor = async (req, res) => {
 // Delete a vendor by ID
 const deleteVendor = async (req, res) => {
   try {
-    const vendor = await Vendor.findByIdAndDelete(req.params.id.substring(1));
+    const vendorId = req.params.id.substring(1);
+
+    // Check if vendor exists
+    const vendor = await Vendor.findById(vendorId);
     if (!vendor) {
       return res
         .status(404)
         .json({ success: false, error: "Vendor not found" });
     }
+
+    // Check if vendor's ID exists in the Store collection with the key "vendorId"
+    const store = await Store.findOneAndDelete({ vendorId });
+    if (store) {
+      console.log(`Store with vendorId ${vendorId} has been deleted.`);
+    }
+
+    // Delete the vendor
+    await Vendor.findByIdAndDelete(vendorId);
 
     res.json({ success: true, message: "Vendor deleted successfully" });
   } catch (error) {

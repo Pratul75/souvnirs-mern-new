@@ -30,19 +30,15 @@ const getRefundById = async (req, res) => {
 const addRefund = async (req, res) => {
   try {
     const { orderId, refundDetails, status } = req.body;
-
     if (!Array.isArray(refundDetails) || refundDetails.length === 0) {
       return res.status(400).json({ error: "Refund details are required" });
     }
-
     for (const refundItem of refundDetails) {
       const { productId, quantity, price } = refundItem;
-
       const product = await Product.findById(productId);
       if (!product) {
         return res.status(400).json({ error: "Invalid product ID" });
       }
-
       if (quantity <= 0 || price <= 0) {
         return res
           .status(400)
@@ -52,14 +48,12 @@ const addRefund = async (req, res) => {
     const totalPrice = refundDetails.reduce((total, refundItem) => {
       return total + refundItem.quantity * refundItem.price;
     }, 0);
-
     const refund = new Refund({
       orderId,
       refundDetails,
       totalPrice,
       status,
     });
-
     const savedRefund = await refund.save();
     res.status(201).json(savedRefund);
   } catch (error) {

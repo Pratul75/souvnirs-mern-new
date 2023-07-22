@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { EyeBtnSvg } from "../../icons/tableIcons";
-import { getStatusStyles } from "../../utils";
+import { debouncedShowToast, getStatusStyles } from "../../utils";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
   const [storeList, setStoreList] = useState([]);
   const [convertedArr, setConvertedArr] = useState([]);
   const [selectedStore, setSelectedStore] = useState(null);
-
+  const [selectedRow, setSelectedRow] = useState({});
+  const [apiTrigger, setApiTrigger] = useState(false);
   const convertToDesiredOutcome = (vendors, stores) => {
     const result = [];
 
@@ -17,6 +18,7 @@ const Vendor = () => {
 
       if (vendor) {
         const outcome = {
+          id: vendor._id,
           vendorName: vendor.firstName + " " + vendor.lastName,
           contact: vendor.mobile,
           store: store._id,
@@ -101,6 +103,31 @@ const Vendor = () => {
     }
   };
 
+  const submitHandleDelete = async () => {
+    try {
+      const response = await API_WRAPPER.delete(
+        `/vendors/delete-vendor/:${selectedRow.id}`
+      );
+      if (response.status === 200) {
+        debouncedShowToast("Vendor deleted successfully!", "success");
+        setApiTrigger((prevState) => !prevState);
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  const handleDelete = (row) => {
+    console.log("ROW TO BE DELETED: ", row);
+    window.vendor_delete_modal.showModal();
+    setSelectedRow(row);
+  };
+
+  const handleEdit = (row) => {
+    console.log("ROW TO BE EDITED: ", row);
+    setSelectedRow(row);
+  };
+
   const handleModalFormSubmit = (e) => {
     e.preventDefault();
     console.log("SELECTED STORE: ", selectedStore);
@@ -110,7 +137,7 @@ const Vendor = () => {
   useEffect(() => {
     fetchVendorList();
     fetchStoreList();
-  }, []);
+  }, [apiTrigger]);
 
   useEffect(() => {
     convertToDesiredOutcome(vendorList, storeList);
@@ -123,9 +150,16 @@ const Vendor = () => {
         subheading="This subheading exists because it is required to add a very brief detail about every page on the banner."
       />
       <div className="mt-4">
-        <ReusableTable columns={columns} data={data} />
+        <ReusableTable
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
       </div>
-
       {selectedStore && (
         <dialog id="storeFilterModal" className="modal ">
           <form
@@ -268,6 +302,31 @@ const Vendor = () => {
           </form>
         </dialog>
       )}
+      <dialog id="vendor_delete_modal" className="modal">
+        <form
+          onSubmit={submitHandleDelete}
+          method="dialog"
+          className="modal-box"
+        >
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Are you sure you want to delete the selected vendor?
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button type="submit" className="btn btn-error">
+              Delete
+            </button>
+            <button
+              onClick={() => window.vendor_delete_modal.close()}
+              type="button"
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };
