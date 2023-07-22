@@ -8,6 +8,7 @@ export { default as DashboardPieChartCard } from "./DashboardPieChartCard";
 export { default as VendorListComponent } from "./VendorListComponent";
 export { default as ReusableTable } from "./Table";
 export { default as IndeterminateCheckbox } from "./IndeterminateCheckbox";
+export { default as Modal } from "./Modal";
 export { default as TextEditor } from "./TextEditor";
 export { default as AdvanceCombobox } from "./AdvanceCombobox";
 export { default as Dropzone } from "./Dropzone";

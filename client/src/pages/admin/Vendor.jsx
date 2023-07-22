@@ -32,7 +32,6 @@ const Vendor = () => {
     setConvertedArr(result);
     return result;
   };
-
   const columns = useMemo(
     () => [
       {
@@ -78,7 +77,6 @@ const Vendor = () => {
     ],
     [storeList]
   );
-
   const data = useMemo(() => convertedArr, [convertedArr]);
 
   const fetchVendorList = async () => {
@@ -332,3 +330,4 @@ const Vendor = () => {
 };
 
 export default Vendor;
+

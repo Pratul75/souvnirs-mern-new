@@ -1,13 +1,13 @@
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
+import { Modal } from "../../components";
 const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
-  const [discountId, setDiscountId] = useState(null);
+  const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
 
   const fetchDiscounts = async () => {
@@ -22,18 +22,26 @@ const Discounts = () => {
     }
   };
 
-  const deleteDiscount = async () => {
-    const response = await API_WRAPPER.delete(
-      `/discount/delete-discount/:${discountId}`
-    );
-    setApiTrigger((prevState) => !prevState);
-    console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
+  // delete the discount
+  // const deleteDiscount = async () => {
+  //   const response = await API_WRAPPER.delete(
+  //     `/discount/delete-discount/:${discountId}`
+  //   );
+  //   setApiTrigger((prevState) => !prevState);
+  //   console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
+  // };
+
+  const handleDelete = (row) => {
+    window.delete_discount_modal.showModal();
+    setSelectedRow(row);
   };
 
-  const handleDiscountDelete = (id) => {
-    window.delete_discount_modal.showModal();
-    console.log("DISCOUNT ID:", id);
-    setDiscountId(id);
+  const handleClose = () => {
+    return window.delete_discount_modal.close();
+  };
+
+  const handleSave = (inputValues) => {
+    console.log("SAVING THE INPUT VALUES: ", inputValues);
   };
 
   const columns = useMemo(
@@ -186,24 +194,34 @@ const Discounts = () => {
           columns={columns}
           data={data}
           showButtons
-          onDelete={handleDiscountDelete}
+          enableDelete
+          onDelete={handleDelete}
         />
       </div>
-      <dialog id="delete_discount_modal" className="modal">
-        <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-3xl">Hello!</h3>
-          <p className="py-4 text-2xl">
-            Are you sure you want to delete the selected discount?
-          </p>
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            <button onClick={deleteDiscount} className="btn btn-error">
-              Delete
-            </button>
-            <button className="btn">Close</button>
-          </div>
-        </form>
-      </dialog>
+      <Modal
+        id="delete_discount_modal"
+        title="Are you sure you want to delete the selected value"
+        onClose={handleClose}
+        onSave={handleSave}
+        defaultValues={{
+          title: selectedRow.title,
+          totalLimit: selectedRow.totalLimit,
+          // Add default values for other inputs
+        }}
+        inputs={[
+          {
+            label: "Title",
+            type: "text",
+            name: "title",
+          },
+          {
+            label: "Total Limit",
+            type: "text",
+            name: "totalLimit",
+          },
+          // add more input objects as needed
+        ]}
+      />
     </div>
   );
 };
