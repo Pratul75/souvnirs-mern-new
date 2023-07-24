@@ -10,6 +10,7 @@ import { debouncedShowToast } from "../../../utils";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { decodeToken } from "react-jwt";
 import { PATHS } from "../../../routes/paths";
+
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -61,7 +62,6 @@ const RegisterForm = () => {
     // console.log("SECOND LEVEL DATA: ", levelTwoRegisterData);
     try {
       let token;
-      let vendorId;
 
       if (selectedRole === "vendor") {
         const levelOneResponse = await API_WRAPPER.post(
@@ -69,17 +69,17 @@ const RegisterForm = () => {
           levelOneRegisterData
         );
         if (levelOneResponse?.status === 200) {
-          console.log("LEVEL ONE RESPONSE: ", levelOneResponse?.data);
+          // console.log("LEVEL ONE RESPONSE: ", levelOneResponse?.data);
           token = levelOneResponse?.data?.token;
-          console.log("TOKEN: ", token);
+          // console.log("TOKEN: ", token);
           const { id, role } = decodeToken(token);
-          console.log("ROLE AND ID: ", id, role);
+          // console.log("ROLE AND ID: ", id, role);
           const levelTwoResponse = await API_WRAPPER.post(
             "/store/create-store",
             { ...levelTwoRegisterData, vendorId: id }
           );
           if (levelTwoResponse.status === 200) {
-            console.log("LEVEL TWO RESPONSE: ", levelTwoResponse?.data);
+            // console.log("LEVEL TWO RESPONSE: ", levelTwoResponse?.data);
             localStorage.setItem("role", JSON.stringify(role));
             localStorage.setItem("token", JSON.stringify(token));
             navigate(PATHS.vendorDashboard);
@@ -88,10 +88,19 @@ const RegisterForm = () => {
       }
 
       if (selectedRole === "customer") {
-        const levelOneResponse = await API_WRAPPER.post(
+        const payload = { ...levelOneRegisterData, ...levelTwoRegisterData };
+        // console.log("PAYLOAD: ", payload);
+        const response = await API_WRAPPER.post(
           "/auth/register/customer",
-          levelOneRegisterData
+          payload
         );
+        if (response?.status === 200) {
+          // console.log("RESPONSE OBJECT: ", response.data);
+          const { role } = decodeToken(response?.data?.token);
+          localStorage.setItem("role", JSON.stringify(role));
+          localStorage.setItem("token", JSON.stringify(token));
+          // TODO:  need to navigate to customer dashboard
+        }
       }
     } catch (error) {
       debouncedShowToast(error.message, "error");
@@ -100,7 +109,7 @@ const RegisterForm = () => {
 
   const handleSecondLevelHandleChange = (e) => {
     const { name, value } = e.target;
-    console.log("NAME: ", name, "VALUE: ", value);
+    // console.log("NAME: ", name, "VALUE: ", value);
     setLevelTwoRegisterData({ ...levelTwoRegisterData, [name]: value });
   };
 
