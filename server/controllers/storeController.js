@@ -4,7 +4,7 @@ const Store = require("../schema/storeModal");
 const createStore = async (req, res) => {
   try {
     const store = await Store.create(req.body);
-    res.status(201).json({ store });
+    res.status(200).json({ store });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create store" });

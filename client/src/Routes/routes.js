@@ -1,6 +1,7 @@
 import { nanoid } from "nanoid";
 import { PATHS } from "./paths";
 import {
+  // admin routes
   AdminDashboard,
   Cart,
   Categories,
@@ -29,6 +30,9 @@ import {
   AddDiscount,
   AddCoupon,
   AddCollection,
+
+  // vendor routes
+  VendorDashboard,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 // admin routes
@@ -177,5 +181,13 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddCollection,
     Component: AddCollection,
+  },
+];
+
+export const vendorRoutes = [
+  {
+    id: nanoid(),
+    path: PATHS.vendorDashboard,
+    Component: VendorDashboard,
   },
 ];

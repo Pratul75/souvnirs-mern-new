@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerLevelOneSchema } from "../../../validations";
-import { BsArrowLeftShort } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
-
+import { debouncedShowToast } from "../../../utils";
+import { BsArrowLeftShort } from "react-icons/bs";
+import { decodeToken } from "react-jwt";
+import { PATHS } from "../../../routes/paths";
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [levelOneRegisterData, setLevelOneRegisterData] = useState({});
-  const [setLevelTwoRegisterData, setSetLevelTwoRegisterData] = useState({});
+  const [levelTwoRegisterData, setLevelTwoRegisterData] = useState({});
+  const [selectedRole, setSelectedRole] = useState({});
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -38,26 +42,66 @@ const RegisterForm = () => {
       setLevelOneRegisterData(levelOnepayload);
       console.log("LEVEL ONE PAYLOAD: ", levelOnepayload);
 
-      // if (data.option === "vendor") {
-      //   const response = await API_WRAPPER.post(
-      //     `/auth/register/vendor`,
-      //     payload
-      //   );
-      //   console.log("VENDOR RESPONSE: ", response.data);
-      // }
+      if (data.option === "vendor") {
+        setSelectedRole("vendor");
+        console.log("VENDOR SELECTED");
+      }
 
-      // if (data.option === "customer") {
-      //   const response = await API_WRAPPER.post(
-      //     "/auth/register/customer",
-      //     payload
-      //   );
-      //   console.log("CUSTOMER RESPONSE: ", response.data);
-      // }
-      const modal = document.getElementById("register_levelTwo_modal");
-      modal.style.background = "white";
-      modal.showModal();
+      if (data.option === "customer") {
+        setSelectedRole("customer");
+        console.log("CUSTOMER SELECTED");
+      }
+
       return window.register_levelTwo_modal.showModal();
     }
+  };
+
+  const onSubmitSecondLevel = async (e) => {
+    e.preventDefault();
+    // console.log("SECOND LEVEL DATA: ", levelTwoRegisterData);
+    try {
+      let token;
+      let vendorId;
+
+      if (selectedRole === "vendor") {
+        const levelOneResponse = await API_WRAPPER.post(
+          "/auth/register/vendor",
+          levelOneRegisterData
+        );
+        if (levelOneResponse?.status === 200) {
+          console.log("LEVEL ONE RESPONSE: ", levelOneResponse?.data);
+          token = levelOneResponse?.data?.token;
+          console.log("TOKEN: ", token);
+          const { id, role } = decodeToken(token);
+          console.log("ROLE AND ID: ", id, role);
+          const levelTwoResponse = await API_WRAPPER.post(
+            "/store/create-store",
+            { ...levelTwoRegisterData, vendorId: id }
+          );
+          if (levelTwoResponse.status === 200) {
+            console.log("LEVEL TWO RESPONSE: ", levelTwoResponse?.data);
+            localStorage.setItem("role", JSON.stringify(role));
+            localStorage.setItem("token", JSON.stringify(token));
+            navigate(PATHS.vendorDashboard);
+          }
+        }
+      }
+
+      if (selectedRole === "customer") {
+        const levelOneResponse = await API_WRAPPER.post(
+          "/auth/register/customer",
+          levelOneRegisterData
+        );
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  const handleSecondLevelHandleChange = (e) => {
+    const { name, value } = e.target;
+    console.log("NAME: ", name, "VALUE: ", value);
+    setLevelTwoRegisterData({ ...levelTwoRegisterData, [name]: value });
   };
 
   return (
@@ -90,6 +134,7 @@ const RegisterForm = () => {
                   name="option"
                   id="buy"
                   value="customer"
+                  defaultChecked
                   {...register("option")}
                 />
 
@@ -275,42 +320,55 @@ const RegisterForm = () => {
         </div>
       </div>
 
-      {/* register level two modal*/}
+      {/* second level of registration */}
       <dialog id="register_levelTwo_modal" className="modal w-full">
-        <form method="dialog" className="modal-box w-11/12 max-w-5xl">
-          <button className="btn">
+        <form
+          onSubmit={(e) => onSubmitSecondLevel(e)}
+          method="dialog"
+          className="modal-box w-11/12 max-w-5xl"
+        >
+          <button
+            onClick={() => window.register_levelTwo_modal.close()}
+            className="btn"
+          >
             <BsArrowLeftShort />
             Back
           </button>
           <h3 className="font-bold text-lg text-center">
-            Complete your Profile
+            Hi {levelOneRegisterData.firstName}! Complete your profile to
+            continue
           </h3>
           <p className="py-4 text-center">
-            this is required to ensure a trusted platform for buyers and sellers
+            This is required to ensure a trusted platform for buyers and sellers
           </p>
-
           <div className="w-full flex px-5 gap-4">
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label className="label">
                 <span className="label-text">Organization name</span>
               </label>
               <input
+                onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="input input-primary"
                 type="text"
-                name="organization-name"
-                placeholder="minimum 2 chcaracters"
+                name="organizationName"
+                placeholder="Minimum 2 characters"
               />
             </div>
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label htmlFor="country" className="label">
                 <span className="label-text">Country</span>
               </label>
-              <select className="select-primary select" name="" id="">
+              <select
+                onChange={(e) => handleSecondLevelHandleChange(e)}
+                className="select-primary select"
+                name="country"
+                id="country"
+              >
                 <option defaultChecked value="select country">
-                  select country
+                  Select country
                 </option>
                 <option>India</option>
-                <option>Unites States</option>
+                <option>United States</option>
                 <option>Canada</option>
                 <option>Japan</option>
               </select>
@@ -319,22 +377,28 @@ const RegisterForm = () => {
 
           <div className="w-full flex px-5 gap-4">
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label htmlFor="city" className="label">
                 <span className="label-text">City</span>
               </label>
               <input
+                onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="input input-primary"
                 type="text"
-                name="organization-name"
-                placeholder="minimum 2 characters"
+                name="city"
+                placeholder="Minimum 2 characters"
               />
             </div>
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label htmlFor="organization-type" className="label">
                 <span className="label-text">Organization Type</span>
               </label>
-              <select className="select-primary select" name="" id="">
-                <option defaultChecked value="select country">
+              <select
+                onChange={(e) => handleSecondLevelHandleChange(e)}
+                className="select-primary select"
+                name="organizationType"
+                id="organization-type"
+              >
+                <option defaultChecked value="Organization Type">
                   Organization Type
                 </option>
                 <option>A</option>
@@ -346,12 +410,17 @@ const RegisterForm = () => {
           </div>
           <div className="w-full flex px-5 gap-4">
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label htmlFor="order-type" className="label">
                 <span className="label-text">Order Type interested in</span>
               </label>
-              <select className="select-primary select" name="" id="">
-                <option defaultChecked value="select country">
-                  select type
+              <select
+                onChange={(e) => handleSecondLevelHandleChange(e)}
+                className="select-primary select"
+                name="orderType"
+                id="order-type"
+              >
+                <option defaultChecked value="select type">
+                  Select type
                 </option>
                 <option>A</option>
                 <option>B</option>
@@ -360,21 +429,23 @@ const RegisterForm = () => {
               </select>
             </div>
             <div className="form-control w-1/2">
-              <label htmlFor="organization-name" className="label">
+              <label htmlFor="postal-code" className="label">
                 <span className="label-text">Postal/Pin/Zip code</span>
               </label>
               <input
+                onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="input input-primary"
-                type="number"
-                name="organization-name"
-                placeholder="minimum 2 characters"
+                type="text"
+                name="pinCode"
+                placeholder="Minimum 2 characters"
               />
             </div>
           </div>
           <div className="flex justify-center mt-5">
             <button
-              className="bg-gradient-to-r w-1/2 from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-3 px-4  hover:shadow-lg rounded-[4px] text-2xl"
-              onClick={handleSubmit(onSubmitFirstLevel)}
+              onClick={(e) => onSubmitSecondLevel(e)}
+              type="button"
+              className="bg-gradient-to-r w-1/2 from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-3 px-4 hover:shadow-lg rounded-[4px] text-2xl"
             >
               SUBMIT
             </button>

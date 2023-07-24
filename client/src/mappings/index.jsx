@@ -142,4 +142,10 @@ export const adminSidebarMapping = [
 ];
 
 // vendor sidebar mapping
-export const vendorSidebarMapping = [];
+export const vendorSidebarMapping = [
+  {
+    title: "Vendor Dashboard",
+    navLink: PATHS.vendorDashboard,
+    Icon: OrderManagementIcon,
+  },
+];

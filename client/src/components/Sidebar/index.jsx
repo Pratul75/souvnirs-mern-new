@@ -7,7 +7,7 @@ import { BsFilter } from "react-icons/bs";
 import Avatar from "../Avatar";
 import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
-import { adminSidebarMapping } from "../../mappings";
+import { adminSidebarMapping, vendorSidebarMapping } from "../../mappings";
 
 const Sidebar = () => {
   const dispatch = useDispatch();

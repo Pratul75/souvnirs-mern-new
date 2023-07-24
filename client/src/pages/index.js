@@ -33,3 +33,6 @@ export { default as Attribute } from "./admin/Attribute";
 export { default as AddDiscount } from "./admin/AddDiscount";
 export { default as AddCoupon } from "./admin/addCoupon";
 export { default as AddCollection } from "./admin/AddCollection";
+
+// vendor routes
+export { default as VendorDashboard } from "./vendor/VendorDashboard";

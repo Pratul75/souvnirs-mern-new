@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { RegisterPage, LoginPage, PermissionDenied } from "./pages";
 import AppLayout from "./layouts/AppLayout";
-import { adminRoutes } from "./Routes/routes";
+import { adminRoutes, vendorRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -37,6 +37,22 @@ const App = () => {
           />
 
           {adminRoutes.map(({ id, path, Component }) => {
+            return (
+              <Route
+                key={id}
+                path={path}
+                element={
+                  <AppLayout>
+                    <ProtectedRoute roleRequired={role} path={path}>
+                      <Component />
+                    </ProtectedRoute>
+                  </AppLayout>
+                }
+              />
+            );
+          })}
+
+          {vendorRoutes.map(({ id, path, Component }) => {
             return (
               <Route
                 key={id}

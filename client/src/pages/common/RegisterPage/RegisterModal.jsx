@@ -1,56 +1,35 @@
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { registerLevelTwoSchema } from "../../../validations";
+import PropTypes from "prop-types";
 
-const RegisterModal = () => {
-  const schema = yup.object().shape({
-    organizationName: yup
-      .string()
-      .min(2, "Minimum 2 characters")
-      .required("Organization name is required"),
-    country: yup
-      .string()
-      .notOneOf(["select country"], "Please select a country"),
-    city: yup
-      .string()
-      .min(2, "Minimum 2 characters")
-      .required("City is required"),
-    organizationType: yup
-      .string()
-      .notOneOf(["Organization Type"], "Please select an organization type"),
-    orderType: yup
-      .string()
-      .notOneOf(["select type"], "Please select an order type"),
-    postalCode: yup
-      .string()
-      .min(2, "Minimum 2 characters")
-      .required("Postal/Pin/Zip code is required"),
-  });
-
+const RegisterModal = ({ onSubmit, name }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerLevelTwoSchema()),
   });
-
-  const onSubmit = (data) => {
-    console.log("SUBMITTED DATA: ", data);
-    // Add your logic here for form submission
-  };
 
   return (
     <>
-      <dialog id="my_modal_1" className="modal w-full">
-        <form method="dialog" className="modal-box w-11/12 max-w-5xl">
-          <button className="btn">
+      <dialog id="register_levelTwo_modal" className="modal w-full">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          method="dialog"
+          className="modal-box w-11/12 max-w-5xl"
+        >
+          <button
+            onClick={() => window.register_levelTwo_modal.close()}
+            className="btn"
+          >
             <BsArrowLeftShort />
             Back
           </button>
           <h3 className="font-bold text-lg text-center">
-            Complete your Profile
+            Hi {name}! Complete your profile to continue
           </h3>
           <p className="py-4 text-center">
             This is required to ensure a trusted platform for buyers and sellers
@@ -86,10 +65,10 @@ const RegisterModal = () => {
                 <option defaultChecked value="select country">
                   Select country
                 </option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
+                <option>India</option>
+                <option>United States</option>
+                <option>Canada</option>
+                <option>Japan</option>
               </select>
               {errors.country && (
                 <span className="error-message">{errors.country.message}</span>
@@ -182,10 +161,7 @@ const RegisterModal = () => {
             </div>
           </div>
           <div className="flex justify-center mt-5">
-            <button
-              className="bg-gradient-to-r w-1/2 from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-3 px-4 hover:shadow-lg rounded-[4px] text-2xl"
-              onClick={handleSubmit(onSubmit)}
-            >
+            <button className="bg-gradient-to-r w-1/2 from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-3 px-4 hover:shadow-lg rounded-[4px] text-2xl">
               SUBMIT
             </button>
           </div>
@@ -193,6 +169,11 @@ const RegisterModal = () => {
       </dialog>
     </>
   );
+};
+
+RegisterModal.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default RegisterModal;

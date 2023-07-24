@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 
 const storeSchema = new mongoose.Schema(
   {
-    vendor_id: {
+    vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
       required: true,
     },
-    organization_name: {
+    organizationName: {
       type: String,
       required: true,
     },
-    organization_type: {
+    organizationType: {
       type: String,
       required: true,
     },
@@ -23,14 +23,14 @@ const storeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    pin_code: {
+    pinCode: {
       type: String,
       required: true,
     },
-    order_type_interested: {
+    orderTypeInterested: {
       type: String,
     },
-    organization_role: {
+    organizationRole: {
       type: String,
     },
     category_type_interest: {

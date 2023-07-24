@@ -33,6 +33,7 @@ export const registerLevelTwoSchema = () => {
     organisationName: yup.string().required("Organisation Name is required"),
     counrty: yup.string().required("Country is required"),
     city: yup.string().required("City is required"),
-    organisationType: yup.strinf().required("A  "),
+    orderTypeInterested: yup.string().required("Order type is required"),
+    organisationType: yup.string().required("Organisation type is required"),
   });
 };
