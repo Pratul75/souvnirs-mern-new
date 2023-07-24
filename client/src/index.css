@@ -1,8 +1,8 @@
+@import "react-toastify/dist/ReactToastify.css";
 @import url(https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:200,300,regular,500,600,700,800,200italic,300italic,italic,500italic,600italic,700italic,800italic);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "react-toastify/dist/ReactToastify.css";
 
 /* For WebKit-based browsers (Chrome, Safari) */
 ::-webkit-scrollbar {

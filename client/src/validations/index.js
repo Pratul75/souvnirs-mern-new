@@ -14,7 +14,7 @@ export const loginSchema = () => {
   });
 };
 
-export const registerSchema = () => {
+export const registerLevelOneSchema = () => {
   return yup.object().shape({
     firstName: yup.string().required("First Name is required"),
     lastName: yup.string().required("Last Name is required"),
@@ -25,5 +25,14 @@ export const registerSchema = () => {
     password: yup.string().required("Password is required"),
     mobile: yup.string().required("Mobile number is required"),
     checkbox1: yup.boolean().oneOf([true], "Please accept the T&C"),
+  });
+};
+
+export const registerLevelTwoSchema = () => {
+  return yup.object().shape({
+    organisationName: yup.string().required("Organisation Name is required"),
+    counrty: yup.string().required("Country is required"),
+    city: yup.string().required("City is required"),
+    organisationType: yup.strinf().required("A  "),
   });
 };

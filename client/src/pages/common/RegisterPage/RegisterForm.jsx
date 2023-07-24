@@ -4,11 +4,15 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../../../validations";
+import { registerLevelOneSchema } from "../../../validations";
 import { BsArrowLeftShort } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
+
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [levelOneRegisterData, setLevelOneRegisterData] = useState({});
+  const [setLevelTwoRegisterData, setSetLevelTwoRegisterData] = useState({});
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -18,38 +22,41 @@ const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(registerSchema()),
+    resolver: yupResolver(registerLevelOneSchema()),
   });
 
-  const onSubmit = async (data) => {
+  const onSubmitFirstLevel = async (data) => {
     console.log("REGISTER DATA: ", data);
     if (data) {
-      const payload = {
+      const levelOnepayload = {
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         mobile: data.mobile,
         password: data.password,
       };
-      if (data.option === "vendor") {
-        const response = await API_WRAPPER.post(
-          `/auth/register/vendor`,
-          payload
-        );
-        console.log("VENDOR RESPONSE: ", response.data);
-      }
+      setLevelOneRegisterData(levelOnepayload);
+      console.log("LEVEL ONE PAYLOAD: ", levelOnepayload);
 
-      if (data.option === "customer") {
-        const response = await API_WRAPPER.post(
-          "/auth/register/customer",
-          payload
-        );
-        console.log("CUSTOMER RESPONSE: ", response.data);
-      }
-      const modal = document.getElementById("register_modal");
+      // if (data.option === "vendor") {
+      //   const response = await API_WRAPPER.post(
+      //     `/auth/register/vendor`,
+      //     payload
+      //   );
+      //   console.log("VENDOR RESPONSE: ", response.data);
+      // }
+
+      // if (data.option === "customer") {
+      //   const response = await API_WRAPPER.post(
+      //     "/auth/register/customer",
+      //     payload
+      //   );
+      //   console.log("CUSTOMER RESPONSE: ", response.data);
+      // }
+      const modal = document.getElementById("register_levelTwo_modal");
       modal.style.background = "white";
       modal.showModal();
-      return window.register_modal.showModal();
+      return window.register_levelTwo_modal.showModal();
     }
   };
 
@@ -85,6 +92,7 @@ const RegisterForm = () => {
                   value="customer"
                   {...register("option")}
                 />
+
                 <label className="label" htmlFor="buy">
                   <span className="label-text uppercase font-semibold">
                     Buy from Souvnirs
@@ -115,6 +123,7 @@ const RegisterForm = () => {
                   type="text"
                   className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                   placeholder="enter here"
+                  defaultValue={"Vishesh"}
                   {...register("firstName")}
                 />
                 {errors.firstName && (
@@ -129,6 +138,7 @@ const RegisterForm = () => {
                   type="text"
                   className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                   placeholder="enter here"
+                  defaultValue={"Bajpayee"}
                   {...register("lastName")}
                 />
                 {errors.lastName && (
@@ -146,6 +156,7 @@ const RegisterForm = () => {
                   type="text"
                   className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                   placeholder="ename@companyname.com"
+                  defaultValue={"vishesh@souvnirs.com"}
                   {...register("email")}
                 />
                 {errors.email && (
@@ -165,6 +176,7 @@ const RegisterForm = () => {
                     type={showPassword ? "text" : "password"}
                     className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                     placeholder="Minimum 8 characters"
+                    defaultValue={"Qwerty@123"}
                     {...register("password")}
                   />
                   <button
@@ -190,6 +202,7 @@ const RegisterForm = () => {
                   type="text"
                   className="w-full input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                   placeholder="enter without country code"
+                  defaultValue={"9876543210"}
                   {...register("mobile")}
                 />
                 {errors.mobile && (
@@ -253,7 +266,7 @@ const RegisterForm = () => {
             <div className="flex mt-5">
               <button
                 className="bg-gradient-to-r w-full from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-6 px-8  hover:shadow-lg rounded-[4px] text-2xl"
-                onClick={handleSubmit(onSubmit)}
+                onClick={handleSubmit(onSubmitFirstLevel)}
               >
                 CREATE ACCOUNT
               </button>
@@ -261,8 +274,9 @@ const RegisterForm = () => {
           </div>
         </div>
       </div>
-      {/* modal*/}
-      <dialog id="register_modal" className="modal w-full">
+
+      {/* register level two modal*/}
+      <dialog id="register_levelTwo_modal" className="modal w-full">
         <form method="dialog" className="modal-box w-11/12 max-w-5xl">
           <button className="btn">
             <BsArrowLeftShort />
@@ -295,10 +309,10 @@ const RegisterForm = () => {
                 <option defaultChecked value="select country">
                   select country
                 </option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
+                <option>India</option>
+                <option>Unites States</option>
+                <option>Canada</option>
+                <option>Japan</option>
               </select>
             </div>
           </div>
@@ -360,7 +374,7 @@ const RegisterForm = () => {
           <div className="flex justify-center mt-5">
             <button
               className="bg-gradient-to-r w-1/2 from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-3 px-4  hover:shadow-lg rounded-[4px] text-2xl"
-              onClick={handleSubmit(onSubmit)}
+              onClick={handleSubmit(onSubmitFirstLevel)}
             >
               SUBMIT
             </button>
