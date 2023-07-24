@@ -63,11 +63,11 @@ const updateVendor = async (req, res) => {
         .json({ success: false, error: "Vendor not found" });
     }
 
-    vendor.firstName = firstName;
-    vendor.lastName = lastName;
-    vendor.email = email;
-    vendor.password = password;
-    vendor.mobile = mobile;
+    vendor.firstName = firstName ?? vendor.firstName;
+    vendor.lastName = lastName ?? vendor.lastName;
+    vendor.email = email ?? vendor.email;
+    vendor.password = password ?? vendor.password;
+    vendor.mobile = mobile ?? vendor.mobile;
 
     await vendor.save();
 

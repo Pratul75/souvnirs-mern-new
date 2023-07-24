@@ -101,6 +101,7 @@ const ProductInventory = () => {
           onEdit={handleEdit}
           onDelete={handleDelete}
           showButtons={true}
+          enableEdit enableDelete
         />
 
         {/* edit modal */}

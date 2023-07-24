@@ -41,7 +41,7 @@ const getStoreById = async (req, res) => {
 const updateStoreById = async (req, res) => {
   const { id } = req.params;
   try {
-    const store = await Store.findByIdAndUpdate(id, req.body, {
+    const store = await Store.findByIdAndUpdate(id.substring(1), req.body, {
       new: true,
     });
     if (!store) {

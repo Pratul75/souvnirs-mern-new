@@ -11,6 +11,8 @@ const Collection = () => {
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
 
+  const [editedRow, setEditedRow] = useState({});
+
   const fetchAllCollections = async () => {
     try {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
@@ -43,6 +45,10 @@ const Collection = () => {
     ],
     []
   );
+  const handleEditChange = (e) => {
+    setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+  };
+  console.log('Collection.jsx', editedRow);
 
   const data = useMemo(() => collectionList, [collectionList]);
 
@@ -50,6 +56,19 @@ const Collection = () => {
     setSelectedRow(row);
     window.collection_delete_modal.showModal();
     console.log("ROW TO BE DELETED: ", row);
+  };
+
+  const submitEditedRow = async (e) => {
+    e.preventDefault();
+    console.log('Collection.jsx', editedRow);
+    const response = await API_WRAPPER.put(
+      `collection/update-collection-by-id/:${selectedRow._id}`,
+      { ...editedRow }
+    );
+    if (response?.status === 200) {
+      setApiTrigger((prevState) => !prevState);
+      window.collection_edit_modal.close();
+    }
   };
 
   const handleDeleteSubmit = async () => {
@@ -104,15 +123,70 @@ const Collection = () => {
 
       {/* edit modal */}
       <dialog id="collection_edit_modal" className="modal">
-        <form method="dialog" className="modal-box">
+        <form onSubmit={(e) => submitEditedRow(e)} method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Title</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.title}
+                className="input input-accent"
+                type="text"
+                name="title"
+                id=""
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">description</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.description}
+                className="input input-accent"
+                type="text"
+                name="description"
+                id=""
+              />
+            </div>
+            <div className="form-control">
+              <div className="label">
+                <span>Select Attributes</span>
+              </div>
+
+            </div>
+
+            <div className="form-control col-span-1">
+              <label className="label">
+                <span className="label-text">Status</span>
+              </label>
+              <select
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.status}
+                className="select select-accent"
+                name="status"
+                id=""
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="DEACTIVE">DEACTIVE</option>
+                <option value="PENDING">PENDING</option>
+              </select>
+            </div>
+          </div>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-accent">Save Changes </button>
-            <button className="btn">Close</button>
+            <button type="submit" className="btn btn-accent">
+              Save changes
+            </button>
+            <button
+              onClick={() => window.collection_edit_modal.close()}
+              className="btn"
+            >
+              Close
+            </button>
           </div>
         </form>
       </dialog>

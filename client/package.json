@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "@hookform/resolvers": "^3.1.1",
     "@reduxjs/toolkit": "^1.9.5",
     "apexcharts": "^3.41.0",
     "autoprefixer": "^10.4.14",
@@ -24,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.45.0",
+    "react-icons": "^4.10.1",
     "react-jwt": "^1.2.0",
     "react-multi-select-component": "^4.3.4",
     "react-quill": "^2.0.0",

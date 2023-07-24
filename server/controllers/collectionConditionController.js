@@ -39,15 +39,22 @@ const getCollectionConditionById = async (req, res) => {
 // Update a CollectionCondition by ID
 const updateCollectionConditionById = async (req, res) => {
   try {
-    const collectionCondition = await CollectionCondition.findByIdAndUpdate(
-      req.params.id.substring(1),
-      req.body,
-      { new: true }
-    );
-    if (!collectionCondition) {
+    const existingCC = await CollectionCondition.findById(req.params.id.substring(1))
+    // const collectionCondition = await CollectionCondition.findByIdAndUpdate(
+    //   req.params.id.substring(1),
+    //   req.body,
+    //   { new: true }
+    // );
+    if (!existingCC) {
       return res.status(404).json({ error: "CollectionCondition not found" });
     }
-    res.json(collectionCondition);
+    const { title, status, conditionValues } = req.body
+    existingCC.title = title ?? existingCC.title;
+    existingCC.status = status ?? existingCC.status
+    let upCV = conditionValues.map(val => val.value)
+    existingCC.conditionValues = upCV;
+    const updatedCC = existingCC.save()
+    res.status(200).json(updatedCC)
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

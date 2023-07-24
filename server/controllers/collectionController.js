@@ -44,7 +44,7 @@ const getCollectionById = async (req, res) => {
 const updateCollectionById = async (req, res) => {
   try {
     const collection = await Collection.findByIdAndUpdate(
-      req.params.id,
+      req.params.id.substring(1),
       req.body,
       {
         new: true,

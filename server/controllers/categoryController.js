@@ -48,6 +48,7 @@ const updateCategory = async (req, res) => {
     const existingAttributeIds = existingCategory.attributes.map((attr) =>
       attr.toString()
     );
+    const { name, hsn_code, status, type, } = req.body
 
     // Check if each attribute ID is already present in the attributes array
     // const duplicateAttributeIds = attributes.filter((attrId) =>
@@ -66,11 +67,15 @@ const updateCategory = async (req, res) => {
       (attrId, index) => attributes.indexOf(attrId) === index
     );
 
-    existingCategory.attributes =
+    existingCategory.name = name ?? existingCategory.name,
+      existingCategory.hsn_code = hsn_code ?? existingCategory.hsn_code,
+      existingCategory.type = type ?? existingCategory.type,
+      existingCategory.attributes =
       existingCategory.attributes.concat(uniqueAttributes);
     const updatedCategory = await existingCategory.save();
     res.status(200).json(updatedCategory);
   } catch (error) {
+    console.log('categoryController.js', error);
     res.status(500).json({ error: error.message });
   }
 };

@@ -15,6 +15,9 @@ const CollectionConditions = () => {
   const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
+  const [selectedVal, setSelectedVal] = useState([])
+
+  const [editedRow, setEditedRow] = useState({});
   // table columns
   const columns = useMemo(
     () => [
@@ -47,6 +50,9 @@ const CollectionConditions = () => {
     ],
     []
   );
+  const handleEditChange = (e) => {
+    setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+  };
 
   const convertArr = (arr) => {
     const convertedArr = arr.map((item) => {
@@ -102,7 +108,15 @@ const CollectionConditions = () => {
       );
     }
   };
-
+  const convertAttributesList = (arr) => {
+    console.log('CollectionConditions.jsx', arr);
+    const convertedArr = arr.map(({ _id, name }) => ({
+      label: name,
+      value: _id,
+    }));
+    console.log("CONVERTED ARR: ", convertedArr);
+    return convertedArr;
+  };
   const getAllConditionValues = async () => {
     const response = await API_WRAPPER.get(
       "/condition-value/get-all-condition-values"
@@ -144,14 +158,29 @@ const CollectionConditions = () => {
 
   const handleEdit = (row) => {
     setSelectedRow(row);
+    setSelectedVal(selectedRow.conditionValues);
     window.collection_condition_edit_modal.showModal();
   };
-
+  console.log('CollectionConditions.jsx', selectedVal);
   const handleSubmit = (e) => {
     e.preventDefault();
     addCollectionCondition();
   };
+  console.log('CollectionConditions.jsx', selectedRow);
 
+  const editFormHandler = async () => {
+    try {
+
+      const response = await API_WRAPPER.put(
+        `/collection-condition/update-collection-condition/:${selectedRow._id}`, { ...editedRow, conditionValues: selected }
+      );
+      console.log('CollectionConditions.jsx', response.data);
+      window.collection_condition_edit_modal.close()
+      setApiTrigger((prevState) => !prevState);
+    } catch (error) {
+      console.log('CollectionConditions.jsx', error);
+    }
+  }
   useEffect(() => {
     getAllCollectionCondition();
     getAllConditionValues();
@@ -166,7 +195,7 @@ const CollectionConditions = () => {
       <Header
         heading="Collection Conditions"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <motion.form
         initial="initial"
@@ -220,15 +249,58 @@ const CollectionConditions = () => {
 
       {/* edit modal */}
       <dialog id="collection_condition_edit_modal" className="modal">
-        <form method="dialog" className="modal-box">
+        <form onSubmit={(e) => submitEditedRow(e)} method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Title</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.title}
+                className="input input-accent"
+                type="text"
+                name="title"
+                id=""
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">condition values</span>
+              </label>
+              <MultiSelect
+                options={convertArr(conditionValueList)}
+                value={selected}
+                onChange={setSelected}
+              />
+            </div>
+
+
+            <div className="form-control col-span-1">
+              <label className="label">
+                <span className="label-text">Status</span>
+              </label>
+              <select
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.status}
+                className="select select-accent"
+                name="status"
+                id=""
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="DEACTIVE">DEACTIVE</option>
+                <option value="PENDING">PENDING</option>
+              </select>
+            </div>
+          </div>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
+            <button type="button" onClick={(e) => { editFormHandler(e) }} className="btn btn-accent">
+              Save changes
+            </button>
             <button
-              onClick={() => window.collection_condition_edit_modal.close()}
+              onClick={() => window.collection_edit_modal.close()}
               className="btn"
             >
               Close
@@ -253,7 +325,7 @@ const CollectionConditions = () => {
               Delete
             </button>
             <button
-              onClick={() => window.collection_condition_delete_modal.close()}
+              onClick={() => window.collection_condition_edit_modal.close()}
               className="btn"
             >
               Close
