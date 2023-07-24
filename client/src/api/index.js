@@ -8,7 +8,16 @@ const API_WRAPPER = axios.create({
 // Request interceptor
 API_WRAPPER.interceptors.request.use(
   (config) => {
-    // You can add custom logic here, such as adding headers or modifying the request
+    // Get the token from localStorage
+    const token = localStorage.getItem("token");
+
+    // If the token exists, add it to the request headers
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    // You can add other custom logic here, such as adding additional headers or modifying the request
+
     return config;
   },
   (error) => {

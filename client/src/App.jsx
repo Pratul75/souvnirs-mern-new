@@ -10,9 +10,8 @@ import { ProtectedRoute, useAuth } from "./routes/ProtectedRoute";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
-  const role = useSelector((state) => state.appConfig.login
-  );
-  console.log('App.jsx', role);
+  const role = useSelector((state) => state.appConfig.login);
+  console.log("App.jsx", role);
   return (
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
       <AnimatePresence>
@@ -58,7 +57,6 @@ const App = () => {
           })}
 
           {vendorRoutes.map(({ id, path, defaultRole, Component }) => {
-
             return (
               <Route
                 key={id}

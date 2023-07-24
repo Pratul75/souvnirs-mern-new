@@ -148,4 +148,26 @@ export const vendorSidebarMapping = [
     navLink: PATHS.vendorDashboard,
     Icon: OrderManagementIcon,
   },
+  {
+    title: "Product Management",
+    navLink: PATHS.vendorProductManagement,
+    Icon: ProductInventoryIcon,
+  },
+  {
+    title: "Order Management",
+    navLink: PATHS.vendorOrderManagement,
+    Icon: OrderManagementIcon,
+  },
+  {
+    title: "Discounts",
+    navLink: PATHS.vendorDiscounts,
+    Icon: CouponDiscountIcon,
+  },
+  {
+    title: "Coupons",
+    navLink: PATHS.vendorCoupons,
+    Icon: CouponDiscountIcon,
+  },
 ];
+
+// customer sidebar mapping

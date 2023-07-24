@@ -22,7 +22,7 @@ export const useAuth = () => {
     }
   }
   if (user || vendor || admin) {
-    console.log('ProtectedRoute.jsx', role);
+    console.log("ProtectedRoute.jsx", role);
     return {
       auth: true,
       role: role,
@@ -42,9 +42,9 @@ const RouteValidate = (defaultRole, localStorageRole) => {
 
 export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   const { auth, role } = useAuth();
-  console.log(roleRequired)
-  console.log(role)
-  console.log(defaultRole)
+  console.log(roleRequired);
+  console.log(role);
+  console.log(defaultRole);
 
   if (defaultRole !== role) {
     return <Navigate to={PATHS.permissionDenied} />;
@@ -54,11 +54,9 @@ export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
     return <Navigate to={PATHS.login} />;
   }
   if (roleRequired) {
-
     if (role !== defaultRole) {
       return <Navigate to={PATHS.permissionDenied} />;
-    }
-    else if (role === "user") {
+    } else if (role === "user") {
       // User can access user routes only
       if (role === "user" && RouteValidate(defaultRole, role)) {
         return children;
