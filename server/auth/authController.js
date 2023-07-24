@@ -55,12 +55,13 @@ const registerVendor = async (req, res) => {
 
 const registerCustomer = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    await Customer.create({ ...req.body, password: hashedPassword });
+    const token = jwt.sign({ role: "customer" }, secretKey, {
+      expiresIn: "1h",
+    });
 
-    await Customer.create({ username, password: hashedPassword });
-
-    res.status(200).json({ message: "User registered successfully!" });
+    res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).json({ error: "Internal Server Error" });

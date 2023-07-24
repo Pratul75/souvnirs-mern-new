@@ -39,7 +39,7 @@ const customerSchema = new mongoose.Schema(
       type: String,
     },
     orderTypeInterested: {
-      type: [String],
+      type: String,
     },
     otp: {
       type: String,
