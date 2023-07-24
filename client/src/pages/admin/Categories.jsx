@@ -15,7 +15,6 @@ const Categories = () => {
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
-
   // Add selectedRow.attributes to selectedAttributes
   const [selectedAttributes, setSelectedAttributes] = useState([]);
 
