@@ -11,6 +11,7 @@ import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 const AddCoupon = () => {
   const [couponData, setCouponData] = useState({});
+  console.log('AddCoupon.jsx', couponData,);
   const [
     minimumPurchaseAmountInputToggle,
     setMinimumPurchaseAmountInputToggle,
@@ -374,7 +375,7 @@ const AddCoupon = () => {
                   placeholder="0.01"
                   className="input input-bordered w-full" // Added w-full class here
                 />
-                <span>%</span>
+                <span>{couponData.typeTitle === "percentage" ? "%" : ""}</span>
               </label>
             </div>
           </div>
@@ -749,44 +750,42 @@ const AddCoupon = () => {
           </div>
           {appliedToFilteredState[0]?.name
             ? appliedToFilteredState.map((filteredObj) => {
-                return (
-                  <motion.div
-                    variants={buttonVariants}
-                    whileTap={{ scale: 0.8 }}
-                    initial="initial"
-                    whileHover="hover"
-                    onClick={() => handleAddFilteredItemToState(filteredObj)}
-                    key={nanoid()}
-                    className={` ${
-                      appliedToFilteredItemsObjects.includes(filteredObj)
-                        ? "bg-accent"
-                        : "bg-base-200"
+              return (
+                <motion.div
+                  variants={buttonVariants}
+                  whileTap={{ scale: 0.8 }}
+                  initial="initial"
+                  whileHover="hover"
+                  onClick={() => handleAddFilteredItemToState(filteredObj)}
+                  key={nanoid()}
+                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
+                    ? "bg-accent"
+                    : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                  >
-                    <p>Name: {filteredObj?.name}</p>
-                    <p>ID: {filteredObj?._id}</p>
-                  </motion.div>
-                );
-              })
+                >
+                  <p>Name: {filteredObj?.name}</p>
+                  <p>ID: {filteredObj?._id}</p>
+                </motion.div>
+              );
+            })
             : appliedToFilteredState.map((filteredObj) => {
-                return (
-                  <motion.div
-                    variants={buttonVariants}
-                    initial="initial"
-                    whileHover="hover"
-                    onClick={() => handleAddFilteredItemToState(filteredObj)}
-                    key={nanoid()}
-                    className={` ${
-                      appliedToFilteredItemsObjects.includes(filteredObj)
-                        ? "bg-accent"
-                        : "bg-base-200"
+              return (
+                <motion.div
+                  variants={buttonVariants}
+                  initial="initial"
+                  whileHover="hover"
+                  onClick={() => handleAddFilteredItemToState(filteredObj)}
+                  key={nanoid()}
+                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
+                    ? "bg-accent"
+                    : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                  >
-                    <p>Title: {filteredObj?.title}</p>
-                    <p>ID: {filteredObj?._id}</p>
-                  </motion.div>
-                );
-              })}
+                >
+                  <p>Title: {filteredObj?.title}</p>
+                  <p>ID: {filteredObj?._id}</p>
+                </motion.div>
+              );
+            })}
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}

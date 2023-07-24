@@ -8,6 +8,7 @@ const Discounts = () => {
   const [couponsList, setCouponsList] = useState([]);
   const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [selectedRow, setSelectedRow] = useState()
 
   const fetchCoupons = async () => {
     try {
@@ -16,14 +17,33 @@ const Discounts = () => {
         console.log("COUPONS LISTS: ", response.data);
         setCouponsList(response?.data);
       }
+      setApiTrigger(prev = !prev)
     } catch (error) {
       console.error("ERROR occured whule fetching discounts list", error);
     }
   };
+  const handleEditChange = (e) => {
+    setSelectedRow({ ...selectedRow, [e.target.name]: e.target.value });
+  };
+  const submitEditedRow = async (e) => {
+    e.preventDefault()
+    console.log('Coupons.jsx', couponId._id);
+    const response = await API_WRAPPER.put(`/coupon/update-coupon/:${couponId._id}`);
+    console.log('Coupons.jsx', response);
+
+  }
+
+
+  const editHandler = async (row) => {
+    console.log('Coupons.jsx', row);
+    window.edit_coupon_modal.showModal()
+    setSelectedRow(row)
+
+  }
 
   const deleteCoupons = async () => {
     const response = await API_WRAPPER.delete(
-      `/discount/delete-discount/:${couponId}`
+      `/coupon/delete-coupon/:${couponId._id}`
     );
     setApiTrigger((prevState) => !prevState);
     console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
@@ -34,6 +54,7 @@ const Discounts = () => {
     console.log("DISCOUNT ID:", id);
     setCouponId(id);
   };
+  console.log('Coupons.jsx', couponId);
 
   const columns = useMemo(
     () => [
@@ -59,7 +80,8 @@ const Discounts = () => {
         Header: "Use One Times",
         accessor: "useOneTime",
         Cell: (props) => {
-          if (props?.row?.original?.useOneTime) {
+          console.log('Coupons.jsx', props);
+          if (props?.row?.original?.totalLimit === 1) {
             return <p className="text-emerald-600">YES</p>;
           } else {
             return <p className="text-rose-500">NO</p>;
@@ -109,11 +131,11 @@ const Discounts = () => {
   );
 
   const data = useMemo(() => couponsList, [couponsList]);
-
+  console.log('Coupons.jsx', columns);
   useEffect(() => {
     fetchCoupons();
   }, [apiTrigger]);
-
+  console.log('Coupons.jsx', selectedRow);
   return (
     <div>
       <Header
@@ -135,9 +157,92 @@ const Discounts = () => {
           columns={columns}
           data={data}
           showButtons
+          enableEdit
+          enableDelete
+          onEdit={editHandler}
           onDelete={handleDiscountDelete}
         />
       </div>
+      <dialog id="edit_coupon_modal" className="modal">
+        <form
+          method="dialog"
+          className="modal-box"
+        >
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.couponCode}
+                className="input input-accent"
+                type="text"
+                name="couponCode"
+                id=""
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">title</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.title}
+                className="input input-accent"
+                type="text"
+                name="title"
+                id=""
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">totalLimit</span>
+              </label>
+              <input
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.totalLimit}
+                className="input input-accent"
+                type="text"
+                name="totalLimit"
+                id=""
+              />
+            </div>
+
+            <div className="form-control col-span-1">
+              <label className="label">
+                <span className="label-text">Status</span>
+              </label>
+              <select
+                onChange={(e) => handleEditChange(e)}
+                defaultValue={selectedRow?.status}
+                className="select select-accent"
+                name="status"
+                id=""
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="DEACTIVE">DEACTIVE</option>
+                <option value="PENDING">PENDING</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button type="button" onClick={(e) => submitEditedRow(e)} className="btn btn-accent">
+              Save changes
+            </button>
+            <button
+              onClick={() => window.edit_coupon_modal.close()}
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+
+      </dialog>
       <dialog id="delete_discount_modal" className="modal">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-3xl">Hello!</h3>
@@ -153,7 +258,7 @@ const Discounts = () => {
           </div>
         </form>
       </dialog>
-    </div>
+    </div >
   );
 };
 

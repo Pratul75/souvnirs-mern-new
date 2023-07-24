@@ -54,7 +54,8 @@ const updateCouponById = async (req, res) => {
 // Controller to delete a specific coupon by ID
 const deleteCouponById = async (req, res) => {
   try {
-    const deletedCoupon = await CouponModal.findByIdAndDelete(req.params.id);
+    console.log('couponController.js', req.params.id);
+    const deletedCoupon = await CouponModal.findByIdAndDelete(req.params.id.substring(1));
     if (!deletedCoupon) {
       return res.status(404).json({ error: "Coupon not found" });
     }
