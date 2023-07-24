@@ -176,7 +176,6 @@ const CollectionConditions = () => {
       );
       console.log('CollectionConditions.jsx', response.data);
       window.collection_condition_edit_modal.close()
-
       setApiTrigger((prevState) => !prevState);
     } catch (error) {
       console.log('CollectionConditions.jsx', error);
