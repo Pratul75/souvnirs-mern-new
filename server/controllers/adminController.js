@@ -26,9 +26,7 @@ const createAdmin = async (req, res) => {
 // Delete an admin by ID
 const deleteAdmin = async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const deletedAdmin = await Admin.findByIdAndDelete(id);
+    const deletedAdmin = await Admin.findByIdAndDelete(req.params.id);
 
     if (!deletedAdmin) {
       return res.status(404).json({ error: "Admin not found" });

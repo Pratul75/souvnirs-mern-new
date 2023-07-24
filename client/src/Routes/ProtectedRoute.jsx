@@ -34,38 +34,46 @@ const useAuth = () => {
   }
 };
 
-const RouteValidate = (path, role) => {
-  for (let key in PATHS) {
-    if (PATHS[key] === path) {
-      if (PATHS[key].includes(role)) {
-        return true;
-      }
-    }
-  }
+const RouteValidate = (defaultRole, localStorageRole) => {
+  if (defaultRole === localStorageRole) return true;
   return false;
 };
 
-export const ProtectedRoute = ({ roleRequired, path, children }) => {
+export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   const { auth, role } = useAuth();
-  console.log(roleRequired, path, children, auth);
 
-  if (roleRequired) {
-    return auth ? (
-      roleRequired === role && RouteValidate(path, role) ? (
-        children
-      ) : (
-        <Navigate to={PATHS.permissionDenied} />
-      )
-    ) : (
-      <Navigate to={PATHS.login} />
-    );
-  } else {
-    return auth ? children : <Navigate to={PATHS.login} />;
+  if (!auth) {
+    // If not authenticated, redirect to login
+    return <Navigate to={PATHS.login} />;
   }
+  if (roleRequired) {
+    if (role === "user") {
+      // User can access user routes only
+      if (roleRequired === "user" && RouteValidate(defaultRole, role)) {
+        return children;
+      }
+    } else if (role === "vendor") {
+      // Vendor can access vendor routes only
+      if (roleRequired === "vendor" && RouteValidate(defaultRole, role)) {
+        return children;
+      }
+    } else if (role === "admin") {
+      // Admin can access admin routes only
+      if (roleRequired === "admin" && RouteValidate(defaultRole, role)) {
+        return children;
+      }
+    }
+
+    // If the user's role doesn't match the required role or the route validation fails, redirect to permission denied page
+    return <Navigate to={PATHS.permissionDenied} />;
+  }
+
+  // For routes without specific role requirements, simply render the children components
+  return children;
 };
 
 ProtectedRoute.propTypes = {
   roleRequired: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  defaultRole: PropTypes.string.isRequired,
 };

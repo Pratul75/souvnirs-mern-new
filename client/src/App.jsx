@@ -36,14 +36,17 @@ const App = () => {
             }
           />
 
-          {adminRoutes.map(({ id, path, Component }) => {
+          {adminRoutes.map(({ id, path, defaultRole, Component }) => {
             return (
               <Route
                 key={id}
                 path={path}
                 element={
                   <AppLayout>
-                    <ProtectedRoute roleRequired={role} path={path}>
+                    <ProtectedRoute
+                      roleRequired={role}
+                      defaultRole={defaultRole}
+                    >
                       <Component />
                     </ProtectedRoute>
                   </AppLayout>
@@ -52,14 +55,18 @@ const App = () => {
             );
           })}
 
-          {vendorRoutes.map(({ id, path, Component }) => {
+          {vendorRoutes.map(({ id, path, defaultRole, Component }) => {
             return (
               <Route
                 key={id}
                 path={path}
                 element={
                   <AppLayout>
-                    <ProtectedRoute roleRequired={role} path={path}>
+                    <ProtectedRoute
+                      roleRequired={role}
+                      path={path}
+                      defaultRole={defaultRole}
+                    >
                       <Component />
                     </ProtectedRoute>
                   </AppLayout>

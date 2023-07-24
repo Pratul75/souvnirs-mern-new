@@ -13,7 +13,7 @@ const ReverseAuthRoute = ({ children }) => {
     if (loggedRole === "user" || role === "user") {
       return <Navigate to={PATHS.userDashboard} />;
     } else if (loggedRole === "vendor" || role === "vendor") {
-      return <Navigate to={PATHS.astrologerDashboard} />;
+      return <Navigate to={PATHS.vendorDashboard} />;
     } else if (loggedRole === "admin" || role === "admin") {
       return <Navigate to={PATHS.adminDashboard} />;
     }
