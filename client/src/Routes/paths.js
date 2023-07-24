@@ -3,7 +3,7 @@ export const PATHS = {
   root: "/",
   login: "/login",
   register: "/register",
-  permissionDenied: "/permission_denied",
+  permissionDenied: "/permission-denied",
   // admin routes
   adminDashboard: "/admin-dashboard",
   adminCart: "/admin-cart",
@@ -38,4 +38,8 @@ export const PATHS = {
 
   // vendor routes
   vendorDashboard: "/vendor-dashboard",
+  vendorProductManagement: "/vendor-product-management",
+  vendorOrderManagement: "/vendor-order-management",
+  vendorDiscounts: "/vendor-discounts",
+  vendorCoupons: "/vendor-coupons",
 };

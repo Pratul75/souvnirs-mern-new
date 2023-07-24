@@ -36,3 +36,7 @@ export { default as AddCollection } from "./admin/AddCollection";
 
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
+export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
+export { default as VendorProductManagement } from "./vendor/VendorProductManagement";
+export { default as VendorDiscounts } from "./vendor/VendorDiscounts";
+export { default as VendorCoupons } from "./vendor/VendorCoupons";

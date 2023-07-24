@@ -33,6 +33,10 @@ import {
 
   // vendor routes
   VendorDashboard,
+  VendorProductManagement,
+  VendorOrderManagement,
+  VendorCoupons,
+  VendorDiscounts,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 // admin routes
@@ -219,5 +223,29 @@ export const vendorRoutes = [
     path: PATHS.vendorDashboard,
     defaultRole: "vendor",
     Component: VendorDashboard,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorProductManagement,
+    defaultRole: "vendor",
+    Component: VendorProductManagement,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorOrderManagement,
+    defaultRole: "vendor",
+    Component: VendorOrderManagement,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorDiscounts,
+    defaultRole: "vendor",
+    Component: VendorDiscounts,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorCoupons,
+    defaultRole: "vendor",
+    Component: VendorCoupons,
   },
 ];
