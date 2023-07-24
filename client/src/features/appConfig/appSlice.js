@@ -21,6 +21,7 @@ export const appConfigSlice = createSlice({
       state.darkMode = !state.darkMode;
     },
     getLoginInfo: (state, action) => {
+      console.log('appSlice.js', action.payload);
       state.login = action.payload;
     },
   },

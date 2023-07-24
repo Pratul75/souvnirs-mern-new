@@ -6,11 +6,13 @@ import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./routes/ReverseAuthRoute";
-import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { ProtectedRoute, useAuth } from "./routes/ProtectedRoute";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
-  const role = useSelector((state) => state.appConfig.login);
+  const role = useSelector((state) => state.appConfig.login
+  );
+  console.log('App.jsx', role);
   return (
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
       <AnimatePresence>
@@ -56,6 +58,7 @@ const App = () => {
           })}
 
           {vendorRoutes.map(({ id, path, defaultRole, Component }) => {
+
             return (
               <Route
                 key={id}
@@ -74,7 +77,7 @@ const App = () => {
               />
             );
           })}
-          <Route path="/*" element={<PermissionDenied />} />
+          <Route path={PATHS.permissionDenied} element={<PermissionDenied />} />
         </Routes>
       </AnimatePresence>
     </div>

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
 import { PATHS } from "./paths";
 
-const useAuth = () => {
+export const useAuth = () => {
   // get item from localstorage
   let user;
   let vendor;
@@ -22,6 +22,7 @@ const useAuth = () => {
     }
   }
   if (user || vendor || admin) {
+    console.log('ProtectedRoute.jsx', role);
     return {
       auth: true,
       role: role,
@@ -41,25 +42,35 @@ const RouteValidate = (defaultRole, localStorageRole) => {
 
 export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   const { auth, role } = useAuth();
+  console.log(roleRequired)
+  console.log(role)
+  console.log(defaultRole)
 
+  if (defaultRole !== role) {
+    return <Navigate to={PATHS.permissionDenied} />;
+  }
   if (!auth) {
     // If not authenticated, redirect to login
     return <Navigate to={PATHS.login} />;
   }
   if (roleRequired) {
-    if (role === "user") {
+
+    if (role !== defaultRole) {
+      return <Navigate to={PATHS.permissionDenied} />;
+    }
+    else if (role === "user") {
       // User can access user routes only
-      if (roleRequired === "user" && RouteValidate(defaultRole, role)) {
+      if (role === "user" && RouteValidate(defaultRole, role)) {
         return children;
       }
     } else if (role === "vendor") {
       // Vendor can access vendor routes only
-      if (roleRequired === "vendor" && RouteValidate(defaultRole, role)) {
+      if (role === "vendor" && RouteValidate(defaultRole, role)) {
         return children;
       }
     } else if (role === "admin") {
       // Admin can access admin routes only
-      if (roleRequired === "admin" && RouteValidate(defaultRole, role)) {
+      if (role === "admin" && RouteValidate(defaultRole, role)) {
         return children;
       }
     }

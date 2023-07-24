@@ -3,6 +3,7 @@ export const PATHS = {
   root: "/",
   login: "/login",
   register: "/register",
+  permissionDenied: "/permission_denied",
   // admin routes
   adminDashboard: "/admin-dashboard",
   adminCart: "/admin-cart",
