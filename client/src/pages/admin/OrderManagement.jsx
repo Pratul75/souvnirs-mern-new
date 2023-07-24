@@ -94,7 +94,7 @@ const OrderManagement = () => {
       <Header
         heading="Order Management"
         subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
-        // image={OrderManagementBannerImg}
+      // image={OrderManagementBannerImg}
       />
       <div className="mt-10">
         <ReusableTable
@@ -129,7 +129,7 @@ const OrderManagement = () => {
                   defaultValue={selectedRow?.invoiceId}
                   className="input input-accent"
                   type="text"
-                  name="invoiceId"
+                  name="invoice_id"
                   id=""
                 />
               </div>

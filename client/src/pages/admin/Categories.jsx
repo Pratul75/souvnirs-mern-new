@@ -71,7 +71,7 @@ const Categories = () => {
   };
 
   const submitEditedRow = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const response = await API_WRAPPER.put(
       `/category/update-category/:${selectedRow._id}`,
       { ...editedRow, attributes: selectedAttributes.map((item) => item.value) }
@@ -135,14 +135,14 @@ const Categories = () => {
     // Set default selected values for MultiSelect based on selectedRow.attributes
     const defaultSelectedAttributes = selectedRow.attributes
       ? selectedRow.attributes.map((attributeId) => {
-          const attribute = attributesList.find(
-            (attr) => attr._id === attributeId
-          );
-          return {
-            label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
-            value: attributeId,
-          };
-        })
+        const attribute = attributesList.find(
+          (attr) => attr._id === attributeId
+        );
+        return {
+          label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
+          value: attributeId,
+        };
+      })
       : [];
     setSelectedAttributes(defaultSelectedAttributes);
   }, [selectedRow, attributesList]);
@@ -152,7 +152,7 @@ const Categories = () => {
       <Header
         heading="Category Management"
         subheading="This is a subheading for the category management section. This subheading contains necessary details that are required by the user to know about the category page "
-        // image={CategoryBannerImg}
+      // image={CategoryBannerImg}
       />
 
       <div className="w-full  gap-4 mt-14">
@@ -181,7 +181,7 @@ const Categories = () => {
         {/* edit modal */}
         <dialog id="categories_edit_modal" className="modal">
           <form
-            onSubmit={(e) => submitEditedRow(e)}
+
             method="dialog"
             className="modal-box"
           >
@@ -256,7 +256,7 @@ const Categories = () => {
 
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button type="submit" className="btn btn-accent">
+              <button type="button" onClick={(e) => submitEditedRow(e)} className="btn btn-accent">
                 Save changes
               </button>
               <button
