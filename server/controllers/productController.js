@@ -51,7 +51,7 @@ const getProducts = async (req, res) => {
 
     }
     else if (req.role === "vendor") {
-      productsList = await Product.find();
+      productsList = await Product.find({ vendorId: req.userId });
     }
     console.log('productController.js', req.userId)
 
