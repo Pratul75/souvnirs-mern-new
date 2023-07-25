@@ -189,5 +189,3 @@ export const vendorSidebarMapping = [
     Icon: CouponDiscountIcon,
   },
 ];
-
-// customer sidebar mapping

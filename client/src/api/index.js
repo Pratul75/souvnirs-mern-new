@@ -13,7 +13,7 @@ API_WRAPPER.interceptors.request.use(
 
     // If the token exists, add it to the request headers
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `Bearer ${JSON.parse(token)}`;
     }
 
     // You can add other custom logic here, such as adding additional headers or modifying the request
