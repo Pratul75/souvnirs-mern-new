@@ -1,32 +1,28 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
-const SidebarItem = () => {
+const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   return (
-    <li>
-      <a className="tooltip tooltip-right" data-tip="Stats">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-          />
-        </svg>
-      </a>
+    <li className="w-full my-2">
+      <Link
+        to={navLink}
+        className={`tooltip tooltip-right flex  w-full  p-4 ${
+          sidebarState ? "justify-start" : "justify-center"
+        }`}
+        data-tip={title}
+      >
+        <Icon />
+        {title && <span className="ml-2 text-md">{title}</span>}
+      </Link>
     </li>
   );
 };
 
 SidebarItem.propTypes = {
-  // Icon: PropTypes.object.isRequired,
-  // title: PropTypes.string.isRequired,
-  // to: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  navLink: PropTypes.string.isRequired,
+  Icon: PropTypes.node,
+  sidebarState: PropTypes.bool.isRequired,
 };
 
 export default SidebarItem;
