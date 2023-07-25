@@ -1,32 +1,62 @@
-import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { setActiveLink } from "../../features/appConfig/appSlice";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const SidebarItem = ({ Icon, title, to }) => {
-  const dispatch = useDispatch();
-  const isActiveLink = useSelector((x) => x.appConfig.activeLink.payload);
-  const sidebarExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
+const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
+  // Animation properties for sidebar item title
+  const titleVariants = {
+    expanded: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+    collapsed: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.6, -0.05, 0.01, 0.99],
+      },
+    },
+  };
 
   return (
-    <NavLink
-      to={to}
-      className={`p-4 rounded-xl flex items-center  cursor-pointer mb-3 hover:bg-base-100 ${
-        isActiveLink === to ? "bg-blue-100 text-[#4E62C2]" : ""
-      }`}
-      onClick={() => dispatch(setActiveLink(to))}
+    <motion.li
+      className="w-full my-2"
+      initial={false}
+      animate={sidebarState ? "expanded" : "collapsed"}
+      variants={titleVariants}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
     >
-      {Icon}
-
-      {sidebarExpanded && <p className="ml-4">{title}</p>}
-    </NavLink>
+      <Link
+        to={navLink}
+        className={`tooltip tooltip-right flex w-full p-4 ${
+          sidebarState ? "justify-start" : "justify-center"
+        }`}
+        data-tip={title}
+      >
+        {Icon && <Icon />} {/* Only render Icon if it exists */}
+        {sidebarState && title && (
+          <motion.span
+            className="ml-2 text-md"
+            variants={titleVariants}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+          >
+            {title}
+          </motion.span>
+        )}
+      </Link>
+    </motion.li>
   );
 };
 
 SidebarItem.propTypes = {
-  Icon: PropTypes.object.isRequired,
   title: PropTypes.string.isRequired,
-  to: PropTypes.string,
+  navLink: PropTypes.string.isRequired,
+  Icon: PropTypes.node,
+  sidebarState: PropTypes.bool.isRequired,
 };
 
 export default SidebarItem;
