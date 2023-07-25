@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../routes/paths";
 
-const PermissionDenied = () => {
+const PageNotFound = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-base-200">
       <div className="p-8 bg-base-100 rounded shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">
-          403 Forbidden - Permission Denied
-        </h1>
+        <h1 className="text-4xl font-bold mb-4">404 - Page not found</h1>
         <p className="text-lg mb-4">
-          Oops! You don't have permission to access this page.
+          Oops! It seems like you are tring to access a page that is not
+          available.
         </p>
         <Link to={PATHS.login} className="btn btn-accent">
           Go Back
@@ -19,4 +18,4 @@ const PermissionDenied = () => {
   );
 };
 
-export default PermissionDenied;
+export default PageNotFound;

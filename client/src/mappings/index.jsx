@@ -96,7 +96,7 @@ export const adminSidebarMapping = [
   },
   {
     title: "Customer",
-    navLink: PATHS.adminbCustomer,
+    navLink: PATHS.adminCustomer,
     Icon: CustomerIcon,
   },
   {
@@ -157,6 +157,26 @@ export const vendorSidebarMapping = [
     title: "Order Management",
     navLink: PATHS.vendorOrderManagement,
     Icon: OrderManagementIcon,
+  },
+  {
+    title: "Cart",
+    navLink: PATHS.vendorCart,
+    Icon: CartIcon,
+  },
+  {
+    title: "Checkouts",
+    navLink: PATHS.vendorCheckout,
+    Icon: CheckoutIcon,
+  },
+  {
+    title: "Shipments",
+    navLink: PATHS.vendorShipments,
+    Icon: ShipmentsIcon,
+  },
+  {
+    title: "Product Inventory",
+    navLink: PATHS.vendorProductInventory,
+    Icon: ProductInventoryIcon,
   },
   {
     title: "Discounts",
