@@ -192,8 +192,8 @@ const AddProduct = () => {
         image={HeaderImgTwo}
       />
       <div className="w-full  mt-8">
-        <div className="flex">
-          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+        <div className="flex ">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xl">
             <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -209,7 +209,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -233,7 +233,7 @@ const AddProduct = () => {
         </div>
 
         <div className="flex mt-8">
-          <div className="bg-white shadow-md p-4 mx-4 w-2/3">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3">
             <h3 className="font-semibold">Prdoduct Description</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -248,7 +248,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -307,12 +307,12 @@ const AddProduct = () => {
           </div>
         </div>
         <div className="flex mt-8">
-          <div className="bg-white shadow-md p-4 mx-4 w-2/3 h-auto">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3 h-auto">
             <h3 className="font-semibold">Basic Tabs</h3>
             <hr className="mt-4" />
             <Tabs tabs={tabs} />
           </div>
-          <div className="bg-white shadow-md p-4 mx-4 w-1/3">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 

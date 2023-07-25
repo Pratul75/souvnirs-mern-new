@@ -284,7 +284,7 @@ const RegisterForm = () => {
                 <div className="form-control">
                   <input
                     type="checkbox"
-                    className="checkbox checkbox-error checked:bg-white"
+                    className="checkbox checkbox-error checked:bg-base-200"
                   />
                 </div>
                 <p>

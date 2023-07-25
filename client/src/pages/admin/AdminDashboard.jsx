@@ -130,7 +130,7 @@ const AdminDashboard = () => {
     {
       label: "Total Sales",
       content: (
-        <div className="flex gap-4 bg-white">
+        <div className="flex gap-4 bg-base-200">
           {/* add barchart later */}
           <img src={BarChartImg} />
           <div className="w-full flex flex-col gap-2">
@@ -173,7 +173,7 @@ const AdminDashboard = () => {
     {
       label: "By Month",
       content: (
-        <div className="flex gap-4 bg-white">
+        <div className="flex gap-4 bg-base-200">
           {/* add barchart later */}
           <img className="w-52" src={BarChartImg} />
           <div className="w-full flex flex-col gap-2">
@@ -221,7 +221,7 @@ const AdminDashboard = () => {
     {
       label: "All Transactions",
       content: (
-        <div className="flex gap-4 bg-white">
+        <div className="flex gap-4 bg-base-200">
           {/* add barchart later */}
           <div className="w-full flex flex-col gap-2">
             <DetailsCard
@@ -263,7 +263,7 @@ const AdminDashboard = () => {
     {
       label: "Pending",
       content: (
-        <div className="flex gap-4 bg-white">
+        <div className="flex gap-4 bg-base-200">
           {/* add barchart later */}
           <div className="w-full flex flex-col gap-2">
             <DetailsCard
@@ -305,7 +305,7 @@ const AdminDashboard = () => {
     {
       label: "Success",
       content: (
-        <div className="flex gap-4 bg-white">
+        <div className="flex gap-4 bg-base-200">
           {/* add barchart later */}
           <div className="w-full flex flex-col gap-2">
             <DetailsCard
@@ -426,7 +426,7 @@ const AdminDashboard = () => {
       <Tabs tabs={tabs} />
       {/* product overview and add product */}
       <div className="flex gap-4 w-full">
-        <div className="p-4 w-3/4  border-[1px] border-gray-300 mt-8 bg-white rounded-xl">
+        <div className="p-4 w-3/4  border-[1px] border-gray-300 mt-8 bg-base-200 rounded-xl">
           <h1>Product overview</h1>
           <div className="mt-8 flex items-center justify-between">
             <div className="flex gap-4">

@@ -51,6 +51,19 @@ const VendorOrderManagement = () => {
       );
     }
   };
+  const deleteSelectedRow = async () => {
+    console.log('VendorOrderManagement.jsx', selectedRow);
+    const response = await API_WRAPPER.delete(
+      `/order/delete-order/:${selectedRow.orderId}`
+    );
+    if (response.status === 200) {
+      setApiTrigger((prevState) => !prevState);
+      console.log(
+        "SELECTED ROW IS DELETED WITH FOLLOWING RESPONSE: ",
+        response?.data
+      );
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -212,8 +225,8 @@ const VendorOrderManagement = () => {
             </p>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-error">Delete</button>
-              <button className="btn">Close</button>
+              <button className="btn btn-error" onClick={deleteSelectedRow}>Delete</button>
+              <button className="btn" onClick={() => { window.order_management_delete_modal.close() }}>Close</button>
             </div>
           </form>
         </dialog>
