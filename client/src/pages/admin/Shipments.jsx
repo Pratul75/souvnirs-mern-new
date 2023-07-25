@@ -2,7 +2,7 @@ import { Header, ReusableTable } from "../../components";
 import PaymentBanner from "../../assets/images/collectionBannerImg.png";
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
-const Payment = () => {
+const Shipment = () => {
   const [ordersList, setOrdersList] = useState([]);
 
   const getOrders = async () => {
@@ -40,7 +40,7 @@ const Payment = () => {
       <Header
         heading="Shipments"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w"
-        // image={PaymentBanner}
+      // image={PaymentBanner}
       />
 
       <div className="mt-20">
@@ -54,4 +54,4 @@ const Payment = () => {
   );
 };
 
-export default Payment;
+export default Shipment;

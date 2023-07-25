@@ -188,4 +188,9 @@ export const vendorSidebarMapping = [
     navLink: PATHS.vendorCoupons,
     Icon: CouponDiscountIcon,
   },
+  {
+    title: "Refund",
+    navLink: PATHS.vendorRefund,
+    Icon: RefundIcon
+  }
 ];

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
 
-const Discounts = () => {
+const Coupons = () => {
   const [couponsList, setCouponsList] = useState([]);
   const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -263,4 +263,4 @@ const Discounts = () => {
   );
 };
 
-export default Discounts;
+export default Coupons;
