@@ -15,7 +15,7 @@ const CollectionConditions = () => {
   const [selected, setSelected] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
-  const [selectedVal, setSelectedVal] = useState([])
+  const [selectedVal, setSelectedVal] = useState([]);
 
   const [editedRow, setEditedRow] = useState({});
   // table columns
@@ -109,7 +109,7 @@ const CollectionConditions = () => {
     }
   };
   const convertAttributesList = (arr) => {
-    console.log('CollectionConditions.jsx', arr);
+    console.log("CollectionConditions.jsx", arr);
     const convertedArr = arr.map(({ _id, name }) => ({
       label: name,
       value: _id,
@@ -161,26 +161,26 @@ const CollectionConditions = () => {
     setSelectedVal(selectedRow.conditionValues);
     window.collection_condition_edit_modal.showModal();
   };
-  console.log('CollectionConditions.jsx', selectedVal);
+  console.log("CollectionConditions.jsx", selectedVal);
   const handleSubmit = (e) => {
     e.preventDefault();
     addCollectionCondition();
   };
-  console.log('CollectionConditions.jsx', selectedRow);
+  console.log("CollectionConditions.jsx", selectedRow);
 
   const editFormHandler = async () => {
     try {
-
       const response = await API_WRAPPER.put(
-        `/collection-condition/update-collection-condition/:${selectedRow._id}`, { ...editedRow, conditionValues: selected }
+        `/collection-condition/update-collection-condition/:${selectedRow._id}`,
+        { ...editedRow, conditionValues: selected }
       );
-      console.log('CollectionConditions.jsx', response.data);
-      window.collection_condition_edit_modal.close()
+      console.log("CollectionConditions.jsx", response.data);
+      window.collection_condition_edit_modal.close();
       setApiTrigger((prevState) => !prevState);
     } catch (error) {
-      console.log('CollectionConditions.jsx', error);
+      console.log("CollectionConditions.jsx", error);
     }
-  }
+  };
   useEffect(() => {
     getAllCollectionCondition();
     getAllConditionValues();
@@ -195,7 +195,7 @@ const CollectionConditions = () => {
       <Header
         heading="Collection Conditions"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
-      // image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
       <motion.form
         initial="initial"
@@ -249,7 +249,11 @@ const CollectionConditions = () => {
 
       {/* edit modal */}
       <dialog id="collection_condition_edit_modal" className="modal">
-        <form onSubmit={(e) => submitEditedRow(e)} method="dialog" className="modal-box">
+        <form
+          onSubmit={(e) => submitEditedRow(e)}
+          method="dialog"
+          className="modal-box"
+        >
           <h3 className="font-bold text-lg">Hello!</h3>
           <div>
             <div className="form-control">
@@ -276,7 +280,6 @@ const CollectionConditions = () => {
               />
             </div>
 
-
             <div className="form-control col-span-1">
               <label className="label">
                 <span className="label-text">Status</span>
@@ -296,7 +299,13 @@ const CollectionConditions = () => {
           </div>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button type="button" onClick={(e) => { editFormHandler(e) }} className="btn btn-accent">
+            <button
+              type="button"
+              onClick={(e) => {
+                editFormHandler(e);
+              }}
+              className="btn btn-accent"
+            >
               Save changes
             </button>
             <button

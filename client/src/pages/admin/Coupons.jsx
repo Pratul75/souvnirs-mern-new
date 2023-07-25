@@ -4,11 +4,12 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
+
 const Discounts = () => {
   const [couponsList, setCouponsList] = useState([]);
   const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
-  const [selectedRow, setSelectedRow] = useState()
+  const [selectedRow, setSelectedRow] = useState();
 
   const fetchCoupons = async () => {
     try {
@@ -17,7 +18,7 @@ const Discounts = () => {
         console.log("COUPONS LISTS: ", response.data);
         setCouponsList(response?.data);
       }
-      setApiTrigger(prev = !prev)
+      setApiTrigger((prev = !prev));
     } catch (error) {
       console.error("ERROR occured whule fetching discounts list", error);
     }
@@ -26,20 +27,19 @@ const Discounts = () => {
     setSelectedRow({ ...selectedRow, [e.target.name]: e.target.value });
   };
   const submitEditedRow = async (e) => {
-    e.preventDefault()
-    console.log('Coupons.jsx', couponId._id);
-    const response = await API_WRAPPER.put(`/coupon/update-coupon/:${couponId._id}`);
-    console.log('Coupons.jsx', response);
-
-  }
-
+    e.preventDefault();
+    console.log("Coupons.jsx", couponId._id);
+    const response = await API_WRAPPER.put(
+      `/coupon/update-coupon/:${couponId._id}`
+    );
+    console.log("Coupons.jsx", response);
+  };
 
   const editHandler = async (row) => {
-    console.log('Coupons.jsx', row);
-    window.edit_coupon_modal.showModal()
-    setSelectedRow(row)
-
-  }
+    console.log("Coupons.jsx", row);
+    window.edit_coupon_modal.showModal();
+    setSelectedRow(row);
+  };
 
   const deleteCoupons = async () => {
     const response = await API_WRAPPER.delete(
@@ -54,7 +54,7 @@ const Discounts = () => {
     console.log("DISCOUNT ID:", id);
     setCouponId(id);
   };
-  console.log('Coupons.jsx', couponId);
+  console.log("Coupons.jsx", couponId);
 
   const columns = useMemo(
     () => [
@@ -80,7 +80,7 @@ const Discounts = () => {
         Header: "Use One Times",
         accessor: "useOneTime",
         Cell: (props) => {
-          console.log('Coupons.jsx', props);
+          console.log("Coupons.jsx", props);
           if (props?.row?.original?.totalLimit === 1) {
             return <p className="text-emerald-600">YES</p>;
           } else {
@@ -131,11 +131,11 @@ const Discounts = () => {
   );
 
   const data = useMemo(() => couponsList, [couponsList]);
-  console.log('Coupons.jsx', columns);
+  console.log("Coupons.jsx", columns);
   useEffect(() => {
     fetchCoupons();
   }, [apiTrigger]);
-  console.log('Coupons.jsx', selectedRow);
+  console.log("Coupons.jsx", selectedRow);
   return (
     <div>
       <Header
@@ -157,6 +157,7 @@ const Discounts = () => {
           columns={columns}
           data={data}
           showButtons
+          enablePagination
           enableEdit
           enableDelete
           onEdit={editHandler}
@@ -164,10 +165,7 @@ const Discounts = () => {
         />
       </div>
       <dialog id="edit_coupon_modal" className="modal">
-        <form
-          method="dialog"
-          className="modal-box"
-        >
+        <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <div>
             <div className="form-control">
@@ -230,7 +228,11 @@ const Discounts = () => {
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button type="button" onClick={(e) => submitEditedRow(e)} className="btn btn-accent">
+            <button
+              type="button"
+              onClick={(e) => submitEditedRow(e)}
+              className="btn btn-accent"
+            >
               Save changes
             </button>
             <button
@@ -241,7 +243,6 @@ const Discounts = () => {
             </button>
           </div>
         </form>
-
       </dialog>
       <dialog id="delete_discount_modal" className="modal">
         <form method="dialog" className="modal-box">
@@ -258,7 +259,7 @@ const Discounts = () => {
           </div>
         </form>
       </dialog>
-    </div >
+    </div>
   );
 };
 

@@ -38,6 +38,7 @@ const ReusableTable = ({
     getTableBodyProps,
     headerGroups,
     rows,
+    pages,
     prepareRow,
     state,
     setGlobalFilter,
