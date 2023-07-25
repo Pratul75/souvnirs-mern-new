@@ -17,7 +17,7 @@ const createProduct = async (req, res) => {
 
     const isExist = await Product.findOne({ slug: slug })
     if (isExist) {
-      return res.status(400).json({ error: "Enter Unique Slug" })
+      res.status(400).json({ error: "Enter Unique Slug" })
     }
     // Create a new product object
     const product = new Product({
@@ -50,8 +50,9 @@ const getProducts = async (req, res) => {
 
     }
     else if (req.role === "vendor") {
-      productsList = await Product.find({ vendorId: req.userId });
+      productsList = await Product.find();
     }
+    console.log('productController.js', req.userId)
 
     // Send the productsList to the frontend
     console.log("PRODUCT LIST: ", productsList);
