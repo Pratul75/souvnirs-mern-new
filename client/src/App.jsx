@@ -6,7 +6,7 @@ import {
   PageNotFound,
 } from "./pages";
 import AppLayout from "./layouts/AppLayout";
-import { adminRoutes, vendorRoutes } from "./Routes/routes";
+import { adminRoutes, vendorRoutes, customerRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
@@ -80,6 +80,27 @@ const App = () => {
               />
             );
           })}
+
+          {customerRoutes.map(({ id, path, defaultRole, Component }) => {
+            return (
+              <Route
+                key={id}
+                path={path}
+                element={
+                  <AppLayout>
+                    <ProtectedRoute
+                      roleRequired={role}
+                      path={path}
+                      defaultRole={defaultRole}
+                    >
+                      <Component />
+                    </ProtectedRoute>
+                  </AppLayout>
+                }
+              />
+            );
+          })}
+
           <Route path={PATHS.permissionDenied} element={<PermissionDenied />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

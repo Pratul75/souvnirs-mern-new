@@ -47,3 +47,14 @@ export { default as VendorShipments } from "./vendor/VendorShipments";
 export { default as VendorRefund } from "./vendor/VendorRefund";
 export { default as VendorProductInventory } from "./vendor/VendorProductInventory";
 export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
+
+// customer routes
+export { default as CustomerDashboard } from "./customer/CustomerDashboard";
+export { default as CustomerCartList } from "./customer/CustomerCartList";
+export { default as CustomerCheckouts } from "./customer/CustomerCheckouts";
+export { default as CustomerOrders } from "./customer/CustomerOrders";
+export { default as CustomerPayments } from "./customer/CustomerPayments";
+export { default as CustomerProfile } from "./customer/CustomerProfile";
+export { default as CustomerRefunds } from "./customer/CustomerRefunds";
+export { default as CustomerReplacements } from "./customer/CustomerReplacements";
+export { default as CustomerWishlist } from "./customer/CustomerWishlist";

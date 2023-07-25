@@ -191,6 +191,55 @@ export const vendorSidebarMapping = [
   {
     title: "Refund",
     navLink: PATHS.vendorRefund,
-    Icon: RefundIcon
-  }
+    Icon: RefundIcon,
+  },
+];
+
+// customer sidebar mapping
+export const customerSidebarMapping = [
+  {
+    title: "Dashboard",
+    navLink: PATHS.customerDashboard,
+    Icon: ProductManagement,
+  },
+  {
+    title: "Cart",
+    navLink: PATHS.customerCart,
+    Icon: CartIcon,
+  },
+  {
+    title: "Checkouts",
+    navLink: PATHS.customerCheckouts,
+    Icon: CheckoutIcon,
+  },
+  {
+    title: "Orders",
+    navLink: PATHS.customerOrders,
+    Icon: CustomerIcon,
+  },
+  {
+    title: "Payments",
+    navLink: PATHS.customerPayments,
+    Icon: PaymentsIcon,
+  },
+  {
+    title: "Profile",
+    navLink: PATHS.customerProfile,
+    Icon: SupportIcon,
+  },
+  {
+    title: "Refunds",
+    navLink: PATHS.customerRefunds,
+    Icon: RefundIcon,
+  },
+  {
+    title: "Replacement",
+    navLink: PATHS.customerReplacements,
+    Icon: ReplacementIcon,
+  },
+  {
+    title: "Wishlist",
+    navLink: PATHS.customerWishlist,
+    Icon: VendorIcon,
+  },
 ];

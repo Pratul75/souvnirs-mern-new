@@ -73,3 +73,20 @@ export const buttonVariants = {
     },
   },
 };
+export const sidebarVariant = {
+  expanded: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
+  },
+  collapsed: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+      ease: [0.6, -0.05, 0.01, 0.99],
+    },
+  },
+};

@@ -2,7 +2,7 @@ import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Avatar from "../Avatar";
 import SovniersLogo from "../../assets/images/souvnirsLogo.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   toggleSidebar,
   toggleDarkMode,
@@ -11,10 +11,12 @@ import {
 import RouteNavigator from "../RouterNavigator";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const sidebarState = useSelector((x) => x.appConfig.sidebarExpanded);
   const handleLogout = () => {
     localStorage.clear();
     dispatch(getLoginInfo(""));
@@ -28,10 +30,18 @@ const Navbar = () => {
         {/* left side of nav */}
         <div className="flex items-center gap-8">
           <img src={SovniersLogo} alt="" />
-          <RxHamburgerMenu
-            className="text-2xl cursor-pointer"
-            onClick={() => dispatch(toggleSidebar())}
-          />
+
+          {sidebarState ? (
+            <AiOutlineLock
+              className="text-2xl cursor-pointer"
+              onClick={() => dispatch(toggleSidebar())}
+            />
+          ) : (
+            <AiOutlineUnlock
+              className="text-2xl cursor-pointer"
+              onClick={() => dispatch(toggleSidebar())}
+            />
+          )}
           <RouteNavigator />
         </div>
         {/* right side of nav */}

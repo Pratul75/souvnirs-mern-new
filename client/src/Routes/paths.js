@@ -48,5 +48,16 @@ export const PATHS = {
   vendorRefund: "/vendor/refund",
   vendorShipments: "/vendor/shipments",
   vendorCart: "/vendor/cart",
-  vendorAddProducts: "/vendor/add-products", //
+  vendorAddProducts: "/vendor/add-products",
+
+  // customer routes
+  customerDashboard: "/customer/dashboard",
+  customerCheckouts: "/customer/checkouts",
+  customerCart: "/customer/cart",
+  customerOrders: "/customer/orders",
+  customerPayments: "/customer/payments",
+  customerProfile: "/customer/profile",
+  customerRefunds: "/customer/refunds",
+  customerReplacements: "/customer/replacements",
+  customerWishlist: "/customer/wishlist",
 };

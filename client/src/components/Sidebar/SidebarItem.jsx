@@ -1,33 +1,17 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { sidebarVariant } from "../../animation";
 
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   // Animation properties for sidebar item title
-  const titleVariants = {
-    expanded: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.5,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-    collapsed: {
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: [0.6, -0.05, 0.01, 0.99],
-      },
-    },
-  };
 
   return (
     <motion.li
       className="w-full my-2"
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
-      variants={titleVariants}
+      variants={sidebarVariant}
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       <Link
@@ -40,7 +24,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
         {sidebarState && title && (
           <motion.span
             className="ml-2 text-md"
-            variants={titleVariants}
+            variants={sidebarVariant}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
             {title}

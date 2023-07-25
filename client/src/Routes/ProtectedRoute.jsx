@@ -13,7 +13,7 @@ export const useAuth = () => {
   // console.log("USER IN USE AUTH", _user);
   if (_user) {
     role = JSON.parse(_user);
-    if (role === "user") {
+    if (role === "customer") {
       user = role;
     } else if (role === "vendor") {
       vendor = role;
@@ -56,9 +56,9 @@ export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   if (roleRequired) {
     if (role !== defaultRole) {
       return <Navigate to={PATHS.permissionDenied} />;
-    } else if (role === "user") {
+    } else if (role === "customer") {
       // User can access user routes only
-      if (role === "user" && RouteValidate(defaultRole, role)) {
+      if (role === "customer" && RouteValidate(defaultRole, role)) {
         return children;
       }
     } else if (role === "vendor") {

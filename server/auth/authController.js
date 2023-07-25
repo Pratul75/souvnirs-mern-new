@@ -19,7 +19,7 @@ const registerVendor = async (req, res) => {
       status,
     } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const isExists = await Vendor.findOne({ email })
+    const isExists = await Vendor.findOne({ email });
     if (isExists) {
       return res
         .status(400)
@@ -94,7 +94,7 @@ const loginUser = async (req, res) => {
     if (vendor) {
       role = "vendor";
     } else if (user) {
-      role = "user";
+      role = "customer";
     } else if (admin) {
       role = "admin";
     }

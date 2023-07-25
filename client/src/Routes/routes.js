@@ -44,6 +44,17 @@ import {
   VendorShipments,
   VendorProductInventory,
   vendorAddProduct,
+
+  // customer routes
+  CustomerCartList,
+  CustomerCheckouts,
+  CustomerDashboard,
+  CustomerOrders,
+  CustomerPayments,
+  CustomerProfile,
+  CustomerRefunds,
+  CustomerReplacements,
+  CustomerWishlist,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 // admin routes
@@ -224,6 +235,7 @@ export const adminRoutes = [
   },
 ];
 
+// vendor routes
 export const vendorRoutes = [
   {
     id: nanoid(),
@@ -285,5 +297,68 @@ export const vendorRoutes = [
     Component: VendorProductInventory,
     defaultRole: "vendor",
   },
-  { id: nanoid(), path: PATHS.vendorAddProducts, Component: vendorAddProduct, defaultRole: "vendor" }
+  {
+    id: nanoid(),
+    path: PATHS.vendorAddProducts,
+    Component: vendorAddProduct,
+    defaultRole: "vendor",
+  },
+];
+
+// customer routes
+export const customerRoutes = [
+  {
+    id: nanoid(),
+    path: PATHS.customerCart,
+    Component: CustomerCartList,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerCheckouts,
+    Component: CustomerCheckouts,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerDashboard,
+    Component: CustomerDashboard,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerOrders,
+    Component: CustomerOrders,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerPayments,
+    Component: CustomerPayments,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerProfile,
+    Component: CustomerProfile,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerRefunds,
+    Component: CustomerRefunds,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerReplacements,
+    Component: CustomerReplacements,
+    defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.customerWishlist,
+    Component: CustomerWishlist,
+    defaultRole: "customer",
+  },
 ];
