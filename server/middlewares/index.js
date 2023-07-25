@@ -4,7 +4,7 @@ const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace this with your 
 
 const authMiddleware = (req, res, next) => {
   // Get the token from the request headers
-  const token = req.header("Authorization");
+  const token = req.header("Authorization").split(" ")[1];
 
   if (!token) {
     return res
