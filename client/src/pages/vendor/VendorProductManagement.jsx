@@ -112,7 +112,7 @@ const VendorProductManagement = () => {
       );
     }
   };
-
+  console.log('VendorProductManagement.jsx', editedRow);
   const deleteSelectedRow = async () => {
     const response = await API_WRAPPER.delete(
       `/products/delete-product/:${selectedRow._id}`

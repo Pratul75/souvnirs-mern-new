@@ -24,3 +24,6 @@ const WishlistSchema = new mongoose.Schema({
     default: "PENDING",
   },
 });
+
+const Wishlist = mongoose.model('Wishlist', WishlistSchema)
+module.exports = Wishlist
