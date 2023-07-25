@@ -54,19 +54,26 @@ const updateOrderById = async (req, res) => {
         new: true,
       }
     );
-    const { customerName, vendorName, productName } = req.body
+    const { customerName, vendorName, productName } = req.body;
     if (customerName) {
-      await Customer.findByIdAndUpdate(order.customer_id, { firstName: customerName.split(" ")[0], lastName: customerName.split(" ")[1] }, { new: true })
+      await Customer.findByIdAndUpdate(
+        order.customer_id,
+        {
+          firstName: customerName.split(" ")[0],
+          lastName: customerName.split(" ")[1],
+        },
+        { new: true }
+      );
     }
     if (productName) {
-      await Product.findByIdAndUpdate(order.product_id, { name: productName })
-
+      await Product.findByIdAndUpdate(order.product_id, { name: productName });
     }
     if (vendorName) {
-      await Vendor.findByIdAndUpdate(order.vendor_id, { firstName: productName.split(" ")[0], lastName: productName.split(" ")[1] })
-
+      await Vendor.findByIdAndUpdate(order.vendor_id, {
+        firstName: productName.split(" ")[0],
+        lastName: productName.split(" ")[1],
+      });
     }
-
 
     if (order) {
       res.json(order);
