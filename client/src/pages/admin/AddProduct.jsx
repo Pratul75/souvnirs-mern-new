@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
+import { debouncedShowToast } from "../../utils";
+import { ToastContainer } from "react-toastify";
 
 // add products
 const AddProduct = () => {
@@ -39,16 +41,21 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
-
+  const randomSlug = () => {
+    return nanoid(10);
+  };
   // add product
   const postProduct = async () => {
     const response = await API_WRAPPER.post("/products/add-product", {
       ...formData,
       description,
-      slug: "aoisj12ewqds",
+      slug: randomSlug(),
     });
-    if (response.status === 200) {
-      console.log("RESPONSE RECEIVED: ", response?.data);
+    console.log('AddProduct.jsx', response);
+    if (response.status === 201) {
+      console.log("RESPONSE RECEIVED: ", response?.data?.data);
+      const data = response.data.data
+      debouncedShowToast(data, "success")
     }
   };
 
@@ -193,7 +200,7 @@ const AddProduct = () => {
       />
       <div className="w-full  mt-8">
         <div className="flex ">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xlv">
             <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -322,6 +329,7 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

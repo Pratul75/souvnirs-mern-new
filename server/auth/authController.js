@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Vendor = require("../schema/vendorModal");
 const Customer = require("../schema/customerModal");
 const Admin = require("../schema/adminModal");
+const { error, success } = require("../utils/errorHandler");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace with your secret key for JWT
 
 // Register API for vendors and users
@@ -52,7 +53,7 @@ const registerVendor = async (req, res) => {
       expiresIn: "1h", // Token expiration time
     });
 
-    res.status(200).json({ message: "Vendor registered successfully!", token });
+    res.status(200).json(success("vendor registered successfully"));
   } catch (error) {
     console.error("Error registering vendor:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -87,7 +88,7 @@ const loginUser = async (req, res) => {
     // Check if the password matches the hashed password from the database
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
     if (!passwordMatch) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json(error("Invalid Credentials"));
     }
     // Generate and send the JWT token to the front end with appropriate role
     let role;

@@ -1,5 +1,6 @@
 const Product = require("../schema/productModal");
 const { roles } = require("../utils");
+const { success, error } = require("../utils/errorHandler");
 
 // create new product
 const createProduct = async (req, res) => {
@@ -33,7 +34,7 @@ const createProduct = async (req, res) => {
     // Save the product to the database
     const savedProduct = await product.save();
 
-    res.status(201).json(savedProduct);
+    res.status(201).json(success("product created successfully"));
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to create product" });
@@ -98,13 +99,13 @@ const deleteProduct = async (req, res) => {
 
     if (!deletedProduct) {
       // If the product is not found, return an error
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json(error("product not found"));
     }
 
-    res.status(200).json({ message: "Product deleted successfully" });
+    res.status(200).json(success("product deleted successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to delete the product" });
+    res.status(500).json(error("failed to delete product"));
   }
 };
 
@@ -123,19 +124,15 @@ const editProduct = async (req, res) => {
 
     if (!updatedProduct) {
       // If the product is not found, return an error
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json(error("Product not found"));
     }
 
-    res.status(200).json({
-      message: "Product updated successfully",
-      product: updatedProduct,
-    });
+    res.status(200).json(success("product updated successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to update the product" });
-  }
-};
-
+    res.status(500).json(error("failed to update product"))
+  };
+}
 // get total products
 const getProductsCount = async (req, res) => {
   try {

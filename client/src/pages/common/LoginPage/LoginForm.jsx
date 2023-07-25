@@ -52,7 +52,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Error while logging in:", error);
-      debouncedShowToast(error.message, "error");
+      debouncedShowToast(error.response.data.error, "error");
     }
   };
 

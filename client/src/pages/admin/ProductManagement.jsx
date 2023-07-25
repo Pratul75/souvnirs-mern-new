@@ -2,9 +2,10 @@ import { Header, ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { useEffect, useMemo, useState } from "react";
-import { getStatusStyles } from "../../utils";
+import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
 import { GoPlus } from "react-icons/go";
+import { ToastContainer } from "react-toastify";
 
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
@@ -76,6 +77,7 @@ const ProductManagement = () => {
       if (response.status === 200) {
         setProductsList(response?.data);
         console.log("RESPONSE: ", response?.data);
+
       }
     } catch (error) {
       console.error({ error, messge: error.message });
@@ -106,10 +108,13 @@ const ProductManagement = () => {
     if (response.status === 200) {
       setApiTrigger((prevState) => !prevState);
       window.product_management_edit_modal.close();
+      debouncedShowToast(response.data.data)
       console.log(
         "EDITED SUCCESSFULLY WITH THE FOLLOWING RESPONSE: ",
         response?.status
       );
+    } else {
+      debouncedShowToast(response.data.data.error, "error")
     }
   };
 
@@ -123,6 +128,9 @@ const ProductManagement = () => {
         "SELECTED ROW IS DELETED WITH FOLLOWING RESPONSE: ",
         response?.data
       );
+      debouncedShowToast(response?.data?.data, "success")
+    } else {
+      debouncedShowToast(response?.data?.data.error, "error")
     }
   };
 
@@ -135,7 +143,7 @@ const ProductManagement = () => {
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        // image={HeaderImgTwo}
+      // image={HeaderImgTwo}
       />
       <div className="w-full gap-4 mt-14">
         <div className="flex justify-end">
@@ -322,6 +330,7 @@ const ProductManagement = () => {
           </div>
         </form>
       </dialog>
+      <ToastContainer />
     </div>
   );
 };
