@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { Header } from "../../components";
 const VendorDashboard = () => {
   return (
@@ -6,6 +7,7 @@ const VendorDashboard = () => {
         heading="Vendor Dashboard"
         subheading="This subheading exists because its required to provide information about vendor dashboard in banner"
       />
+      <ToastContainer />
     </div>
   );
 };
