@@ -7,7 +7,7 @@ const createStore = async (req, res) => {
     res.status(200).json({ store });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to create store" });
+    res.status(400).json({ error: "Failed to create store" });
   }
 };
 
@@ -18,7 +18,7 @@ const getStores = async (req, res) => {
     res.status(200).json({ stores });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get stores" });
+    res.status(400).json({ error: "Failed to get stores" });
   }
 };
 
@@ -33,7 +33,7 @@ const getStoreById = async (req, res) => {
     res.status(200).json({ store });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get store" });
+    res.status(400).json({ error: "Failed to get store" });
   }
 };
 
@@ -50,7 +50,7 @@ const updateStoreById = async (req, res) => {
     res.status(200).json({ store });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to update store" });
+    res.status(400).json({ error: "Failed to update store" });
   }
 };
 
@@ -65,7 +65,7 @@ const deleteStoreById = async (req, res) => {
     res.status(200).json({ message: "Store deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to delete store" });
+    res.status(400).json({ error: "Failed to delete store" });
   }
 };
 

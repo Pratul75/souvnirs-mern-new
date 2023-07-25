@@ -25,8 +25,10 @@ const getOperator = (operatorString) => {
   }
 };
 exports.roles = {
-  admin: "admin", vendor: "vendor", customer: "customer"
-  ,
+  admin: "admin",
+  vendor: "vendor",
+  customer: "customer"
+
 }
 
 module.exports = { getOperator };

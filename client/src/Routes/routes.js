@@ -43,6 +43,7 @@ import {
   VendorCheckout,
   VendorShipments,
   VendorProductInventory,
+  vendorAddProduct,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 // admin routes
@@ -284,4 +285,5 @@ export const vendorRoutes = [
     Component: VendorProductInventory,
     defaultRole: "vendor",
   },
+  { id: nanoid(), path: PATHS.vendorAddProducts, Component: vendorAddProduct, defaultRole: "vendor" }
 ];

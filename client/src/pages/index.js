@@ -46,3 +46,4 @@ export { default as VendorCheckout } from "./vendor/VendorCheckout";
 export { default as VendorShipments } from "./vendor/VendorShipments";
 export { default as VendorRefund } from "./vendor/VendorRefund";
 export { default as VendorProductInventory } from "./vendor/VendorProductInventory";
+export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
