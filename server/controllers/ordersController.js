@@ -17,11 +17,11 @@ const addOrder = async (req, res) => {
 const getOrders = async (req, res) => {
   try {
     let orders;
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
 
       orders = await Order.find();
     }
-    else if (req.role === roles.vendor) {
+    else if (req.role === "vendor") {
       orders = await Order.find({ vendor_id: req.userId });
     }
     res.json(orders);
@@ -96,14 +96,14 @@ const deleteOrder = async (req, res) => {
 const getTotalSales = async (req, res) => {
   try {
     let orders
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
 
       orders = await Order.find();
       const totalAmount = orders.reduce(
         (sum, order) => sum + order.total_paid,
         0
       );
-    } else if (req.role === roles.vendor) {
+    } else if (req.role === "vendor") {
       orders = await Order.find({ vendor_id: req.userId });
       const totalAmount = orders.reduce(
         (sum, order) => sum + order.total_paid,
@@ -120,11 +120,11 @@ const getTotalSales = async (req, res) => {
 const getTotalOrders = async (req, res) => {
   try {
     let totalOrders
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
 
       totalOrders = await Order.countDocuments();
     }
-    else if (req.role === roles.vendor) {
+    else if (req.role === "vendor") {
       totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments
     }
     res.json({ totalOrders: totalOrders });
@@ -139,10 +139,10 @@ const getTotalOrders = async (req, res) => {
 const getOrderTableData = async (req, res) => {
   try {
     let allOrders;
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
 
       allOrders = await Order.find({});
-    } else if (req.role === roles.vendor) {
+    } else if (req.role === "vendor") {
       allOrders = await Order.find({ vendor_id: req.userId })
     }
 

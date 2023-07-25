@@ -15,6 +15,10 @@ const createProduct = async (req, res) => {
       totalSales,
     } = req.body;
 
+    const isExist = await Product.findOne({ slug: slug })
+    if (isExist) {
+      return res.status(400).json({ error: "Enter Unique Slug" })
+    }
     // Create a new product object
     const product = new Product({
       name,
@@ -41,11 +45,11 @@ const getProducts = async (req, res) => {
   try {
     // Get all products
     let productsList;
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
       productsList = await Product.find({});
 
     }
-    else if (req.role === roles.vendor) {
+    else if (req.role === "vendor") {
       productsList = await Product.find({ vendorId: req.userId });
     }
 

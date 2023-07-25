@@ -48,4 +48,5 @@ export const PATHS = {
   vendorRefund: "/vendor/refund",
   vendorShipments: "/vendor/shipments",
   vendorCart: "/vendor/cart",
+  vendorAddProducts: "/vendor/add-products", //
 };

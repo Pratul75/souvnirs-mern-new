@@ -1,5 +1,6 @@
 const Vendor = require("../schema/vendorModal");
 const Store = require("../schema/storeModal");
+const { roles } = require("../utils");
 // Create a new vendor
 const createVendor = async (req, res) => {
   try {
@@ -27,7 +28,13 @@ const createVendor = async (req, res) => {
 // Get all vendors
 const getVendors = async (req, res) => {
   try {
-    const vendors = await Vendor.find();
+    let vendors
+    if (req.role === "admin") {
+      vendors = await Vendor.find();
+    }
+    else if (req.role === "vendor") {
+      vendors = await Vendor.find({ _id: req.userId });
+    }
     res.json({ success: true, data: vendors });
   } catch (error) {
     console.error(error);
