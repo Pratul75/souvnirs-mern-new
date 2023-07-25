@@ -123,6 +123,7 @@ const Customer = () => {
       />
       <div className="mt-4">
         <ReusableTable
+          tableTitle="Customer List Table"
           columns={columns}
           data={data}
           showButtons
