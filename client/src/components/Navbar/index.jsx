@@ -2,6 +2,7 @@ import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import Avatar from "../Avatar";
+import SovniersLogo from "../../assets/images/souvnirsLogo.png";
 import { useDispatch } from "react-redux";
 import {
   toggleSidebar,
@@ -23,56 +24,15 @@ const Navbar = () => {
 
   return (
     <nav className="">
-      {/* mobile-screen navbar */}
-      <div className="flex md:hidden justify-between place-items-center">
-        <RxHamburgerMenu onClick={() => dispatch(toggleSidebar())} />
-        <details className="dropdown dropdown-bottom dropdown-left">
-          <summary className="btn">
-            <BsThreeDotsVertical />
-          </summary>
-          <ul className="p-2 shadow  dropdown-content z-[1] bg-base-100 rounded-box w-52">
-            <li>
-              <a>
-                <BellSvg />
-                Bell
-              </a>
-            </li>
-            <li>
-              <a>
-                <LightSvg />
-                Electricity
-              </a>
-            </li>
-            <li>
-              <a>
-                <SettingsSvg />
-                Settings
-              </a>
-            </li>
-            <li>
-              <a>
-                <SunSvg />
-                Mode
-              </a>
-            </li>
-            <li>
-              <a>
-                <Avatar bgColor="bg-info" initials="VB" />
-                Profile
-              </a>
-            </li>
-          </ul>
-        </details>
-      </div>
-
       {/* desktop-screen navbar */}
-      <div className="w-full bg-base-300 justify-between items-center hidden py-4 px-8 md:flex">
+      <div className="w-screen bg-base-300 justify-between items-center hidden py-4 px-8 md:flex">
         {/* left side of nav */}
-        <div className="flex gap-8">
-          <RxHamburgerMenu
+        <div className="flex items-center gap-8">
+          <img src={SovniersLogo} alt="" />
+          {/* <RxHamburgerMenu
             className="text-2xl cursor-pointer"
             onClick={() => dispatch(toggleSidebar())}
-          />
+          /> */}
           <RouteNavigator />
         </div>
         {/* right side of nav */}
