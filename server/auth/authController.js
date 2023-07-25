@@ -19,6 +19,12 @@ const registerVendor = async (req, res) => {
       status,
     } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
+    const isExists = await Vendor.findOne({ email })
+    if (isExists) {
+      return res
+        .status(400)
+        .json({ error: "vendor with provided email address already exists." });
+    }
 
     // Create the vendor in the database
     await Vendor.create({

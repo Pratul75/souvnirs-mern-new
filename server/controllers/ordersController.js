@@ -2,6 +2,7 @@ const Order = require("../schema/orderModal");
 const Product = require("../schema/productModal");
 const Customer = require("../schema/customerModal");
 const Vendor = require("../schema/vendorModal");
+const { roles } = require("../utils");
 // Create a new order
 const addOrder = async (req, res) => {
   try {
@@ -15,7 +16,14 @@ const addOrder = async (req, res) => {
 // Get all orders
 const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    let orders;
+    if (req.role === roles.admin) {
+
+      orders = await Order.find();
+    }
+    else if (req.role === roles.vendor) {
+      orders = await Order.find({ vendor_id: req.userId });
+    }
     res.json(orders);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve orders" });
@@ -87,11 +95,21 @@ const deleteOrder = async (req, res) => {
 // total sales
 const getTotalSales = async (req, res) => {
   try {
-    const orders = await Order.find();
-    const totalAmount = orders.reduce(
-      (sum, order) => sum + order.total_paid,
-      0
-    );
+    let orders
+    if (req.role === roles.admin) {
+
+      orders = await Order.find();
+      const totalAmount = orders.reduce(
+        (sum, order) => sum + order.total_paid,
+        0
+      );
+    } else if (req.role === roles.vendor) {
+      orders = await Order.find({ vendor_id: req.userId });
+      const totalAmount = orders.reduce(
+        (sum, order) => sum + order.total_paid,
+        0
+      );
+    }
     res.json({ totalSales: totalAmount });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve orders" });
@@ -101,7 +119,14 @@ const getTotalSales = async (req, res) => {
 // total orders count
 const getTotalOrders = async (req, res) => {
   try {
-    const totalOrders = await Order.countDocuments();
+    let totalOrders
+    if (req.role === roles.admin) {
+
+      totalOrders = await Order.countDocuments();
+    }
+    else if (req.role === roles.vendor) {
+      totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments
+    }
     res.json({ totalOrders: totalOrders });
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve total orders" });
@@ -113,7 +138,13 @@ const getTotalOrders = async (req, res) => {
 
 const getOrderTableData = async (req, res) => {
   try {
-    const allOrders = await Order.find({});
+    let allOrders;
+    if (req.role === roles.admin) {
+
+      allOrders = await Order.find({});
+    } else if (req.role === roles.vendor) {
+      allOrders = await Order.find({ vendor_id: req.userId })
+    }
 
     const orderData = await Promise.all(
       allOrders.map(async (order) => {

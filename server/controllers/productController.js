@@ -1,4 +1,5 @@
 const Product = require("../schema/productModal");
+const { roles } = require("../utils");
 
 // create new product
 const createProduct = async (req, res) => {
@@ -39,10 +40,17 @@ const createProduct = async (req, res) => {
 const getProducts = async (req, res) => {
   try {
     // Get all products
-    const productsList = await Product.find({});
-    console.log("PRODUCT LIST: ", productsList);
+    let productsList;
+    if (req.role === roles.admin) {
+      productsList = await Product.find({});
+
+    }
+    else if (req.role === roles.vendor) {
+      productsList = await Product.find({ vendorId: req.userId });
+    }
 
     // Send the productsList to the frontend
+    console.log("PRODUCT LIST: ", productsList);
     res.status(200).json(productsList);
   } catch (error) {
     console.error(error);

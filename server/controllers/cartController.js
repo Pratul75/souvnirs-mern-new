@@ -3,7 +3,35 @@ const Cart = require("../schema/cartModal");
 // Get all carts
 const getAllCarts = async (req, res) => {
   try {
-    const carts = await Cart.find();
+    const { role } = req
+    let carts;
+    if (role === "admin") {
+      carts = await Cart.find();
+    }
+    if (role === "vendor") {
+      carts = await Cart.aggregate([
+        { $match: { status: "ACTIVE" } },
+        {
+          $lookup: {
+            from: "Product", // The name of the "products" collection
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
+          },
+
+        },
+        {
+          $unwind: "$product",
+        },
+        {
+          $match: {
+            "product.vendor_id": req.userId,
+          },
+        },
+      ]
+
+      )
+    }
     res.status(200).json(carts);
   } catch (error) {
     console.error("Error fetching carts:", error);
