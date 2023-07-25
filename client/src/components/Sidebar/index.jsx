@@ -1,7 +1,11 @@
 import { useState, useEffect } from "react";
 import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
-import { adminSidebarMapping, vendorSidebarMapping } from "../../mappings";
+import {
+  adminSidebarMapping,
+  vendorSidebarMapping,
+  customerSidebarMapping,
+} from "../../mappings";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
@@ -16,9 +20,9 @@ const Sidebar = () => {
 
   const conditionalSidebarMapping = () => {
     const userRole = JSON.parse(localStorage.getItem("role"));
-    if (userRole === "user") {
+    if (userRole === "customer") {
       console.log("USER IS LOGGED");
-      return userSidebarMapping;
+      return customerSidebarMapping;
     } else if (userRole === "vendor") {
       console.log("VENDOR IS LOGGED");
       return vendorSidebarMapping;

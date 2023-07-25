@@ -90,16 +90,20 @@ const RegisterForm = () => {
       if (selectedRole === "customer") {
         const payload = { ...levelOneRegisterData, ...levelTwoRegisterData };
         // console.log("PAYLOAD: ", payload);
+        console.log("PAYLOAD: ", payload);
+
         const response = await API_WRAPPER.post(
           "/auth/register/customer",
           payload
         );
+        console.log("RESPONSE: ", response?.status);
         if (response?.status === 200) {
           // console.log("RESPONSE OBJECT: ", response.data);
           const { role } = decodeToken(response?.data?.token);
+          console.log("ROLE: ", role);
           localStorage.setItem("role", JSON.stringify(role));
-          localStorage.setItem("token", JSON.stringify(token));
-          // TODO:  need to navigate to customer dashboard
+          localStorage.setItem("token", JSON.stringify(response?.data?.token));
+          navigate(PATHS.customerDashboard);
         }
       }
     } catch (error) {
@@ -425,7 +429,7 @@ const RegisterForm = () => {
               <select
                 onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="select-primary select"
-                name="orderType"
+                name="orderTypeInterested"
                 id="order-type"
               >
                 <option defaultChecked value="select type">
@@ -445,7 +449,7 @@ const RegisterForm = () => {
                 onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="input input-primary"
                 type="text"
-                name="pinCode"
+                name="pincode"
                 placeholder="Minimum 2 characters"
               />
             </div>

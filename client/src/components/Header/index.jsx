@@ -26,7 +26,7 @@ const Header = ({ heading, subheading, image }) => {
         </div>
         {image && (
           <img
-            className="absolute right-0 top-2"
+            className="absolute right-0 top-2 h-[350px]"
             src={image}
             alt="header image"
           />
