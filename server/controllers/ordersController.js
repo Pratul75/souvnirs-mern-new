@@ -17,11 +17,9 @@ const addOrder = async (req, res) => {
 const getOrders = async (req, res) => {
   try {
     let orders;
-    if (req.role === roles.admin) {
-
+    if (req.role === "admin") {
       orders = await Order.find();
-    }
-    else if (req.role === roles.vendor) {
+    } else if (req.role === "vendor") {
       orders = await Order.find({ vendor_id: req.userId });
     }
     res.json(orders);
@@ -54,19 +52,26 @@ const updateOrderById = async (req, res) => {
         new: true,
       }
     );
-    const { customerName, vendorName, productName } = req.body
+    const { customerName, vendorName, productName } = req.body;
     if (customerName) {
-      await Customer.findByIdAndUpdate(order.customer_id, { firstName: customerName.split(" ")[0], lastName: customerName.split(" ")[1] }, { new: true })
+      await Customer.findByIdAndUpdate(
+        order.customer_id,
+        {
+          firstName: customerName.split(" ")[0],
+          lastName: customerName.split(" ")[1],
+        },
+        { new: true }
+      );
     }
     if (productName) {
-      await Product.findByIdAndUpdate(order.product_id, { name: productName })
-
+      await Product.findByIdAndUpdate(order.product_id, { name: productName });
     }
     if (vendorName) {
-      await Vendor.findByIdAndUpdate(order.vendor_id, { firstName: productName.split(" ")[0], lastName: productName.split(" ")[1] })
-
+      await Vendor.findByIdAndUpdate(order.vendor_id, {
+        firstName: productName.split(" ")[0],
+        lastName: productName.split(" ")[1],
+      });
     }
-
 
     if (order) {
       res.json(order);
@@ -95,9 +100,8 @@ const deleteOrder = async (req, res) => {
 // total sales
 const getTotalSales = async (req, res) => {
   try {
-    let orders
+    let orders;
     if (req.role === roles.admin) {
-
       orders = await Order.find();
       const totalAmount = orders.reduce(
         (sum, order) => sum + order.total_paid,
@@ -119,13 +123,11 @@ const getTotalSales = async (req, res) => {
 // total orders count
 const getTotalOrders = async (req, res) => {
   try {
-    let totalOrders
-    if (req.role === roles.admin) {
-
+    let totalOrders;
+    if (req.role === "admin") {
       totalOrders = await Order.countDocuments();
-    }
-    else if (req.role === roles.vendor) {
-      totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments
+    } else if (req.role === "vendor") {
+      totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments;
     }
     res.json({ totalOrders: totalOrders });
   } catch (error) {
@@ -139,11 +141,10 @@ const getTotalOrders = async (req, res) => {
 const getOrderTableData = async (req, res) => {
   try {
     let allOrders;
-    if (req.role === roles.admin) {
-
+    if (req.role === "admin") {
       allOrders = await Order.find({});
-    } else if (req.role === roles.vendor) {
-      allOrders = await Order.find({ vendor_id: req.userId })
+    } else if (req.role === "vendor") {
+      allOrders = await Order.find({ vendor_id: req.userId });
     }
 
     const orderData = await Promise.all(

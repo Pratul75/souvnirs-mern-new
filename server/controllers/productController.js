@@ -41,11 +41,9 @@ const getProducts = async (req, res) => {
   try {
     // Get all products
     let productsList;
-    if (req.role === roles.admin) {
+    if (req.role === "admin") {
       productsList = await Product.find({});
-
-    }
-    else if (req.role === roles.vendor) {
+    } else if (req.role === roles.vendor) {
       productsList = await Product.find({ vendorId: req.userId });
     }
 
