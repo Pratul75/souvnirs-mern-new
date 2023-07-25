@@ -47,7 +47,7 @@ const Sidebar = () => {
       variants={sidebarVariants}
       transition={{ duration: 0.3, ease: "easeInOut" }}
       onMouseEnter={() => setSidebarState(true)}
-      onMouseLeave={() => setSidebarState(false)}
+      onMouseLeave={() => !isExpanded && setSidebarState(false)}
     >
       <div>
         {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
