@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable, Modal } from "../../components";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
-
+import { ToastContainer } from "react-toastify";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -85,6 +85,7 @@ const Customer = () => {
         updatedObj
       );
       if (response.status === 200) {
+        debouncedShowToast("Updated customer successfully", "success");
         setApiTrigger((prevState) => !prevState);
       }
     } catch (error) {
@@ -191,6 +192,7 @@ const Customer = () => {
           },
         ]}
       />
+      <ToastContainer />
     </div>
   );
 };

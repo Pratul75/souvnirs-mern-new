@@ -30,6 +30,8 @@ const ReusableTable = ({
   onSelectedRowObjectsChange,
   isSelectable,
   tableTitle,
+  pageSize,
+  enablePagination,
 }) => {
   const {
     getTableProps,
@@ -40,10 +42,14 @@ const ReusableTable = ({
     state,
     setGlobalFilter,
     selectedFlatRows,
+    gotoPage,
+    setPageSize,
+    pageCount,
   } = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex: 0 },
     },
     useGlobalFilter,
     useSortBy,
@@ -76,6 +82,17 @@ const ReusableTable = ({
   // to get global filter state
   const { globalFilter } = state;
 
+  // Function to handle changing the page
+  const handlePageChange = (pageIndex) => {
+    gotoPage(pageIndex);
+  };
+
+  // Function to handle changing the page size
+  const handlePageSizeChange = (event) => {
+    const pageSize = Number(event.target.value);
+    setPageSize(pageSize);
+  };
+
   // Pass the selected row IDs data to the parent component
   isSelectable &&
     useEffect(() => {
@@ -90,6 +107,15 @@ const ReusableTable = ({
 
       onSelectedRowObjectsChange(selectedRows, unselectedRows);
     }, [selectedFlatRows, rows]);
+
+  // Check if data array is empty, if so, don't render pagination
+  if (enablePagination && data.length === 0) {
+    return (
+      <div className="text-center mt-4">
+        <p>No data to display.</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div
@@ -183,6 +209,57 @@ const ReusableTable = ({
           })}
         </tbody>
       </table>
+      {enablePagination && data.length > 0 && (
+        // Render pagination controls only if enablePagination prop is true and data is not empty
+        <div className="flex justify-center items-center mt-4">
+          <button
+            onClick={() => handlePageChange(0)}
+            disabled={state.pageIndex === 0}
+            className="btn btn-secondary"
+          >
+            {"<<"}
+          </button>
+          <button
+            onClick={() => handlePageChange(state.pageIndex - 1)}
+            disabled={state.pageIndex === 0}
+            className="btn btn-secondary mx-2"
+          >
+            {"<"}
+          </button>
+          <span className="text-xl">
+            Page{" "}
+            <strong>
+              {state.pageIndex + 1} of {pageCount}
+            </strong>{" "}
+          </span>
+          <button
+            onClick={() => handlePageChange(state.pageIndex + 1)}
+            disabled={state.pageIndex === pageCount - 1}
+            className="btn btn-secondary mx-2"
+          >
+            {">"}
+          </button>
+          <button
+            onClick={() => handlePageChange(pageCount - 1)}
+            disabled={state.pageIndex === pageCount - 1}
+            className="btn btn-secondary"
+          >
+            {">>"}
+          </button>
+          {/* Select for page size */}
+          <select
+            value={pageSize}
+            onChange={handlePageSizeChange}
+            className="input input-bordered mx-2"
+          >
+            {[10, 25, 50, 100].map((size) => (
+              <option key={size} value={size}>
+                Show {size}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </motion.div>
   );
 };
@@ -206,6 +283,8 @@ ReusableTable.propTypes = {
   enableShowDetials: PropTypes.bool,
   onSelectedRowObjectsChange: PropTypes.func,
   isSelectable: PropTypes.bool,
+  pageSize: PropTypes.string,
+  enablePagination: PropTypes.bool,
 };
 
 export default ReusableTable;
