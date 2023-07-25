@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
 import { adminSidebarMapping, vendorSidebarMapping } from "../../mappings";
+import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   const [sidebarState, setSidebarState] = useState(false);
+  const isExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
+
+  // Update sidebarState when isExpanded changes
+  useEffect(() => {
+    setSidebarState(isExpanded);
+  }, [isExpanded]);
 
   const conditionalSidebarMapping = () => {
     const userRole = JSON.parse(localStorage.getItem("role"));
@@ -21,24 +29,36 @@ const Sidebar = () => {
     }
   };
 
+  // Animation properties for sidebar width
+  const sidebarVariants = {
+    expanded: {
+      width: "250px",
+    },
+    collapsed: {
+      width: "100px",
+    },
+  };
+
   return (
-    <ul
-      className={`menu bg-base-300 rounded-box ml-8 mt-6 w-${
-        sidebarState ? "64" : "28"
-      } flex items-center shadow-xl py-8  transition-all duration-300 ease-in-out`}
+    <motion.ul
+      className="menu bg-base-300 rounded-box ml-8 mt-6 flex items-center shadow-xl py-8"
+      initial={false}
+      animate={sidebarState ? "expanded" : "collapsed"}
+      variants={sidebarVariants}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
       onMouseEnter={() => setSidebarState(true)}
       onMouseLeave={() => setSidebarState(false)}
     >
       {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
         <SidebarItem
           key={nanoid()}
-          title={sidebarState ? title : ""}
+          title={title}
           navLink={navLink}
           Icon={Icon}
           sidebarState={sidebarState}
         />
       ))}
-    </ul>
+    </motion.ul>
   );
 };
 

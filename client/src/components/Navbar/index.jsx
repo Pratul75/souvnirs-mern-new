@@ -1,6 +1,5 @@
 import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import Avatar from "../Avatar";
 import SovniersLogo from "../../assets/images/souvnirsLogo.png";
 import { useDispatch } from "react-redux";
@@ -23,16 +22,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="">
+    <nav>
       {/* desktop-screen navbar */}
       <div className="w-screen bg-base-300 justify-between items-center hidden py-4 px-8 md:flex">
         {/* left side of nav */}
         <div className="flex items-center gap-8">
           <img src={SovniersLogo} alt="" />
-          {/* <RxHamburgerMenu
+          <RxHamburgerMenu
             className="text-2xl cursor-pointer"
             onClick={() => dispatch(toggleSidebar())}
-          /> */}
+          />
           <RouteNavigator />
         </div>
         {/* right side of nav */}
