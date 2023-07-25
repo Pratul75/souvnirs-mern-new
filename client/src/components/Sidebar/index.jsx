@@ -41,7 +41,7 @@ const Sidebar = () => {
 
   return (
     <motion.ul
-      className="menu bg-base-300 rounded-box ml-8 mt-6 flex items-center shadow-xl py-8"
+      className={`menu bg-base-300 rounded-box ml-8 mt-6 flex items-center shadow-xl overflow-y-auto max-h-[calc(100vh-150px)]`}
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
       variants={sidebarVariants}
@@ -49,15 +49,17 @@ const Sidebar = () => {
       onMouseEnter={() => setSidebarState(true)}
       onMouseLeave={() => setSidebarState(false)}
     >
-      {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
-        <SidebarItem
-          key={nanoid()}
-          title={title}
-          navLink={navLink}
-          Icon={Icon}
-          sidebarState={sidebarState}
-        />
-      ))}
+      <div>
+        {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
+          <SidebarItem
+            key={nanoid()}
+            title={title}
+            navLink={navLink}
+            Icon={Icon}
+            sidebarState={sidebarState}
+          />
+        ))}
+      </div>
     </motion.ul>
   );
 };

@@ -15,7 +15,7 @@ const AppLayout = ({ children }) => {
         <div className="flex">
           <Sidebar />
           {/* Page content */}
-          <div className=" flex-grow mx-8 py-8 mt-6 overflow-y-auto md:max-h-[calc(100vh-150px)] rounded-xl  shadow-xl bg-base-300">
+          <div className=" flex-grow mx-8 py-8 mt-6 overflow-y-auto  md:max-h-[calc(100vh-150px)] rounded-xl  shadow-xl bg-base-300">
             <div className="mx-10">{children}</div>
           </div>
         </div>

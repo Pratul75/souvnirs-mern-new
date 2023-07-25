@@ -32,10 +32,9 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
     >
       <Link
         to={navLink}
-        className={`tooltip tooltip-right flex w-full p-4 ${
+        className={`flex w-full p-4 ${
           sidebarState ? "justify-start" : "justify-center"
         }`}
-        data-tip={title}
       >
         {Icon && <Icon />} {/* Only render Icon if it exists */}
         {sidebarState && title && (
