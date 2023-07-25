@@ -41,7 +41,7 @@ const App = () => {
               </ReverseAuthRoute>
             }
           />
-
+          {/* admin routes */}
           {adminRoutes.map(({ id, path, defaultRole, Component }) => {
             return (
               <Route
@@ -60,7 +60,7 @@ const App = () => {
               />
             );
           })}
-
+          {/* vendor routes */}
           {vendorRoutes.map(({ id, path, defaultRole, Component }) => {
             return (
               <Route
@@ -80,7 +80,7 @@ const App = () => {
               />
             );
           })}
-
+          {/* customer routes */}
           {customerRoutes.map(({ id, path, defaultRole, Component }) => {
             return (
               <Route

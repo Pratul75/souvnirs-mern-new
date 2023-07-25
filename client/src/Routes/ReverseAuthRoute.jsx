@@ -10,8 +10,8 @@ const ReverseAuthRoute = ({ children }) => {
   console.log("LOGGED ROLE: ", loggedRole);
 
   if (location.pathname === "/login" && token) {
-    if (loggedRole === "user" || role === "user") {
-      return <Navigate to={PATHS.userDashboard} />;
+    if (loggedRole === "customer" || role === "customer") {
+      return <Navigate to={PATHS.customerDashboard} />;
     } else if (loggedRole === "vendor" || role === "vendor") {
       return <Navigate to={PATHS.vendorDashboard} />;
     } else if (loggedRole === "admin" || role === "admin") {
