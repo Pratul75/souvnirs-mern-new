@@ -2,6 +2,7 @@
 export { default as RegisterPage } from "./common/RegisterPage";
 export { default as LoginPage } from "./common/LoginPage";
 export { default as PermissionDenied } from "./common/PermissionDenied";
+export { default as PageNotFound } from "./common/PageNotFound";
 // admin routes
 export { default as AdminDashboard } from "./admin/AdminDashboard";
 export { default as Cart } from "./admin/Cart";
@@ -40,3 +41,8 @@ export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement
 export { default as VendorProductManagement } from "./vendor/VendorProductManagement";
 export { default as VendorDiscounts } from "./vendor/VendorDiscounts";
 export { default as VendorCoupons } from "./vendor/VendorCoupons";
+export { default as VendorCart } from "./vendor/VendorCart";
+export { default as VendorCheckout } from "./vendor/VendorCheckout";
+export { default as VendorShipments } from "./vendor/VendorShipments";
+export { default as VendorRefund } from "./vendor/VendorRefund";
+export { default as VendorProductInventory } from "./vendor/VendorProductInventory";

@@ -1,5 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { RegisterPage, LoginPage, PermissionDenied } from "./pages";
+import {
+  RegisterPage,
+  LoginPage,
+  PermissionDenied,
+  PageNotFound,
+} from "./pages";
 import AppLayout from "./layouts/AppLayout";
 import { adminRoutes, vendorRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
@@ -76,6 +81,7 @@ const App = () => {
             );
           })}
           <Route path={PATHS.permissionDenied} element={<PermissionDenied />} />
+          <Route path="/*" element={<PageNotFound />} />
         </Routes>
       </AnimatePresence>
     </div>

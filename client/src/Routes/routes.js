@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid";
 import { PATHS } from "./paths";
+
 import {
   // admin routes
   AdminDashboard,
@@ -37,6 +38,11 @@ import {
   VendorOrderManagement,
   VendorCoupons,
   VendorDiscounts,
+  VendorCart,
+  VendorRefund,
+  VendorCheckout,
+  VendorShipments,
+  VendorProductInventory,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 // admin routes
@@ -247,5 +253,35 @@ export const vendorRoutes = [
     path: PATHS.vendorCoupons,
     defaultRole: "vendor",
     Component: VendorCoupons,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorCart,
+    Component: VendorCart,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorRefund,
+    Component: VendorRefund,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorCheckout,
+    Component: VendorCheckout,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorShipments,
+    Component: VendorShipments,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorProductInventory,
+    Component: VendorProductInventory,
+    defaultRole: "vendor",
   },
 ];
