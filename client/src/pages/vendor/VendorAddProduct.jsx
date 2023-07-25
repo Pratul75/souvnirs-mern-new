@@ -33,7 +33,9 @@ const AddProduct = () => {
         console.log("VendorAddProduct.jsx", response.data.data);
         setVendorsList(response?.data?.data);
         console.log("VENDORS LIST RESPONSE: ", response?.data);
+
         setFormData({ ...formData, vendorId: response?.data?.data[0]._id });
+        console.log('VendorAddProduct.jsx', formData);
       }
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
@@ -42,7 +44,7 @@ const AddProduct = () => {
   const randomSlug = () => {
     return nanoid(10);
   };
-
+  console.log('VendorAddProduct.jsx', formData);
   // add product
   const postProduct = async () => {
     const response = await API_WRAPPER.post("/products/add-product", {

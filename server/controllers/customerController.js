@@ -1,5 +1,5 @@
 const Customer = require("../schema/customerModal");
-
+const bcrypt = require("bcrypt");
 // Create a new customer
 const createCustomer = async (req, res) => {
   try {
@@ -19,12 +19,13 @@ const createCustomer = async (req, res) => {
       //   otpStatus,
       //   status,
     } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newCustomer = new Customer({
       firstName,
       lastName,
       email,
-      password,
+      password: hashedPassword,
       mobile,
       //   organizationName,
       //   organizationType,

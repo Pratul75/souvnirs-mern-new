@@ -31,6 +31,8 @@ const AddProduct = () => {
       const response = await API_WRAPPER.get("/vendors/get-vendors");
       if (response.status === 200) {
         setVendorsList(response?.data?.data);
+        if (vendorsList.length == 1) { }
+        console.log('AddProduct.jsx', vendorsList.length)
         console.log("VENDORS LIST RESPONSE: ", response?.data);
       }
     } catch (error) {
