@@ -1,8 +1,14 @@
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
-
+import { fadeInVariants } from "../../animation";
 const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
   return (
-    <div className="w-full flex justify-between items-center p-4 rounded-xl bg-base-100 shadow-lg">
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={fadeInVariants}
+      className="w-full flex justify-between items-center p-4 rounded-xl bg-base-100 shadow-xl"
+    >
       <div>
         <h2 className="text-2xl">{number}</h2>
         <p>{subheading}</p>
@@ -13,7 +19,7 @@ const DashboardCard = ({ number, subheading, iconSvg, iconColor }) => {
       >
         {iconSvg}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

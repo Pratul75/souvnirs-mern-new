@@ -7,16 +7,21 @@ const DetailsCard = ({
   percentage,
   dynamicAmount,
   percentageColor,
+  iconText,
 }) => {
   return (
     <>
-      <div className="flex justify-between items-center w-full p-2 rounded-xl bg-base-100 ">
-        <div className="flex gap-4 ">
-          <div className=" w-12 h-12 p-1 rounded-xl bg-base-200 flex items-center justify-center">
-            {SvgIcon}
+      <div className="flex justify-between items-center w-full p-4  rounded-xl bg-base-200 mb-2">
+        <div className="flex gap-4">
+          <div
+            className={` w-12 h-12 p-1 rounded-xl  flex items-center justify-center ${
+              !SvgIcon && "bg-base-100"
+            }`}
+          >
+            {SvgIcon ? SvgIcon : iconText}
           </div>
           <div>
-            <h4 className="text-gray-700 font-thin">{label}</h4>
+            <h4 className=" font-thin">{label}</h4>
             <p>{totalAmount}</p>
           </div>
         </div>
@@ -25,18 +30,18 @@ const DetailsCard = ({
           <p className={`${percentageColor}`}>{percentage}</p>
         </div>
       </div>
-      <hr />
     </>
   );
 };
 
 DetailsCard.propTypes = {
-  SvgIcon: PropTypes.element.isRequired,
+  SvgIcon: PropTypes.element,
   label: PropTypes.string.isRequired,
   totalAmount: PropTypes.string.isRequired,
   percentage: PropTypes.string.isRequired,
   dynamicAmount: PropTypes.string.isRequired,
   percentageColor: PropTypes.string.isRequired,
+  iconText: PropTypes.string,
 };
 
 export default DetailsCard;

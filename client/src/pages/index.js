@@ -4,7 +4,7 @@ export { default as LoginPage } from "./common/LoginPage";
 export { default as PermissionDenied } from "./common/PermissionDenied";
 export { default as PageNotFound } from "./common/PageNotFound";
 // admin routes
-export { default as AdminDashboard } from "./admin/AdminDashboard";
+export { default as AdminDashboard } from "./admin/Dashboard/AdminDashboard";
 export { default as Cart } from "./admin/Cart";
 export { default as Categories } from "./admin/Categories";
 export { default as Checkouts } from "./admin/Checkout";

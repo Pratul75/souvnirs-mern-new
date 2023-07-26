@@ -95,3 +95,8 @@ body {
   border-color: #007bff !important; /* Change the border color when checked */
   /* Add any other styles you want for checked checkboxes inside .dropdown-content */
 }
+
+.chart-container {
+  height: 100px;
+  width: 100%;
+}

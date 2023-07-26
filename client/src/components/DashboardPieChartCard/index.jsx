@@ -8,7 +8,7 @@ const DashboardPieChartCard = ({
   icon,
 }) => {
   return (
-    <div className="w-full flex justify-between p-2 bg-base-200 rounded-xl ">
+    <div className="w-full flex justify-between p-2 bg-base-100 rounded-xl">
       {/* left side */}
       <div className="flex">
         <div className="p-4  rounded-xl flex flex-col">
