@@ -34,18 +34,6 @@ const VendorAndOrderList = () => {
 
   const orderTableColumns = useMemo(
     () => [
-      //   {
-      //     Header: "Order ID",
-      //     accessor: "_id",
-      //   },
-      //   {
-      //     Header: "Vendor ID",
-      //     accessor: "vendor_id",
-      //   },
-      //   {
-      //     Header: "Price",
-      //     accessor: "price",
-      //   },
       {
         Header: "Payment Status",
         accessor: "payment_status",

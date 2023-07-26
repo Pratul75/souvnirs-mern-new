@@ -23,7 +23,6 @@ const AdminDashboard = () => {
       <TransactionTotalIncomeInquiries />
       {/* fifth row */}
       <VendorAndOrderList />
-
       <ToastContainer />
     </div>
   );
