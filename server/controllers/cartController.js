@@ -4,7 +4,7 @@ const Cart = require("../schema/cartModal");
 // Get all carts
 const getAllCarts = async (req, res) => {
   try {
-    const { role } = req
+    const { role } = req;
     let carts;
     if (role === "admin") {
       carts = await Cart.find();
@@ -12,28 +12,30 @@ const getAllCarts = async (req, res) => {
     if (role === "vendor") {
       const aggregationQuery = [
         {
-          '$match': {
-            'status': 'ACTIVE'
-          }
-        }, {
-          '$lookup': {
-            'from': 'products',
-            'localField': 'product_id',
-            'foreignField': '_id',
-            'as': 'product'
-          }
-        }, {
-          '$unwind': {
-            'path': '$product'
-          }
-        }, {
-          '$match': {
-            'product.vendorId': new mongoose.Types.ObjectId(req.userId)
-          }
-        }
-      ]
-      carts = await Cart.aggregate(aggregationQuery
-      )
+          $match: {
+            status: "ACTIVE",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
+        {
+          $match: {
+            "product.vendorId": new mongoose.Types.ObjectId(req.userId),
+          },
+        },
+      ];
+      carts = await Cart.aggregate(aggregationQuery);
     }
     if (role === "customer") {
       carts = await Cart.find({ customer_id: req.userId })
