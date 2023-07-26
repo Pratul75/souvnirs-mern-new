@@ -37,6 +37,9 @@ const getAllCarts = async (req, res) => {
       ];
       carts = await Cart.aggregate(aggregationQuery);
     }
+    if (role === "customer") {
+      carts = await Cart.find({ customer_id: req.userId })
+    }
     res.status(200).json(carts);
   } catch (error) {
     console.error("Error fetching carts:", error);
