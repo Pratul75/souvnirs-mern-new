@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
+import { Navigate, useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 
 // add products
 const AddProduct = () => {
@@ -41,6 +43,7 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
+  const navigate = useNavigate()
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -52,8 +55,10 @@ const AddProduct = () => {
       description,
       slug: randomSlug(),
     });
-    if (response.status === 200) {
+    if (response.status === 201) {
+      navigate(PATHS.vendorProductManagement)
       console.log("RESPONSE RECEIVED: ", response?.data);
+
     }
   };
 
@@ -101,6 +106,7 @@ const AddProduct = () => {
           <div className="flex items-center justify-around">
             <span>Enter Quantity</span>
             <input
+              onChange={(e) => handleInputChange(e)}
               className="input input-accent w-2/3"
               type="number"
               name="stockQuantity"

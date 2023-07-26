@@ -101,6 +101,7 @@ const AddProduct = () => {
           <div className="flex items-center justify-around">
             <span>Enter Quantity</span>
             <input
+              onChange={(e) => handleInputChange(e)}
               className="input input-accent w-2/3"
               type="number"
               name="stockQuantity"
