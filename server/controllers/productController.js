@@ -14,10 +14,11 @@ const createProduct = async (req, res) => {
       price,
       stockQuantity,
       totalSales,
-      tags
+      tags,
+      attributes
     } = req.body;
 
-
+    let attArr = attributes.map(att => att.value)
     // Create a new product object
     const product = new Product({
       name,
@@ -27,7 +28,8 @@ const createProduct = async (req, res) => {
       price,
       stockQuantity,
       totalSales,
-      tags
+      tags,
+      attributes: attArr
     });
 
     // Save the product to the database
@@ -46,7 +48,7 @@ const getProducts = async (req, res) => {
     // Get all products
     let productsList;
     if (req.role === "admin") {
-      productsList = await Product.find({});
+      productsList = await Product.find({}).sort({ createdAt: -1 });
 
     }
     else if (req.role === "vendor") {

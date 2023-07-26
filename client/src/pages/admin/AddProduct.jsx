@@ -6,9 +6,13 @@ import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
+import { Navigate, useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
+import { MultiSelect } from "react-multi-select-component";
 
 // add products
 const AddProduct = () => {
+  const navigate = useNavigate()
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
@@ -16,9 +20,12 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({});
   const [tagValue, setTagValue] = useState('');
   const [tagsArray, setTagsArray] = useState([]);
+  const [attArr, setAttArr] = useState()
+  const [selectedAttributes, setSelectedAttributes] = useState([]);
+
 
   // get all categories
-  console.log('AddProduct.jsx', selectedCategory);
+  console.log('AddProduct.jsx', selectedAttributes);
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -44,6 +51,11 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
+  const fetchAllAttributes = async () => {
+    const response = await API_WRAPPER.get(`/attribute/get-all-attributes/${selectedCategory}`)
+    setAttArr(response.data);
+  }
+  console.log('AddProduct.jsx',);
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -53,15 +65,18 @@ const AddProduct = () => {
       ...formData,
       description,
       slug: randomSlug(),
-      tags: tagsArray
+      tags: tagsArray,
+      attributes: selectedAttributes
     });
     console.log('AddProduct.jsx', response);
     if (response.status === 201) {
       console.log("RESPONSE RECEIVED: ", response?.data?.data);
+      navigate(PATHS.adminProductManagement)
       const data = response.data.data
       debouncedShowToast(data, "success")
     }
   };
+  console.log(selectedCategory)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -90,11 +105,25 @@ const AddProduct = () => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
     setTagsArray(filteredTags);
   };
+  const convertAttributesList = (arr) => {
+    const convertedArr = arr.map(({ _id, name }) => ({
+      label: name,
+      value: _id,
+    }));
+    console.log("CONVERTED ARR: ", convertedArr);
+    return convertedArr;
+  };
+
+
+
 
   useEffect(() => {
     getAllCategories();
     getAllVendors();
   }, []);
+  useEffect(() => {
+    fetchAllAttributes()
+  }, [selectedCategory])
 
   const tabs = [
     {
@@ -138,10 +167,11 @@ const AddProduct = () => {
           <p className="text-center">Select Category First</p>
         ) : (
           <div className="form-control w-1/2">
-            <select className="select select-accent">
-              <option value="attribute one">Attribute One</option>
-              <option value="attribute two">Attribute Two</option>
-            </select>
+            <MultiSelect
+              options={convertAttributesList(attArr)}
+              value={selectedAttributes}
+              onChange={setSelectedAttributes}
+            />
           </div>
         ),
     },
@@ -211,6 +241,7 @@ const AddProduct = () => {
       ),
     },
   ];
+  console.log('AddProduct.jsx', selectedCategory);
 
   return (
     <div>
@@ -289,7 +320,7 @@ const AddProduct = () => {
               >
                 <option value="" disabled selected>select category</option>
                 {categoriesList?.map((category) => {
-                  return <option key={nanoid()}>{category.name}</option>;
+                  return <option value={category._id} key={nanoid()}>{category.name}</option>;
                 })}
               </select>
             </div>

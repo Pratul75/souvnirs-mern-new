@@ -14,7 +14,7 @@ const addCategory = async (req, res) => {
 // get all categories
 const getAllCategories = async (req, res) => {
   try {
-    const categoryList = await Category.find({});
+    const categoryList = await Category.find().sort({ createdAt: -1 });
     console.log("CATEGORY LIST: ", categoryList);
 
     res.status(200).json(categoryList);

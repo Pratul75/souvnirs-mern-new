@@ -52,6 +52,12 @@ const productSchema = new mongoose.Schema(
     stockQuantity: {
       type: Number,
     },
+    attributes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Attribute",
+      },
+    ],
     stockStatus: {
       type: String,
       enum: ["IN_STOCK", "OUT_OF_STOCK", "BACK_ORDER"],
@@ -71,6 +77,7 @@ const productSchema = new mongoose.Schema(
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
+
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

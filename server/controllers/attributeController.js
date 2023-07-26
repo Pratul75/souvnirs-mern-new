@@ -1,4 +1,6 @@
+const { default: mongoose } = require("mongoose");
 const Attribute = require("../schema/attributeModal");
+const Category = require("../schema/categoryModal");
 
 // Create a new attribute
 const addAttribute = async (req, res) => {
@@ -11,15 +13,43 @@ const addAttribute = async (req, res) => {
   }
 };
 
-// Get all attributes
+// Get all atatributes
 const getAllAttributes = async (req, res) => {
   try {
-    const attributes = await Attribute.find();
+    const attributes = await Attribute.find().sort({ createdAt: -1 });
     res.json(attributes);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+const getattributesbyCategoryId = async (req, res) => {
+  try {
+    const { id } = req.params
+    const attributes = await Category.aggregate([
+      {
+        '$match': {
+          '_id': new mongoose.Types.ObjectId(id)
+        }
+      }, {
+        '$lookup': {
+          'from': 'attributes',
+          'localField': 'attributes',
+          'foreignField': '_id',
+          'as': 'result'
+        }
+      }, {
+        '$project': {
+          'result': 1
+        }
+      }
+    ])
+    const data = attributes[0].result
+    console.log('attributeController.js', attributes[0].result);
+    res.status(200).json(data)
+  } catch (err) {
+    res.status(400).json("somwthing went wrong")
+  }
+}
 
 // Get a single attribute by ID
 const getAttributeById = async (req, res) => {
@@ -75,4 +105,5 @@ module.exports = {
   getAttributeById,
   updateAttributeById,
   deleteAttributeById,
+  getattributesbyCategoryId
 };

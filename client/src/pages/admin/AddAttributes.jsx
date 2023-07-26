@@ -2,8 +2,11 @@ import { Header } from "../../components";
 // import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import API_WRAPPER from "../../api";
 import { useState } from "react";
+import { PATHS } from "../../routes/paths";
+import { useNavigate } from "react-router-dom";
 
 const AddAttribute = () => {
+  const navigate = useNavigate()
   const [attributeName, setAttributeName] = useState("");
   const handleAddAttribute = async (e) => {
     e.preventDefault();
@@ -11,6 +14,7 @@ const AddAttribute = () => {
       const response = API_WRAPPER.post("/attribute/add-attribute", {
         name: attributeName,
       });
+      navigate(PATHS.adminAttribute)
       console.log("RESPONSE DATA AFTER DELETING ATTRIBUTE: ", response.data);
     } catch (error) {
       console.error("Error occured while adding attribute", error);

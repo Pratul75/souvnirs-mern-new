@@ -4,11 +4,15 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
+import { debouncedShowToast } from "../../utils";
+import { ToastContainer } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import { MultiSelect } from "react-multi-select-component";
 
 // add products
 const AddProduct = () => {
+  const navigate = useNavigate()
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
@@ -16,8 +20,12 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({});
   const [tagValue, setTagValue] = useState('');
   const [tagsArray, setTagsArray] = useState([]);
+  const [attArr, setAttArr] = useState()
+  const [selectedAttributes, setSelectedAttributes] = useState([]);
+
 
   // get all categories
+  console.log('AddProduct.jsx', selectedAttributes);
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -28,6 +36,62 @@ const AddProduct = () => {
       console.error("Error occured while getting all categories", error);
     }
   };
+
+  // get all vendors
+  const getAllVendors = async () => {
+    try {
+      const response = await API_WRAPPER.get("/vendors/get-vendors");
+      if (response.status === 200) {
+        setVendorsList(response?.data?.data);
+        if (vendorsList.length == 1) { }
+        console.log('AddProduct.jsx', vendorsList.length)
+        console.log("VENDORS LIST RESPONSE: ", response?.data);
+        setFormData({ ...formData, vendorId: response?.data?.data[0]._id });
+
+      }
+    } catch (error) {
+      console.error("Error occured while getting all vendors", error);
+    }
+  };
+  const fetchAllAttributes = async () => {
+    const response = await API_WRAPPER.get(`/attribute/get-all-attributes/${selectedCategory}`)
+    setAttArr(response.data);
+  }
+  console.log('AddProduct.jsx',);
+  const randomSlug = () => {
+    return nanoid(10);
+  };
+  // add product
+  const postProduct = async () => {
+    const response = await API_WRAPPER.post("/products/add-product", {
+      ...formData,
+      description,
+      slug: randomSlug(),
+      tags: tagsArray,
+      attributes: selectedAttributes
+    });
+    console.log('AddProduct.jsx', response);
+    if (response.status === 201) {
+      console.log("RESPONSE RECEIVED: ", response?.data?.data);
+      navigate(PATHS.vendorProductManagement)
+      const data = response.data.data
+      debouncedShowToast(data, "success")
+    }
+  };
+  console.log(selectedCategory)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    postProduct();
+    console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+  };
+
   const handleTagInputChange = (event) => {
     setTagValue(event.target.value);
   };
@@ -43,59 +107,25 @@ const AddProduct = () => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
     setTagsArray(filteredTags);
   };
-
-  // get all vendors
-  const getAllVendors = async () => {
-    try {
-      const response = await API_WRAPPER.get("/vendors/get-vendors");
-      if (response.status === 200) {
-        console.log("VendorAddProduct.jsx", response.data.data);
-        setVendorsList(response?.data?.data);
-        console.log("VENDORS LIST RESPONSE: ", response?.data);
-
-        setFormData({ ...formData, vendorId: response?.data?.data[0]._id });
-        console.log('VendorAddProduct.jsx', formData);
-      }
-    } catch (error) {
-      console.error("Error occured while getting all vendors", error);
-    }
-  };
-  const navigate = useNavigate()
-  const randomSlug = () => {
-    return nanoid(10);
-  };
-  console.log('VendorAddProduct.jsx', formData);
-  // add product
-  const postProduct = async () => {
-    const response = await API_WRAPPER.post("/products/add-product", {
-      ...formData,
-      description,
-      slug: randomSlug(),
-    });
-    if (response.status === 201) {
-      navigate(PATHS.vendorProductManagement)
-      console.log("RESPONSE RECEIVED: ", response?.data);
-
-    }
+  const convertAttributesList = (arr) => {
+    const convertedArr = arr.map(({ _id, name }) => ({
+      label: name,
+      value: _id,
+    }));
+    console.log("CONVERTED ARR: ", convertedArr);
+    return convertedArr;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postProduct();
-    console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
-  };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-    console.log("CONTROLLABLE COMPONENT: ", formData);
-  };
-  console.log("VendorAddProduct.jsx", formData);
+
 
   useEffect(() => {
     getAllCategories();
     getAllVendors();
   }, []);
+  useEffect(() => {
+    fetchAllAttributes()
+  }, [selectedCategory])
 
   const tabs = [
     {
@@ -114,7 +144,6 @@ const AddProduct = () => {
               className="toggle-accent toggle"
             />
             <span>Track Quantity</span>
-
           </div>
           <div>
             <h1 className="font-semibold mt-4">Quantity</h1>
@@ -140,10 +169,11 @@ const AddProduct = () => {
           <p className="text-center">Select Category First</p>
         ) : (
           <div className="form-control w-1/2">
-            <select className="select select-accent">
-              <option value="attribute one">Attribute One</option>
-              <option value="attribute two">Attribute Two</option>
-            </select>
+            <MultiSelect
+              options={convertAttributesList(attArr)}
+              value={selectedAttributes}
+              onChange={setSelectedAttributes}
+            />
           </div>
         ),
     },
@@ -213,6 +243,7 @@ const AddProduct = () => {
       ),
     },
   ];
+  console.log('AddProduct.jsx', selectedCategory);
 
   return (
     <div>
@@ -221,9 +252,9 @@ const AddProduct = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
         image={HeaderImgTwo}
       />
-      <div className="w-full  mt-8 ">
-        <div className="flex">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xl">
+      <div className="w-full  mt-8">
+        <div className="flex ">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xlv">
             <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -239,7 +270,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -263,7 +294,7 @@ const AddProduct = () => {
         </div>
 
         <div className="flex mt-8">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3">
             <h3 className="font-semibold">Prdoduct Description</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -278,7 +309,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -289,11 +320,9 @@ const AddProduct = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="select select-accent"
               >
-                <option value="" disabled selected>
-                  Select Category
-                </option>
+                <option value="" disabled selected>select category</option>
                 {categoriesList?.map((category) => {
-                  return <option key={nanoid()}>{category.name}</option>;
+                  return <option value={category._id} key={nanoid()}>{category.name}</option>;
                 })}
               </select>
             </div>
@@ -305,15 +334,10 @@ const AddProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="vendorId"
-                value={formData.vendorId}
-                defaultValue={vendorsList[0]}
               >
-                <option value="" disabled selected>
-                  Select Vendor
-                </option>
                 {vendorsList?.map((vendor) => {
                   return (
-                    <option key={nanoid()} value={vendor._id} selected>
+                    <option key={nanoid()} value={vendor._id}>
                       {vendor.firstName}
                     </option>
                   );
@@ -365,12 +389,12 @@ const AddProduct = () => {
           </div>
         </div>
         <div className="flex mt-8">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3 h-auto  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3 h-auto">
             <h3 className="font-semibold">Basic Tabs</h3>
             <hr className="mt-4" />
             <Tabs tabs={tabs} />
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3  rounded-xl">
+          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 
@@ -380,6 +404,7 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
