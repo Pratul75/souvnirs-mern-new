@@ -151,6 +151,8 @@ const getOrderTableData = async (req, res) => {
       allOrders = await Order.find({});
     } else if (req.role === "vendor") {
       allOrders = await Order.find({ vendor_id: req.userId })
+    } else if (req.role === "customer") {
+      allOrders = await Order.find({ customer_id: req.userId })
     }
 
     const orderData = await Promise.all(

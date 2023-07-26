@@ -14,6 +14,8 @@ const AddProduct = () => {
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
+  const [tagValue, setTagValue] = useState('');
+  const [tagsArray, setTagsArray] = useState([]);
 
   // get all categories
   const getAllCategories = async () => {
@@ -25,6 +27,21 @@ const AddProduct = () => {
     } catch (error) {
       console.error("Error occured while getting all categories", error);
     }
+  };
+  const handleTagInputChange = (event) => {
+    setTagValue(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && tagValue.trim() !== '') {
+      setTagsArray([...tagsArray, tagValue.trim()]);
+      setTagValue('');
+    }
+  };
+
+  const removeTag = (tagToRemove) => {
+    const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
+    setTagsArray(filteredTags);
   };
 
   // get all vendors
@@ -272,6 +289,9 @@ const AddProduct = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="select select-accent"
               >
+                <option value="" disabled selected>
+                  Select Category
+                </option>
                 {categoriesList?.map((category) => {
                   return <option key={nanoid()}>{category.name}</option>;
                 })}
@@ -288,7 +308,7 @@ const AddProduct = () => {
                 value={formData.vendorId}
                 defaultValue={vendorsList[0]}
               >
-                <option value="" selected disabled>
+                <option value="" disabled selected>
                   Select Vendor
                 </option>
                 {vendorsList?.map((vendor) => {
@@ -303,10 +323,30 @@ const AddProduct = () => {
 
             {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Tags</span>
-              </label>
-              <input className="input input-accent" type="text" name="" id="" />
+
+
+              <input
+                type="text"
+                value={tagValue}
+                onChange={handleTagInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder="Enter a tag and press Enter"
+                className="input input-accent"
+              />
+              <div className="space-x-2">
+                {tagsArray.map((tag, index) => (
+                  <div key={index} className="inline-flex items-center bg-gray-100 rounded">
+                    <span className="px-2 py-1">{tag}</span>
+                    <button
+                      className="flex items-center justify-center w-6 h-6 ml-1 text-gray-500 rounded-full hover:bg-red-500 hover:text-white"
+                      onClick={() => removeTag(tag)}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+
             </div>
 
             <div className="form-control mt-4">

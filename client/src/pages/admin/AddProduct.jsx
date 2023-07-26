@@ -14,8 +14,11 @@ const AddProduct = () => {
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
+  const [tagValue, setTagValue] = useState('');
+  const [tagsArray, setTagsArray] = useState([]);
 
   // get all categories
+  console.log('AddProduct.jsx', selectedCategory);
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -50,6 +53,7 @@ const AddProduct = () => {
       ...formData,
       description,
       slug: randomSlug(),
+      tags: tagsArray
     });
     console.log('AddProduct.jsx', response);
     if (response.status === 201) {
@@ -68,7 +72,23 @@ const AddProduct = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    console.log("CONTROLLABLE COMPONENT: ", formData);
+
+  };
+
+  const handleTagInputChange = (event) => {
+    setTagValue(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && tagValue.trim() !== '') {
+      setTagsArray([...tagsArray, tagValue.trim()]);
+      setTagValue('');
+    }
+  };
+
+  const removeTag = (tagToRemove) => {
+    const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
+    setTagsArray(filteredTags);
   };
 
   useEffect(() => {
@@ -267,6 +287,7 @@ const AddProduct = () => {
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="select select-accent"
               >
+                <option value="" disabled selected>select category</option>
                 {categoriesList?.map((category) => {
                   return <option key={nanoid()}>{category.name}</option>;
                 })}
@@ -293,10 +314,30 @@ const AddProduct = () => {
 
             {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Tags</span>
-              </label>
-              <input className="input input-accent" type="text" name="" id="" />
+
+
+              <input
+                type="text"
+                value={tagValue}
+                onChange={handleTagInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder="Enter a tag and press Enter"
+                className="input input-accent"
+              />
+              <div className="space-x-2">
+                {tagsArray.map((tag, index) => (
+                  <div key={index} className="inline-flex items-center bg-gray-100 rounded">
+                    <span className="px-2 py-1">{tag}</span>
+                    <button
+                      className="flex items-center justify-center w-6 h-6 ml-1 text-gray-500 rounded-full hover:bg-red-500 hover:text-white"
+                      onClick={() => removeTag(tag)}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+
             </div>
 
             <div className="form-control mt-4">

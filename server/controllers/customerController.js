@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const Customer = require("../schema/customerModal");
 const bcrypt = require("bcrypt");
 // Create a new customer
@@ -63,13 +64,33 @@ const getCustomers = async (req, res) => {
 // Get a customer by ID
 const getCustomerById = async (req, res) => {
   try {
-    const customer = await Customer.findById(req.params.id.substring(1));
+    const { id } = req.params
+    const aggQuery = [
+      {
+        '$match': {
+          '_id': new mongoose.Types.ObjectId(id.substring(1))
+        }
+      }, {
+        '$lookup': {
+          'from': 'addresses',
+          'localField': '_id',
+          'foreignField': 'customer_id',
+          'as': 'address'
+        }
+      }, {
+        '$unwind': {
+          'path': '$address'
+        }
+      }
+    ]
+
+    const customer = await Customer.aggregate(aggQuery)
     if (!customer) {
       return res
         .status(404)
         .json({ success: false, error: "Customer not found" });
     }
-    res.json({ success: true, customer });
+    res.json({ success: true, customer: customer[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, error: "Failed to get customer" });

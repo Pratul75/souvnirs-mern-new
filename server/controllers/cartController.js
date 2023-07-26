@@ -28,12 +28,15 @@ const getAllCarts = async (req, res) => {
           }
         }, {
           '$match': {
-            'product.vendorId': new mongoose.Types.ObjectId('64bf61f048b8501255f466dd')
+            'product.vendorId': new mongoose.Types.ObjectId(req.userId)
           }
         }
       ]
       carts = await Cart.aggregate(aggregationQuery
       )
+    }
+    if (role === "customer") {
+      carts = await Cart.find({ customer_id: req.userId })
     }
     res.status(200).json(carts);
   } catch (error) {

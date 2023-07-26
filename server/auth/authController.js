@@ -4,6 +4,7 @@ const Vendor = require("../schema/vendorModal");
 const Customer = require("../schema/customerModal");
 const Admin = require("../schema/adminModal");
 const { error, success } = require("../utils/errorHandler");
+const Address = require("../schema/addressModal");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace with your secret key for JWT
 
 // Register API for vendors and users
@@ -62,9 +63,11 @@ const registerVendor = async (req, res) => {
 
 const registerCustomer = async (req, res) => {
   try {
+    const { city, pincode, country } = req.body
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await Customer.create({ ...req.body, password: hashedPassword });
-    const token = jwt.sign({ role: "customer" }, secretKey, {
+    const customer = await Customer.create({ ...req.body, password: hashedPassword });
+    Address.create({ customer_id: customer._id, city, pin_code: pincode, country })
+    const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
       expiresIn: "1h",
     });
 

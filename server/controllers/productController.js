@@ -14,12 +14,10 @@ const createProduct = async (req, res) => {
       price,
       stockQuantity,
       totalSales,
+      tags
     } = req.body;
 
-    const isExist = await Product.findOne({ slug: slug })
-    if (isExist) {
-      res.status(400).json({ error: "Enter Unique Slug" })
-    }
+
     // Create a new product object
     const product = new Product({
       name,
@@ -29,6 +27,7 @@ const createProduct = async (req, res) => {
       price,
       stockQuantity,
       totalSales,
+      tags
     });
 
     // Save the product to the database
