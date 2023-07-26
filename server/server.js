@@ -18,6 +18,7 @@ const countryRoutes = require("./routes/countryRoutes");
 const collectionConditions = require("./routes/collectionConditionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const refundRoutes = require("./routes/refundRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes")
 const conditionValueRoutes = require("./routes/conditionValueRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
 const discountRoutes = require("./routes/discountRoutes");
@@ -81,6 +82,8 @@ app.use(wishlistRoutes)
 
 // admin routes should only be exposed when its required to create a new admin, else it should be commented out
 app.use(adminRoutes);
+
+app.use(dashboardRoutes);
 
 // start the server
 const port = process.env.PORT || 8080;

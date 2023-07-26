@@ -7,11 +7,13 @@ import {
   AbandomCartBlack,
   AdsSpentBlack,
 } from "../../../icons";
+import { useEffect } from "react";
 
 const TotalSalesTab = () => {
+  useEffect(() => { }, [])
   const tabs = [
     {
-      label: "Total Sales",
+      label: "By year",
       content: (
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 flex">
@@ -110,7 +112,7 @@ const TotalSalesTab = () => {
       ),
     },
     {
-      label: "By Year",
+      label: "By week",
       content: (
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 flex">
