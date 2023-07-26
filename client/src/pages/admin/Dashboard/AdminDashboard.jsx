@@ -1,3 +1,4 @@
+import { ToastContainer } from "react-toastify";
 import { Header } from "../../../components";
 import DashboardCardsList from "./DashboardCardsList";
 import ProductOverviewAndAddProduct from "./ProductOverviewAndAddProduct";
@@ -22,6 +23,8 @@ const AdminDashboard = () => {
       <TransactionTotalIncomeInquiries />
       {/* fifth row */}
       <VendorAndOrderList />
+
+      <ToastContainer />
     </div>
   );
 };
