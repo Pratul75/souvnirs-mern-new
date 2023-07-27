@@ -166,7 +166,7 @@ const checkProductsFromIds = async (req, res) => {
     res.status(200).json(productNames);
   } catch (error) {
     console.error("Error occurred while checking products:", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

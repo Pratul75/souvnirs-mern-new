@@ -7,7 +7,7 @@ const getAllDiscounts = async (req, res) => {
     res.status(200).json(discounts);
   } catch (error) {
     console.error("Error occurred while fetching discounts", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -22,7 +22,7 @@ const getDiscountById = async (req, res) => {
     res.status(200).json(discount);
   } catch (error) {
     console.error("Error occurred while fetching the discount", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -68,7 +68,7 @@ const createDiscount = async (req, res) => {
     res.status(201).json(discount);
   } catch (error) {
     console.error("Error occurred while creating the discount", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -89,7 +89,7 @@ const updateDiscount = async (req, res) => {
     res.status(200).json(discount);
   } catch (error) {
     console.error("Error occurred while updating the discount", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -107,7 +107,7 @@ const deleteDiscount = async (req, res) => {
     res.status(204).end();
   } catch (error) {
     console.error("Error occurred while deleting the discount", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

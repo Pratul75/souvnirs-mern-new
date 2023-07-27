@@ -57,7 +57,7 @@ const registerVendor = async (req, res) => {
     res.status(200).json(success("vendor registered successfully"));
   } catch (error) {
     console.error("Error registering vendor:", error);
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -74,7 +74,7 @@ const registerCustomer = async (req, res) => {
     res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -108,7 +108,7 @@ const loginUser = async (req, res) => {
     res.status(200).json({ token });
   } catch (error) {
     console.error("Error logging in:", error);
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

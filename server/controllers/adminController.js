@@ -19,7 +19,7 @@ const createAdmin = async (req, res) => {
     console.error("Error creating admin:", error);
     res
       .status(400)
-      .json({ error: "Internal Server Error", message: error.message });
+      .json({ error: "somthing went wrong", message: error.message });
   }
 };
 
@@ -35,7 +35,7 @@ const deleteAdmin = async (req, res) => {
     res.status(200).json({ message: "Admin deleted successfully!" });
   } catch (error) {
     console.error("Error deleting admin:", error);
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

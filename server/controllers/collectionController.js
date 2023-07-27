@@ -124,7 +124,7 @@ const getRawDataForFilter = async (req, res) => {
     res.json(filteredProducts);
   } catch (error) {
     console.error("Error occurred while filtering products", error);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

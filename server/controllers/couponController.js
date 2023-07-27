@@ -7,7 +7,7 @@ const createModal = async (req, res) => {
     const savedCoupon = await newCoupon.save();
     res.status(201).json(savedCoupon);
   } catch (err) {
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -17,7 +17,7 @@ const getAllCoupons = async (req, res) => {
     const coupons = await CouponModal.find();
     res.status(200).json(coupons);
   } catch (err) {
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -30,7 +30,7 @@ const getCouponById = async (req, res) => {
     }
     res.status(200).json(coupon);
   } catch (err) {
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -47,7 +47,7 @@ const updateCouponById = async (req, res) => {
     }
     res.status(200).json(updatedCoupon);
   } catch (err) {
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -61,7 +61,7 @@ const deleteCouponById = async (req, res) => {
     }
     res.status(200).json(deletedCoupon);
   } catch (err) {
-    res.status(400).json({ error: "Internal Server Error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
