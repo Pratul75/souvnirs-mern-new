@@ -5,6 +5,15 @@ const API_WRAPPER = axios.create({
   baseURL: "http://localhost:8080/",
 });
 
+const handleLogout = () => {
+  // Clear the token from localStorage
+  localStorage.removeItem("token");
+
+  // Redirect the user to the login page or perform any other appropriate actions
+  // For example, you can use a React Router to redirect the user to the login page:
+  window.location.href = "/login"; // Replace '/login' with your desired logout destination
+};
+
 // Request interceptor
 API_WRAPPER.interceptors.request.use(
   (config) => {
@@ -22,6 +31,7 @@ API_WRAPPER.interceptors.request.use(
   },
   (error) => {
     // Handle request error
+    console.log(error);
     return Promise.reject(error);
   }
 );
@@ -34,6 +44,9 @@ API_WRAPPER.interceptors.response.use(
   },
   (error) => {
     // Handle response error
+    if (error.response && error.response.status === 401) {
+      handleLogout(); // Call the handleLogout function to log out the user
+    }
     return Promise.reject(error);
   }
 );
