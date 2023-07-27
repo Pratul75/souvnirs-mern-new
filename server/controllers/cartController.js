@@ -43,7 +43,7 @@ const getAllCarts = async (req, res) => {
     res.status(200).json(carts);
   } catch (error) {
     console.error("Error fetching carts:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
@@ -57,7 +57,7 @@ const getCartById = async (req, res) => {
     res.json(cart);
   } catch (error) {
     console.error("Error fetching cart:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
@@ -69,7 +69,7 @@ const addCart = async (req, res) => {
     res.status(201).json(savedCart);
   } catch (error) {
     console.error("Error creating cart:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
@@ -89,7 +89,7 @@ const updateCart = async (req, res) => {
     res.status(200).json(cart);
   } catch (error) {
     console.error("Error updating cart:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
@@ -103,7 +103,7 @@ const deleteCart = async (req, res) => {
     res.sendStatus(204);
   } catch (error) {
     console.error("Error deleting cart:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 

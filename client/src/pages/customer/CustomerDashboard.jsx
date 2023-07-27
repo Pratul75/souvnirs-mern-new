@@ -16,13 +16,13 @@ const CustomerDashboard = () => {
       {/* first row */}
       <DashboardCardsList />
       {/* second row */}
-      <TotalSalesTab />
+      {/* <TotalSalesTab /> */}
       {/* third row  */}
-      <ProductOverviewAndAddProduct />
+      {/* <ProductOverviewAndAddProduct /> */}
       {/* fourth row */}
-      <TransactionTotalIncomeInquiries />
+      {/* <TransactionTotalIncomeInquiries /> */}
       {/* fifth row */}
-      <VendorAndOrderList />
+      {/* <VendorAndOrderList /> */}
       <ToastContainer />
     </div>
   );

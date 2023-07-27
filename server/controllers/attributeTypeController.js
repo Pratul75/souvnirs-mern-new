@@ -26,7 +26,7 @@ const getAllAttributeTypes = async (req, res) => {
       .populate("attributeId");
     res.json(attributeTypes);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -43,7 +43,7 @@ const getAttributeTypeById = async (req, res) => {
     }
     res.json(attributeType);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -85,7 +85,7 @@ const deleteAttributeType = async (req, res) => {
     }
     res.json({ message: "Product-to-attribute mapping deleted" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 

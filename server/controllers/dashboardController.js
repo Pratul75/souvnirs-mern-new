@@ -1,6 +1,8 @@
+const cartModal = require("../schema/cartModal");
 const Order = require("../schema/orderModal");
 const Product = require("../schema/productModal");
 const Vendor = require("../schema/vendorModal");
+const Wishlist = require("../schema/wishlistModal");
 
 const fetchDashboardCardsData = async (req, res) => {
     const { role } = req
@@ -15,7 +17,25 @@ const fetchDashboardCardsData = async (req, res) => {
         orders = await Order.find().count()
         products = await Product.find().count()
         vendors = await Vendor.find().count()
-    } else if (role === "customer") { }
+    } else if (role === "customer") {
+        const wishlist = await Wishlist.find({ customerId: req.userId }).count()
+        const orders = await Order.find({ customer_id: req.userId }).count()
+        orderValue = await Order.aggregate([
+            // Match orders with a valid customer _id (replace 'customer_id_field' with the actual field name)
+            { $match: { customer_id: req.userId } },
+
+            // Group by customer _id and calculate the sum of total_price for each customer
+            {
+                $group: {
+                    _id: '$customer_id_field', // Group by customer _id (replace 'customer_id_field' with the actual field name)
+                    total_price: { $sum: '$total_price' } // Calculate the sum of total_price for each group
+                }
+            }
+        ])
+        const cart = await cartModal.find({ customer_id: req.userId }).count();
+
+        return res.status(200).json({ orders, wishlist, cart, orderValue: orderValue.length > 0 ? orderValue[0].total_price : 0 })
+    }
 
 
 

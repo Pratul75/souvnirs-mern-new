@@ -9,7 +9,7 @@ const addOrder = async (req, res) => {
     const order = await Order.create(req.body);
     res.status(201).json(order);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create order" });
+    res.status(400).json({ error: "Failed to create order" });
   }
 };
 
@@ -26,7 +26,7 @@ const getOrders = async (req, res) => {
     }
     res.json(orders);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve orders" });
+    res.status(400).json({ error: "Failed to retrieve orders" });
   }
 };
 
@@ -40,7 +40,7 @@ const getOrder = async (req, res) => {
       res.status(404).json({ error: "Order not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve order" });
+    res.status(400).json({ error: "Failed to retrieve order" });
   }
 };
 
@@ -81,7 +81,7 @@ const updateOrderById = async (req, res) => {
       res.status(404).json({ error: "Order not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to update order" });
+    res.status(400).json({ error: "Failed to update order" });
   }
 };
 
@@ -95,7 +95,7 @@ const deleteOrder = async (req, res) => {
       res.status(404).json({ error: "Order not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete order" });
+    res.status(400).json({ error: "Failed to delete order" });
   }
 };
 
@@ -119,7 +119,7 @@ const getTotalSales = async (req, res) => {
     }
     res.json({ totalSales: totalAmount });
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve orders" });
+    res.status(400).json({ error: "Failed to retrieve orders" });
   }
 };
 
@@ -136,7 +136,7 @@ const getTotalOrders = async (req, res) => {
     }
     res.json({ totalOrders: totalOrders });
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve total orders" });
+    res.status(400).json({ error: "Failed to retrieve total orders" });
   }
 };
 
@@ -182,7 +182,7 @@ const getOrderTableData = async (req, res) => {
     console.log("ORDER TABLE DATA: ", orderData);
     res.json(orderData);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve order table data" });
+    res.status(400).json({ error: "Failed to retrieve order table data" });
   }
 };
 

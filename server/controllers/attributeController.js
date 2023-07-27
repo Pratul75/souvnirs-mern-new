@@ -19,7 +19,7 @@ const getAllAttributes = async (req, res) => {
     const attributes = await Attribute.find().sort({ createdAt: -1 });
     res.json(attributes);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 const getattributesbyCategoryId = async (req, res) => {
@@ -60,7 +60,7 @@ const getAttributeById = async (req, res) => {
     }
     res.json(attribute);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 
@@ -95,7 +95,7 @@ const deleteAttributeById = async (req, res) => {
     }
     res.json({ message: "Attribute deleted" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: err.message });
   }
 };
 

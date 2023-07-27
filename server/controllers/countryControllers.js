@@ -8,7 +8,7 @@ const addCountry = async (req, res) => {
     res.status(201).json(country);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -19,7 +19,7 @@ const getAllCountries = async (req, res) => {
     res.json(countries);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -32,7 +32,7 @@ const getCountryById = async (req, res) => {
     res.json(country);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -52,7 +52,7 @@ const updateCountry = async (req, res) => {
     res.json(country);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 
@@ -66,7 +66,7 @@ const deleteCountryById = async (req, res) => {
     res.json({ message: "Country deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(400).json({ message: "Internal server error" });
   }
 };
 

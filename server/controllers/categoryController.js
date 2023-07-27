@@ -19,7 +19,7 @@ const getAllCategories = async (req, res) => {
 
     res.status(200).json(categoryList);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -31,7 +31,7 @@ const getCategoryById = async (req, res) => {
     console.log("SELECTED CATEGORY: ", category);
     res.status(200).json(category);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -76,7 +76,7 @@ const updateCategory = async (req, res) => {
     res.status(200).json(updatedCategory);
   } catch (error) {
     console.log("categoryController.js", error);
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -106,7 +106,7 @@ const removeAttributeFromCategory = async (req, res) => {
     const updatedCategory = await category.save();
     res.status(200).json(updatedCategory);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -116,11 +116,11 @@ const deleteCategory = async (req, res) => {
     const categoryId = req.params.id.substring(1);
     const deletedCategory = await Category.findByIdAndDelete(categoryId);
     if (!deletedCategory) {
-      res.status(500).json({ message: "No cateogry found" });
+      res.status(400).json({ message: "No cateogry found" });
     }
     res.status(200).json(deletedCategory);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 

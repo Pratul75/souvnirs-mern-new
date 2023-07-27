@@ -38,7 +38,7 @@ const createProduct = async (req, res) => {
     res.status(201).json(success("product created successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to create product" });
+    res.status(400).json({ error: "Failed to create product" });
   }
 };
 
@@ -61,7 +61,7 @@ const getProducts = async (req, res) => {
     res.status(200).json(productsList);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get all products" });
+    res.status(400).json({ error: "Failed to get all products" });
   }
 };
 
@@ -86,7 +86,7 @@ const getProduct = async (req, res) => {
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get the product" });
+    res.status(400).json({ error: "Failed to get the product" });
   }
 };
 
@@ -106,7 +106,7 @@ const deleteProduct = async (req, res) => {
     res.status(200).json(success("product deleted successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json(error("failed to delete product"));
+    res.status(400).json(error("failed to delete product"));
   }
 };
 
@@ -131,7 +131,7 @@ const editProduct = async (req, res) => {
     res.status(200).json(success("product updated successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json(error("failed to update product"))
+    res.status(400).json(error("failed to update product"))
   };
 }
 // get total products
@@ -146,7 +146,7 @@ const getProductsCount = async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(400)
       .json({ error: "Failed to get the total number of products" });
   }
 };
@@ -166,7 +166,7 @@ const checkProductsFromIds = async (req, res) => {
     res.status(200).json(productNames);
   } catch (error) {
     console.error("Error occurred while checking products:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 

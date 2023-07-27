@@ -45,7 +45,7 @@ const createCustomer = async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(400)
       .json({ success: false, error: "Failed to create customer" });
   }
 };
@@ -57,7 +57,7 @@ const getCustomers = async (req, res) => {
     res.json({ success: true, customers });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to get customers" });
+    res.status(400).json({ success: false, error: "Failed to get customers" });
   }
 };
 
@@ -93,7 +93,7 @@ const getCustomerById = async (req, res) => {
     res.json({ success: true, customer: customer[0] });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to get customer" });
+    res.status(400).json({ success: false, error: "Failed to get customer" });
   }
 };
 
@@ -114,7 +114,7 @@ const updateCustomerById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(400)
       .json({ success: false, error: "Failed to update customer" });
   }
 };
@@ -134,7 +134,7 @@ const deleteCustomerById = async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(400)
       .json({ success: false, error: "Failed to delete customer" });
   }
 };

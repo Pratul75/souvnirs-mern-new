@@ -21,7 +21,7 @@ const createVendor = async (req, res) => {
     res.status(201).json({ success: true, data: vendor });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to create vendor" });
+    res.status(400).json({ success: false, error: "Failed to create vendor" });
   }
 };
 
@@ -38,7 +38,7 @@ const getVendors = async (req, res) => {
     res.json({ success: true, data: vendors });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to get vendors" });
+    res.status(400).json({ success: false, error: "Failed to get vendors" });
   }
 };
 
@@ -54,7 +54,7 @@ const getVendorById = async (req, res) => {
     res.json({ success: true, data: vendor });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to get vendor" });
+    res.status(400).json({ success: false, error: "Failed to get vendor" });
   }
 };
 
@@ -81,7 +81,7 @@ const updateVendor = async (req, res) => {
     res.json({ success: true, data: vendor });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to update vendor" });
+    res.status(400).json({ success: false, error: "Failed to update vendor" });
   }
 };
 
@@ -110,7 +110,7 @@ const deleteVendor = async (req, res) => {
     res.json({ success: true, message: "Vendor deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, error: "Failed to delete vendor" });
+    res.status(400).json({ success: false, error: "Failed to delete vendor" });
   }
 };
 
@@ -124,7 +124,7 @@ const getVendorsCount = async (req, res) => {
     res.status(200).json({ count: vendorsCount });
   } catch (error) {
     res
-      .status(500)
+      .status(400)
       .json({ error: "Failed to get the total number of vendors" });
   }
 };

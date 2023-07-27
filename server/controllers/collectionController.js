@@ -12,7 +12,7 @@ const createCollection = async (req, res) => {
     res.status(201).json(collection);
   } catch (error) {
     res
-      .status(500)
+      .status(400)
       .json({ error: "Failed to create collection", message: error.message });
   }
 };
@@ -23,7 +23,7 @@ const getAllCollections = async (req, res) => {
     const collections = await Collection.find();
     res.status(200).json(collections);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve collections" });
+    res.status(400).json({ error: "Failed to retrieve collections" });
   }
 };
 
@@ -36,7 +36,7 @@ const getCollectionById = async (req, res) => {
     }
     res.status(200).json(collection);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve collection" });
+    res.status(400).json({ error: "Failed to retrieve collection" });
   }
 };
 
@@ -56,7 +56,7 @@ const updateCollectionById = async (req, res) => {
     }
     res.status(200).json(collection);
   } catch (error) {
-    res.status(500).json({ error: "Failed to update collection" });
+    res.status(400).json({ error: "Failed to update collection" });
   }
 };
 
@@ -72,7 +72,7 @@ const deleteCollectionById = async (req, res) => {
     }
     res.status(200).json({ message: "Collection deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete collection" });
+    res.status(400).json({ error: "Failed to delete collection" });
   }
 };
 
@@ -124,7 +124,7 @@ const getRawDataForFilter = async (req, res) => {
     res.json(filteredProducts);
   } catch (error) {
     console.error("Error occurred while filtering products", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "Internal server error" });
   }
 };
 
