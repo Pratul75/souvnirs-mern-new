@@ -75,8 +75,8 @@ const ProductOverviewAndAddProduct = () => {
 
             <div className="flex justify-between gap-2 items-center">
               <div className="flex flex-col w-full">
-                <span>Total Products</span>
-                <span>34,686</span>
+                <span>Pending Orders</span>
+                <span></span>
               </div>
               <div className="chart-container">
                 {productData.length > 0 && productLabel.length > 0 && (

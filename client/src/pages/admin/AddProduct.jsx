@@ -22,6 +22,7 @@ const AddProduct = () => {
   const [tagsArray, setTagsArray] = useState([]);
   const [attArr, setAttArr] = useState()
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [attrValue, setAttrValue] = useState([])
 
 
   // get all categories
@@ -100,6 +101,16 @@ const AddProduct = () => {
       setTagValue('');
     }
   };
+  const handleAttributeMapping = (event) => {
+    // if (event.key === 'Enter' &&
+    console.log('AddProduct.jsx', event.key);
+  }
+
+  const handleAttriibuteValues = (e) => {
+    const isTrue = attrValue.some(a => a.attr == e.target.name)
+    setAttrValue([...attrValue, { attr: e.target.name, value: e.target.value }]);
+  }
+  console.log('AddProduct.jsx', attrValue);
 
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
@@ -172,6 +183,15 @@ const AddProduct = () => {
               value={selectedAttributes}
               onChange={setSelectedAttributes}
             />
+            <div className="h-full">
+              {selectedAttributes.map(att => (
+                <div className="h-16 gap-5 flex border-red-700 border-2 items-center"><span>{att.label}</span>
+                  <input onChange={handleAttriibuteValues} class="input input-accent h-8" name={att.label} onKeyPress={handleAttributeMapping}></input>
+                </div>
+
+
+              ))}
+            </div>
           </div>
         ),
     },

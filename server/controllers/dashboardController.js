@@ -3,6 +3,8 @@ const Order = require("../schema/orderModal");
 const Product = require("../schema/productModal");
 const Vendor = require("../schema/vendorModal");
 const Wishlist = require("../schema/wishlistModal");
+const excelToJson = require('convert-excel-to-json');
+const fs = require('fs');
 
 const fetchDashboardCardsData = async (req, res) => {
     const { role } = req
@@ -391,10 +393,23 @@ const getProductDataForAdmin = async (req, res) => {
         const countsArray = data.map(item => item.totalCount);
         return { dates: datesArray, counts: countsArray };
     }
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+    // Query for orders with status "ordered" or "processing" and createdAt within the last six months
+    const orders = await Order.find({
+        order_status: { $in: ['ordered', 'processing'] },
+        createdAt: { $gte: sixMonthsAgo },
+    });
     const result = extractDateAndCount(data);
     res.status(200).json(result)
 
 
 }
 
-module.exports = { fetchDashboardCardsData, getBarChartData, getProductDataForAdmin }
+const getXls = async (req, res) => {
+
+
+}
+
+module.exports = { getXls, fetchDashboardCardsData, getBarChartData, getProductDataForAdmin }

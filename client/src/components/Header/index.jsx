@@ -20,13 +20,13 @@ const Header = ({ heading, subheading, image }) => {
       <div className="absolute inset-0 flex items-center justify-center px-8 text-black">
         <div className="ml-8">
           <h1 className="text-4xl mb-4 text-white">{heading}</h1>
-          <p className="text-white text-2xl font-thin w-[60%] mt-4">
+          <p className="text-white text-2xl font-thin w-[60%] my-4">
             {subheading}
           </p>
         </div>
         {image && (
           <img
-            className="absolute right-0 top-2 h-[350px]"
+            className="relative right-0 top-2 h-full my-10"
             src={image}
             alt="header image"
           />
