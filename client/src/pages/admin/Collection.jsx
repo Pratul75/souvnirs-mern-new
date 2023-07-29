@@ -24,6 +24,7 @@ const Collection = () => {
       debouncedShowToast(error.message, "error");
     }
   };
+  console.log('Collection.jsx', selectedRow);
 
   const columns = useMemo(
     () => [
@@ -70,6 +71,7 @@ const Collection = () => {
       window.collection_edit_modal.close();
     }
   };
+  console.log('Collection.jsx', deactivat);
 
   const handleDeleteSubmit = async () => {
     try {
@@ -97,6 +99,9 @@ const Collection = () => {
     fetchAllCollections();
   }, [apiTrigger]);
 
+  const getFlatRowsData = (data) => {
+    console.log('Collection.jsx', data);
+  }
   return (
     <div>
       <Header
@@ -113,9 +118,11 @@ const Collection = () => {
           tableTitle="Collection List"
           columns={columns}
           data={data}
+          selectedFlatRows={getFlatRowsData}
           showButtons
           enableDelete
           enableEdit
+
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

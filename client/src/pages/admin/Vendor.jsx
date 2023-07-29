@@ -3,6 +3,8 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { EyeBtnSvg } from "../../icons/tableIcons";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
   const [storeList, setStoreList] = useState([]);
@@ -36,6 +38,7 @@ const Vendor = () => {
     setConvertedArr(result);
     return result;
   };
+  const navigate = useNavigate()
   const handleEditChange = (e) => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
   };
@@ -175,7 +178,7 @@ const Vendor = () => {
   }, [storeList, vendorList]);
   console.log('Vendor.jsx', selectedRow);
   return (
-    <div>
+    <div className="relative">
       <Header
         heading="Vendor"
         subheading="This subheading exists because it is required to add a very brief detail about every page on the banner."
@@ -190,6 +193,8 @@ const Vendor = () => {
           onDelete={handleDelete}
           onEdit={handleEdit}
         />
+        <button onClick={() => { navigate(PATHS.adminCreateVendor) }} className="absolute top-0  right-0 btn btn-accent" >Create New</button>
+
       </div>
       <dialog id="vendor_edit_modal" className="modal">
         <form

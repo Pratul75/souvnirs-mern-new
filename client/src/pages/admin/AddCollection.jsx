@@ -40,7 +40,8 @@ const AddCollection = () => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
-
+  console.log('AddCollection.jsx', collectionProductTableList);
+  console.log('AddCollection.jsx', activeProducts, deactivatedProducts);
   const columns = useMemo(
     () => [
       {
@@ -215,9 +216,29 @@ const AddCollection = () => {
     }
   };
 
-  const handleSelectedObjectChange = useCallback((selectedRows) => {
+  const handleSelectedObjectChange = useCallback((selectedRows, activeRows) => {
     setDeactivatedProducts(selectedRows);
+    setActiveProducts(activeRows)
   }, []);
+  const removeDeactivatedProducts = () => {
+    let upArr = []
+    let delArr = []
+    for (let elem of collectionProductTableList) {
+      for (let d of deactivatedProducts) {
+        if (elem._id === d._id) {
+          delArr.push(elem)
+          continue
+        }
+        upArr.push(elem)
+      }
+
+    }
+
+    setCollectionProductTableList(upArr)
+    setDeactivatedProducts(delArr)
+
+  }
+  console.log('AddCollection.jsx', deactivatedProducts);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -288,6 +309,7 @@ const AddCollection = () => {
     await postCollection(abstractedFormData);
     resetForm();
   };
+  console.log('AddCollection.jsx', setCollectionProductTableList);
 
   // Side effects
   useEffect(() => {
@@ -315,7 +337,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
@@ -521,7 +543,10 @@ const AddCollection = () => {
                 Submit Filters
               </button>
             </div>
-            <div className="mt-4">
+
+
+            <div className="mt-4 relative">
+              <button className="btn btn-accent absolute right-60 top-5" onClick={removeDeactivatedProducts}>Deactivate</button>
               <ReusableTable
                 key={"react-table-23-edffk"}
                 showButtons

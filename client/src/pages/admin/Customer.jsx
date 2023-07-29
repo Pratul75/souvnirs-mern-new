@@ -3,6 +3,8 @@ import { Header, ReusableTable, Modal } from "../../components";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
 import { ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -52,6 +54,7 @@ const Customer = () => {
     ],
     []
   );
+  const navigate = useNavigate()
 
   const data = useMemo(() => customerList, [customerList]);
 
@@ -117,7 +120,7 @@ const Customer = () => {
   }, [apiTrigger]);
 
   return (
-    <div>
+    <div className="relative">
       <Header
         heading="Customer"
         subheading="This is a customers page which provides information regarding all the customers that are present in the application"
@@ -133,6 +136,7 @@ const Customer = () => {
           onDelete={handleDelete}
           onEdit={handleEdit}
         />
+        <button onClick={() => { navigate(PATHS.adminCreateCustomer) }} className="absolute top-0  right-0 btn btn-accent" >Create New</button>
       </div>
       <Modal
         id="edit_customer_modal"

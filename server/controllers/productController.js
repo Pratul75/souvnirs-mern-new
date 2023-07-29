@@ -1,3 +1,4 @@
+const AttributeType = require("../schema/attributeTypeModal");
 const Product = require("../schema/productModal");
 const { roles } = require("../utils");
 const { success, error } = require("../utils/errorHandler");
@@ -18,7 +19,7 @@ const createProduct = async (req, res) => {
       attributes
     } = req.body;
 
-    let attArr = attributes.map(att => att.value)
+    let attArr = attributes.map(att => att.name)
     // Create a new product object
     const product = new Product({
       name,
@@ -34,6 +35,15 @@ const createProduct = async (req, res) => {
 
     // Save the product to the database
     const savedProduct = await product.save();
+
+
+    for (let elem of attributes) {
+
+      for (let e of elem.value) {
+        AttributeType.create()
+
+      }
+    }
 
     res.status(201).json(success("product created successfully"));
   } catch (error) {

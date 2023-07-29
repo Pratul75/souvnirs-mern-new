@@ -10,13 +10,17 @@ const AttributeTypeSchema = new mongoose.Schema({
     ref: "Attribute",
   },
   attributeValue: {
-    type: [],
+    type: String,
   },
   status: {
     type: String,
     enum: ["ACTIVE", "DEACTIVE", "PENDING"],
     default: "PENDING",
   },
+  price: { type: Number },
+  quantity: { type: Number },
+  image: { type: String }
+
 });
 
 const AttributeType = mongoose.model("AttributeType", AttributeTypeSchema);

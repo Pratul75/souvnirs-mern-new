@@ -57,6 +57,8 @@ import {
   CustomerWishlist,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
+import AddCustomer from "../pages/admin/Add Customer";
+import AddVendor from "../pages/admin/AddVendor";
 // admin routes
 export const adminRoutes = [
   {
@@ -160,6 +162,18 @@ export const adminRoutes = [
     path: PATHS.adminRefund,
     defaultRole: "admin",
     Component: Refund,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminCreateCustomer,
+    defaultRole: "admin",
+    Component: AddCustomer,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminCreateVendor,
+    defaultRole: "admin",
+    Component: AddVendor,
   },
   {
     id: nanoid(),
