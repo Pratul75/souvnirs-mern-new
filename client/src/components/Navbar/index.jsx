@@ -1,9 +1,10 @@
-import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
+import { BellSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Avatar from "../Avatar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleSidebar,
+  toggleMobileSidebar,
   toggleDarkMode,
   getLoginInfo,
 } from "../../features/appConfig/appSlice";
@@ -63,7 +64,7 @@ const Navbar = () => {
       <div className="bg-base-200 py-4 px-4 md:hidden flex justify-between items-center">
         <RxHamburgerMenu
           className="text-3xl cursor-pointer"
-          onClick={() => dispatch(toggleSidebar())}
+          onClick={() => dispatch(toggleMobileSidebar())}
         />
         <div className="flex gap-4">
           <span className="cursor-pointer">
