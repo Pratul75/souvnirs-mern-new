@@ -12,52 +12,55 @@ import { MultiSelect } from "react-multi-select-component";
 
 // add products
 const AddProduct = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [formData, setFormData] = useState({});
-  const [tagValue, setTagValue] = useState('');
+  const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
-  const [attArr, setAttArr] = useState()
+  const [attArr, setAttArr] = useState();
   const [selectedAttributes, setSelectedAttributes] = useState([]);
-  const [attrValue, setAttrValue] = useState([])
-  const [atName, setAtName] = useState()
-  const [atValue, setAtValue] = useState()
-  const [price, setPrice] = useState(false)
-  const [attrValues, setAttrValues] = useState()
-  const [fAttValue, setFAttValue] = useState([])
-
+  const [attrValue, setAttrValue] = useState([]);
+  const [atName, setAtName] = useState();
+  const [atValue, setAtValue] = useState();
+  const [price, setPrice] = useState(false);
+  const [attrValues, setAttrValues] = useState();
+  const [fAttValue, setFAttValue] = useState([]);
 
   // Function to generate all possible combinations of multiple arrays as strings
   function generateValueCombinations() {
-    let allArrays = []
-    attrValue.map(a =>
-      allArrays.push(a.value)
-    )
-    console.log('AddProduct.jsx', allArrays);
+    let allArrays = [];
+    attrValue.map((a) => allArrays.push(a.value));
+    console.log("AddProduct.jsx", allArrays);
     // return
-    function generateCombinations(arrays, index = 0, current = '', result = []) {
+    function generateCombinations(
+      arrays,
+      index = 0,
+      current = "",
+      result = []
+    ) {
       if (index === arrays.length) {
         result.push(current);
         return;
       }
 
       for (let i = 0; i < arrays[index].length; i++) {
-        const newCurrent = current === '' ? arrays[index][i] : `${current} ${arrays[index][i]}`;
+        const newCurrent =
+          current === "" ? arrays[index][i] : `${current} ${arrays[index][i]}`;
         generateCombinations(arrays, index + 1, newCurrent, result);
       }
 
       return result;
     }
     setAttrValues(generateCombinations(allArrays));
-    setPrice(true)
+    setPrice(true);
   }
   // Example of usage:
 
   // get all categories
-  console.log('AddProduct.jsx', selectedAttributes);
+  console.log("AddProduct.jsx", selectedAttributes);
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -75,8 +78,11 @@ const AddProduct = () => {
       const response = await API_WRAPPER.get("/vendors/get-vendors");
       if (response.status === 200) {
         setVendorsList(response?.data?.data);
-        if (vendorsList.length == 1) { }
-        console.log('AddProduct.jsx', vendorsList.length)
+        // need to check what to be done here
+        if (vendorsList.length == 1) {
+          debouncedShowToast("vendor list is empty array", "error");
+        }
+        console.log("AddProduct.jsx", vendorsList.length);
         console.log("VENDORS LIST RESPONSE: ", response?.data);
       }
     } catch (error) {
@@ -84,10 +90,12 @@ const AddProduct = () => {
     }
   };
   const fetchAllAttributes = async () => {
-    const response = await API_WRAPPER.get(`/attribute/get-all-attributes/${selectedCategory}`)
+    const response = await API_WRAPPER.get(
+      `/attribute/get-all-attributes/${selectedCategory}`
+    );
     setAttArr(response.data);
-  }
-  console.log('AddProduct.jsx',);
+  };
+  console.log("AddProduct.jsx");
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -99,17 +107,17 @@ const AddProduct = () => {
       slug: randomSlug(),
       tags: tagsArray,
       attributes: attrValue,
-      attributeValues: fAttValue
+      attributeValues: fAttValue,
     });
-    console.log('AddProduct.jsx', response);
+    console.log("AddProduct.jsx", response);
     if (response.status === 201) {
       console.log("RESPONSE RECEIVED: ", response?.data?.data);
-      navigate(PATHS.vendorProductManagement)
-      const data = response.data.data
-      debouncedShowToast(data, "success")
+      navigate(PATHS.adminProductManagement);
+      const data = response.data.data;
+      debouncedShowToast(data, "success");
     }
   };
-  console.log(selectedAttributes)
+  console.log(selectedAttributes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,7 +128,6 @@ const AddProduct = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-
   };
 
   const handleTagInputChange = (event) => {
@@ -128,12 +135,12 @@ const AddProduct = () => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter' && tagValue.trim() !== '') {
+    if (event.key === "Enter" && tagValue.trim() !== "") {
       setTagsArray([...tagsArray, tagValue.trim()]);
-      setTagValue('');
+      setTagValue("");
     }
   };
-  console.log('AddProduct.jsx', attrValue);
+  console.log("AddProduct.jsx", attrValue);
   const handleAttributeSelection = (e) => {
     if (e.key === "Enter" && atValue.trim() !== "") {
       let updatedAttrValue = [...attrValue];
@@ -152,22 +159,22 @@ const AddProduct = () => {
       }
 
       setAttrValue(updatedAttrValue);
-      setAtName(''); // Reset the atName state for the next input
-      setAtValue(''); // Reset the atValue state for the next input
+      setAtName(""); // Reset the atName state for the next input
+      setAtValue(""); // Reset the atValue state for the next input
     }
   };
   const handleattTypeInputs = (e, type) => {
     const { name, value } = e.target;
-    const dataArray = fAttValue
+    const dataArray = fAttValue;
 
     // Find if the combination of type and name exists in the dataArray
-    const existingObjectIndex = dataArray.findIndex(obj => obj.name === name);
+    const existingObjectIndex = dataArray.findIndex((obj) => obj.name === name);
 
     if (existingObjectIndex !== -1) {
       // If the combination exists, update its value based on the type
-      if (type === 'price') {
+      if (type === "price") {
         dataArray[existingObjectIndex].price = value;
-      } else if (type === 'quantity') {
+      } else if (type === "quantity") {
         dataArray[existingObjectIndex].quantity = value;
       }
     } else {
@@ -179,20 +186,16 @@ const AddProduct = () => {
 
     // You can return the updated dataArray or perform any other actions as needed
     // console.log('AddProduct.jsx', dataArray);
-    setFAttValue(dataArray)
+    setFAttValue(dataArray);
   };
 
   // Example usage:
   const dataArray = [];
 
-
-
   console.log(dataArray);
 
-  console.log('AddProduct.jsx', fAttValue);
-  console.log('AddProduct.jsx', attrValues);
-
-
+  console.log("AddProduct.jsx", fAttValue);
+  console.log("AddProduct.jsx", attrValues);
 
   // Function to handle attribute values input changes
   const handleAttriibuteValues = (e) => {
@@ -200,9 +203,9 @@ const AddProduct = () => {
     const value = e.target.value;
 
     // Check if the attribute value already exists in the array
-    setAtName(name)
-    setAtValue(value)
-  };;
+    setAtName(name);
+    setAtValue(value);
+  };
 
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
@@ -217,16 +220,13 @@ const AddProduct = () => {
     return convertedArr;
   };
 
-
-
-
   useEffect(() => {
     getAllCategories();
     getAllVendors();
   }, []);
   useEffect(() => {
-    fetchAllAttributes()
-  }, [selectedCategory])
+    fetchAllAttributes();
+  }, [selectedCategory]);
 
   const tabs = [
     {
@@ -264,70 +264,89 @@ const AddProduct = () => {
       ),
     },
     {
-      label:
-        price ? "variant pricing" : "Attribute"
-      ,
-      content: price ?
-        <div className="flex flex-col gap-5"> {
-          attrValues.map((a) => (
-            <div className="h-8 flex items-center w-full justify-between gap-10">{a}
-              <input name={a} placeholder="price" onChange={(e) => handleattTypeInputs(e, "price")} type="text" className="input flex-1 input-accent" />
-              <input name={a} placeholder="Quantity" onChange={(e) => handleattTypeInputs(e, "quantity")} className="input input-accent flex-1" /></div>
-          ))
-        }</div>
-        : selectedCategory.length === 0 ? (
-          <p className="text-center">Select Category First</p>
-        ) : (
+      label: price ? "variant pricing" : "Attribute",
+      content: price ? (
+        <div className="flex flex-col gap-5">
+          {" "}
+          {attrValues.map((a) => (
+            <div
+              key={nanoid()}
+              className="md:h-8 flex items-center w-full justify-between gap-10 "
+            >
+              {a}
+              <div className="flex flex-col md:flex-row">
 
-          <div className="form-control w-1/2 relative">
-            <MultiSelect
-              options={convertAttributesList(attArr)}
-              value={selectedAttributes}
-              onChange={setSelectedAttributes}
-            />
-            <div className="h-full">
-              {selectedAttributes.map((att) => (
-                <div className="h-16 gap-5 flex items-center" key={att.value}>
-                  <div className="form-group">
-                    <label>{att.label}</label>
-                    <input
-                      onChange={handleAttriibuteValues}
-                      className="input input-accent h-8"
-                      name={att.value}
-                      onKeyPress={handleAttributeSelection}
-                    />
-                  </div>
-                  <div className="flex gap-2 w-36 overflow-x-scroll flex-shrink-0">
-                    {attrValue.map((el) => {
-                      if (el.name === att.value) {
-                        return el.value.map((item, index) => (
-                          <span className="bg-gray-100 rounded" key={index}>
-                            {item}
-                          </span>
-                        ));
-                      } else {
-                        return null;
-                      }
-                    })}
-                  </div>
-                  <div className="flex gap-2">
-
-                  </div>
-                </div>
-              ))}
+                <input
+                  name={a}
+                  placeholder="price"
+                  onChange={(e) => handleattTypeInputs(e, "price")}
+                  type="text"
+                  className="input flex-1 input-accent"
+                />
+                <input
+                  name={a}
+                  placeholder="Quantity"
+                  onChange={(e) => handleattTypeInputs(e, "quantity")}
+                  className="input input-accent flex-1"
+                /></div>
             </div>
-            {
-
-              attrValue.length > 0 && <button className="  btn btn-accent" onClick={() => {
-
-                generateValueCombinations()
-                setFAttValue(attrValues.map(a => { return { name: a } }))
-              }}>set pricing</button>
-            }
-
+          ))}
+        </div>
+      ) : selectedCategory.length === 0 ? (
+        <p className="text-center">Select Category First</p>
+      ) : (
+        <div className="form-control w-1/2 relative">
+          <MultiSelect
+            options={convertAttributesList(attArr)}
+            value={selectedAttributes}
+            onChange={setSelectedAttributes}
+          />
+          <div className="h-full">
+            {selectedAttributes.map((att) => (
+              <div className="h-16 gap-5 flex items-center" key={att.value}>
+                <div className="form-group">
+                  <label>{att.label}</label>
+                  <input
+                    onChange={handleAttriibuteValues}
+                    className="input input-accent h-8"
+                    name={att.value}
+                    onKeyPress={handleAttributeSelection}
+                  />
+                </div>
+                <div className="flex gap-2 w-36 overflow-x-scroll flex-shrink-0">
+                  {attrValue.map((el) => {
+                    if (el.name === att.value) {
+                      return el.value.map((item, index) => (
+                        <span className="bg-gray-100 rounded" key={index}>
+                          {item}
+                        </span>
+                      ));
+                    } else {
+                      return null;
+                    }
+                  })}
+                </div>
+                <div className="flex gap-2"></div>
+              </div>
+            ))}
           </div>
-
-        ),
+          {attrValue.length > 0 && (
+            <button
+              className="  btn btn-accent"
+              onClick={() => {
+                generateValueCombinations();
+                setFAttValue(
+                  attrValues.map((a) => {
+                    return { name: a };
+                  })
+                );
+              }}
+            >
+              set pricing
+            </button>
+          )}
+        </div>
+      ),
     },
     {
       label: "Shipping Info",
@@ -395,7 +414,7 @@ const AddProduct = () => {
       ),
     },
   ];
-  console.log('AddProduct.jsx', selectedCategory);
+  console.log("AddProduct.jsx", selectedCategory);
 
   return (
     <div>
@@ -404,9 +423,9 @@ const AddProduct = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
       // image={HeaderImgTwo}
       />
-      <div className="w-full  mt-8">
-        <div className="flex ">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3  rounded-xlv">
+      <div className="w-full mt-8">
+        <div className="grid grid-cols-6 gap-4">
+          <div className="col-span-6 md:col-span-4 bg-base-100 p-4 rounded-xl border-[1px] border-base-300">
             <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -422,7 +441,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
+          <div className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  ">
             <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -445,8 +464,8 @@ const AddProduct = () => {
           </div>
         </div>
 
-        <div className="flex mt-8">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3">
+        <div className="grid grid-cols-6 gap-4 mt-4">
+          <div className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4">
             <h3 className="font-semibold">Prdoduct Description</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -461,7 +480,7 @@ const AddProduct = () => {
               />
             </div>
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
+          <div className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -473,9 +492,15 @@ const AddProduct = () => {
                 value={selectedCategory}
                 className="select select-accent"
               >
-                <option value="" disabled selected>select category</option>
+                <option value="" disabled selected>
+                  select category
+                </option>
                 {categoriesList?.map((category) => {
-                  return <option value={category._id} key={nanoid()}>{category.name}</option>;
+                  return (
+                    <option value={category._id} key={nanoid()}>
+                      {category.name}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -489,7 +514,9 @@ const AddProduct = () => {
                 name="vendorId"
                 value={formData.vendorId}
               >
-                <option value="" disabled selected>select vendor</option>
+                <option value="" disabled selected>
+                  select vendor
+                </option>
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>
@@ -502,8 +529,6 @@ const AddProduct = () => {
 
             {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
-
-
               <input
                 type="text"
                 value={tagValue}
@@ -514,7 +539,10 @@ const AddProduct = () => {
               />
               <div className="space-x-2">
                 {tagsArray.map((tag, index) => (
-                  <div key={index} className="inline-flex items-center bg-gray-100 rounded">
+                  <div
+                    key={index}
+                    className="inline-flex items-center bg-gray-100 rounded"
+                  >
                     <span className="px-2 py-1">{tag}</span>
                     <button
                       className="flex items-center justify-center w-6 h-6 ml-1 text-gray-500 rounded-full hover:bg-red-500 hover:text-white"
@@ -525,7 +553,6 @@ const AddProduct = () => {
                   </div>
                 ))}
               </div>
-
             </div>
 
             <div className="form-control mt-4">
@@ -543,13 +570,14 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
-        <div className="flex mt-8">
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3 h-auto">
+
+        <div className="grid grid-cols-6 gap-4 mt-4">
+          <div className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4 h-auto">
             <h3 className="font-semibold">Basic Tabs</h3>
             <hr className="mt-4 relative" />
             <Tabs tabs={tabs} />
           </div>
-          <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">
+          <div className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 

@@ -122,7 +122,8 @@ const Collection = () => {
           showButtons
           enableDelete
           enableEdit
-
+          enablePagination
+          pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

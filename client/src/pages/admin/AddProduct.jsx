@@ -271,22 +271,24 @@ const AddProduct = () => {
           {attrValues.map((a) => (
             <div
               key={nanoid()}
-              className="h-8 flex items-center w-full justify-between gap-10"
+              className="md:h-8 flex items-center w-full justify-between gap-10 "
             >
               {a}
-              <input
-                name={a}
-                placeholder="price"
-                onChange={(e) => handleattTypeInputs(e, "price")}
-                type="text"
-                className="input flex-1 input-accent"
-              />
-              <input
-                name={a}
-                placeholder="Quantity"
-                onChange={(e) => handleattTypeInputs(e, "quantity")}
-                className="input input-accent flex-1"
-              />
+              <div className="flex flex-col md:flex-row">
+
+                <input
+                  name={a}
+                  placeholder="price"
+                  onChange={(e) => handleattTypeInputs(e, "price")}
+                  type="text"
+                  className="input flex-1 input-accent"
+                />
+                <input
+                  name={a}
+                  placeholder="Quantity"
+                  onChange={(e) => handleattTypeInputs(e, "quantity")}
+                  className="input input-accent flex-1"
+                /></div>
             </div>
           ))}
         </div>
@@ -419,7 +421,7 @@ const AddProduct = () => {
       <Header
         heading="Add Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
-        // image={HeaderImgTwo}
+      // image={HeaderImgTwo}
       />
       <div className="w-full mt-8">
         <div className="grid grid-cols-6 gap-4">
