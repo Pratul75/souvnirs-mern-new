@@ -1,4 +1,4 @@
-import { Header, ReusableTable } from "../../components";
+import { Header, Modal, ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { useEffect, useMemo, useState } from "react";
@@ -91,7 +91,7 @@ const ProductManagement = () => {
   };
 
   const handleEdit = (row) => {
-    window.product_management_edit_modal.showModal();
+    window.edit_product_modal.showModal();
     setSelectedRow(row);
     console.log("ROW TO BE EDITED: ", row);
   };
@@ -100,10 +100,11 @@ const ProductManagement = () => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
   };
 
-  const submitEditedRow = async () => {
+
+  const submitEditedRow = async (updatedVal) => {
     const response = await API_WRAPPER.put(
       `/products/edit-product/:${selectedRow._id}`,
-      editedRow
+      updatedVal
     );
     if (response.status === 200) {
       setApiTrigger((prevState) => !prevState);
@@ -116,6 +117,10 @@ const ProductManagement = () => {
     } else {
       debouncedShowToast(response.data.data.error, "error")
     }
+  };
+  const handleSave = (inputValues) => {
+    console.log("SAVING THE INPUT VALUES: ", inputValues);
+    submitEditedRow(inputValues);
   };
 
   const deleteSelectedRow = async () => {
@@ -171,148 +176,65 @@ const ProductManagement = () => {
       </div>
 
       {/* edit modal  */}
-      <dialog id="product_management_edit_modal" className="modal">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitEditedRow();
-          }}
-          method="dialog"
-          className="modal-box"
-        >
-          <h3 className="font-bold">Edit Product</h3>
-          <hr className="my-4" />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="form-control col-span-2">
-              <label className="label">
-                <span className="label-text">Product Name</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.name}
-                className="input input-accent"
-                type="text"
-                name="name"
-                id=""
-              />
-            </div>
-            <div className="form-control col-span-2">
-              <label className="label">
-                <span className="label-text">Description</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.description}
-                className="input input-accent"
-                type="text"
-                name="description"
-                id=""
-              />
-            </div>
+      <Modal
+        id="edit_product_modal"
+        title="Are you sure you want to delete the selected value?"
+        onClose={() => { window.edit_product_modal.close() }}
+        onSave={handleSave}
+        defaultValues={{
+          name: selectedRow?.name,
+          description: selectedRow?.description,
+          stockQuantity: selectedRow?.stockQuantity,
+          stockStatus: selectedRow?.stockStatus,
+          price: selectedRow?.price,
+          totalSales: selectedRow?.totalSales,
+          onSale: selectedRow?.onSale,
+          status: selectedRow?.status,
+        }}
+        inputs={[
+          {
+            label: "Product Name",
+            type: "text",
+            name: "name",
+          },
+          {
+            label: "description",
+            type: "text",
+            name: "description",
+          },
+          {
+            label: "Stock Quantity",
+            type: "text",
+            name: "stockQ",
+          },
+          {
+            label: "Stock Status",
+            type: "text",
+            name: "stockStatus",
+          },
+          {
+            label: "price",
+            type: "number",
+            name: "price",
+          },
+          {
+            label: "Total Sales",
+            type: "number",
+            name: "totalSales",
+          },
+          {
+            label: "On Sale",
+            type: "text",
+            name: "onSale",
+          },
+          {
+            label: "Status",
+            type: "text",
+            name: "status",
+          },
+        ]}
+      />
 
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Stock Quantity</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.stockQuantity}
-                className="input input-accent"
-                type="text"
-                name="stockQuantity"
-                id=""
-              />
-            </div>
-            {/* "IN_STOCK", "OUT_OF_STOCK", "BACK_ORDER" */}
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Stock Status</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.stockStatus}
-                className="select select-accent"
-                name="stockStatus"
-              >
-                <option value="IN_STOCK">IN STOCK</option>
-                <option value="OUT_OF_STOCK">IN STOCK</option>
-                <option value="BACK_ORDER">BACK ORDER</option>
-              </select>
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Price</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.price}
-                className="input input-accent"
-                type="text"
-                name="price"
-                id=""
-              />
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Total Sales</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.totalSales}
-                className="input input-accent"
-                type="text"
-                name="totalSales"
-                id=""
-              />
-            </div>
-
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">On Sale</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.onSale}
-                className="select select-accent"
-                name="onSale"
-                id=""
-              >
-                <option value={true}>YES</option>
-                <option value={false}>NO</option>
-              </select>
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Status</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.status}
-                className="select select-accent"
-                name="status"
-                id=""
-              >
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="DEACTIVE">DEACTIVE</option>
-                <option value="PENDING">PENDING</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="modal-action flex gap-4">
-            <button type="submit" className="btn btn-accent">
-              Save Changes
-            </button>
-            {/* if there is a button in form, it will close the modal */}
-            <button
-              onClick={() => window.product_management_edit_modal.close()}
-              className="btn"
-            >
-              Close
-            </button>
-          </div>
-        </form>
-      </dialog>
 
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">

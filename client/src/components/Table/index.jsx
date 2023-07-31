@@ -32,6 +32,7 @@ const ReusableTable = ({
   tableTitle,
   pageSize,
   enablePagination,
+  children
 }) => {
   const {
     getTableProps,
@@ -59,21 +60,21 @@ const ReusableTable = ({
       hooks.visibleColumns.push((columns) => [
         isSelectable
           ? {
-              id: "selection",
-              //
-              Header: ({ getToggleAllRowsSelectedProps }) => (
-                <div>
-                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                </div>
-              ),
-              // The cell can use the individual row's getToggleRowSelectedProps method
-              // to render a checkbox
-              Cell: ({ row }) => (
-                <div>
-                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                </div>
-              ),
-            }
+            id: "selection",
+            //
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            ),
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to render a checkbox
+            Cell: ({ row }) => (
+              <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
+          }
           : {},
         ...columns,
       ]);
@@ -246,6 +247,7 @@ const ReusableTable = ({
             className="btn btn-secondary"
           >
             {">>"}
+
           </button>
           {/* Select for page size */}
           <select

@@ -1,11 +1,23 @@
+const { response } = require("express");
 const Category = require("../schema/categoryModal");
 
 // add new category
 const addCategory = async (req, res) => {
   try {
-    const category = new Category(req.body);
-    await category.save();
-    res.status(201).json(category);
+    const { name, hsn_code, description, attributes, parentId, type } = req.body;
+    if (req.body.parentId) {
+      const Parent = await Category.findById(req.body.parentId)
+      console.log('categoryController.js', Parent.attributes);
+      const category = new Category({ name, hsn_code, Description: description, parentId, type, attributes: [...Parent.attributes, ...req.body.attributes] });
+      await category.save();
+      return res.status(201).json(category);
+      console.log('categoryController.js', Parent);
+    } else {
+
+      const category = new Category({ ...req.body });
+      await category.save();
+      res.status(201).json(category);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -19,7 +31,7 @@ const getAllCategories = async (req, res) => {
 
     res.status(200).json(categoryList);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -31,7 +43,7 @@ const getCategoryById = async (req, res) => {
     console.log("SELECTED CATEGORY: ", category);
     res.status(200).json(category);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -76,7 +88,7 @@ const updateCategory = async (req, res) => {
     res.status(200).json(updatedCategory);
   } catch (error) {
     console.log("categoryController.js", error);
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -106,7 +118,7 @@ const removeAttributeFromCategory = async (req, res) => {
     const updatedCategory = await category.save();
     res.status(200).json(updatedCategory);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -116,13 +128,18 @@ const deleteCategory = async (req, res) => {
     const categoryId = req.params.id.substring(1);
     const deletedCategory = await Category.findByIdAndDelete(categoryId);
     if (!deletedCategory) {
-      res.status(500).json({ message: "No cateogry found" });
+      res.status(400).json({ message: "No cateogry found" });
     }
     res.status(200).json(deletedCategory);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
 };
+const getParentCategories = async (req, res) => {
+  const categories = await Category.find({ parentId: "0" })
+  res.status(200).json(categories)
+
+}
 
 module.exports = {
   addCategory,
@@ -131,4 +148,5 @@ module.exports = {
   updateCategory,
   deleteCategory,
   removeAttributeFromCategory,
+  getParentCategories
 };

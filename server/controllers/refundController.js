@@ -8,7 +8,7 @@ const getAllRefunds = async (req, res) => {
     res.status(200).json(refunds);
   } catch (error) {
     console.error("Error fetching refunds:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -22,7 +22,7 @@ const getRefundById = async (req, res) => {
     res.json(refund);
   } catch (error) {
     console.error("Error fetching refund:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -58,7 +58,7 @@ const addRefund = async (req, res) => {
     res.status(201).json(savedRefund);
   } catch (error) {
     console.error("Error creating refund:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -92,7 +92,7 @@ const updateRefund = async (req, res) => {
     res.json(refund);
   } catch (error) {
     console.error("Error updating refund:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -108,7 +108,7 @@ const deleteRefund = async (req, res) => {
       .json({ message: "refund deleted successfully", deletedRefund: refund });
   } catch (error) {
     console.error("Error deleting refund:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

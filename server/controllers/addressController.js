@@ -8,7 +8,7 @@ const addAddress = async (req, res) => {
     const address = await Address.create(req.body);
     res.status(201).json(address);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create address" });
+    res.status(400).json({ error: "Failed to create address" });
   }
 };
 
@@ -18,7 +18,7 @@ const getAddresses = async (req, res) => {
     const addresses = await Address.find();
     res.json(addresses);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve addresses" });
+    res.status(400).json({ error: "Failed to retrieve addresses" });
   }
 };
 
@@ -32,7 +32,7 @@ const getAddressById = async (req, res) => {
       res.status(404).json({ error: "Address not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve address" });
+    res.status(400).json({ error: "Failed to retrieve address" });
   }
 };
 
@@ -52,7 +52,7 @@ const updateAddress = async (req, res) => {
       res.status(404).json({ error: "Address not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to update address" });
+    res.status(400).json({ error: "Failed to update address" });
   }
 };
 
@@ -66,7 +66,7 @@ const deleteAddress = async (req, res) => {
       res.status(404).json({ error: "Address not found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to delete address" });
+    res.status(400).json({ error: "Failed to delete address" });
   }
 };
 

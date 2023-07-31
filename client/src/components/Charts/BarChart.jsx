@@ -68,7 +68,6 @@ export const options = {
 const labels = ["January", "February", "March", "April", "May", "June", "July"];
 
 const dataset1Data = [500, 300, 750, 200, 400, 800, 600];
-const dataset2Data = [300, 600, 400, 800, 350, 900, 500];
 
 export const data = {
   labels,
@@ -78,10 +77,6 @@ export const data = {
       data: dataset1Data,
       backgroundColor: "rgba(99, 161, 255, 0.5)",
     },
-    {
-      label: "Dataset 2",
-      data: dataset2Data,
-      backgroundColor: "rgba(53, 162, 235, 0.5)",
-    },
+
   ],
 };

@@ -6,7 +6,7 @@ const getAllReviews = async (req, res) => {
     const reviews = await Review.find();
     res.status(200).json(reviews);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -19,7 +19,7 @@ const getReviewById = async (req, res) => {
     }
     res.status(200).json(review);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -30,7 +30,7 @@ const createReview = async (req, res) => {
     const savedReview = await review.save();
     res.status(201).json(savedReview);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -45,7 +45,7 @@ const updateReview = async (req, res) => {
     }
     res.status(200).json(review);
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
@@ -58,7 +58,7 @@ const deleteReview = async (req, res) => {
     }
     res.status(204).end();
   } catch (error) {
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 

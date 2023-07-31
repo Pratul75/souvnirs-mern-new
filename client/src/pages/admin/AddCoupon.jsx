@@ -39,6 +39,7 @@ const AddCoupon = () => {
   const [appliedToFilteredItemsObjects, setAppliedToFilteredItemsObjects] =
     useState([]);
   const [couponCode, setCouponCode] = useState(null);
+  const [customers, setCustomers] = useState()
 
   // get all categories
   const getAllCategories = async () => {
@@ -107,6 +108,8 @@ const AddCoupon = () => {
           })
         );
 
+
+
       case "specify-categories":
         return setAppliedToFilteredState(
           categoriesList.filter((category) => {
@@ -130,7 +133,11 @@ const AddCoupon = () => {
     }));
     console.log("DISCOUNT INPUT STATE: ", couponData);
   };
-
+  const getCustomers = async () => {
+    const response = await API_WRAPPER.get("/customers/get-customers");
+    setCustomers(response.data.customers)
+  }
+  console.log('AddCoupon.jsx', customers);
   const handleSubmit = async (e) => {
     e.preventDefault();
     switch (appliedToSpecifiedInput) {
@@ -163,6 +170,7 @@ const AddCoupon = () => {
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
+  const fetchUsers = () => { }
 
   const handleAppliedToSearch = (e) => {
     setAppliedToSearchInput(e.target.value);
@@ -192,6 +200,7 @@ const AddCoupon = () => {
   useEffect(() => {
     getAllCategories();
     getAllProducts();
+    getCustomers();
     getAllCollections();
   }, []);
 
@@ -327,14 +336,14 @@ const AddCoupon = () => {
             </div>
             {specificCustomerInputToggle && (
               <div>
-                <input
-                  onChange={handleInputChange}
-                  className="input input-accent w-full"
-                  type="text"
-                  name="eligibilityValue"
-                  id="eligibility-value"
-                  placeholder="enter SCG value"
-                />
+                <select onChange={handleInputChange} name="eligibilityValue" className="input input-accent w-full">
+                  {customers.map(customer => (
+
+                    <option> {`${customer.firstName}(${customer.email})`}</option>
+
+                  ))}
+                </select>
+
               </div>
             )}
           </div>

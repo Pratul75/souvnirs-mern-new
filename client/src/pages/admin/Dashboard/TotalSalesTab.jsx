@@ -7,16 +7,61 @@ import {
   AbandomCartBlack,
   AdsSpentBlack,
 } from "../../../icons";
+import { useEffect, useState } from "react";
+import API_WRAPPER from "../../../api";
 
 const TotalSalesTab = () => {
+  const [chartData, setChartData] = useState()
+  const [dateLabels, setDateLables] = useState()
+  const [monthLabels, setMonthLables] = useState()
+  const [yearLabels, setYearLables] = useState()
+  const [dateData, setDateData] = useState()
+  const [monthData, setMonthData] = useState()
+  const [yearData, setYearData] = useState()
+
+  const [totalSales, setTotalSales] = useState()
+  console.log(chartData)
+
+  const getBarChartData = async () => {
+    const response = await API_WRAPPER.get("/dashboard/barchart")
+    console.log('TotalSalesTab.jsx', response.data);
+    setChartData(response.data)
+    setDateLables(response.data.dateData.labels)
+    setDateData(response.data.dateData.counts)
+    setMonthLables(response.data.monthData.labels)
+    setMonthData(response.data.monthData.counts)
+    setYearLables(response.data.yearData.labels)
+    setYearData(response.data.yearData.counts)
+    setTotalSales(response.data.totalSales)
+
+  }
+  console.log('TotalSalesTab.jsx', dateData);
+
+  useEffect(() => { getBarChartData() }, [])
+
   const tabs = [
     {
-      label: "Total Sales",
+      label: "By year",
       content: (
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 flex">
             <div style={{ width: "100%", height: "100%" }}>
-              <Bar options={options} data={data} />
+              {yearData && yearLabels && (
+                <Bar
+                  options={options}
+                  data={{
+                    labels: yearLabels,
+                    datasets: [
+                      {
+                        label: "Dataset 1",
+                        data: yearData,
+                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                      },
+                    ],
+                  }}
+                />
+              )}
+
             </div>
           </div>
           <div className="col-span-1 flex flex-col justify-center ">
@@ -25,7 +70,7 @@ const TotalSalesTab = () => {
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
-                totalAmount="1,800"
+                totalAmount={`${totalSales}`}
                 dynamicAmount="-245"
                 percentageColor="text-red-500"
               />
@@ -66,7 +111,21 @@ const TotalSalesTab = () => {
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
             <div style={{ width: "100%", height: "100%" }}>
-              <Bar options={options} data={data} />
+              {monthData && monthLabels && (
+                <Bar
+                  options={options}
+                  data={{
+                    labels: monthLabels,
+                    datasets: [
+                      {
+                        label: "Dataset 1",
+                        data: monthData,
+                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                      },
+                    ],
+                  }}
+                />
+              )}
             </div>
           </div>
           <div className="col-span-1 flex flex-col justify-center ">
@@ -76,7 +135,7 @@ const TotalSalesTab = () => {
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
-                totalAmount="1,800"
+                totalAmount={`${totalSales}`}
                 dynamicAmount="-245"
                 percentageColor="text-red-500"
               />
@@ -110,14 +169,28 @@ const TotalSalesTab = () => {
       ),
     },
     {
-      label: "By Year",
+      label: "By week",
       content: (
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 flex">
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
             <div style={{ width: "100%", height: "100%" }}>
-              <Bar options={options} data={data} />
+              {dateData && dateLabels && (
+                <Bar
+                  options={options}
+                  data={{
+                    labels: dateLabels,
+                    datasets: [
+                      {
+                        label: "Dataset 1",
+                        data: dateData,
+                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                      },
+                    ],
+                  }}
+                />
+              )}
             </div>
           </div>
           <div className="col-span-1 flex flex-col justify-center ">
@@ -127,7 +200,7 @@ const TotalSalesTab = () => {
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
-                totalAmount="1,800"
+                totalAmount={`${totalSales}`}
                 dynamicAmount="-245"
                 percentageColor="text-red-500"
               />

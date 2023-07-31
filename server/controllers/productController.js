@@ -1,3 +1,4 @@
+const AttributeType = require("../schema/attributeTypeModal");
 const Product = require("../schema/productModal");
 const { roles } = require("../utils");
 const { success, error } = require("../utils/errorHandler");
@@ -18,7 +19,7 @@ const createProduct = async (req, res) => {
       attributes
     } = req.body;
 
-    let attArr = attributes.map(att => att.value)
+    let attArr = attributes.map(att => att.name)
     // Create a new product object
     const product = new Product({
       name,
@@ -35,10 +36,19 @@ const createProduct = async (req, res) => {
     // Save the product to the database
     const savedProduct = await product.save();
 
+
+    for (let elem of attributes) {
+
+      for (let e of elem.value) {
+        AttributeType.create()
+
+      }
+    }
+
     res.status(201).json(success("product created successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to create product" });
+    res.status(400).json({ error: "Failed to create product" });
   }
 };
 
@@ -61,7 +71,7 @@ const getProducts = async (req, res) => {
     res.status(200).json(productsList);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get all products" });
+    res.status(400).json({ error: "Failed to get all products" });
   }
 };
 
@@ -86,7 +96,7 @@ const getProduct = async (req, res) => {
     res.status(200).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to get the product" });
+    res.status(400).json({ error: "Failed to get the product" });
   }
 };
 
@@ -106,7 +116,7 @@ const deleteProduct = async (req, res) => {
     res.status(200).json(success("product deleted successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json(error("failed to delete product"));
+    res.status(400).json(error("failed to delete product"));
   }
 };
 
@@ -131,7 +141,7 @@ const editProduct = async (req, res) => {
     res.status(200).json(success("product updated successfully"));
   } catch (error) {
     console.error(error);
-    res.status(500).json(error("failed to update product"))
+    res.status(400).json(error("failed to update product"))
   };
 }
 // get total products
@@ -146,7 +156,7 @@ const getProductsCount = async (req, res) => {
   } catch (error) {
     console.error(error);
     res
-      .status(500)
+      .status(400)
       .json({ error: "Failed to get the total number of products" });
   }
 };
@@ -166,7 +176,7 @@ const checkProductsFromIds = async (req, res) => {
     res.status(200).json(productNames);
   } catch (error) {
     console.error("Error occurred while checking products:", error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(400).json({ error: "somthing went wrong" });
   }
 };
 
