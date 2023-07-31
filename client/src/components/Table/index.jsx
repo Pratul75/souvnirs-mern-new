@@ -223,54 +223,56 @@ const ReusableTable = ({
       </div>
       {enablePagination && data.length > 0 && (
         // Render pagination controls only if enablePagination prop is true and data is not empty
-        <div className="flex justify-center items-center mt-4">
-          <button
-            onClick={() => handlePageChange(0)}
-            disabled={pageIndex === 0}
-            className="btn btn-square btn-accent"
-          >
-            <BiFirstPage className="text-xl" />
-          </button>
-          <button
-            onClick={() => handlePageChange(pageIndex - 1)}
-            disabled={pageIndex === 0}
-            className="btn btn-square btn-accent mx-2"
-          >
-            <BiLeftArrowAlt className="text-xl" />
-          </button>
-          <span className="text-xl">
-            Page{" "}
-            <strong>
-              {pageIndex + 1} of {pageCount}
-            </strong>{" "}
-          </span>
-          <button
-            onClick={() => handlePageChange(pageIndex + 1)}
-            disabled={pageIndex === pageCount - 1}
-            className="btn btn-square btn-accent mx-2"
-          >
-            <BiRightArrowAlt className="text-xl" />
-          </button>
-          <button
-            onClick={() => handlePageChange(pageCount - 1)}
-            disabled={pageIndex === pageCount - 1}
-            className="btn btn-square btn-accent"
-          >
-            <BiLastPage className="text-xl" />
-          </button>
-          {/* Select for page size */}
-          <label>Page Size</label>
-          <select
-            value={pageSize}
-            onChange={handlePageSizeChange}
-            className="input input-bordered mx-2"
-          >
-            {[10, 25, 50, 100].map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
+        <div className="w-full flex justify-center ">
+          <div className="flex gap-1 items-center mt-4 bg-base-300 rounded-xl p-4">
+            <button
+              onClick={() => handlePageChange(0)}
+              disabled={pageIndex === 0}
+              className="btn btn-square btn-sm btn-accent"
+            >
+              <BiFirstPage className="text-xl" />
+            </button>
+            <button
+              onClick={() => handlePageChange(pageIndex - 1)}
+              disabled={pageIndex === 0}
+              className="btn btn-square btn-sm btn-accent mx-2"
+            >
+              <BiLeftArrowAlt className="text-xl" />
+            </button>
+            <span className="text-lg">
+              Page{" "}
+              <strong>
+                {pageIndex + 1} of {pageCount}
+              </strong>{" "}
+            </span>
+            <button
+              onClick={() => handlePageChange(pageIndex + 1)}
+              disabled={pageIndex === pageCount - 1}
+              className="btn btn-square btn-sm btn-accent mx-2"
+            >
+              <BiRightArrowAlt className="text-xl" />
+            </button>
+            <button
+              onClick={() => handlePageChange(pageCount - 1)}
+              disabled={pageIndex === pageCount - 1}
+              className="btn btn-square btn-accent btn-sm"
+            >
+              <BiLastPage className="text-xl" />
+            </button>
+            {/* Select for page size */}
+            <label>Page Size</label>
+            <select
+              value={pageSize}
+              onChange={handlePageSizeChange}
+              className=" select select-sm select-accent input-bordered mx-2"
+            >
+              {[10, 25, 50, 100].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       )}
     </motion.div>
