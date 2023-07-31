@@ -54,7 +54,7 @@ const Sidebar = () => {
 
   return (
     <motion.ul
-      className={`menu bg-base-100 flex items-center shadow-xl overflow-y-auto max-h-screen `}
+      className={`menu bg-base-100 hidden md:flex items-center shadow-xl overflow-y-auto max-h-screen `}
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
       variants={sidebarVariants}

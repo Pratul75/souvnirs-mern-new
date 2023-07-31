@@ -73,14 +73,14 @@ const TransactionTotalIncomeInquiries = () => {
   ];
   return (
     <div className="grid grid-cols-10 gap-4 mt-4">
-      <div className="col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
+      <div className="col-span-10 md:col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
         <h2 className="text-lg font-semibold">Transactions</h2>
         <Tabs tabs={transactionTabs} />
       </div>
-      <div className="col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
+      <div className="col-span-10 md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
         <h2 className="text-lg font-semibold">Total Income</h2>
         <div className="flex flex-col items-center">
-          <div>
+          <div className="mt-4 md:mt-0">
             <DoughnutChart />
           </div>
           <div className="w-full grid grid-cols-2 gap-4 mt-4">
@@ -115,7 +115,7 @@ const TransactionTotalIncomeInquiries = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl py-4">
+      <div className="col-span-10 md:col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl py-4">
         <div className="flex justify-between px-4">
           <h2 className="text-lg font-semibold">Pending Inquiries</h2>
           <p className="text-blue-500 font-thin">View all</p>

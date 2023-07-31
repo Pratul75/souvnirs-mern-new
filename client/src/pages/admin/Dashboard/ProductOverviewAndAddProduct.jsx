@@ -31,22 +31,17 @@ const ProductOverviewAndAddProduct = () => {
     getProductData();
   }, []);
 
-  // Optional chart options
-  // const options = {
-  //   // Set your desired options here, e.g., scales, title, tooltips, etc.
-  // };
-
   return (
-    <div className="grid grid-cols-8 gap-4 mt-4">
+    <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4">
       <motion.div
         variants={fadeInFromLeftVariant}
         initial="initial"
         animate="animate"
-        className="col-span-6 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
+        className="col-span-1 md:col-span-8 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <h2 className="text-lg font-semibold">Product Overview</h2>
-        <div className="grid grid-cols-3 gap-4 items-center">
-          <div className="flex justify-between mt-4 col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+          <div className="flex justify-between mt-4">
             <div className="flex justify-between gap-2 items-center">
               <div className="flex flex-col w-full">
                 <span>Total Products</span>
@@ -54,10 +49,14 @@ const ProductOverviewAndAddProduct = () => {
                   {productData.reduce((acc, count) => acc + count, 0)}
                 </span>
               </div>
-              <div className="chart-container">
+              <div className="chart-container w-full md:w-auto">
                 {productData.length > 0 && productLabel.length > 0 && (
                   <Line
-                    options={options}
+                    options={{
+                      ...options,
+                      responsive: true,
+                      maintainAspectRatio: false,
+                    }}
                     data={{
                       labels: productLabel,
                       datasets: [
@@ -75,26 +74,24 @@ const ProductOverviewAndAddProduct = () => {
                 )}
               </div>
             </div>
-
-            <div className="flex justify-between gap-2 items-center">
-              <div className="flex flex-col w-full">
-                <span>Pending Orders</span>
-                <span></span>
-              </div>
-              <div className="chart-container">
-                {productData.length > 0 && productLabel.length > 0 && (
-                  <Line options={options} data={data} />
-                )}
-              </div>
-            </div>
           </div>
-          <div>
-            <Link
-              to={PATHS.adminAddProducts}
-              className="btn btn-accent rounded-full col-span-1 w-full"
-            >
-              Add Products
-            </Link>
+          <div className="flex justify-between gap-2 items-center">
+            <div className="flex flex-col w-full">
+              <span>Pending Orders</span>
+              <span></span>
+            </div>
+            <div className="chart-container w-full md:w-auto">
+              {productData.length > 0 && productLabel.length > 0 && (
+                <Line
+                  options={{
+                    ...options,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                  }}
+                  data={data}
+                />
+              )}
+            </div>
           </div>
         </div>
       </motion.div>
@@ -104,7 +101,7 @@ const ProductOverviewAndAddProduct = () => {
         variants={fadeInFromRightVariant}
         initial="initial"
         animate="animate"
-        className="col-span-2 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
+        className="col-span-1 md:col-span-2 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-4">

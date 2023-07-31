@@ -45,7 +45,7 @@ const TotalSalesTab = () => {
       label: "By year",
       content: (
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 flex">
+          <div className="col-span-3 md:col-span-2 flex">
             <div style={{ width: "100%", height: "100%" }}>
               {yearData && yearLabels && (
                 <Bar
@@ -64,7 +64,7 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className="col-span-1 flex flex-col justify-center ">
+          <div className="col-span-3 md:col-span-1 flex flex-col justify-center ">
             <div className="bg-base-100">
               <DashboardChartCart
                 SvgIcon={<TotalSalesBlack />}
@@ -107,7 +107,7 @@ const TotalSalesTab = () => {
       label: "By Month",
       content: (
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 flex">
+          <div className="col-span-3 md:col-span-2 flex">
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
             <div style={{ width: "100%", height: "100%" }}>
@@ -128,7 +128,7 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className="col-span-1 flex flex-col justify-center ">
+          <div className=" col-span-3 md:col-span-1 flex flex-col justify-center ">
             {/* Use flexbox for equal heights */}
             <div className="bg-base-100">
               <DashboardChartCart
@@ -172,7 +172,7 @@ const TotalSalesTab = () => {
       label: "By week",
       content: (
         <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2 flex">
+          <div className="col-span-3 md:col-span-2 flex">
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
             <div style={{ width: "100%", height: "100%" }}>
@@ -193,7 +193,7 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className="col-span-1 flex flex-col justify-center ">
+          <div className="col-span-3 md:col-span-1 flex flex-col justify-center ">
             {/* Use flexbox for equal heights */}
             <div className="bg-base-100">
               <DashboardChartCart

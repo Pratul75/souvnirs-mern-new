@@ -9,13 +9,13 @@ const Tabs = ({ tabs }) => {
       initial="initial"
       animate="animate"
       variants={fadeInVariants}
-      className="mt-4 rounded-xl border-[1px] border-base-300 bg-base-100 "
+      className="mt-4 rounded-xl border-[1px] border-base-300 bg-base-100"
     >
       <div className="flex">
         {tabs.map((tab, index) => (
           <button
             key={index}
-            className={`px-4 py-2  hover:text-gray-700 cursor-pointer ${
+            className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${
               activeTab === index
                 ? "text-blue-500  border-b-2 border-blue-500 py-4"
                 : ""
