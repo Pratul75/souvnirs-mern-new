@@ -57,9 +57,9 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="md:w-1/2 w-full ">
+    <div className="lg:w-1/2 w-full ">
       <div className="w-full h-full flex justify-center items-center">
-        <div className="w-1/2 p-8  shadow-2xl">
+        <div className="w-screen mx-2 p-2 md:mx-10 lg:w-1/2 md:p-8 shadow-2xl">
           {/* row 1 */}
           <div className="flex justify-center py-4">
             <img src={SouvnirsLogoImg} alt="" />

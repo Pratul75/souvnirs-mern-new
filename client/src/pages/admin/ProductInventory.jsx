@@ -91,7 +91,7 @@ const ProductInventory = () => {
       <Header
         heading="Product Inventory"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s."
-        image={HeaderImage}
+      // image={HeaderImage}
       />
       <div className="mt-20">
         <ReusableTable
@@ -103,6 +103,8 @@ const ProductInventory = () => {
           showButtons={true}
           enableEdit
           enableDelete
+          enablePagination
+          pageSize={10}
         />
 
         {/* edit modal */}
