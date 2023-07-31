@@ -13,7 +13,6 @@ import {
 
 const TransactionTotalIncomeInquiries = () => {
   // TODO: need to add success and pending transaction based on the transaction status, map accordingly the DashboardChartCart Component
-
   const transactionTabs = [
     {
       label: "All Transactions",

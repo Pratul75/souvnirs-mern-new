@@ -33,7 +33,7 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(cors());
-app.use(morgan("dev"))
+app.use(morgan("dev"));
 // connect to db
 connect();
 
@@ -77,7 +77,7 @@ app.use(couponRoutes);
 // auth routes
 app.use(authRoutes);
 // admin routes
-app.use(wishlistRoutes)
+app.use(wishlistRoutes);
 
 // admin routes should only be exposed when its required to create a new admin, else it should be commented out
 app.use(adminRoutes);
