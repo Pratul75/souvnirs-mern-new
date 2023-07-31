@@ -17,6 +17,13 @@ import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
 import IndeterminateCheckbox from "../IndeterminateCheckbox";
+import {
+  BiFirstPage,
+  BiLastPage,
+  BiRightArrowAlt,
+  BiLeftArrow,
+  BiLeftArrowAlt,
+} from "react-icons/bi";
 
 const ReusableTable = ({
   columns,
@@ -223,14 +230,14 @@ const ReusableTable = ({
             disabled={pageIndex === 0}
             className="btn btn-secondary"
           >
-            {"<<"}
+            <BiFirstPage className="text-xl" />
           </button>
           <button
             onClick={() => handlePageChange(pageIndex - 1)}
             disabled={pageIndex === 0}
             className="btn btn-secondary mx-2"
           >
-            {"<"}
+            <BiLeftArrowAlt className="text-xl" />
           </button>
           <span className="text-xl">
             Page{" "}
@@ -243,14 +250,14 @@ const ReusableTable = ({
             disabled={pageIndex === pageCount - 1}
             className="btn btn-secondary mx-2"
           >
-            {">"}
+            <BiRightArrowAlt className="text-xl" />
           </button>
           <button
             onClick={() => handlePageChange(pageCount - 1)}
             disabled={pageIndex === pageCount - 1}
             className="btn btn-secondary"
           >
-            {">>"}
+            <BiLastPage className="text-xl" />
           </button>
           {/* Select for page size */}
           <label>Page Size</label>
