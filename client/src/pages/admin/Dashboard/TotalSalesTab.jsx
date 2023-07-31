@@ -237,7 +237,7 @@ const TotalSalesTab = () => {
 
   return (
     <div className="w-full">
-      <Tabs tabs={tabs} />
+      <Tabs enableBorder tabs={tabs} />
     </div>
   );
 };

@@ -23,9 +23,15 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
       <NavLink
         onClick={() => dispatch(setActiveLink(navLink))}
         to={navLink}
-        className={`flex w-full p-4 ${
-          sidebarState ? "justify-start" : "justify-center"
-        } `}
+        className={({ isActive }) =>
+          isActive
+            ? `bg-blue-200 text-blue-500 p-4  ${
+                sidebarState ? "justify-start" : "justify-center"
+              }`
+            : `flex w-full p-4 ${
+                sidebarState ? "justify-start" : "justify-center"
+              } `
+        }
       >
         {Icon && <Icon />} {/* Only render Icon if it exists */}
         {sidebarState && title && (

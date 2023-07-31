@@ -99,9 +99,14 @@ const CollectionConditions = () => {
       );
       if (response.status === 200) {
         setCollectionConditionList(response?.data);
+        debouncedShowToast(
+          "Collection conditions loaded successfully",
+          "success"
+        );
         console.log("COLLECTION CONDITIONS LIST: ", response?.data);
       }
     } catch (error) {
+      debouncedShowToast(error?.message, "error");
       console.error(
         "Error occured while getting all collection conditions",
         error
@@ -195,7 +200,7 @@ const CollectionConditions = () => {
       <Header
         heading="Collection Conditions"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
-      // image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
       <motion.form
         initial="initial"

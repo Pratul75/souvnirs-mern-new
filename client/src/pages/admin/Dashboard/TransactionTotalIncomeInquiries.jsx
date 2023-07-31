@@ -118,7 +118,7 @@ const TransactionTotalIncomeInquiries = () => {
       <div className="col-span-10 md:col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl py-4">
         <div className="flex justify-between px-4">
           <h2 className="text-lg font-semibold">Pending Inquiries</h2>
-          <p className="text-blue-500 font-thin">View all</p>
+          <p className="text-blue-500 font-thin cursor-pointer">View all</p>
         </div>
         <div className="flex flex-col mt-4">
           <span className="p-4 border-y-[1px] border-base-300">
@@ -133,7 +133,7 @@ const TransactionTotalIncomeInquiries = () => {
           <span className="p-4 border-y-[1px] border-base-300">
             New order received
           </span>
-          <p className="flex justify-end text-blue-500 font-semibold pr-4">
+          <p className="flex justify-end text-blue-500 font-semibold pr-4 mt-4 cursor-pointer">
             Show More
           </p>
         </div>

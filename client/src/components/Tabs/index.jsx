@@ -2,14 +2,16 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
-const Tabs = ({ tabs }) => {
+const Tabs = ({ tabs, enableBorder }) => {
   const [activeTab, setActiveTab] = useState(0);
   return (
     <motion.div
       initial="initial"
       animate="animate"
       variants={fadeInVariants}
-      className="mt-4 rounded-xl border-[1px] border-base-300 bg-base-100"
+      className={`mt-4 rounded-xl ${
+        enableBorder && " border-[1px] border-base-300"
+      } bg-base-100`}
     >
       <div className="flex">
         {tabs.map((tab, index) => (
@@ -51,6 +53,7 @@ const Tabs = ({ tabs }) => {
 
 // tabs props
 Tabs.propTypes = {
+  enableBorder: PropTypes.bool,
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
