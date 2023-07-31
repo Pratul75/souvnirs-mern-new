@@ -11,33 +11,34 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 
 const TotalSalesTab = () => {
-  const [chartData, setChartData] = useState()
-  const [dateLabels, setDateLables] = useState()
-  const [monthLabels, setMonthLables] = useState()
-  const [yearLabels, setYearLables] = useState()
-  const [dateData, setDateData] = useState()
-  const [monthData, setMonthData] = useState()
-  const [yearData, setYearData] = useState()
+  const [chartData, setChartData] = useState();
+  const [dateLabels, setDateLables] = useState();
+  const [monthLabels, setMonthLables] = useState();
+  const [yearLabels, setYearLables] = useState();
+  const [dateData, setDateData] = useState();
+  const [monthData, setMonthData] = useState();
+  const [yearData, setYearData] = useState();
 
-  const [totalSales, setTotalSales] = useState()
-  console.log(chartData)
+  const [totalSales, setTotalSales] = useState();
+  console.log(chartData);
 
   const getBarChartData = async () => {
-    const response = await API_WRAPPER.get("/dashboard/barchart")
-    console.log('TotalSalesTab.jsx', response.data);
-    setChartData(response.data)
-    setDateLables(response.data.dateData.labels)
-    setDateData(response.data.dateData.counts)
-    setMonthLables(response.data.monthData.labels)
-    setMonthData(response.data.monthData.counts)
-    setYearLables(response.data.yearData.labels)
-    setYearData(response.data.yearData.counts)
-    setTotalSales(response.data.totalSales)
+    const response = await API_WRAPPER.get("/dashboard/barchart");
+    console.log("TotalSalesTab.jsx", response.data);
+    setChartData(response.data);
+    setDateLables(response.data.dateData.labels);
+    setDateData(response.data.dateData.counts);
+    setMonthLables(response.data.monthData.labels);
+    setMonthData(response.data.monthData.counts);
+    setYearLables(response.data.yearData.labels);
+    setYearData(response.data.yearData.counts);
+    setTotalSales(response.data.totalSales);
+  };
+  console.log("TotalSalesTab.jsx", dateData);
 
-  }
-  console.log('TotalSalesTab.jsx', dateData);
-
-  useEffect(() => { getBarChartData() }, [])
+  useEffect(() => {
+    getBarChartData();
+  }, []);
 
   const tabs = [
     {
@@ -61,7 +62,6 @@ const TotalSalesTab = () => {
                   }}
                 />
               )}
-
             </div>
           </div>
           <div className="col-span-1 flex flex-col justify-center ">

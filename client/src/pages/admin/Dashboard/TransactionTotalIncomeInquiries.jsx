@@ -45,15 +45,7 @@ const TransactionTotalIncomeInquiries = () => {
           />
           <DashboardChartCart
             percentage="10.6%"
-            percentageColor="text-red-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-red-500"
+            percentageColor="text-green-500"
             label="Apple Inc"
             totalAmount="#APLE-PRO-T00232"
             iconText="AI"
@@ -81,11 +73,11 @@ const TransactionTotalIncomeInquiries = () => {
   ];
   return (
     <div className="grid grid-cols-10 gap-4 mt-4">
-      <div className="col-span-3 bg-base-200 rounded-xl p-4">
+      <div className="col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
         <h2 className="text-lg font-semibold">Transactions</h2>
         <Tabs tabs={transactionTabs} />
       </div>
-      <div className="col-span-4 bg-base-200 rounded-xl p-4">
+      <div className="col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
         <h2 className="text-lg font-semibold">Total Income</h2>
         <div className="flex flex-col items-center">
           <div>
@@ -123,7 +115,7 @@ const TransactionTotalIncomeInquiries = () => {
           </div>
         </div>
       </div>
-      <div className="col-span-3 bg-base-200 rounded-xl py-4">
+      <div className="col-span-3 bg-base-100 border-[1px] border-base-300 rounded-xl py-4">
         <div className="flex justify-between px-4">
           <h2 className="text-lg font-semibold">Pending Inquiries</h2>
           <p className="text-blue-500 font-thin">View all</p>

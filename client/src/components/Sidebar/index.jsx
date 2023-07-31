@@ -8,7 +8,8 @@ import {
 } from "../../mappings";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-
+import SovniersLogo from "../../assets/images/souvnirsLogo.png";
+import { SmallVIcon } from "../../icons/sidebarIcons";
 const Sidebar = () => {
   const [sidebarState, setSidebarState] = useState(false);
   const isExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
@@ -36,24 +37,40 @@ const Sidebar = () => {
   // Animation properties for sidebar width
   const sidebarVariants = {
     expanded: {
-      width: "250px",
+      width: "300px",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
     },
     collapsed: {
       width: "100px",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut",
+      },
     },
   };
 
   return (
     <motion.ul
-      className={`menu bg-base-300 rounded-box ml-8 mt-6 flex items-center shadow-xl overflow-y-auto max-h-[calc(100vh-150px)]`}
+      className={`menu bg-base-100 flex items-center shadow-xl overflow-y-auto max-h-screen `}
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
       variants={sidebarVariants}
-      transition={{ duration: 0.3, ease: "easeInOut" }}
       onMouseEnter={() => setSidebarState(true)}
       onMouseLeave={() => !isExpanded && setSidebarState(false)}
     >
       <div>
+        <div className="flex items-center justify-center mb-4">
+          {sidebarState ? (
+            <img src={SovniersLogo} alt="" />
+          ) : (
+            <div className="flex items-center justify-center">
+              <SmallVIcon />
+            </div>
+          )}
+        </div>
         {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
           <SidebarItem
             key={nanoid()}

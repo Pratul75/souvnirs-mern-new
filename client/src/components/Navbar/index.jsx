@@ -1,7 +1,6 @@
 import { BellSvg, LightSvg, SettingsSvg, SunSvg } from "../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Avatar from "../Avatar";
-import SovniersLogo from "../../assets/images/souvnirsLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import {
   toggleSidebar,
@@ -24,13 +23,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
+    <nav className="w-full">
       {/* desktop-screen navbar */}
-      <div className="w-screen bg-base-300 justify-between items-center hidden py-4 px-8 md:flex">
+      <div className=" bg-base-200 justify-between items-center hidden py-4 px-8 md:flex">
         {/* left side of nav */}
         <div className="flex items-center gap-8">
-          <img src={SovniersLogo} alt="" />
-
           {sidebarState ? (
             <AiOutlineLock
               className="text-2xl cursor-pointer"
@@ -48,12 +45,6 @@ const Navbar = () => {
         <div className="flex gap-4">
           <span className="cursor-pointer">
             <BellSvg />
-          </span>
-          <span className="cursor-pointer animate-pulse">
-            <LightSvg />
-          </span>
-          <span className="cursor-pointer">
-            <SettingsSvg />
           </span>
           <span
             onClick={() => dispatch(toggleDarkMode())}

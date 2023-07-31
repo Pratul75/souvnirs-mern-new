@@ -5,19 +5,15 @@ import Sidebar from "../components/Sidebar";
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div className="flex h-screen bg-base-200">
-      {/* Sidebar */}
-      {/* Main content */}
-      <div className="flex flex-col w-full">
-        {/* Navbar */}
+    <div className="h-screen  flex">
+      {/*sidebar */}
+      <Sidebar />
+      {/* navbar */}
+      <div className="w-full">
         <Navbar />
-
-        <div className="flex">
-          <Sidebar />
-          {/* Page content */}
-          <div className=" flex-grow mx-8 py-8 mt-6 overflow-y-auto  md:max-h-[calc(100vh-150px)] rounded-xl  shadow-xl bg-base-300">
-            <div className="mx-10">{children}</div>
-          </div>
+        {/* app layout */}
+        <div className="mx-4 mt-4 max-w-[1400px] overflow-y-scroll max-h-[calc(100vh-85px)]">
+          {children}
         </div>
       </div>
     </div>

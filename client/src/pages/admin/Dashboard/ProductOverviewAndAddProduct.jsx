@@ -27,8 +27,6 @@ const ProductOverviewAndAddProduct = () => {
     }
   };
 
-  console.log("ProductOverviewAndAddProduct.jsx", productData, productLabel);
-
   useEffect(() => {
     getProductData();
   }, []);
@@ -44,7 +42,7 @@ const ProductOverviewAndAddProduct = () => {
         variants={fadeInFromLeftVariant}
         initial="initial"
         animate="animate"
-        className="col-span-6 bg-base-200 p-4 rounded-xl shadow-xl"
+        className="col-span-6 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <h2 className="text-lg font-semibold">Product Overview</h2>
         <div className="grid grid-cols-3 gap-4 items-center">
@@ -106,7 +104,7 @@ const ProductOverviewAndAddProduct = () => {
         variants={fadeInFromRightVariant}
         initial="initial"
         animate="animate"
-        className="col-span-2 bg-base-200 p-4 rounded-xl shadow-xl"
+        className="col-span-2 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-4">

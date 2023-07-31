@@ -10,27 +10,29 @@ const DetailsCard = ({
   iconText,
 }) => {
   return (
-    <>
-      <div className="flex justify-between items-center w-full p-4  rounded-xl bg-base-200 mb-2">
-        <div className="flex gap-4">
+    <div className="flex flex-col w-full  py-2 bg-base-100 border-b-[1px] border-base-200 mb-2">
+      <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex gap-4 items-center mb-2 md:mb-0">
           <div
-            className={` w-12 h-12 p-1 rounded-xl  flex items-center justify-center ${
+            className={`w-12 h-12 p-1 rounded-xl flex items-center justify-center ${
               !SvgIcon && "bg-base-100"
             }`}
           >
             {SvgIcon ? SvgIcon : iconText}
           </div>
           <div>
-            <h4 className=" font-thin">{label}</h4>
-            <p>{totalAmount}</p>
+            <h4 className="font-thin text-sm md:text-base">{label}</h4>
+            <p className="text-xs md:text-sm">{totalAmount}</p>
           </div>
         </div>
-        <div className="flex gap-2 flex-col">
-          <p>{dynamicAmount}</p>
-          <p className={`${percentageColor}`}>{percentage}</p>
+        <div className="flex gap-2 flex-col items-end">
+          <p className="text-xs md:text-sm">{dynamicAmount}</p>
+          <p className={`${percentageColor} text-xs md:text-sm`}>
+            {percentage}
+          </p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

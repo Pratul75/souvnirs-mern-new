@@ -59,7 +59,7 @@ const VendorAndOrderList = () => {
 
   return (
     <div className="grid grid-cols-5 gap-4 mt-4">
-      <div className="col-span-2 p-4 bg-base-200 rounded-xl shadow-xl">
+      <div className="col-span-2 p-4 bg-base-100 border-[1px] border-base-300 rounded-xl ">
         <h2 className="font-semibold text-lg"> Vendors List</h2>
         <div className="overflow-y-scroll max-h-[300px] mt-4">
           {vendorList?.map((vendorItem) => {
@@ -73,7 +73,7 @@ const VendorAndOrderList = () => {
           })}
         </div>
       </div>
-      <div className="col-span-3 p-4 bg-base-200 rounded-xl shadow-xl">
+      <div className="col-span-3 p-4 bg-base-100 border-[1px] border-base-300 rounded-xl">
         <h2 className="font-semibold text-lg">Recent Orders</h2>
         <ReusableTable
           data={orderTableData}

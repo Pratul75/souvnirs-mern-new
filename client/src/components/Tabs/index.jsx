@@ -9,7 +9,7 @@ const Tabs = ({ tabs }) => {
       initial="initial"
       animate="animate"
       variants={fadeInVariants}
-      className="mt-4 rounded-xl border-[1px] border-base-100 bg-base-200 shadow-xl"
+      className="mt-4 rounded-xl border-[1px] border-base-300 bg-base-100 "
     >
       <div className="flex">
         {tabs.map((tab, index) => (
