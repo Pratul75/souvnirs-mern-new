@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Header, ReusableTable } from "../../components";
+import { Header, Modal, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { EyeBtnSvg } from "../../icons/tableIcons";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
@@ -15,6 +15,10 @@ const Vendor = () => {
   const [editedRow, setEditedRow] = useState({});
 
   console.log('Vendor.jsx', selectedStore);
+
+  const handleDeleteModalClose = () => {
+    return window.vendor_edit_modal.close();
+  };
   const convertToDesiredOutcome = (vendors, stores) => {
     const result = [];
 
@@ -39,43 +43,47 @@ const Vendor = () => {
     return result;
   };
   const navigate = useNavigate()
-  const handleEditChange = (e) => {
-    setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+  const handleSave = (inputValues) => {
+    console.log("SAVING THE INPUT VALUES: ", inputValues);
+    submitEditedRow(inputValues);
   };
+  // const handleEditChange = (e) => {
+  //   setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+  // };
   const columns = useMemo(
     () => [
       {
         Header: "Vendor Name",
-        accessor: "vendorName",
+        accessor: "firstName",
       },
       {
         Header: "Contact",
-        accessor: "contact",
+        accessor: "mobile",
       },
+      // {
+      //   Header: "Store",
+      //   accessor: "store",
+      //   Cell: (props) => (
+      //     <p
+      //       onClick={() => {
+      //         setSelectedStore(
+      //           storeList.find(
+      //             (store) => store._id === props?.row?.original?.store
+      //           )
+      //         );
+      //         window.storeFilterModal.showModal();
+      //       }}
+      //       className="text-blue-500 cursor-pointer"
+      //     >
+      //       <button className="btn btn-circle ">
+      //         <EyeBtnSvg />
+      //       </button>
+      //     </p>
+      //   ),
+      // },
       {
-        Header: "Store",
-        accessor: "store",
-        Cell: (props) => (
-          <p
-            onClick={() => {
-              setSelectedStore(
-                storeList.find(
-                  (store) => store._id === props?.row?.original?.store
-                )
-              );
-              window.storeFilterModal.showModal();
-            }}
-            className="text-blue-500 cursor-pointer"
-          >
-            <button className="btn btn-circle ">
-              <EyeBtnSvg />
-            </button>
-          </p>
-        ),
-      },
-      {
-        Header: "Country",
-        accessor: "country",
+        Header: "email",
+        accessor: "email",
       },
       {
         Header: "Status",
@@ -101,13 +109,13 @@ const Vendor = () => {
   };
   console.log('Vendor.jsx', selectedRow);
 
-  const submitEditedRow = async (e) => {
-    e
+  const submitEditedRow = async (data) => {
     try {
-      e.preventDefault()
-      const response = await API_WRAPPER.put(`/vendors/update-vendor/:${selectedRow.id}`, editedRow);
+      console.log('Vendor.jsx', selectedRow);
+      const response = await API_WRAPPER.put(`/vendors/update-vendor/:${selectedRow._id}`, data);
+      setApiTrigger(res => !res)
     } catch (e) {
-      console.log('Vendor.jsx', error);
+      console.log('Vendor.jsx', e);
     }
   }
 
@@ -143,16 +151,15 @@ const Vendor = () => {
   };
 
   const handleEdit = (row) => {
+    setSelectedRow(row);
     window.vendor_edit_modal.showModal();
     console.log("ROW TO BE EDITED: ", row);
-    setSelectedRow(row);
   };
   // const handleEditForm = async() = {
 
   // }
 
   const handleModalFormSubmit = async (e) => {
-    e.preventDefault();
     try {
       const response = await API_WRAPPER.put(
         `/store/update-store/:${selectedStore._id}`,
@@ -186,96 +193,82 @@ const Vendor = () => {
       <div className="mt-4">
         <ReusableTable
           columns={columns}
-          data={data}
+          data={vendorList}
           showButtons
           enableEdit
           enableDelete
           onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
           onEdit={handleEdit}
         />
         <button onClick={() => { navigate(PATHS.adminCreateVendor) }} className="absolute top-0  right-0 btn btn-accent" >Create New</button>
 
       </div>
-      <dialog id="vendor_edit_modal" className="modal">
-        <form
-
-          method="dialog"
-          className="modal-box"
-        >
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Vendor Name</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.vendorName}
-                className="input input-accent"
-                type="text"
-                name="vendorName"
-                id=""
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">contact</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.contact}
-                className="input input-accent"
-                type="text"
-                name="contact"
-                id=""
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">country</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.country}
-                className="input input-accent"
-                type="text"
-                name="country"
-                id=""
-              />
-            </div>
-
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Status</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.status}
-                className="select select-accent"
-                name="status"
-                id=""
-              >
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="DEACTIVE">DEACTIVE</option>
-                <option value="PENDING">PENDING</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            <button type="button" onClick={(e) => submitEditedRow(e)} className="btn btn-accent">
-              Save changes
-            </button>
-            <button
-              onClick={() => window.vendor_edit_modal.close()}
-              className="btn"
-            >
-              Close
-            </button>
-          </div>
-        </form>
-      </dialog>
+      <Modal
+        id="vendor_edit_modal"
+        title="Edit Vendor Detaill"
+        onClose={handleDeleteModalClose}
+        onSave={handleSave}
+        defaultValues={{
+          firstName: selectedRow?.firstName,
+          lastName: selectedRow?.lastName,
+          email: selectedRow?.email,
+          mobile: selectedRow?.mobile,
+          organizationName: selectedRow?.store?.organization_name,
+          organizationType: selectedRow?.store?.organization_type,
+          country: selectedRow?.store?.country,
+          city: selectedRow?.store?.city,
+          pincode: selectedRow?.store?.pin_code,
+        }}
+        inputs={[
+          {
+            label: "First Name",
+            type: "text",
+            name: "firstName",
+          },
+          {
+            label: "Last Name",
+            type: "text",
+            name: "lastName",
+          },
+          {
+            label: "Email",
+            type: "text",
+            name: "email",
+          },
+          {
+            label: "Mobile",
+            type: "tel",
+            name: "mobile",
+          },
+          {
+            label: "Organisation Name",
+            type: "text",
+            name: "organizationName",
+          },
+          {
+            label: "Organisation Type",
+            type: "text",
+            name: "organizationType",
+          },
+          {
+            label: "Country",
+            type: "text",
+            name: "country",
+          },
+          {
+            label: "City",
+            type: "text",
+            name: "city",
+          },
+          {
+            label: "Pin Code",
+            type: "text",
+            name: "pincode",
+          },
+        ]}
+      />
       {selectedStore && (
         <dialog id="storeFilterModal" className="modal ">
           <form

@@ -18,10 +18,10 @@ const VendorProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-      {
-        Header: "Slug",
-        accessor: "slug",
-      },
+      // {
+      //   Header: "Slug",
+      //   accessor: "slug",
+      // },
       {
         Header: "Description",
         accessor: "description",
@@ -155,6 +155,8 @@ const VendorProductManagement = () => {
             data={data}
             showButtons
             enableEdit
+            pageSize={10}
+            enablePagination
             enableDelete
             onEdit={handleEdit}
             onDelete={handleDelete}

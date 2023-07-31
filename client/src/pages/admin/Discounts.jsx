@@ -179,6 +179,7 @@ const Discounts = () => {
           showButtons
           enableDelete
           enablePagination
+          pageSize={10}
           onDelete={handleDelete}
         />
       </div>

@@ -162,6 +162,7 @@ const VendorCoupons = () => {
           enablePagination
           onEdit={editHandler}
           onDelete={handleDiscountDelete}
+          pageSize={10}
         />
       </div>
 

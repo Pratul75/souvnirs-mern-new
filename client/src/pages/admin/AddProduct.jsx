@@ -402,7 +402,7 @@ const AddProduct = () => {
       <Header
         heading="Add Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
-        image={HeaderImgTwo}
+      // image={HeaderImgTwo}
       />
       <div className="w-full  mt-8">
         <div className="flex ">

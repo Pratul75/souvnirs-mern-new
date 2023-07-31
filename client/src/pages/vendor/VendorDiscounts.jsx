@@ -184,6 +184,8 @@ const VendorDiscounts = () => {
           tableTitle="Discount List"
           columns={columns}
           data={data}
+          enablePagination
+          pageSize={10}
           showButtons
           enableDeleteonDelete={handleDelete}
         />
