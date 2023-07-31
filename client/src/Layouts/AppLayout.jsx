@@ -5,7 +5,7 @@ import Sidebar from "../components/Sidebar";
 // main layout for the application
 const AppLayout = ({ children }) => {
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex bg-base-200">
       {/* sidebar */}
       <Sidebar />
       {/* navbar and app layout */}

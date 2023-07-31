@@ -11,7 +11,7 @@ import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 const AddCoupon = () => {
   const [couponData, setCouponData] = useState({});
-  console.log('AddCoupon.jsx', couponData,);
+  console.log("AddCoupon.jsx", couponData);
   const [
     minimumPurchaseAmountInputToggle,
     setMinimumPurchaseAmountInputToggle,
@@ -39,7 +39,7 @@ const AddCoupon = () => {
   const [appliedToFilteredItemsObjects, setAppliedToFilteredItemsObjects] =
     useState([]);
   const [couponCode, setCouponCode] = useState(null);
-  const [customers, setCustomers] = useState()
+  const [customers, setCustomers] = useState();
 
   // get all categories
   const getAllCategories = async () => {
@@ -108,8 +108,6 @@ const AddCoupon = () => {
           })
         );
 
-
-
       case "specify-categories":
         return setAppliedToFilteredState(
           categoriesList.filter((category) => {
@@ -135,9 +133,9 @@ const AddCoupon = () => {
   };
   const getCustomers = async () => {
     const response = await API_WRAPPER.get("/customers/get-customers");
-    setCustomers(response.data.customers)
-  }
-  console.log('AddCoupon.jsx', customers);
+    setCustomers(response.data.customers);
+  };
+  console.log("AddCoupon.jsx", customers);
   const handleSubmit = async (e) => {
     e.preventDefault();
     switch (appliedToSpecifiedInput) {
@@ -170,7 +168,7 @@ const AddCoupon = () => {
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
-  const fetchUsers = () => { }
+  const fetchUsers = () => {};
 
   const handleAppliedToSearch = (e) => {
     setAppliedToSearchInput(e.target.value);
@@ -216,7 +214,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromLeftVariant}
-          className="col-span-3 p-4 bg-base-100  rounded-xl shadow-xl "
+          className=" col-span-4 md:col-span-3 p-4 bg-base-100  rounded-xl border-[1px] border-base-300 "
         >
           <div className="flex justify-between py-4">
             <h2 className="font-bold">Amount of products</h2>
@@ -268,7 +266,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromRightVariant}
-          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+          className=" col-span-4 md:col-span-1 p-4 bg-base-100 rounded-xl border-[1px] border-base-300"
         >
           <h2 className="font-bold">Customer Eligibility</h2>
           <div className="mt-4">
@@ -336,14 +334,18 @@ const AddCoupon = () => {
             </div>
             {specificCustomerInputToggle && (
               <div>
-                <select onChange={handleInputChange} name="eligibilityValue" className="input input-accent w-full">
-                  {customers.map(customer => (
-
-                    <option> {`${customer.firstName}(${customer.email})`}</option>
-
+                <select
+                  onChange={handleInputChange}
+                  name="eligibilityValue"
+                  className="input input-accent w-full"
+                >
+                  {customers.map((customer) => (
+                    <option>
+                      {" "}
+                      {`${customer.firstName}(${customer.email})`}
+                    </option>
                   ))}
                 </select>
-
               </div>
             )}
           </div>
@@ -353,7 +355,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromLeftVariant}
-          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-3 border-[1px] border-base-300 p-4 bg-base-100 rounded-xl"
         >
           <h2 className="font-bold">Value</h2>
           <div className="py-4 grid grid-cols-2 mt-5">
@@ -395,7 +397,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromRightVariant}
-          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-1 p-4 bg-base-100 rounded-xl border-[1px] border-base-300"
         >
           <h2 className="font-bold">Minimum purchase requirements</h2>
           <div className="mt-4">
@@ -483,7 +485,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromLeftVariant}
-          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-3 p-4 bg-base-100 rounded-xl border-[1px] border-base-300"
         >
           <h2 className="font-bold">Applies To</h2>
           <div className="mt-4">
@@ -563,7 +565,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromRightVariant}
-          className="col-span-1  p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-1  p-4 bg-base-100 rounded-xl border-[1px] border-base-300"
         >
           <h2 className="font-bold">Maximum discount uses</h2>
           <div className="mt-4">
@@ -620,7 +622,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromLeftVariant}
-          className="col-span-3 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-3 p-4 bg-base-100 rounded-xl border-base-300 border-[1px]"
         >
           <h2 className="font-bold">Active Dates</h2>
           <div className="mt-4 flex  justify-between gap-4">
@@ -694,7 +696,7 @@ const AddCoupon = () => {
           initial="initial"
           animate="animate"
           variants={fadeInFromRightVariant}
-          className="col-span-1 p-4 bg-base-100 rounded-xl shadow-xl"
+          className="col-span-4 md:col-span-1 p-4 bg-base-100 rounded-xl border-[1px] border-base-300"
         >
           <h2 className="font-bold">Combinations</h2>
           <div className="mt-4">
@@ -759,42 +761,44 @@ const AddCoupon = () => {
           </div>
           {appliedToFilteredState[0]?.name
             ? appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  whileTap={{ scale: 0.8 }}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    whileTap={{ scale: 0.8 }}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Name: {filteredObj?.name}</p>
-                  <p>ID: {filteredObj?._id}</p>
-                </motion.div>
-              );
-            })
+                  >
+                    <p>Name: {filteredObj?.name}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })
             : appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Title: {filteredObj?.title}</p>
-                  <p>ID: {filteredObj?._id}</p>
-                </motion.div>
-              );
-            })}
+                  >
+                    <p>Title: {filteredObj?.title}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })}
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
