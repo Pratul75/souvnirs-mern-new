@@ -1,10 +1,10 @@
 import { Header } from "../../components";
-import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
+// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { debouncedShowToast } from "../../utils";
 
@@ -15,9 +15,9 @@ const AddCategory = () => {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [formData, setFormData] = useState({});
   const [parentCategories, setParentCategories] = useState([]);
-  const [combinations, setCombinations] = useState([])
+  const [combinations, setCombinations] = useState([]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const getAllAttributes = async () => {
     try {
@@ -34,9 +34,9 @@ const AddCategory = () => {
   };
   const getParentCategories = async () => {
     const response = await API_WRAPPER.get("/category/parent/");
-    console.log('AddCategory.jsx', response.data);
-    setParentCategories(response.data)
-  }
+    console.log("AddCategory.jsx", response.data);
+    setParentCategories(response.data);
+  };
 
   useEffect(() => {
     getAllAttributes();
@@ -68,7 +68,7 @@ const AddCategory = () => {
     );
     setSelectedAttributes(updatedAttributes);
   };
-  console.log('AddCategory.jsx', formData);
+  console.log("AddCategory.jsx", formData);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -79,13 +79,11 @@ const AddCategory = () => {
     const response = await API_WRAPPER.post("/category/add-category", {
       ...formData,
       attributes: selectedAttributes.map((item) => item._id),
-
     });
     console.log("RESPONSE AFTER ADDING CATEGORY: ", response.data);
     if (response.status === 201) {
-      navigate("/admin/categories")
-      debouncedShowToast("category created", "success")
-
+      navigate("/admin/categories");
+      debouncedShowToast("category created", "success");
     }
   };
   function generateCombinations(attributes) {
@@ -112,9 +110,8 @@ const AddCategory = () => {
 
   // Example usage
 
-
   // Array of combination objects
-  console.log('AddCategory.jsx', combinations);
+  console.log("AddCategory.jsx", combinations);
 
   // useEffect(() => {
   //   const res = generateCombinations(attributes)
@@ -125,17 +122,16 @@ const AddCategory = () => {
     <div className="w-full">
       <Header
         heading="Add Category"
-        image={CategoryBnnerImng}
+        // image={CategoryBnnerImng}
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfs sdfsdf"
       />
-
-      <div className="relative">
+      <div>
         <h1 className="text-2xl mt-8">Category</h1>
         <form
           onSubmit={handleSubmit}
-          className="grid grid-cols-2 gap-4 mt-4 bg-base-100 p-6 rounded-xl shadow-xl"
+          className="grid grid-cols-2 gap-4 mt-4 bg-base-100 p-6 rounded-xl"
         >
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <label className="label">
               <span className="label-text">Category Name</span>
             </label>
@@ -148,7 +144,7 @@ const AddCategory = () => {
               id=""
             />
           </div>
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <label className="label">
               <span className="label-text">Category Description</span>
             </label>
@@ -161,7 +157,7 @@ const AddCategory = () => {
               id=""
             />
           </div>
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <label className="label">
               <span className="label-text">HSN Code</span>
             </label>
@@ -174,7 +170,7 @@ const AddCategory = () => {
               id=""
             />
           </div>
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <label className="label">
               <span className="label-text">Type</span>
             </label>
@@ -187,7 +183,7 @@ const AddCategory = () => {
               id=""
             />
           </div>
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <input
               placeholder="Search Attributes"
               className="input input-info mb-2"
@@ -206,25 +202,9 @@ const AddCategory = () => {
                 </p>
               ))}
             </div>
-
           </div>
-          <div>
 
-
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">parent Category</span>
-            </label>
-            <select className=" input input-accent " onChange={(e) => handleInputChange(e)} name="parentId">
-              <option disabled selected >Select a parent categoy (optional)</option>
-              {parentCategories.map((parent) => (
-                <option value={parent._id}>{parent.name}</option>
-              ))}
-            </select>
-
-          </div>
-          <div className="form-control">
+          <div className="form-control col-span-2 md:col-span-1">
             <h1 className="text-2xl">Selected Attributes</h1>
             <div className="mt-10 grid">
               {selectedAttributes.map((selectedAttribute) => {
@@ -245,9 +225,30 @@ const AddCategory = () => {
               })}
             </div>
           </div>
+          <div className="form-control col-span-2 md:col-span-1">
+            <label className="label">
+              <span className="label-text">parent Category</span>
+            </label>
+            <select
+              className=" input input-accent "
+              onChange={(e) => handleInputChange(e)}
+              name="parentId"
+            >
+              <option disabled selected>
+                Select a parent categoy (optional)
+              </option>
+              {parentCategories.map((parent) => (
+                <option key={nanoid()} value={parent._id}>
+                  {parent.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <ToastContainer />
 
-          <button className="max-w-lg w-48 btn btn-primary bottom-10 absolute right-10 ">Add Category</button>
+          <button className="max-w-lg w-48 btn btn-primary ">
+            Add Category
+          </button>
         </form>
       </div>
     </div>

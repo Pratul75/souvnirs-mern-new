@@ -37,7 +37,7 @@ const Sidebar = () => {
   // Animation properties for sidebar width
   const sidebarVariants = {
     expanded: {
-      width: "300px",
+      width: "350px",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -54,7 +54,7 @@ const Sidebar = () => {
 
   return (
     <motion.ul
-      className={`menu bg-base-100 hidden md:flex items-center shadow-xl overflow-y-auto max-h-screen `}
+      className={`menu bg-base-200 hidden md:flex items-center shadow-xl overflow-y-auto max-h-screen `}
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
       variants={sidebarVariants}

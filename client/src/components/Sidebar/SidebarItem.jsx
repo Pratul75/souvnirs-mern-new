@@ -2,23 +2,30 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { sidebarVariant } from "../../animation";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveLink } from "../../features/appConfig/appSlice";
 
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   // Animation properties for sidebar item title
+  const activeLink = useSelector((x) => x.appConfig.activeLink);
+  const dispatch = useDispatch();
 
   return (
     <motion.li
-      className="w-full my-2"
+      className={`w-full my-2 ${
+        activeLink === navLink ? "bg-accent-focus" : ""
+      } `}
       initial={false}
       animate={sidebarState ? "expanded" : "collapsed"}
       variants={sidebarVariant}
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
       <Link
+        onClick={() => dispatch(setActiveLink(navLink))}
         to={navLink}
         className={`flex w-full p-4 ${
           sidebarState ? "justify-start" : "justify-center"
-        }`}
+        } `}
       >
         {Icon && <Icon />} {/* Only render Icon if it exists */}
         {sidebarState && title && (

@@ -103,7 +103,9 @@ const ReusableTable = ({
       const selectedRows = selectedFlatRows.map((row) => row.original);
       const unselectedRows = page
         .filter((row) => {
-          return !selectedFlatRows.find((selectedRow) => selectedRow.id === row.id);
+          return !selectedFlatRows.find(
+            (selectedRow) => selectedRow.id === row.id
+          );
         })
         .map((row) => row.original);
 
@@ -136,7 +138,7 @@ const ReusableTable = ({
           className="input input-bordered"
         />
       </div>
-      <table className="table   shadow-xl" {...getTableProps()}>
+      <table className="table table-zebra" {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>

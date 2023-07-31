@@ -37,7 +37,7 @@ const ProductOverviewAndAddProduct = () => {
         variants={fadeInFromLeftVariant}
         initial="initial"
         animate="animate"
-        className="col-span-1 md:col-span-8 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
+        className="col-span-8 md:col-span-5 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <h2 className="text-lg font-semibold">Product Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -101,7 +101,7 @@ const ProductOverviewAndAddProduct = () => {
         variants={fadeInFromRightVariant}
         initial="initial"
         animate="animate"
-        className="col-span-1 md:col-span-2 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
+        className="col-span-1 md:col-span-3 bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
       >
         <div className="flex flex-col gap-6">
           <div className="flex items-center gap-4">

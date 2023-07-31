@@ -40,8 +40,8 @@ const AddCollection = () => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
-  console.log('AddCollection.jsx', collectionProductTableList);
-  console.log('AddCollection.jsx', activeProducts, deactivatedProducts);
+  console.log("AddCollection.jsx", collectionProductTableList);
+  console.log("AddCollection.jsx", activeProducts, deactivatedProducts);
   const columns = useMemo(
     () => [
       {
@@ -218,27 +218,25 @@ const AddCollection = () => {
 
   const handleSelectedObjectChange = useCallback((selectedRows, activeRows) => {
     setDeactivatedProducts(selectedRows);
-    setActiveProducts(activeRows)
+    setActiveProducts(activeRows);
   }, []);
   const removeDeactivatedProducts = () => {
-    let upArr = []
-    let delArr = []
+    let upArr = [];
+    let delArr = [];
     for (let elem of collectionProductTableList) {
       for (let d of deactivatedProducts) {
         if (elem._id === d._id) {
-          delArr.push(elem)
-          continue
+          delArr.push(elem);
+          continue;
         }
-        upArr.push(elem)
+        upArr.push(elem);
       }
-
     }
 
-    setCollectionProductTableList(upArr)
-    setDeactivatedProducts(delArr)
-
-  }
-  console.log('AddCollection.jsx', deactivatedProducts);
+    setCollectionProductTableList(upArr);
+    setDeactivatedProducts(delArr);
+  };
+  console.log("AddCollection.jsx", deactivatedProducts);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -309,7 +307,7 @@ const AddCollection = () => {
     await postCollection(abstractedFormData);
     resetForm();
   };
-  console.log('AddCollection.jsx', setCollectionProductTableList);
+  console.log("AddCollection.jsx", setCollectionProductTableList);
 
   // Side effects
   useEffect(() => {
@@ -337,7 +335,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-      // image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
@@ -346,7 +344,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 md:col-span-2 bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
           >
             <div className="form-control">
               <label className="label">
@@ -367,7 +365,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromRightVariant}
-            className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 md:col-span-1  bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
           >
             <div className="form-control">
               <label htmlFor="status-select" className="label">
@@ -399,7 +397,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-3 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 bg-base-100 px-4 py-8 rounded-xl border-[1px] border-base-300"
           >
             <h1>Description</h1>
             <div className="mt-4">
@@ -415,7 +413,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInVariants}
-            className="col-span-3  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3  bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
           >
             <h1>Collections</h1>
             <div className="form-control flex-row items-center">
@@ -544,9 +542,13 @@ const AddCollection = () => {
               </button>
             </div>
 
-
             <div className="mt-4 relative">
-              <button className="btn btn-accent absolute right-60 top-5" onClick={removeDeactivatedProducts}>Deactivate</button>
+              <button
+                className="btn btn-accent absolute right-60 top-5"
+                onClick={removeDeactivatedProducts}
+              >
+                Deactivate
+              </button>
               <ReusableTable
                 key={"react-table-23-edffk"}
                 showButtons
@@ -566,7 +568,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variant={fadeInFromLeftVariant}
-            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 md:col-span-2 bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
           >
             <h1>SEO</h1>
             <hr className="mt-4" />
@@ -624,7 +626,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variant={fadeInFromRightVariant}
-            className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+            className="col-span-3 md:col-span-1  bg-base-100 px-4 py-8 rounded-xl border-[1px] border-base-300"
           >
             <h1>Image</h1>
             <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
