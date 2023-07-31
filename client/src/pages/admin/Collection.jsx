@@ -71,7 +71,7 @@ const Collection = () => {
       window.collection_edit_modal.close();
     }
   };
-  console.log('Collection.jsx', deactivat);
+  // console.log('Collection.jsx', deactivat);
 
   const handleDeleteSubmit = async () => {
     try {

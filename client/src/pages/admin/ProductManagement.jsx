@@ -19,10 +19,7 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-      {
-        Header: "Slug",
-        accessor: "slug",
-      },
+
       {
         Header: "Description",
         accessor: "description",

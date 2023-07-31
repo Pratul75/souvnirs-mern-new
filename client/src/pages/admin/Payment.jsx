@@ -51,7 +51,7 @@ const Payment = () => {
       <Header
         heading="Payments"
         subheading="This is a subheading for the payments section. This subheading contins necessary details that are required by user to know about payments page"
-        // image={PaymentBanner}
+      // image={PaymentBanner}
       />
 
       <div className="mt-4">
@@ -59,6 +59,7 @@ const Payment = () => {
           tableTitle="payment List"
           columns={columns}
           data={data}
+          enablePagination
           showButtons={false}
         />
       </div>

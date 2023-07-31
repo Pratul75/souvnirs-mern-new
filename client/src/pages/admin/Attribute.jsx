@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import ReusableTable from "../../components/Table";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
-import API_WRAPPER from "../../api";
+import API_WRAPPER from "../../api"
 import { useEffect, useState } from "react";
 import { getStatusStyles, debouncedShowToast } from "../../utils";
 import "react-toastify/dist/ReactToastify.css";
@@ -133,11 +133,13 @@ const Attributes = () => {
           enableEdit
           onDelete={handleDelete}
           onEdit={handleEdit}
+          pageSize={10}
+          enablePagination
         />
         {/* edit modal */}
         <dialog id="attributes_edit_modal" className="modal">
           <form
-            onSubmit={(e) => handleFormSubmit(e)}
+
             method="dialog"
             className="modal-box"
           >
@@ -173,7 +175,7 @@ const Attributes = () => {
               </div>
             </div>
             <div className="modal-action flex gap-4">
-              <button type="submit" className="btn btn-accent">
+              <button type="button" onClick={(e) => handleFormSubmit(e)} className="btn btn-accent">
                 Save Changes
               </button>
               <button

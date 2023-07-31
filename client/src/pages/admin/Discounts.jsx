@@ -37,15 +37,7 @@ const Discounts = () => {
 
   const columns = useMemo(
     () => [
-      {
-        Header: "#",
-        accessor: "_id",
-        Cell: (props) => {
-          const id = props.row.original._id;
-          const shortenedId = id.slice(-4);
-          return <p>{shortenedId}</p>;
-        },
-      },
+
       {
         Header: "Title",
         accessor: "title",
@@ -186,6 +178,7 @@ const Discounts = () => {
           data={data}
           showButtons
           enableDelete
+          enablePagination
           onDelete={handleDelete}
         />
       </div>

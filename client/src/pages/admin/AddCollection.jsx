@@ -553,6 +553,8 @@ const AddCollection = () => {
                 isSelectable={true}
                 data={data}
                 columns={columns}
+                enablePagination
+                pageSize={10}
                 onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
                   handleSelectedObjectChange(selectedRows, unselectedRows)
                 }

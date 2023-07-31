@@ -58,15 +58,7 @@ const Coupons = () => {
 
   const columns = useMemo(
     () => [
-      {
-        Header: "#",
-        accessor: "_id",
-        Cell: (props) => {
-          const id = props.row.original._id;
-          const shortenedId = id.slice(-4);
-          return <p>{shortenedId}</p>;
-        },
-      },
+
       {
         Header: "Title",
         accessor: "title",
@@ -160,6 +152,7 @@ const Coupons = () => {
           enablePagination
           enableEdit
           enableDelete
+          pageSize={10}
           onEdit={editHandler}
           onDelete={handleDiscountDelete}
         />

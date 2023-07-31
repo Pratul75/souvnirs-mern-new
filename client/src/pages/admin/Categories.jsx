@@ -174,8 +174,11 @@ const Categories = () => {
           showButtons
           enableDelete
           enableEdit
+          enablePagination
+          pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
+
         />
 
         {/* edit modal */}

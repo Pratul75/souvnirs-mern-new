@@ -5,11 +5,11 @@ const AttributeTypeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
   },
-  attributeId: {
+  attributeIds: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Attribute",
-  },
-  attributeValue: {
+  }],
+  attributeCombination: {
     type: String,
   },
   status: {

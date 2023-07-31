@@ -133,6 +133,7 @@ const Customer = () => {
           showButtons
           enableDelete
           enableEdit
+          enablePagination
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

@@ -195,7 +195,7 @@ const CollectionConditions = () => {
       <Header
         heading="Collection Conditions"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <motion.form
         initial="initial"
@@ -242,6 +242,8 @@ const CollectionConditions = () => {
             enableDelete
             enableEdit
             onEdit={handleEdit}
+            enablePagination
+            pageSize={10}
             onDelete={handleDelete}
           />
         </div>

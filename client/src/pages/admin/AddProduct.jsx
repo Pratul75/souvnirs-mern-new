@@ -27,7 +27,7 @@ const AddProduct = () => {
   const [atValue, setAtValue] = useState()
   const [price, setPrice] = useState(false)
   const [attrValues, setAttrValues] = useState()
-  const [fAttValue, setFAttValue] = useState()
+  const [fAttValue, setFAttValue] = useState([])
 
 
   // Function to generate all possible combinations of multiple arrays as strings
@@ -98,7 +98,8 @@ const AddProduct = () => {
       description,
       slug: randomSlug(),
       tags: tagsArray,
-      attributes: attrValue
+      attributes: attrValue,
+      attributeValues: fAttValue
     });
     console.log('AddProduct.jsx', response);
     if (response.status === 201) {
@@ -156,29 +157,38 @@ const AddProduct = () => {
     }
   };
   const handleattTypeInputs = (e, type) => {
-    console.log('AddProduct.jsx', fAttValue);
+    const { name, value } = e.target;
+    const dataArray = fAttValue
 
-    let updatedAttrValue = fAttValue
-    console.log('AddProduct.jsx', updatedAttrValue);
-    let found = false;
+    // Find if the combination of type and name exists in the dataArray
+    const existingObjectIndex = dataArray.findIndex(obj => obj.name === name);
 
-    for (let i = 0; i < updatedAttrValue.length; i++) {
-      console.log('AddProduct.jsx', updatedAttrValue[i]);
-      if (updatedAttrValue[i].name == e.target.name) {
-        updatedAttrValue[i][type] = e.target.value
-        found = true;
-        break;
+    if (existingObjectIndex !== -1) {
+      // If the combination exists, update its value based on the type
+      if (type === 'price') {
+        dataArray[existingObjectIndex].price = value;
+      } else if (type === 'quantity') {
+        dataArray[existingObjectIndex].quantity = value;
       }
-
-
-      if (!found) {
-
-      }
-
-      setFAttValue(updatedAttrValue);
-      // Reset the atValue state for the next input
+    } else {
+      // If the combination doesn't exist, create a new object and add it to the dataArray
+      const newObj = { name };
+      newObj[type] = value;
+      dataArray.push(newObj);
     }
-  }
+
+    // You can return the updated dataArray or perform any other actions as needed
+    // console.log('AddProduct.jsx', dataArray);
+    setFAttValue(dataArray)
+  };
+
+  // Example usage:
+  const dataArray = [];
+
+
+
+  console.log(dataArray);
+
   console.log('AddProduct.jsx', fAttValue);
   console.log('AddProduct.jsx', attrValues);
 
@@ -460,6 +470,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => setSelectedCategory(e.target.value)}
+                value={selectedCategory}
                 className="select select-accent"
               >
                 <option value="" disabled selected>select category</option>
@@ -476,7 +487,9 @@ const AddProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="vendorId"
+                value={formData.vendorId}
               >
+                <option value="" disabled selected>select vendor</option>
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>

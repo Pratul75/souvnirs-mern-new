@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   useTable,
   useSortBy,
   useGlobalFilter,
   useRowSelect,
+  usePagination, // Import the usePagination hook
 } from "react-table";
 import "daisyui/dist/full.css";
 import { nanoid } from "nanoid";
@@ -34,12 +35,12 @@ const ReusableTable = ({
   enablePagination,
   children,
 }) => {
+  // Add the usePagination hook to the table instance
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
-    pages,
+    page, // Use 'page' instead of 'rows'
     prepareRow,
     state,
     setGlobalFilter,
@@ -51,10 +52,11 @@ const ReusableTable = ({
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize: Number(pageSize) }, // Set initial pageSize
     },
     useGlobalFilter,
     useSortBy,
+    usePagination, // Use the usePagination hook
     useRowSelect,
     (hooks) => {
       hooks.visibleColumns.push((columns) => [
@@ -82,7 +84,7 @@ const ReusableTable = ({
   );
 
   // to get global filter state
-  const { globalFilter } = state;
+  const { globalFilter, pageIndex } = state; // Destructure the 'pageIndex' from state
 
   // Function to handle changing the page
   const handlePageChange = (pageIndex) => {
@@ -99,16 +101,14 @@ const ReusableTable = ({
   isSelectable &&
     useEffect(() => {
       const selectedRows = selectedFlatRows.map((row) => row.original);
-      const unselectedRows = rows
+      const unselectedRows = page
         .filter((row) => {
-          return !selectedFlatRows.find(
-            (selectedRow) => selectedRow.id === row.id
-          );
+          return !selectedFlatRows.find((selectedRow) => selectedRow.id === row.id);
         })
         .map((row) => row.original);
 
       onSelectedRowObjectsChange(selectedRows, unselectedRows);
-    }, [selectedFlatRows, rows]);
+    }, [selectedFlatRows, page]);
 
   // Check if data array is empty, if so, don't render pagination
   if (enablePagination && data.length === 0) {
@@ -162,7 +162,7 @@ const ReusableTable = ({
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <tr
@@ -216,14 +216,14 @@ const ReusableTable = ({
         <div className="flex justify-center items-center mt-4">
           <button
             onClick={() => handlePageChange(0)}
-            disabled={state.pageIndex === 0}
+            disabled={pageIndex === 0}
             className="btn btn-secondary"
           >
             {"<<"}
           </button>
           <button
-            onClick={() => handlePageChange(state.pageIndex - 1)}
-            disabled={state.pageIndex === 0}
+            onClick={() => handlePageChange(pageIndex - 1)}
+            disabled={pageIndex === 0}
             className="btn btn-secondary mx-2"
           >
             {"<"}
@@ -231,24 +231,25 @@ const ReusableTable = ({
           <span className="text-xl">
             Page{" "}
             <strong>
-              {state.pageIndex + 1} of {pageCount}
+              {pageIndex + 1} of {pageCount}
             </strong>{" "}
           </span>
           <button
-            onClick={() => handlePageChange(state.pageIndex + 1)}
-            disabled={state.pageIndex === pageCount - 1}
+            onClick={() => handlePageChange(pageIndex + 1)}
+            disabled={pageIndex === pageCount - 1}
             className="btn btn-secondary mx-2"
           >
             {">"}
           </button>
           <button
             onClick={() => handlePageChange(pageCount - 1)}
-            disabled={state.pageIndex === pageCount - 1}
+            disabled={pageIndex === pageCount - 1}
             className="btn btn-secondary"
           >
             {">>"}
           </button>
           {/* Select for page size */}
+          <label>Page Size</label>
           <select
             value={pageSize}
             onChange={handlePageSizeChange}
@@ -256,7 +257,7 @@ const ReusableTable = ({
           >
             {[10, 25, 50, 100].map((size) => (
               <option key={size} value={size}>
-                Show {size}
+                {size}
               </option>
             ))}
           </select>

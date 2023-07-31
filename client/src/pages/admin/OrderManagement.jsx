@@ -104,6 +104,8 @@ const OrderManagement = () => {
           showButtons
           enableDelete
           enableEdit
+          enablePagination
+          pageSize={10}
           onDelete={handleDeleteOrder}
           onEdit={handleEditOrder}
         />

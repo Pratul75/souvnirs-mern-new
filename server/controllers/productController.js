@@ -16,7 +16,8 @@ const createProduct = async (req, res) => {
       stockQuantity,
       totalSales,
       tags,
-      attributes
+      attributes,
+      attributeValues
     } = req.body;
 
     let attArr = attributes.map(att => att.name)
@@ -37,12 +38,10 @@ const createProduct = async (req, res) => {
     const savedProduct = await product.save();
 
 
-    for (let elem of attributes) {
+    for (let elem of attributeValues) {
 
-      for (let e of elem.value) {
-        AttributeType.create()
-
-      }
+      console.log('productController.js', elem);
+      await AttributeType.create({ productId: savedProduct._id, attributeIds: attArr, attributeCombination: elem.name, price: elem.price, quantity: elem.quantity })
     }
 
     res.status(201).json(success("product created successfully"));
