@@ -14,7 +14,20 @@ const createCollectionCondition = async (req, res) => {
 // Get all CollectionConditions
 const getAllCollectionConditions = async (req, res) => {
   try {
-    const collectionConditions = await CollectionCondition.find();
+    const collectionConditions = await CollectionCondition.aggregate([
+      {
+        '$lookup': {
+          'from': 'condition values',
+          'localField': 'conditionValues',
+          'foreignField': '_id',
+          'as': 'result'
+        }
+      }, {
+        '$project': {
+          'result.conditionValue': 1, title: 1, status: 1
+        }
+      }
+    ]);
     res.status(200).json(collectionConditions);
   } catch (error) {
     res.status(400).json({ error: error.message });

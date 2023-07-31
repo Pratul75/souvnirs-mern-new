@@ -27,13 +27,13 @@ const CollectionConditions = () => {
       },
       {
         Header: "Condition Values",
-        accessor: "conditionValues",
+        accessor: "result",
         Cell: ({ row }) => {
           return (
             <>
-              {row.original.conditionValues.map((id) => (
+              {row.original.result.map((id) => (
                 <p className="" key={nanoid()}>
-                  {id}
+                  {id.conditionValue}
                 </p>
               ))}
             </>
