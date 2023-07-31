@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   useTable,
@@ -21,7 +21,6 @@ import {
   BiFirstPage,
   BiLastPage,
   BiRightArrowAlt,
-  BiLeftArrow,
   BiLeftArrowAlt,
 } from "react-icons/bi";
 
@@ -228,14 +227,14 @@ const ReusableTable = ({
           <button
             onClick={() => handlePageChange(0)}
             disabled={pageIndex === 0}
-            className="btn btn-secondary"
+            className="btn btn-square btn-accent"
           >
             <BiFirstPage className="text-xl" />
           </button>
           <button
             onClick={() => handlePageChange(pageIndex - 1)}
             disabled={pageIndex === 0}
-            className="btn btn-secondary mx-2"
+            className="btn btn-square btn-accent mx-2"
           >
             <BiLeftArrowAlt className="text-xl" />
           </button>
@@ -248,14 +247,14 @@ const ReusableTable = ({
           <button
             onClick={() => handlePageChange(pageIndex + 1)}
             disabled={pageIndex === pageCount - 1}
-            className="btn btn-secondary mx-2"
+            className="btn btn-square btn-accent mx-2"
           >
             <BiRightArrowAlt className="text-xl" />
           </button>
           <button
             onClick={() => handlePageChange(pageCount - 1)}
             disabled={pageIndex === pageCount - 1}
-            className="btn btn-secondary"
+            className="btn btn-square btn-accent"
           >
             <BiLastPage className="text-xl" />
           </button>
