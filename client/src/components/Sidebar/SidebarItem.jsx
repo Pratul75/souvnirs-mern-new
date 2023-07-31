@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { sidebarVariant } from "../../animation";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
       variants={sidebarVariant}
       transition={{ duration: 0.2, ease: "easeInOut" }}
     >
-      <Link
+      <NavLink
         onClick={() => dispatch(setActiveLink(navLink))}
         to={navLink}
         className={`flex w-full p-4 ${
@@ -37,7 +37,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
             {title}
           </motion.span>
         )}
-      </Link>
+      </NavLink>
     </motion.li>
   );
 };

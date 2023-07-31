@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header, Modal, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
-import { EyeBtnSvg } from "../../icons/tableIcons";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
@@ -12,16 +11,14 @@ const Vendor = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
-  const [editedRow, setEditedRow] = useState({});
 
-  console.log('Vendor.jsx', selectedStore);
+  console.log("Vendor.jsx", selectedStore);
 
   const handleDeleteModalClose = () => {
     return window.vendor_edit_modal.close();
   };
   const convertToDesiredOutcome = (vendors, stores) => {
     const result = [];
-
 
     for (const store of stores) {
       const vendor = vendors.find((v) => v._id === store.vendor_id);
@@ -42,7 +39,7 @@ const Vendor = () => {
     setConvertedArr(result);
     return result;
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSave = (inputValues) => {
     console.log("SAVING THE INPUT VALUES: ", inputValues);
     submitEditedRow(inputValues);
@@ -60,27 +57,7 @@ const Vendor = () => {
         Header: "Contact",
         accessor: "mobile",
       },
-      // {
-      //   Header: "Store",
-      //   accessor: "store",
-      //   Cell: (props) => (
-      //     <p
-      //       onClick={() => {
-      //         setSelectedStore(
-      //           storeList.find(
-      //             (store) => store._id === props?.row?.original?.store
-      //           )
-      //         );
-      //         window.storeFilterModal.showModal();
-      //       }}
-      //       className="text-blue-500 cursor-pointer"
-      //     >
-      //       <button className="btn btn-circle ">
-      //         <EyeBtnSvg />
-      //       </button>
-      //     </p>
-      //   ),
-      // },
+
       {
         Header: "email",
         accessor: "email",
@@ -107,17 +84,20 @@ const Vendor = () => {
       console.error("Error occurred while fetching all vendorList", error);
     }
   };
-  console.log('Vendor.jsx', selectedRow);
+  console.log("Vendor.jsx", selectedRow);
 
   const submitEditedRow = async (data) => {
     try {
-      console.log('Vendor.jsx', selectedRow);
-      const response = await API_WRAPPER.put(`/vendors/update-vendor/:${selectedRow._id}`, data);
-      setApiTrigger(res => !res)
+      console.log("Vendor.jsx", selectedRow);
+      const response = await API_WRAPPER.put(
+        `/vendors/update-vendor/:${selectedRow._id}`,
+        data
+      );
+      setApiTrigger((res) => !res);
     } catch (e) {
-      console.log('Vendor.jsx', e);
+      console.log("Vendor.jsx", e);
     }
-  }
+  };
 
   const fetchStoreList = async () => {
     try {
@@ -183,7 +163,7 @@ const Vendor = () => {
   useEffect(() => {
     convertToDesiredOutcome(vendorList, storeList);
   }, [storeList, vendorList]);
-  console.log('Vendor.jsx', selectedRow);
+  console.log("Vendor.jsx", selectedRow);
   return (
     <div className="relative">
       <Header
@@ -202,8 +182,14 @@ const Vendor = () => {
           pageSize={10}
           onEdit={handleEdit}
         />
-        <button onClick={() => { navigate(PATHS.adminCreateVendor) }} className="absolute top-0  right-0 btn btn-accent" >Create New</button>
-
+        <button
+          onClick={() => {
+            navigate(PATHS.adminCreateVendor);
+          }}
+          className="absolute top-0  right-0 btn btn-accent"
+        >
+          Create New
+        </button>
       </div>
       <Modal
         id="vendor_edit_modal"
@@ -271,10 +257,7 @@ const Vendor = () => {
       />
       {selectedStore && (
         <dialog id="storeFilterModal" className="modal ">
-          <form
-            method="dialog"
-            className="modal-box"
-          >
+          <form method="dialog" className="modal-box">
             <h3 className="font-bold text-2xl">Edit Store</h3>
             <div className="grid gap-4 grid-cols-2 py-4">
               <div className="form-control col-span-1">
@@ -400,7 +383,11 @@ const Vendor = () => {
               </div>
             </div>
             <div className="modal-action">
-              <button type="button" onClick={(e) => handleModalFormSubmit(e)} className="btn btn-accent">
+              <button
+                type="button"
+                onClick={(e) => handleModalFormSubmit(e)}
+                className="btn btn-accent"
+              >
                 Save
               </button>
               <button onClick={() => setSelectedStore(null)} className="btn">
@@ -409,8 +396,7 @@ const Vendor = () => {
             </div>
           </form>
         </dialog>
-      )
-      }
+      )}
       <dialog id="vendor_edit_form" className="modal"></dialog>
       <dialog id="vendor_delete_modal" className="modal">
         <form
@@ -437,9 +423,8 @@ const Vendor = () => {
           </div>
         </form>
       </dialog>
-    </div >
+    </div>
   );
 };
 
 export default Vendor;
-
