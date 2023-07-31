@@ -12,11 +12,12 @@ import RouteNavigator from "../RouterNavigator";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
-
+import { CgDarkMode } from "react-icons/cg";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const sidebarState = useSelector((x) => x.appConfig.sidebarExpanded);
+  const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
   const handleLogout = () => {
     localStorage.clear();
     dispatch(getLoginInfo(""));
@@ -51,7 +52,11 @@ const Navbar = () => {
             onClick={() => dispatch(toggleDarkMode())}
             className="cursor-pointer"
           >
-            <SunSvg className={"animate-spin"} />
+            {darkModeToggle ? (
+              <CgDarkMode className="animate-spin text-3xl" />
+            ) : (
+              <SunSvg className={"animate-spin"} />
+            )}
           </span>
           <Avatar
             onClick={() => handleLogout()}

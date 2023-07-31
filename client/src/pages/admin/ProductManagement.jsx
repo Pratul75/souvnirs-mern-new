@@ -20,10 +20,10 @@ const ProductManagement = () => {
         accessor: "name",
       },
 
-      {
-        Header: "Description",
-        accessor: "description",
-      },
+      // {
+      //   Header: "Description",
+      //   accessor: "description",
+      // },
       {
         Header: "Price",
         accessor: "price",
@@ -74,7 +74,6 @@ const ProductManagement = () => {
       if (response.status === 200) {
         setProductsList(response?.data);
         console.log("RESPONSE: ", response?.data);
-
       }
     } catch (error) {
       console.error({ error, messge: error.message });
@@ -97,7 +96,6 @@ const ProductManagement = () => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
   };
 
-
   const submitEditedRow = async (updatedVal) => {
     const response = await API_WRAPPER.put(
       `/products/edit-product/:${selectedRow._id}`,
@@ -106,13 +104,13 @@ const ProductManagement = () => {
     if (response.status === 200) {
       setApiTrigger((prevState) => !prevState);
       window.product_management_edit_modal.close();
-      debouncedShowToast(response.data.data)
+      debouncedShowToast(response.data.data);
       console.log(
         "EDITED SUCCESSFULLY WITH THE FOLLOWING RESPONSE: ",
         response?.status
       );
     } else {
-      debouncedShowToast(response.data.data.error, "error")
+      debouncedShowToast(response.data.data.error, "error");
     }
   };
   const handleSave = (inputValues) => {
@@ -130,9 +128,9 @@ const ProductManagement = () => {
         "SELECTED ROW IS DELETED WITH FOLLOWING RESPONSE: ",
         response?.data
       );
-      debouncedShowToast(response?.data?.data, "success")
+      debouncedShowToast(response?.data?.data, "success");
     } else {
-      debouncedShowToast(response?.data?.data.error, "error")
+      debouncedShowToast(response?.data?.data.error, "error");
     }
   };
 
@@ -145,7 +143,7 @@ const ProductManagement = () => {
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-      // image={HeaderImgTwo}
+        // image={HeaderImgTwo}
       />
       <div className="w-full gap-4 mt-14">
         <div className="flex justify-end">
@@ -178,7 +176,9 @@ const ProductManagement = () => {
       <Modal
         id="edit_product_modal"
         title="Are you sure you want to delete the selected value?"
-        onClose={() => { window.edit_product_modal.close() }}
+        onClose={() => {
+          window.edit_product_modal.close();
+        }}
         onSave={handleSave}
         defaultValues={{
           name: selectedRow?.name,
@@ -233,7 +233,6 @@ const ProductManagement = () => {
           },
         ]}
       />
-
 
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">

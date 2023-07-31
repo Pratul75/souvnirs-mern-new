@@ -42,7 +42,7 @@ const Sidebar = () => {
   // Animation properties for sidebar width
   const sidebarVariants = {
     expanded: {
-      width: "300px",
+      width: "350px",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
