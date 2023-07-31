@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { AiOutlineLock, AiOutlineUnlock } from "react-icons/ai";
 import { CgDarkMode } from "react-icons/cg";
+
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -58,11 +59,23 @@ const Navbar = () => {
               <SunSvg className={"animate-spin"} />
             )}
           </span>
-          <Avatar
-            onClick={() => handleLogout()}
-            bgColor={"bg-info"}
-            initials="VB"
-          />
+
+          <div className="dropdown dropdown-left dropdown-bottom cursor-pointer">
+            <label tabIndex={0}>
+              <Avatar bgColor={"bg-info"} initials="VB" />
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a>View Profile</a>
+              </li>
+              <li onClick={() => handleLogout()}>
+                <a>Logout</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       {/* mobile-screen navbar */}

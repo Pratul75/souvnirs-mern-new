@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
+
 export const getRandomColor = () => {
   const colorArr = [
     "bg-primary",
@@ -36,6 +37,7 @@ export const showToast = (message, type) => {
     type, // 'success', 'error', 'warning', or 'info'
     position: "top-right",
     autoClose: 2000,
+    theme: "dark",
   });
 };
 
