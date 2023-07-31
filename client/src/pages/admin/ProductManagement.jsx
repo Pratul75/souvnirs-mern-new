@@ -168,6 +168,8 @@ const ProductManagement = () => {
             enableDelete
             onEdit={handleEdit}
             onDelete={handleDelete}
+            pageSize={10}
+            enablePagination
           />
         </div>
       </div>
