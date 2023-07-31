@@ -5,7 +5,7 @@ import RegisterForm from "./RegisterForm";
 const LoginPage = () => {
   return (
     <div className="w-screen h-screen flex">
-      <RegisterBanner />
+      <RegisterBanner className="display-none" />
       <RegisterForm />
       <ToastContainer />
     </div>

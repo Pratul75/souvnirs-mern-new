@@ -8,9 +8,9 @@ const Header = ({ heading, subheading, image }) => {
       initial="initial"
       animate="animate"
       variants={headerVariant}
-      className="relative"
+      className="relative w-screen "
     >
-      <div className="w-full h-auto">
+      <div className="w-screen h-auto">
         <img
           className="w-full h-auto object-cover"
           src={HeaderBanner}
