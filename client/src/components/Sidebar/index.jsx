@@ -62,9 +62,9 @@ const Sidebar = () => {
       onMouseLeave={() => !isExpanded && setSidebarState(false)}
     >
       <div>
-        <div className="flex items-center justify-center mb-4">
+        <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center sticky top-0  ">
           {sidebarState ? (
-            <img src={SovniersLogo} alt="" />
+            <img src={SovniersLogo} className="h-full" alt="" />
           ) : (
             <div className="flex items-center justify-center">
               <SmallVIcon />

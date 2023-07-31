@@ -114,7 +114,6 @@ const Customer = () => {
     console.log("SAVING THE INPUT VALUES: ", inputValues);
     updateCustomer(inputValues);
   };
-
   useEffect(() => {
     getAllCustomers();
   }, [apiTrigger]);
