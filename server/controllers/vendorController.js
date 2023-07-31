@@ -1,6 +1,7 @@
 const Vendor = require("../schema/vendorModal");
 const Store = require("../schema/storeModal");
 const { roles } = require("../utils");
+const storeModal = require("../schema/storeModal");
 // Create a new vendor
 const createVendor = async (req, res) => {
   try {
@@ -30,7 +31,21 @@ const getVendors = async (req, res) => {
   try {
     let vendors
     if (req.role === "admin") {
-      vendors = await Vendor.find();
+      vendors = await Vendor.aggregate([
+        {
+          '$lookup': {
+            'from': 'stores',
+            'localField': '_id',
+            'foreignField': 'vendor_id',
+            'as': 'store'
+          }
+        }, {
+          '$unwind': {
+            'path': '$store',
+            'preserveNullAndEmptyArrays': true
+          }
+        }
+      ]).sort({ createdAt: -1 })
     }
     else if (req.role === "vendor") {
       vendors = await Vendor.find({ _id: req.userId });
@@ -61,7 +76,7 @@ const getVendorById = async (req, res) => {
 // Update a vendor by ID
 const updateVendor = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, mobile } = req.body;
+    const { firstName, lastName, email, password, mobile, organization_type, organization_name, city, pincode, } = req.body;
 
     const vendor = await Vendor.findById(req.params.id.substring(1));
     if (!vendor) {
@@ -77,6 +92,8 @@ const updateVendor = async (req, res) => {
     vendor.mobile = mobile ?? vendor.mobile;
 
     await vendor.save();
+    const updatedStore = await storeModal.findOneAndUpdate({ vendorId: vendor._id }, { organization_name, organization_type, pin_code: pincode, city }, { upsert: true, new: true })
+
 
     res.json({ success: true, data: vendor });
   } catch (error) {

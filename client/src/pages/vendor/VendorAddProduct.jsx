@@ -22,7 +22,39 @@ const AddProduct = () => {
   const [tagsArray, setTagsArray] = useState([]);
   const [attArr, setAttArr] = useState()
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [attrValue, setAttrValue] = useState([])
+  const [atName, setAtName] = useState()
+  const [atValue, setAtValue] = useState()
+  const [price, setPrice] = useState(false)
+  const [attrValues, setAttrValues] = useState()
+  const [fAttValue, setFAttValue] = useState([])
 
+
+  // Function to generate all possible combinations of multiple arrays as strings
+  function generateValueCombinations() {
+    let allArrays = []
+    attrValue.map(a =>
+      allArrays.push(a.value)
+    )
+    console.log('AddProduct.jsx', allArrays);
+    // return
+    function generateCombinations(arrays, index = 0, current = '', result = []) {
+      if (index === arrays.length) {
+        result.push(current);
+        return;
+      }
+
+      for (let i = 0; i < arrays[index].length; i++) {
+        const newCurrent = current === '' ? arrays[index][i] : `${current} ${arrays[index][i]}`;
+        generateCombinations(arrays, index + 1, newCurrent, result);
+      }
+
+      return result;
+    }
+    setAttrValues(generateCombinations(allArrays));
+    setPrice(true)
+  }
+  // Example of usage:
 
   // get all categories
   console.log('AddProduct.jsx', selectedAttributes);
@@ -46,8 +78,6 @@ const AddProduct = () => {
         if (vendorsList.length == 1) { }
         console.log('AddProduct.jsx', vendorsList.length)
         console.log("VENDORS LIST RESPONSE: ", response?.data);
-        setFormData({ ...formData, vendorId: response?.data?.data[0]._id });
-
       }
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
@@ -68,7 +98,8 @@ const AddProduct = () => {
       description,
       slug: randomSlug(),
       tags: tagsArray,
-      attributes: selectedAttributes
+      attributes: attrValue,
+      attributeValues: fAttValue
     });
     console.log('AddProduct.jsx', response);
     if (response.status === 201) {
@@ -78,7 +109,7 @@ const AddProduct = () => {
       debouncedShowToast(data, "success")
     }
   };
-  console.log(selectedCategory)
+  console.log(selectedAttributes)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -102,6 +133,76 @@ const AddProduct = () => {
       setTagValue('');
     }
   };
+  console.log('AddProduct.jsx', attrValue);
+  const handleAttributeSelection = (e) => {
+    if (e.key === "Enter" && atValue.trim() !== "") {
+      let updatedAttrValue = [...attrValue];
+      let found = false;
+
+      for (let i = 0; i < updatedAttrValue.length; i++) {
+        if (updatedAttrValue[i].name === atName) {
+          updatedAttrValue[i].value.push(atValue);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        updatedAttrValue.push({ name: atName, value: [atValue] });
+      }
+
+      setAttrValue(updatedAttrValue);
+      setAtName(''); // Reset the atName state for the next input
+      setAtValue(''); // Reset the atValue state for the next input
+    }
+  };
+  const handleattTypeInputs = (e, type) => {
+    const { name, value } = e.target;
+    const dataArray = fAttValue
+
+    // Find if the combination of type and name exists in the dataArray
+    const existingObjectIndex = dataArray.findIndex(obj => obj.name === name);
+
+    if (existingObjectIndex !== -1) {
+      // If the combination exists, update its value based on the type
+      if (type === 'price') {
+        dataArray[existingObjectIndex].price = value;
+      } else if (type === 'quantity') {
+        dataArray[existingObjectIndex].quantity = value;
+      }
+    } else {
+      // If the combination doesn't exist, create a new object and add it to the dataArray
+      const newObj = { name };
+      newObj[type] = value;
+      dataArray.push(newObj);
+    }
+
+    // You can return the updated dataArray or perform any other actions as needed
+    // console.log('AddProduct.jsx', dataArray);
+    setFAttValue(dataArray)
+  };
+
+  // Example usage:
+  const dataArray = [];
+
+
+
+  console.log(dataArray);
+
+  console.log('AddProduct.jsx', fAttValue);
+  console.log('AddProduct.jsx', attrValues);
+
+
+
+  // Function to handle attribute values input changes
+  const handleAttriibuteValues = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    // Check if the attribute value already exists in the array
+    setAtName(name)
+    setAtValue(value)
+  };;
 
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
@@ -163,18 +264,69 @@ const AddProduct = () => {
       ),
     },
     {
-      label: "Attribute",
-      content:
-        selectedCategory.length === 0 ? (
+      label:
+        price ? "variant pricing" : "Attribute"
+      ,
+      content: price ?
+        <div className="flex flex-col gap-5"> {
+          attrValues.map((a) => (
+            <div className="h-8 flex items-center w-full justify-between gap-10">{a}
+              <input name={a} placeholder="price" onChange={(e) => handleattTypeInputs(e, "price")} type="text" className="input flex-1 input-accent" />
+              <input name={a} placeholder="Quantity" onChange={(e) => handleattTypeInputs(e, "quantity")} className="input input-accent flex-1" /></div>
+          ))
+        }</div>
+        : selectedCategory.length === 0 ? (
           <p className="text-center">Select Category First</p>
         ) : (
-          <div className="form-control w-1/2">
+
+          <div className="form-control w-1/2 relative">
             <MultiSelect
               options={convertAttributesList(attArr)}
               value={selectedAttributes}
               onChange={setSelectedAttributes}
             />
+            <div className="h-full">
+              {selectedAttributes.map((att) => (
+                <div className="h-16 gap-5 flex items-center" key={att.value}>
+                  <div className="form-group">
+                    <label>{att.label}</label>
+                    <input
+                      onChange={handleAttriibuteValues}
+                      className="input input-accent h-8"
+                      name={att.value}
+                      onKeyPress={handleAttributeSelection}
+                    />
+                  </div>
+                  <div className="flex gap-2 w-36 overflow-x-scroll flex-shrink-0">
+                    {attrValue.map((el) => {
+                      if (el.name === att.value) {
+                        return el.value.map((item, index) => (
+                          <span className="bg-gray-100 rounded" key={index}>
+                            {item}
+                          </span>
+                        ));
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </div>
+                  <div className="flex gap-2">
+
+                  </div>
+                </div>
+              ))}
+            </div>
+            {
+
+              attrValue.length > 0 && <button className="  btn btn-accent" onClick={() => {
+
+                generateValueCombinations()
+                setFAttValue(attrValues.map(a => { return { name: a } }))
+              }}>set pricing</button>
+            }
+
           </div>
+
         ),
     },
     {
@@ -250,7 +402,7 @@ const AddProduct = () => {
       <Header
         heading="Add Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
-        image={HeaderImgTwo}
+      // image={HeaderImgTwo}
       />
       <div className="w-full  mt-8">
         <div className="flex ">
@@ -318,6 +470,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => setSelectedCategory(e.target.value)}
+                value={selectedCategory}
                 className="select select-accent"
               >
                 <option value="" disabled selected>select category</option>
@@ -334,7 +487,9 @@ const AddProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="vendorId"
+                value={formData.vendorId}
               >
+                <option value="" disabled selected>select vendor</option>
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>
@@ -391,7 +546,7 @@ const AddProduct = () => {
         <div className="flex mt-8">
           <div className="bg-base-200 shadow-md p-4 mx-4 w-2/3 h-auto">
             <h3 className="font-semibold">Basic Tabs</h3>
-            <hr className="mt-4" />
+            <hr className="mt-4 relative" />
             <Tabs tabs={tabs} />
           </div>
           <div className="bg-base-200 shadow-md p-4 mx-4 w-1/3">

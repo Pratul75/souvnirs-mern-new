@@ -103,6 +103,8 @@ const VendorProductInventory = () => {
           showButtons={true}
           enableEdit
           enableDelete
+          enablePagination
+          pageSize={10}
         />
 
         {/* edit modal */}
