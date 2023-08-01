@@ -68,21 +68,21 @@ const ReusableTable = ({
       hooks.visibleColumns.push((columns) => [
         isSelectable
           ? {
-              id: "selection",
-              //
-              Header: ({ getToggleAllRowsSelectedProps }) => (
-                <div>
-                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-                </div>
-              ),
-              // The cell can use the individual row's getToggleRowSelectedProps method
-              // to render a checkbox
-              Cell: ({ row }) => (
-                <div>
-                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-                </div>
-              ),
-            }
+            id: "selection",
+            //
+            Header: ({ getToggleAllRowsSelectedProps }) => (
+              <div>
+                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+              </div>
+            ),
+            // The cell can use the individual row's getToggleRowSelectedProps method
+            // to render a checkbox
+            Cell: ({ row }) => (
+              <div>
+                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+              </div>
+            ),
+          }
           : {},
         ...columns,
       ]);
@@ -122,7 +122,7 @@ const ReusableTable = ({
   if (enablePagination && data.length === 0) {
     return (
       <div className="text-center mt-4">
-        <p>No data to display.</p>
+        <span className="loading  loading-ring loading-lg text-accent"></span>
       </div>
     );
   }
