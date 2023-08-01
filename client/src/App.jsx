@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { RegisterPage, LoginPage, PermissionDenied } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
 import { adminRoutes } from "./Routes/routes";
-import { PATHS } from "./routes/paths";
+import { PATHS } from "./Routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./routes/ReverseAuthRoute";
