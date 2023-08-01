@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../routes/paths";
-
+import ErrorPngImage from "../../../assets/images/404png.png";
 const PageNotFound = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-base-200">
-      <div className="p-8 bg-base-100 rounded shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">404 - Page not found</h1>
-        <p className="text-lg mb-4">
-          Oops! It seems like you are tring to access a page that is not
-          available.
-        </p>
-        <Link to={PATHS.login} className="btn btn-accent">
+      <div className="p-8 flex justify-center flex-col">
+        <img src={ErrorPngImage} alt="" />
+
+        <h1 className="text-4xl text-center my-4 font-bold">
+          404 - Page not found
+        </h1>
+
+        <Link to={PATHS.login} className="btn bg-themeColor text-white">
           Go Back
         </Link>
       </div>
