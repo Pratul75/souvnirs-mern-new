@@ -76,7 +76,7 @@ const getVendorById = async (req, res) => {
 // Update a vendor by ID
 const updateVendor = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, mobile, organization_type, organization_name, city, pincode, } = req.body;
+    const { firstName, lastName, email, password, mobile, organization_type, organization_name, city, pincode, status } = req.body;
 
     const vendor = await Vendor.findById(req.params.id.substring(1));
     if (!vendor) {
@@ -90,6 +90,7 @@ const updateVendor = async (req, res) => {
     vendor.email = email ?? vendor.email;
     vendor.password = password ?? vendor.password;
     vendor.mobile = mobile ?? vendor.mobile;
+    vendor.status = status ?? vendor.status;
 
     await vendor.save();
     const updatedStore = await storeModal.findOneAndUpdate({ vendorId: vendor._id }, { organization_name, organization_type, pin_code: pincode, city }, { upsert: true, new: true })

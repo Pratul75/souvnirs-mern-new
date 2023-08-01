@@ -106,6 +106,7 @@ const Vendor = () => {
         setStoreList(response?.data?.stores);
       }
     } catch (error) {
+      y
       console.error("Error occurred while fetching all storeList", error);
     }
   };
@@ -206,6 +207,7 @@ const Vendor = () => {
           country: selectedRow?.store?.country,
           city: selectedRow?.store?.city,
           pincode: selectedRow?.store?.pin_code,
+          status: selectedRow?.status
         }}
         inputs={[
           {
@@ -252,6 +254,11 @@ const Vendor = () => {
             label: "Pin Code",
             type: "text",
             name: "pincode",
+          },
+          {
+            label: "Status",
+            type: "select",
+            name: "status",
           },
         ]}
       />

@@ -30,25 +30,36 @@ const Modal = ({
     onSave(inputValues);
     onClose();
   };
-
   return (
     <dialog id={id} className="modal">
       <form method="dialog" className="modal-box">
         <h3 className="font-bold text-lg">{title}</h3>
         <p className="py-4">{message}</p>
         {inputs.map((input) => (
-          <div key={input.name} className="form-control">
-            <label className="label">
-              <span className="label-text">{input.label}</span>
-            </label>
-            <input
-              className="input input-accent"
-              type={input.type}
-              name={input.name}
-              value={inputValues[input.name] || ""}
-              onChange={handleInputChange}
-            />
-          </div>
+          input.type === "select" && input.name === "status" ?
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">{input.label}</span>
+              </label>
+              <select onChange={handleInputChange} name={input.name} defaultValue={inputValues[input.name]} className="input input-accent">
+                <option value="DEACTIVE">DEACTIVE</option>
+                <option value="PENDING">PENDING</option>
+                <option value="ACTIVE">ACTIVE</option>
+              </select>
+            </div>
+
+            : <div key={input.name} className="form-control">
+              <label className="label">
+                <span className="label-text">{input.label}</span>
+              </label>
+              <input
+                className="input input-accent"
+                type={input.type}
+                name={input.name}
+                value={inputValues[input.name] || ""}
+                onChange={handleInputChange}
+              />
+            </div>
         ))}
         <div className="modal-action">
           {showCloseButton && (
