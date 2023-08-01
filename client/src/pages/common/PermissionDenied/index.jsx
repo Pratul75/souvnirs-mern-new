@@ -1,17 +1,18 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../routes/paths";
+import PermissionDeniedImage from "../../../assets/images/permissionDenied.png";
 
 const PermissionDenied = () => {
   return (
     <div className="flex items-center justify-center h-screen bg-base-200">
-      <div className="p-8 bg-base-100 rounded shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">
-          403 Forbidden - Permission Denied
+      <div className="p-8 flex justify-center flex-col">
+        <img src={PermissionDeniedImage} alt="" />
+
+        <h1 className="text-4xl text-center my-4 font-bold">
+          Permission Denied
         </h1>
-        <p className="text-lg mb-4">
-          Oops! You don't have permission to access this page.
-        </p>
-        <Link to={PATHS.login} className="btn btn-accent">
+
+        <Link to={PATHS.login} className="btn bg-themeColor text-white">
           Go Back
         </Link>
       </div>

@@ -7,12 +7,10 @@ import { motion } from "framer-motion";
 import { headerVariant } from "../animation";
 
 const AppLayout = ({ children }) => {
-  const [breadcrumbs, setBreadcrumbs] = useState([]); // State to manage breadcrumbs
-  const location = useLocation(); // Get the current location using useLocation hook from react-router-dom
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+  const location = useLocation();
 
-  // useEffect to update breadcrumbs whenever the route changes
   useEffect(() => {
-    // Split the pathname by '/'
     const pathParts = location.pathname
       .split("/")
       .filter((part) => part !== "");
@@ -38,7 +36,7 @@ const AppLayout = ({ children }) => {
           variants={headerVariant}
           initial="initial"
           animate="animate"
-          className="py-4 px-8 bg-blue-50 rounded-t-xl"
+          className="hidden md:block py-4 px-8 m-4 bg-blue-50 rounded-xl"
         >
           <ol className="list-reset flex text-base-content">
             <li>

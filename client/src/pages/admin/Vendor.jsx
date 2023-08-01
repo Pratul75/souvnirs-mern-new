@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, Modal, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
@@ -171,6 +171,16 @@ const Vendor = () => {
         heading="Vendor"
         subheading="This subheading exists because it is required to add a very brief detail about every page on the banner."
       />
+      <div className="mt-4 overflow-x-auto">
+        <div className="flex justify-end mb-4">
+          <Link
+            to={PATHS.adminCreateVendor}
+            className="btn bg-themeColor font-thin text-white w-48"
+          >
+            Create new
+          </Link>
+        </div>
+      </div>
       <div className="mt-4">
         <ReusableTable
           columns={columns}
@@ -183,14 +193,6 @@ const Vendor = () => {
           pageSize={10}
           onEdit={handleEdit}
         />
-        <button
-          onClick={() => {
-            navigate(PATHS.adminCreateVendor);
-          }}
-          className="absolute top-0  right-0 btn btn-accent"
-        >
-          Create New
-        </button>
       </div>
       <Modal
         id="vendor_edit_modal"
