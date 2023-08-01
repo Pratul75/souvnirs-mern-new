@@ -5,10 +5,11 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { headerVariant } from "../animation";
-
+import { useSelector } from "react-redux";
 const AppLayout = ({ children }) => {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const location = useLocation();
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
 
   useEffect(() => {
     const pathParts = location.pathname
@@ -36,7 +37,9 @@ const AppLayout = ({ children }) => {
           variants={headerVariant}
           initial="initial"
           animate="animate"
-          className="hidden md:block py-4 px-8 m-4 bg-blue-50 rounded-xl"
+          className={`hidden md:block py-4 px-8 m-4 ${
+            darkMode ? "bg-blue-950" : "bg-blue-50"
+          } rounded-xl`}
         >
           <ol className="list-reset flex text-base-content">
             <li>
