@@ -7,7 +7,32 @@ const getAllCarts = async (req, res) => {
     const { role } = req;
     let carts;
     if (role === "admin") {
-      carts = await Cart.find();
+      carts = await Cart.aggregate([
+        {
+          '$lookup': {
+            'from': 'customers',
+            'localField': 'customer_id',
+            'foreignField': '_id',
+            'as': 'customer'
+          }
+        }, {
+          '$unwind': {
+            'path': '$customer'
+          }
+        }, {
+          '$project': {
+            'name': {
+              '$concat': [
+                '$customer.firstName', '  ', '$customer.lastName'
+              ]
+            },
+            'product_name': 1,
+            'customer_id': 1,
+            'product_quantity': 1,
+            'product_price': 1
+          }
+        }
+      ]);
     }
     if (role === "vendor") {
       const aggregationQuery = [

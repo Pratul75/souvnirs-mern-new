@@ -14,9 +14,10 @@ const Cart = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Customer ID",
-        accessor: "customer_id",
+        Header: "Name",
+        accessor: `name`,
       },
+
 
       {
         Header: "Product Name",
@@ -99,7 +100,7 @@ const Cart = () => {
       <Header
         heading="Cart"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w wdefd fjhr f4 wedr w  "
-        // image={HeaderImgTwo}
+      // image={HeaderImgTwo}
       />
       <div className="mt-8">
         <ReusableTable
