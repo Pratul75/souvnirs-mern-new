@@ -128,8 +128,8 @@ const Categories = () => {
   }, []);
 
   useEffect(() => {
-    console.log("SELECTED ATTRIBUTES: ", selectedAttributes);
   }, [selectedAttributes]);
+  console.log("SELECTED ATTRIBUTES: ", editedRow);
 
   useEffect(() => {
     // Set default selected values for MultiSelect based on selectedRow.attributes
@@ -146,6 +146,7 @@ const Categories = () => {
       : [];
     setSelectedAttributes(defaultSelectedAttributes);
   }, [selectedRow, attributesList]);
+  console.log('Categories.jsx', selectedRow);
 
   return (
     <>
