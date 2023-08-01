@@ -34,7 +34,6 @@ const AddCustomer = () => {
     const { confirmPassword, ...formData } = data;
     formData.password = confirmPassword;
     console.log("CUSTOMER FORM DATA: ", formData);
-  
   };
 
   return (
