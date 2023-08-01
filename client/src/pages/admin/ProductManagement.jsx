@@ -1,6 +1,6 @@
 import { Header, ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
 import { getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";

@@ -10,7 +10,7 @@ import {
 } from "../../features/appConfig/appSlice";
 import RouteNavigator from "../RouterNavigator";
 import { useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 
 const Navbar = () => {
   const navigate = useNavigate();
