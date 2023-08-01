@@ -167,7 +167,7 @@ const AddCollection = () => {
       console.error("Error occurred while posting raw filter data", error);
     }
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const postCollection = async (payload) => {
     const response = await API_WRAPPER.post(
@@ -176,7 +176,7 @@ const AddCollection = () => {
     );
     if (response.status === 201) {
       console.log("COLLECTION CREATED SUCCESSFULL", response?.data);
-      Navigate(PATHS.adminCollection)
+      Navigate(PATHS.adminCollection);
     }
   };
 
@@ -224,8 +224,6 @@ const AddCollection = () => {
       }));
     }
   };
-
-
 
   const handleSelectedObjectChange = useCallback((selectedRows, activeRows) => {
     setDeactivatedProducts(selectedRows);
@@ -280,11 +278,14 @@ const AddCollection = () => {
 
       if (selectedCondition) {
         console.log("vl", selectedCondition);
-        const filteredConditionValues = conditionValueList.filter((condition) => {
-          console.log('AddCollection.jsx', condition);
-          return selectedCondition.result.some((val) => val.conditionValue === condition.conditionValue);
-        });
-
+        const filteredConditionValues = conditionValueList.filter(
+          (condition) => {
+            console.log("AddCollection.jsx", condition);
+            return selectedCondition.result.some(
+              (val) => val.conditionValue === condition.conditionValue
+            );
+          }
+        );
 
         updatedFilterDivStates;
         const updatedFilterDivStatesWithConditionValue =
@@ -313,7 +314,7 @@ const AddCollection = () => {
       }
     });
   };
-  console.log('AddCollection.jsx', deactivatedProducts);
+  console.log("AddCollection.jsx", deactivatedProducts);
 
   // handle condition value change
   const handleConditionValueChange = (index, value) => {
@@ -383,7 +384,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-      // image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
@@ -598,6 +599,7 @@ const AddCollection = () => {
                 Deactivate
               </button>
               <ReusableTable
+                tableTitle="Filtered Products"
                 key={"react-table-23-edffk"}
                 showButtons
                 isSelectable={true}
