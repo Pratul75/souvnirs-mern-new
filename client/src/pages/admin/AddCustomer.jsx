@@ -1,9 +1,11 @@
-import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { FormInput, Header } from "../../components";
-
+import API_WRAPPER from "../../api";
+import { debouncedShowToast } from "../../utils";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
@@ -22,6 +24,7 @@ const schema = yup.object().shape({
 });
 
 const AddCustomer = () => {
+  const navigate = useNavigate();
   const {
     control,
     handleSubmit,
@@ -34,6 +37,17 @@ const AddCustomer = () => {
     const { confirmPassword, ...formData } = data;
     formData.password = confirmPassword;
     console.log("CUSTOMER FORM DATA: ", formData);
+    try {
+      const response = await API_WRAPPER.post(
+        "/auth/register/customer",
+        formData
+      );
+      if (response.status === 200) {
+        debouncedShowToast("Customer added successfully", "success");
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
   };
 
   return (
@@ -127,6 +141,7 @@ const AddCustomer = () => {
           Add Customer
         </button>
       </form>
+      <ToastContainer />
     </div>
   );
 };
