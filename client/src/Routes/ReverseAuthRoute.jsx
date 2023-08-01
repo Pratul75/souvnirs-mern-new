@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { PATHS } from "../routes/paths";
+import { PATHS } from "../Routes/paths";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 const ReverseAuthRoute = ({ children }) => {
