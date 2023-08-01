@@ -310,7 +310,7 @@ const AddDiscount = () => {
                   className="input input-accent w-full"
                 >
                   {customers.map((customer) => (
-                    <option>
+                    <option key={nanoid()}>
                       {" "}
                       {`${customer.firstName}(${customer.email})`}
                     </option>
