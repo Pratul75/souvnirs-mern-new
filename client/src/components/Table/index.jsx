@@ -122,7 +122,7 @@ const ReusableTable = ({
   if (enablePagination && data.length === 0) {
     return (
       <div className="text-center mt-4">
-        <p>No data to display.</p>
+        <span className="loading  loading-ring loading-lg text-accent"></span>
       </div>
     );
   }
