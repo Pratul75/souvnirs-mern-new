@@ -27,12 +27,15 @@ const Coupons = () => {
     setSelectedRow({ ...selectedRow, [e.target.name]: e.target.value });
   };
   const submitEditedRow = async (e) => {
+    // console.log("Coupons.jsx", selectedRow._id);
     e.preventDefault();
-    console.log("Coupons.jsx", couponId._id);
     const response = await API_WRAPPER.put(
-      `/coupon/update-coupon/:${couponId._id}`
+      `/coupon/update-coupon/:${selectedRow._id}`,
+      selectedRow
     );
     console.log("Coupons.jsx", response);
+    window.edit_coupon_modal.close()
+    setApiTrigger(prev => !prev);
   };
 
   const editHandler = async (row) => {
@@ -43,7 +46,7 @@ const Coupons = () => {
 
   const deleteCoupons = async () => {
     const response = await API_WRAPPER.delete(
-      `/coupon/delete-coupon/:${couponId._id}`
+      `/coupon/delete-coupon/:${selectedRow._id}`
     );
     setApiTrigger((prevState) => !prevState);
     console.log("DELETE DISCOUNT RESPONSE: ", response?.data);

@@ -14,7 +14,7 @@ const createModal = async (req, res) => {
 // Controller to get all coupons
 const getAllCoupons = async (req, res) => {
   try {
-    const coupons = await CouponModal.find();
+    const coupons = await CouponModal.find().sort({ updatedA: -1 })
     res.status(200).json(coupons);
   } catch (err) {
     res.status(400).json({ error: "somthing went wrong" });
@@ -38,7 +38,7 @@ const getCouponById = async (req, res) => {
 const updateCouponById = async (req, res) => {
   try {
     const updatedCoupon = await CouponModal.findByIdAndUpdate(
-      req.params.id,
+      req.params.id.substring(1),
       req.body,
       { new: true }
     );
