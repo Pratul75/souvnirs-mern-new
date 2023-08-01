@@ -5,7 +5,7 @@ import {
   PermissionDenied,
   PageNotFound,
 } from "./pages";
-import AppLayout from "./layouts/AppLayout";
+import AppLayout from "./Layouts/AppLayout";
 import { adminRoutes, vendorRoutes, customerRoutes } from "./Routes/routes";
 import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
