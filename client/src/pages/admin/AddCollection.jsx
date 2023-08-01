@@ -11,6 +11,8 @@ import {
   fadeInFromRightVariant,
   fadeInVariants,
 } from "../../animation";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
 
 const AddCollection = () => {
   const initialFormData = {
@@ -165,14 +167,16 @@ const AddCollection = () => {
       console.error("Error occurred while posting raw filter data", error);
     }
   };
+  const navigate = useNavigate()
 
   const postCollection = async (payload) => {
     const response = await API_WRAPPER.post(
       "/collection/create-collection",
       payload
     );
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log("COLLECTION CREATED SUCCESSFULL", response?.data);
+      Navigate(PATHS.adminCollection)
     }
   };
 
@@ -188,28 +192,40 @@ const AddCollection = () => {
   };
 
   const handleAddFilter = () => {
-    if (filterDivStates.length < conditionValueList.length) {
-      setFilterDivStates((prevStates) => [
-        ...prevStates,
-        {
-          selectedTitle: "",
-          conditionValue: "",
-          inputValue: "",
-        },
-      ]);
-    }
+    setFormData((prevFormData) => {
+      const { filterDivStates } = prevFormData;
+      if (!Array.isArray(filterDivStates)) {
+        // If filterDivStates is not an array, create a new array with the existing state as the first element
+        return {
+          ...prevFormData,
+          filterDivStates: [prevFormData.filterDivStates],
+        };
+      }
+
+      return {
+        ...prevFormData,
+        filterDivStates: [
+          ...filterDivStates,
+          {
+            selectedTitle: "",
+            conditionValue: "",
+            inputValue: "",
+          },
+        ],
+      };
+    });
   };
 
   const handleRemoveFilter = (index) => {
-    if (filterDivCount > 1) {
-      setFilterDivCount((prevCount) => prevCount - 1);
+    if (formData.filterDivStates.length > 1) {
       setFormData((prevData) => ({
         ...prevData,
-        filterDivCount: prevData.filterDivCount - 1, // Use prevData.filterDivCount instead of prevCount
         filterDivStates: prevData.filterDivStates.filter((_, i) => i !== index),
       }));
     }
   };
+
+
 
   const handleSelectedObjectChange = useCallback((selectedRows, activeRows) => {
     setDeactivatedProducts(selectedRows);
@@ -264,14 +280,11 @@ const AddCollection = () => {
 
       if (selectedCondition) {
         console.log("vl", selectedCondition);
-        const filteredConditionValues = conditionValueList.filter(
-          (condition) => {
-            console.log("AddCollection.jsx", condition);
-            return selectedCondition.result.some(
-              (val) => val.conditionValue === condition.conditionValue
-            );
-          }
-        );
+        const filteredConditionValues = conditionValueList.filter((condition) => {
+          console.log('AddCollection.jsx', condition);
+          return selectedCondition.result.some((val) => val.conditionValue === condition.conditionValue);
+        });
+
 
         updatedFilterDivStates;
         const updatedFilterDivStatesWithConditionValue =
@@ -300,7 +313,7 @@ const AddCollection = () => {
       }
     });
   };
-  console.log("AddCollection.jsx", deactivatedProducts);
+  console.log('AddCollection.jsx', deactivatedProducts);
 
   // handle condition value change
   const handleConditionValueChange = (index, value) => {
@@ -370,7 +383,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
@@ -418,14 +431,14 @@ const AddCollection = () => {
                 <option value="DEACTIVE">DEACTIVE</option>
               </select>
             </div>
-            <div className="flex gap-2 mt-4">
+            {/* <div className="flex gap-2 mt-4">
               <button className="bg-themeColor btn rounded-full text-white">
                 Publish
               </button>
               <button className="bg-[#5B6B79] btn rounded-full text-white">
                 Cancel
               </button>
-            </div>
+            </div> */}
           </motion.div>
           {/* description */}
           <motion.div
