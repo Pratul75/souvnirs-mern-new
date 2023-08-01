@@ -14,10 +14,6 @@ const Cart = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Cart ID",
-        accessor: "_id",
-      },
-      {
         Header: "Customer ID",
         accessor: "customer_id",
       },
@@ -113,6 +109,8 @@ const Cart = () => {
           showButtons
           enableDelete
           enableEdit
+          enablePagination
+          pageSize={10}
           onEdit={handleEdit}
           onDelete={handleDelete}
         />

@@ -15,6 +15,9 @@ const Payment = () => {
   };
 
   useEffect(() => {
+    console.log("ORDER LIST: ", ordersList);
+  }, [ordersList]);
+  useEffect(() => {
     getOrders();
   }, []);
 
@@ -51,15 +54,16 @@ const Payment = () => {
       <Header
         heading="Payments"
         subheading="This is a subheading for the payments section. This subheading contins necessary details that are required by user to know about payments page"
-      // image={PaymentBanner}
+        // image={PaymentBanner}
       />
 
       <div className="mt-4">
         <ReusableTable
-          tableTitle="payment List"
+          tableTitle="Payment List"
           columns={columns}
           data={data}
           enablePagination
+          pageSize={10}
           showButtons={false}
         />
       </div>
