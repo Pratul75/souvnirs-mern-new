@@ -163,6 +163,7 @@ const Customer = () => {
           country: selectedRow?.country,
           city: selectedRow?.city,
           pincode: selectedRow?.pincode,
+          status: selectedRow?.status,
         }}
         inputs={[
           {
@@ -204,6 +205,12 @@ const Customer = () => {
             label: "Pin Code",
             type: "text",
             name: "pincode",
+          },
+
+          {
+            label: "Status",
+            type: "select",
+            name: "status",
           },
         ]}
       />

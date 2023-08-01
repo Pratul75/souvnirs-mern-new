@@ -25,7 +25,7 @@ const AppLayout = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="h-screen flex ">
+    <div className="h-screen flex">
       {/* sidebar */}
       <Sidebar />
       {/* navbar and app layout */}
