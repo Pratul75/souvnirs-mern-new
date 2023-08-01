@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const { connect } = require("./db/db");
-const helmet = require("helmet");
 // route imports
 const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
@@ -32,7 +31,6 @@ const morgan = require("morgan");
 const app = express();
 // middleware
 app.use(express.json());
-app.use(helmet());
 app.use(cors());
 app.use(morgan("dev"));
 // connect to db
