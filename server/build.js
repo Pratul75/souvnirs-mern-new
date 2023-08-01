@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const srcDir = "src";
+const srcDir = "./";
 const distDir = "dist";
 
 function copyFiles(src, dest) {
