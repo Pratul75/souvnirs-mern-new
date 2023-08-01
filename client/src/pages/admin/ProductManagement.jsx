@@ -6,7 +6,7 @@ import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
-
+import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -143,7 +143,7 @@ const ProductManagement = () => {
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        // image={HeaderImgTwo}
+        image={ProductManagementBannerImage}
       />
       <div className="w-full gap-4 mt-14">
         <div className="flex justify-end">

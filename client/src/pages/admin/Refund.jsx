@@ -1,9 +1,9 @@
 import { Header, ReusableTable } from "../../components";
-// import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { nanoid } from "nanoid";
+import RefundBannerImage from "../../assets/bannerImages/refundImage.png";
 
 const Refund = () => {
   const [refundList, setRefundList] = useState([]);
@@ -142,7 +142,7 @@ const Refund = () => {
       <Header
         heading="Refunds"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-        // image={HeaderImgTwo}
+        image={RefundBannerImage}
       />
       <div className="mt-8">
         <ReusableTable

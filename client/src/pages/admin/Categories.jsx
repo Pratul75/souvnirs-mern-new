@@ -1,14 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-// import CategoryBannerImg from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
 import { MultiSelect } from "react-multi-select-component";
-
+import CategoryManagementBanner from "../../assets/bannerImages/categoryManagementImage.png";
 const Categories = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [attributesList, setAttributesList] = useState([]);
@@ -127,33 +126,32 @@ const Categories = () => {
     getAllAttributes();
   }, []);
 
-  useEffect(() => {
-  }, [selectedAttributes]);
+  useEffect(() => {}, [selectedAttributes]);
   console.log("SELECTED ATTRIBUTES: ", editedRow);
 
   useEffect(() => {
     // Set default selected values for MultiSelect based on selectedRow.attributes
     const defaultSelectedAttributes = selectedRow.attributes
       ? selectedRow.attributes.map((attributeId) => {
-        const attribute = attributesList.find(
-          (attr) => attr._id === attributeId
-        );
-        return {
-          label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
-          value: attributeId,
-        };
-      })
+          const attribute = attributesList.find(
+            (attr) => attr._id === attributeId
+          );
+          return {
+            label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
+            value: attributeId,
+          };
+        })
       : [];
     setSelectedAttributes(defaultSelectedAttributes);
   }, [selectedRow, attributesList]);
-  console.log('Categories.jsx', selectedRow);
+  console.log("Categories.jsx", selectedRow);
 
   return (
     <>
       <Header
         heading="Category Management"
-        subheading="This is a subheading for the category management section. This subheading contains necessary details that are required by the user to know about the category page "
-      // image={CategoryBannerImg}
+        subheading="This is a subheading for the category management section. This subheading contains necessary details."
+        image={CategoryManagementBanner}
       />
 
       <div className="w-full  gap-4 mt-14">
@@ -179,16 +177,11 @@ const Categories = () => {
           pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
-
         />
 
         {/* edit modal */}
         <dialog id="categories_edit_modal" className="modal">
-          <form
-
-            method="dialog"
-            className="modal-box"
-          >
+          <form method="dialog" className="modal-box">
             <h3 className="font-bold text-lg">Hello!</h3>
             <div>
               <div className="form-control">
@@ -260,7 +253,11 @@ const Categories = () => {
 
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button type="button" onClick={(e) => submitEditedRow(e)} className="btn btn-accent">
+              <button
+                type="button"
+                onClick={(e) => submitEditedRow(e)}
+                className="btn btn-accent"
+              >
                 Save changes
               </button>
               <button

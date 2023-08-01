@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
 import { Modal } from "../../components";
+import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
 const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -37,7 +38,6 @@ const Discounts = () => {
 
   const columns = useMemo(
     () => [
-
       {
         Header: "Title",
         accessor: "title",
@@ -162,6 +162,7 @@ const Discounts = () => {
       <Header
         heading="Discounts"
         subheading="This subheading is for coupons and discounts page. This is here to let user know that this page has coupons details."
+        image={DiscountBannerImage}
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">

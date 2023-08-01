@@ -1,5 +1,4 @@
 import { Header, ReusableTable } from "../../components";
-import PaymentBanner from "../../assets/images/collectionBannerImg.png";
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
 const Payment = () => {

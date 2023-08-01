@@ -9,8 +9,9 @@ import {
 } from "../../animation";
 import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
-import { useNavigate } from "react-router-dom"
-import { PATHS } from "../../Routes/paths"
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
+import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
 
 const AddDiscount = () => {
   const [discountData, setDiscountData] = useState({});
@@ -80,7 +81,7 @@ const AddDiscount = () => {
       console.error("Error occured while getting all categories", error);
     }
   };
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const postDiscount = async () => {
     const response = await API_WRAPPER.post(
@@ -89,8 +90,7 @@ const AddDiscount = () => {
     );
     if (response.status === 201) {
       console.log("DISCOUNT DATA POSTED: ", response.data);
-      navigate(PATHS.adminDiscounts)
-
+      navigate(PATHS.adminDiscounts);
     }
   };
 
@@ -163,7 +163,6 @@ const AddDiscount = () => {
 
       default:
         break;
-
     }
     await postDiscount();
     console.log("DISCOUNTS OBJECT: ", discountData);
@@ -181,11 +180,9 @@ const AddDiscount = () => {
 
   const handleAddFilteredItemToState = (item) => {
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
-    window.applied_to_search_modal.close()
-
+    window.applied_to_search_modal.close();
   };
-  console.log('AddDiscount.jsx', appliedToFilteredItemsObjects);
-
+  console.log("AddDiscount.jsx", appliedToFilteredItemsObjects);
 
   useEffect(() => {
     console.log("APPIELD SEARCH FILTERED ARR: ", appliedToFilteredState);
@@ -203,6 +200,7 @@ const AddDiscount = () => {
       <Header
         heading="Add Discount"
         subheading="This is a sub heading for the add discount section which reminds us to put a brief description about the Add Discounts page"
+        image={DiscountBannerImage}
       />
       <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-4 gap-4">
         {/* amount of products -> Method */}
@@ -733,42 +731,44 @@ const AddDiscount = () => {
           </div>
           {appliedToFilteredState[0]?.name
             ? appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  whileTap={{ scale: 0.8 }}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    whileTap={{ scale: 0.8 }}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Name: {filteredObj?.name}</p>
-                  {/* <p>ID: {filteredObj?._id}</p> */}
-                </motion.div>
-              );
-            })
+                  >
+                    <p>Name: {filteredObj?.name}</p>
+                    {/* <p>ID: {filteredObj?._id}</p> */}
+                  </motion.div>
+                );
+              })
             : appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Title: {filteredObj?.title}</p>
-                  <p>ID: {filteredObj?._id}</p>
-                </motion.div>
-              );
-            })}
+                  >
+                    <p>Title: {filteredObj?.title}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })}
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}

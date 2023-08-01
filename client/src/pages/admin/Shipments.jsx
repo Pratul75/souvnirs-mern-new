@@ -1,7 +1,7 @@
 import { Header, ReusableTable } from "../../components";
-import PaymentBanner from "../../assets/images/collectionBannerImg.png";
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
+import ShipmentBannerImage from "../../assets/bannerImages/shipmentImage.png";
 const Shipment = () => {
   const [ordersList, setOrdersList] = useState([]);
 
@@ -40,7 +40,7 @@ const Shipment = () => {
       <Header
         heading="Shipments"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w"
-      // image={PaymentBanner}
+        image={ShipmentBannerImage}
       />
 
       <div className="mt-20">

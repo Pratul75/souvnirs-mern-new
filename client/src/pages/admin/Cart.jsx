@@ -4,7 +4,7 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { ToastContainer } from "react-toastify";
-
+import CartBannerImage from "../../assets/bannerImages/productManagementImage.png";
 const Cart = () => {
   const [cartList, setCartList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -17,7 +17,6 @@ const Cart = () => {
         Header: "Name",
         accessor: `name`,
       },
-
 
       {
         Header: "Product Name",
@@ -100,7 +99,7 @@ const Cart = () => {
       <Header
         heading="Cart"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. sdfsdfse drf qwdefd fjhr f4 wedr w wdefd fjhr f4 wedr w  "
-      // image={HeaderImgTwo}
+        image={CartBannerImage}
       />
       <div className="mt-8">
         <ReusableTable

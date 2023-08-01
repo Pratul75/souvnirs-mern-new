@@ -1,5 +1,4 @@
 import { Dropzone, Header, Tabs } from "../../components";
-import HeaderImgTwo from "../../assets/images/headerImgTwo.png";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import ReactQuill from "react-quill";
@@ -9,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { MultiSelect } from "react-multi-select-component";
-
+import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 // add products
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -275,7 +274,6 @@ const AddProduct = () => {
             >
               {a}
               <div className="flex flex-col md:flex-row">
-
                 <input
                   name={a}
                   placeholder="price"
@@ -288,7 +286,8 @@ const AddProduct = () => {
                   placeholder="Quantity"
                   onChange={(e) => handleattTypeInputs(e, "quantity")}
                   className="input input-accent flex-1"
-                /></div>
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -421,7 +420,7 @@ const AddProduct = () => {
       <Header
         heading="Add Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
-      // image={HeaderImgTwo}
+        image={ProductBannerImage}
       />
       <div className="w-full mt-8">
         <div className="grid grid-cols-6 gap-4">

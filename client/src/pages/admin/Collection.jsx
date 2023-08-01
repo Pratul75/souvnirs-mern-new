@@ -5,7 +5,7 @@ import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { ToastContainer } from "react-toastify";
-
+import CollectionBannerImage from "../../assets/bannerImages/collectionImage.png";
 const Collection = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -24,7 +24,7 @@ const Collection = () => {
       debouncedShowToast(error.message, "error");
     }
   };
-  console.log('Collection.jsx', selectedRow);
+  console.log("Collection.jsx", selectedRow);
 
   const columns = useMemo(
     () => [
@@ -46,10 +46,11 @@ const Collection = () => {
     ],
     []
   );
+
   const handleEditChange = (e) => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
   };
-  console.log('Collection.jsx', editedRow);
+  console.log("Collection.jsx", editedRow);
 
   const data = useMemo(() => collectionList, [collectionList]);
 
@@ -61,7 +62,7 @@ const Collection = () => {
 
   const submitEditedRow = async (e) => {
     e.preventDefault();
-    console.log('Collection.jsx', editedRow);
+    console.log("Collection.jsx", editedRow);
     const response = await API_WRAPPER.put(
       `collection/update-collection-by-id/:${selectedRow._id}`,
       { ...editedRow }
@@ -100,13 +101,14 @@ const Collection = () => {
   }, [apiTrigger]);
 
   const getFlatRowsData = (data) => {
-    console.log('Collection.jsx', data);
-  }
+    console.log("Collection.jsx", data);
+  };
   return (
     <div>
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
+        image={CollectionBannerImage}
       />
       <div>
         <div className="flex justify-end my-4">
@@ -131,7 +133,11 @@ const Collection = () => {
 
       {/* edit modal */}
       <dialog id="collection_edit_modal" className="modal">
-        <form onSubmit={(e) => submitEditedRow(e)} method="dialog" className="modal-box">
+        <form
+          onSubmit={(e) => submitEditedRow(e)}
+          method="dialog"
+          className="modal-box"
+        >
           <h3 className="font-bold text-lg">Hello!</h3>
           <div>
             <div className="form-control">
@@ -164,7 +170,6 @@ const Collection = () => {
               <div className="label">
                 <span>Select Attributes</span>
               </div>
-
             </div>
 
             <div className="form-control col-span-1">

@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-// import OrderManagementBannerImg from "../../assets/images/orderManagementBanner.png";
+
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
+import OrderManagementBanner from "../../assets/bannerImages/orderManagementImage.png";
 const OrderManagement = () => {
   const [orderTableList, setOrderTableList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -93,8 +94,8 @@ const OrderManagement = () => {
     <div>
       <Header
         heading="Order Management"
-        subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
-      // image={OrderManagementBannerImg}
+        subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed dt"
+        image={OrderManagementBanner}
       />
       <div className="mt-10">
         <ReusableTable

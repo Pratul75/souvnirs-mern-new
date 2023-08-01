@@ -4,6 +4,7 @@ import API_WRAPPER from "../../api";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import VendorBannerImage from "../../assets/bannerImages/vendorImage.png";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);
   const [storeList, setStoreList] = useState([]);
@@ -106,7 +107,7 @@ const Vendor = () => {
         setStoreList(response?.data?.stores);
       }
     } catch (error) {
-      y
+      y;
       console.error("Error occurred while fetching all storeList", error);
     }
   };
@@ -170,6 +171,7 @@ const Vendor = () => {
       <Header
         heading="Vendor"
         subheading="This subheading exists because it is required to add a very brief detail about every page on the banner."
+        image={VendorBannerImage}
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">
@@ -209,7 +211,7 @@ const Vendor = () => {
           country: selectedRow?.store?.country,
           city: selectedRow?.store?.city,
           pincode: selectedRow?.store?.pin_code,
-          status: selectedRow?.status
+          status: selectedRow?.status,
         }}
         inputs={[
           {

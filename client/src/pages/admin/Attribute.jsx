@@ -5,11 +5,11 @@ import { ToastContainer } from "react-toastify";
 import ReusableTable from "../../components/Table";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
-import API_WRAPPER from "../../api"
+import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { getStatusStyles, debouncedShowToast } from "../../utils";
 import "react-toastify/dist/ReactToastify.css";
-
+import AttributeBannerImage from "../../assets/bannerImages/attributesImage.png";
 const Attributes = () => {
   const [attributesList, setAttributesList] = useState([]);
   const [getApiTrigger, setGetApiTrigger] = useState(false);
@@ -110,7 +110,7 @@ const Attributes = () => {
       <Header
         heading="Attribute Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. asdasd wda sw3e awe "
-      // image={CategoryBnnerImng}
+        image={AttributeBannerImage}
       />
 
       <div className="w-full flex justify-end gap-4 mt-8"></div>
@@ -138,11 +138,7 @@ const Attributes = () => {
         />
         {/* edit modal */}
         <dialog id="attributes_edit_modal" className="modal">
-          <form
-
-            method="dialog"
-            className="modal-box"
-          >
+          <form method="dialog" className="modal-box">
             <h3 className="font-bold text-lg">Edit Attribute</h3>
             <div>
               <div className="form-control">
@@ -175,7 +171,11 @@ const Attributes = () => {
               </div>
             </div>
             <div className="modal-action flex gap-4">
-              <button type="button" onClick={(e) => handleFormSubmit(e)} className="btn btn-accent">
+              <button
+                type="button"
+                onClick={(e) => handleFormSubmit(e)}
+                className="btn btn-accent"
+              >
                 Save Changes
               </button>
               <button

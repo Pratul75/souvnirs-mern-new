@@ -5,6 +5,7 @@ import API_WRAPPER from "../../api";
 import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
+import CustomerListBannerImage from "../../assets/bannerImages/customerListImage.png";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
@@ -125,6 +126,7 @@ const Customer = () => {
       <Header
         heading="Customer"
         subheading="This is a customers page which provides information regarding all the customers that are present in the application"
+        image={CustomerListBannerImage}
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">

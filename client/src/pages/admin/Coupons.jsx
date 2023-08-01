@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { getStatusStyles } from "../../utils";
-
+import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
 const Coupons = () => {
   const [couponsList, setCouponsList] = useState([]);
   const [couponId, setCouponId] = useState(null);
@@ -34,8 +34,8 @@ const Coupons = () => {
       selectedRow
     );
     console.log("Coupons.jsx", response);
-    window.edit_coupon_modal.close()
-    setApiTrigger(prev => !prev);
+    window.edit_coupon_modal.close();
+    setApiTrigger((prev) => !prev);
   };
 
   const editHandler = async (row) => {
@@ -135,6 +135,7 @@ const Coupons = () => {
       <Header
         heading="Coupons"
         subheading="This subheading is for coupons and discounts page. This is here to let user know that this page has coupons details."
+        image={DiscountBannerImage}
       />
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Coupons List</h1>

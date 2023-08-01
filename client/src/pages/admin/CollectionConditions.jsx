@@ -8,6 +8,7 @@ import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
 import { ToastContainer } from "react-toastify";
+import CollectionBannerImage from "../../assets/bannerImages/collectionImage.png";
 const CollectionConditions = () => {
   const [collectionConditions, setCollectionConditions] = useState(null);
   const [collectionConditionList, setCollectionConditionList] = useState([]);
@@ -200,7 +201,7 @@ const CollectionConditions = () => {
       <Header
         heading="Collection Conditions"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Ipsum is simply dummy text of the printing and typesetting industry.  "
-        // image={CollectionBannerImg}
+        image={CollectionBannerImage}
       />
       <motion.form
         initial="initial"
