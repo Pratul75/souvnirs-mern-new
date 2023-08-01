@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an instance of Axios
 const API_WRAPPER = axios.create({
-  baseURL: "http://localhost:8080/",
+  baseURL: "https://souvnirs-server.onrender.com/",
 });
 
 const handleLogout = () => {
