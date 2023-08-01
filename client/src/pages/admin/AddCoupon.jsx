@@ -9,6 +9,8 @@ import {
 } from "../../animation";
 import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
 const AddCoupon = () => {
   const [couponData, setCouponData] = useState({});
   console.log("AddCoupon.jsx", couponData);
@@ -40,6 +42,7 @@ const AddCoupon = () => {
     useState([]);
   const [couponCode, setCouponCode] = useState(null);
   const [customers, setCustomers] = useState();
+  const navigate = useNavigate()
 
   // get all categories
   const getAllCategories = async () => {
@@ -81,8 +84,9 @@ const AddCoupon = () => {
       ...couponData,
       couponCode: couponCode,
     });
-    if (response.status === 200) {
+    if (response.status === 201) {
       console.log("DISCOUNT DATA POSTED: ", response.data);
+      navigate(PATHS.adminCoupons)
     }
   };
 
@@ -168,7 +172,7 @@ const AddCoupon = () => {
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
-  const fetchUsers = () => {};
+  const fetchUsers = () => { };
 
   const handleAppliedToSearch = (e) => {
     setAppliedToSearchInput(e.target.value);
@@ -177,7 +181,10 @@ const AddCoupon = () => {
 
   const handleAddFilteredItemToState = (item) => {
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
+    window.applied_to_search_modal.close()
   };
+
+  console.log('AddCoupon.jsx', appliedToFilteredItemsObjects);
 
   const generateCouponCode = (length = 8) => {
     const characters =
@@ -761,44 +768,42 @@ const AddCoupon = () => {
           </div>
           {appliedToFilteredState[0]?.name
             ? appliedToFilteredState.map((filteredObj) => {
-                return (
-                  <motion.div
-                    variants={buttonVariants}
-                    whileTap={{ scale: 0.8 }}
-                    initial="initial"
-                    whileHover="hover"
-                    onClick={() => handleAddFilteredItemToState(filteredObj)}
-                    key={nanoid()}
-                    className={` ${
-                      appliedToFilteredItemsObjects.includes(filteredObj)
-                        ? "bg-accent"
-                        : "bg-base-200"
+              return (
+                <motion.div
+                  variants={buttonVariants}
+                  whileTap={{ scale: 0.8 }}
+                  initial="initial"
+                  whileHover="hover"
+                  onClick={() => handleAddFilteredItemToState(filteredObj)}
+                  key={nanoid()}
+                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
+                    ? "bg-accent"
+                    : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                  >
-                    <p>Name: {filteredObj?.name}</p>
-                    <p>ID: {filteredObj?._id}</p>
-                  </motion.div>
-                );
-              })
+                >
+                  <p>Name: {filteredObj?.name}</p>
+                  <p>ID: {filteredObj?._id}</p>
+                </motion.div>
+              );
+            })
             : appliedToFilteredState.map((filteredObj) => {
-                return (
-                  <motion.div
-                    variants={buttonVariants}
-                    initial="initial"
-                    whileHover="hover"
-                    onClick={() => handleAddFilteredItemToState(filteredObj)}
-                    key={nanoid()}
-                    className={` ${
-                      appliedToFilteredItemsObjects.includes(filteredObj)
-                        ? "bg-accent"
-                        : "bg-base-200"
+              return (
+                <motion.div
+                  variants={buttonVariants}
+                  initial="initial"
+                  whileHover="hover"
+                  onClick={() => handleAddFilteredItemToState(filteredObj)}
+                  key={nanoid()}
+                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
+                    ? "bg-accent"
+                    : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                  >
-                    <p>Title: {filteredObj?.title}</p>
-                    <p>ID: {filteredObj?._id}</p>
-                  </motion.div>
-                );
-              })}
+                >
+                  <p>Title: {filteredObj?.title}</p>
+                  <p>ID: {filteredObj?._id}</p>
+                </motion.div>
+              );
+            })}
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}

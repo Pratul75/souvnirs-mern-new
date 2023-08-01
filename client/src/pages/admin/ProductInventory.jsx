@@ -102,6 +102,8 @@ const ProductInventory = () => {
           onDelete={handleDelete}
           showButtons={true}
           enableEdit
+          enablePagination
+          pageSize={10}
           enableDelete
         />
 
