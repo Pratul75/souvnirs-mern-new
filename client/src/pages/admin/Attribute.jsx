@@ -72,11 +72,11 @@ const Attributes = () => {
         `/attribute/update-attribute/:${selectedRow._id}`,
         editedRowObject
       );
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("ATTRIBUTE EDITED: ", response);
-        setGetApiTrigger((prevState) => !prevState);
         window.attributes_edit_modal.close();
-        navigate(PATHS.adminAttribute);
+        setGetApiTrigger((prevState) => !prevState);
+        // navigate(PATHS.adminAttribute);
         debouncedShowToast("Attribute edited successfully!", "success");
       }
     } catch (error) {
@@ -110,7 +110,7 @@ const Attributes = () => {
       <Header
         heading="Attribute Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. asdasd wda sw3e awe "
-        // image={CategoryBnnerImng}
+      // image={CategoryBnnerImng}
       />
 
       <div className="w-full flex justify-end gap-4 mt-8"></div>
