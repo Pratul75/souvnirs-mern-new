@@ -34,7 +34,7 @@ app.use(cors());
 // connect to db
 connect();
 
-app.get("/",(req,res)=>{res.status(200).json("welcome to souvnirs backend")})
+app.get("/",(req,res)=>{res.status(200).send("welcome to souvnirs backend")})
 // routes
 // product routes
 app.use(productRoutes);
