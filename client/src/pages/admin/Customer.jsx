@@ -3,7 +3,7 @@ import { Header, ReusableTable, Modal } from "../../components";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
 import { ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);
@@ -54,7 +54,7 @@ const Customer = () => {
     ],
     []
   );
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const data = useMemo(() => customerList, [customerList]);
 
@@ -124,20 +124,28 @@ const Customer = () => {
         heading="Customer"
         subheading="This is a customers page which provides information regarding all the customers that are present in the application"
       />
-      <div className="mt-4">
-        <ReusableTable
-          tableTitle="Customer List Table"
-          columns={columns}
-          data={data}
-          showButtons
-          enableDelete
-          enableEdit
-          enablePagination
-          onDelete={handleDelete}
-          onEdit={handleEdit}
-        />
-        <button onClick={() => { navigate(PATHS.adminCreateCustomer) }} className="absolute top-0  right-0 btn btn-accent" >Create New</button>
+      <div className="mt-4 overflow-x-auto">
+        <div className="flex justify-end mb-4">
+          <Link
+            to={PATHS.adminCreateCustomer}
+            className="btn bg-themeColor font-thin text-white w-48"
+          >
+            Create new
+          </Link>
+        </div>
       </div>
+
+      <ReusableTable
+        tableTitle="Customer List Table"
+        columns={columns}
+        data={data}
+        showButtons
+        enableDelete
+        enableEdit
+        enablePagination
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+      />
       <Modal
         id="edit_customer_modal"
         title="Are you sure you want to delete the selected value?"

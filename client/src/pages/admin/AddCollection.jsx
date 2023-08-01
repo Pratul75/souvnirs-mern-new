@@ -1,16 +1,14 @@
-import { Dropzone, Header, ReusableTable } from "../../components";
-// import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
-import ReactQuill from "react-quill";
-import API_WRAPPER from "../../api";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { nanoid } from "nanoid";
-import { useMemo } from "react";
+import API_WRAPPER from "../../api";
+import ReactQuill from "react-quill";
 import { motion } from "framer-motion";
 import {
   fadeInFromLeftVariant,
   fadeInFromRightVariant,
   fadeInVariants,
 } from "../../animation";
+import { Dropzone, Header, ReusableTable } from "../../components";
 
 const AddCollection = () => {
   const initialFormData = {
@@ -40,8 +38,7 @@ const AddCollection = () => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
-  console.log("AddCollection.jsx", collectionProductTableList);
-  console.log("AddCollection.jsx", activeProducts, deactivatedProducts);
+
   const columns = useMemo(
     () => [
       {
@@ -67,9 +64,8 @@ const AddCollection = () => {
       {
         Header: "On Sale",
         accessor: "onSale",
-        // TODO:  make it work in future
         Cell: ({ row }) => {
-          return <p>{row && "ON SALE"}</p>;
+          return <p>{row.onSale ? "ON SALE" : ""}</p>;
         },
       },
       {
@@ -113,7 +109,6 @@ const AddCollection = () => {
     }
   };
 
-  // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
     const changedTitleFilterArr = filterDivStates.map((filter) => {
       switch (filter.selectedTitle) {
@@ -152,10 +147,10 @@ const AddCollection = () => {
     console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
 
     try {
-      const response = await API_WRAPPER.post(
-        "/collection/filter-data",
-        changedTitleFilterArr
-      );
+      const response = await API_WRAPPER.post("/collection/filter-data", {
+        filters: changedTitleFilterArr,
+        radioSelection: radioSelection,
+      });
 
       if (response.status === 200) {
         setCollectionProductTableList(response?.data);
@@ -178,25 +173,38 @@ const AddCollection = () => {
 
   const resetForm = () => {
     setFormData(initialFormData);
-    setDescriptionValue(""); // Reset descriptionValue to an empty string
+    setDescriptionValue("");
     // Add other states that need to be reset to their initial values
   };
 
-  // Handlers
   const handleRadioChange = (e) => {
-    setFormData({ ...formData, radioSelection: e.target.value });
-  };
-
-  const handleAddFilter = () => {
-    if (filterDivStates.length < conditionValueList.length) {
-      setFilterDivStates((prevStates) => [
-        ...prevStates,
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      radioSelection: e.target.value,
+      filterDivStates: [
         {
           selectedTitle: "",
           conditionValue: "",
           inputValue: "",
         },
-      ]);
+      ],
+    }));
+  };
+
+  const handleAddFilter = () => {
+    if (filterDivCount < conditionValueList.length) {
+      setFilterDivCount((prevCount) => prevCount + 1);
+      setFormData((prevData) => ({
+        ...prevData,
+        filterDivStates: [
+          ...prevData.filterDivStates,
+          {
+            selectedTitle: "",
+            conditionValue: "",
+            inputValue: "",
+          },
+        ],
+      }));
     }
   };
 
@@ -205,40 +213,23 @@ const AddCollection = () => {
       setFilterDivCount((prevCount) => prevCount - 1);
       setFormData((prevData) => ({
         ...prevData,
-        filterDivCount: prevData.filterDivCount - 1, // Use prevData.filterDivCount instead of prevCount
         filterDivStates: prevData.filterDivStates.filter((_, i) => i !== index),
       }));
     }
   };
 
-  const handleSelectedObjectChange = useCallback((selectedRows, activeRows) => {
+  const handleSelectedObjectChange = useCallback((selectedRows) => {
     setDeactivatedProducts(selectedRows);
-    setActiveProducts(activeRows);
   }, []);
-  const removeDeactivatedProducts = () => {
-    let upArr = [];
-    let delArr = [];
-    for (let elem of collectionProductTableList) {
-      for (let d of deactivatedProducts) {
-        if (elem._id === d._id) {
-          delArr.push(elem);
-          continue;
-        }
-        upArr.push(elem);
-      }
-    }
-
-    setCollectionProductTableList(upArr);
-    setDeactivatedProducts(delArr);
-  };
-  console.log("AddCollection.jsx", deactivatedProducts);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     console.log("FORM DATA: ", formData);
   };
 
-  // handle title change
+  const handleTitleChange = (index, value) => {
+    const updatedStates = [...filterDivStates];
+    updatedStates[index].selectedTitle = value;
 
   // handle title change
   const handleTitleChange = (index, e) => {
@@ -262,50 +253,26 @@ const AddCollection = () => {
         (condition) => condition.title === value
       );
 
-      if (selectedCondition) {
-        console.log("vl", selectedCondition);
-        const filteredConditionValues = conditionValueList.filter((condition) => {
-          console.log('AddCollection.jsx', condition);
-          return selectedCondition.result.some((val) => val.conditionValue === condition.conditionValue);
-        });
-
-
-        updatedFilterDivStates;
-        const updatedFilterDivStatesWithConditionValue =
-          updatedFilterDivStates.map((state, i) => {
-            if (i === index) {
-              return {
-                ...state,
-                conditionValue:
-                  filteredConditionValues.length > 0
-                    ? filteredConditionValues[0].conditionValue
-                    : "",
-              };
-            }
-            return state;
-          });
-        console.log("flcv", filteredConditionValues);
-
-        setFilteredConditionValues(filteredConditionValues);
-        return {
-          ...prevData,
-          filterDivStates: updatedFilterDivStatesWithConditionValue,
-        };
-      } else {
-        setFilteredConditionValues([]);
-        return { ...prevData, filterDivStates: updatedFilterDivStates };
-      }
-    });
+      setFilteredConditionValues(filteredIds);
+    } else {
+      updatedStates[index].conditionValue = "";
+      setFilteredConditionValues([]);
+    }
+    setFormData((prevData) => ({
+      ...prevData,
+      filterDivStates: updatedStates,
+    }));
   };
   console.log('AddCollection.jsx', deactivatedProducts);
 
-  // handle condition value change
   const handleConditionValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].conditionValue = value;
-    setFormData({ ...formData, filterDivStates: updatedStates });
+    setFormData((prevData) => ({
+      ...prevData,
+      filterDivStates: updatedStates,
+    }));
   };
-
   const handleInputValueChange = (index, value) => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].inputValue = value;
@@ -314,34 +281,34 @@ const AddCollection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let extractedConditionNames = formData.filterDivStates.map(
-      (item) => item.selectedTitle
-    );
-    let extractedConditionValue = formData.filterDivStates.map(
+
+    const extractedConditionValues = filterDivStates.map(
       (item) => item.conditionValue
     );
 
-    const updatedFormData = {
-      ...formData,
+    const nonEmptyConditionValues = extractedConditionValues.filter(
+      (value) => value !== ""
+    );
+
+    const payload = {
+      title,
+      status,
+      radioSelection,
+      collectionConditionIds: nonEmptyConditionValues,
+      conditionValue: extractedConditionValues,
       description: descriptionValue,
-      collectionConditionId: extractedConditionNames,
-      conditionValue: extractedConditionValue,
       deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
       activeProducts: activeProducts.map((product) => product._id) || [],
     };
-    const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
-      updatedFormData;
 
-    const { filterDivCount, ...abstractedFormData } =
-      updatedFormDataWithoutFilterDivStates;
-
-    console.log("FORM DATA ON SUBMIT: ", abstractedFormData);
-    await postCollection(abstractedFormData);
-    resetForm();
+    try {
+      await postCollection(payload);
+      resetForm();
+    } catch (error) {
+      console.error("Error occurred while posting collection", error);
+    }
   };
-  console.log("AddCollection.jsx", setCollectionProductTableList);
 
-  // Side effects
   useEffect(() => {
     getAllCollectionConditions();
     getAllConditionValues();
@@ -376,7 +343,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-3 md:col-span-2 bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
+            className="col-span-2 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <div className="form-control">
               <label className="label">
@@ -388,7 +355,7 @@ const AddCollection = () => {
                 name="title"
                 id="title"
                 value={title}
-                onChange={handleChange} // Add onChange event handler to update the state
+                onChange={handleChange}
               />
             </div>
           </motion.div>
@@ -397,7 +364,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromRightVariant}
-            className="col-span-3 md:col-span-1  bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
+            className="col-span-1  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <div className="form-control">
               <label htmlFor="status-select" className="label">
@@ -406,9 +373,9 @@ const AddCollection = () => {
               <select
                 className="select select-accent"
                 id="status-select"
-                name="status" // Add name attribute for the select element
+                name="status"
                 value={status}
-                onChange={handleChange} // Add onChange event handler to update the state
+                onChange={handleChange}
               >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="PENDING">PENDING</option>
@@ -429,7 +396,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInFromLeftVariant}
-            className="col-span-3 bg-base-100 px-4 py-8 rounded-xl border-[1px] border-base-300"
+            className="col-span-3 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Description</h1>
             <div className="mt-4">
@@ -445,7 +412,7 @@ const AddCollection = () => {
             initial="initial"
             animate="animate"
             variants={fadeInVariants}
-            className="col-span-3  bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
+            className="col-span-3  bg-base-100 px-4 py-8 rounded-xl shadow-lg"
           >
             <h1>Collections</h1>
             <div className="form-control flex-row items-center">
@@ -532,148 +499,65 @@ const AddCollection = () => {
                     onChange={(e) =>
                       handleInputValueChange(index, e.target.value)
                     }
-                    value={state.inputValue}
-                    className="input input-accent w-full"
                     type="text"
-                    placeholder="enter filter parameter"
+                    value={state.inputValue}
+                    placeholder="value"
+                    className="input input-accent"
                   />
                 </div>
-
-                {filterDivStates.length !== 1 && (
-                  <div>
+                <div className="col-span-3 flex items-center gap-2 mt-4">
+                  {filterDivStates.length !== 1 && (
                     <button
                       onClick={() => handleRemoveFilter(index)}
-                      className="bg-rose-500 btn text-white btn-sm"
+                      className="text-red-500"
                     >
-                      Remove filter
+                      Remove
                     </button>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             ))}
-            <div>
-              <p className="text-[#A4A4A4] mt-4">
-                *This collection will include all products with at least one
-                variant that matches Price
-              </p>
-            </div>
-            <div className="mt-4 flex gap-4">
-              <button
-                id="add-another-collection"
-                onClick={handleAddFilter}
-                className="bg-themeColor font-thin rounded-[8px] btn text-white"
-              >
-                Add Another Filter
-              </button>
 
-              <button
-                onClick={postRawFilterData}
-                className="btn btn-accent font-thin text-white"
-              >
-                Submit Filters
-              </button>
-            </div>
-
-            <div className="mt-4 relative">
-              <button
-                className="btn btn-accent absolute right-60 top-5"
-                onClick={removeDeactivatedProducts}
-              >
-                Deactivate
-              </button>
-              <ReusableTable
-                key={"react-table-23-edffk"}
-                showButtons
-                isSelectable={true}
-                data={data}
-                columns={columns}
-                enablePagination
-                pageSize={10}
-                onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
-                  handleSelectedObjectChange(selectedRows, unselectedRows)
-                }
-              />
-            </div>
-          </motion.div>
-          {/* SEO */}
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variant={fadeInFromLeftVariant}
-            className="col-span-3 md:col-span-2 bg-base-100 border-[1px] border-base-300 px-4 py-8 rounded-xl"
-          >
-            <h1>SEO</h1>
-            <hr className="mt-4" />
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Meta Title</span>
-              </label>
-              <input
-                placeholder="Meta Title"
-                className="input input-accent"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Meta Description</span>
-              </label>
-              <input
-                placeholder="Meta Description"
-                className="input input-accent"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Focus Keywords</span>
-              </label>
-              <input
-                placeholder="Focus Keywords"
-                className="input input-accent"
-                type="text"
-                name=""
-                id=""
-              />
-            </div>
-            <div className="form-control">
-              <label htmlFor="collection-slug" className="label">
-                <span className="label-text">Slug</span>
-              </label>
-              <input
-                placeholder="Slug"
-                className="input input-accent"
-                type="text"
-                name="slug"
-                id="collection-slug"
-              />
-            </div>
-          </motion.div>
-          {/* Image */}
-          <motion.div
-            initial="initial"
-            animate="animate"
-            variant={fadeInFromRightVariant}
-            className="col-span-3 md:col-span-1  bg-base-100 px-4 py-8 rounded-xl border-[1px] border-base-300"
-          >
-            <h1>Image</h1>
-            <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
-              <Dropzone />
-            </div>
+            <button
+              onClick={handleAddFilter}
+              className="btn btn-accent mt-4 mb-4"
+            >
+              Add Filter
+            </button>
           </motion.div>
         </div>
-      </div>
-      <div className="flex gap-4 my-8 w-full justify-end border-t-base-300">
-        <button className="btn btn-accent" onClick={(e) => handleSubmit(e)}>
-          Submit
-        </button>
-        <button onClick={() => resetForm()} className="btn btn-primary">
-          Reset
-        </button>
+
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInFromRightVariant}
+          className="mt-12 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+        >
+          <div className="mb-4">
+            <h1>Selected Products</h1>
+          </div>
+          <ReusableTable
+            columns={columns}
+            data={data}
+            handleSelectedObjectChange={handleSelectedObjectChange}
+          />
+        </motion.div>
+
+        <motion.div
+          initial="initial"
+          animate="animate"
+          variants={fadeInVariants}
+          className="mt-12 bg-base-100 px-4 py-8 rounded-xl shadow-lg"
+        >
+          <div className="mb-4">
+            <h1>Activated Products</h1>
+          </div>
+          <ReusableTable
+            columns={columns}
+            data={activeProducts}
+            handleSelectedObjectChange={handleSelectedObjectChange}
+          />
+        </motion.div>
       </div>
     </div>
   );
