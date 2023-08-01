@@ -3,7 +3,7 @@ import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
 import ReusableTable from "../../components/Table";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
 import { MultiSelect } from "react-multi-select-component";

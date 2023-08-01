@@ -3,7 +3,7 @@ import API_WRAPPER from "../../api";
 import { Header, ReusableTable } from "../../components";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 import CollectionBannerImage from "../../assets/bannerImages/collectionImage.png";
 const Collection = () => {

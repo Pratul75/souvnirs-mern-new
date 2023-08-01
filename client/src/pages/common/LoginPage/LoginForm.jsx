@@ -9,7 +9,7 @@ import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { ToastContainer } from "react-toastify";
 import { decodeToken } from "react-jwt";
-import { PATHS } from "../../../routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import { getLoginInfo } from "../../../features/appConfig/appSlice";
 import { useDispatch } from "react-redux";
 

@@ -2,7 +2,7 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
 const Coupons = () => {
