@@ -188,20 +188,15 @@ const AddCollection = () => {
   };
 
   const handleAddFilter = () => {
-    if (filterDivCount < conditionValueList.length) {
-      setFilterDivCount((prevCount) => prevCount + 1);
-      setFormData((prevData) => ({
-        ...prevData,
-        filterDivCount: prevData.filterDivCount + 1, // Use prevData.filterDivCount instead of prevCount
-        filterDivStates: [
-          ...prevData.filterDivStates,
-          {
-            selectedTitle: "",
-            conditionValue: "",
-            inputValue: "",
-          },
-        ],
-      }));
+    if (filterDivStates.length < conditionValueList.length) {
+      setFilterDivStates((prevStates) => [
+        ...prevStates,
+        {
+          selectedTitle: "",
+          conditionValue: "",
+          inputValue: "",
+        },
+      ]);
     }
   };
 
@@ -244,27 +239,66 @@ const AddCollection = () => {
   };
 
   // handle title change
-  const handleTitleChange = (index, value) => {
-    const updatedStates = [...filterDivStates];
-    updatedStates[index].selectedTitle = value;
 
-    const selectedCondition = collectionConditionList.find(
-      (condition) => condition.title === value
-    );
+  // handle title change
+  const handleTitleChange = (index, e) => {
+    const { value } = e.target;
 
-    if (selectedCondition) {
-      const filteredIds = selectedCondition.conditionValues.filter((value) =>
-        conditionValueList.some((condition) => condition._id === value)
+    setFormData((prevData) => {
+      const updatedFilterDivStates = prevData.filterDivStates.map(
+        (state, i) => {
+          if (i === index) {
+            return {
+              ...state,
+              selectedTitle: value,
+              conditionValue: "", // Reset the condition value when the title changes
+            };
+          }
+          return state;
+        }
       );
 
-      updatedStates[index].conditionValue = filteredIds[0] || "";
+      const selectedCondition = collectionConditionList.find(
+        (condition) => condition.title === value
+      );
 
-      setFilteredConditionValues(filteredIds);
-    } else {
-      updatedStates[index].conditionValue = "";
-      setFilteredConditionValues([]);
-    }
-    setFormData({ ...formData, filterDivStates: updatedStates });
+      if (selectedCondition) {
+        console.log("vl", selectedCondition);
+        const filteredConditionValues = conditionValueList.filter(
+          (condition) => {
+            for (let val of selectedCondition.result) {
+              return val.conditionValue === condition.conditionValue;
+            }
+            selectedCondition.result.includes(condition.conditionValue);
+          }
+        );
+
+        updatedFilterDivStates;
+        const updatedFilterDivStatesWithConditionValue =
+          updatedFilterDivStates.map((state, i) => {
+            if (i === index) {
+              return {
+                ...state,
+                conditionValue:
+                  filteredConditionValues.length > 0
+                    ? filteredConditionValues[0].conditionValue
+                    : "",
+              };
+            }
+            return state;
+          });
+        console.log("flcv", filteredConditionValues);
+
+        setFilteredConditionValues(filteredConditionValues);
+        return {
+          ...prevData,
+          filterDivStates: updatedFilterDivStatesWithConditionValue,
+        };
+      } else {
+        setFilteredConditionValues([]);
+        return { ...prevData, filterDivStates: updatedFilterDivStates };
+      }
+    });
   };
 
   // handle condition value change
@@ -457,7 +491,7 @@ const AddCollection = () => {
               >
                 <div>
                   <select
-                    onChange={(e) => handleTitleChange(index, e.target.value)}
+                    onChange={(e) => handleTitleChange(index, e)}
                     value={state.selectedTitle}
                     placeholder="Title"
                     className="select select-accent w-full"
@@ -482,7 +516,7 @@ const AddCollection = () => {
                     <option value="">Select Operator</option>
                     {filteredConditionValues.map((conditionVal) => {
                       const conditionValue = conditionValueList.find(
-                        (value) => value._id === conditionVal
+                        (value) => value._id === conditionVal._id
                       );
                       if (conditionValue) {
                         return (

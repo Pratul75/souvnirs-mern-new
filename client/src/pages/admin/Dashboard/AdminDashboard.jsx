@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   return (
     <div>
       <Header
-        heading="Admin Dashboard"
+        heading="Admins Dashboard"
         subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way. You get all the details from all modules on this page"
       />
       {/* first row */}
