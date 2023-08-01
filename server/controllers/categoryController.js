@@ -81,6 +81,7 @@ const updateCategory = async (req, res) => {
 
     (existingCategory.name = name ?? existingCategory.name),
       (existingCategory.hsn_code = hsn_code ?? existingCategory.hsn_code),
+      (existingCategory.status = status ?? existingCategory.status),
       (existingCategory.type = type ?? existingCategory.type),
       (existingCategory.attributes =
         existingCategory.attributes.concat(uniqueAttributes));
