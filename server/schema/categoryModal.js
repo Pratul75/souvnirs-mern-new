@@ -6,7 +6,7 @@ const CategorySchema = new Schema(
     parentId: {
       type: String,
       required: true,
-      default: "0"
+      default: "0",
     },
     name: {
       type: String,
