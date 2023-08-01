@@ -10,6 +10,44 @@ const Customer = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
 
+  const getAllCustomers = async () => {
+    try {
+      const response = await API_WRAPPER.get("customers/get-customers");
+      if (response.status === 200) {
+        setCustomerList(response?.data?.customers);
+        console.log("CUSTOMER DATA: ", response?.data?.customers);
+        debouncedShowToast("Successfully loaded customer list", "success");
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  const deleteCustomer = async () => {
+    try {
+      const response = await API_WRAPPER.delete(
+        `/customers/delete-customer/:${selectedRow?._id}`
+      );
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  const updateCustomer = async (updatedObj) => {
+    try {
+      const response = await API_WRAPPER.put(
+        `customers/update-customer/:${selectedRow?._id}`,
+        updatedObj
+      );
+      if (response.status === 200) {
+        debouncedShowToast("Updated customer successfully", "success");
+        setApiTrigger((prevState) => !prevState);
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
   const columns = useMemo(
     () => [
       {
@@ -54,47 +92,7 @@ const Customer = () => {
     ],
     []
   );
-  const navigate = useNavigate();
-
   const data = useMemo(() => customerList, [customerList]);
-
-  const getAllCustomers = async () => {
-    try {
-      const response = await API_WRAPPER.get("customers/get-customers");
-      if (response.status === 200) {
-        setCustomerList(response?.data?.customers);
-        console.log("CUSTOMER DATA: ", response?.data);
-        debouncedShowToast("Successfully loaded customer list", "success");
-      }
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
-  };
-
-  const deleteCustomer = async () => {
-    try {
-      const response = await API_WRAPPER.delete(
-        `/customers/delete-customer/:${selectedRow?._id}`
-      );
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
-  };
-
-  const updateCustomer = async (updatedObj) => {
-    try {
-      const response = await API_WRAPPER.put(
-        `customers/update-customer/:${selectedRow?._id}`,
-        updatedObj
-      );
-      if (response.status === 200) {
-        debouncedShowToast("Updated customer successfully", "success");
-        setApiTrigger((prevState) => !prevState);
-      }
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
-  };
 
   const handleDelete = (row) => {
     console.log("ROW TO BE DELETED: ", row);
@@ -117,6 +115,10 @@ const Customer = () => {
   useEffect(() => {
     getAllCustomers();
   }, [apiTrigger]);
+
+  useEffect(() => {
+    console.log("CUSTOMER LIST: ", customerList);
+  }, [customerList]);
 
   return (
     <div className="relative">
@@ -143,6 +145,7 @@ const Customer = () => {
         enableDelete
         enableEdit
         enablePagination
+        pageSize={10}
         onDelete={handleDelete}
         onEdit={handleEdit}
       />
