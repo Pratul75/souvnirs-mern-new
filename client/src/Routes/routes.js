@@ -57,7 +57,7 @@ import {
   CustomerWishlist,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
-import AddCustomer from "../pages/admin/Add Customer";
+import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
 // admin routes
 export const adminRoutes = [

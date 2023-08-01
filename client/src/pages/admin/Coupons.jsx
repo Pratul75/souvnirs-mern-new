@@ -58,7 +58,6 @@ const Coupons = () => {
 
   const columns = useMemo(
     () => [
-
       {
         Header: "Title",
         accessor: "title",
