@@ -27,6 +27,7 @@ const FormInput = ({ label, name, control, errors, ...inputProps }) => {
 };
 
 export default FormInput;
+
 FormInput.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,

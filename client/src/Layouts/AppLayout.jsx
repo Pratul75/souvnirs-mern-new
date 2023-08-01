@@ -11,6 +11,7 @@ const AppLayout = ({ children }) => {
   const location = useLocation();
   const darkMode = useSelector((x) => x.appConfig.darkMode);
 
+  // use effect
   useEffect(() => {
     const pathParts = location.pathname
       .split("/")
