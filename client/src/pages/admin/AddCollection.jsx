@@ -264,14 +264,11 @@ const AddCollection = () => {
 
       if (selectedCondition) {
         console.log("vl", selectedCondition);
-        const filteredConditionValues = conditionValueList.filter(
-          (condition) => {
-            for (let val of selectedCondition.result) {
-              return val.conditionValue === condition.conditionValue;
-            }
-            selectedCondition.result.includes(condition.conditionValue);
-          }
-        );
+        const filteredConditionValues = conditionValueList.filter((condition) => {
+          console.log('AddCollection.jsx', condition);
+          return selectedCondition.result.some((val) => val.conditionValue === condition.conditionValue);
+        });
+
 
         updatedFilterDivStates;
         const updatedFilterDivStatesWithConditionValue =
@@ -300,6 +297,7 @@ const AddCollection = () => {
       }
     });
   };
+  console.log('AddCollection.jsx', deactivatedProducts);
 
   // handle condition value change
   const handleConditionValueChange = (index, value) => {
@@ -369,7 +367,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
