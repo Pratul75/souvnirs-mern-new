@@ -137,9 +137,6 @@ const Vendor = () => {
     window.vendor_edit_modal.showModal();
     console.log("ROW TO BE EDITED: ", row);
   };
-  // const handleEditForm = async() = {
-
-  // }
 
   const handleModalFormSubmit = async (e) => {
     try {
