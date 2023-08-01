@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PATHS } from "../../../routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import PermissionDeniedImage from "../../../assets/images/permissionDenied.png";
 
 const PermissionDenied = () => {

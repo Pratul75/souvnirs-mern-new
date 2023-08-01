@@ -9,7 +9,7 @@ import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { decodeToken } from "react-jwt";
-import { PATHS } from "../../../routes/paths";
+import { PATHS } from "../../../Routes/paths";
 
 const RegisterForm = () => {
   const navigate = useNavigate();

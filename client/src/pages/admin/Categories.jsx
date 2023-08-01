@@ -126,21 +126,21 @@ const Categories = () => {
     getAllAttributes();
   }, []);
 
-  useEffect(() => {}, [selectedAttributes]);
+  useEffect(() => { }, [selectedAttributes]);
   console.log("SELECTED ATTRIBUTES: ", editedRow);
 
   useEffect(() => {
     // Set default selected values for MultiSelect based on selectedRow.attributes
     const defaultSelectedAttributes = selectedRow.attributes
       ? selectedRow.attributes.map((attributeId) => {
-          const attribute = attributesList.find(
-            (attr) => attr._id === attributeId
-          );
-          return {
-            label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
-            value: attributeId,
-          };
-        })
+        const attribute = attributesList.find(
+          (attr) => attr._id === attributeId
+        );
+        return {
+          label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
+          value: attributeId,
+        };
+      })
       : [];
     setSelectedAttributes(defaultSelectedAttributes);
   }, [selectedRow, attributesList]);

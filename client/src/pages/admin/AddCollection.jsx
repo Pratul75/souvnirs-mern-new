@@ -384,7 +384,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-        // image={CollectionBannerImg}
+      // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">

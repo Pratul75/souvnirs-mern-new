@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
 import { Navigate, useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import { MultiSelect } from "react-multi-select-component";
 
 // add products

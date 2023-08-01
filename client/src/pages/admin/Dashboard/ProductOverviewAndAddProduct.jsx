@@ -5,7 +5,7 @@ import {
 } from "../../../animation";
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
-import { PATHS } from "../../../routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import { AvatarGroup } from "../../../components";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";

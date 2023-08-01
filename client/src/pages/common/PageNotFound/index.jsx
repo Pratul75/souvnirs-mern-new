@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PATHS } from "../../../routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import ErrorPngImage from "../../../assets/images/404png.png";
 const PageNotFound = () => {
   return (
