@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === "development") {
   });
 } else {
   API_WRAPPER = axios.create({
-    baseURL: "https://souvnirs-main.onrender.com",
+    baseURL: "https://souvnirs-main.onrender.com/",
   });
 }
 
