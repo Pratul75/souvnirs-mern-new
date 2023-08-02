@@ -23,7 +23,9 @@ const Header = ({ heading, subheading, image }) => {
               {subheading}
             </p>
           </div>
-          {image && <img src={image} alt="header image" />}
+          {image && (
+            <img className="hidden md:block" src={image} alt="header image" />
+          )}
         </div>
       </div>
     </motion.div>

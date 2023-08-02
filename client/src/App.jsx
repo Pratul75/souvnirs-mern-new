@@ -11,7 +11,7 @@ import { PATHS } from "./routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./routes/ReverseAuthRoute";
-import { ProtectedRoute, useAuth } from "./routes/ProtectedRoute";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
