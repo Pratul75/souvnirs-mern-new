@@ -68,21 +68,21 @@ const ReusableTable = ({
       hooks.visibleColumns.push((columns) => [
         isSelectable
           ? {
-            id: "selection",
-            //
-            Header: ({ getToggleAllRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-              </div>
-            ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to render a checkbox
-            Cell: ({ row }) => (
-              <div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          }
+              id: "selection",
+              //
+              Header: ({ getToggleAllRowsSelectedProps }) => (
+                <div>
+                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                </div>
+              ),
+              // The cell can use the individual row's getToggleRowSelectedProps method
+              // to render a checkbox
+              Cell: ({ row }) => (
+                <div>
+                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                </div>
+              ),
+            }
           : {},
         ...columns,
       ]);
@@ -132,7 +132,7 @@ const ReusableTable = ({
       initial="initial"
       animate="animate"
       variants={fadeInVariants}
-      className="overflow-x-auto"
+      className="w-screen md:w-auto"
     >
       <div className="flex justify-between items-center my-4">
         <h1 className="ml-16 text-xl">{tableTitle || "Table Title"}</h1>
@@ -144,7 +144,7 @@ const ReusableTable = ({
           className="input input-bordered"
         />
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto width-full max-w-full">
         <table className="table table-zebra" {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (

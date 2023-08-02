@@ -70,7 +70,7 @@ const AppLayout = ({ children }) => {
           </ol>
         </motion.nav>
         {/* app content */}
-        <div className="p-4 overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
+        <div className="md:p-4 overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
           {children}
         </div>
       </div>
