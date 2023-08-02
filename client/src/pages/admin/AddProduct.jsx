@@ -9,7 +9,10 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
+import { motion } from "framer-motion";
+import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
 // add products
+
 const AddProduct = () => {
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
@@ -424,7 +427,12 @@ const AddProduct = () => {
       />
       <div className="w-full mt-8">
         <div className="grid grid-cols-6 gap-4">
-          <div className="col-span-6 md:col-span-4 bg-base-100 p-4 rounded-xl border-[1px] border-base-300">
+          <motion.div
+            variants={fadeInFromLeftVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-4 bg-base-100 p-4 rounded-xl border-[1px] border-base-300"
+          >
             <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -439,8 +447,13 @@ const AddProduct = () => {
                 id=""
               />
             </div>
-          </div>
-          <div className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  ">
+          </motion.div>
+          <motion.div
+            variants={fadeInFromRightVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
+          >
             <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -460,11 +473,16 @@ const AddProduct = () => {
               Publish
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>
-          </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4">
+          <motion.div
+            variants={fadeInFromLeftVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4"
+          >
             <h3 className="font-semibold">Prdoduct Description</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -478,8 +496,13 @@ const AddProduct = () => {
                 onChange={setDescription}
               />
             </div>
-          </div>
-          <div className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
+          </motion.div>
+          <motion.div
+            variants={fadeInFromRightVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+          >
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
@@ -567,23 +590,33 @@ const AddProduct = () => {
                 id=""
               />
             </div>
-          </div>
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4 h-auto">
+          <motion.div
+            variants={fadeInFromLeftVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4 h-auto"
+          >
             <h3 className="font-semibold">Basic Tabs</h3>
             <hr className="mt-4 relative" />
             <Tabs tabs={tabs} />
-          </div>
-          <div className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4">
+          </motion.div>
+          <motion.div
+            variants={fadeInFromLeftVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+          >
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 
             <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
               <Dropzone />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
       <ToastContainer />

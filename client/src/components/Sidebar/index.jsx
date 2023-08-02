@@ -12,6 +12,7 @@ import SovniersLogo from "../../assets/images/souvnirsLogo.png";
 import SovniersLogoDarkMode from "../../assets/images/souvnirsLogoDarkMode.png";
 import { SmallVIcon } from "../../icons/sidebarIcons";
 import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
+
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [sidebarState, setSidebarState] = useState(false);
