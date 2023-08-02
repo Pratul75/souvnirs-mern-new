@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { connect } = require("./db/db");
 // route imports
-const productRoutes = require("./r/productRoutes");
+const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
 const storeRoutes = require("./routes/storeRoutes");
 const customerRoutes = require("./routes/customerRoutes");
