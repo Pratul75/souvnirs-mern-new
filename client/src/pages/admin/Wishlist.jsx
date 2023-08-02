@@ -21,6 +21,11 @@ const Wishlist = () => {
     const columns = useMemo(
         () => [
             {
+                Header: 'Customer Name',
+                accessor: "customer.firstName"
+            },
+            { Header: "Customer Email", accessor: "customer.email" },
+            {
                 Header: "Product Id",
                 accessor: "productId",
             },

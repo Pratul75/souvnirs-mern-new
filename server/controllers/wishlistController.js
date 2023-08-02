@@ -14,7 +14,20 @@ exports.getwishlistItems = async (req, res) => {
         let items
         if (req.role === "admin") {
 
-            items = await Wishlist.find({})
+            items = await Wishlist.aggregate([
+                {
+                    '$lookup': {
+                        'from': 'customers',
+                        'localField': 'customerId',
+                        'foreignField': '_id',
+                        'as': 'customer'
+                    }
+                }, {
+                    '$unwind': {
+                        'path': '$customer'
+                    }
+                }
+            ])
         }
         else {
             items = await Wishlist.find({ customerId: req.userId })
