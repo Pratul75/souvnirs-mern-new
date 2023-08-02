@@ -2,7 +2,11 @@ import { Header, Modal, ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
-import { debouncedShowToast, getStatusStyles } from "../../utils";
+import {
+  debouncedShowToast,
+  getStatusStyles,
+  getStockStatusStyles,
+} from "../../utils";
 import API_WRAPPER from "../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
@@ -50,6 +54,9 @@ const ProductManagement = () => {
       {
         Header: "Stock Status",
         accessor: "stockStatus",
+        Cell: ({ row }) => {
+          return getStockStatusStyles(row?.original?.stockStatus);
+        },
       },
       {
         Header: "Total Sales",

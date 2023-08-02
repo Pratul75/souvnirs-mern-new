@@ -31,6 +31,19 @@ export const getStatusStyles = (status) => {
   }
 };
 
+export const getStockStatusStyles = (stockStatus) => {
+  switch (stockStatus) {
+    case "IN_STOCK":
+      return <div className="badge badge-primary font-bold">IN STOCK</div>;
+
+    case "OUT_OF_STOCK":
+      return <div className="badge badge-warning font-bold">OUT OF STOCK</div>;
+
+    default:
+      return <div className="badge badge-secondary font-bold">BACK ORDER</div>;
+  }
+};
+
 // utility to show toasts
 export const showToast = (message, type) => {
   toast(message, {

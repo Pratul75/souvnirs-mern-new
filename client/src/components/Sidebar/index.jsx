@@ -80,7 +80,7 @@ const Sidebar = () => {
             {sidebarState ? (
               <img
                 src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
-                className="h-full"
+                className="w-40"
                 alt=""
               />
             ) : (
