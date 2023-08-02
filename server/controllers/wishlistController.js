@@ -14,7 +14,7 @@ exports.getwishlistItems = async (req, res) => {
         let items
         if (req.role === "admin") {
 
-            items = await Wishlist.find()
+            items = await Wishlist.find({})
         }
         else {
             items = await Wishlist.find({ customerId: req.userId })
