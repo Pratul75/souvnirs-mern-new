@@ -135,13 +135,15 @@ const ReusableTable = ({
       className="w-screen md:w-auto"
     >
       <div className="flex justify-between items-center my-4">
-        <h1 className="ml-16 text-xl">{tableTitle || "Table Title"}</h1>
+        <h1 className="ml-16 text-xl hidden md:block">
+          {tableTitle || "Table Title"}
+        </h1>
         <input
           type="text"
           value={globalFilter || ""}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder="search table here"
-          className="input input-bordered"
+          className="input input-bordered w-full mb-2 mx-2 md:w-auto md:mb-0"
         />
       </div>
       <div className="overflow-x-auto width-full max-w-full">

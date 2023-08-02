@@ -9,6 +9,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import SovniersLogo from "../../assets/images/souvnirsLogo.png";
+import SovniersLogoDarkMode from "../../assets/images/souvnirsLogoDarkMode.png";
 import { SmallVIcon } from "../../icons/sidebarIcons";
 import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
 const Sidebar = () => {
@@ -18,6 +19,7 @@ const Sidebar = () => {
   const isExpandedMobile = useSelector(
     (x) => x.appConfig.mobileSidebarExpanded
   );
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
 
   // Update sidebarState when isExpanded changes
   useEffect(() => {
@@ -76,7 +78,11 @@ const Sidebar = () => {
         <div className="w-full">
           <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center sticky top-0  ">
             {sidebarState ? (
-              <img src={SovniersLogo} className="h-full" alt="" />
+              <img
+                src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
+                className="h-full"
+                alt=""
+              />
             ) : (
               <div className="flex items-center justify-center">
                 <SmallVIcon />
