@@ -59,22 +59,13 @@ const LoginForm = () => {
   return (
     <div className=" w-screen lg:w-1/2 w-full ">
       <div className="w-full h-full flex justify-center items-center">
-        <div className="w-full p-8 ">
+        <div className="w-full md:w-3/4 p-8 ">
           {/* row 1 */}
           <div className="flex justify-center py-4">
             <img src={SouvnirsLogoImg} alt="" />
           </div>
           {/* row 2 */}
-          <div className="flex justify-center gap-2">
-            <p>Dont have an account?</p>
-            <Link
-              to={"/register"}
-              id="gradient-text"
-              className="bg-gradient-to-r from-violet-700 via-red-500 to-yellow-500 text-transparent bg-clip-text underline"
-            >
-              Sign up here
-            </Link>
-          </div>
+
           {/* row 3 */}
           <div className="flex gap-4 w-full">
             <div className="form-control w-full">
@@ -135,17 +126,31 @@ const LoginForm = () => {
           </div>
           {/* row 6 */}
           <div>
-            <div className="form-control flex items-center gap-5 mt-5 flex-row">
-              <input
-                type="checkbox"
-                name="rememberMe"
-                id="rememberMe"
-                className="checkbox heckbox-primary"
-                {...register("rememberMe")}
-              />
-              <label className="label" htmlFor="rememberMe">
-                <span className="label-text">Remember me</span>
-              </label>
+            <div className="form-control flex justify-between items-center gap-5 mt-5 flex-row">
+              <div className="flex items-center">
+
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  id="rememberMe"
+                  className="checkbox heckbox-primary"
+                  {...register("rememberMe")}
+                />
+                <label className="label" htmlFor="rememberMe">
+                  <span className="label-text">Remember me</span>
+                </label>
+              </div>
+              <div className="flex justify-center gap-2">
+                <p>Dont have an account?</p>
+                <Link
+                  to={"/register"}
+                  id="gradient-text"
+                  className="bg-gradient-to-r from-violet-700 via-red-500 to-yellow-500 text-transparent bg-clip-text underline"
+                >
+                  Sign up here
+                </Link>
+              </div>
+
             </div>
           </div>
         </div>
