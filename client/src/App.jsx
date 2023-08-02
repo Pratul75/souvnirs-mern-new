@@ -5,13 +5,13 @@ import {
   PermissionDenied,
   PageNotFound,
 } from "./pages";
-import AppLayout from "./layouts/AppLayout";
+import AppLayout from "./Layouts/AppLayout";
 import { adminRoutes, vendorRoutes, customerRoutes } from "./Routes/routes";
-import { PATHS } from "./routes/paths";
+import { PATHS } from "./Routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
-import ReverseAuthRoute from "./routes/ReverseAuthRoute";
-import { ProtectedRoute } from "./routes/ProtectedRoute";
+import ReverseAuthRoute from "./Routes/ReverseAuthRoute";
+import { ProtectedRoute, useAuth } from "./Routes/ProtectedRoute";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);

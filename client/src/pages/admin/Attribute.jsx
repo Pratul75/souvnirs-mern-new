@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 // import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import ReusableTable from "../../components/Table";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import { getStatusStyles, debouncedShowToast } from "../../utils";

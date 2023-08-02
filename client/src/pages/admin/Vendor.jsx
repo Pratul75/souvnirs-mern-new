@@ -3,7 +3,7 @@ import { Header, Modal, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import VendorBannerImage from "../../assets/bannerImages/vendorImage.png";
 const Vendor = () => {
   const [vendorList, setVendorList] = useState([]);

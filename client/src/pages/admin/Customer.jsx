@@ -4,7 +4,7 @@ import { debouncedShowToast, getStatusStyles } from "../../utils";
 import API_WRAPPER from "../../api";
 import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import CustomerListBannerImage from "../../assets/bannerImages/customerListImage.png";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);

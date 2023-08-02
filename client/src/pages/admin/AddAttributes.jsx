@@ -2,7 +2,7 @@ import { Header } from "../../components";
 // import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import API_WRAPPER from "../../api";
 import { useState } from "react";
-import { PATHS } from "../../routes/paths";
+import { PATHS } from "../../Routes/paths";
 import { useNavigate } from "react-router-dom";
 
 const AddAttribute = () => {
