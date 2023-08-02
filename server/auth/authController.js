@@ -5,6 +5,7 @@ const Customer = require("../schema/customerModal");
 const Admin = require("../schema/adminModal");
 const { error, success } = require("../utils/errorHandler");
 const Address = require("../schema/addressModal");
+const { transporter } = require("../services/mailing");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace with your secret key for JWT
 
 // Register API for vendors and users
@@ -53,6 +54,12 @@ const registerVendor = async (req, res) => {
     const token = jwt.sign({ id: vendor._id, role: "vendor" }, secretKey, {
       expiresIn: "1h", // Token expiration time
     });
+    transporter.send({
+      from: "utkarsh.pawar@rechargestudio.com",
+      to: "pratul.udainiya@rechargestudio.com",
+      subject: "vendor registered",
+      text: `hello testing`
+    })
 
     res.status(200).json(success("vendor registered successfully"));
   } catch (error) {

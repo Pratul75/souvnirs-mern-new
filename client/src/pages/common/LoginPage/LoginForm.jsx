@@ -126,6 +126,7 @@ const LoginForm = () => {
           {/* row 5  */}
           <div className="flex mt-5">
             <button
+              type="button"
               className="bg-gradient-to-r w-full from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-2 px-8  hover:shadow-lg rounded-[4px] text-xl"
               onClick={handleSubmit(onSubmit)}
             >
