@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
+import { getStatusStyles } from "../../utils";
 
 const CustomerWishlist = () => {
   const [wishlist, setWishlist] = useState([])
@@ -9,14 +10,39 @@ const CustomerWishlist = () => {
     try {
       const response = await API_WRAPPER.get("/wishlist/getmywishlist");
       if (response.status === 200) {
-        setWishlist(response?.data);
-        console.log("RESPONSE: ", response?.data);
+        setWishlist(response?.data?.data?.wishlist);
+        console.log("RESPONSE: ", response?.data?.data?.wishlist);
       }
     } catch (error) {
       console.error({ error, messge: error.message });
     }
     console.log('CustomerWishlist.jsx', wishlist);
   }
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Product Id",
+        accessor: "productId",
+      },
+      {
+        Header: "Product Name",
+        accessor: "productName",
+      },
+      {
+        Header: "product Price",
+        accessor: "productPrice",
+      },
+      {
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ row }) => {
+          return getStatusStyles(row?.original?.status);
+        },
+      },
+    ],
+    []
+  );
+  const data = useMemo(() => wishlist, [wishlist]);
   useEffect(() => { fetchWishlist() }, [])
   return <div><Header heading="Wishlist"
     subheading="A wish list  provides all the products added by the customer to wishlist . Customer can edit and delete the wishlist produts  from this UI"
@@ -24,14 +50,15 @@ const CustomerWishlist = () => {
     <div className="w-full gap-4 mt-14">
 
       <div className="mt-4">
-        {/* <ReusableTable
-          tableTitle="Products List"
+        <ReusableTable
+          tableTitle="Wishlist"
           columns={columns}
           data={data}
-          showButtons
-          enableDelete
-          onDelete={handleDelete}
-        /> */}
+          pageSize={10}
+          enablePagination
+        // enableDelete
+        // onDelete={handleDelete}
+        />
       </div>
     </div></div>;
 };

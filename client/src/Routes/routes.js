@@ -59,6 +59,7 @@ import {
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
+import Wishlist from "../pages/admin/Wishlist";
 // admin routes
 export const adminRoutes = [
   {
@@ -247,6 +248,13 @@ export const adminRoutes = [
     defaultRole: "admin",
     Component: AddCollection,
   },
+  {
+    id: nanoid(),
+    path: PATHS.adminWishlist,
+    defaultRole: "admin",
+    Component: Wishlist,
+  },
+
 ];
 
 // vendor routes

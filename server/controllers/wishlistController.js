@@ -11,8 +11,14 @@ exports.createWishlist = async (req, res) => {
 }
 exports.getwishlistItems = async (req, res) => {
     try {
-        console.log(req.userId);
-        const items = await Wishlist.find({ customerId: req.userId })
+        let items
+        if (req.role === "admin") {
+
+            items = await Wishlist.find()
+        }
+        else {
+            items = await Wishlist.find({ customerId: req.userId })
+        }
         res.status(200).json(success({ wishlist: items, message: "wishlist fetched successfully" }));
     } catch (e) {
         res.status(400).json(error("failed to fetch wishlist"))

@@ -115,6 +115,12 @@ export const adminSidebarMapping = [
     Icon: CouponDiscountIcon,
   },
   {
+    title: "Wishlist",
+    navLink: PATHS.adminWishlist,
+    Icon: CouponDiscountIcon,
+  },
+
+  {
     title: "Email Marketing",
     navLink: PATHS.adminEmailMarketing,
     Icon: EmailMarketingIcon,

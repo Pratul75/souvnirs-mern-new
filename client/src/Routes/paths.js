@@ -38,6 +38,7 @@ export const PATHS = {
   adminAddCollection: "/admin/collection/add-collection",
   adminCreateCustomer: "/admin/customer/create-customer",
   adminCreateVendor: "/admin/vendor/create-vendor",
+  adminWishlist: "/admin/wishlist",
 
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
