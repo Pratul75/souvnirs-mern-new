@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import Avatar from "../Avatar";
 import { getRandomColor } from "../../utils";
+import { useSelector } from "react-redux";
 const VendorListComponent = ({ firstName, lastName }) => {
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
+
   return (
-    <div className="w-full p-4 bg-base-100 shadow-xl border-[1px] border-base-300 rounded-xl flex  gap-2 items-center mb-2 ">
+    <div
+      className={`w-full p-4 ${
+        darkMode ? "bg-cardDarker" : "bg-carsLighter"
+      } border-[1px] border-base-300 rounded-xl flex  gap-2 items-center mb-2`}
+    >
       <div>
         <Avatar
           bgColor={getRandomColor()}
