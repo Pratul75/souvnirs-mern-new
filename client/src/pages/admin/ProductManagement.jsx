@@ -140,6 +140,19 @@ const ProductManagement = () => {
       debouncedShowToast(response?.data?.data.error, "error");
     }
   };
+  const bulkUpload = async (e) => {
+    try {
+
+      const buFormData = new FormData();
+      buFormData.append("file", e)
+      const response = await API_WRAPPER.post("/products/bulk-upload", buFormData)
+
+      console.log('ProductManagement.jsx', response);
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   useEffect(() => {
     fetchProductsList();
@@ -154,6 +167,11 @@ const ProductManagement = () => {
       />
       <div className="w-full gap-4 mt-14">
         <div className="flex justify-end">
+
+
+
+          <input type="file" onChange={(e) => bulkUpload(e.target.files[0])} className="file-input file-input-bordered file-input-md input-accent w-xs max-w-xs" />
+
           <Link
             to={PATHS.adminAddProducts}
             className="btn btn-accent ml-4 w-48"
