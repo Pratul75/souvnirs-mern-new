@@ -80,7 +80,7 @@ const LoginForm = () => {
   return (
     <div className="w-screen lg:w-1/2">
       <div className="w-full h-full flex justify-center items-center">
-        <div className="w-full p-8 ">
+        <div className="w-full p-8 bg-base-200 shadow-lg mx-8">
           <div className="flex justify-center py-4 mb-5 md:mb-0 ">
             <img className="w-56" src={SouvnirsLogoImg} alt="" />
           </div>
