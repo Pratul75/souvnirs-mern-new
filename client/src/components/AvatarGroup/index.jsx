@@ -4,15 +4,11 @@ import Avatar from "../Avatar";
 const AvatarGroup = ({ totalAmount }) => {
   return (
     <div className="avatar-group -space-x-4">
-      <Avatar bgColor={getRandomColor()} />
-      <Avatar bgColor={getRandomColor()} />
-      <Avatar bgColor={getRandomColor()} />
-      <Avatar bgColor={getRandomColor()} />
-      <div className="avatar placeholder">
-        <div className="w-12 bg-base-100 text-neutral-content">
-          <span>+{totalAmount}</span>
-        </div>
-      </div>
+      <Avatar bgColor={getRandomColor()} initials="JC" />
+      <Avatar bgColor={getRandomColor()} initials="JC" />
+      <Avatar bgColor={getRandomColor()} initials="JC" />
+      <Avatar bgColor={getRandomColor()} initials="JC" />
+      <Avatar bgColor="bg-base-200" initials={`+${totalAmount}`} />
     </div>
   );
 };

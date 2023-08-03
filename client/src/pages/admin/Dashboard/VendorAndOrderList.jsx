@@ -1,4 +1,4 @@
-import { ReusableTable, VendorListComponent } from "../../../components";
+import { Card, ReusableTable, VendorListComponent } from "../../../components";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useEffect, useMemo, useState } from "react";
@@ -59,27 +59,35 @@ const VendorAndOrderList = () => {
 
   return (
     <div className="grid grid-cols-5 gap-4 mt-4">
-      <div className="col-span-5 md:col-span-2 p-4 bg-base-100 border-[1px] border-base-300 rounded-xl ">
-        <h2 className="font-semibold text-lg"> Vendors List</h2>
-        <div className="overflow-y-scroll max-h-[300px] mt-4">
-          {vendorList?.map((vendorItem) => {
-            return (
-              <VendorListComponent
-                key={nanoid()}
-                firstName={vendorItem?.firstName}
-                lastName={vendorItem?.lastName}
-              />
-            );
-          })}
-        </div>
+      <div className="col-span-5 md:col-span-2">
+        <Card>
+          <div className=" p-4 bg-base-100 border-[1px] border-base-300 rounded-xl ">
+            <h2 className="font-semibold text-lg"> Vendors List</h2>
+            <div className="overflow-y-scroll max-h-[300px] mt-4">
+              {vendorList?.map((vendorItem) => {
+                return (
+                  <VendorListComponent
+                    key={nanoid()}
+                    firstName={vendorItem?.firstName}
+                    lastName={vendorItem?.lastName}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </Card>
       </div>
-      <div className="col-span-5 md:col-span-3 p-4 bg-base-100 border-[1px] border-base-300 rounded-xl">
-        <h2 className="font-semibold text-lg">Recent Orders</h2>
-        <ReusableTable
-          data={orderTableData}
-          columns={orderTableColumns}
-          tableTitle="Order Table"
-        />
+      <div className="col-span-5 md:col-span-3">
+        <Card>
+          <div className=" p-4 bg-base-100 border-[1px] border-base-300 rounded-xl">
+            <h2 className="font-semibold text-lg">Recent Orders</h2>
+            <ReusableTable
+              data={orderTableData}
+              columns={orderTableColumns}
+              tableTitle="Order Table"
+            />
+          </div>
+        </Card>
       </div>
     </div>
   );

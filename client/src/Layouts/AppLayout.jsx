@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useLocation } from "react-router-dom"; // Import react-router-dom's useLocation hook
+import { Link, useLocation } from "react-router-dom"; // Import react-router-dom's useLocation hook
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { headerVariant } from "../animation";
 import { useSelector } from "react-redux";
+
 const AppLayout = ({ children }) => {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const location = useLocation();
@@ -27,9 +28,11 @@ const AppLayout = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex bg-base-200">
       {/* sidebar */}
-      <Sidebar />
+      <div>
+        <Sidebar />
+      </div>
       {/* navbar and app layout */}
       <div className="flex flex-col flex-grow">
         <Navbar />
@@ -39,12 +42,15 @@ const AppLayout = ({ children }) => {
           initial="initial"
           animate="animate"
           className={`hidden md:block py-4 px-8 m-4 ${
-            darkMode ? "bg-blue-950" : "bg-blue-50"
+            darkMode ? "" : ""
           } rounded-xl`}
         >
           <ol className="list-reset flex text-base-content">
             <li>
-              <a href="/" className="text-primary hover:text-primary-dark">
+              <a
+                href="/"
+                className="text-primary hover:text-primary-dark text-sm"
+              >
                 Home
               </a>
             </li>
@@ -54,16 +60,16 @@ const AppLayout = ({ children }) => {
                   <span className="mx-2">/</span>
                 </li>
                 <li>
-                  <a
-                    href={item.path}
+                  <Link
+                    to={item.path}
                     className={
                       index === breadcrumbs.length - 1
-                        ? "text-primary-dark"
-                        : "text-primary hover:text-primary-dark"
+                        ? "text-primary-dark text-sm"
+                        : "text-primary hover:text-primary-dark text-sm"
                     }
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               </React.Fragment>
             ))}
