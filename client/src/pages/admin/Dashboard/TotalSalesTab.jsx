@@ -56,7 +56,7 @@ const TotalSalesTab = () => {
                       {
                         label: "Dataset 1",
                         data: yearData,
-                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                        backgroundColor: "#4C62C3",
                       },
                     ],
                   }}
@@ -120,7 +120,7 @@ const TotalSalesTab = () => {
                       {
                         label: "Dataset 1",
                         data: monthData,
-                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                        backgroundColor: "#4C62C3",
                       },
                     ],
                   }}
@@ -185,7 +185,7 @@ const TotalSalesTab = () => {
                       {
                         label: "Dataset 1",
                         data: dateData,
-                        backgroundColor: "rgba(99, 161, 255, 0.5)",
+                        backgroundColor: "#4C62C3",
                       },
                     ],
                   }}

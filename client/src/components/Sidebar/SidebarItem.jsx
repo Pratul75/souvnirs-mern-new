@@ -2,33 +2,23 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { sidebarVariant } from "../../animation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setActiveLink } from "../../features/appConfig/appSlice";
 
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
-  // Animation properties for sidebar item title
-  const activeLink = useSelector((x) => x.appConfig.activeLink);
   const dispatch = useDispatch();
 
   return (
-    <motion.li
-      className={`w-full my-2 ${
-        activeLink === navLink ? "bg-accent-focus" : ""
-      } `}
-      initial={false}
-      animate={sidebarState ? "expanded" : "collapsed"}
-      variants={sidebarVariant}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-    >
+    <li className="mx-2 cursor-pointer">
       <NavLink
         onClick={() => dispatch(setActiveLink(navLink))}
         to={navLink}
         className={({ isActive }) =>
           isActive
-            ? `bg-blue-200 text-blue-500 p-4  ${
+            ? `flex text-themeColor  bg-blue-100 rounded-xl  w-full p-4 ${
                 sidebarState ? "justify-start" : "justify-center"
-              }`
-            : `flex w-full p-4 ${
+              } `
+            : `flex hover:bg-base-100 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${
                 sidebarState ? "justify-start" : "justify-center"
               } `
         }
@@ -36,7 +26,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
         {Icon && <Icon />} {/* Only render Icon if it exists */}
         {sidebarState && title && (
           <motion.span
-            className="ml-2 text-md"
+            className={`ml-2 text-xs ${sidebarState ? "block" : "hidden"}`}
             variants={sidebarVariant}
             transition={{ duration: 0.2, ease: "easeInOut" }}
           >
@@ -44,7 +34,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
           </motion.span>
         )}
       </NavLink>
-    </motion.li>
+    </li>
   );
 };
 

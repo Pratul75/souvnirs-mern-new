@@ -12,7 +12,10 @@ import SovniersLogo from "../../assets/images/souvnirsLogo.png";
 import SovniersLogoDarkMode from "../../assets/images/souvnirsLogoDarkMode.png";
 import { SmallVIcon } from "../../icons/sidebarIcons";
 import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
-
+import Card from "../Card";
+import debounce from "lodash.debounce";
+import Avatar from "../Avatar";
+import { getRandomColor } from "../../utils";
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [sidebarState, setSidebarState] = useState(false);
@@ -21,7 +24,16 @@ const Sidebar = () => {
     (x) => x.appConfig.mobileSidebarExpanded
   );
   const darkMode = useSelector((x) => x.appConfig.darkMode);
+  // Debounced onMouseEnter and onMouseLeave functions
+  const debouncedMouseEnter = debounce(() => {
+    setSidebarState(true);
+  }, 300);
 
+  const debouncedMouseLeave = debounce(() => {
+    if (!isExpanded) {
+      setSidebarState(false);
+    }
+  }, 200);
   // Update sidebarState when isExpanded changes
   useEffect(() => {
     setSidebarState(isExpanded);
@@ -45,7 +57,7 @@ const Sidebar = () => {
   // Animation properties for sidebar width
   const sidebarVariants = {
     expanded: {
-      width: "350px",
+      width: "250px",
       transition: {
         duration: 0.3,
         ease: "easeInOut",
@@ -69,15 +81,17 @@ const Sidebar = () => {
   return (
     <>
       <motion.ul
-        className={`menu bg-base-200 hidden md:flex items-center shadow-xl overflow-y-auto max-h-screen `}
+        className={` bg-base-200 hidden md:flex items-center ${
+          darkMode ? "border-blue-950" : "border-blue-200"
+        } border-r-[1px]`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
-        onMouseEnter={() => setSidebarState(true)}
-        onMouseLeave={() => !isExpanded && setSidebarState(false)}
+        onMouseEnter={debouncedMouseEnter}
+        onMouseLeave={debouncedMouseLeave}
       >
         <div className="w-full">
-          <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center sticky top-0  ">
+          <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4 ">
             {sidebarState ? (
               <img
                 src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
@@ -90,15 +104,36 @@ const Sidebar = () => {
               </div>
             )}
           </div>
-          {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
-            <SidebarItem
-              key={nanoid()}
-              title={title}
-              navLink={navLink}
-              Icon={Icon}
-              sidebarState={sidebarState}
-            />
-          ))}
+          <div className="overflow-y-auto max-h-[88vh] mt-4">
+            <div className="mx-2">
+              <Card>
+                {sidebarState ? (
+                  <div className="flex gap-4 p-4">
+                    <Avatar initials="JS" bgColor={getRandomColor()} />
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-bold">John Smith</h3>
+                      <h5 className="text-sm">Administrator</h5>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="p-4 flex justify-center">
+                    <Avatar initials="JD" bgColor={getRandomColor()} />
+                  </div>
+                )}
+              </Card>
+            </div>
+            <div className="mt-4">
+              {conditionalSidebarMapping()?.map(({ title, navLink, Icon }) => (
+                <SidebarItem
+                  key={nanoid()}
+                  title={title}
+                  navLink={navLink}
+                  Icon={Icon}
+                  sidebarState={sidebarState}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </motion.ul>
 
@@ -114,7 +149,7 @@ const Sidebar = () => {
               variants={mobileSidebarVariants}
             >
               <motion.ul
-                className={`menu bg-base-200 md:hidden flex items-center shadow-xl overflow-y-auto max-h-screen`}
+                className={`menu bg-base-200 md:hidden flex items-center shadow-xl overflow-y-auto max-h-screen `}
                 initial={false}
                 animate={sidebarState ? "expanded" : "collapsed"}
                 variants={sidebarVariants}

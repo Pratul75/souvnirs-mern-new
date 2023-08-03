@@ -47,8 +47,8 @@ export const options = {
         display: true,
         font: {
           size: 12,
+          color: "red", // Change the X-axis label color
         },
-        color: "black", // Customize the X-axis label color
       },
     },
     y: {
@@ -75,8 +75,7 @@ export const data = {
     {
       label: "Dataset 1",
       data: dataset1Data,
-      backgroundColor: "rgba(99, 161, 255, 0.5)",
+      backgroundColor: "#4C62C3",
     },
-
   ],
 };

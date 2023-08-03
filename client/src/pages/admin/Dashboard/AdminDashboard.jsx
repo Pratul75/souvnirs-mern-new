@@ -11,7 +11,7 @@ const AdminDashboard = () => {
     <div>
       <Header
         heading="Admins Dashboard"
-        subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way. You get all the details from all modules on this page"
+        subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way."
         image={dashboardBannerImage}
       />
       {/* first row */}

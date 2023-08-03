@@ -12,6 +12,7 @@ export { default as IndeterminateCheckbox } from "./IndeterminateCheckbox";
 export { default as Modal } from "./Modal";
 export { default as FormInput } from "./FormInput";
 export { default as AvatarGroup } from "./AvatarGroup";
+export { default as Card } from "./Card";
 export { default as TextEditor } from "./TextEditor";
 export { default as AdvanceCombobox } from "./AdvanceCombobox";
 export { default as Dropzone } from "./Dropzone";

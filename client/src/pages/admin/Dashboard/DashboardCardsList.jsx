@@ -14,6 +14,7 @@ import { BsCashCoin } from "react-icons/bs";
 const DashboardCardsList = () => {
   const [cardData, setCardData] = useState();
   const [role, setRole] = useState();
+
   const fetchdashboardCardsData = async () => {
     const response = await API_WRAPPER.get("/dashboard/cards");
     console.log("DashboardCardsList.jsx", response);
@@ -38,6 +39,7 @@ const DashboardCardsList = () => {
                 number={cardData?.sales}
                 subheading="Total Sales"
                 iconColor="bg-red-500"
+                textColor="text-red-500"
                 iconSvg={<TotalSalesIcon />}
               />
               <DashboardCard
@@ -45,18 +47,21 @@ const DashboardCardsList = () => {
                 subheading="No. of Orders"
                 iconSvg={<NoOfOrders />}
                 iconColor="bg-green-500"
+                textColor="text-green-500"
               />
               <DashboardCard
                 number={cardData?.products}
                 subheading="Total No. of Products"
                 iconSvg={<NoOfProducts />}
                 iconColor="bg-orange-500"
+                textColor="text-orange-500"
               />
               <DashboardCard
                 number={cardData?.vendors}
                 subheading="No. of Vendors"
                 iconSvg={<NoOfVendors />}
                 iconColor="bg-blue-500"
+                textColor="text-blue-500"
               />
             </div>
           )}
