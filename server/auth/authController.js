@@ -58,8 +58,8 @@ const registerVendor = async (req, res) => {
       from: "utkarsh.pawar@rechargestudio.com",
       to: "pratul.udainiya@rechargestudio.com",
       subject: "vendor registered",
-      text: `hello testing`
-    })
+      text: `hello testing`,
+    });
 
     res.status(200).json(success("vendor registered successfully"));
   } catch (error) {
@@ -70,10 +70,18 @@ const registerVendor = async (req, res) => {
 
 const registerCustomer = async (req, res) => {
   try {
-    const { city, pincode, country } = req.body
+    const { city, pincode, country } = req.body;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const customer = await Customer.create({ ...req.body, password: hashedPassword });
-    Address.create({ customer_id: customer._id, city, pin_code: pincode, country })
+    const customer = await Customer.create({
+      ...req.body,
+      password: hashedPassword,
+    });
+    Address.create({
+      customer_id: customer._id,
+      city,
+      pin_code: pincode,
+      country,
+    });
     const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
       expiresIn: "1h",
     });
@@ -92,13 +100,13 @@ const loginUser = async (req, res) => {
     const user = vendor ? null : await Customer.findOne({ email });
     const admin = vendor || user ? null : await Admin.findOne({ email: email });
     if (!vendor && !user && !admin) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(400).json({ error: "Invalid credentials" });
     }
     const foundUser = vendor || user || admin;
     // Check if the password matches the hashed password from the database
     const passwordMatch = await bcrypt.compare(password, foundUser.password);
     if (!passwordMatch) {
-      return res.status(401).json(error("Invalid Credentials"));
+      return res.status(400).json(error("Invalid Credentials"));
     }
     // Generate and send the JWT token to the front end with appropriate role
     let role;

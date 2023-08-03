@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { ToastContainer } from "react-toastify";
@@ -13,7 +13,6 @@ import { CiMail } from "react-icons/ci";
 import { PiPasswordLight } from "react-icons/pi";
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -68,7 +67,7 @@ const LoginForm = () => {
             console.log("LoginForm.jsx", role);
             dispatch(getLoginInfo(role));
             localStorage.setItem("token", JSON.stringify(token));
-            return navigate(PATHS.adminDashboard);
+            return <Navigate to={PATHS.adminDashboard} />;
           }
         }
       }
