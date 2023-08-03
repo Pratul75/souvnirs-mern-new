@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 import { motion } from "framer-motion";
 import { headerVariant } from "../animation";
 import { useSelector } from "react-redux";
-
+import { Footer } from "../components";
 const AppLayout = ({ children }) => {
   const [breadcrumbs, setBreadcrumbs] = useState([]);
   const location = useLocation();
@@ -78,6 +78,7 @@ const AppLayout = ({ children }) => {
         {/* app content */}
         <div className="md:p-4 md:mx-6 overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
           {children}
+          <Footer />
         </div>
       </div>
     </div>
