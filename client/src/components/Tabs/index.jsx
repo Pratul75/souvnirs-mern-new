@@ -11,19 +11,17 @@ const Tabs = ({ tabs, enableBorder }) => {
         initial="initial"
         animate="animate"
         variants={fadeInVariants}
-        className={`mt-4 rounded-xl ${
-          enableBorder && " border-[1px] border-base-300"
-        } bg-base-100`}
+        className={`mt-4 rounded-xl ${enableBorder && " border-[1px] border-base-300"
+          } bg-base-100`}
       >
         <div className="flex">
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${
-                activeTab === index
+              className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${activeTab === index
                   ? "text-blue-500  border-b-2 border-blue-500 py-4"
                   : ""
-              }`}
+                }`}
               onClick={() => setActiveTab(index)}
             >
               {tab.label}
@@ -31,15 +29,14 @@ const Tabs = ({ tabs, enableBorder }) => {
           ))}
         </div>
 
-        <div className="border-[1px] border-t-base-300">
+        <div className=" border-t-base-300">
           {tabs.map((tab, index) => (
             <div
               key={index}
-              className={`p-4 bg-base-100 rounded-b-xl ${
-                activeTab === index
+              className={`p-4 bg-base-100 rounded-b-xl ${activeTab === index
                   ? "bg-base-100 transition-opacity duration-500"
                   : "hidden"
-              }`}
+                }`}
               style={{
                 opacity: activeTab === index ? 1 : 0,
                 width: activeTab === index ? "100%" : "0",
