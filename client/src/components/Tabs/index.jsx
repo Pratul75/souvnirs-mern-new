@@ -19,8 +19,8 @@ const Tabs = ({ tabs, enableBorder }) => {
             <button
               key={index}
               className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${activeTab === index
-                  ? "text-blue-500  border-b-2 border-blue-500 py-4"
-                  : ""
+                ? "text-blue-500  border-b-2 border-blue-500 py-4"
+                : ""
                 }`}
               onClick={() => setActiveTab(index)}
             >
@@ -34,8 +34,8 @@ const Tabs = ({ tabs, enableBorder }) => {
             <div
               key={index}
               className={`p-4  rounded-b-xl ${activeTab === index
-                  ? "transition-opacity duration-500"
-                  : "hidden"
+                ? "transition-opacity duration-500"
+                : "hidden"
                 }`}
               style={{
                 opacity: activeTab === index ? 1 : 0,

@@ -81,9 +81,8 @@ const Sidebar = () => {
   return (
     <>
       <motion.ul
-        className={` bg-base-200 hidden md:flex items-center ${
-          darkMode ? "border-blue-950" : "border-blue-200"
-        } border-r-[1px]`}
+        className={` bg-base-200 hidden md:flex items-center ${darkMode ? "border-blue-950" : "border-blue-200"
+          } border-r-[1px]`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
@@ -128,7 +127,8 @@ const Sidebar = () => {
                   key={nanoid()}
                   title={title}
                   navLink={navLink}
-                  Icon={Icon}
+                  Icon={(props) => (
+                    <Icon {...props} className={props.isActive ? "text-themeColor" : ""} />)}
                   sidebarState={sidebarState}
                 />
               ))}

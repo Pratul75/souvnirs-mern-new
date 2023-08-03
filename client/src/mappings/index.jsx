@@ -1,13 +1,7 @@
 import { PATHS } from "../Routes/paths";
 import {
   OrderManagementIcon,
-  ProductManagement,
-  CategoriesIcon,
   AttributeIcon,
-  ReviewsIcon,
-  CollectionIcon,
-  CartIcon,
-  CheckoutIcon,
   ShipmentsIcon,
   RefundIcon,
   ReplacementIcon,
@@ -22,6 +16,8 @@ import {
   SupportIcon,
 } from "../icons/sidebarIcons";
 
+import { BiPackage, BiCategory, BiSolidCollection } from "react-icons/bi"
+import { MdReviews, MdShoppingCart, MdShoppingCartCheckout } from "react-icons/md"
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -32,7 +28,7 @@ export const adminSidebarMapping = [
   {
     title: "Product Management",
     navLink: PATHS.adminProductManagement,
-    Icon: ProductManagement,
+    Icon: BiPackage,
   },
   {
     title: "Order Management",
@@ -42,7 +38,7 @@ export const adminSidebarMapping = [
   {
     title: "Categories",
     navLink: PATHS.adminCategories,
-    Icon: CategoriesIcon,
+    Icon: BiCategory,
   },
   {
     title: "Attributes",
@@ -52,27 +48,27 @@ export const adminSidebarMapping = [
   {
     title: "Reviews",
     navLink: PATHS.adminReviews,
-    Icon: ReviewsIcon,
+    Icon: MdReviews,
   },
   {
     title: "Collection",
     navLink: PATHS.adminCollection,
-    Icon: CollectionIcon,
+    Icon: BiSolidCollection,
   },
   {
     title: "Collection Conditions",
     navLink: PATHS.adminCollectionConditions,
-    Icon: CollectionIcon,
+    Icon: BiSolidCollection,
   },
   {
     title: "Cart",
     navLink: PATHS.adminCart,
-    Icon: CartIcon,
+    Icon: MdShoppingCart,
   },
   {
     title: "Checkout",
     navLink: PATHS.adminCheckout,
-    Icon: CheckoutIcon,
+    Icon: MdShoppingCartCheckout,
   },
   {
     title: "Shipments",
@@ -167,12 +163,12 @@ export const vendorSidebarMapping = [
   {
     title: "Cart",
     navLink: PATHS.vendorCart,
-    Icon: CartIcon,
+    Icon: MdShoppingCart,
   },
   {
     title: "Checkouts",
     navLink: PATHS.vendorCheckout,
-    Icon: CheckoutIcon,
+    Icon: MdShoppingCartCheckout,
   },
   {
     title: "Shipments",
@@ -206,17 +202,17 @@ export const customerSidebarMapping = [
   {
     title: "Dashboard",
     navLink: PATHS.customerDashboard,
-    Icon: ProductManagement,
+    Icon: BiPackage,
   },
   {
     title: "Cart",
     navLink: PATHS.customerCart,
-    Icon: CartIcon,
+    Icon: MdShoppingCart,
   },
   {
     title: "Checkouts",
     navLink: PATHS.customerCheckouts,
-    Icon: CheckoutIcon,
+    Icon: MdShoppingCartCheckout,
   },
   {
     title: "Orders",

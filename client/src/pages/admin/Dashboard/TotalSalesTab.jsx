@@ -155,13 +155,11 @@ const TotalSalesTab = () => {
       ),
     },
     {
-      label: "By Month",
+      label: "By month",
       content: (
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-3 md:col-span-2 flex">
-            {/* Use flexbox for equal heights */}
-            {/* Set the height of the parent container */}
-            <div style={{ width: "600px", height: "250px" }}>
+        <div className="flex  gap-4">
+          <div className="col-span-3 md:col-span-2 flex flex-1">
+            <div style={{ width: "100%" }}>
               {monthData && monthLabels && (
                 <Bar
                   options={options}
@@ -179,10 +177,54 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className=" col-span-3 md:col-span-1 flex flex-col justify-center ">
-            {/* Use flexbox for equal heights */}
-            <div className="bg-base-100">
-              <DashboardChartCart
+
+          <div className="flex-1 flex items-center justify-center">
+            <img className="w-60" src={SalesJpgImage} alt="sales img" />
+          </div>
+
+          <div className="flex-1 md:col-span-1 flex flex-col justify-center ">
+            <div className="grid grid-cols-2 gap-4 mr-5">
+              <div className="col-span-1">
+                <div className="flex flex-col gap-4">
+                  <DashboardPieChartCard
+                    label="Income"
+                    addAmount="$76,745"
+                    labelColor="bg-blue-500"
+                    amount="$3421"
+                    icon={<BlueIncomeIcon />}
+                  />
+                  <DashboardPieChartCard
+                    label="Sales"
+                    addAmount="$76,745"
+                    labelColor="bg-orange-500"
+                    amount="$3421"
+                    icon={<SalesRedIcon />}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <div className="col-span-1">
+                  <div className="flex flex-col gap-4">
+                    <DashboardPieChartCard
+                      label="Income"
+                      addAmount="$76,745"
+                      labelColor="bg-blue-500"
+                      amount="$3421"
+                      icon={<BlueIncomeIcon />}
+                    />
+                    <DashboardPieChartCard
+                      label="Sales"
+                      addAmount="$76,745"
+                      labelColor="bg-orange-500"
+                      amount="$3421"
+                      icon={<SalesRedIcon />}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* <DashboardChartCart
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
@@ -213,7 +255,7 @@ const TotalSalesTab = () => {
                 totalAmount="$2500"
                 dynamicAmount="$200"
                 percentageColor="text-red-500"
-              />
+              /> */}
             </div>
           </div>
         </div>
@@ -222,11 +264,9 @@ const TotalSalesTab = () => {
     {
       label: "By week",
       content: (
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-3 md:col-span-1 flex">
-            {/* Use flexbox for equal heights */}
-            {/* Set the height of the parent container */}
-            <div style={{ width: "600px", height: "250px" }}>
+        <div className="flex  gap-4">
+          <div className="col-span-3 md:col-span-2 flex flex-1">
+            <div style={{ width: "100%" }}>
               {dateData && dateLabels && (
                 <Bar
                   options={options}
@@ -244,10 +284,54 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className="col-span-3 md:col-span-1 flex flex-col justify-center ">
-            {/* Use flexbox for equal heights */}
-            <div className="bg-base-100">
-              <DashboardChartCart
+
+          <div className="flex-1 flex items-center justify-center">
+            <img className="w-60" src={SalesJpgImage} alt="sales img" />
+          </div>
+
+          <div className="flex-1 md:col-span-1 flex flex-col justify-center ">
+            <div className="grid grid-cols-2 gap-4 mr-5">
+              <div className="col-span-1">
+                <div className="flex flex-col gap-4">
+                  <DashboardPieChartCard
+                    label="Income"
+                    addAmount="$76,745"
+                    labelColor="bg-blue-500"
+                    amount="$3421"
+                    icon={<BlueIncomeIcon />}
+                  />
+                  <DashboardPieChartCard
+                    label="Sales"
+                    addAmount="$76,745"
+                    labelColor="bg-orange-500"
+                    amount="$3421"
+                    icon={<SalesRedIcon />}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <div className="col-span-1">
+                  <div className="flex flex-col gap-4">
+                    <DashboardPieChartCard
+                      label="Income"
+                      addAmount="$76,745"
+                      labelColor="bg-blue-500"
+                      amount="$3421"
+                      icon={<BlueIncomeIcon />}
+                    />
+                    <DashboardPieChartCard
+                      label="Sales"
+                      addAmount="$76,745"
+                      labelColor="bg-orange-500"
+                      amount="$3421"
+                      icon={<SalesRedIcon />}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* <DashboardChartCart
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
@@ -278,7 +362,7 @@ const TotalSalesTab = () => {
                 totalAmount="$2500"
                 dynamicAmount="$200"
                 percentageColor="text-red-500"
-              />
+              /> */}
             </div>
           </div>
         </div>
