@@ -140,7 +140,7 @@ const LoginForm = () => {
                   <span className="label-text">Remember me</span>
                 </label>
               </div>
-              <div className="flex justify-center gap-2">
+              <div className="flex items-center justify-center">
                 <p>Dont have an account?</p>
                 <Link
                   to={"/register"}

@@ -9,7 +9,7 @@ const AttributeTypeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Attribute",
   }],
-  attributeCombination: {
+  variant: {
     type: String,
   },
   status: {
@@ -19,8 +19,13 @@ const AttributeTypeSchema = new mongoose.Schema({
   },
   price: { type: Number },
   quantity: { type: Number },
-  image: { type: String }
-
+  images: [{ type: String }],
+  variantRequiresShipping: {
+    type: Boolean
+  },
+  trackInventory: { type: Boolean },
+  weight: { type: Number },
+  published: { type: Boolean },
 });
 
 const AttributeType = mongoose.model("AttributeType", AttributeTypeSchema);

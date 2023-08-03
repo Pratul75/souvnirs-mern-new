@@ -16,6 +16,10 @@ const productSchema = new mongoose.Schema(
       ref: "Vendor",
       required: true,
     },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category"
+    },
     slug: {
       type: String,
       required: true,
@@ -46,7 +50,7 @@ const productSchema = new mongoose.Schema(
     },
     onSale: {
       type: Boolean,
-      default: true,
+      default: false,
     },
 
     stockQuantity: {

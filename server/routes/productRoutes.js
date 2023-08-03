@@ -8,10 +8,9 @@ const {
   checkProductsFromIds,
   bulkProductUpload,
 } = require("../controllers/productController");
-const multer = require('multer');
 const authMiddleware = require("../middlewares");
+const { upload } = require("../middlewares/ImageUpload");
 
-const upload = multer({ dest: 'uploads/' });
 
 const router = require("express").Router();
 
