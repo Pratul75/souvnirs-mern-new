@@ -10,7 +10,7 @@ const DetailsCard = ({
   iconText,
 }) => {
   return (
-    <div className="flex  w-full py-2 bg-base-100 border-b-[1px] border-base-200 mb-2">
+    <div className="flex  w-full py-2 bg-base-100 border-b-[1px] border-gray-700 mb-2">
       <div className="w-full flex flex-row  justify-between items-center">
         <div className="flex gap-4 items-center mb-2 md:mb-0">
           <div

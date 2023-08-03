@@ -128,16 +128,16 @@ const TransactionTotalIncomeInquiries = () => {
               <p className="text-blue-500 font-thin cursor-pointer">View all</p>
             </div>
             <div className="flex flex-col mt-4">
-              <span className="p-4 border-y-[1px] border-base-300">
+              <span className="p-4 border-y-[1px] border-base-200">
                 income requests
               </span>
-              <span className="p-4 border-y-[1px] border-base-300">
+              <span className="p-4 border-y-[1px] border-base-200">
                 You have 2 pending requests
               </span>
-              <span className="p-4 border-y-[1px] border-base-300">
+              <span className="p-4 border-y-[1px] border-base-200">
                 You have 3 pending orders
               </span>
-              <span className="p-4 border-y-[1px] border-base-300">
+              <span className="p-4 border-y-[1px] border-base-200">
                 New order received
               </span>
               <p className="flex justify-end text-blue-500 font-semibold pr-4 mt-4 cursor-pointer">

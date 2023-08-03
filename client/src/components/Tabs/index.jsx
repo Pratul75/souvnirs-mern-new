@@ -31,7 +31,7 @@ const Tabs = ({ tabs, enableBorder }) => {
           ))}
         </div>
 
-        <div className="mt-2">
+        <div className="border-[1px] border-t-base-300">
           {tabs.map((tab, index) => (
             <div
               key={index}

@@ -1,4 +1,8 @@
-import { Tabs, DashboardChartCart } from "../../../components";
+import {
+  Tabs,
+  DashboardChartCart,
+  DashboardPieChartCard,
+} from "../../../components";
 import { Bar } from "react-chartjs-2";
 import { data, options } from "../../../components/Charts/BarChart";
 import {
@@ -6,6 +10,10 @@ import {
   RevenueIconBlack,
   AbandomCartBlack,
   AdsSpentBlack,
+  BlueIncomeIcon,
+  SalesRedIcon,
+  GreenProductsIcon,
+  GrayVendors,
 } from "../../../icons";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
@@ -65,8 +73,37 @@ const TotalSalesTab = () => {
             </div>
           </div>
           <div className="col-span-3 md:col-span-1 flex flex-col justify-center ">
-            <div className="bg-base-100">
-              <DashboardChartCart
+            <div className="flex flex-col gap-2">
+              <DashboardPieChartCard
+                label="Income"
+                addAmount="$76,745"
+                labelColor="bg-blue-500"
+                amount="$3421"
+                icon={<BlueIncomeIcon />}
+              />
+              <DashboardPieChartCard
+                label="Sales"
+                addAmount="$76,745"
+                labelColor="bg-orange-500"
+                amount="$3421"
+                icon={<SalesRedIcon />}
+              />
+              <DashboardPieChartCard
+                label="Products"
+                addAmount="$76,745"
+                labelColor="bg-green-500"
+                amount="$3421"
+                icon={<GreenProductsIcon />}
+              />
+              <DashboardPieChartCard
+                label="Vendors"
+                addAmount="$76,745"
+                labelColor="bg-blue-500"
+                amount="$3421"
+                icon={<GrayVendors />}
+              />
+
+              {/* <DashboardChartCart
                 SvgIcon={<TotalSalesBlack />}
                 label="Total Sales"
                 percentage="30.6%"
@@ -97,7 +134,7 @@ const TotalSalesTab = () => {
                 totalAmount="$2500"
                 dynamicAmount="$200"
                 percentageColor="text-red-500"
-              />
+              /> */}
             </div>
           </div>
         </div>
