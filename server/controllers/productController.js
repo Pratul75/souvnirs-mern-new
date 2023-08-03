@@ -2,6 +2,7 @@ const AttributeType = require("../schema/attributeTypeModal");
 const Product = require("../schema/productModal");
 const { roles } = require("../utils");
 const { success, error } = require("../utils/errorHandler");
+const xlsx = require("xlsx")
 
 // create new product
 const createProduct = async (req, res) => {
@@ -178,6 +179,26 @@ const checkProductsFromIds = async (req, res) => {
     res.status(400).json({ error: "somthing went wrong" });
   }
 };
+const bulkProductUpload = (req, res) => {
+  const filePath = req.file.path;
+
+  // Read the Excel file using xlsx library
+  const workbook = xlsx.readFile(filePath);
+  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const jsonData = xlsx.utils.sheet_to_json(worksheet);
+
+  console.log(jsonData);
+  const groupedData = jsonData.reduce((acc, item) => {
+    const { Id, Title, ...rest } = item;
+    if (!acc[Id]) {
+      acc[Id] = [rest];
+    } else {
+      acc[Id].push(rest);
+    }
+    return acc;
+  }, {});
+  console.log('productController.js', workbook);
+}
 
 module.exports = {
   getProducts,
@@ -185,6 +206,7 @@ module.exports = {
   getProductsCount,
   createProduct,
   deleteProduct,
+  bulkProductUpload,
   editProduct,
   checkProductsFromIds,
 };
