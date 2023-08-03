@@ -9,21 +9,24 @@ import dashboardBannerImage from "../../../assets/bannerImages/dashboardBannerIm
 const AdminDashboard = () => {
   return (
     <div>
-      <Header
-        heading="Admin Dashboard"
-        subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way."
-        image={dashboardBannerImage}
-      />
-      {/* first row */}
-      <DashboardCardsList />
-      {/* second row */}
-      <TotalSalesTab />
-      {/* third row  */}
-      <ProductOverviewAndAddProduct />
-      {/* fourth row */}
-      <TransactionTotalIncomeInquiries />
-      {/* fifth row */}
-      <VendorAndOrderList />
+      <div className="flex flex-col gap-4">
+        <Header
+          heading="Admin Dashboard"
+          subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way."
+          image={dashboardBannerImage}
+        />
+        {/* first row */}
+        <DashboardCardsList />
+        {/* second row */}
+        <TotalSalesTab />
+
+        {/* third row  */}
+        <ProductOverviewAndAddProduct />
+        {/* fourth row */}
+        <TransactionTotalIncomeInquiries />
+        {/* fifth row */}
+        <VendorAndOrderList />
+      </div>
       <ToastContainer />
     </div>
   );

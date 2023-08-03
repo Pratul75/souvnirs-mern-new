@@ -34,7 +34,7 @@ const DashboardCardsList = () => {
         <div className="grid gap-4 mt-4">
           {/* Admin Dashboard */}
           {role === "admin" && (
-            <div className="grid gap-2 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               <DashboardCard
                 number={cardData?.sales}
                 subheading="Total Sales"

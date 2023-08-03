@@ -13,10 +13,10 @@ const Header = ({ heading, subheading, image }) => {
       variants={headerVariant}
       className="relative"
     >
-      <div className="w-full h-auto">
+      <div className="w-full">
         <div className="m-4  md:m-0">
           <img
-            className={`w-full h-auto object-cover ${
+            className={`w-full h-72 object-cover rounded-xl ${
               darkMode ? "brightness-100" : ""
             } `}
             src={darkMode ? DarkModeHeaderImage : HeaderBanner}

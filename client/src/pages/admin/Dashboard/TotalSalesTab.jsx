@@ -12,12 +12,10 @@ import {
   AdsSpentBlack,
   BlueIncomeIcon,
   SalesRedIcon,
-  GreenProductsIcon,
-  GrayVendors,
 } from "../../../icons";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
-
+import SalesJpgImage from "../../../assets/salesJpgImage.jpg";
 const TotalSalesTab = () => {
   const [chartData, setChartData] = useState();
   const [dateLabels, setDateLables] = useState();
@@ -52,9 +50,9 @@ const TotalSalesTab = () => {
     {
       label: "By year",
       content: (
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-3 md:col-span-2 flex">
-            <div style={{ width: "100%", height: "100%" }}>
+        <div className="flex  gap-4">
+          <div className="col-span-3 md:col-span-2 flex flex-1">
+            <div style={{ width: "100%" }}>
               {yearData && yearLabels && (
                 <Bar
                   options={options}
@@ -72,36 +70,52 @@ const TotalSalesTab = () => {
               )}
             </div>
           </div>
-          <div className="col-span-3 md:col-span-1 flex flex-col justify-center ">
-            <div className="flex flex-col gap-2">
-              <DashboardPieChartCard
-                label="Income"
-                addAmount="$76,745"
-                labelColor="bg-blue-500"
-                amount="$3421"
-                icon={<BlueIncomeIcon />}
-              />
-              <DashboardPieChartCard
-                label="Sales"
-                addAmount="$76,745"
-                labelColor="bg-orange-500"
-                amount="$3421"
-                icon={<SalesRedIcon />}
-              />
-              <DashboardPieChartCard
-                label="Products"
-                addAmount="$76,745"
-                labelColor="bg-green-500"
-                amount="$3421"
-                icon={<GreenProductsIcon />}
-              />
-              <DashboardPieChartCard
-                label="Vendors"
-                addAmount="$76,745"
-                labelColor="bg-blue-500"
-                amount="$3421"
-                icon={<GrayVendors />}
-              />
+
+          <div className="flex-1 flex items-center justify-center">
+            <img className="w-60" src={SalesJpgImage} alt="sales img" />
+          </div>
+
+          <div className="flex-1 md:col-span-1 flex flex-col justify-center ">
+            <div className="grid grid-cols-2 gap-4 mr-5">
+              <div className="col-span-1">
+                <div className="flex flex-col gap-4">
+                  <DashboardPieChartCard
+                    label="Income"
+                    addAmount="$76,745"
+                    labelColor="bg-blue-500"
+                    amount="$3421"
+                    icon={<BlueIncomeIcon />}
+                  />
+                  <DashboardPieChartCard
+                    label="Sales"
+                    addAmount="$76,745"
+                    labelColor="bg-orange-500"
+                    amount="$3421"
+                    icon={<SalesRedIcon />}
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <div className="col-span-1">
+                  <div className="flex flex-col gap-4">
+                    <DashboardPieChartCard
+                      label="Income"
+                      addAmount="$76,745"
+                      labelColor="bg-blue-500"
+                      amount="$3421"
+                      icon={<BlueIncomeIcon />}
+                    />
+                    <DashboardPieChartCard
+                      label="Sales"
+                      addAmount="$76,745"
+                      labelColor="bg-orange-500"
+                      amount="$3421"
+                      icon={<SalesRedIcon />}
+                    />
+                  </div>
+                </div>
+              </div>
 
               {/* <DashboardChartCart
                 SvgIcon={<TotalSalesBlack />}
@@ -147,7 +161,7 @@ const TotalSalesTab = () => {
           <div className="col-span-3 md:col-span-2 flex">
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
-            <div style={{ width: "100%", height: "100%" }}>
+            <div style={{ width: "600px", height: "250px" }}>
               {monthData && monthLabels && (
                 <Bar
                   options={options}
@@ -208,11 +222,11 @@ const TotalSalesTab = () => {
     {
       label: "By week",
       content: (
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-3 md:col-span-2 flex">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="col-span-3 md:col-span-1 flex">
             {/* Use flexbox for equal heights */}
             {/* Set the height of the parent container */}
-            <div style={{ width: "100%", height: "100%" }}>
+            <div style={{ width: "600px", height: "250px" }}>
               {dateData && dateLabels && (
                 <Bar
                   options={options}

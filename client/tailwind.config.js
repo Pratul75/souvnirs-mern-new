@@ -7,6 +7,10 @@ module.exports = {
       },
       colors: {
         themeColor: "#4680FF",
+        cardDark: "#3B558A",
+        cardDarker: "#1E252F",
+        cardLight: "#FFFFFF",
+        carsLighter: "#F8F9FA",
       },
     },
   },

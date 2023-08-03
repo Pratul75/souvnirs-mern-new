@@ -33,8 +33,8 @@ const Tabs = ({ tabs, enableBorder }) => {
           {tabs.map((tab, index) => (
             <div
               key={index}
-              className={`p-4 bg-base-100 rounded-b-xl ${activeTab === index
-                  ? "bg-base-100 transition-opacity duration-500"
+              className={`p-4  rounded-b-xl ${activeTab === index
+                  ? "transition-opacity duration-500"
                   : "hidden"
                 }`}
               style={{

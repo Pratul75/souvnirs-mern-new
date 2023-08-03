@@ -1,13 +1,18 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 import { fadeInVariants } from "../../animation";
+import { useSelector } from "react-redux";
 const Card = ({ children }) => {
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
+
   return (
     <motion.div
       variants={fadeInVariants}
       animate="animate"
       initial="initial"
-      className="bg-base-100 shadow-lg rounded-xl h-full"
+      className={` ${
+        darkMode ? "bg-cardDarker" : "bg-cardLight"
+      } shadow-xl rounded-xl h-full`}
     >
       {children}
     </motion.div>
