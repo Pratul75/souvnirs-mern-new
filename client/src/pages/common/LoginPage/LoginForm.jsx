@@ -79,9 +79,9 @@ const LoginForm = () => {
 
   return (
     <div className="w-screen lg:w-1/2">
-      <div className="w-full h-full flex justify-center items-center">
-        <div className="w-full p-8 bg-base-200 shadow-lg mx-8">
-          <div className="flex justify-center py-4 mb-5 md:mb-0 ">
+      <div className="w-screen lg:w-full h-full flex justify-center items-center">
+        <div className="w-full p-8 bg-base-200 shadow-lg md:mx-8">
+          <div className="flex w-full justify-center py-4 mb-5 md:mb-0 ">
             <img className="w-56" src={SouvnirsLogoImg} alt="" />
           </div>
 
@@ -162,7 +162,7 @@ const LoginForm = () => {
                 </label>
               </div>
             </div>
-            <div className="flex mt-5">
+            <div className="flex gap-5 mt-5 my-5 ">
               <button
                 type="submit"
                 className="bg-gradient-to-r w-full from-[#4C62C3] via-[#F15157] to-[#FE7D43] text-white font-semibold py-2 px-8  hover:shadow-lg rounded-[4px] text-xl mx-11"
