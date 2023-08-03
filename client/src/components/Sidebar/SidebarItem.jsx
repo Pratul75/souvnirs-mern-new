@@ -15,7 +15,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
         to={navLink}
         className={({ isActive }) =>
           isActive
-            ? `flex text-themeColor  bg-blue-100 rounded-xl  w-full p-4 ${
+            ? `flex text-themeColor  bg-gray-800 rounded-xl  w-full p-4 ${
                 sidebarState ? "justify-start" : "justify-center"
               } `
             : `flex hover:bg-base-300 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${
