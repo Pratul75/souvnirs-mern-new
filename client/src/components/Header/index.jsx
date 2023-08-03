@@ -16,10 +16,10 @@ const Header = ({ heading, subheading, image }) => {
           src={HeaderBanner}
           alt="header-banner"
         />
-        <div className="absolute inset-0 flex items-center justify-center px-8">
+        <div className="absolute inset-0 flex items-center justify-center px-4">
           <div className="ml-8">
-            <h1 className="text-2xl md:text-4xl mb-4 text-white">{heading}</h1>
-            <p className="hidden md:block text-white text-2xl font-thin w-[60%] my-4">
+            <h1 className="text-2xl md:text-2xl mb-4 text-white">{heading}</h1>
+            <p className="hidden md:block text-white text-lg font-thin w-[60%] my-4 text-l">
               {subheading}
             </p>
           </div>

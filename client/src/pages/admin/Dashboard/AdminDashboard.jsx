@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   return (
     <div>
       <Header
-        heading="Admins Dashboard"
+        heading="Admin Dashboard"
         subheading="This is admin dashboard which provides all the details in a very conscise and user friendly way."
         image={dashboardBannerImage}
       />

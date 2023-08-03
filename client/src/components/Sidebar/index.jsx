@@ -33,7 +33,7 @@ const Sidebar = () => {
     if (!isExpanded) {
       setSidebarState(false);
     }
-  }, 200);
+  }, 300);
   // Update sidebarState when isExpanded changes
   useEffect(() => {
     setSidebarState(isExpanded);
@@ -59,14 +59,14 @@ const Sidebar = () => {
     expanded: {
       width: "250px",
       transition: {
-        duration: 0.3,
+        duration: 0.4,
         ease: "easeInOut",
       },
     },
     collapsed: {
       width: "100px",
       transition: {
-        duration: 0.3,
+        duration: 0.5,
         ease: "easeInOut",
       },
     },

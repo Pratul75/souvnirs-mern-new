@@ -18,21 +18,27 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
             ? `flex text-themeColor  bg-blue-100 rounded-xl  w-full p-4 ${
                 sidebarState ? "justify-start" : "justify-center"
               } `
-            : `flex hover:bg-base-100 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${
+            : `flex hover:bg-base-300 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${
                 sidebarState ? "justify-start" : "justify-center"
               } `
         }
       >
-        {Icon && <Icon />} {/* Only render Icon if it exists */}
-        {sidebarState && title && (
-          <motion.span
-            className={`ml-2 text-xs ${sidebarState ? "block" : "hidden"}`}
-            variants={sidebarVariant}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-          >
-            {title}
-          </motion.span>
-        )}
+        <div className="flex flex-row gap-2 items-center">
+          {Icon && <Icon />} {/* Only render Icon if it exists */}
+          {sidebarState && title && (
+            <motion.span
+              className={`ml-2 text-xs font-semibold ${
+                sidebarState ? "block" : "hidden"
+              }`}
+              variants={sidebarVariant}
+              expanded="expanded"
+              collapsed="collapsed"
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              {title}
+            </motion.span>
+          )}
+        </div>
       </NavLink>
     </li>
   );

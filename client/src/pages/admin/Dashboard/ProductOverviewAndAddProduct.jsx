@@ -76,7 +76,7 @@ const ProductOverviewAndAddProduct = () => {
                 </div>
               </div>
               <div className="flex justify-between gap-2 items-center">
-                <div className="flex flex-col w-full md:ml-24">
+                <div className="flex flex-col w-full md:ml-32">
                   <span>Pending Orders</span>
                   <span></span>
                 </div>
