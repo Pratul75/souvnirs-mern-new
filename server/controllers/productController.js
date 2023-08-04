@@ -62,8 +62,24 @@ const getProducts = async (req, res) => {
     // Get all products
     let productsList;
     if (req.role === "admin") {
-      productsList = await Product.find({}).sort({ createdAt: -1 });
-
+      productsList = await Product.aggregate([
+        {
+          '$lookup': {
+            'from': 'attributetypes',
+            'localField': '_id',
+            'foreignField': 'productId',
+            'as': 'result'
+          }
+        }, {
+          '$unwind': {
+            'path': '$result'
+          }
+        }, {
+          '$sort': {
+            '_id': -1
+          }
+        }
+      ]);
     }
     else if (req.role === "vendor") {
       productsList = await Product.find({ vendorId: req.userId });
