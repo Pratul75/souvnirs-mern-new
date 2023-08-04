@@ -25,7 +25,6 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-
       {
         Header: "Variants",
         accessor: "result.variant",
@@ -208,7 +207,6 @@ const ProductManagement = () => {
 
         <div className="mt-4">
           <ReusableTable
-            tableTitle="Products List"
             columns={columns}
             data={data}
             showButtons
