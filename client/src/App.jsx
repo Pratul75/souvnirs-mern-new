@@ -6,12 +6,18 @@ import {
   PageNotFound,
 } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
-import { adminRoutes, vendorRoutes, customerRoutes } from "./Routes/routes";
+import {
+  adminRoutes,
+  vendorRoutes,
+  customerRoutes,
+  shopRoutes,
+} from "./Routes/routes";
 import { PATHS } from "./Routes/paths";
 import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./Routes/ReverseAuthRoute";
-import { ProtectedRoute, useAuth } from "./Routes/ProtectedRoute";
+import { ProtectedRoute } from "./Routes/ProtectedRoute";
+import ShopLayout from "./layouts/ShopLayout";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
@@ -21,7 +27,10 @@ const App = () => {
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
       <AnimatePresence>
         <Routes>
-          <Route path={PATHS.root} element={<Navigate to={PATHS.login} />} />
+          <Route
+            path={PATHS.root}
+            element={<Navigate to={PATHS.landingPage} />}
+          />
 
           <Route element={<RegisterPage />} path={PATHS.register} />
 
@@ -101,6 +110,20 @@ const App = () => {
             );
           })}
 
+          {/* shop routes  */}
+          {shopRoutes.map(({ id, path, Component }) => {
+            return (
+              <Route
+                key={id}
+                path={path}
+                element={
+                  <ShopLayout>
+                    <Component />
+                  </ShopLayout>
+                }
+              />
+            );
+          })}
           <Route path={PATHS.permissionDenied} element={<PermissionDenied />} />
           <Route path="/*" element={<PageNotFound />} />
         </Routes>

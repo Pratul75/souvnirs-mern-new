@@ -58,3 +58,6 @@ export { default as CustomerProfile } from "./customer/CustomerProfile";
 export { default as CustomerRefunds } from "./customer/CustomerRefunds";
 export { default as CustomerReplacements } from "./customer/CustomerReplacements";
 export { default as CustomerWishlist } from "./customer/CustomerWishlist";
+
+// shop routes
+export { default as LandingPage } from "./shop/LandingPage";

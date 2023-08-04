@@ -63,4 +63,8 @@ export const PATHS = {
   customerRefunds: "/customer/refunds",
   customerReplacements: "/customer/replacements",
   customerWishlist: "/customer/wishlist",
+
+  // shop routes
+  landingPage: "/landing-page",
+  shop: "/shop",
 };
