@@ -126,21 +126,21 @@ const Categories = () => {
     getAllAttributes();
   }, []);
 
-  useEffect(() => { }, [selectedAttributes]);
+  useEffect(() => {}, [selectedAttributes]);
   console.log("SELECTED ATTRIBUTES: ", editedRow);
 
   useEffect(() => {
     // Set default selected values for MultiSelect based on selectedRow.attributes
     const defaultSelectedAttributes = selectedRow.attributes
       ? selectedRow.attributes.map((attributeId) => {
-        const attribute = attributesList.find(
-          (attr) => attr._id === attributeId
-        );
-        return {
-          label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
-          value: attributeId,
-        };
-      })
+          const attribute = attributesList.find(
+            (attr) => attr._id === attributeId
+          );
+          return {
+            label: attribute?.name || "", // Set label to attribute name if found, otherwise an empty string
+            value: attributeId,
+          };
+        })
       : [];
     setSelectedAttributes(defaultSelectedAttributes);
   }, [selectedRow, attributesList]);
@@ -150,7 +150,7 @@ const Categories = () => {
     <>
       <Header
         heading="Category Management"
-        subheading="This is a subheading for the category management section. This subheading contains necessary details."
+        subheading="This is a subheading for the category management section."
         image={CategoryManagementBanner}
       />
 
