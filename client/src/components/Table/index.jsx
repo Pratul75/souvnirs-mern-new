@@ -68,21 +68,21 @@ const ReusableTable = ({
       hooks.visibleColumns.push((columns) => [
         isSelectable
           ? {
-            id: "selection",
-            //
-            Header: ({ getToggleAllRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-              </div>
-            ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to render a checkbox
-            Cell: ({ row }) => (
-              <div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          }
+              id: "selection",
+              //
+              Header: ({ getToggleAllRowsSelectedProps }) => (
+                <div>
+                  <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+                </div>
+              ),
+              // The cell can use the individual row's getToggleRowSelectedProps method
+              // to render a checkbox
+              Cell: ({ row }) => (
+                <div>
+                  <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+                </div>
+              ),
+            }
           : {},
         ...columns,
       ]);
@@ -134,8 +134,8 @@ const ReusableTable = ({
       variants={fadeInVariants}
       className="w-screen md:w-auto"
     >
-      <div className="flex justify-between items-center my-4">
-        <h1 className="ml-16 text-xl hidden md:block">
+      <div className="flex  items-center my-4">
+        <h1 className="text-xl hidden md:block">
           {tableTitle || "Table Title"}
         </h1>
         <input
@@ -226,10 +226,8 @@ const ReusableTable = ({
       {enablePagination && data.length > 0 && (
         // Render pagination controls only if enablePagination prop is true and data is not empty
         <div className="w-full flex justify-center ">
-
           <div className="flex gap-1 justify-between w-full items-center mt-4 bg-base-300 rounded-xl p-4">
             <div>
-
               <label>Page Size</label>
               <select
                 value={pageSize}
@@ -244,7 +242,6 @@ const ReusableTable = ({
               </select>
             </div>
             <div>
-
               <button
                 onClick={() => handlePageChange(0)}
                 disabled={pageIndex === 0}
@@ -281,7 +278,6 @@ const ReusableTable = ({
               </button>
               {/* Select for page size */}
             </div>
-
           </div>
         </div>
       )}

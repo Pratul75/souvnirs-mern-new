@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { BsUpload } from "react-icons/bs";
 
 const Dropzone = () => {
   const [files, setFiles] = useState([]);
@@ -22,9 +23,12 @@ const Dropzone = () => {
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
-        <p className="p-4 flex items-center justify-center">
-          Drag & drop some files here, or click to select files
-        </p>
+        <div className="flex flex-col items-center justify-center gap-20">
+          <p className="p-4 flex items-center justify-center">
+            Drag & drop some files here, or click to select files
+          </p>
+          <BsUpload size={90} />
+        </div>
       )}
       <div className="flex flex-col gap-1">
         {files?.map((file) => (

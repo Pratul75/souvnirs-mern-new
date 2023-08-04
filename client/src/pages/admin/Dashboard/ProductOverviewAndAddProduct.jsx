@@ -10,7 +10,7 @@ import { AvatarGroup, Card } from "../../../components";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
-import { data, options } from "../../../components/Charts/LineChart";
+import { options } from "../../../components/Charts/LineChart";
 
 const ProductOverviewAndAddProduct = () => {
   const [productLabel, setProductLabel] = useState([]);

@@ -10,7 +10,9 @@ import {
 import API_WRAPPER from "../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
+import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
+import { Dropzone } from "../../components";
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -142,17 +144,18 @@ const ProductManagement = () => {
   };
   const bulkUpload = async (e) => {
     try {
-
       const buFormData = new FormData();
-      buFormData.append("file", e)
-      const response = await API_WRAPPER.post("/products/bulk-upload", buFormData)
+      buFormData.append("file", e);
+      const response = await API_WRAPPER.post(
+        "/products/bulk-upload",
+        buFormData
+      );
 
-      console.log('ProductManagement.jsx', response);
-
+      console.log("ProductManagement.jsx", response);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
     fetchProductsList();
@@ -165,20 +168,30 @@ const ProductManagement = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
         image={ProductManagementBannerImage}
       />
-      <div className="w-full gap-4 mt-14">
-        <div className="flex justify-end">
-
-
-
-          <input type="file" onChange={(e) => bulkUpload(e.target.files[0])} className="file-input file-input-bordered file-input-md input-accent w-xs max-w-xs" />
-
-          <Link
-            to={PATHS.adminAddProducts}
-            className="btn btn-accent ml-4 w-48"
-          >
-            <GoPlus size={20} />
-            Add Product
-          </Link>
+      <div className="w-full gap-4 mt-14 relative">
+        <div className="flex absolute right-0">
+          <details className="dropdown dropdown-top md:dropdown-left">
+            <summary className="m-1 btn bg-themeColor text-white">
+              Add Products
+            </summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+              <li>
+                <p
+                  onClick={() => window.my_modal_1.showModal()}
+                  onChange={(e) => bulkUpload(e.target.files[0])}
+                >
+                  <BsUpload size={20} />
+                  Bulk Upload
+                </p>
+              </li>
+              <li>
+                <Link to={PATHS.adminAddProducts}>
+                  <GoPlus size={20} />
+                  Add Product
+                </Link>
+              </li>
+            </ul>
+          </details>
         </div>
 
         <div className="mt-4">
@@ -272,6 +285,32 @@ const ProductManagement = () => {
               Delete
             </button>
             <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
+
+      {/* bulk modal */}
+      {/* Open the modal using ID.showModal() method */}
+
+      <dialog id="my_modal_1" className="modal">
+        <form method="dialog" className="modal-box p-0  w-3/4 max-w-5xl">
+          <div className="p-4">
+            <h3 className="font-bold text-xl ">Import products by CSV</h3>
+            <h4 className="mt-2">
+              Download a sample SVG template to see an examble of the format
+              required.
+            </h4>
+            <hr className="mt-4" />
+            <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
+              <Dropzone />
+            </div>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn bg-themeColor text-white">
+                Upload & Preview
+              </button>
+              <button className="btn">Close</button>
+            </div>
           </div>
         </form>
       </dialog>
