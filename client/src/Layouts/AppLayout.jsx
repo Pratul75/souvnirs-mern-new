@@ -37,46 +37,45 @@ const AppLayout = ({ children }) => {
       <div className="flex flex-col flex-grow">
         <Navbar />
         {/* breadcrumbs */}
-        <motion.nav
-          variants={headerVariant}
-          initial="initial"
-          animate="animate"
-          className={`hidden md:block py-4 px-8 m-4 ${
-            darkMode ? "" : ""
-          } rounded-xl`}
-        >
-          <ol className="list-reset flex text-base-content">
-            <li>
-              <a
-                href="/"
-                className="text-primary hover:text-primary-dark text-sm"
-              >
-                Home
-              </a>
-            </li>
-            {breadcrumbs.map((item, index) => (
-              <React.Fragment key={item.path}>
-                <li>
-                  <span className="mx-2">/</span>
-                </li>
-                <li>
-                  <Link
-                    to={item.path}
-                    className={
-                      index === breadcrumbs.length - 1
-                        ? "text-primary-dark text-sm"
-                        : "text-primary hover:text-primary-dark text-sm"
-                    }
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              </React.Fragment>
-            ))}
-          </ol>
-        </motion.nav>
+
         {/* app content */}
         <div className="md:p-4 md:mx-6 overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
+          <motion.nav
+            variants={headerVariant}
+            initial="initial"
+            animate="animate"
+            className={`hidden md:block px-4 py-2 ${darkMode ? "" : ""} rounded-xl`}
+          >
+            <ol className="list-reset flex text-base-content">
+              <li>
+                <a
+                  href="/"
+                  className="text-primary hover:text-primary-dark text-sm"
+                >
+                  Home
+                </a>
+              </li>
+              {breadcrumbs.map((item, index) => (
+                <React.Fragment key={item.path}>
+                  <li>
+                    <span className="mx-2">/</span>
+                  </li>
+                  <li>
+                    <Link
+                      to={item.path}
+                      className={
+                        index === breadcrumbs.length - 1
+                          ? "text-primary-dark text-sm"
+                          : "text-primary hover:text-primary-dark text-sm"
+                      }
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                </React.Fragment>
+              ))}
+            </ol>
+          </motion.nav>
           {children}
           <Footer />
         </div>
