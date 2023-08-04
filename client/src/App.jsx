@@ -17,7 +17,7 @@ import { AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./Routes/ReverseAuthRoute";
 import { ProtectedRoute } from "./Routes/ProtectedRoute";
-import ShopLayout from "./layouts/ShopLayout";
+import ShopLayout from "./Layouts/ShopLayout";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
