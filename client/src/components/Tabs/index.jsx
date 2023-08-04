@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
@@ -13,15 +13,19 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
         initial="initial"
         animate="animate"
         variants={fadeInVariants}
-        className={`mt-4 rounded-xl ${enableBorder ? "border-[1px] border-base-300" : ""
-          } bg-base-100`}
+        className={`mt-4 rounded-xl ${
+          enableBorder ? "border-[1px] border-base-300" : ""
+        } bg-base-100`}
       >
         <div className="flex">
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${activeTab === index ? "text-blue-500  border-b-2 border-blue-500 py-4" : ""
-                }`}
+              className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${
+                activeTab === index
+                  ? "text-blue-500  border-b-2 border-blue-500 py-4"
+                  : ""
+              }`}
               onClick={() => setActiveTab(index)}
             >
               {tab.label}
@@ -33,8 +37,11 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
           {tabs.map((tab, index) => (
             <div
               key={index}
-              className={`p-4 bg-base-100 rounded-b-xl ${activeTab === index ? "bg-base-100 transition-opacity duration-500" : "hidden"
-                }`}
+              className={`p-4 bg-base-100 rounded-b-xl ${
+                activeTab === index
+                  ? "bg-base-100 transition-opacity duration-500"
+                  : "hidden"
+              }`}
               style={{
                 opacity: activeTab === index ? 1 : 0,
                 width: activeTab === index ? "100%" : "0",
@@ -46,42 +53,51 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
         </div>
       </motion.div>
     </Card>
-  ) : <motion.div
-    initial="initial"
-    animate="animate"
-    variants={fadeInVariants}
-    className={`mt-4 rounded-xl ${enableBorder ? "border-[1px] border-base-300" : ""
+  ) : (
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={fadeInVariants}
+      className={`mt-4 rounded-xl ${
+        enableBorder ? "border-[1px] border-base-300" : ""
       } bg-base-100`}
-  >
-    <div className="flex">
-      {tabs.map((tab, index) => (
-        <button
-          key={index}
-          className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${activeTab === index ? "text-blue-500  border-b-2 border-blue-500 py-4" : ""
+    >
+      <div className="flex">
+        {tabs.map((tab, index) => (
+          <button
+            key={index}
+            className={`px-4 py-2 text-xs hover:text-gray-700 cursor-pointer ${
+              activeTab === index
+                ? "text-blue-500  border-b-2 border-blue-500 py-4"
+                : ""
             }`}
-          onClick={() => setActiveTab(index)}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </div>
+            onClick={() => setActiveTab(index)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
-    <div className=" border-t-base-300">
-      {tabs.map((tab, index) => (
-        <div
-          key={index}
-          className={`p-4 bg-base-100 rounded-b-xl ${activeTab === index ? "bg-base-100 transition-opacity duration-500" : "hidden"
+      <div className=" border-t-base-300">
+        {tabs.map((tab, index) => (
+          <div
+            key={index}
+            className={`p-4 bg-base-100 rounded-b-xl ${
+              activeTab === index
+                ? "bg-base-100 transition-opacity duration-500"
+                : "hidden"
             }`}
-          style={{
-            opacity: activeTab === index ? 1 : 0,
-            width: activeTab === index ? "100%" : "0",
-          }}
-        >
-          {tab.content}
-        </div>
-      ))}
-    </div>
-  </motion.div>;
+            style={{
+              opacity: activeTab === index ? 1 : 0,
+              width: activeTab === index ? "100%" : "0",
+            }}
+          >
+            {tab.content}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
 };
 
 // tabs props
