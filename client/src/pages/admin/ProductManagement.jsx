@@ -25,22 +25,22 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-      {
-        Header: "Variants",
-        accessor: "result.variant",
-        Cell: ({ value }) => {
-          const variantKeys = Object.keys(value);
-          return (
-            <div>
-              {variantKeys.map((key) => (
-                <p key={key}>
-                  {key}: {value[key]}
-                </p>
-              ))}
-            </div>
-          );
-        },
-      },
+      // {
+      //   Header: "Variants",
+      //   accessor: "result.variant",
+      //   Cell: ({ value }) => {
+      //     const variantKeys = Object.keys(value);
+      //     return (
+      //       <div>
+      //         {variantKeys.map((key) => (
+      //           <p key={key}>
+      //             {key}: {value[key]}
+      //           </p>
+      //         ))}
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         Header: "Price",
         accessor: "result.price",
