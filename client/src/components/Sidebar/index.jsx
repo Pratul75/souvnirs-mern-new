@@ -80,13 +80,18 @@ const Sidebar = () => {
   return (
     <>
       <motion.ul
-        className={` bg-base-200 hidden md:flex items-center`}
+        className={` bg-base-200 hidden md:flex items-center 
+           shadow-lg
+        `}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
       >
         <div className="w-full">
-          <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4 ">
+          <div
+            className="flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4"
+          // Adjust the values as needed
+          >
             {sidebarState ? (
               <img
                 src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
