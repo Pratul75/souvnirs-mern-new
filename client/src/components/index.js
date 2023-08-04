@@ -23,4 +23,4 @@ export { default as DoughnutChart } from "./Charts/DoughnutChart";
 
 // shop components
 export { default as TopHeader } from "./shop/headers/TopHeader";
-export { default as SouvnirsHeader } from "./shop/headers/SOuvnirsHeader";
+export { default as SouvnirsHeader } from "./shop/headers/SouvnirsHeader";
