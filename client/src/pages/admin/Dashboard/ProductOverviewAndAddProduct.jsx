@@ -42,12 +42,12 @@ const ProductOverviewAndAddProduct = () => {
             className=" bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
           >
             <h2 className="text-lg font-semibold">Product Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-              <div className="flex justify-between mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 px-8 md:px-16 gap-4 items-center">
+              <div className="flex justify-between">
                 <div className="flex justify-between gap-2 items-center">
-                  <div className="flex flex-col w-full">
+                  <div className="flex flex-col w-full text-xs">
                     <span>Total Products</span>
-                    <span>
+                    <span className="text-themeColor font-bold">
                       {productData.reduce((acc, count) => acc + count, 0)}
                     </span>
                   </div>
@@ -77,11 +77,10 @@ const ProductOverviewAndAddProduct = () => {
                 </div>
               </div>
               <div className="flex justify-between gap-2 items-center">
-                <div className="flex flex-col w-full md:ml-32">
-                  <span>Pending Orders</span>
-                  <span></span>
+                <div className="flex flex-col text-xs">
+                  <p className="w-full">Pending Orders</p>
                 </div>
-                <div className="chart-container w-full md:w-auto">
+                <div className="chart-container w-full">
                   {productData.length > 0 && productLabel.length > 0 && (
                     <Line
                       options={{
