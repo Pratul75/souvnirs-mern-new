@@ -127,6 +127,7 @@ const ReusableTable = ({
     );
   }
 
+
   return (
     <motion.div
       initial="initial"
@@ -147,7 +148,7 @@ const ReusableTable = ({
         />
       </div>
       <div className="overflow-x-auto width-full max-w-full">
-        <table className="table table-zebra" {...getTableProps()}>
+        <table className="table " {...getTableProps()}>
           <thead>
             {headerGroups.map((headerGroup) => (
               <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>

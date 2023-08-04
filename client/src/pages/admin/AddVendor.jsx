@@ -138,7 +138,7 @@ const AddVendor = () => {
           type="text"
         />
         <button type="submit" className="col-span-2 btn btn-accent">
-          Add Customer
+          Add Vendor
         </button>
       </form>
       <ToastContainer />

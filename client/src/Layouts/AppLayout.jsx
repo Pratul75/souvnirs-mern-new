@@ -50,13 +50,19 @@ const AppLayout = ({ children }) => {
               <li>
                 <a
                   href="/"
-                  className="text-primary hover:text-primary-dark text-sm"
+                  className=" hover:text-primary-dark text-sm"
                 >
                   Home
                 </a>
               </li>
-              {breadcrumbs.map((item, index) => (
-                <React.Fragment key={item.path}>
+              {breadcrumbs.map((item, index) => {
+                if (item.label === "Admin") {
+                  return <>
+                    <li>
+                      <span className="mx-2">/</span>
+                    </li><span>{item.label}</span></>
+                }
+                return <React.Fragment key={item.path}>
                   <li>
                     <span className="mx-2">/</span>
                   </li>
@@ -73,7 +79,7 @@ const AppLayout = ({ children }) => {
                     </Link>
                   </li>
                 </React.Fragment>
-              ))}
+              })}
             </ol>
           </motion.nav>
           {children}

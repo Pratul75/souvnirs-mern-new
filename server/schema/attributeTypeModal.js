@@ -10,7 +10,7 @@ const AttributeTypeSchema = new mongoose.Schema({
     ref: "Attribute",
   }],
   variant: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed,
   },
   status: {
     type: String,

@@ -12,9 +12,8 @@ const DashboardPieChartCard = ({
 
   return (
     <div
-      className={`w-full flex flex-col md:flex-row justify-between p-2 ${
-        darkMode ? "bg-cardDarker" : "bg-carsLighter"
-      } shadow-xl border-[1px] border-base-200 rounded-xl`}
+      className={`w-full flex flex-col md:flex-row justify-between p-2 ${darkMode ? "bg-cardDarker" : "bg-carsLighter"
+        } shadow-xl border-[1px] border-base-200 rounded-xl`}
     >
       {/* left side */}
       <div className="flex flex-col md:flex-row items-center md:items-start">
@@ -24,8 +23,7 @@ const DashboardPieChartCard = ({
             <span className="text-sm">{label}</span>
           </div>
           <div className="flex gap-2 mt-1">
-            <p className="text-xs">{amount}</p>
-            <div className="text-gray-300 text-xs">+{addAmount}$</div>
+            <p className="text-s font-semibold">{amount}</p>
           </div>
         </div>
       </div>

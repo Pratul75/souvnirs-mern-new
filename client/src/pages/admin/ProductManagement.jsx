@@ -25,14 +25,24 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-
       // {
-      //   Header: "Description",
-      //   accessor: "description",
+      //   Header: "Variant",
+      //   accessor: ({ row }) => {
+      //     return (
+      //       <>
+      //         {Object.entries(row.original.result.variant).map(([key, vaulue]) => {
+      //           <div key={key}>
+      //             <span>{key}: </span>
+      //             <span>{value}</span>
+      //           </div>
+      //         })}
+      //       </>
+      //     );
+      //   },
       // },
       {
         Header: "Price",
-        accessor: "price",
+        accessor: "result.price",
       },
       {
         Header: "On Sale",
@@ -51,7 +61,7 @@ const ProductManagement = () => {
       },
       {
         Header: "Stock Quantity",
-        accessor: "stockQuantity",
+        accessor: "result.quantity",
       },
       {
         Header: "Stock Status",
