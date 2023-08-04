@@ -8,7 +8,7 @@ const addressSchema = new mongoose.Schema(
       required: true,
     },
     email: { type: String },
-    address: { type: String, },
+    address: { type: String },
     city: { type: String, required: true },
     country: { type: String, required: true },
     pin_code: { type: String, required: true },
