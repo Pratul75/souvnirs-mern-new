@@ -62,7 +62,24 @@ const getProducts = async (req, res) => {
     // Get all products
     let productsList;
     if (req.role === "admin") {
-      productsList = await Product.find({}).sort({ createdAt: -1 });
+      productsList = await Product.aggregate([
+        {
+          '$lookup': {
+            'from': 'attributetypes',
+            'localField': '_id',
+            'foreignField': 'productId',
+            'as': 'result'
+          }
+        }, {
+          '$unwind': {
+            'path': '$result'
+          }
+        }, {
+          '$sort': {
+            '_id': -1
+          }
+        }
+      ]);
 
     }
     else if (req.role === "vendor") {
@@ -184,78 +201,89 @@ const checkProductsFromIds = async (req, res) => {
   }
 };
 const bulkProductUpload = async (req, res) => {
-  const filePath = req.file.path;
+  try {
 
-  // Read the Excel file using xlsx library
-  const workbook = xlsx.readFile(filePath);
-  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-  const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
-  console.log(jsonData);
-  const groupedData = jsonData.reduce((acc, item) => {
-    const { Id, Title, Description, FeatureImage, Category, VendorEmail, tags, Color, Size, Quantity, Set, Style, Material, Pattern, Fabric, Type, Flavour, ...rest } = item;
+    const filePath = req.file.path;
 
-    const variantData = {
-      Color,
-      Size,
-      Quantity,
-      Set,
-      Style,
-      Material,
-      Pattern,
-      Fabric,
-      Type,
-      Flavour,
-    };
+    // Read the Excel file using xlsx library
+    const workbook = xlsx.readFile(filePath);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
-    const combinedData = { ...rest, variant: variantData };
+    console.log(jsonData);
+    const groupedData = jsonData.reduce((acc, item) => {
+      const { Id, Title, Description, FeatureImage, Category, VendorEmail, tags, Color, Size, Quantity, Set, Style, Material, Pattern, Fabric, Type, Flavour, ...rest } = item;
 
-    if (!acc[Id]) {
-      acc[Id] = {
-        Id,
-        Title,
-        Description,
-        FeatureImage,
-        VendorEmail,
-        tags,
-        Category,
-        attributes: [{ Color }, { Size }, { Quantity }, { Set }, { Style }, { Material }, { Pattern }, { Fabric }, { Type }, { Flavour }],
-        data: [combinedData],
+      const variantData = {
+        Color,
+        Size,
+        Quantity,
+        Set,
+        Style,
+        Material,
+        Pattern,
+        Fabric,
+        Type,
+        Flavour,
       };
-    } else {
-      acc[Id].data.push(combinedData);
+
+      const combinedData = { ...rest, variant: variantData };
+
+      if (!acc[Id]) {
+        acc[Id] = {
+          Id,
+          Title,
+          Description,
+          FeatureImage,
+          VendorEmail,
+          tags,
+          Category,
+          attributes: [{ Color }, { Size }, { Quantity }, { Set }, { Style }, { Material }, { Pattern }, { Fabric }, { Type }, { Flavour }],
+          data: [combinedData],
+        };
+      } else {
+        acc[Id].data.push(combinedData);
+      }
+
+      return acc;
+    }, {});
+
+
+
+    for (let id in groupedData) {
+      let thisdata = groupedData[id]
+      let slug = uuidv4(10)
+      slug = slug.slice(0, 8)
+      const vendor = await Vendor.findOne({ email: thisdata.VendorEmail })
+      let attributes = thisdata.attributes.flatMap(obj => Object.keys(obj).filter(key => obj[key] !== undefined));
+      let attributeIds = []
+      for (let attribute of attributes) {
+
+        let att = await Attribute.findOne({ name: attribute })
+        attributeIds.push(att._id)
+      }
+      const category = await Category.findOne({ name: thisdata.Category })
+
+      const productCreated = await Product.create({ description: thisdata.Description, name: thisdata.Title, slug, vendorId: vendor._id, tags: thisdata.tags.split("/"), attributes: attributeIds, categoryId: category._id })
+      console.log(productCreated);
+      for (let variant of thisdata.data) {
+        console.log('productController.js', variant);
+        let variants = Object.entries(variant.variant)
+          .filter(([key, value]) => value !== undefined)
+          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
+
+        console.log(variants);
+        const { ProductQuantity } = variant
+        const created = await AttributeType.create({ productId: productCreated._id, attributeIds, variant: variants, quantity: ProductQuantity, price: variant.Price, images: variant.VariantsImages.split("/") })
+        console.log('productController.js',);
+      }
     }
-
-    return acc;
-  }, {});
-
-
-
-  for (let id in groupedData) {
-    let thisdata = groupedData[id]
-    let slug = uuidv4(10)
-    slug = slug.slice(0, 8)
-    const vendor = await Vendor.findOne({ email: thisdata.VendorEmail })
-    let attributes = thisdata.attributes.flatMap(obj => Object.keys(obj).filter(key => obj[key] !== undefined));
-    let attributeIds = []
-    for (let attribute of attributes) {
-
-      let att = await Attribute.findOne({ name: attribute })
-      attributeIds.push(att._id)
-    }
-    const category = await Category.findOne({ name: thisdata.Category })
-
-    const productCreated = await Product.create({ description: thisdata.Description, name: thisdata.Title, slug, vendorId: vendor._id, tags: thisdata.tags.split("/"), attributes: attributeIds, categoryId: category._id })
-    console.log(productCreated);
-    for (let variant of thisdata.data) {
-      console.log('productController.js', variant);
-      let variants = Object.values(variant.variant).filter(value => value !== undefined);
-      const created = await AttributeType.create({ productId: productCreated._id, attributeIds, variant: variants.join(" "), quantity: variant.Quantity, price: variant.Price, images: variant.VariantsImages.split("/") })
-      console.log('productController.js',);
-    }
+    console.log('productController.js', workbook);
+    res.status(200).json("bulk upload successfull")
+  } catch (e) {
+    console.log('productController.js', e);
   }
-  console.log('productController.js', workbook);
-  res.status(200).json("bulk upload successfull")
 }
 
 module.exports = {

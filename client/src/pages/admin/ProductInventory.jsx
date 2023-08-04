@@ -15,11 +15,11 @@ const ProductInventory = () => {
       },
       {
         Header: "Product Price",
-        accessor: "price",
+        accessor: "result.price",
       },
       {
         Header: "Stock Quantity",
-        accessor: "stockQuantity",
+        accessor: "result.quantity",
       },
       {
         Header: "Stock Status",
