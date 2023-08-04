@@ -84,8 +84,6 @@ const Sidebar = () => {
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
-        // onMouseEnter={debouncedMouseEnter}
-        // onMouseLeave={debouncedMouseLeave}
       >
         <div className="w-full">
           <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4 ">
