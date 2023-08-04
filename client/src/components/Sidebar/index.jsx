@@ -105,7 +105,7 @@ const Sidebar = () => {
             )}
           </div>
 
-          <div className="overflow-y-auto max-h-[90vh] mt-4">
+          <div className="overflow-y-auto max-h-[100vh] mt-4">
             <div className="mx-2">
               <Card>
                 {sidebarState ? (
