@@ -138,21 +138,21 @@ const TransactionTotalIncomeInquiries = () => {
                 />
                 <DashboardPieChartCard
                   label="Sales"
-                  addAmount="$76,745"
+                  addAmount=""
                   labelColor="bg-orange-500"
                   amount={fullData?.sales}
                   icon={<SalesRedIcon />}
                 />
                 <DashboardPieChartCard
                   label="Products"
-                  addAmount="$76,745"
+                  addAmount=""
                   labelColor="bg-green-500"
                   amount={fullData?.products}
                   icon={<GreenProductsIcon />}
                 />
                 <DashboardPieChartCard
                   label="Vendors"
-                  addAmount="$76,745"
+                  addAmount=""
                   labelColor="bg-blue-500"
                   amount={fullData?.vendors}
                   icon={<GrayVendors />}
