@@ -112,7 +112,7 @@ const LoginForm = () => {
 
             <div className="flex gap-4 w-full">
               <div className="form-control w-full flex flex-col justify-center items-center">
-                <div className="flex justify-center gap-4 w-full items-center relative">
+                <div className="flex justify-center gap-4 w-full items-center ">
                   <label className="label" htmlFor="password">
                     {/* <span className="label-text">Password</span> */}
                     <PiPasswordLight className="text-5xl" />
@@ -126,14 +126,14 @@ const LoginForm = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, password: e.target.value })
                     }
-                    className="w-3/4 input bg-transparent border-[1px] border-gray-700 rounded-[4px]"
+                    className="w-3/4 input relative bg-transparent border-[1px] border-gray-700 rounded-[4px]"
                     placeholder="enter password here"
                   />
                   {errors.password && (
                     <p className="text-red-500 text-sm">{errors.password}</p>
                   )}
                   <div
-                    className="absolute right-[3.5vw] top-5 cursor-pointer"
+                    className="absolute right-0 top-5 cursor-pointer"
                     onClick={handleTogglePassword}
                   >
                     {showPassword ? (
