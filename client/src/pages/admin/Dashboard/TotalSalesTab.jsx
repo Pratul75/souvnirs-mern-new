@@ -52,7 +52,7 @@ const TotalSalesTab = () => {
       content: (
         <div className="flex  gap-4">
           <div className="col-span-3 md:col-span-2 flex flex-1">
-            <div style={{ width: "100%" }}>
+            <div style={{ width: "120%" }}>
               {yearData && yearLabels && (
                 <Bar
                   options={options}
@@ -69,10 +69,6 @@ const TotalSalesTab = () => {
                 />
               )}
             </div>
-          </div>
-
-          <div className="flex-1 flex items-center justify-center">
-            <img className="w-60" src={SalesJpgImage} alt="sales img" />
           </div>
 
           <div className="flex-1 md:col-span-1 flex flex-col justify-center ">
