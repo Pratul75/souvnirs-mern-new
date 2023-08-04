@@ -407,9 +407,12 @@ const getProductDataForAdmin = async (req, res) => {
 
 }
 
-const getXls = async (req, res) => {
+const getDoughNutChartData = async (req, res) => {
+    const products = await Product.find().count();
+    const vendors = await Vendor.find().count();
+    res.status(200).json({ products, vendors, income: 0, sales: 0 })
 
 
 }
 
-module.exports = { getXls, fetchDashboardCardsData, getBarChartData, getProductDataForAdmin }
+module.exports = { getDoughNutChartData, fetchDashboardCardsData, getBarChartData, getProductDataForAdmin }
