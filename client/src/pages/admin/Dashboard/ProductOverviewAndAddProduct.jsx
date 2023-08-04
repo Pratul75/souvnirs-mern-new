@@ -30,6 +30,7 @@ const ProductOverviewAndAddProduct = () => {
   useEffect(() => {
     getProductData();
   }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4">
       <div className="col-span-8 md:col-span-5">
@@ -50,7 +51,7 @@ const ProductOverviewAndAddProduct = () => {
                       {productData.reduce((acc, count) => acc + count, 0)}
                     </span>
                   </div>
-                  <div className="chart-container w-full md:w-auto">
+                  <div className="chart-container w-full">
                     {productData.length > 0 && productLabel.length > 0 && (
                       <Line
                         options={{
