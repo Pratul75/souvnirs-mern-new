@@ -25,10 +25,7 @@ const Wishlist = () => {
                 accessor: "customer.firstName"
             },
             { Header: "Customer Email", accessor: "customer.email" },
-            {
-                Header: "Product Id",
-                accessor: "productId",
-            },
+
             {
                 Header: "Product Name",
                 accessor: "productName",
