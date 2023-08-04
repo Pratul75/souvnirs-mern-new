@@ -38,7 +38,6 @@ const Sidebar = () => {
   useEffect(() => {
     setSidebarState(isExpanded);
   }, [isExpanded]);
-
   const conditionalSidebarMapping = () => {
     const userRole = JSON.parse(localStorage.getItem("role"));
     if (userRole === "customer") {
@@ -82,12 +81,12 @@ const Sidebar = () => {
     <>
       <motion.ul
         className={` bg-base-200 hidden md:flex items-center ${darkMode ? "border-blue-950" : "border-blue-200"
-          } border-r-[1px]`}
+          } border-r-[1px]${isExpanded ? "border-dashed" : ""}`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
-        onMouseEnter={debouncedMouseEnter}
-        onMouseLeave={debouncedMouseLeave}
+      // onMouseEnter={debouncedMouseEnter}
+      // onMouseLeave={debouncedMouseLeave}
       >
         <div className="w-full">
           <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4 ">
