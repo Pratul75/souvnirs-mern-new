@@ -25,21 +25,23 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
-      // {
-      //   Header: "Variant",
-      //   accessor: ({ row }) => {
-      //     return (
-      //       <>
-      //         {Object.entries(row.original.result.variant).map(([key, vaulue]) => {
-      //           <div key={key}>
-      //             <span>{key}: </span>
-      //             <span>{value}</span>
-      //           </div>
-      //         })}
-      //       </>
-      //     );
-      //   },
-      // },
+
+      {
+        Header: "Variants",
+        accessor: "result.variant",
+        Cell: ({ value }) => {
+          const variantKeys = Object.keys(value);
+          return (
+            <div>
+              {variantKeys.map((key) => (
+                <p key={key}>
+                  {key}: {value[key]}
+                </p>
+              ))}
+            </div>
+          );
+        },
+      },
       {
         Header: "Price",
         accessor: "result.price",
