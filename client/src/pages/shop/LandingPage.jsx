@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-
 const LandingPage = () => {
   return (
     <div className="w-screen h-screen bg-base-300">

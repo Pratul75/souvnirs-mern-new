@@ -269,19 +269,6 @@ const RegisterForm = () => {
               </div>
             </div>
 
-            {/* row 7 */}
-            <div className="flex mt-5">
-              <div className="flex justify-center items-center w-1/2 p-4 rounded-[4px] bg-gray-100 border-[2px] border-gray-300">
-                <div className="form-control flex flex-row gap-4">
-                  <input
-                    type="checkbox"
-                    className="checkbox checkbox-primary"
-                    {...register("checkbox1")}
-                  />
-                  <span>I am not robot</span>
-                </div>
-              </div>
-            </div>
             {/* row 8 */}
             <div className="flex flex-col mt-5">
               <div className="flex item-center gap-4">

@@ -80,13 +80,12 @@ const Sidebar = () => {
   return (
     <>
       <motion.ul
-        className={` bg-base-200 hidden md:flex items-center ${darkMode ? "border-blue-950" : "border-blue-200"
-          } border-r-[3px] ${isExpanded && "border-dashed"}`}
+        className={` bg-base-200 hidden md:flex items-center`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
-      // onMouseEnter={debouncedMouseEnter}
-      // onMouseLeave={debouncedMouseLeave}
+        // onMouseEnter={debouncedMouseEnter}
+        // onMouseLeave={debouncedMouseLeave}
       >
         <div className="w-full">
           <div className=" flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4 ">
@@ -127,7 +126,11 @@ const Sidebar = () => {
                   title={title}
                   navLink={navLink}
                   Icon={(props) => (
-                    <Icon {...props} className={props.isActive ? "text-themeColor" : ""} />)}
+                    <Icon
+                      {...props}
+                      className={props.isActive ? "text-themeColor" : ""}
+                    />
+                  )}
                   sidebarState={sidebarState}
                 />
               ))}
