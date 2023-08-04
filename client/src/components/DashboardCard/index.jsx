@@ -12,7 +12,9 @@ const DashboardCard = ({
     <Card>
       <motion.div className="w-full flex justify-between items-center py-4 px-6">
         <div className="flex flex-col">
-          <h2 className="text-xl md:text-2xl lg:text-3xl">{number}</h2>
+          <h2 className="text-xl font-bold md:text-2xl lg:text-3xl">
+            {number}+
+          </h2>
           <p className={`text-xs md:text-sm ${textColor}`}>{subheading}</p>
         </div>
 
