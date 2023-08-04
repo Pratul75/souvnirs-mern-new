@@ -46,7 +46,7 @@ const AppLayout = ({ children }) => {
             animate="animate"
             className={`hidden md:block px-4 py-2 ${darkMode ? "" : ""} rounded-xl`}
           >
-            <ol className="list-reset flex text-base-content">
+            <ol className="list-reset flex text-themeColor ">
               <li>
                 <a
                   href="/"
