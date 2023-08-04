@@ -1,29 +1,22 @@
 import { PATHS } from "../Routes/paths";
 import {
-  OrderManagementIcon,
-  AttributeIcon,
-  ShipmentsIcon,
-  RefundIcon,
-  ReplacementIcon,
-  PaymentsIcon,
-  CustomerIcon,
-  CmsSeoIcon,
-  CouponDiscountIcon,
-  EmailMarketingIcon,
-  CouriersIcon,
-  VendorIcon,
-  ProductInventoryIcon,
-  SupportIcon,
+
+
 } from "../icons/sidebarIcons";
 
-import { BiPackage, BiCategory, BiSolidCollection } from "react-icons/bi"
-import { MdReviews, MdShoppingCart, MdShoppingCartCheckout } from "react-icons/md"
+
+import { BiPackage, BiCategory, BiSolidDiscount, BiSolidDashboard, BiSolidCollection, BiSupport, BiSolidHeart, BiSolidCoupon } from "react-icons/bi"
+import { MdReviews, MdFeaturedPlayList, MdPayment, MdShoppingCart, MdShoppingCartCheckout, MdInventory2, MdOutlineStore, MdAttachEmail } from "react-icons/md"
+import { TbPackage, TbTruckDelivery, TbReplace } from "react-icons/tb"
+import { SiCraftcms } from "react-icons/si"
+import { FiUsers } from "react-icons/fi"
+import { RiRefund2Fill } from "react-icons/ri"
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
     title: "Dashboard",
     navLink: PATHS.adminDashboard,
-    Icon: OrderManagementIcon,
+    Icon: BiSolidDashboard,
   },
   {
     title: "Product Management",
@@ -33,7 +26,7 @@ export const adminSidebarMapping = [
   {
     title: "Order Management",
     navLink: PATHS.adminOrderManagement,
-    Icon: OrderManagementIcon,
+    Icon: TbTruckDelivery,
   },
   {
     title: "Categories",
@@ -43,7 +36,7 @@ export const adminSidebarMapping = [
   {
     title: "Attributes",
     navLink: PATHS.adminAttribute,
-    Icon: AttributeIcon,
+    Icon: MdFeaturedPlayList,
   },
   {
     title: "Reviews",
@@ -73,73 +66,74 @@ export const adminSidebarMapping = [
   {
     title: "Shipments",
     navLink: PATHS.adminShipments,
-    Icon: ShipmentsIcon,
+    Icon: TbTruckDelivery,
   },
   {
     title: "Refund",
     navLink: PATHS.adminRefund,
-    Icon: RefundIcon,
+    Icon: RiRefund2Fill,
   },
   {
     title: "Replacement",
     navLink: PATHS.adminReplacement,
-    Icon: ReplacementIcon,
+    Icon: TbReplace,
   },
   {
     title: "Payments",
     navLink: PATHS.adminPayments,
-    Icon: PaymentsIcon,
+    Icon: MdPayment,
   },
   {
     title: "Customer",
     navLink: PATHS.adminCustomer,
-    Icon: CustomerIcon,
+    Icon: FiUsers,
   },
   {
     title: "CMS & SEO",
     navLink: PATHS.adminCmsAndSeo,
-    Icon: CmsSeoIcon,
+    Icon: SiCraftcms,
   },
   {
     title: "Discounts",
     navLink: PATHS.adminDiscounts,
-    Icon: CouponDiscountIcon,
+    Icon: BiSolidDiscount
+    ,
   },
   {
     title: "Coupons",
     navLink: PATHS.adminCoupons,
-    Icon: CouponDiscountIcon,
+    Icon: BiSolidCoupon,
   },
   {
     title: "Wishlist",
     navLink: PATHS.adminWishlist,
-    Icon: CouponDiscountIcon,
+    Icon: BiSolidHeart,
   },
 
   {
     title: "Email Marketing",
     navLink: PATHS.adminEmailMarketing,
-    Icon: EmailMarketingIcon,
+    Icon: MdAttachEmail,
   },
   {
     title: "Couriers",
     navLink: PATHS.adminCouriers,
-    Icon: CouriersIcon,
+    Icon: TbPackage,
   },
   {
     title: "Vendor",
     navLink: PATHS.adminVendor,
-    Icon: VendorIcon,
+    Icon: MdOutlineStore,
   },
   {
     title: "Product Inventory",
     navLink: PATHS.adminProductInventory,
-    Icon: ProductInventoryIcon,
+    Icon: MdInventory2,
   },
   {
     title: "Support",
     navLink: PATHS.adminSupport,
-    Icon: SupportIcon,
+    Icon: BiSupport,
   },
 ];
 
@@ -148,17 +142,17 @@ export const vendorSidebarMapping = [
   {
     title: "Vendor Dashboard",
     navLink: PATHS.vendorDashboard,
-    Icon: OrderManagementIcon,
+    Icon: BiSolidDashboard,
   },
   {
     title: "Product Management",
     navLink: PATHS.vendorProductManagement,
-    Icon: ProductInventoryIcon,
+    Icon: MdInventory2,
   },
   {
     title: "Order Management",
     navLink: PATHS.vendorOrderManagement,
-    Icon: OrderManagementIcon,
+    Icon: TbTruckDelivery,
   },
   {
     title: "Cart",
@@ -173,27 +167,27 @@ export const vendorSidebarMapping = [
   {
     title: "Shipments",
     navLink: PATHS.vendorShipments,
-    Icon: ShipmentsIcon,
+    Icon: TbTruckDelivery,
   },
   {
     title: "Product Inventory",
     navLink: PATHS.vendorProductInventory,
-    Icon: ProductInventoryIcon,
+    Icon: MdInventory2,
   },
   {
     title: "Discounts",
     navLink: PATHS.vendorDiscounts,
-    Icon: CouponDiscountIcon,
+    Icon: BiSolidDiscount,
   },
   {
     title: "Coupons",
     navLink: PATHS.vendorCoupons,
-    Icon: CouponDiscountIcon,
+    Icon: BiSolidCoupon,
   },
   {
     title: "Refund",
     navLink: PATHS.vendorRefund,
-    Icon: RefundIcon,
+    Icon: RiRefund2Fill,
   },
 ];
 
@@ -202,7 +196,7 @@ export const customerSidebarMapping = [
   {
     title: "Dashboard",
     navLink: PATHS.customerDashboard,
-    Icon: BiPackage,
+    Icon: BiSolidDashboard,
   },
   {
     title: "Cart",
@@ -217,31 +211,31 @@ export const customerSidebarMapping = [
   {
     title: "Orders",
     navLink: PATHS.customerOrders,
-    Icon: CustomerIcon,
+    Icon: FiUsers,
   },
   {
     title: "Payments",
     navLink: PATHS.customerPayments,
-    Icon: PaymentsIcon,
+    Icon: MdPayment,
   },
   {
     title: "Profile",
     navLink: PATHS.customerProfile,
-    Icon: SupportIcon,
+    Icon: BiSupport,
   },
   {
     title: "Refunds",
     navLink: PATHS.customerRefunds,
-    Icon: RefundIcon,
+    Icon: RiRefund2Fill,
   },
   {
     title: "Replacement",
     navLink: PATHS.customerReplacements,
-    Icon: ReplacementIcon,
+    Icon: TbReplace,
   },
   {
     title: "Wishlist",
     navLink: PATHS.customerWishlist,
-    Icon: VendorIcon,
+    Icon: MdOutlineStore,
   },
 ];

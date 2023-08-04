@@ -52,7 +52,7 @@ const registerVendor = async (req, res) => {
 
     // Generate and send the JWT token to the front end
     const token = jwt.sign({ id: vendor._id, role: "vendor" }, secretKey, {
-      expiresIn: "1h", // Token expiration time
+      expiresIn: "7h", // Token expiration time
     });
     transporter.send({
       from: "utkarsh.pawar@rechargestudio.com",
@@ -83,7 +83,7 @@ const registerCustomer = async (req, res) => {
       country,
     });
     const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
-      expiresIn: "1h",
+      expiresIn: "7h",
     });
 
     res.status(200).json({ message: "User registered successfully!", token });
@@ -118,7 +118,7 @@ const loginUser = async (req, res) => {
       role = "admin";
     }
     const token = jwt.sign({ id: foundUser._id, role }, secretKey, {
-      expiresIn: "1h", // Token expiration time
+      expiresIn: "7h", // Token expiration time
     });
     res.status(200).json({ token });
   } catch (error) {

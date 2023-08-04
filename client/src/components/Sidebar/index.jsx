@@ -81,7 +81,7 @@ const Sidebar = () => {
     <>
       <motion.ul
         className={` bg-base-200 hidden md:flex items-center ${darkMode ? "border-blue-950" : "border-blue-200"
-          } border-r-[1px]${isExpanded ? "border-dashed" : ""}`}
+          } border-r-[3px] ${isExpanded && "border-dashed"}`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
