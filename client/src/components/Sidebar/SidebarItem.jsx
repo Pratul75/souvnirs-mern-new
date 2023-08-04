@@ -23,7 +23,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
             } `
         }
       >
-        <div className="flex flex-row gap-2 items-center">
+        <div className="flex text-2xl flex-row gap-2 items-center">
           {Icon && <Icon />} {/* Only render Icon if it exists */}
           {sidebarState && title && (
             <motion.span
