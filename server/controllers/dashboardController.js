@@ -415,9 +415,8 @@ const getDoughNutChartData = async (req, res) => {
         res.status(200).json({ products, vendors, income: 0, sales: 0 })
     } else if (req.role === "vendor") {
 
-        const products = await Product.find().count();
-        const vendors = await Vendor.find().count();
-        res.status(200).json({ products, vendors, income: 0, sales: 0 })
+        const products = await Product.find({ vendorId: req.userId }).count();
+        res.status(200).json({ products, vendors: 1, income: 0, sales: 0 })
     }
 
 

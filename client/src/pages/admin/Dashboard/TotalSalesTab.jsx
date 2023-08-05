@@ -112,15 +112,37 @@ const TotalSalesTab = () => {
               />
             )}
           </div>
+
+          <div className="col-span-2 md:col-span-1 flex items-center justify-center">
+            <div className="grid grid-cols-2 gap-4 w-full">
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Income</p>
+                <p>340$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Sales</p>
+                <p>360$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Vendors</p>
+                <p>340$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Income</p>
+                <p>340$</p>
+              </div>
+            </div>
+          </div>
         </div>
       ),
     },
     {
       label: "By week",
       content: (
-        <div className="grid grid-cols-2">
+        <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
             {dateData && dateLabels && (
+              // display: block; box-sizing: dborder-box; height: 276px; width: 552px;
               <Bar
                 style={{
                   display: "block",
@@ -134,12 +156,33 @@ const TotalSalesTab = () => {
                     {
                       label: "Dataset 1",
                       data: dateData,
-                      backgroundColor: "#4C62C3",
+                      backgroundColor: "#697ed9",
                     },
                   ],
                 }}
               />
             )}
+          </div>
+
+          <div className="col-span-2 md:col-span-1 flex items-center justify-center">
+            <div className="grid grid-cols-2 gap-4 w-full">
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Income</p>
+                <p>340$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Sales</p>
+                <p>360$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Vendors</p>
+                <p>340$</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Income</p>
+                <p>340$</p>
+              </div>
+            </div>
           </div>
         </div>
       ),

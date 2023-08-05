@@ -53,7 +53,7 @@ const BreadCrumb = () => {
                   className={
                     index === breadcrumbs.length - 1
                       ? "text-primary-dark text-sm"
-                      : "text-primary hover:text-primary-dark text-sm"
+                      : "text-themeColor hover:text-primary-dark text-sm"
                   }
                 >
                   {item.label}
