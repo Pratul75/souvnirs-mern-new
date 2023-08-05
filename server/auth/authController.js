@@ -121,7 +121,7 @@ const loginUser = async (req, res) => {
       role = "admin";
       a = admin;
     }
-    const token = jwt.sign({ id: foundUser._id, role, userName: `${a.name} ${a.lastName}` }, secretKey, {
+    const token = jwt.sign({ id: foundUser._id, role, userName: `${a.firstName} ${a.lastName}` }, secretKey, {
       expiresIn: "7h", // Token expiration time
     });
     res.status(200).json({ token });
