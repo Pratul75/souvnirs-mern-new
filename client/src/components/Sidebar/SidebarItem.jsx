@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { sidebarVariant } from "../../animation";
+import { sidebarVariants } from "../../animation";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveLink } from "../../features/appConfig/appSlice";
-
+import { Tooltip } from "react-tooltip";
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.appConfig.darkMode);
@@ -13,6 +13,9 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   return (
     <li className="mx-2 cursor-pointer">
       <NavLink
+        data-tooltip-id="my-tooltip"
+        data-tooltip-content={title}
+        data-tooltip-place="right"
         onClick={() => dispatch(setActiveLink(navLink))}
         to={navLink}
         className={({ isActive }) =>
@@ -32,7 +35,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
               className={`ml-2 text-xs font-semibold ${
                 sidebarState ? "block" : "hidden"
               }`}
-              variants={sidebarVariant}
+              variants={sidebarVariants}
               expanded="expanded"
               collapsed="collapsed"
               transition={{ duration: 0.2, ease: "easeInOut" }}
@@ -42,6 +45,11 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
           )}
         </div>
       </NavLink>
+      <Tooltip
+        effect="solid"
+        id="my-tooltip"
+        style={{ zIndex: 9999, background: "#4680ff36" }}
+      />
     </li>
   );
 };

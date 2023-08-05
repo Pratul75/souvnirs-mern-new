@@ -1,5 +1,10 @@
 import { toast } from "react-toastify";
 import debounce from "lodash.debounce";
+import {
+  adminSidebarMapping,
+  customerSidebarMapping,
+  vendorSidebarMapping,
+} from "../mappings";
 
 export const getRandomColor = () => {
   const colorArr = [
@@ -40,7 +45,7 @@ export const getStatusStyles = (status) => {
           <span className="text-rose-300">DEACTIVE</span>
         </div>
       );
-  }s
+  }
 };
 
 export const getStockStatusStyles = (stockStatus) => {
@@ -68,3 +73,19 @@ export const showToast = (message, type) => {
 
 // debounced version
 export const debouncedShowToast = debounce(showToast, 1000);
+
+// conditional sidebar mapping based on the role
+export const conditionalSidebarMapping = () => {
+  const userRole = JSON.parse(localStorage.getItem("role"));
+  if (userRole === "customer") {
+    console.log("USER IS LOGGED");
+    return customerSidebarMapping;
+  } else if (userRole === "vendor") {
+    console.log("VENDOR IS LOGGED");
+    return vendorSidebarMapping;
+  } else if (userRole === "admin") {
+    return adminSidebarMapping;
+  } else {
+    return [];
+  }
+};

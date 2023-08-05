@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import SidebarItem from "./SidebarItem";
 import { nanoid } from "@reduxjs/toolkit";
-import {
-  adminSidebarMapping,
-  vendorSidebarMapping,
-  customerSidebarMapping,
-} from "../../mappings";
+
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import SovniersLogo from "../../assets/images/souvnirsLogo.png";
@@ -14,7 +10,8 @@ import { SmallVIcon } from "../../icons/sidebarIcons";
 import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
 import Card from "../Card";
 import Avatar from "../Avatar";
-import { getRandomColor } from "../../utils";
+import { conditionalSidebarMapping, getRandomColor } from "../../utils";
+import { sidebarVariants, mobileSidebarVariants } from "../../animation";
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [sidebarState, setSidebarState] = useState(false);
@@ -28,58 +25,27 @@ const Sidebar = () => {
   useEffect(() => {
     setSidebarState(isExpanded);
   }, [isExpanded]);
-  const conditionalSidebarMapping = () => {
-    const userRole = JSON.parse(localStorage.getItem("role"));
-    if (userRole === "customer") {
-      console.log("USER IS LOGGED");
-      return customerSidebarMapping;
-    } else if (userRole === "vendor") {
-      console.log("VENDOR IS LOGGED");
-      return vendorSidebarMapping;
-    } else if (userRole === "admin") {
-      return adminSidebarMapping;
-    } else {
-      return [];
-    }
-  };
 
-  // Animation properties for sidebar width
-  const sidebarVariants = {
-    expanded: {
-      width: "250px",
-      transition: {
-        duration: 0.4,
-        ease: "easeInOut",
-      },
-    },
-    collapsed: {
-      width: "100px",
-      transition: {
-        duration: 0.5,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  // Animation properties for mobile sidebar
-  const mobileSidebarVariants = {
-    collapsed: { width: 0 },
-    expanded: { width: "100%" },
-  };
+  const username = JSON.parse(localStorage.getItem("username"));
+  const userInitials = username
+    .split(" ")
+    .map((item) => item[0].toUpperCase())
+    .join("");
+  const role = JSON.parse(localStorage.getItem("role"));
+  console.log("USER CREDENTIALS: ", userInitials);
 
   return (
     <>
       <motion.ul
-        className={` bg-base-200 hidden md:flex items-center shadow-lg 
-        `}
+        className={` bg-base-200 hidden md:flex items-center border-r-[1px] border-base-300`}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
       >
         <div className="w-full">
-          <div className="flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4">
+          <div className="flex  bg-base-200 items-center justify-center h-full w-full py-4">
             {sidebarState ? (
-              <div className="w-40">
+              <div id="logo" className="w-40">
                 <img
                   src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
                   className="w-full"
@@ -96,19 +62,25 @@ const Sidebar = () => {
             className="overflow-y-auto max-h-[88vh] mt-4"
             style={{ height: " calc(100vh-79px)" }}
           >
-            <div className="mx-2">
+            <div className="mx-2 cursor-pointer">
               <Card>
                 {sidebarState ? (
                   <div className="flex gap-4 p-4">
-                    <Avatar initials="JS" bgColor={getRandomColor()} />
+                    <Avatar
+                      initials={userInitials}
+                      bgColor={getRandomColor()}
+                    />
                     <div className="flex flex-col">
-                      <h3 className="text-lg font-bold">John Smith</h3>
-                      <h5 className="text-sm">Administrator</h5>
+                      <h3 className="text-lg font-bold">{username}</h3>
+                      <h5 className="text-sm">{role.toUpperCase()}</h5>
                     </div>
                   </div>
                 ) : (
                   <div className="p-4 flex justify-center">
-                    <Avatar initials="JD" bgColor={getRandomColor()} />
+                    <Avatar
+                      initials={userInitials}
+                      bgColor={getRandomColor()}
+                    />
                   </div>
                 )}
               </Card>

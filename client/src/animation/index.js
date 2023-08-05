@@ -73,20 +73,25 @@ export const buttonVariants = {
     },
   },
 };
-export const sidebarVariant = {
+// Animation properties for sidebar width
+export const sidebarVariants = {
   expanded: {
-    opacity: 1,
-    x: 0,
+    width: "250px",
     transition: {
-      duration: 0.5,
-      ease: [0.6, -0.05, 0.01, 0.99],
+      duration: 0.3,
+      ease: "easeInOut",
     },
   },
   collapsed: {
-    opacity: 1,
+    width: "100px",
     transition: {
-      duration: 0.5,
-      ease: [0.6, -0.05, 0.01, 0.99],
+      duration: 0.3,
+      ease: "easeInOut",
     },
   },
+};
+// Animation properties for mobile sidebar
+export const mobileSidebarVariants = {
+  collapsed: { width: 0 },
+  expanded: { width: "100%" },
 };

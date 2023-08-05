@@ -62,6 +62,7 @@ const LoginForm = () => {
 
         if (response?.data) {
           localStorage.setItem("role", JSON.stringify(role));
+          localStorage.setItem("username", JSON.stringify(userName));
 
           if (response?.data?.token) {
             console.log("LoginForm.jsx", role);
