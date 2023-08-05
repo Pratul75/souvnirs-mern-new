@@ -23,11 +23,15 @@ const Dropzone = () => {
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-20">
-          <p className="p-4 flex items-center justify-center">
-            Drag & drop some files here, or click to select files
-          </p>
-          <BsUpload size={90} />
+        <div className="flex flex-1 items-center justify-center flex-col h-full">
+          <div className="flex justify-center items-center flex-col">
+            <p className="p-4 text-center">
+              Drag & drop some files here, or click to select files
+            </p>
+            <div className="bg-base-200 p-4 rounded-xl">
+              <BsUpload size={40} />
+            </div>
+          </div>
         </div>
       )}
       <div className="flex flex-col gap-1">

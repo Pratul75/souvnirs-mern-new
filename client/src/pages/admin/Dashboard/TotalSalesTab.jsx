@@ -1,7 +1,6 @@
-import { Tabs, DashboardPieChartCard } from "../../../components";
+import { Tabs } from "../../../components";
 import { Bar } from "react-chartjs-2";
 import { options } from "../../../components/Charts/BarChart";
-import { BlueIncomeIcon, SalesRedIcon } from "../../../icons";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 const TotalSalesTab = () => {
@@ -113,26 +112,6 @@ const TotalSalesTab = () => {
               />
             )}
           </div>
-          <div className="col-span-2 md:col-span-1 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full">
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Sales</p>
-                <p>360$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Vendors</p>
-                <p>340$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
-              </div>
-            </div>
-          </div>
         </div>
       ),
     },
@@ -161,26 +140,6 @@ const TotalSalesTab = () => {
                 }}
               />
             )}
-          </div>
-          <div className="col-span-2 md:col-span-1 flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 w-full">
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Sales</p>
-                <p>360$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Vendors</p>
-                <p>340$</p>
-              </div>
-              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
-              </div>
-            </div>
           </div>
         </div>
       ),
