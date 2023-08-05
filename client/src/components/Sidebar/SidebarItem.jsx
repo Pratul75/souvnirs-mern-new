@@ -8,7 +8,7 @@ import { Tooltip } from "react-tooltip";
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.appConfig.darkMode);
-
+  const isExpanded = useSelector((x) => x.appConfig.sidebarExpanded);
   const col = darkMode ? "bg-gray-800" : "bg-[#4680ff36]";
   return (
     <li className="mx-2 cursor-pointer">
@@ -45,11 +45,13 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
           )}
         </div>
       </NavLink>
-      <Tooltip
-        effect="solid"
-        id="my-tooltip"
-        style={{ zIndex: 9999, background: "#4680ff36" }}
-      />
+      {!isExpanded && (
+        <Tooltip
+          effect="solid"
+          id="my-tooltip"
+          style={{ zIndex: 9999, background: "#4680ff36" }}
+        />
+      )}
     </li>
   );
 };
