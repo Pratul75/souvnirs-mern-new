@@ -118,7 +118,7 @@ const ProductInventory = () => {
                   <label className="label">
                     <span className="label-text">Product Stock Quantity:</span>
                     <input
-                      className="input input-accent"
+                      className="input input-primary"
                       type="text"
                       value={editedProduct.stockQuantity}
                       onChange={(e) =>
@@ -134,7 +134,7 @@ const ProductInventory = () => {
                   <label className="label">
                     <span className="label-text">Product Stock Status:</span>
                     <select
-                      className="select select-bordered select-accent"
+                      className="select select-bordered select-primary"
                       value={editedProduct.stockStatus}
                       onChange={(e) =>
                         setEditedProduct((prevProduct) => ({
@@ -153,7 +153,7 @@ const ProductInventory = () => {
               </div>
             )}
             <div className="modal-action">
-              <button className="btn btn-accent" onClick={handleSave}>
+              <button className="btn btn-primary" onClick={handleSave}>
                 Save
               </button>
               <button

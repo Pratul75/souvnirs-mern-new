@@ -112,7 +112,7 @@ const VendorProductManagement = () => {
       );
     }
   };
-  console.log('VendorProductManagement.jsx', editedRow);
+  console.log("VendorProductManagement.jsx", editedRow);
   const deleteSelectedRow = async () => {
     const response = await API_WRAPPER.delete(
       `/products/delete-product/:${selectedRow._id}`
@@ -135,13 +135,13 @@ const VendorProductManagement = () => {
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-      // image={HeaderImgTwo}
+        // image={HeaderImgTwo}
       />
       <div className="w-full gap-4 mt-14">
         <div className="flex justify-end">
           <Link
             to={PATHS.vendorAddProducts}
-            className="btn btn-accent ml-4 w-48"
+            className="btn btn-primary ml-4 w-48"
           >
             <GoPlus size={20} />
             Add Product
@@ -184,7 +184,7 @@ const VendorProductManagement = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.name}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="name"
                 id=""
@@ -197,7 +197,7 @@ const VendorProductManagement = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.description}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="description"
                 id=""
@@ -211,7 +211,7 @@ const VendorProductManagement = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.stockQuantity}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="stockQuantity"
                 id=""
@@ -225,7 +225,7 @@ const VendorProductManagement = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.stockStatus}
-                className="select select-accent"
+                className="select select-primary"
                 name="stockStatus"
               >
                 <option value="IN_STOCK">IN STOCK</option>
@@ -240,7 +240,7 @@ const VendorProductManagement = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.price}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="price"
                 id=""
@@ -253,7 +253,7 @@ const VendorProductManagement = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.totalSales}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="totalSales"
                 id=""
@@ -267,7 +267,7 @@ const VendorProductManagement = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.onSale}
-                className="select select-accent"
+                className="select select-primary"
                 name="onSale"
                 id=""
               >
@@ -282,7 +282,7 @@ const VendorProductManagement = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.status}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
                 id=""
               >
@@ -294,7 +294,7 @@ const VendorProductManagement = () => {
           </div>
 
           <div className="modal-action flex gap-4">
-            <button type="submit" className="btn btn-accent">
+            <button type="submit" className="btn btn-primary">
               Save Changes
             </button>
             {/* if there is a button in form, it will close the modal */}

@@ -254,7 +254,7 @@ const AddProduct = () => {
             <span>Enter Quantity</span>
             <input
               onChange={(e) => handleInputChange(e)}
-              className="input input-accent w-2/3"
+              className="input input-primary w-2/3"
               type="number"
               name="stockQuantity"
               id=""
@@ -275,20 +275,20 @@ const AddProduct = () => {
             >
               {a}
               <div className="flex flex-col md:flex-row">
-
                 <input
                   name={a}
                   placeholder="price"
                   onChange={(e) => handleattTypeInputs(e, "price")}
                   type="text"
-                  className="input flex-1 input-accent"
+                  className="input flex-1 input-primary"
                 />
                 <input
                   name={a}
                   placeholder="Quantity"
                   onChange={(e) => handleattTypeInputs(e, "quantity")}
-                  className="input input-accent flex-1"
-                /></div>
+                  className="input input-primary flex-1"
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -308,7 +308,7 @@ const AddProduct = () => {
                   <label>{att.label}</label>
                   <input
                     onChange={handleAttriibuteValues}
-                    className="input input-accent h-8"
+                    className="input input-primary h-8"
                     name={att.value}
                     onKeyPress={handleAttributeSelection}
                   />
@@ -332,7 +332,7 @@ const AddProduct = () => {
           </div>
           {attrValue.length > 0 && (
             <button
-              className="  btn btn-accent"
+              className="  btn btn-primary"
               onClick={() => {
                 generateValueCombinations();
                 setFAttValue(
@@ -361,13 +361,18 @@ const AddProduct = () => {
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
-              <input className="input input-accent" type="text" name="" id="" />
+              <input
+                className="input input-primary"
+                type="text"
+                name=""
+                id=""
+              />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Preference</span>
               </label>
-              <select className="select select-accent">
+              <select className="select select-primary">
                 <option value="option 1">Option 1</option>
                 <option value="option 2">Option 2</option>
               </select>
@@ -396,7 +401,7 @@ const AddProduct = () => {
               <input
                 name="price"
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent"
+                className="input input-primary"
               />
             </div>
             <div className="form-control">
@@ -406,7 +411,7 @@ const AddProduct = () => {
               <input
                 name="compareAtPrice"
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent"
+                className="input input-primary"
               />
             </div>
           </div>
@@ -421,7 +426,7 @@ const AddProduct = () => {
       <Header
         heading="Add Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
-      // image={HeaderImgTwo}
+        // image={HeaderImgTwo}
       />
       <div className="w-full mt-8">
         <div className="grid grid-cols-6 gap-4">
@@ -434,7 +439,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="name"
                 id=""
@@ -450,14 +455,14 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
               >
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
             </div>
-            <button onClick={handleSubmit} className="btn btn-accent mt-4">
+            <button onClick={handleSubmit} className="btn btn-primary mt-4">
               Publish
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>
@@ -490,7 +495,7 @@ const AddProduct = () => {
               <select
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 value={selectedCategory}
-                className="select select-accent"
+                className="select select-primary"
               >
                 <option value="" disabled selected>
                   select category
@@ -510,7 +515,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="vendorId"
                 value={formData.vendorId}
               >
@@ -535,7 +540,7 @@ const AddProduct = () => {
                 onChange={handleTagInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter a tag and press Enter"
-                className="input input-accent"
+                className="input input-primary"
               />
               <div className="space-x-2">
                 {tagsArray.map((tag, index) => (
@@ -561,7 +566,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent  w-full"
+                className="input input-primary  w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
@@ -581,7 +586,7 @@ const AddProduct = () => {
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 
-            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
+            <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone />
             </div>
           </div>

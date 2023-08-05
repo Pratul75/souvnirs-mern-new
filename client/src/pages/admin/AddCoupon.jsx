@@ -42,7 +42,7 @@ const AddCoupon = () => {
     useState([]);
   const [couponCode, setCouponCode] = useState(null);
   const [customers, setCustomers] = useState();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // get all categories
   const getAllCategories = async () => {
@@ -86,7 +86,7 @@ const AddCoupon = () => {
     });
     if (response.status === 201) {
       console.log("DISCOUNT DATA POSTED: ", response.data);
-      navigate(PATHS.adminCoupons)
+      navigate(PATHS.adminCoupons);
     }
   };
 
@@ -172,7 +172,7 @@ const AddCoupon = () => {
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
-  const fetchUsers = () => { };
+  const fetchUsers = () => {};
 
   const handleAppliedToSearch = (e) => {
     setAppliedToSearchInput(e.target.value);
@@ -181,10 +181,10 @@ const AddCoupon = () => {
 
   const handleAddFilteredItemToState = (item) => {
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
-    window.applied_to_search_modal.close()
+    window.applied_to_search_modal.close();
   };
 
-  console.log('AddCoupon.jsx', appliedToFilteredItemsObjects);
+  console.log("AddCoupon.jsx", appliedToFilteredItemsObjects);
 
   const generateCouponCode = (length = 8) => {
     const characters =
@@ -238,7 +238,7 @@ const AddCoupon = () => {
                   onChange={(e) => handleInputChange(e)}
                   name="title"
                   type="text"
-                  className="input input-bordered input-accent bg-transparent t w-full"
+                  className="input input-bordered input-primary bg-transparent t w-full"
                 />
               </div>
               <div className="form-control w-full">
@@ -259,7 +259,7 @@ const AddCoupon = () => {
                   <button
                     type="button" // Add this line to prevent form submission
                     onClick={() => generateCouponCode()}
-                    className="btn btn-accent join-item rounded-r-full"
+                    className="btn btn-primary join-item rounded-r-full"
                   >
                     Generate
                   </button>
@@ -315,7 +315,7 @@ const AddCoupon = () => {
               <div>
                 <input
                   onChange={handleInputChange}
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                   type="text"
                   name="eligibilityValue"
                   id="eligibility-value"
@@ -344,7 +344,7 @@ const AddCoupon = () => {
                 <select
                   onChange={handleInputChange}
                   name="eligibilityValue"
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 >
                   {customers.map((customer) => (
                     <option>
@@ -447,7 +447,7 @@ const AddCoupon = () => {
               <div>
                 <input
                   onChange={handleInputChange}
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                   type="text"
                   name="requirementValue"
                   id="requirement-value"
@@ -477,7 +477,7 @@ const AddCoupon = () => {
               <div>
                 <input
                   onChange={handleInputChange}
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                   type="text"
                   name="requirementValue"
                   id="requirement-value"
@@ -596,7 +596,7 @@ const AddCoupon = () => {
               <div>
                 <input
                   onChange={(e) => handleInputChange(e)}
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                   type="text"
                   name="totalLimit"
                   id="requirement-value"
@@ -639,7 +639,7 @@ const AddCoupon = () => {
               </label>
               <input
                 onChange={handleInputChange}
-                className="input input-accent"
+                className="input input-primary"
                 type="date"
                 name="activeDate"
               />
@@ -650,7 +650,7 @@ const AddCoupon = () => {
               </label>
               <input
                 onChange={handleInputChange}
-                className="input input-accent"
+                className="input input-primary"
                 type="time"
                 name="activeTime"
               />
@@ -678,7 +678,7 @@ const AddCoupon = () => {
                 </label>
                 <input
                   onChange={(e) => handleInputChange(e)}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="date"
                   name="endDate"
                 />
@@ -689,7 +689,7 @@ const AddCoupon = () => {
                 </label>
                 <input
                   onChange={(e) => handleInputChange(e)}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="time"
                   name="endTime"
                 />
@@ -741,7 +741,7 @@ const AddCoupon = () => {
           className="col-span-4 flex gap-4 justify-end items-center mt-4  border-t-[1px] p-4 "
         >
           <div className="flex w-1/2 justify-end gap-4 mt-4">
-            <button className="btn w-32  btn-accent ">Submit</button>
+            <button className="btn w-32  btn-primary ">Submit</button>
             <button className="btn w-32  btn-outline ">Reset</button>
           </div>
         </motion.div>
@@ -768,42 +768,44 @@ const AddCoupon = () => {
           </div>
           {appliedToFilteredState[0]?.name
             ? appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  whileTap={{ scale: 0.8 }}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    whileTap={{ scale: 0.8 }}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Name: {filteredObj?.name}</p>
-                  <p>ID: {filteredObj?._id}</p>
-                </motion.div>
-              );
-            })
+                  >
+                    <p>Name: {filteredObj?.name}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })
             : appliedToFilteredState.map((filteredObj) => {
-              return (
-                <motion.div
-                  variants={buttonVariants}
-                  initial="initial"
-                  whileHover="hover"
-                  onClick={() => handleAddFilteredItemToState(filteredObj)}
-                  key={nanoid()}
-                  className={` ${appliedToFilteredItemsObjects.includes(filteredObj)
-                    ? "bg-accent"
-                    : "bg-base-200"
+                return (
+                  <motion.div
+                    variants={buttonVariants}
+                    initial="initial"
+                    whileHover="hover"
+                    onClick={() => handleAddFilteredItemToState(filteredObj)}
+                    key={nanoid()}
+                    className={` ${
+                      appliedToFilteredItemsObjects.includes(filteredObj)
+                        ? "bg-accent"
+                        : "bg-base-200"
                     } rounded-xl shadow-xl p-4 flex justify-between my-2 cursor-pointer`}
-                >
-                  <p>Title: {filteredObj?.title}</p>
-                  <p>ID: {filteredObj?._id}</p>
-                </motion.div>
-              );
-            })}
+                  >
+                    <p>Title: {filteredObj?.title}</p>
+                    <p>ID: {filteredObj?._id}</p>
+                  </motion.div>
+                );
+              })}
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}

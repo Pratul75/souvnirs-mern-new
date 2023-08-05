@@ -13,7 +13,7 @@ const FormInput = ({ label, name, control, errors, ...inputProps }) => {
         render={({ field }) => (
           <input
             {...field}
-            className="input input-accent"
+            className="input input-primary"
             id={name}
             {...inputProps}
           />

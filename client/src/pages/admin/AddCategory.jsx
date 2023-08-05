@@ -230,7 +230,7 @@ const AddCategory = () => {
               <span className="label-text">parent Category</span>
             </label>
             <select
-              className=" input input-accent "
+              className=" input input-primary "
               onChange={(e) => handleInputChange(e)}
               name="parentId"
             >

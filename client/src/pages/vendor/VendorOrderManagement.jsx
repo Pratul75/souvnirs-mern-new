@@ -52,7 +52,7 @@ const VendorOrderManagement = () => {
     }
   };
   const deleteSelectedRow = async () => {
-    console.log('VendorOrderManagement.jsx', selectedRow);
+    console.log("VendorOrderManagement.jsx", selectedRow);
     const response = await API_WRAPPER.delete(
       `/order/delete-order/:${selectedRow.orderId}`
     );
@@ -107,7 +107,7 @@ const VendorOrderManagement = () => {
       <Header
         heading="Order Management"
         subheading="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et "
-      // image={OrderManagementBannerImg}
+        // image={OrderManagementBannerImg}
       />
       <div className="mt-10">
         <ReusableTable
@@ -140,7 +140,7 @@ const VendorOrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.invoiceId}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="invoice_id"
                   id=""
@@ -153,7 +153,7 @@ const VendorOrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.productName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="productName"
                   id=""
@@ -166,7 +166,7 @@ const VendorOrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.vendorName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="vendorName"
                   id=""
@@ -179,7 +179,7 @@ const VendorOrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.customerName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="customerName"
                   id=""
@@ -192,7 +192,7 @@ const VendorOrderManagement = () => {
                 <select
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.status}
-                  className="select select-accent"
+                  className="select select-primary"
                   name="status"
                   id=""
                 >
@@ -225,8 +225,17 @@ const VendorOrderManagement = () => {
             </p>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-error" onClick={deleteSelectedRow}>Delete</button>
-              <button className="btn" onClick={() => { window.order_management_delete_modal.close() }}>Close</button>
+              <button className="btn btn-error" onClick={deleteSelectedRow}>
+                Delete
+              </button>
+              <button
+                className="btn"
+                onClick={() => {
+                  window.order_management_delete_modal.close();
+                }}
+              >
+                Close
+              </button>
             </div>
           </form>
         </dialog>

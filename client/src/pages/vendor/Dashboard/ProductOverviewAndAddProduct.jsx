@@ -48,7 +48,7 @@ const ProductOverviewAndAddProduct = () => {
           <div>
             <Link
               to={PATHS.adminAddProducts}
-              className="btn btn-accent rounded-full col-span-1 w-full"
+              className="btn btn-primary rounded-full col-span-1 w-full"
             >
               Add Products
             </Link>
@@ -73,7 +73,7 @@ const ProductOverviewAndAddProduct = () => {
             <AvatarGroup totalAmount={99} />
             <Link
               to={PATHS.adminAddProducts}
-              className="btn btn-accent btn-circle"
+              className="btn btn-primary btn-circle"
             >
               <AiOutlinePlus />
             </Link>

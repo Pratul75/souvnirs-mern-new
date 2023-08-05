@@ -217,7 +217,7 @@ const CollectionConditions = () => {
             </label>
             <input
               onChange={(e) => handleChange(e)}
-              className="input input-accent"
+              className="input input-primary"
               placeholder="Enter Title"
               type="text"
               name="colle ction-condition-input"
@@ -236,7 +236,7 @@ const CollectionConditions = () => {
           </div>
         </div>
 
-        <button className="btn btn-accent w-1/2 mt-4 text-white">
+        <button className="btn btn-primary w-1/2 mt-4 text-white">
           Add Title
         </button>
         <div className="mt-4">
@@ -271,7 +271,7 @@ const CollectionConditions = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.title}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="title"
                 id=""
@@ -295,7 +295,7 @@ const CollectionConditions = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.status}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
                 id=""
               >
@@ -312,7 +312,7 @@ const CollectionConditions = () => {
               onClick={(e) => {
                 editFormHandler(e);
               }}
-              className="btn btn-accent"
+              className="btn btn-primary"
             >
               Save changes
             </button>

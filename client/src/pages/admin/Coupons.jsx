@@ -171,7 +171,7 @@ const Coupons = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.couponCode}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="couponCode"
                 id=""
@@ -184,7 +184,7 @@ const Coupons = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.title}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="title"
                 id=""
@@ -197,7 +197,7 @@ const Coupons = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.totalLimit}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="totalLimit"
                 id=""
@@ -211,7 +211,7 @@ const Coupons = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.status}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
                 id=""
               >
@@ -227,7 +227,7 @@ const Coupons = () => {
             <button
               type="button"
               onClick={(e) => submitEditedRow(e)}
-              className="btn btn-accent"
+              className="btn btn-primary"
             >
               Save changes
             </button>

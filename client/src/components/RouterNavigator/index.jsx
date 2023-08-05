@@ -26,7 +26,7 @@ const RouteNavigator = () => {
         <div className="form-control flex flex-row items-center gap-4 transition-all ease-in-out duration-150">
           <input
             type="text"
-            className="input input-sm input-accent outline-none select-none "
+            className="input input-sm input-primary outline-none select-none "
             placeholder="ex- /admin-dashboard"
             value={route}
             onChange={handleInputChange}

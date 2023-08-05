@@ -283,7 +283,7 @@ const Vendor = () => {
                       [e.target.name]: e.target.value,
                     }))
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-1">
@@ -301,7 +301,7 @@ const Vendor = () => {
                       [e.target.name]: e.target.value,
                     }))
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-1">
@@ -318,7 +318,7 @@ const Vendor = () => {
                       return { ...prevState, [e.target.name]: e.target.value };
                     })
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-1">
@@ -335,7 +335,7 @@ const Vendor = () => {
                       return { ...prevState, [e.target.name]: e.target.value };
                     })
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-1">
@@ -352,7 +352,7 @@ const Vendor = () => {
                       return { ...prevState, [e.target.name]: e.target.value };
                     })
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-1">
@@ -369,7 +369,7 @@ const Vendor = () => {
                       return { ...prevState, [e.target.name]: e.target.value };
                     })
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
               <div className="form-control col-span-2">
@@ -386,7 +386,7 @@ const Vendor = () => {
                       return { ...prevState, [e.target.name]: e.target.value };
                     })
                   }
-                  className="input input-accent w-full"
+                  className="input input-primary w-full"
                 />
               </div>
             </div>
@@ -394,7 +394,7 @@ const Vendor = () => {
               <button
                 type="button"
                 onClick={(e) => handleModalFormSubmit(e)}
-                className="btn btn-accent"
+                className="btn btn-primary"
               >
                 Save
               </button>

@@ -384,7 +384,7 @@ const AddCollection = () => {
       <Header
         heading="Collections"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-      // image={CollectionBannerImg}
+        // image={CollectionBannerImg}
       />
       <div className="mt-12">
         <div className="grid grid-cols-3 gap-4">
@@ -400,7 +400,7 @@ const AddCollection = () => {
                 <span className="label-text">Collection Title</span>
               </label>
               <input
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="title"
                 id="title"
@@ -421,7 +421,7 @@ const AddCollection = () => {
                 <span className="label-text">status</span>
               </label>
               <select
-                className="select select-accent"
+                className="select select-primary"
                 id="status-select"
                 name="status" // Add name attribute for the select element
                 value={status}
@@ -509,7 +509,7 @@ const AddCollection = () => {
                     onChange={(e) => handleTitleChange(index, e)}
                     value={state.selectedTitle}
                     placeholder="Title"
-                    className="select select-accent w-full"
+                    className="select select-primary w-full"
                   >
                     <option value="">Select Title</option>
                     {collectionConditionList?.map((item) => (
@@ -526,7 +526,7 @@ const AddCollection = () => {
                     }
                     value={state.conditionValue}
                     placeholder="Is greater than"
-                    className="select select-accent w-full"
+                    className="select select-primary w-full"
                   >
                     <option value="">Select Operator</option>
                     {filteredConditionValues.map((conditionVal) => {
@@ -550,7 +550,7 @@ const AddCollection = () => {
                       handleInputValueChange(index, e.target.value)
                     }
                     value={state.inputValue}
-                    className="input input-accent w-full"
+                    className="input input-primary w-full"
                     type="text"
                     placeholder="enter filter parameter"
                   />
@@ -585,7 +585,7 @@ const AddCollection = () => {
 
               <button
                 onClick={postRawFilterData}
-                className="btn btn-accent font-thin text-white"
+                className="btn btn-primary font-thin text-white"
               >
                 Submit Filters
               </button>
@@ -593,7 +593,7 @@ const AddCollection = () => {
 
             <div className="mt-4 relative">
               <button
-                className="btn btn-accent absolute right-60 top-5"
+                className="btn btn-primary absolute right-60 top-5"
                 onClick={removeDeactivatedProducts}
               >
                 Deactivate
@@ -628,7 +628,7 @@ const AddCollection = () => {
               </label>
               <input
                 placeholder="Meta Title"
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name=""
                 id=""
@@ -640,7 +640,7 @@ const AddCollection = () => {
               </label>
               <input
                 placeholder="Meta Description"
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name=""
                 id=""
@@ -652,7 +652,7 @@ const AddCollection = () => {
               </label>
               <input
                 placeholder="Focus Keywords"
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name=""
                 id=""
@@ -664,7 +664,7 @@ const AddCollection = () => {
               </label>
               <input
                 placeholder="Slug"
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="slug"
                 id="collection-slug"
@@ -679,14 +679,14 @@ const AddCollection = () => {
             className="col-span-3 md:col-span-1  bg-base-100 px-4 py-8 rounded-xl border-[1px] border-base-300"
           >
             <h1>Image</h1>
-            <div className="border-[1px] border-dashed border-accent  rounded-xl mt-4">
+            <div className="border-[1px] border-dashed border-primary  rounded-xl mt-4">
               <Dropzone />
             </div>
           </motion.div>
         </div>
       </div>
       <div className="flex gap-4 my-8 w-full justify-end border-t-base-300">
-        <button className="btn btn-accent" onClick={(e) => handleSubmit(e)}>
+        <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
           Submit
         </button>
         <button onClick={() => resetForm()} className="btn btn-primary">

@@ -142,7 +142,7 @@ const VendorRefund = () => {
       <Header
         heading="Refunds"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's"
-      // image={HeaderImgTwo}
+        // image={HeaderImgTwo}
       />
       <div className="mt-8">
         <ReusableTable
@@ -168,7 +168,7 @@ const VendorRefund = () => {
                     <span className="label-text">Product ID</span>
                   </label>
                   <input
-                    className="input input-accent"
+                    className="input input-primary"
                     type="text"
                     name={`productId_${index}`} // Use a unique name for each input
                     value={refundItem.productId}
@@ -179,7 +179,7 @@ const VendorRefund = () => {
                     <span className="label-text">Quantity</span>
                   </label>
                   <input
-                    className="input input-accent"
+                    className="input input-primary"
                     type="text"
                     name={`quantity_${index}`} // Use a unique name for each input
                     value={refundItem.quantity}
@@ -190,7 +190,7 @@ const VendorRefund = () => {
                     <span className="label-text">Price</span>
                   </label>
                   <input
-                    className="input input-accent"
+                    className="input input-primary"
                     type="text"
                     name={`price_${index}`} // Use a unique name for each input
                     value={refundItem.price}

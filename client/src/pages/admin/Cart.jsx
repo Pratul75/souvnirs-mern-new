@@ -130,7 +130,7 @@ const Cart = () => {
                 <span className="label-text">Product Name</span>
               </label>
               <input
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="product_name"
                 onChange={(e) => handleEditChange(e)}
@@ -142,7 +142,7 @@ const Cart = () => {
                 <span className="label-text">Product Price</span>
               </label>
               <input
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="product_price"
                 onChange={(e) => handleEditChange(e)}
@@ -154,7 +154,7 @@ const Cart = () => {
                 <span className="label-text">Product Quantity</span>
               </label>
               <input
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="product_price"
                 onChange={(e) => handleEditChange(e)}
@@ -166,7 +166,7 @@ const Cart = () => {
                 <span className="label-text">Product Quantity</span>
               </label>
               <input
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="product_price"
                 onChange={(e) => handleEditChange(e)}
@@ -176,7 +176,7 @@ const Cart = () => {
           </div>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button type="submit" className="btn btn-accent">
+            <button type="submit" className="btn btn-primary">
               Save Changes
             </button>
             <button

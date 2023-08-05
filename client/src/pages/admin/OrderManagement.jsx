@@ -130,7 +130,7 @@ const OrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.invoiceId}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="invoice_id"
                   id=""
@@ -143,7 +143,7 @@ const OrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.productName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="productName"
                   id=""
@@ -156,7 +156,7 @@ const OrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.vendorName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="vendorName"
                   id=""
@@ -169,7 +169,7 @@ const OrderManagement = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.customerName}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="customerName"
                   id=""
@@ -182,7 +182,7 @@ const OrderManagement = () => {
                 <select
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.status}
-                  className="select select-accent"
+                  className="select select-primary"
                   name="status"
                   id=""
                 >

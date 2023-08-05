@@ -191,7 +191,7 @@ const Categories = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.name}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="name"
                   id=""
@@ -204,7 +204,7 @@ const Categories = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.type}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="type"
                   id=""
@@ -227,7 +227,7 @@ const Categories = () => {
                 <input
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.hsn_code}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="hsn_code"
                   id=""
@@ -240,7 +240,7 @@ const Categories = () => {
                 <select
                   onChange={(e) => handleEditChange(e)}
                   defaultValue={selectedRow?.status}
-                  className="select select-accent"
+                  className="select select-primary"
                   name="status"
                   id=""
                 >
@@ -256,7 +256,7 @@ const Categories = () => {
               <button
                 type="button"
                 onClick={(e) => submitEditedRow(e)}
-                className="btn btn-accent"
+                className="btn btn-primary"
               >
                 Save changes
               </button>

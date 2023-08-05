@@ -148,7 +148,7 @@ const Attributes = () => {
                 <input
                   defaultValue={selectedRow?.name}
                   onChange={(e) => handleEditChange(e)}
-                  className="input input-accent"
+                  className="input input-primary"
                   type="text"
                   name="name"
                   id=""
@@ -161,7 +161,7 @@ const Attributes = () => {
                 <select
                   defaultValue={selectedRow?.status}
                   onChange={(e) => handleEditChange(e)}
-                  className="select select-accent"
+                  className="select select-primary"
                   name="status"
                 >
                   <option value="ACTIVE">ACTIVE</option>
@@ -174,7 +174,7 @@ const Attributes = () => {
               <button
                 type="button"
                 onClick={(e) => handleFormSubmit(e)}
-                className="btn btn-accent"
+                className="btn btn-primary"
               >
                 Save Changes
               </button>

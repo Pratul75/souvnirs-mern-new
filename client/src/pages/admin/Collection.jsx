@@ -112,7 +112,7 @@ const Collection = () => {
       />
       <div>
         <div className="flex justify-end my-4">
-          <Link to={PATHS.adminAddCollection} className="btn btn-accent w-48">
+          <Link to={PATHS.adminAddCollection} className="btn btn-primary w-48">
             Add Collections
           </Link>
         </div>
@@ -147,7 +147,7 @@ const Collection = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.title}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="title"
                 id=""
@@ -160,7 +160,7 @@ const Collection = () => {
               <input
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.description}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="description"
                 id=""
@@ -179,7 +179,7 @@ const Collection = () => {
               <select
                 onChange={(e) => handleEditChange(e)}
                 defaultValue={selectedRow?.status}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
                 id=""
               >
@@ -191,7 +191,7 @@ const Collection = () => {
           </div>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button type="submit" className="btn btn-accent">
+            <button type="submit" className="btn btn-primary">
               Save changes
             </button>
             <button

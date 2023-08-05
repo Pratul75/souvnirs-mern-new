@@ -135,7 +135,7 @@ const AddCustomer = () => {
           errors={errors}
           type="text"
         />
-        <button type="submit" className="col-span-2 btn btn-accent">
+        <button type="submit" className="col-span-2 btn btn-primary">
           Add Customer
         </button>
       </form>

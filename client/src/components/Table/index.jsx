@@ -230,7 +230,7 @@ const ReusableTable = ({
               <select
                 value={pageSize}
                 onChange={handlePageSizeChange}
-                className=" select select-sm select-accent input-bordered mx-2"
+                className=" select select-sm select-primary input-bordered mx-2"
               >
                 {[10, 25, 50, 100].map((size) => (
                   <option key={size} value={size}>
@@ -243,14 +243,14 @@ const ReusableTable = ({
               <button
                 onClick={() => handlePageChange(0)}
                 disabled={pageIndex === 0}
-                className="btn btn-square btn-sm btn-accent"
+                className="btn btn-square btn-sm btn-primary"
               >
                 <BiFirstPage className="text-xl" />
               </button>
               <button
                 onClick={() => handlePageChange(pageIndex - 1)}
                 disabled={pageIndex === 0}
-                className="btn btn-square btn-sm btn-accent mx-2"
+                className="btn btn-square btn-sm btn-primary mx-2"
               >
                 <BiLeftArrowAlt className="text-xl" />
               </button>
@@ -263,14 +263,14 @@ const ReusableTable = ({
               <button
                 onClick={() => handlePageChange(pageIndex + 1)}
                 disabled={pageIndex === pageCount - 1}
-                className="btn btn-square btn-sm btn-accent mx-2"
+                className="btn btn-square btn-sm btn-primary mx-2"
               >
                 <BiRightArrowAlt className="text-xl" />
               </button>
               <button
                 onClick={() => handlePageChange(pageCount - 1)}
                 disabled={pageIndex === pageCount - 1}
-                className="btn btn-square btn-accent btn-sm"
+                className="btn btn-square btn-primary btn-sm"
               >
                 <BiLastPage className="text-xl" />
               </button>
