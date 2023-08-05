@@ -11,6 +11,8 @@ const adminSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    firstName: String,
+    lastName: String
   },
   {
     timestamps: true,
