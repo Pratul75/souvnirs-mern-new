@@ -471,7 +471,7 @@ const AddCollection = () => {
               </label>
               <div className="flex items-center gap-4 ml-4">
                 <input
-                  className="radio radio-accent"
+                  className="radio radio-primary"
                   type="radio"
                   name="radioSelection"
                   id="radioAll"
@@ -484,7 +484,7 @@ const AddCollection = () => {
                 </label>
 
                 <input
-                  className="radio radio-accent"
+                  className="radio radio-primary"
                   type="radio"
                   name="radioSelection"
                   id="radioAny"

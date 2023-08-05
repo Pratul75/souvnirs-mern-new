@@ -355,7 +355,7 @@ const AddProduct = () => {
       content: (
         <div>
           <div className="flex gap-4 border-b-[1px] border-gray-500 pb-4">
-            <input className="radio radio-accent" type="radio" />
+            <input className="radio radio-primary" type="radio" />
             <span>Physical product</span>
           </div>
           <div className="flex gap-4">
@@ -381,7 +381,7 @@ const AddProduct = () => {
             </div>
           </div>
           <div className="flex items-center  gap-4 mt-4">
-            <input className="checkbox checkbox-accent" type="checkbox" />
+            <input className="checkbox checkbox-primary" type="checkbox" />
             <label className="label">
               <span className="label-text">
                 Include custom information for international shipping

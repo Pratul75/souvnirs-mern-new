@@ -12,7 +12,7 @@ const IndeterminateCheckbox = forwardRef(({ indeterminate, ...rest }, ref) => {
   return (
     <>
       <input
-        className="checkbox checkbox-accent"
+        className="checkbox checkbox-primary"
         key={nanoid()}
         type="checkbox"
         ref={resolvedRef}

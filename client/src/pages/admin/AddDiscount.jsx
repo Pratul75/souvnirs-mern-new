@@ -248,7 +248,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="eligibilityTitle"
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 value="all_customers"
               />
@@ -267,7 +267,7 @@ const AddDiscount = () => {
                 }}
                 name="eligibilityTitle"
                 value={"specific_customer_segment"}
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
               />
               <label className="label">
@@ -295,7 +295,7 @@ const AddDiscount = () => {
                 }}
                 name="eligibilityTitle"
                 value="specific_customer"
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
               />
               <label className="label">
@@ -379,7 +379,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="requirementTitle"
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 value="no_minimum_requirement"
               />
@@ -397,7 +397,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="requirementTitle"
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 value="minimum_purchase_amount"
               />
@@ -428,7 +428,7 @@ const AddDiscount = () => {
                   handleInputChange(e);
                 }}
                 name="requirementTitle"
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 value="minimum_quantity_of_items"
               />
@@ -462,7 +462,7 @@ const AddDiscount = () => {
             <div className="form-control flex flex-row gap-4 items-center">
               <input
                 onChange={(e) => handleAppliedToSelectInputs(e)}
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 name="specifyCollection"
                 value="specify-collections"
@@ -475,7 +475,7 @@ const AddDiscount = () => {
             <div className="form-control flex flex-row gap-4 items-center">
               <input
                 onChange={(e) => handleAppliedToSelectInputs(e)}
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 name="specifyCollection"
                 value="specify-products"
@@ -488,7 +488,7 @@ const AddDiscount = () => {
             <div className="form-control flex flex-row gap-4 items-center">
               <input
                 onChange={(e) => handleAppliedToSelectInputs(e)}
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 name="specifyCollection"
                 value="specify-categories"
@@ -541,7 +541,7 @@ const AddDiscount = () => {
           <div className="mt-4">
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 name="totalLimit"
                 onChange={() =>
@@ -569,7 +569,7 @@ const AddDiscount = () => {
             )}
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="radio radio-accent"
+                className="radio radio-primary"
                 type="radio"
                 name="totalLimit"
                 onChange={(e) => {
@@ -673,7 +673,7 @@ const AddDiscount = () => {
             <p>This product discount can be combined with:</p>
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="checkbox checkbox-accent"
+                className="checkbox checkbox-primary"
                 type="checkbox"
                 name="combinations"
                 onChange={handleInputChange}
@@ -684,7 +684,7 @@ const AddDiscount = () => {
             </div>
             <div className="form-control flex-row items-center gap-4">
               <input
-                className="checkbox checkbox-accent"
+                className="checkbox checkbox-primary"
                 type="checkbox"
                 name="combinations"
                 onChange={handleInputChange}
