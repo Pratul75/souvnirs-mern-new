@@ -556,7 +556,6 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 md:col-span-4 bg-base-100 p-4 rounded-xl border-[1px] border-base-300"
           >
-            <h3 className="font-semibold">Product</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
@@ -577,7 +576,6 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
-            <h3 className="font-semibold">Product Status</h3>
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
@@ -606,7 +604,6 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4"
           >
-            <h3 className="font-semibold">Prdouct Description</h3>
             <hr className="mt-4" />
             <div className="form-control ">
               <label className="label">
@@ -703,7 +700,7 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4 h-auto"
           >
-            <h3 className="font-semibold">Basic Tabs</h3>
+            <h3 className="font-semibold">Product Organisation Details</h3>
             <hr className="mt-4 relative" />
             <Tabs tabs={tabs} />
           </motion.div>

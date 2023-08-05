@@ -408,9 +408,17 @@ const getProductDataForAdmin = async (req, res) => {
 }
 
 const getDoughNutChartData = async (req, res) => {
-    const products = await Product.find().count();
-    const vendors = await Vendor.find().count();
-    res.status(200).json({ products, vendors, income: 0, sales: 0 })
+    if (req.role === "admin") {
+
+        const products = await Product.find().count();
+        const vendors = await Vendor.find().count();
+        res.status(200).json({ products, vendors, income: 0, sales: 0 })
+    } else if (req.role === "vendor") {
+
+        const products = await Product.find().count();
+        const vendors = await Vendor.find().count();
+        res.status(200).json({ products, vendors, income: 0, sales: 0 })
+    }
 
 
 }
