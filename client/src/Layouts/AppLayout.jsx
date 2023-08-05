@@ -100,30 +100,3 @@ AppLayout.propTypes = {
 };
 
 export default AppLayout;
-
-//  <span className="text-themeColor font-bold">
-//                       {productData.reduce((acc, count) => acc + count, 0)}
-//                     </span>
-//                   </div>
-//                   <div className=" w-full">
-//                     {productData.length > 0 && productLabel.length > 0 && (
-//                       <Line
-//                         options={{
-//                           ...options,
-//                           responsive: true,
-//                           maintainAspectRatio: false,
-//                         }}
-//                         data={{
-//                           labels: productLabel,
-//                           datasets: [
-//                             {
-//                               fill: true,
-//                               label: "Dataset 2",
-//                               data: productData,
-//                               backgroundColor: "#4C62C3",
-//                               borderWidth: 0,
-//                             },
-//                           ],
-//                         }}
-//                       />
-//                     )}

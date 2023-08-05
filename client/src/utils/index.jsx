@@ -21,14 +21,26 @@ export const getRandomColor = () => {
 export const getStatusStyles = (status) => {
   switch (status) {
     case "ACTIVE":
-      return <div className="badge badge-accent font-bold">ACTIVE</div>;
+      return (
+        <div className="badge badge-accent font-bold">
+          <span className="text-green-300">ACTIVE</span>
+        </div>
+      );
 
     case "PENDING":
-      return <div className="badge badge-secondary font-bold">PENDING</div>;
+      return (
+        <div className="badge badge-secondary font-bold">
+          <span className="text-pink-300">PENDING</span>
+        </div>
+      );
 
     default:
-      return <div className="badge badge-error font-bold">DEACTIVE</div>;
-  }
+      return (
+        <div className="badge badge-error font-bold">
+          <span className="text-rose-300">DEACTIVE</span>
+        </div>
+      );
+  }s
 };
 
 export const getStockStatusStyles = (stockStatus) => {

@@ -102,7 +102,7 @@ const ProductOverviewAndAddProduct = () => {
                           fill: true,
                           label: "Dataset 2",
                           data: productData,
-                          backgroundColor: "#697ed9",
+                          backgroundColor: "#4C62C3",
                           borderWidth: 0,
                         },
                       ],
