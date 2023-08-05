@@ -1,21 +1,23 @@
-import { useState } from "react";
-import { useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { BsUpload } from "react-icons/bs";
 
-const Dropzone = () => {
+const Dropzone = ({ onFilesChange }) => { // Accepting the onFilesChange callback as a prop
   const [files, setFiles] = useState([]);
 
   const onDrop = useCallback((acceptedFiles) => {
     setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-  }, []);
+    onFilesChange([...files, ...acceptedFiles]); // Calling the onFilesChange callback with the updated files array
+  }, [files, onFilesChange]);
 
   const removeFile = (fileName) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+    onFilesChange(files.filter((file) => file.name !== fileName)); // Calling the onFilesChange callback with the updated files array
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  console.log('index.jsx', getInputProps);
 
   return (
     <div className="h-[30vh]" {...getRootProps()}>

@@ -11,6 +11,7 @@ import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
+import cloudinary from "cloudinary-core"
 // add products
 
 const AddProduct = () => {
@@ -30,6 +31,15 @@ const AddProduct = () => {
   const [price, setPrice] = useState(false);
   const [attrValues, setAttrValues] = useState();
   const [fAttValue, setFAttValue] = useState([]);
+  const [img, setImg] = useState()
+  const uploadToCloud = async (file) => {
+
+
+
+    const uploaded = await cloudinary.v2.uploader.upload(file)
+    console.log('AddProduct.jsx', uploaded);
+
+  }
 
   // Function to generate all possible combinations of multiple arrays as strings
   function generateValueCombinations() {
@@ -102,17 +112,100 @@ const AddProduct = () => {
     return nanoid(10);
   };
   // add product
+
   const postProduct = async () => {
-    const response = await API_WRAPPER.post("/products/add-product", {
+    let data = {
       ...formData,
       description,
       slug: randomSlug(),
       tags: tagsArray,
       attributes: attrValue,
-      attributeValues: fAttValue,
+      // attributeValues: fAttValue,
+    }
+    const addProdData = new FormData()
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === "attributes" || key === "attributeValues") {
+        // Stringify the arrays before appending them to the FormData
+        value.forEach((item, index) => {
+          addProdData.append(`${key}[${index}]`, JSON.stringify(item));
+        });
+      } else {
+        addProdData.append(key, value);
+      }
     });
-    console.log("AddProduct.jsx", response);
-    if (response.status === 201) {
+
+    // Append the variant images
+    // fAttValue.forEach((variant) => {
+    //   if (variant.images && variant.images[0]) {
+    //     addProdData.append(`images[${variant.name}]`, variant.images[0]);
+    //   }
+    // });
+
+
+
+
+    // Append the file data to the FormData
+    img.forEach((file) => {
+      addProdData.append("img", file);
+    });
+
+    const response = await API_WRAPPER.post("/products/add-product", addProdData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const productId = response.data.data._id
+    console.log("AddProduct.jsx", productId);
+    if (response) {
+      let doneUpload = false;
+      try {
+
+        for (let value of fAttValue) {
+          console.log('AddProduct.jsx', value);
+          const variantData = {
+            variant: value.name,
+            productId: productId,
+            attributes: attrValue,
+            price: value.price,
+            quantity: value.quantity,
+          }
+          const variantFormData = new FormData()
+
+          Object.entries(variantData).forEach(([key, value]) => {
+            if (key === "attributes" || key === "attributeValues") {
+              // Stringify the arrays before appending them to the FormData
+              value.forEach((item, index) => {
+                variantFormData.append(`${key}[${index}]`, JSON.stringify(item));
+              });
+            } else {
+              variantFormData.append(key, value);
+            }
+          });
+
+
+
+          for (let i = 0; i < value.images.length; i++) {
+            variantFormData.append("images", value.images[i]);
+          }
+          const res = await API_WRAPPER.post("/products/create-variant", variantFormData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          if (res) {
+            continue;
+          }
+
+
+        }
+        doneUpload = true
+      } catch (e) {
+        console.log(e)
+      }
+      if (doneUpload) {
+        debouncedShowToast("uploaded Successfully", "success")
+        Navigate(PATHS.adminProductManagement)
+      }
       console.log("RESPONSE RECEIVED: ", response?.data?.data);
       navigate(PATHS.adminProductManagement);
       const data = response.data.data;
@@ -166,7 +259,8 @@ const AddProduct = () => {
     }
   };
   const handleattTypeInputs = (e, type) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target;
+    console.log('AddProduct.jsx', files);
     const dataArray = fAttValue;
 
     // Find if the combination of type and name exists in the dataArray
@@ -178,6 +272,11 @@ const AddProduct = () => {
         dataArray[existingObjectIndex].price = value;
       } else if (type === "quantity") {
         dataArray[existingObjectIndex].quantity = value;
+
+      } else if (type === "images") {
+        uploadToCloud(files[0])
+        dataArray[existingObjectIndex].images = files;
+
       }
     } else {
       // If the combination doesn't exist, create a new object and add it to the dataArray
@@ -190,7 +289,7 @@ const AddProduct = () => {
     // console.log('AddProduct.jsx', dataArray);
     setFAttValue(dataArray);
   };
-
+  console.log('AddProduct.jsx', fAttValue);
   // Example usage:
   const dataArray = [];
 
@@ -221,6 +320,7 @@ const AddProduct = () => {
     console.log("CONVERTED ARR: ", convertedArr);
     return convertedArr;
   };
+  console.log('AddProduct.jsx', img);
 
   useEffect(() => {
     getAllCategories();
@@ -256,7 +356,7 @@ const AddProduct = () => {
             <span>Enter Quantity</span>
             <input
               onChange={(e) => handleInputChange(e)}
-              className="input input-primary w-2/3"
+              className="input input-accent w-2/3"
               type="number"
               name="stockQuantity"
               id=""
@@ -273,29 +373,52 @@ const AddProduct = () => {
           {attrValues.map((a) => (
             <div
               key={nanoid()}
-              className="md:h-8 flex items-center w-full justify-between gap-10 "
+              className="md:h-8 flex w-60 items-center  justify-between gap-10 "
             >
               {a}
-              <div className="flex flex-col md:flex-row">
+              <div className="flex  flex-col md:flex-row">
                 <input
                   name={a}
                   placeholder="price"
                   onChange={(e) => handleattTypeInputs(e, "price")}
                   type="text"
-                  className="input flex-1 input-primary"
+                  className="input flex-1 input-accent w-12"
                 />
                 <input
                   name={a}
                   placeholder="Quantity"
                   onChange={(e) => handleattTypeInputs(e, "quantity")}
-                  className="input input-primary flex-1"
+                  className="input input-accent flex-1"
                 />
+                <input type="file" name={a}
+                  onChange={(e) => handleattTypeInputs(e, "images")}
+                  className="input input-accent flex-1" multiple />
               </div>
             </div>
           ))}
         </div>
       ) : selectedCategory.length === 0 ? (
-        <p className="text-center">Select Category First</p>
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">Product Category</span>
+          </label>
+          <select
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={selectedCategory}
+            className="select select-accent"
+          >
+            <option value="" disabled selected>
+              select category
+            </option>
+            {categoriesList?.map((category) => {
+              return (
+                <option value={category._id} key={nanoid()}>
+                  {category.name}
+                </option>
+              );
+            })}
+          </select>
+        </div>
       ) : (
         <div className="form-control w-1/2 relative">
           <MultiSelect
@@ -310,7 +433,7 @@ const AddProduct = () => {
                   <label>{att.label}</label>
                   <input
                     onChange={handleAttriibuteValues}
-                    className="input input-primary h-8"
+                    className="input input-accent h-8"
                     name={att.value}
                     onKeyPress={handleAttributeSelection}
                   />
@@ -334,7 +457,7 @@ const AddProduct = () => {
           </div>
           {attrValue.length > 0 && (
             <button
-              className="  btn btn-primary"
+              className="  btn btn-accent"
               onClick={() => {
                 generateValueCombinations();
                 setFAttValue(
@@ -355,7 +478,7 @@ const AddProduct = () => {
       content: (
         <div>
           <div className="flex gap-4 border-b-[1px] border-gray-500 pb-4">
-            <input className="radio radio-primary" type="radio" />
+            <input className="radio radio-accent" type="radio" />
             <span>Physical product</span>
           </div>
           <div className="flex gap-4">
@@ -363,25 +486,20 @@ const AddProduct = () => {
               <label className="label">
                 <span className="label-text">Name</span>
               </label>
-              <input
-                className="input input-primary"
-                type="text"
-                name=""
-                id=""
-              />
+              <input className="input input-accent" type="text" name="" id="" />
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Preference</span>
               </label>
-              <select className="select select-primary">
+              <select className="select select-accent">
                 <option value="option 1">Option 1</option>
                 <option value="option 2">Option 2</option>
               </select>
             </div>
           </div>
           <div className="flex items-center  gap-4 mt-4">
-            <input className="checkbox checkbox-primary" type="checkbox" />
+            <input className="checkbox checkbox-accent" type="checkbox" />
             <label className="label">
               <span className="label-text">
                 Include custom information for international shipping
@@ -403,7 +521,7 @@ const AddProduct = () => {
               <input
                 name="price"
                 onChange={(e) => handleInputChange(e)}
-                className="input input-primary"
+                className="input input-accent"
               />
             </div>
             <div className="form-control">
@@ -413,7 +531,7 @@ const AddProduct = () => {
               <input
                 name="compareAtPrice"
                 onChange={(e) => handleInputChange(e)}
-                className="input input-primary"
+                className="input input-accent"
               />
             </div>
           </div>
@@ -446,7 +564,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-primary"
+                className="input input-accent"
                 type="text"
                 name="name"
                 id=""
@@ -467,14 +585,14 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-primary"
+                className="select select-accent"
                 name="status"
               >
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
             </div>
-            <button onClick={handleSubmit} className="btn btn-primary mt-4">
+            <button onClick={handleSubmit} className="btn btn-accent mt-4">
               Publish
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>
@@ -488,14 +606,14 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 md:col-span-4 bg-base-100 rounded-xl border-[1px] border-base-300 p-4"
           >
-            <h3 className="font-semibold">Prdoduct Description</h3>
+            <h3 className="font-semibold">Prdouct Description</h3>
             <hr className="mt-4" />
-            <div className="form-control mt-4">
+            <div className="form-control ">
               <label className="label">
                 <span className="label-text">Description</span>
               </label>
               <ReactQuill
-                className="h-52"
+                className="h-48"
                 theme="snow"
                 value={description}
                 onChange={setDescription}
@@ -510,34 +628,14 @@ const AddProduct = () => {
           >
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">Product Category</span>
-              </label>
-              <select
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                value={selectedCategory}
-                className="select select-primary"
-              >
-                <option value="" disabled selected>
-                  select category
-                </option>
-                {categoriesList?.map((category) => {
-                  return (
-                    <option value={category._id} key={nanoid()}>
-                      {category.name}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
+
             <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">Vendor</span>
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-primary"
+                className="select select-accent"
                 name="vendorId"
                 value={formData.vendorId}
               >
@@ -562,7 +660,7 @@ const AddProduct = () => {
                 onChange={handleTagInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter a tag and press Enter"
-                className="input input-primary"
+                className="input input-accent"
               />
               <div className="space-x-2">
                 {tagsArray.map((tag, index) => (
@@ -588,7 +686,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-primary  w-full"
+                className="input input-accent  w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
@@ -618,8 +716,8 @@ const AddProduct = () => {
             <h3 className="font-semibold">Add Images</h3>
             <hr className="mt-4" />
 
-            <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
-              <Dropzone />
+            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
+              <Dropzone onFilesChange={(data) => setImg(data)} />
             </div>
           </motion.div>
         </div>

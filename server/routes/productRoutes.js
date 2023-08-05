@@ -7,6 +7,7 @@ const {
   editProduct,
   checkProductsFromIds,
   bulkProductUpload,
+  createProductVariant,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -14,7 +15,9 @@ const { upload } = require("../middlewares/ImageUpload");
 
 const router = require("express").Router();
 
-router.post("/products/add-product", authMiddleware, createProduct);
+router.post("/products/add-product", authMiddleware, upload.any("img"), createProduct);
+router.post("/products/create-variant", authMiddleware, upload.any("images"), createProductVariant);
+
 router.get("/products/get-all-products", authMiddleware, getProducts);
 router.get("/products/get-single-product/:id", authMiddleware, getProduct);
 router.get("/products/get-products-count", authMiddleware, getProductsCount);

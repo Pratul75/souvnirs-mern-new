@@ -7,6 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 const Vendor = require("../schema/vendorModal");
 const Attribute = require("../schema/attributeModal");
 const Category = require("../schema/categoryModal");
+const { v2 } = require("../middlewares/ImageUpload")
 
 // create new product
 const createProduct = async (req, res) => {
@@ -22,9 +23,9 @@ const createProduct = async (req, res) => {
       totalSales,
       tags,
       attributes,
-      attributeValues
     } = req.body;
 
+    const imageUrl = await v2.uploader.upload(req.files[0].path)
     let attArr = attributes.map(att => att.name)
     // Create a new product object
     const product = new Product({
@@ -36,25 +37,42 @@ const createProduct = async (req, res) => {
       stockQuantity,
       totalSales,
       tags,
-      attributes: attArr
+      attributes: attArr,
+      coverImage: imageUrl.url
     });
 
     // Save the product to the database
     const savedProduct = await product.save();
 
 
-    for (let elem of attributeValues) {
+    // for (let elem of attributeValues) {
 
-      console.log('productController.js', elem);
-      await AttributeType.create({ productId: savedProduct._id, attributeIds: attArr, attributeCombination: elem.name, price: elem.price, quantity: elem.quantity })
-    }
+    //   console.log('productController.js', elem);
+    //   await AttributeType.create({ productId: savedProduct._id, attributeIds: attArr, attributeCombination: elem.name, price: elem.price, quantity: elem.quantity })
+    // }
 
-    res.status(201).json(success("product created successfully"));
+    res.status(201).json(success(product));
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Failed to create product" });
   }
 };
+
+// creating a api for creating product variant separetely because its not doable with product creation.
+const createProductVariant = async (req, res) => {
+  const { variant, productId, price, quantity } = req.body
+
+  console.log('productController.js', req.body);
+  let urlArray = []
+  for (let file of req.files) {
+    {
+      const imageUrl = await v2.uploader.upload(req.files[0].path)
+      urlArray.push(imageUrl.url)
+    }
+  }
+  await AttributeType.create({ price, images: urlArray, quantity, productId })
+  res.status(200).json("success")
+}
 
 // get all products
 const getProducts = async (req, res) => {
@@ -283,4 +301,5 @@ module.exports = {
   bulkProductUpload,
   editProduct,
   checkProductsFromIds,
+  createProductVariant
 };

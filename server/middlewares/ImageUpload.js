@@ -13,10 +13,10 @@ v2.config({
 // export default v2;
 const upload = multer({
     storage: multer.diskStorage({}),
-    fileFilter: (req, file, cb) => {
-        // let ext = path.extname(file.originalname);?
+    filename: function (req, file, cb) {
 
-        cb(null, true);
-    },
+        const uniqueFileName = Date.now().toString() + file.originalname
+        cb(null, uniqueFileName)
+    }
 });
 module.exports = { v2, upload }
