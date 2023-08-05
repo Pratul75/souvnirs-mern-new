@@ -6,7 +6,7 @@ import { PATHS } from "../../Routes/paths";
 import { useNavigate } from "react-router-dom";
 
 const AddAttribute = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [attributeName, setAttributeName] = useState("");
   const handleAddAttribute = async (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ const AddAttribute = () => {
       const response = API_WRAPPER.post("/attribute/add-attribute", {
         name: attributeName,
       });
-      navigate(PATHS.adminAttribute)
+      navigate(PATHS.adminAttribute);
       console.log("RESPONSE DATA AFTER DELETING ATTRIBUTE: ", response.data);
     } catch (error) {
       console.error("Error occured while adding attribute", error);
@@ -40,7 +40,7 @@ const AddAttribute = () => {
             </label>
             <input
               onChange={(e) => setAttributeName(e.target.value)}
-              className="input input-info"
+              className="input input-primary"
               placeholder="add attributes"
               type="text"
               name="attribute"

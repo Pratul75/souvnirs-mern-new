@@ -6,6 +6,7 @@ import TotalSalesTab from "./TotalSalesTab";
 import TransactionTotalIncomeInquiries from "./TransactionTotalIncomeInquiries";
 import VendorAndOrderList from "./VendorAndOrderList";
 import dashboardBannerImage from "../../../assets/bannerImages/dashboardBannerImage.png";
+import ReturnExchangeAdd from "./ReturnExchangeAdd";
 const AdminDashboard = () => {
   return (
     <div>
@@ -26,6 +27,8 @@ const AdminDashboard = () => {
         <TransactionTotalIncomeInquiries />
         {/* fifth row */}
         <VendorAndOrderList />
+        {/* sixth row */}
+        <ReturnExchangeAdd />
       </div>
       <ToastContainer />
     </div>

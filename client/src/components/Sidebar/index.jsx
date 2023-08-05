@@ -43,7 +43,7 @@ const Sidebar = () => {
         variants={sidebarVariants}
       >
         <div className="w-full">
-          <div className="flex  bg-base-200 items-center justify-center h-full w-full py-4">
+          <div className="flex  bg-base-200 items-center  justify-center h-full w-full py-4">
             {sidebarState ? (
               <div id="logo" className="w-40">
                 <img
@@ -59,7 +59,7 @@ const Sidebar = () => {
             )}
           </div>
           <div
-            className="overflow-y-auto max-h-[88vh] mt-4"
+            className="overflow-y-auto overflow-x-hidden max-h-[88vh] mt-4"
             style={{ height: " calc(100vh-79px)" }}
           >
             <div className="mx-2 cursor-pointer">

@@ -23,7 +23,7 @@ import {
   BiRightArrowAlt,
   BiLeftArrowAlt,
 } from "react-icons/bi";
-
+import Card from "../Card";
 const ReusableTable = ({
   columns,
   data,
@@ -145,81 +145,92 @@ const ReusableTable = ({
         />
       </div>
       <div className="overflow-x-auto width-full max-w-full">
-        <table className="table " {...getTableProps()}>
-          <thead>
-            {headerGroups.map((headerGroup) => (
-              <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map((column) => (
-                  <th
-                    key={nanoid()}
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
-                    <div className="flex items-center">
-                      <span>{column.render("Header")}</span>
-                      {column.isSorted ? (
-                        column.isSortedDesc ? (
-                          <AiOutlineSortDescending size={22} className="ml-1" />
-                        ) : (
-                          <AiOutlineSortAscending size={22} className="ml-1" />
-                        )
-                      ) : null}
-                    </div>
-                  </th>
-                ))}
-                {showButtons && <th>Action</th>}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr
-                  className={`${row.isSelected ? "bg-accent" : "bg-base-100"}`}
-                  key={nanoid()}
-                  {...row.getRowProps()}
-                >
-                  {row.cells.map((cell) => (
-                    <td key={nanoid()} {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </td>
+        <Card>
+          <table className="table " {...getTableProps()}>
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      className="bg-base-300"
+                      key={nanoid()}
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
+                      <div className="flex items-center">
+                        <span>{column.render("Header")}</span>
+                        {column.isSorted ? (
+                          column.isSortedDesc ? (
+                            <AiOutlineSortDescending
+                              size={22}
+                              className="ml-1"
+                            />
+                          ) : (
+                            <AiOutlineSortAscending
+                              size={22}
+                              className="ml-1"
+                            />
+                          )
+                        ) : null}
+                      </div>
+                    </th>
                   ))}
-
-                  {/* Conditionally rendering the component */}
-                  {showButtons && (
-                    <td className="flex gap-4">
-                      {enableShowDetials && (
-                        <span
-                          onClick={() => onShow(row.original)}
-                          className="cursor-pointer"
-                        >
-                          <EyeBtnSvg />
-                        </span>
-                      )}
-                      {enableEdit && (
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => onEdit(row.original)}
-                        >
-                          <EditBtnSvg />
-                        </span>
-                      )}
-
-                      {enableDelete && (
-                        <span
-                          className="cursor-pointer"
-                          onClick={() => onDelete(row.original)}
-                        >
-                          <DeleteBtnSvg />
-                        </span>
-                      )}
-                    </td>
-                  )}
+                  {showButtons && <th className="bg-base-300">Action</th>}
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {page.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    className={`${
+                      row.isSelected ? "bg-accent" : "bg-base-100"
+                    }`}
+                    key={nanoid()}
+                    {...row.getRowProps()}
+                  >
+                    {row.cells.map((cell) => (
+                      <td key={nanoid()} {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+
+                    {/* Conditionally rendering the component */}
+                    {showButtons && (
+                      <td className="flex gap-4">
+                        {enableShowDetials && (
+                          <span
+                            onClick={() => onShow(row.original)}
+                            className="cursor-pointer"
+                          >
+                            <EyeBtnSvg />
+                          </span>
+                        )}
+                        {enableEdit && (
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => onEdit(row.original)}
+                          >
+                            <EditBtnSvg />
+                          </span>
+                        )}
+
+                        {enableDelete && (
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => onDelete(row.original)}
+                          >
+                            <DeleteBtnSvg />
+                          </span>
+                        )}
+                      </td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
       </div>
       {enablePagination && data.length > 0 && (
         // Render pagination controls only if enablePagination prop is true and data is not empty

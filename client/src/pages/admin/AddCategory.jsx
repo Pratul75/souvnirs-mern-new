@@ -137,7 +137,7 @@ const AddCategory = () => {
             </label>
             <input
               placeholder="Category Name"
-              className="input input-info"
+              className="input input-primary"
               onChange={handleInputChange}
               type="text"
               name="name"
@@ -150,7 +150,7 @@ const AddCategory = () => {
             </label>
             <input
               placeholder="Category Description"
-              className="input input-info"
+              className="input input-primary"
               onChange={handleInputChange}
               type="text"
               name="Description"
@@ -163,7 +163,7 @@ const AddCategory = () => {
             </label>
             <input
               placeholder="HSN Code"
-              className="input input-info"
+              className="input input-primary"
               onChange={handleInputChange}
               type="text"
               name="hsn_code"
@@ -176,7 +176,7 @@ const AddCategory = () => {
             </label>
             <input
               placeholder="Category Type"
-              className="input input-info"
+              className="input input-primary"
               onChange={handleInputChange}
               type="text"
               name="type"
@@ -186,7 +186,7 @@ const AddCategory = () => {
           <div className="form-control col-span-2 md:col-span-1">
             <input
               placeholder="Search Attributes"
-              className="input input-info mb-2"
+              className="input input-primary mb-2"
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
