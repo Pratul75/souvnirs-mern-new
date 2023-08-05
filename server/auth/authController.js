@@ -110,14 +110,18 @@ const loginUser = async (req, res) => {
     }
     // Generate and send the JWT token to the front end with appropriate role
     let role;
+    let a;
     if (vendor) {
       role = "vendor";
+      a = vendor
     } else if (user) {
       role = "customer";
+      a = user
     } else if (admin) {
       role = "admin";
+      a = admin;
     }
-    const token = jwt.sign({ id: foundUser._id, role }, secretKey, {
+    const token = jwt.sign({ id: foundUser._id, role, userName: `${a.name} ${a.lastName}` }, secretKey, {
       expiresIn: "7h", // Token expiration time
     });
     res.status(200).json({ token });
