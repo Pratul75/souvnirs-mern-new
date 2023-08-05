@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
+import { nanoid } from "nanoid";
 const Modal = ({
   id,
   title,
@@ -37,7 +37,7 @@ const Modal = ({
         <p className="py-4">{message}</p>
         {inputs.map((input) =>
           input.type === "select" && input.name === "status" ? (
-            <div className="form-control">
+            <div key={nanoid()} className="form-control">
               <label className="label">
                 <span className="label-text">{input.label}</span>
               </label>

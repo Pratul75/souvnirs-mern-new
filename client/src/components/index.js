@@ -20,6 +20,7 @@ export { default as Dropzone } from "./Dropzone";
 export { default as MultiSelect } from "./MultiSelect";
 export { default as RouteNavigator } from "./RouterNavigator";
 export { default as DoughnutChart } from "./Charts/DoughnutChart";
+export { default as Breadcrumb } from "./Breadcrumb";
 
 // shop components
 export { default as TopHeader } from "./shop/headers/TopHeader";
