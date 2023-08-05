@@ -8,6 +8,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 import { options } from "../../../components/Charts/LineChart";
+import { getRandomColor } from "../../../utils";
 
 const ProductOverviewAndAddProduct = () => {
   const [productLabel, setProductLabel] = useState([]);
@@ -128,19 +129,19 @@ const ProductOverviewAndAddProduct = () => {
             <div className="flex justify-between items-center mt-10">
               <div className="avatar-group -space-x-6">
                 <div className="avatar">
-                  <div className="w-12 bg-base-300"></div>
+                  <div className={`w-12 ${getRandomColor()}`}></div>
                 </div>
                 <div className="avatar">
-                  <div className="w-12 bg-base-300"></div>
+                  <div className={`w-12 ${getRandomColor()}`}></div>
                 </div>
                 <div className="avatar">
-                  <div className="w-12 bg-base-300"></div>
+                  <div className={`w-12 ${getRandomColor()}`}></div>
                 </div>
                 <div className="avatar">
-                  <div className="w-12 bg-base-300"></div>
+                  <div className={`w-12 ${getRandomColor()}`}></div>
                 </div>
                 <div className="avatar">
-                  <div className="w-12 bg-base-300"></div>
+                  <div className={`w-12 ${getRandomColor()}`}></div>
                 </div>
                 <div className="avatar placeholder">
                   <div className="w-12 bg-neutral-focus text-neutral-content">
