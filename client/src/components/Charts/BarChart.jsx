@@ -61,7 +61,7 @@ export const options = {
     },
   },
   layout: {
-    padding: 5, // Add some padding to the chart area
+    // padding: 5, // Add some padding to the chart area
   },
 };
 

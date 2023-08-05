@@ -32,81 +32,87 @@ const ProductOverviewAndAddProduct = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4">
+    <div className="grid grid-cols-1 md:grid-cols-8 gap-4 mt-4 ">
       <div className="col-span-8 md:col-span-5">
-        <Card>
-          <motion.div
-            variants={fadeInFromLeftVariant}
-            initial="initial"
-            animate="animate"
-            className=" bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
-          >
-            <h2 className="text-lg font-semibold">Product Overview</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 px-8 md:px-16 gap-4 items-center">
-              <div className="flex justify-between">
-                <div className="flex justify-between gap-2 items-center">
-                  <div className="flex flex-col w-full text-xs">
-                    <span>Total Products</span>
-                    <span className="text-themeColor font-bold">
-                      {productData.reduce((acc, count) => acc + count, 0)}
-                    </span>
-                  </div>
-                  <div className="chart-container w-full">
-                    {productData.length > 0 && productLabel.length > 0 && (
-                      <Line
-                        options={{
-                          ...options,
-                          responsive: true,
-                          maintainAspectRatio: false,
-                        }}
-                        data={{
-                          labels: productLabel,
-                          datasets: [
-                            {
-                              fill: true,
-                              label: "Dataset 2",
-                              data: productData,
-                              backgroundColor: "#4C62C3",
-                              borderWidth: 0,
-                            },
-                          ],
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-between gap-2 items-center">
-                <div className="flex flex-col text-xs">
-                  <p className="w-full">Pending Orders</p>
-                </div>
-                <div className="chart-container w-full">
-                  {productData.length > 0 && productLabel.length > 0 && (
-                    <Line
-                      options={{
-                        ...options,
-                        responsive: true,
-                        maintainAspectRatio: false,
-                      }}
-                      data={{
-                        labels: productLabel,
-                        datasets: [
-                          {
-                            fill: true,
-                            label: "Dataset 2",
-                            data: productData,
-                            backgroundColor: "#4C62C3",
-                            borderWidth: 0,
-                          },
-                        ],
-                      }}
-                    />
-                  )}
-                </div>
+        <motion.div
+          variants={fadeInFromLeftVariant}
+          initial="initial"
+          animate="animate"
+          className=" bg-base-100 border-[1px] border-base-300 p-4 rounded-xl"
+        >
+          <h2 className="text-lg font-semibold">Product Overview</h2>
+          <div className="flex justify-between w-full px-4">
+            <div>
+              <span>Pending Orders:</span>
+              <span className="text-themeColor font-bold">
+                {" "}
+                {productData.reduce((acc, count) => acc + count, 0)}{" "}
+              </span>
+              <div>
+                {productData.length > 0 && productLabel.length > 0 && (
+                  <Line
+                    style={{
+                      width: "240px",
+                      height: "100px",
+                    }}
+                    options={{
+                      ...options,
+                      responsive: true,
+                      maintainAspectRatio: false,
+                    }}
+                    data={{
+                      labels: productLabel,
+                      datasets: [
+                        {
+                          fill: true,
+                          label: "Dataset 2",
+                          data: productData,
+                          backgroundColor: "#697ed9",
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                  />
+                )}
               </div>
             </div>
-          </motion.div>
-        </Card>
+
+            <div>
+              <span>Total Products:</span>
+              <span className="text-themeColor font-bold">
+                {" "}
+                {productData.reduce((acc, count) => acc + count, 0)}{" "}
+              </span>
+              <div>
+                {productData.length > 0 && productLabel.length > 0 && (
+                  <Line
+                    style={{
+                      width: "240px",
+                      height: "100px",
+                    }}
+                    options={{
+                      ...options,
+                      responsive: true,
+                      maintainAspectRatio: false,
+                    }}
+                    data={{
+                      labels: productLabel,
+                      datasets: [
+                        {
+                          fill: true,
+                          label: "Dataset 2",
+                          data: productData,
+                          backgroundColor: "#697ed9",
+                          borderWidth: 0,
+                        },
+                      ],
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
       {/* Section for the second Line chart */}

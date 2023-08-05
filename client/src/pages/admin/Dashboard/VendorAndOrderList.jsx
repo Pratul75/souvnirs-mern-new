@@ -50,7 +50,7 @@ const VendorAndOrderList = () => {
     []
   );
 
-  const orderTableData = useMemo(() => ordersList, []);
+  const orderTableData = useMemo(() => ordersList, [ordersList]);
 
   useEffect(() => {
     getVendorList();
@@ -84,7 +84,7 @@ const VendorAndOrderList = () => {
             <ReusableTable
               data={orderTableData}
               columns={orderTableColumns}
-              tableTitle="Order Table"
+              pageSize={10}
             />
           </div>
         </Card>

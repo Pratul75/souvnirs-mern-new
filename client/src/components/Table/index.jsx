@@ -127,7 +127,6 @@ const ReusableTable = ({
     );
   }
 
-
   return (
     <motion.div
       initial="initial"
@@ -135,10 +134,8 @@ const ReusableTable = ({
       variants={fadeInVariants}
       className="w-screen md:w-auto"
     >
-                          <div className="flex  items-center my-4">
-                            <h1 className="text-xl hidden md:block">
-          {tableTitle || "Table Title"}
-        </h1>
+      <div className="flex  items-center my-4">
+        <h1 className="text-xl hidden md:block">{tableTitle && tableTitle}</h1>
         <input
           type="text"
           value={globalFilter || ""}

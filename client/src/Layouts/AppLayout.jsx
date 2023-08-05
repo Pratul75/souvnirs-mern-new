@@ -44,41 +44,46 @@ const AppLayout = ({ children }) => {
             variants={headerVariant}
             initial="initial"
             animate="animate"
-            className={`hidden md:block px-4 py-2 ${darkMode ? "" : ""} rounded-xl`}
+            className={`hidden md:block px-4 py-2 ${
+              darkMode ? "" : ""
+            } rounded-xl`}
           >
             <ol className="list-reset flex text-themeColor ">
               <li>
-                <a
-                  href="/"
-                  className=" hover:text-primary-dark text-sm"
-                >
+                <a href="/" className=" hover:text-primary-dark text-sm">
                   Home
                 </a>
               </li>
               {breadcrumbs.map((item, index) => {
                 if (item.label === "Admin") {
-                  return <>
+                  return (
+                    <>
+                      <li>
+                        <span className="mx-2">/</span>
+                      </li>
+                      <span>{item.label}</span>
+                    </>
+                  );
+                }
+                return (
+                  <React.Fragment key={item.path}>
                     <li>
                       <span className="mx-2">/</span>
-                    </li><span>{item.label}</span></>
-                }
-                return <React.Fragment key={item.path}>
-                  <li>
-                    <span className="mx-2">/</span>
-                  </li>
-                  <li>
-                    <Link
-                      to={item.path}
-                      className={
-                        index === breadcrumbs.length - 1
-                          ? "text-primary-dark text-sm"
-                          : "text-primary hover:text-primary-dark text-sm"
-                      }
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                </React.Fragment>
+                    </li>
+                    <li>
+                      <Link
+                        to={item.path}
+                        className={
+                          index === breadcrumbs.length - 1
+                            ? "text-primary-dark text-sm"
+                            : "text-primary hover:text-primary-dark text-sm"
+                        }
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  </React.Fragment>
+                );
               })}
             </ol>
           </motion.nav>
@@ -95,3 +100,30 @@ AppLayout.propTypes = {
 };
 
 export default AppLayout;
+
+//  <span className="text-themeColor font-bold">
+//                       {productData.reduce((acc, count) => acc + count, 0)}
+//                     </span>
+//                   </div>
+//                   <div className=" w-full">
+//                     {productData.length > 0 && productLabel.length > 0 && (
+//                       <Line
+//                         options={{
+//                           ...options,
+//                           responsive: true,
+//                           maintainAspectRatio: false,
+//                         }}
+//                         data={{
+//                           labels: productLabel,
+//                           datasets: [
+//                             {
+//                               fill: true,
+//                               label: "Dataset 2",
+//                               data: productData,
+//                               backgroundColor: "#4C62C3",
+//                               borderWidth: 0,
+//                             },
+//                           ],
+//                         }}
+//                       />
+//                     )}

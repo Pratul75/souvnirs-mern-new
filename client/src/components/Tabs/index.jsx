@@ -83,9 +83,7 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
           <div
             key={index}
             className={`p-4 bg-base-100 rounded-b-xl ${
-              activeTab === index
-                ? "bg-base-100 transition-opacity duration-500"
-                : "hidden"
+              activeTab === index ? "bg-base-100" : "hidden"
             }`}
             style={{
               opacity: activeTab === index ? 1 : 0,
