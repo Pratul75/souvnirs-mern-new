@@ -56,8 +56,8 @@ const LoginForm = () => {
       const response = await API_WRAPPER.post("/auth/login", formData);
       if (response.status === 200) {
         const token = response?.data?.token;
-        const { id, role } = decodeToken(token);
-        console.log("DECODED TOKEN OBJECTS: ", { id, role });
+        const { id, role, userName } = decodeToken(token);
+        console.log("DECODED TOKEN OBJECTS: ", { id, role, userName });
         debouncedShowToast("You are logged in", "success");
 
         if (response?.data) {

@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import {
-  fadeInFromLeftVariant,
-  fadeInFromRightVariant,
-} from "../../../animation";
+import { fadeInFromLeftVariant } from "../../../animation";
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
-import { AvatarGroup, Card } from "../../../components";
+import { Card } from "../../../components";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
@@ -118,13 +115,8 @@ const ProductOverviewAndAddProduct = () => {
       {/* Section for the second Line chart */}
       <div className="col-span-8 md:col-span-3">
         <Card>
-          <motion.div
-            variants={fadeInFromRightVariant}
-            initial="initial"
-            animate="animate"
-            className="p-4 rounded-xl"
-          >
-            <div className="flex flex-col gap-6">
+          <div className="p-4 rounded-xl">
+            <div className="flex">
               <div className="flex items-center gap-4">
                 <div className="w-11 h-11 rounded-xl bg-base-300"></div>
                 <div>
@@ -132,17 +124,38 @@ const ProductOverviewAndAddProduct = () => {
                   <p>@product Details</p>
                 </div>
               </div>
-              <div className="flex justify-between">
-                <AvatarGroup totalAmount={99} />
-                <Link
-                  to={PATHS.adminAddProducts}
-                  className="btn btn-primary btn-circle"
-                >
-                  <AiOutlinePlus />
-                </Link>
-              </div>
             </div>
-          </motion.div>
+            <div className="flex justify-between items-center mt-10">
+              <div className="avatar-group -space-x-6">
+                <div className="avatar">
+                  <div className="w-12 bg-base-300"></div>
+                </div>
+                <div className="avatar">
+                  <div className="w-12 bg-base-300"></div>
+                </div>
+                <div className="avatar">
+                  <div className="w-12 bg-base-300"></div>
+                </div>
+                <div className="avatar">
+                  <div className="w-12 bg-base-300"></div>
+                </div>
+                <div className="avatar">
+                  <div className="w-12 bg-base-300"></div>
+                </div>
+                <div className="avatar placeholder">
+                  <div className="w-12 bg-neutral-focus text-neutral-content">
+                    <span>+99</span>
+                  </div>
+                </div>
+              </div>
+              <Link
+                to={PATHS.adminAddProducts}
+                className="btn btn-primary btn-circle"
+              >
+                <AiOutlinePlus />
+              </Link>
+            </div>
+          </div>
         </Card>
       </div>
     </div>

@@ -7,9 +7,9 @@ import { setActiveLink } from "../../features/appConfig/appSlice";
 
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   const dispatch = useDispatch();
-  const darkMode = useSelector(state => state.appConfig.darkMode)
+  const darkMode = useSelector((state) => state.appConfig.darkMode);
 
-  const col = darkMode ? "bg-gray-800" : "bg-[#4680ff36]"
+  const col = darkMode ? "bg-gray-800" : "bg-[#4680ff36]";
   return (
     <li className="mx-2 cursor-pointer">
       <NavLink
@@ -17,18 +17,21 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
         to={navLink}
         className={({ isActive }) =>
           isActive
-            ? `flex text-themeColor  ${col} rounded-xl  w-full p-4 ${sidebarState ? "justify-start" : "justify-center"
-            } `
-            : `flex hover:bg-base-300 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${sidebarState ? "justify-start" : "justify-center"
-            } `
+            ? `flex text-themeColor  ${col} rounded-xl  w-full p-4 ${
+                sidebarState ? "justify-start" : "justify-center"
+              } `
+            : `flex hover:bg-base-300 rounded-xl w-full p-4 transition-all ease-in-out duration-300 ${
+                sidebarState ? "justify-start" : "justify-center"
+              } `
         }
       >
         <div className="flex text-2xl flex-row gap-2 items-center">
           {Icon && <Icon />} {/* Only render Icon if it exists */}
           {sidebarState && title && (
             <motion.span
-              className={`ml-2 text-xs font-semibold ${sidebarState ? "block" : "hidden"
-                }`}
+              className={`ml-2 text-xs font-semibold ${
+                sidebarState ? "block" : "hidden"
+              }`}
               variants={sidebarVariant}
               expanded="expanded"
               collapsed="collapsed"

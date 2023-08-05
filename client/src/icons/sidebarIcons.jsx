@@ -1500,11 +1500,11 @@ export const KnowledgeCenterIcon = () => {
   );
 };
 
-export const SmallVIcon = () => {
+export const SmallVIcon = ({ width, height }) => {
   return (
     <svg
-      width="34"
-      height="49"
+      width={width}
+      height={height}
       viewBox="0 0 34 49"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -13,7 +13,6 @@ import SovniersLogoDarkMode from "../../assets/images/souvnirsLogoDarkMode.png";
 import { SmallVIcon } from "../../icons/sidebarIcons";
 import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
 import Card from "../Card";
-import debounce from "lodash.debounce";
 import Avatar from "../Avatar";
 import { getRandomColor } from "../../utils";
 const Sidebar = () => {
@@ -24,16 +23,7 @@ const Sidebar = () => {
     (x) => x.appConfig.mobileSidebarExpanded
   );
   const darkMode = useSelector((x) => x.appConfig.darkMode);
-  // Debounced onMouseEnter and onMouseLeave functions
-  const debouncedMouseEnter = debounce(() => {
-    setSidebarState(true);
-  }, 300);
 
-  const debouncedMouseLeave = debounce(() => {
-    if (!isExpanded) {
-      setSidebarState(false);
-    }
-  }, 300);
   // Update sidebarState when isExpanded changes
   useEffect(() => {
     setSidebarState(isExpanded);
@@ -80,31 +70,32 @@ const Sidebar = () => {
   return (
     <>
       <motion.ul
-        className={` bg-base-200 hidden md:flex items-center 
-           shadow-lg
+        className={` bg-base-200 hidden md:flex items-center shadow-lg 
         `}
         initial={false}
         animate={sidebarState ? "expanded" : "collapsed"}
         variants={sidebarVariants}
       >
         <div className="w-full">
-          <div
-            className="flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4"
-          // Adjust the values as needed
-          >
+          <div className="flex z-20 bg-base-200 overflow-hidden items-center justify-center h-full w-full py-4">
             {sidebarState ? (
-              <img
-                src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
-                className="w-40"
-                alt=""
-              />
+              <div className="w-40">
+                <img
+                  src={darkMode ? SovniersLogoDarkMode : SovniersLogo}
+                  className="w-full"
+                  alt=""
+                />
+              </div>
             ) : (
               <div className="flex items-center justify-center">
-                <SmallVIcon />
+                <SmallVIcon width={25} />
               </div>
             )}
           </div>
-          <div className="overflow-y-auto max-h-[88vh] mt-4" style={{ height: " calc(100vh-79px)" }}>
+          <div
+            className="overflow-y-auto max-h-[88vh] mt-4"
+            style={{ height: " calc(100vh-79px)" }}
+          >
             <div className="mx-2">
               <Card>
                 {sidebarState ? (
@@ -142,6 +133,7 @@ const Sidebar = () => {
         </div>
       </motion.ul>
 
+      {/* mobile sidebar */}
       <div>
         <AnimatePresence>
           {isExpandedMobile && (
