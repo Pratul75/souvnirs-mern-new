@@ -11,7 +11,6 @@ import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
-import cloudinary from "cloudinary-core"
 // add products
 
 const AddProduct = () => {
@@ -31,15 +30,11 @@ const AddProduct = () => {
   const [price, setPrice] = useState(false);
   const [attrValues, setAttrValues] = useState();
   const [fAttValue, setFAttValue] = useState([]);
-  const [img, setImg] = useState()
+  const [img, setImg] = useState();
   const uploadToCloud = async (file) => {
-
-
-
-    const uploaded = await cloudinary.v2.uploader.upload(file)
-    console.log('AddProduct.jsx', uploaded);
-
-  }
+    const uploaded = await cloudinary.v2.uploader.upload(file);
+    console.log("AddProduct.jsx", uploaded);
+  };
 
   // Function to generate all possible combinations of multiple arrays as strings
   function generateValueCombinations() {
@@ -121,8 +116,8 @@ const AddProduct = () => {
       tags: tagsArray,
       attributes: attrValue,
       // attributeValues: fAttValue,
-    }
-    const addProdData = new FormData()
+    };
+    const addProdData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (key === "attributes" || key === "attributeValues") {
         // Stringify the arrays before appending them to the FormData
@@ -141,70 +136,73 @@ const AddProduct = () => {
     //   }
     // });
 
-
-
-
     // Append the file data to the FormData
     img.forEach((file) => {
       addProdData.append("img", file);
     });
 
-    const response = await API_WRAPPER.post("/products/add-product", addProdData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    const productId = response.data.data._id
+    const response = await API_WRAPPER.post(
+      "/products/add-product",
+      addProdData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const productId = response.data.data._id;
     console.log("AddProduct.jsx", productId);
     if (response) {
       let doneUpload = false;
       try {
-
         for (let value of fAttValue) {
-          console.log('AddProduct.jsx', value);
+          console.log("AddProduct.jsx", value);
           const variantData = {
             variant: value.name,
             productId: productId,
             attributes: attrValue,
             price: value.price,
             quantity: value.quantity,
-          }
-          const variantFormData = new FormData()
+          };
+          const variantFormData = new FormData();
 
           Object.entries(variantData).forEach(([key, value]) => {
             if (key === "attributes" || key === "attributeValues") {
               // Stringify the arrays before appending them to the FormData
               value.forEach((item, index) => {
-                variantFormData.append(`${key}[${index}]`, JSON.stringify(item));
+                variantFormData.append(
+                  `${key}[${index}]`,
+                  JSON.stringify(item)
+                );
               });
             } else {
               variantFormData.append(key, value);
             }
           });
 
-
-
           for (let i = 0; i < value.images.length; i++) {
             variantFormData.append("images", value.images[i]);
           }
-          const res = await API_WRAPPER.post("/products/create-variant", variantFormData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
+          const res = await API_WRAPPER.post(
+            "/products/create-variant",
+            variantFormData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
           if (res) {
             continue;
           }
-
-
         }
-        doneUpload = true
+        doneUpload = true;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
       if (doneUpload) {
-        debouncedShowToast("uploaded Successfully", "success")
-        Navigate(PATHS.adminProductManagement)
+        debouncedShowToast("uploaded Successfully", "success");
+        Navigate(PATHS.adminProductManagement);
       }
       console.log("RESPONSE RECEIVED: ", response?.data?.data);
       navigate(PATHS.adminProductManagement);
@@ -260,7 +258,7 @@ const AddProduct = () => {
   };
   const handleattTypeInputs = (e, type) => {
     const { name, value, files } = e.target;
-    console.log('AddProduct.jsx', files);
+    console.log("AddProduct.jsx", files);
     const dataArray = fAttValue;
 
     // Find if the combination of type and name exists in the dataArray
@@ -272,11 +270,9 @@ const AddProduct = () => {
         dataArray[existingObjectIndex].price = value;
       } else if (type === "quantity") {
         dataArray[existingObjectIndex].quantity = value;
-
       } else if (type === "images") {
-        uploadToCloud(files[0])
+        uploadToCloud(files[0]);
         dataArray[existingObjectIndex].images = files;
-
       }
     } else {
       // If the combination doesn't exist, create a new object and add it to the dataArray
@@ -289,7 +285,7 @@ const AddProduct = () => {
     // console.log('AddProduct.jsx', dataArray);
     setFAttValue(dataArray);
   };
-  console.log('AddProduct.jsx', fAttValue);
+  console.log("AddProduct.jsx", fAttValue);
   // Example usage:
   const dataArray = [];
 
@@ -320,7 +316,7 @@ const AddProduct = () => {
     console.log("CONVERTED ARR: ", convertedArr);
     return convertedArr;
   };
-  console.log('AddProduct.jsx', img);
+  console.log("AddProduct.jsx", img);
 
   useEffect(() => {
     getAllCategories();
@@ -390,9 +386,13 @@ const AddProduct = () => {
                   onChange={(e) => handleattTypeInputs(e, "quantity")}
                   className="input input-accent flex-1"
                 />
-                <input type="file" name={a}
+                <input
+                  type="file"
+                  name={a}
                   onChange={(e) => handleattTypeInputs(e, "images")}
-                  className="input input-accent flex-1" multiple />
+                  className="input input-accent flex-1"
+                  multiple
+                />
               </div>
             </div>
           ))}

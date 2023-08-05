@@ -21,11 +21,10 @@ const ReturnExchangeAdd = () => {
             <TbTruckReturn className="text-orange-500 text-3xl mb-1" />
             <h3 className="text-2xl font-semibold mb-4">Exchange</h3>
             <h3 className="text-orange-500 text-xl font-md">310</h3>
-            <p className="text-xs text-orange-500">Over last month 1.3% ↓</p>
+            <p className="text-xs text-orange-500">Over last month 2.4% ↓</p>
           </div>
         </Card>
       </div>
-
       <div className="col-span-3 md:col-span-1">
         <Card>
           <div className="p-4 bg-orange-400 rounded-xl h-full">
