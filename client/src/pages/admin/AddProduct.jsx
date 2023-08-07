@@ -11,7 +11,9 @@ import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
-import { GrFormClose } from "react-icons/gr";
+import { useDispatch, useSelector } from "react-redux";
+import { setProduct } from "../../features/appConfig/addProductSlice";
+import { GrFormClose } from "react-icons/gr"
 // add products
 
 const AddProduct = () => {
@@ -26,6 +28,13 @@ const AddProduct = () => {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [attrValue, setAttrValue] = useState([]);
   const [img, setImg] = useState();
+  const product = useSelector(state => state)
+  console.log('AddProduct.jsx', product);
+  const uploadToCloud = async (file) => {
+    const uploaded = await cloudinary.v2.uploader.upload(file);
+    console.log("AddProduct.jsx", uploaded);
+  };
+  const dispatch = useDispatch()
 
   // Function to generate all possible combinations of multiple arrays as strings
 
@@ -61,71 +70,141 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
-  const fetchAllAttributes = async () => {
-    const response = await API_WRAPPER.get(
-      `/attribute/get-all-attributes/${selectedCategory}`
-    );
-    setAttArr(response.data);
-  };
+  // const fetchAllAttributes = async () => {
+  //   const response = await API_WRAPPER.get(
+  //     `/attribute/get-all-attributes/${selectedCategory}`
+  //   );
+  //   setAttArr(response.data);
+  // };
   console.log("AddProduct.jsx");
   const randomSlug = () => {
     return nanoid(10);
   };
   // add product
 
-  const postProduct = async () => {
-    let data = {
-      ...formData,
-      description,
-      slug: randomSlug(),
-      tags: tagsArray,
-      attributes: attrValue,
-      // attributeValues: fAttValue,
-    };
-    const addProdData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "attributes" || key === "attributeValues") {
-        // Stringify the arrays before appending them to the FormData
-        value.forEach((item, index) => {
-          addProdData.append(`${key}[${index}]`, JSON.stringify(item));
-        });
-      } else {
-        addProdData.append(key, value);
-      }
-    });
+  // const postProduct = async () => {
+  //   let data = {
+  //     ...formData,
+  //     description,
+  //     slug: randomSlug(),
+  //     tags: tagsArray,
+  //     attributes: attrValue,
+  //     // attributeValues: fAttValue,
+  //   };
+  //   const addProdData = new FormData();
+  //   Object.entries(data).forEach(([key, value]) => {
+  //     if (key === "attributes" || key === "attributeValues") {
+  //       // Stringify the arrays before appending them to the FormData
+  //       value.forEach((item, index) => {
+  //         addProdData.append(`${key}[${index}]`, JSON.stringify(item));
+  //       });
+  //     } else {
+  //       addProdData.append(key, value);
+  //     }
+  //   });
 
-    // Append the variant images
-    // fAttValue.forEach((variant) => {
-    //   if (variant.images && variant.images[0]) {
-    //     addProdData.append(`images[${variant.name}]`, variant.images[0]);
-    //   }
-    // });
+  //   // Append the variant images
+  //   // fAttValue.forEach((variant) => {
+  //   //   if (variant.images && variant.images[0]) {
+  //   //     addProdData.append(`images[${variant.name}]`, variant.images[0]);
+  //   //   }
+  //   // });
 
-    // Append the file data to the FormData
-    img.forEach((file) => {
-      addProdData.append("img", file);
-    });
+  //   // Append the file data to the FormData
+  //   img.forEach((file) => {
+  //     addProdData.append("img", file);
+  //   });
 
-    const response = await API_WRAPPER.post(
-      "/products/add-product",
-      addProdData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    const productId = response.data.data._id;
-    console.log("AddProduct.jsx", productId);
-  };
+  //   const response = await API_WRAPPER.post(
+  //     "/products/add-product",
+  //     addProdData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     }
+  //   );
+  //   const productId = response.data.data._id;
+  //   console.log("AddProduct.jsx", productId);
+  //   if (response) {
+  //     let doneUpload = false;
+  //     try {
+  //       for (let value of fAttValue) {
+  //         console.log("AddProduct.jsx", value);
+  //         const variantData = {
+  //           variant: value.name,
+  //           productId: productId,
+  //           attributes: attrValue,
+  //           price: value.price,
+  //           quantity: value.quantity,
+  //         };
+  //         const variantFormData = new FormData();
+
+  //         Object.entries(variantData).forEach(([key, value]) => {
+  //           if (key === "attributes" || key === "attributeValues") {
+  //             // Stringify the arrays before appending them to the FormData
+  //             value.forEach((item, index) => {
+  //               variantFormData.append(
+  //                 `${key}[${index}]`,
+  //                 JSON.stringify(item)
+  //               );
+  //             });
+  //           } else {
+  //             variantFormData.append(key, value);
+  //           }
+  //         });
+
+  //         for (let i = 0; i < value.images.length; i++) {
+  //           variantFormData.append("images", value.images[i]);
+  //         }
+  //         const res = await API_WRAPPER.post(
+  //           "/products/create-variant",
+  //           variantFormData,
+  //           {
+  //             headers: {
+  //               "Content-Type": "multipart/form-data",
+  //             },
+  //           }
+  //         );
+  //         if (res) {
+  //           continue;
+  //         }
+  //       }
+  //       doneUpload = true;
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //     if (doneUpload) {
+  //       debouncedShowToast("uploaded Successfully", "success");
+  //       Navigate(PATHS.adminProductManagement);
+  //     }
+  //     console.log("RESPONSE RECEIVED: ", response?.data?.data);
+  //     navigate(PATHS.adminProductManagement);
+  //     const data = response.data.data;
+  //     debouncedShowToast(data, "success");
+  //   }
+  // };
   console.log(selectedAttributes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log('AddProduct.jsx', { ...formData, description, tagsArray });
+
+    // postProduct();
+
+    if (!formData.name || !description || tagsArray.length < 1 || !formData.vendorId) {
+      debouncedShowToast("Fill all required fields", "info")
+      return
+    }
+    dispatch(setProduct({ ...formData, description, tags: tagsArray }))
     navigate(PATHS.adminAddProductAttributes);
     postProduct();
+
     console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
+  const p = useSelector(state => state.product)
+  console.log({ ...formData, description, tags: tagsArray })
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -171,7 +250,6 @@ const AddProduct = () => {
     getAllVendors();
   }, []);
   useEffect(() => {
-    fetchAllAttributes();
   }, [selectedCategory]);
 
   console.log("AddProduct.jsx", selectedCategory);
@@ -194,7 +272,7 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Product Title</span>
+                <span className="label-text">Product Title<span className=" text-red-600">*</span></span>
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
@@ -214,7 +292,7 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Status</span>
+                <span className="label-text">Status<span className=" text-red-600">*</span></span>
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
@@ -242,7 +320,7 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control ">
               <label className="label">
-                <span className="label-text">Description</span>
+                <span className="label-text">Description<span className=" text-red-600">*</span></span>
               </label>
               <ReactQuill
                 className="h-48"
@@ -263,7 +341,7 @@ const AddProduct = () => {
 
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Vendor</span>
+                <span className="label-text">Vendor<span className=" text-red-600">*</span></span>
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
@@ -286,6 +364,9 @@ const AddProduct = () => {
 
             {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Tags<span className=" text-red-600">*</span></span>
+              </label>
               <input
                 type="text"
                 value={tagValue}
@@ -314,7 +395,7 @@ const AddProduct = () => {
 
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Stock Keeping Unit (SKU)</span>
+                <span className="label-text">Stock Keeping Unit (SKU)<span className=" text-red-600">*</span></span>
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
@@ -335,11 +416,11 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6  md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
           >
-            <h3 className="font-semibold">Add Cover Image</h3>
+            <h3 className="font-semibold">Add Cover Image<span className=" text-red-600">*</span></h3>
             <hr className="mt-4" />
 
             <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
-              <Dropzone onFilesChange={(data) => setImg(data)} />
+              <Dropzone onFilesChange={(data) => setFormData({ ...formData, img: data })} />
             </div>
           </motion.div>
           <div className="md:col-span-2"></div>

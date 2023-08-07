@@ -5,9 +5,13 @@ import useAttributes from "../../hooks/useAttributes";
 import { useState } from "react";
 import SearchableDropdown from "../../components/SearchableDropdown";
 import { nanoid } from "nanoid";
+import { useSelector } from "react-redux";
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
+
+  const p = useSelector(state => state.product)
+  console.log('AddProductAttributes.jsx', p);
 
   const categories = useCategories();
   const attributes = useAttributes(categoryId !== "" && categoryId);
