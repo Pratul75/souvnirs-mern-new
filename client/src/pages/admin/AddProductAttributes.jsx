@@ -72,15 +72,15 @@ const AddProductAttributes = () => {
       value: _id,
     }));
   };
-
   const attributeSelection = (e) => {
-    const selectedAttribute = attributesList.find(
-      (att) => att._id === e.target.value
-    );
+    const selectedAttribute = attributesList.find((att) => att._id === e.target.value);
 
-    setSelectedAttributes([...selectedAttributes, selectedAttribute]);
-    scrollToSection()
+    if (!selectedAttributes.some(att => att._id === selectedAttribute._id)) {
+      setSelectedAttributes((prevSelectedAttributes) => [...prevSelectedAttributes, selectedAttribute]);
+      scrollToSection();
+    }
   };
+
 
   const handleAtttributeValueSelection = (e, attribute) => {
     if (e.key === "Enter") {
@@ -175,7 +175,7 @@ const AddProductAttributes = () => {
                   name=""
                   onChange={(e) => {
                     attributeSelection(e)
-                    dispatch(setProduct({ attributes: selectedAttributes }))
+
                   }}
                   multiple={true}
                 >
@@ -219,8 +219,10 @@ const AddProductAttributes = () => {
                 <button
                   className="btn btn-accent absolute right-10 bottom-5"
                   onClick={() => {
-                    setAttSelected(true);
+
                     generateValueCombinations();
+                    dispatch(setProduct({ attributes: selectedAttributes }))
+                    setAttSelected(true);
                   }}
                 >
                   Next
