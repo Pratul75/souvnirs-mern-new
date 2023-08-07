@@ -11,6 +11,7 @@ import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
+import { GrFormClose } from "react-icons/gr";
 // add products
 
 const AddProduct = () => {
@@ -659,18 +660,18 @@ const AddProduct = () => {
                 placeholder="Enter a tag and press Enter"
                 className="input input-accent"
               />
-              <div className="space-x-2">
+              <div className="mt-4 flex gap-4 flex-wrap">
                 {tagsArray.map((tag, index) => (
                   <div
                     key={index}
-                    className="inline-flex items-center bg-gray-100 rounded"
+                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
                   >
-                    <span className="px-2 py-1">{tag}</span>
+                    <span>{tag}</span>
                     <button
-                      className="flex items-center justify-center w-6 h-6 ml-1 text-gray-500 rounded-full hover:bg-red-500 hover:text-white"
+                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
                       onClick={() => removeTag(tag)}
                     >
-                      &times;
+                      <GrFormClose />
                     </button>
                   </div>
                 ))}
