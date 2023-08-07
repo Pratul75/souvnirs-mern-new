@@ -23,7 +23,6 @@ const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   const role = useSelector((state) => state.appConfig.login);
 
-  console.log("App.jsx", role);
   return (
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
       <AnimatePresence>

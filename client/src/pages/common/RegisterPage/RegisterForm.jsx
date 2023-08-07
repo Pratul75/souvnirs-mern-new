@@ -121,7 +121,7 @@ const RegisterForm = () => {
     <>
       <div className=" w- screen  lg:w-1/2 w-full">
         <div className="w-full h-full flex justify-center items-center">
-          <div className="w-screen  lg:w-3/4  p-4">
+          <div className="w-screen  lg:w-3/4  p-4 bg-base-200 rounded-xl">
             {/* row 1 */}
             <div className="flex justify-center py-4">
               <img src={SouvnirsLogoImg} alt="Souvnirs Logo" />

@@ -1,5 +1,10 @@
 import PropTypes from "prop-types";
-import { TopHeader, SouvnirsHeader } from "../components";
+import {
+  TopHeader,
+  SouvnirsHeader,
+  ShopFooter,
+  ShopNavbar,
+} from "../components";
 
 const ShopLayout = ({ children }) => {
   return (
@@ -9,11 +14,12 @@ const ShopLayout = ({ children }) => {
         language="English"
         currency="USD"
       />
-      <SouvnirsHeader />
-
-      <div>Landing Page Sidebar</div>
+      <SouvnirsHeader badgeColor="badge-primary" buttonColor="bg-primary" />
+      <div className="w-full  flex items-center justify-center">
+        <ShopNavbar />
+      </div>
       {children}
-      <div>Landing Page Footer</div>
+      <ShopFooter />
     </div>
   );
 };
