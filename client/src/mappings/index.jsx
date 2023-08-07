@@ -1,16 +1,30 @@
 import { PATHS } from "../Routes/paths";
+import {} from "../icons/sidebarIcons";
+
 import {
-
-
-} from "../icons/sidebarIcons";
-
-
-import { BiPackage, BiCategory, BiSolidDiscount, BiSolidDashboard, BiSolidCollection, BiSupport, BiSolidHeart, BiSolidCoupon } from "react-icons/bi"
-import { MdReviews, MdFeaturedPlayList, MdPayment, MdShoppingCart, MdShoppingCartCheckout, MdInventory2, MdOutlineStore, MdAttachEmail } from "react-icons/md"
-import { TbPackage, TbTruckDelivery, TbReplace } from "react-icons/tb"
-import { SiCraftcms } from "react-icons/si"
-import { FiUsers } from "react-icons/fi"
-import { RiRefund2Fill } from "react-icons/ri"
+  BiPackage,
+  BiCategory,
+  BiSolidDiscount,
+  BiSolidDashboard,
+  BiSolidCollection,
+  BiSupport,
+  BiSolidHeart,
+  BiSolidCoupon,
+} from "react-icons/bi";
+import {
+  MdReviews,
+  MdFeaturedPlayList,
+  MdPayment,
+  MdShoppingCart,
+  MdShoppingCartCheckout,
+  MdInventory2,
+  MdOutlineStore,
+  MdAttachEmail,
+} from "react-icons/md";
+import { TbPackage, TbTruckDelivery, TbReplace } from "react-icons/tb";
+import { SiCraftcms } from "react-icons/si";
+import { FiUsers } from "react-icons/fi";
+import { RiRefund2Fill } from "react-icons/ri";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -96,8 +110,7 @@ export const adminSidebarMapping = [
   {
     title: "Discounts",
     navLink: PATHS.adminDiscounts,
-    Icon: BiSolidDiscount
-    ,
+    Icon: BiSolidDiscount,
   },
   {
     title: "Coupons",

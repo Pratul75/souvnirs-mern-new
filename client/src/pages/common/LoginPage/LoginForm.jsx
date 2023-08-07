@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { CiMail } from "react-icons/ci";
 import { PiPasswordLight } from "react-icons/pi";
+import { BiArrowBack } from "react-icons/bi";
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +25,6 @@ const LoginForm = () => {
     email: "",
     password: "",
   });
-
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -85,6 +86,15 @@ const LoginForm = () => {
             <div className="flex justify-center py-4 mb-5 md:mb-0 ">
               <img className="w-full" src={SouvnirsLogoImg} alt="" />
             </div>
+          </div>
+          <div>
+            <Link
+              to={PATHS.landingPage}
+              className="btn btn-ghost float-right mr-8"
+            >
+              {" "}
+              <BiArrowBack /> Go Back
+            </Link>
           </div>
 
           <form onSubmit={onSubmit}>
@@ -175,7 +185,7 @@ const LoginForm = () => {
           </form>
 
           <div className="flex justify-center gap-2">
-            <p>Dont have an account?</p>
+            <p>Dont have an account?</p>¯
             <Link
               to={"/register"}
               id="gradient-text"

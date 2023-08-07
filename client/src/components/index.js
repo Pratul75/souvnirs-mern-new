@@ -22,6 +22,15 @@ export { default as MultiSelect } from "./MultiSelect";
 export { default as RouteNavigator } from "./RouterNavigator";
 export { default as DoughnutChart } from "./Charts/DoughnutChart";
 export { default as Breadcrumb } from "./Breadcrumb";
+
 // shop components
+export { default as FeaturesCard } from "./shop/cards/FeaturesCard";
+export { default as HeaderCards } from "./shop/cards/HeaderCards";
 export { default as TopHeader } from "./shop/headers/TopHeader";
+export { default as ProductCard } from "./shop/cards/ProductCard";
+export { default as ProductsListWithFilters } from "./shop/components/ProductsListWithFilters";
+export { default as Ratings } from "./shop/components/Ratings";
 export { default as SouvnirsHeader } from "./shop/headers/SouvnirsHeader";
+export { default as ShopNavbar } from "./shop/headers/ShopNavbar";
+export { default as ShopFooter } from "./shop/footer";
+export { default as GradiantCard } from "./shop/cards/GradiantCard";
