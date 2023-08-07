@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { headerVariant } from "../../animation";
 import { motion } from "framer-motion";
+import { PATHS } from "../../Routes/paths";
 // ... (import statements)
 
 const BreadCrumb = () => {
@@ -34,7 +35,7 @@ const BreadCrumb = () => {
     >
       <ol className="list-reset flex text-themeColor ">
         <li>
-          <a href="/" className="hover:text-primary-dark text-sm">
+          <a href={PATHS.login} className="hover:text-primary-dark text-sm">
             Home
           </a>
         </li>
