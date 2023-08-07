@@ -24,6 +24,9 @@ const createProduct = async (req, res) => {
       tags,
       attributes,
     } = req.body;
+    if (!name || !vendorId || !slug || !description || !price) {
+
+    }
 
     const imageUrl = await v2.uploader.upload(req.files[0].path)
     let attArr = attributes.map(att => att.name)
