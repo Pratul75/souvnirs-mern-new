@@ -13,6 +13,7 @@ export { default as Modal } from "./Modal";
 export { default as FormInput } from "./FormInput";
 export { default as AvatarGroup } from "./AvatarGroup";
 export { default as Card } from "./Card";
+export { default as SearchableDropdown } from "./SearchableDropdown";
 export { default as Footer } from "./Footer";
 export { default as TextEditor } from "./TextEditor";
 export { default as AdvanceCombobox } from "./AdvanceCombobox";
@@ -21,7 +22,6 @@ export { default as MultiSelect } from "./MultiSelect";
 export { default as RouteNavigator } from "./RouterNavigator";
 export { default as DoughnutChart } from "./Charts/DoughnutChart";
 export { default as Breadcrumb } from "./Breadcrumb";
-
 // shop components
 export { default as TopHeader } from "./shop/headers/TopHeader";
 export { default as SouvnirsHeader } from "./shop/headers/SouvnirsHeader";

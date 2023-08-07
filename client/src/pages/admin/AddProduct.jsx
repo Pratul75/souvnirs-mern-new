@@ -27,7 +27,6 @@ const AddProduct = () => {
   const [attrValue, setAttrValue] = useState([]);
   const [img, setImg] = useState();
 
-
   // Function to generate all possible combinations of multiple arrays as strings
 
   // Example of usage:
@@ -118,12 +117,12 @@ const AddProduct = () => {
     );
     const productId = response.data.data._id;
     console.log("AddProduct.jsx", productId);
-
   };
   console.log(selectedAttributes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    navigate(PATHS.adminAddProductAttributes);
     postProduct();
     console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
@@ -145,12 +144,10 @@ const AddProduct = () => {
   };
   console.log("AddProduct.jsx", attrValue);
 
-
   // Example usage:
   const dataArray = [];
 
   console.log(dataArray);
-
 
   // Function to handle attribute values input changes
   const handleAttriibuteValues = (e) => {
@@ -176,7 +173,6 @@ const AddProduct = () => {
   useEffect(() => {
     fetchAllAttributes();
   }, [selectedCategory]);
-
 
   console.log("AddProduct.jsx", selectedCategory);
 
@@ -230,7 +226,7 @@ const AddProduct = () => {
               </select>
             </div>
             <button onClick={handleSubmit} className="btn btn-accent mt-4">
-              Publish
+              Next
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>
           </motion.div>
@@ -333,7 +329,6 @@ const AddProduct = () => {
         </div>
 
         <div className="flex  grid-cols-6 col-span-3 gap-4 mt-4">
-
           <motion.div
             variants={fadeInFromLeftVariant}
             animate="animate"

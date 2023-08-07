@@ -31,6 +31,7 @@ import {
   AddDiscount,
   AddCoupon,
   AddCollection,
+  AddProductAttributes,
 
   // vendor routes
   VendorDashboard,
@@ -256,6 +257,12 @@ export const adminRoutes = [
     path: PATHS.adminWishlist,
     defaultRole: "admin",
     Component: Wishlist,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddProductAttributes,
+    Component: AddProductAttributes,
+    defaultRole: "admin",
   },
 ];
 
