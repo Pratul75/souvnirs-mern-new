@@ -199,7 +199,7 @@ const AddProduct = () => {
     }
     dispatch(setProduct({ ...formData, description, tags: tagsArray }))
     navigate(PATHS.adminAddProductAttributes);
-    postProduct();
+    // postProduct();
 
     console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };

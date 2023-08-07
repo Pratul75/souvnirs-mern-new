@@ -19,7 +19,7 @@ export const productSlice = createSlice({
         setProduct: (state, action) => {
 
             console.log(action.payload);
-            const { name, description, vendorId, categoryId, tags, sku, status } = action.payload
+            const { name, description, vendorId, categoryId, tags, sku, status, attributes } = action.payload
             if (name) {
                 state.name = name
             }
@@ -38,6 +38,9 @@ export const productSlice = createSlice({
             }
             if (status) {
                 state.status = status
+            }
+            if (attributes) {
+                state.attributes = [...attributes]
             }
 
 

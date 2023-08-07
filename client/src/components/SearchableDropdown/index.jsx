@@ -24,7 +24,7 @@ const SearchableDropdown = ({ items, handleSelect }) => {
 
   return (
     <div className="dropdown">
-      <label tabIndex={0} className="m-1 btn" onClick={toggleDropdown}>
+      <label tabIndex={0} className="m-1 btn btn-primary" onClick={toggleDropdown}>
         Select category
       </label>
       {isOpen && (
