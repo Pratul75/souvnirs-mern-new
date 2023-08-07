@@ -6,10 +6,14 @@ import SearchableDropdown from "../../components/SearchableDropdown";
 import { ToastContainer } from "react-toastify";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
+import { useSelector } from "react-redux";
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [attributesList, setAttributesList] = useState([]);
+
+  const p = useSelector((state) => state.product);
+  console.log("AddProductAttributes.jsx", p);
 
   const categories = useCategories();
 
