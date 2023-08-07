@@ -19,19 +19,24 @@ const AddProductAttributes = () => {
   const [attSelected, setAttSelected] = useState(false);
   const [combinations, setCombinations] = useState([]);
   const [variantData, setVariantData] = useState([]);
-  const [showData, setShowData] = useState([]);
+  const [showData, setShowData] = useState(false);
 
   const p = useSelector((state) => state.product);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  console.log('AddProductAttributes.jsx', p);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  console.log("AddProductAttributes.jsx", p);
 
   const categories = useCategories();
 
   const generateValueCombinations = () => {
     const combination = [];
 
-    function generateCombinations(attributes, index = 0, current = {}, result = []) {
+    function generateCombinations(
+      attributes,
+      index = 0,
+      current = {},
+      result = []
+    ) {
       if (index === attributes.length) {
         result.push(current);
         return;
@@ -57,12 +62,11 @@ const AddProductAttributes = () => {
     setCategoryId(category?.id);
     setCategoryName(category?.name);
     dispatch(setProduct({ categoryId: category?.id }));
-
   };
   const scrollToSection = () => {
-    const targetElement = document.getElementById('selectedattributes');
+    const targetElement = document.getElementById("selectedattributes");
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' }); // You can use 'auto' for instant scrolling
+      targetElement.scrollIntoView({ behavior: "smooth" }); // You can use 'auto' for instant scrolling
     }
   };
 
@@ -73,14 +77,18 @@ const AddProductAttributes = () => {
     }));
   };
   const attributeSelection = (e) => {
-    const selectedAttribute = attributesList.find((att) => att._id === e.target.value);
+    const selectedAttribute = attributesList.find(
+      (att) => att._id === e.target.value
+    );
 
-    if (!selectedAttributes.some(att => att._id === selectedAttribute._id)) {
-      setSelectedAttributes((prevSelectedAttributes) => [...prevSelectedAttributes, selectedAttribute]);
+    if (!selectedAttributes.some((att) => att._id === selectedAttribute._id)) {
+      setSelectedAttributes((prevSelectedAttributes) => [
+        ...prevSelectedAttributes,
+        selectedAttribute,
+      ]);
       scrollToSection();
     }
   };
-
 
   const handleAtttributeValueSelection = (e, attribute) => {
     if (e.key === "Enter") {
@@ -88,7 +96,11 @@ const AddProductAttributes = () => {
         (item) => item.id === attribute._id
       );
 
-      const newEntry = { name: attribute.name, id: attribute._id, values: [e.target.value] };
+      const newEntry = {
+        name: attribute.name,
+        id: attribute._id,
+        values: [e.target.value],
+      };
 
       if (existingIndex !== -1) {
         const updatedAttributeValues = [...attributeValues];
@@ -103,7 +115,9 @@ const AddProductAttributes = () => {
 
   const fetchAllAttributes = async () => {
     try {
-      const response = await API_WRAPPER.get(`/attribute/get-all-attributes/${categoryId}`);
+      const response = await API_WRAPPER.get(
+        `/attribute/get-all-attributes/${categoryId}`
+      );
       setAttributesList(response?.data);
     } catch (error) {
       debouncedShowToast(error.message, "error");
@@ -117,24 +131,24 @@ const AddProductAttributes = () => {
   const handleTableInputChange = (e, index, field) => {
     const value = e.target.value;
 
-    setVariantData(prevData => {
+    setVariantData((prevData) => {
       const updatedData = [...prevData];
       updatedData[index][field] = value;
       return updatedData;
     });
   };
-  console.log('AddProductAttributes.jsx', selectedAttributes);
+  console.log("AddProductAttributes.jsx", selectedAttributes);
 
   const handleTableFileChange = (e, index) => {
     const files = e.target.files;
 
-    setVariantData(prevData => {
+    setVariantData((prevData) => {
       const updatedData = [...prevData];
       updatedData[index].files = files;
       return updatedData;
     });
   };
-  console.log('AddProductAttributes.jsx', variantData);
+  console.log("AddProductAttributes.jsx", variantData);
 
   const isEqualVariants = (variant1, variant2) => {
     // Implement your logic to compare two variants here
@@ -142,22 +156,49 @@ const AddProductAttributes = () => {
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
   useEffect(() => {
-    setVariantData(combinations.map(combination => ({
-      ...combination,
-      price: "",
-      quantity: "",
-      files: null,
-    })));
+    setVariantData(
+      combinations.map((combination) => ({
+        ...combination,
+        price: "",
+        quantity: "",
+        files: null,
+      }))
+    );
   }, [combinations]);
-
+  if (showData) {
+    return (
+      <div>
+        <Header
+          heading={"Data to Publish"}
+          subheading="Add attributes, categories and their configuration on this page"
+          image={AttributeBannerImage}
+        />
+        <div>
+          <Card>
+            <label>Name:{p.name}</label>
+            <label>description:{p.desc}</label>
+            {variantData.map((v) => {
+              console.log("AddProductAttributes.jsx", v);
+              Object.keys((a) => {
+                console.log("AddProductAttributes.jsx", a);
+                return <span>{v[a]}</span>;
+              });
+            })}
+          </Card>
+        </div>
+      </div>
+    );
+  }
   return (
     <div>
       <Header
-        heading={attSelected ? "Add Product Variants" : "Add Product Attributes"}
+        heading={
+          attSelected ? "Add Product Variants" : "Add Product Attributes"
+        }
         subheading="Add attributes, categories and their configuration on this page"
         image={AttributeBannerImage}
       />
-      {!attSelected ? (
+      {!attSelected && !showData ? (
         <div className="mt-4">
           <div className="grid grid-cols-2 gap-4 p-4">
             <Card>
@@ -174,8 +215,7 @@ const AddProductAttributes = () => {
                 <select
                   name=""
                   onChange={(e) => {
-                    attributeSelection(e)
-
+                    attributeSelection(e);
                   }}
                   multiple={true}
                 >
@@ -189,10 +229,7 @@ const AddProductAttributes = () => {
             </Card>
           </div>
           {selectedAttributes.length > 0 && (
-            <div
-              id="selectedattributes"
-              className="grid grid-cols-4 relative"
-            >
+            <div id="selectedattributes" className="grid grid-cols-4 relative">
               <Card id="selectedAtt" className="relative w-full">
                 <label className="label font-bold">Selected Attributes: </label>
                 {selectedAttributes.map((att) => (
@@ -219,9 +256,8 @@ const AddProductAttributes = () => {
                 <button
                   className="btn btn-accent absolute right-10 bottom-5"
                   onClick={() => {
-
                     generateValueCombinations();
-                    dispatch(setProduct({ attributes: selectedAttributes }))
+                    dispatch(setProduct({ attributes: selectedAttributes }));
                     setAttSelected(true);
                   }}
                 >
@@ -247,8 +283,8 @@ const AddProductAttributes = () => {
                   </thead>
                   <tbody>
                     {combinations.map((x, index) => {
-                      const matchingVariantIndex = variantData.findIndex((variant) =>
-                        isEqualVariants(variant, x)
+                      const matchingVariantIndex = variantData.findIndex(
+                        (variant) => isEqualVariants(variant, x)
                       );
 
                       return (
@@ -335,13 +371,18 @@ const AddProductAttributes = () => {
                 </table>
               </div>
             </div>
-            <button className="btn btn-accent float-right"> Next</button>
+            <button
+              className="btn btn-accent float-right"
+              onClick={() => setShowData(true)}
+            >
+              {" "}
+              Next
+            </button>
           </Card>
         </div>
-      )
-      }
+      )}
       <ToastContainer />
-    </div >
+    </div>
   );
 };
 
