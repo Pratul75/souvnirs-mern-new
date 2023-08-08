@@ -5,6 +5,7 @@ import {
   GradiantCardList,
   ProductCarosel,
   ProductTabs,
+  FullWidthBannerCard,
 } from "../../components";
 import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
@@ -12,13 +13,13 @@ import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgr
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
-
+import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import {
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
   productListFiltersAndProducts,
 } from "../../mappings";
-
+ 
 // TODO: Make all mappings seperate in mappings folder
 const LandingPage = () => {
   return (
@@ -63,6 +64,17 @@ const LandingPage = () => {
         <ProductCarosel items={caroselMapppingDailyDeals} />
         <ProductTabs />
       </div>
+      <FullWidthBannerCard
+        mainHeading="Score An Extra 30% Off"
+        subHeading="On Your Entire Order"
+        imageOne={GiftOnePngImage}
+        imageTwo={GiftOnePngImage}
+      />
+      <ProductsListWithFilters
+        heading="Top Seasonal Gifts"
+        filters={productListFiltersAndProducts.filters}
+        products={productListFiltersAndProducts.products}
+      />
     </div>
   );
 };

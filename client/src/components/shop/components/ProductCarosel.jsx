@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import {
   BsFillArrowLeftCircleFill,
@@ -31,7 +31,9 @@ const Carousel = ({ items }) => {
           />
         </div>
       </div>
-      <div className="border-2 border-primary p-2">{items[currentIndex]}</div>
+      <div className="border-[1px] border-primary p-2">
+        {items[currentIndex]}
+      </div>
     </div>
   );
 };
