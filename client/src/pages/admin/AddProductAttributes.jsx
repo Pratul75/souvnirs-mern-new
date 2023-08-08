@@ -21,8 +21,8 @@ const AddProductAttributes = () => {
   const [combinations, setCombinations] = useState([]);
   const [variantData, setVariantData] = useState([]);
   const [showData, setShowData] = useState(false);
-  const [price, setPrice] = useState();
-  const [quantity, setQuantity] = useState();
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -74,6 +74,8 @@ const AddProductAttributes = () => {
     productFormData.append("img", p.coverImg[0]);
     productFormData.append("attributes", JSON.stringify(p.attributes));
     productFormData.append("slug", randomSlug());
+    productFormData.append("price", price);
+    productFormData.append("quantity", quantity);
 
     const prodResponse = await API_WRAPPER.post(
       "/products/add-product",
@@ -232,6 +234,7 @@ const AddProductAttributes = () => {
   if (showData) {
     return (
       <div>
+        <ToastContainer />
         <Header
           heading={"Data to Publish"}
           subheading="Add attributes, categories and their configuration on this page"
@@ -241,10 +244,30 @@ const AddProductAttributes = () => {
           {selectedAttributes.length < 1 ? (
             <div>
               <Card>
-                <label className="label">Price</label>
-                <input />
-                <label className="label">Quantity</label>
-                <input />
+                <div className="flex gap-5 w-full">
+                  <div>
+                    <label className="label">Price</label>
+                    <input
+                      type="number"
+                      onChange={(e) => setPrice(e.target.value)}
+                      className="input input-accent"
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Quantity</label>
+                    <input
+                      type="number"
+                      onChange={(e) => setQuantity(e.target.value)}
+                      className="input input-accent"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-accent float-right"
+                    onClick={createProduct}
+                  >
+                    Publish
+                  </button>
+                </div>
               </Card>
             </div>
           ) : (
@@ -266,6 +289,7 @@ const AddProductAttributes = () => {
   }
   return (
     <div>
+      <ToastContainer />
       <Header
         heading={
           attSelected ? "Add Product Variants" : "Add Product Attributes"
@@ -345,6 +369,10 @@ const AddProductAttributes = () => {
               <button
                 className="btn btn-accent float-right right-10 bottom-5"
                 onClick={() => {
+                  if (!categoryId) {
+                    debouncedShowToast("select Category First");
+                    return;
+                  }
                   if (selectedAttributes.length < 1) {
                     setShowData(true);
                     return;

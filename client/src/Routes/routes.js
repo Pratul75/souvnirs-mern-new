@@ -64,6 +64,7 @@ import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
 import Wishlist from "../pages/admin/Wishlist";
+import AdminMedia from "../pages/admin/AdminMedia";
 // admin routes
 export const adminRoutes = [
   {
@@ -239,6 +240,12 @@ export const adminRoutes = [
     path: PATHS.adminAttribute,
     defaultRole: "admin",
     Component: Attribute,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminMedia,
+    defaultRole: "admin",
+    Component: AdminMedia,
   },
   {
     id: nanoid(),

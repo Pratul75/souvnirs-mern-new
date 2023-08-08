@@ -27,9 +27,23 @@ const createProduct = async (req, res) => {
     // if (!name || !vendorId || !slug || !description || !price) {
 
     // }
+    let imageUrl;
     let parseAtt = JSON.parse(attributes);
-    const imageUrl = await v2.uploader.upload(req.files[0].path);
-    let attArr = parseAtt.map((att) => att._id);
+    try {
+      imageUrl = await v2.uploader.upload(req.files[0].path, {
+        timeout: 60000, // Set a longer timeout value if needed
+        folder: "product_images",
+      });
+      // Rest of the code
+    } catch (error) {
+      res.status(400).json({ error: "Failed to create product" });
+      // Handle the error, send an appropriate response to the client
+    }
+
+    let attArr;
+    if (parseAtt.length > 0) {
+      attArr = parseAtt.map((att) => att._id);
+    }
     // Create a new product object
     const product = new Product({
       name,

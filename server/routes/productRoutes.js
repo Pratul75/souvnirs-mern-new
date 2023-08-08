@@ -26,7 +26,6 @@ router.post(
   upload.any("images"),
   createProductVariant
 );
-
 router.get("/products/get-all-products", authMiddleware, getProducts);
 router.get("/products/get-single-product/:id", authMiddleware, getProduct);
 router.get("/products/get-products-count", authMiddleware, getProductsCount);
