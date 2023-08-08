@@ -9,6 +9,7 @@ import { debouncedShowToast } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProduct } from "../../features/appConfig/addProductSlice";
+import { nanoid } from "nanoid";
 
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
@@ -20,6 +21,8 @@ const AddProductAttributes = () => {
   const [combinations, setCombinations] = useState([]);
   const [variantData, setVariantData] = useState([]);
   const [showData, setShowData] = useState(false);
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -57,10 +60,56 @@ const AddProductAttributes = () => {
     combination.push(...generateCombinations(attributeValues));
     setCombinations(combination);
   };
+  const randomSlug = () => {
+    return nanoid(10);
+  };
+
+  const createProduct = async () => {
+    console.log("AddProductAttributes.jsx", p);
+    const productFormData = new FormData();
+    productFormData.append("name", p.name);
+    productFormData.append("vendorId", p.vendorId);
+    productFormData.append("description", p.desc);
+    productFormData.append("tags", p.tags);
+    productFormData.append("img", p.coverImg[0]);
+    productFormData.append("attributes", JSON.stringify(p.attributes));
+    productFormData.append("slug", randomSlug());
+    productFormData.append("price", price);
+    productFormData.append("quantity", quantity);
+
+    const prodResponse = await API_WRAPPER.post(
+      "/products/add-product",
+      productFormData
+    );
+    const productId = prodResponse.data.data._id;
+    console.log("AddProductAttributes.jsx", productId);
+    if (prodResponse.status == 201) {
+      for (let variant of variantData) {
+        const { price, productQuantity, files, ...variantName } = variant;
+        console.log("AddProductAttributes.jsx", files);
+        const variantFormData = new FormData();
+        variantFormData.append("variant", JSON.stringify(variantName));
+        variantFormData.append("price", price);
+        variantFormData.append("quantity", productQuantity);
+
+        variantFormData.append("productId", productId);
+        if (files) {
+          for (let file of files) {
+            variantFormData.append("images", file);
+          }
+        }
+        const prodResponse = await API_WRAPPER.post(
+          "/products/create-variant",
+          variantFormData
+        );
+      }
+    }
+  };
 
   const handleSelectedValue = (category) => {
     setCategoryId(category?.id);
     setCategoryName(category?.name);
+    setSelectedAttributes([]);
     dispatch(setProduct({ categoryId: category?.id }));
   };
   const scrollToSection = () => {
@@ -88,6 +137,23 @@ const AddProductAttributes = () => {
       ]);
       scrollToSection();
     }
+  };
+  const removeAttributeValue = (attributeId, valueIndex) => {
+    setAttributeValues((prevValues) => {
+      const updatedAttributeValues = prevValues.map((elem) => {
+        if (elem.id === attributeId) {
+          const newValues = elem.values.filter(
+            (_, index) => index !== valueIndex
+          );
+          return {
+            ...elem,
+            values: newValues,
+          };
+        }
+        return elem;
+      });
+      return updatedAttributeValues;
+    });
   };
 
   const handleAtttributeValueSelection = (e, attribute) => {
@@ -160,7 +226,7 @@ const AddProductAttributes = () => {
       combinations.map((combination) => ({
         ...combination,
         price: "",
-        quantity: "",
+        productQuantity: "",
         files: null,
       }))
     );
@@ -168,29 +234,62 @@ const AddProductAttributes = () => {
   if (showData) {
     return (
       <div>
+        <ToastContainer />
         <Header
           heading={"Data to Publish"}
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
         />
         <div>
-          <Card>
-            <label>Name:{p.name}</label>
-            <label>description:{p.desc}</label>
-            {variantData.map((v) => {
-              console.log("AddProductAttributes.jsx", v);
-              Object.keys((a) => {
-                console.log("AddProductAttributes.jsx", a);
-                return <span>{v[a]}</span>;
-              });
-            })}
-          </Card>
+          {selectedAttributes.length < 1 ? (
+            <div>
+              <Card>
+                <div className="flex gap-5 w-full">
+                  <div>
+                    <label className="label">Price</label>
+                    <input
+                      type="number"
+                      onChange={(e) => setPrice(e.target.value)}
+                      className="input input-accent"
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Quantity</label>
+                    <input
+                      type="number"
+                      onChange={(e) => setQuantity(e.target.value)}
+                      className="input input-accent"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-accent float-right"
+                    onClick={createProduct}
+                  >
+                    Publish
+                  </button>
+                </div>
+              </Card>
+            </div>
+          ) : (
+            <Card>
+              <label>Name:{p.name}</label>
+              <label>description:{p.desc}</label>
+
+              <button
+                className="btn btn-accent float-right"
+                onClick={createProduct}
+              >
+                Publish
+              </button>
+            </Card>
+          )}
         </div>
       </div>
     );
   }
   return (
     <div>
+      <ToastContainer />
       <Header
         heading={
           attSelected ? "Add Product Variants" : "Add Product Attributes"
@@ -211,6 +310,9 @@ const AddProductAttributes = () => {
               </div>
             </Card>
             <Card>
+              <label className="label font-bold">
+                Select Attributes:(Optional){" "}
+              </label>
               <div className="col-span-2 md:col-span-1 p-4">
                 <select
                   name=""
@@ -228,11 +330,11 @@ const AddProductAttributes = () => {
               </div>
             </Card>
           </div>
-          {selectedAttributes.length > 0 && (
-            <div id="selectedattributes" className="grid grid-cols-4 relative">
-              <Card id="selectedAtt" className="relative w-full">
-                <label className="label font-bold">Selected Attributes: </label>
-                {selectedAttributes.map((att) => (
+          <div id="selectedattributes" className="grid  relative">
+            <Card id="selectedAtt" className="relative w-full">
+              <label className="label font-bold">Select ed Attributes: </label>
+              {selectedAttributes.length > 0 &&
+                selectedAttributes.map((att) => (
                   <div
                     className="h-16 flex mx-10 gap-8 items-center font-semibold"
                     key={att._id}
@@ -246,26 +348,46 @@ const AddProductAttributes = () => {
                     {attributeValues.map((elem) => {
                       if (elem.id === att._id) {
                         return elem?.values?.map((a, index) => (
-                          <span key={index}>{a}</span>
+                          <div
+                            className="flex gap-1 items-center bg-slate-400 p-2 rounded-3xl"
+                            onClick={(e) =>
+                              removeAttributeValue(att._id, index)
+                            }
+                            key={index}
+                          >
+                            {a}
+                            <span className="bg-red-600 rounded-full w-5 h-5 flex justify-center items-center">
+                              x
+                            </span>
+                          </div>
                         ));
                       }
                       return null;
                     })}
                   </div>
                 ))}
-                <button
-                  className="btn btn-accent absolute right-10 bottom-5"
-                  onClick={() => {
+              <button
+                className="btn btn-accent float-right right-10 bottom-5"
+                onClick={() => {
+                  if (!categoryId) {
+                    debouncedShowToast("select Category First");
+                    return;
+                  }
+                  if (selectedAttributes.length < 1) {
+                    setShowData(true);
+                    return;
+                  } else {
                     generateValueCombinations();
                     dispatch(setProduct({ attributes: selectedAttributes }));
+
                     setAttSelected(true);
-                  }}
-                >
-                  Next
-                </button>
-              </Card>
-            </div>
-          )}
+                  }
+                }}
+              >
+                Next
+              </button>
+            </Card>
+          </div>
         </div>
       ) : (
         <div>
@@ -326,7 +448,7 @@ const AddProductAttributes = () => {
                             <div className="flex justify-center items-center">
                               <input
                                 type="number"
-                                name={`quantity-${index}`}
+                                name={`productQuantity-${index}`}
                                 // value={
                                 //   matchingVariantIndex !== -1
                                 //     ? variantData[matchingVariantIndex].quantity
@@ -339,7 +461,7 @@ const AddProductAttributes = () => {
                                     matchingVariantIndex !== -1
                                       ? matchingVariantIndex
                                       : index,
-                                    "quantity"
+                                    "productQuantity"
                                   )
                                 }
                               />
