@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
 import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from "../../features/appConfig/addProductSlice";
-import { GrFormClose } from "react-icons/gr"
+import { GrFormClose } from "react-icons/gr";
 // add products
 
 const AddProduct = () => {
@@ -28,13 +28,13 @@ const AddProduct = () => {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [attrValue, setAttrValue] = useState([]);
   const [img, setImg] = useState();
-  const product = useSelector(state => state)
-  console.log('AddProduct.jsx', product);
+  const product = useSelector((state) => state);
+  console.log("AddProduct.jsx", product);
   const uploadToCloud = async (file) => {
     const uploaded = await cloudinary.v2.uploader.upload(file);
     console.log("AddProduct.jsx", uploaded);
   };
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // Function to generate all possible combinations of multiple arrays as strings
 
@@ -189,22 +189,27 @@ const AddProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('AddProduct.jsx', { ...formData, description, tagsArray });
+    console.log("AddProduct.jsx", { ...formData, description, tagsArray });
 
     // postProduct();
 
-    if (!formData.name || !description || tagsArray.length < 1 || !formData.vendorId) {
-      debouncedShowToast("Fill all required fields", "info")
-      return
+    if (
+      !formData.name ||
+      !description ||
+      tagsArray.length < 1 ||
+      !formData.vendorId
+    ) {
+      debouncedShowToast("Fill all required fields", "info");
+      return;
     }
-    dispatch(setProduct({ ...formData, description, tags: tagsArray }))
+    dispatch(setProduct({ ...formData, description, tags: tagsArray }));
     navigate(PATHS.adminAddProductAttributes);
     // postProduct();
 
     console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
-  const p = useSelector(state => state.product)
-  console.log({ ...formData, description, tags: tagsArray })
+  const p = useSelector((state) => state.product);
+  console.log({ ...formData, description, tags: tagsArray });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -249,8 +254,7 @@ const AddProduct = () => {
     getAllCategories();
     getAllVendors();
   }, []);
-  useEffect(() => {
-  }, [selectedCategory]);
+  useEffect(() => {}, [selectedCategory]);
 
   console.log("AddProduct.jsx", selectedCategory);
 
@@ -272,7 +276,9 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Product Title<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Product Title<span className=" text-red-600">*</span>
+                </span>
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
@@ -292,13 +298,18 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Status<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Status<span className=" text-red-600">*</span>
+                </span>
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="status"
               >
+                <option disabled selected>
+                  select status
+                </option>
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
@@ -320,7 +331,9 @@ const AddProduct = () => {
             <hr className="mt-4" />
             <div className="form-control ">
               <label className="label">
-                <span className="label-text">Description<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Description<span className=" text-red-600">*</span>
+                </span>
               </label>
               <ReactQuill
                 className="h-48"
@@ -341,7 +354,9 @@ const AddProduct = () => {
 
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Vendor<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Vendor<span className=" text-red-600">*</span>
+                </span>
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
@@ -365,7 +380,9 @@ const AddProduct = () => {
             {/* tags needs to be the specific for the multi select component */}
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Tags<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Tags<span className=" text-red-600">*</span>
+                </span>
               </label>
               <input
                 type="text"
@@ -395,7 +412,10 @@ const AddProduct = () => {
 
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Stock Keeping Unit (SKU)<span className=" text-red-600">*</span></span>
+                <span className="label-text">
+                  Stock Keeping Unit (SKU)
+                  <span className=" text-red-600">*</span>
+                </span>
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
@@ -416,11 +436,17 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6  md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
           >
-            <h3 className="font-semibold">Add Cover Image<span className=" text-red-600">*</span></h3>
+            <h3 className="font-semibold">
+              Add Cover Image<span className=" text-red-600">*</span>
+            </h3>
             <hr className="mt-4" />
 
             <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
-              <Dropzone onFilesChange={(data) => setFormData({ ...formData, img: data })} />
+              <Dropzone
+                onFilesChange={(data) =>
+                  setFormData({ ...formData, img: data })
+                }
+              />
             </div>
           </motion.div>
           <div className="md:col-span-2"></div>
