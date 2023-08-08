@@ -44,7 +44,8 @@ const Coupons = () => {
     setSelectedRow(row);
   };
 
-  const deleteCoupons = async () => {
+  const deleteCoupons = async (e) => {
+    console.log("Coupons.jsx", selectedRow);
     const response = await API_WRAPPER.delete(
       `/coupon/delete-coupon/:${selectedRow._id}`
     );
@@ -55,7 +56,7 @@ const Coupons = () => {
   const handleDiscountDelete = (id) => {
     window.delete_discount_modal.showModal();
     console.log("DISCOUNT ID:", id);
-    setCouponId(id);
+    setSelectedRow(id);
   };
   console.log("Coupons.jsx", couponId);
 
@@ -248,7 +249,7 @@ const Coupons = () => {
           </p>
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button onClick={deleteCoupons} className="btn btn-error">
+            <button onClick={(e) => deleteCoupons(e)} className="btn btn-error">
               Delete
             </button>
             <button className="btn">Close</button>

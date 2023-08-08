@@ -26,7 +26,13 @@ const addMedias = async (req, res) => {
 
   res.status(200).json(urls.length);
 };
-const getAllMedia = async (req, res) => {};
+const getAllMedia = async (req, res) => {
+  let medias;
+  if (req.role === "vendor") {
+    medias = await Media.findOne({ vendorId: req.userId });
+  }
+  res.status(200).json(medias);
+};
 const createProduct = async (req, res) => {
   try {
     // Extract the product details from the request body

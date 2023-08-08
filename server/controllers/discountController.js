@@ -98,7 +98,7 @@ const deleteDiscount = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const discount = await Discount.findByIdAndDelete(id);
+    const discount = await Discount.findByIdAndDelete(id.substring(1));
 
     if (!discount) {
       return res.status(404).json({ error: "Discount not found" });
