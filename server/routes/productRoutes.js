@@ -8,12 +8,16 @@ const {
   checkProductsFromIds,
   bulkProductUpload,
   createProductVariant,
+  addMedias,
+  getAllMedia,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
 
 const router = require("express").Router();
 
+router.post("/media", authMiddleware, upload.array("media"), addMedias);
+router.get("/media", authMiddleware, upload.array("media"), getAllMedia);
 router.post(
   "/products/add-product",
   authMiddleware,

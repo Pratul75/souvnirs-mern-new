@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { nanoid } from "nanoid";
+import { PATHS } from "../../Routes/paths";
 
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
@@ -103,6 +104,7 @@ const AddProductAttributes = () => {
           variantFormData
         );
       }
+      navigate(PATHS.adminProductManagement);
     }
   };
 
@@ -272,8 +274,12 @@ const AddProductAttributes = () => {
             </div>
           ) : (
             <Card>
-              <label>Name:{p.name}</label>
-              <label>description:{p.desc}</label>
+              <label className="w-56">
+                <pre>{JSON.stringify(p)}</pre>
+              </label>
+              <label className="w-56">
+                <pre>{JSON.stringify(variantData)}</pre>
+              </label>
 
               <button
                 className="btn btn-accent float-right"

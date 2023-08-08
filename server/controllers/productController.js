@@ -8,8 +8,25 @@ const Vendor = require("../schema/vendorModal");
 const Attribute = require("../schema/attributeModal");
 const Category = require("../schema/categoryModal");
 const { v2 } = require("../middlewares/ImageUpload");
+const Media = require("../schema/mediaModal");
 
 // create new product
+const addMedias = async (req, res) => {
+  let urls = [];
+  for (let file of req.files) {
+    const uploaded = await v2.uploader.upload(file.path);
+    urls.push(uploaded.url);
+    console.log("productController.js", uploaded);
+  }
+  const media = await Media.findOneAndUpdate(
+    { vendorId: req.userId },
+    { $addToSet: { links: urls } },
+    { upsert: true, new: true }
+  );
+
+  res.status(200).json(urls.length);
+};
+const getAllMedia = async (req, res) => {};
 const createProduct = async (req, res) => {
   try {
     // Extract the product details from the request body
@@ -374,4 +391,6 @@ module.exports = {
   editProduct,
   checkProductsFromIds,
   createProductVariant,
+  addMedias,
+  getAllMedia,
 };

@@ -55,6 +55,7 @@ export const PATHS = {
   vendorShipments: "/vendor/shipments",
   vendorCart: "/vendor/cart",
   vendorAddProducts: "/vendor/add-products",
+  vendorMedia: "/vendor/media",
 
   // customer routes
   customerDashboard: "/customer/dashboard",
