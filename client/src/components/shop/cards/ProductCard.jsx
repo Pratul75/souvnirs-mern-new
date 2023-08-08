@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";

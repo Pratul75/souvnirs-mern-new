@@ -25,6 +25,12 @@ import { TbPackage, TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { SiCraftcms } from "react-icons/si";
 import { FiUsers } from "react-icons/fi";
 import { RiRefund2Fill } from "react-icons/ri";
+import { nanoid } from "nanoid";
+import GiftOnePng from "../assets/shop/cardImages/giftOne.png";
+import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.png";
+import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
+import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
+import { Ratings } from "../components";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -251,4 +257,148 @@ export const customerSidebarMapping = [
     navLink: PATHS.customerWishlist,
     Icon: MdOutlineStore,
   },
+];
+
+// SHOP MAPPINGS ____________________________________
+
+// product list filters in tabs for ProductListWithFilters component
+export const productListFiltersAndProducts = {
+  filters: [
+    {
+      id: nanoid(),
+      name: "Audio",
+    },
+    {
+      id: nanoid(),
+      name: "Gaming",
+    },
+    {
+      id: nanoid(),
+      name: "Headphones",
+    },
+  ],
+  products: [
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "160",
+      rating: 4.5,
+      badgeColor: "badge-primary",
+      badgeText: "-10% ",
+      image: GiftOnePng,
+    },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "344",
+      rating: 3,
+      badgeColor: "badge-secondary",
+      badgeText: "IN STOCK",
+      image: GiftOnePng,
+    },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "100",
+      rating: 4,
+      badgeColor: "badge-warning",
+      badgeText: "OUT OF STOCK",
+      image: GiftOnePng,
+    },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "99",
+      rating: 4.5,
+      badgeColor: "badge-info",
+      badgeText: "-20%",
+      image: GiftOnePng,
+    },
+  ],
+};
+
+// gradiant catrd list data for GradiantCardList component
+export const gradiantCardListCardData = [
+  {
+    id: nanoid(),
+    title: "Spring Sale Coming",
+    heading: "Smart Phone",
+    subheading: "With Pen",
+    background: GradiantCardOneBackground,
+    image: GiftOnePng,
+    // Link will be changed in future to desired page
+    link: PATHS.landingPage,
+  },
+  {
+    id: nanoid(),
+    title: "Spring Sale Coming",
+    heading: "New Smart Phone",
+    subheading: "With Touch",
+    background: GradiantCardTwoBackground,
+    image: GiftOnePng,
+    // Link will be changed in future to desired page
+    link: PATHS.landingPage,
+  },
+  {
+    id: nanoid(),
+    title: "Spring Sale Coming",
+    heading: "Smart Watch",
+    subheading: "Android",
+    background: GradiantCardThreeBackground,
+    image: GiftOnePng,
+    // Link will be changed in future to desired page
+    link: PATHS.landingPage,
+  },
+];
+
+// TODO: need to convert all items into components
+export const caroselMapppingDailyDeals = [
+  <div className="flex" key={nanoid()}>
+    <div className="flex flex-col  gap-4 mt-4 py-2">
+      <div className="flex  gap-4 my-2">
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <p>days</p>
+        </div>
+
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <p>days</p>
+        </div>
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <p>days</p>
+        </div>
+      </div>
+
+      <div>
+        <p>Cosmos Bold Pro Smart Watch</p>
+        <p className="text-bold text-primary text-xl">$256.00</p>
+        <Ratings rating={4.5} />
+      </div>
+    </div>
+    <div>
+      <img src={GiftOnePng} alt="" />`
+    </div>
+  </div>,
+
+  <div key={nanoid()} className="bg-green-500 p-4">
+    Item 2
+  </div>,
+  <div key={nanoid()} className="bg-yellow-500 p-4">
+    Item 3
+  </div>,
 ];

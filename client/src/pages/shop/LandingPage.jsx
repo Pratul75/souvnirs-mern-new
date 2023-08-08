@@ -2,16 +2,24 @@ import {
   HeaderCards,
   FeaturesCard,
   ProductsListWithFilters,
+  GradiantCardList,
+  ProductCarosel,
+  ProductTabs,
 } from "../../components";
 import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
-import GiftOnePng from "../../assets/shop/cardImages/giftOne.png";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { nanoid } from "nanoid";
 
+import {
+  caroselMapppingDailyDeals,
+  gradiantCardListCardData,
+  productListFiltersAndProducts,
+} from "../../mappings";
+
+// TODO: Make all mappings seperate in mappings folder
 const LandingPage = () => {
   return (
     <div className="w-screen h-auto">
@@ -47,73 +55,14 @@ const LandingPage = () => {
       />
       <ProductsListWithFilters
         heading="Top Seasonal Gifts"
-        filters={[
-          {
-            id: nanoid(),
-            name: "Audio",
-          },
-          {
-            id: nanoid(),
-            name: "Gaming",
-          },
-          {
-            id: nanoid(),
-            name: "Headphones",
-          },
-        ]}
-        products={[
-          {
-            id: nanoid(),
-            title: "Game Trigger Finger New",
-            price: "260",
-            discountPrice: "160",
-            rating: 4.5,
-            badgeColor: "badge-primary",
-            badgeText: "-10% ",
-            image: GiftOnePng,
-          },
-          {
-            id: nanoid(),
-            title: "Game Trigger Finger New",
-            price: "260",
-            discountPrice: "344",
-            rating: 3,
-            badgeColor: "badge-secondary",
-            badgeText: "IN STOCK",
-            image: GiftOnePng,
-          },
-          {
-            id: nanoid(),
-            title: "Game Trigger Finger New",
-            price: "260",
-            discountPrice: "100",
-            rating: 4,
-            badgeColor: "badge-warning",
-            badgeText: "OUT OF STOCK",
-            image: GiftOnePng,
-          },
-          {
-            id: nanoid(),
-            title: "Game Trigger Finger New",
-            price: "260",
-            discountPrice: "99",
-            rating: 4.5,
-            badgeColor: "badge-info",
-            badgeText: "-20%",
-            image: GiftOnePng,
-          },
-          {
-            id: nanoid(),
-            title: "Game Trigger Finger New",
-            price: "260",
-            discountPrice: "453",
-            rating: 4.5,
-            badgeColor: "badge-success",
-            badgeText: "New",
-            image: GiftOnePng,
-          },
-        ]}
+        filters={productListFiltersAndProducts.filters}
+        products={productListFiltersAndProducts.products}
       />
+      <GradiantCardList cardData={gradiantCardListCardData} />
+      <div className="grid grid-cols-3 gap-4 mx-16 mt-4">
+        <ProductCarosel items={caroselMapppingDailyDeals} />
+        <ProductTabs />
+      </div>
     </div>
   );
 };
