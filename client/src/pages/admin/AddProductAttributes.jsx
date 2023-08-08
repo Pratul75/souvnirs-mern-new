@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { nanoid } from "nanoid";
-
+import { BsCaretDown } from "react-icons/bs";
+import { GrFormClose } from "react-icons/gr";
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -65,44 +66,45 @@ const AddProductAttributes = () => {
   };
 
   const createProduct = async () => {
-    console.log("AddProductAttributes.jsx", p);
-    const productFormData = new FormData();
-    productFormData.append("name", p.name);
-    productFormData.append("vendorId", p.vendorId);
-    productFormData.append("description", p.desc);
-    productFormData.append("tags", p.tags);
-    productFormData.append("img", p.coverImg[0]);
-    productFormData.append("attributes", JSON.stringify(p.attributes));
-    productFormData.append("slug", randomSlug());
-    productFormData.append("price", price);
-    productFormData.append("quantity", quantity);
+    try {
+      console.log("AddProductAttributes.jsx", p);
+      const productFormData = new FormData();
+      productFormData.append("name", p.name);
+      productFormData.append("vendorId", p.vendorId);
+      productFormData.append("description", p.desc);
+      productFormData.append("tags", p.tags);
+      productFormData.append("img", p.coverImg[0]);
+      productFormData.append("attributes", JSON.stringify(p.attributes));
+      productFormData.append("slug", randomSlug());
+      productFormData.append("price", price);
+      productFormData.append("quantity", quantity);
 
-    const prodResponse = await API_WRAPPER.post(
-      "/products/add-product",
-      productFormData
-    );
-    const productId = prodResponse.data.data._id;
-    console.log("AddProductAttributes.jsx", productId);
-    if (prodResponse.status == 201) {
-      for (let variant of variantData) {
-        const { price, productQuantity, files, ...variantName } = variant;
-        console.log("AddProductAttributes.jsx", files);
-        const variantFormData = new FormData();
-        variantFormData.append("variant", JSON.stringify(variantName));
-        variantFormData.append("price", price);
-        variantFormData.append("quantity", productQuantity);
+      const prodResponse = await API_WRAPPER.post(
+        "/products/add-product",
+        productFormData
+      );
+      const productId = prodResponse.data.data._id;
+      console.log("AddProductAttributes.jsx", productId);
+      if (prodResponse.status == 201) {
+        for (let variant of variantData) {
+          const { price, productQuantity, files, ...variantName } = variant;
+          console.log("AddProductAttributes.jsx", files);
+          const variantFormData = new FormData();
+          variantFormData.append("variant", JSON.stringify(variantName));
+          variantFormData.append("price", price);
+          variantFormData.append("quantity", productQuantity);
 
-        variantFormData.append("productId", productId);
-        if (files) {
-          for (let file of files) {
-            variantFormData.append("images", file);
+          variantFormData.append("productId", productId);
+          if (files) {
+            for (let file of files) {
+              variantFormData.append("images", file);
+            }
           }
+          await API_WRAPPER.post("/products/create-variant", variantFormData);
         }
-        const prodResponse = await API_WRAPPER.post(
-          "/products/create-variant",
-          variantFormData
-        );
       }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
     }
   };
 
@@ -250,7 +252,7 @@ const AddProductAttributes = () => {
                     <input
                       type="number"
                       onChange={(e) => setPrice(e.target.value)}
-                      className="input input-accent"
+                      className="input input-primary"
                     />
                   </div>
                   <div>
@@ -258,7 +260,7 @@ const AddProductAttributes = () => {
                     <input
                       type="number"
                       onChange={(e) => setQuantity(e.target.value)}
-                      className="input input-accent"
+                      className="input input-primary"
                     />
                   </div>
                   <button
@@ -300,70 +302,99 @@ const AddProductAttributes = () => {
       {!attSelected && !showData ? (
         <div className="mt-4">
           <div className="grid grid-cols-2 gap-4 p-4">
-            <Card>
-              <div className="col-span-2 md:col-span-1 p-4">
+            <div className="col-span-2 md:col-span-1 p-4 bg-base-100 rounded-xl">
+              <div className="flex items-center gap-4 justify-between">
+                <p className="font-bold">Selected Category: {categoryName}</p>
                 <SearchableDropdown
                   handleSelect={handleSelectedValue}
                   items={categories}
                 />
-                <p>Selected Category: {categoryName}</p>
               </div>
-            </Card>
+            </div>
             <Card>
-              <label className="label font-bold">
-                Select Attributes:(Optional){" "}
-              </label>
               <div className="col-span-2 md:col-span-1 p-4">
-                <select
-                  name=""
-                  onChange={(e) => {
-                    attributeSelection(e);
-                  }}
-                  multiple={true}
-                >
-                  {convertAttributesList(attributesList).map((item) => (
-                    <option key={item.value} value={item.value}>
-                      {item.label}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center justify-between">
+                  <p className="label font-bold">
+                    Select Attributes:(Optional){" "}
+                  </p>
+                  <div className="dropdown dropdown-left">
+                    <label tabIndex={0}>
+                      <button className="btn btn-circle">
+                        <BsCaretDown className="text-2xl text-primary" />
+                      </button>
+                    </label>
+                    <ul
+                      tabIndex={0}
+                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <select
+                          className="block bg-transparent w-full"
+                          name=""
+                          onChange={(e) => {
+                            attributeSelection(e);
+                          }}
+                          multiple={true}
+                        >
+                          {convertAttributesList(attributesList).map((item) => (
+                            <option
+                              className="border-[1px] border-base-200 shadow-lg rounded-lg cursor-pointer my-3 py-2 px-4 bg-base-100"
+                              key={item.value}
+                              value={item.value}
+                            >
+                              {item.label}
+                            </option>
+                          ))}
+                        </select>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </Card>
           </div>
-          <div id="selectedattributes" className="grid  relative">
-            <Card id="selectedAtt" className="relative w-full">
-              <label className="label font-bold">Select ed Attributes: </label>
+          <div id="selectedattributes" className="mx-4">
+            <Card id="selectedAtt" className="w-full">
+              <label className="label font-bold p-4">
+                Selecteed Attributes:{" "}
+              </label>
               {selectedAttributes.length > 0 &&
                 selectedAttributes.map((att) => (
-                  <div
-                    className="h-16 flex mx-10 gap-8 items-center font-semibold"
-                    key={att._id}
-                  >
-                    <span>{att.name}</span>
-                    <input
-                      className="input h-8 input-accent"
-                      name={att._id}
-                      onKeyDown={(e) => handleAtttributeValueSelection(e, att)}
-                    />
-                    {attributeValues.map((elem) => {
-                      if (elem.id === att._id) {
-                        return elem?.values?.map((a, index) => (
-                          <div
-                            className="flex gap-1 items-center bg-slate-400 p-2 rounded-3xl"
-                            onClick={(e) =>
-                              removeAttributeValue(att._id, index)
-                            }
-                            key={index}
-                          >
-                            {a}
-                            <span className="bg-red-600 rounded-full w-5 h-5 flex justify-center items-center">
-                              x
-                            </span>
-                          </div>
-                        ));
-                      }
-                      return null;
-                    })}
+                  <div className="p-1 mx-2" key={att._id}>
+                    <div className="flex justify-between w-auto bg-base-200 p-4 items-center rounded-xl my-2 ">
+                      <div className="flex justify-around w-96">
+                        <span className="font-bold">{att.name}:</span>
+                        <input
+                          placeholder="enter attribute values"
+                          className="input input-sm input-primary ml-4"
+                          name={att._id}
+                          onKeyDown={(e) =>
+                            handleAtttributeValueSelection(e, att)
+                          }
+                        />
+                      </div>
+                      <div className="flex gap-4">
+                        {attributeValues.map((elem) => {
+                          if (elem.id === att._id) {
+                            return elem?.values?.map((a, index) => (
+                              <div
+                                className="flex gap-4 items-center bg-base-100 p-2 rounded-full"
+                                onClick={(e) =>
+                                  removeAttributeValue(att._id, index)
+                                }
+                                key={index}
+                              >
+                                {a}
+                                <button className="btn btn-xs btn-circle btn-error">
+                                  <GrFormClose className="text-xl text-base-100" />
+                                </button>
+                              </div>
+                            ));
+                          }
+                          return null;
+                        })}
+                      </div>
+                    </div>
                   </div>
                 ))}
               <button
@@ -392,15 +423,15 @@ const AddProductAttributes = () => {
       ) : (
         <div>
           <Card className="relative">
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-4">
               <div className="overflow-x-auto">
-                <table className="min-w-full">
+                <table className="table  table-sm min-w-full">
                   <thead>
                     <tr>
-                      <th className="px-4 py-2">Variant Name</th>
-                      <th className="px-4 py-2">Price</th>
-                      <th className="px-4 py-2">Quantity</th>
-                      <th className="px-4 py-2">Images</th>
+                      <th>Variant Name</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Images</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -408,15 +439,16 @@ const AddProductAttributes = () => {
                       const matchingVariantIndex = variantData.findIndex(
                         (variant) => isEqualVariants(variant, x)
                       );
-
                       return (
                         <tr key={index}>
-                          <td className="px-4 py-2">
+                          <td>
                             <div className="label">
                               {Object.entries(x).map(([key, value]) => (
-                                <div key={key} className="mb-2">
-                                  <span className="font-semibold">{key}:</span>{" "}
-                                  {value}
+                                <div key={key}>
+                                  <span className="font-semibold ">{key}:</span>{" "}
+                                  <span className="text-primary ml-2">
+                                    {value}
+                                  </span>
                                 </div>
                               ))}
                             </div>
@@ -424,14 +456,10 @@ const AddProductAttributes = () => {
                           <td className="px-4 py-2">
                             <div className="flex justify-center items-center">
                               <input
+                                placeholder="enter price"
                                 type="number"
                                 name={`price-${index}`}
-                                // value={
-                                //   matchingVariantIndex !== -1
-                                //     ? variantData[matchingVariantIndex].price
-                                //     : ""
-                                // }
-                                className="input input-accent h-8"
+                                className="input input-primary input-sm"
                                 onChange={(e) =>
                                   handleTableInputChange(
                                     e,
@@ -449,12 +477,13 @@ const AddProductAttributes = () => {
                               <input
                                 type="number"
                                 name={`productQuantity-${index}`}
+                                placeholder="enter quantity"
                                 // value={
                                 //   matchingVariantIndex !== -1
                                 //     ? variantData[matchingVariantIndex].quantity
                                 //     : ""
                                 // }
-                                className="input input-accent h-8"
+                                className="input input-primary input-sm"
                                 onChange={(e) =>
                                   handleTableInputChange(
                                     e,
@@ -474,7 +503,7 @@ const AddProductAttributes = () => {
                                 name={`file-${index}`}
                                 accept="image/*"
                                 multiple
-                                className="file-input file-input-bordered file-input-info w-full max-w-xs"
+                                className="file-input file-input-sm"
                                 onChange={(e) =>
                                   handleTableFileChange(
                                     e,
@@ -494,7 +523,7 @@ const AddProductAttributes = () => {
               </div>
             </div>
             <button
-              className="btn btn-accent float-right"
+              className="btn btn-accent float-right mt-4 w-full"
               onClick={() => setShowData(true)}
             >
               {" "}

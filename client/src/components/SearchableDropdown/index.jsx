@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-
+import { BsCaretDown } from "react-icons/bs";
 const SearchableDropdown = ({ items, handleSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,8 +24,12 @@ const SearchableDropdown = ({ items, handleSelect }) => {
 
   return (
     <div className="dropdown">
-      <label tabIndex={0} className="m-1 btn btn-primary" onClick={toggleDropdown}>
-        Select category
+      <label
+        tabIndex={0}
+        className="m-1 btn btn-circle"
+        onClick={toggleDropdown}
+      >
+        <BsCaretDown className="text-2xl text-primary" />
       </label>
       {isOpen && (
         <div className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
