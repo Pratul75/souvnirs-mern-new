@@ -22,6 +22,14 @@ const Discounts = () => {
       console.error("ERROR occured whule fetching discounts list", error);
     }
   };
+  const deleteDiscount = async (e) => {
+    console.log("Coupons.jsx", selectedRow);
+    const response = await API_WRAPPER.delete(
+      `/discount/delete-discount/:${selectedRow._id}`
+    );
+    setApiTrigger((prevState) => !prevState);
+    console.log("DELETE DISCOUNT RESPONSE: ", response?.data);
+  };
 
   const handleDelete = (row) => {
     window.delete_discount_modal.showModal();
@@ -184,8 +192,26 @@ const Discounts = () => {
           onDelete={handleDelete}
         />
       </div>
+      <dialog id="delete_discount_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-3xl">Hello!</h3>
+          <p className="py-4 text-2xl">
+            Are you sure you want to delete the selected coupon?
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              onClick={(e) => deleteDiscount(e)}
+              className="btn btn-error"
+            >
+              Delete
+            </button>
+            <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
       <Modal
-        id="delete_discount_modal"
+        id="edit_discount_modal"
         title="Are you sure you want to delete the selected value"
         onClose={handleClose}
         onSave={handleSave}
