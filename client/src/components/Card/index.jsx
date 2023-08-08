@@ -10,8 +10,9 @@ const Card = ({ children }) => {
       variants={fadeInVariants}
       animate="animate"
       initial="initial"
-      className={` ${darkMode ? "bg-cardDarker" : "bg-cardLight"
-        } shadow-xl rounded-xl h-full `}
+      className={` ${
+        darkMode ? "bg-cardDarker" : "bg-cardLight"
+      } shadow-xl rounded-xl h-full  `}
     >
       {children}
     </motion.div>

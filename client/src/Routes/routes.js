@@ -289,6 +289,12 @@ export const vendorRoutes = [
   },
   {
     id: nanoid(),
+    path: PATHS.vendorMedia,
+    defaultRole: "vendor",
+    Component: AdminMedia,
+  },
+  {
+    id: nanoid(),
     path: PATHS.vendorOrderManagement,
     defaultRole: "vendor",
     Component: VendorOrderManagement,

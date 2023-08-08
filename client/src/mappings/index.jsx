@@ -20,6 +20,7 @@ import {
   MdInventory2,
   MdOutlineStore,
   MdAttachEmail,
+  MdOutlinePermMedia,
 } from "react-icons/md";
 import { TbPackage, TbTruckDelivery, TbReplace } from "react-icons/tb";
 import { SiCraftcms } from "react-icons/si";
@@ -42,6 +43,11 @@ export const adminSidebarMapping = [
     title: "Product Management",
     navLink: PATHS.adminProductManagement,
     Icon: BiPackage,
+  },
+  {
+    title: "Media",
+    navLink: PATHS.adminMedia,
+    Icon: MdOutlinePermMedia,
   },
   {
     title: "Order Management",
@@ -167,6 +173,11 @@ export const vendorSidebarMapping = [
     title: "Product Management",
     navLink: PATHS.vendorProductManagement,
     Icon: MdInventory2,
+  },
+  {
+    title: "Media",
+    navLink: PATHS.vendorMedia,
+    Icon: MdOutlinePermMedia,
   },
   {
     title: "Order Management",

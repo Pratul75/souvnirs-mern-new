@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { nanoid } from "nanoid";
-import { BsCaretDown } from "react-icons/bs";
-import { GrFormClose } from "react-icons/gr";
+import { PATHS } from "../../Routes/paths";
+
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -103,6 +103,7 @@ const AddProductAttributes = () => {
           await API_WRAPPER.post("/products/create-variant", variantFormData);
         }
       }
+      navigate(PATHS.adminProductManagement);
     } catch (error) {
       debouncedShowToast(error.message, "error");
     }
@@ -274,8 +275,12 @@ const AddProductAttributes = () => {
             </div>
           ) : (
             <Card>
-              <label>Name:{p.name}</label>
-              <label>description:{p.desc}</label>
+              <label className="w-56">
+                <pre>{JSON.stringify(p)}</pre>
+              </label>
+              <label className="w-56">
+                <pre>{JSON.stringify(variantData)}</pre>
+              </label>
 
               <button
                 className="btn btn-accent float-right"
