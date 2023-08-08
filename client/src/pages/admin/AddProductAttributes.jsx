@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import AttributeBannerImage from "../../assets/bannerImages/attributesImage.png";
 import useCategories from "../../hooks/useCategories";
@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { nanoid } from "nanoid";
 import { PATHS } from "../../Routes/paths";
+import { BsCaretDown } from "react-icons/bs";
+import { GrFormClose } from "react-icons/gr";
 
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
