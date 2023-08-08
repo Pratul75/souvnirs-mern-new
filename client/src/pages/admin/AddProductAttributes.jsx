@@ -13,7 +13,6 @@ import { nanoid } from "nanoid";
 import { PATHS } from "../../Routes/paths";
 import { BsCaretDown } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
-
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -239,7 +238,6 @@ const AddProductAttributes = () => {
   if (showData) {
     return (
       <div>
-        <ToastContainer />
         <Header
           heading={"Data to Publish"}
           subheading="Add attributes, categories and their configuration on this page"
@@ -277,13 +275,22 @@ const AddProductAttributes = () => {
             </div>
           ) : (
             <Card>
-              <label className="w-56">
-                <pre>{JSON.stringify(p)}</pre>
-              </label>
-              <label className="w-56">
-                <pre>{JSON.stringify(variantData)}</pre>
+              {console.log("ALL PRODUCT DATA: ", p, variantData[0])}
+              <div className="p-4">
+                <div>
+                  <h3>Product Name: {p.name}</h3>
+                  <h3>Vendor ID: {p.vendorId}</h3>
+                  <h3>CategoryID: {p.categoryId}</h3>
+                  <h3>Description: {p.desc.replace(/<\/?[^>]+(>|$)/g, "")}</h3>
+                </div>
+              </div>
+              <label>
+                <pre className="w-1/2">{JSON.stringify(p)}</pre>
               </label>
 
+              <label>
+                <pre>{JSON.stringify(variantData)}</pre>
+              </label>
               <button
                 className="btn btn-accent float-right"
                 onClick={createProduct}
@@ -293,6 +300,7 @@ const AddProductAttributes = () => {
             </Card>
           )}
         </div>
+        <ToastContainer />
       </div>
     );
   }
@@ -485,11 +493,6 @@ const AddProductAttributes = () => {
                                 type="number"
                                 name={`productQuantity-${index}`}
                                 placeholder="enter quantity"
-                                // value={
-                                //   matchingVariantIndex !== -1
-                                //     ? variantData[matchingVariantIndex].quantity
-                                //     : ""
-                                // }
                                 className="input input-primary input-sm"
                                 onChange={(e) =>
                                   handleTableInputChange(
