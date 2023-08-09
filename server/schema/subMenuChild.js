@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const subMenuChild = new mongoose.Schema(
   {
     subMenuId: {

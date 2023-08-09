@@ -42,6 +42,8 @@ export const PATHS = {
   adminCreateVendor: "/admin/vendor/create-vendor",
   adminWishlist: "/admin/wishlist",
   adminMedia: "/admin/media",
+  adminMenus: "/admin/menus",
+  adminAddMenus: "/admin/menus/add-menus",
 
   // vendor routes
   vendorDashboard: "/vendor/dashboard",

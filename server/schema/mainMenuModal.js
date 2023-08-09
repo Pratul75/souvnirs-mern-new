@@ -12,6 +12,12 @@ const mainMenuSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+      enum: ["Collection", "Categories", "Products", "Pages"],
+      default: "Collection",
+    },
     link: {
       type: String,
       required: true,

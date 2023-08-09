@@ -32,6 +32,8 @@ import {
   AddCoupon,
   AddCollection,
   AddProductAttributes,
+  AddMenus,
+  Menus,
 
   // vendor routes
   VendorDashboard,
@@ -269,6 +271,18 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddProductAttributes,
     Component: AddProductAttributes,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddMenus,
+    Component: AddMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminMenus,
+    Component: Menus,
     defaultRole: "admin",
   },
 ];

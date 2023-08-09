@@ -83,7 +83,6 @@ const getRawDataForFilter = async (req, res) => {
 
     // Create an array to store the filtered products
     let filteredProducts = [];
-
     // Create a query object with an empty $and array
     const query = {
       $and: [],
