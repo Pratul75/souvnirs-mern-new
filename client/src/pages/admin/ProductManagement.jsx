@@ -46,6 +46,12 @@ const ProductManagement = () => {
       {
         Header: "Price",
         accessor: "result.price",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.price
+            : row?.original?.price;
+        },
       },
       {
         Header: "On Sale",
@@ -65,6 +71,12 @@ const ProductManagement = () => {
       {
         Header: "Stock Quantity",
         accessor: "result.quantity",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.quantity
+            : row?.original?.stockQuantity;
+        },
       },
       {
         Header: "Stock Status",

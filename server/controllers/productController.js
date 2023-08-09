@@ -28,6 +28,28 @@ const addMedias = async (req, res) => {
 };
 const getAllMedia = async (req, res) => {
   let medias;
+  if (req.role === "admin") {
+    medias = await Media.aggregate([
+      {
+        $lookup: {
+          from: "vendors",
+          localField: "vendorId",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $unwind: {
+          path: "$result",
+        },
+      },
+      {
+        $unwind: {
+          path: "$links",
+        },
+      },
+    ]);
+  }
   if (req.role === "vendor") {
     medias = await Media.findOne({ vendorId: req.userId });
   }
@@ -42,7 +64,7 @@ const createProduct = async (req, res) => {
       slug,
       description,
       price,
-      stockQuantity,
+      quantity,
       totalSales,
       tags,
       attributes,
@@ -74,7 +96,7 @@ const createProduct = async (req, res) => {
       slug,
       description,
       price,
-      stockQuantity,
+      stockQuantity: quantity,
       totalSales,
       tags,
       attributes: attArr,
@@ -140,6 +162,7 @@ const getProducts = async (req, res) => {
         {
           $unwind: {
             path: "$result",
+            preserveNullAndEmptyArrays: true,
           },
         },
         {

@@ -322,6 +322,42 @@ const AddProduct = () => {
                 <option value="INACTIVE">Inactive</option>
               </select>
             </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Ready To Ship:<span className=" text-red-600">*</span>
+                </span>
+              </label>
+              <select
+                onChange={(e) => handleInputChange(e)}
+                className="select select-accent"
+                name="readyToShip"
+              >
+                <option disabled selected>
+                  Default
+                </option>
+                <option value="true">yes</option>
+                <option value="false">no</option>
+              </select>
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Free Shipping:<span className=" text-red-600">*</span>
+                </span>
+              </label>
+              <select
+                onChange={(e) => handleInputChange(e)}
+                className="select select-accent"
+                name="freeShipping"
+              >
+                <option disabled selected>
+                  Default
+                </option>
+                <option value="true">yes</option>
+                <option value="false">no</option>
+              </select>
+            </div>
           </motion.div>
         </div>
 
