@@ -52,7 +52,12 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
+    freeShipping: {
+      type: Boolean,
+    },
+    readyToShip: {
+      type: Boolean,
+    },
     stockQuantity: {
       type: Number,
     },

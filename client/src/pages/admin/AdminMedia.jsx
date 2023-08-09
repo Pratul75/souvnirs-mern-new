@@ -13,7 +13,7 @@ const AdminMedia = () => {
   const fetchMedias = async (req, res) => {
     const resp = await API_WRAPPER.get("/media");
     console.log("AdminMedia.jsx", resp);
-    setMedias(resp.data.links);
+    setMedias(resp.data);
   };
 
   const addFiles = async () => {
@@ -45,7 +45,10 @@ const AdminMedia = () => {
           </button>
           <div className="flex flex-col gap-5">
             {medias?.map((a) => (
-              <MediaCard link={a} />
+              <MediaCard
+                link={a.links}
+                vendorName={`${a.result.firstName} ${a.result.lastName}`}
+              />
             ))}
           </div>
         </div>
