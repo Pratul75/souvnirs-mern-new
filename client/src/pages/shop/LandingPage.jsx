@@ -8,6 +8,8 @@ import {
   FullWidthBannerCard,
   HalfWidthBannerCard,
   BrandsCard,
+  ImagesGrid,
+  NewsLetterGrid,
 } from "../../components";
 import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
@@ -20,6 +22,7 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import {
   BrandsCardImageList,
+  ImageGridMapping,
   blogCardData,
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
@@ -27,6 +30,8 @@ import {
 } from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
+
+// main landing page for the shop application
 
 const LandingPage = () => {
   return (
@@ -101,8 +106,11 @@ const LandingPage = () => {
       <BrandsCard imagesList={BrandsCardImageList} />
       <TestimonialsCarosel />
       <BlogList blogItemsData={blogCardData} />
-      <ImagesGrid />
-      <NewsLetterCard />
+      <ImagesGrid imagesData={ImageGridMapping} />
+      <NewsLetterGrid
+        heading="Join our Newsletter"
+        subheading="Join our newsletter and get 20$ discount for your first order"
+      />
     </div>
   );
 };

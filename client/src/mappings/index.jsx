@@ -31,6 +31,10 @@ import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.
 import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
 import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
 import LenovoImage from "../assets/shop/brandImages/lenovo.png";
+import ImageGridImageOne from "../assets/shop/cardImages/imageGridImageOne.png";
+import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
+import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
+import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
 import { Ratings } from "../components";
 // admin sidebar mapping
 export const adminSidebarMapping = [
@@ -517,5 +521,36 @@ export const blogCardData = [
     buttonHandler: () => {
       console.log("CLICKED ON BLOG CARD");
     },
+  },
+];
+
+export const ImageGridMapping = [
+  {
+    image: ImageGridImageFour,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageOne,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageTwo,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageThree,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageFour,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageOne,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageThree,
+    alt: "giftOne",
   },
 ];
