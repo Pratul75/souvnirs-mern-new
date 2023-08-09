@@ -1,5 +1,4 @@
 import { PATHS } from "../Routes/paths";
-import {} from "../icons/sidebarIcons";
 
 import {
   BiPackage,
@@ -31,6 +30,11 @@ import GiftOnePng from "../assets/shop/cardImages/giftOne.png";
 import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.png";
 import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
 import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
+import LenovoImage from "../assets/shop/brandImages/lenovo.png";
+import ImageGridImageOne from "../assets/shop/cardImages/imageGridImageOne.png";
+import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
+import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
+import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
 import { Ratings } from "../components";
 // admin sidebar mapping
 export const adminSidebarMapping = [
@@ -412,4 +416,141 @@ export const caroselMapppingDailyDeals = [
   <div key={nanoid()} className="bg-yellow-500 p-4">
     Item 3
   </div>,
+];
+
+export const BrandsCardImageList = [
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+  {
+    image: LenovoImage,
+    alt: "lenovo",
+  },
+];
+
+export const blogCardData = [
+  {
+    id: nanoid(),
+    blogImage: GiftOnePng,
+    date: "22  October  2023",
+    views: 100,
+    heading: "What should I know about...",
+    paragraph:
+      "lorem ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa",
+    buttonHandler: () => {
+      console.log("CLICKED ON BLOG CARD");
+    },
+  },
+  {
+    id: nanoid(),
+    blogImage: GiftOnePng,
+    date: "22  October  2023",
+    views: 100,
+    heading: "What should I know about...",
+    paragraph:
+      "lorem ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa",
+    buttonHandler: () => {
+      console.log("CLICKED ON BLOG CARD");
+    },
+  },
+  {
+    id: nanoid(),
+    blogImage: GiftOnePng,
+    date: "22  October  2023",
+    views: 100,
+    heading: "What should I know about...",
+    paragraph:
+      "lorem ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa",
+    buttonHandler: () => {
+      console.log("CLICKED ON BLOG CARD");
+    },
+  },
+];
+
+export const ImageGridMapping = [
+  {
+    image: ImageGridImageFour,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageOne,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageTwo,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageThree,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageFour,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageOne,
+    alt: "giftOne",
+  },
+  {
+    image: ImageGridImageThree,
+    alt: "giftOne",
+  },
 ];
