@@ -5,13 +5,19 @@ const ProductCardMini = ({ id, title, price, rating, image }) => {
   return (
     <div key={id} className="flex justify-between gap-4">
       <div className="">
-        <img src={image} alt={title} />
+        <img
+          style={{
+            mixBlendMode: "multiply",
+          }}
+          src={image}
+          alt={title}
+        />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center">
         <h3 className="text-xl font-semibold">{title}</h3>
-        <div className="flex items-center justify-between gap-2 bg-purple-100 p-2 px-4 rounded-full mt-2">
+        <div className="flex items-center justify-between gap-2 rounded-full mt-2">
           <div>
-            <p className="text-2xl text-primary font-semibold">${price}.00</p>
+            <p className="text-xl text-primary font-semibold">${price}.00</p>
             <Ratings rating={rating} />
           </div>
           <div>
