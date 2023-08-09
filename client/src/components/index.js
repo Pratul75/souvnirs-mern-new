@@ -38,3 +38,5 @@ export { default as ShopNavbar } from "./shop/headers/ShopNavbar";
 export { default as ShopFooter } from "./shop/footer";
 export { default as ProductTabs } from "./shop/components/ProductTabs";
 export { default as FullWidthBannerCard } from "./shop/cards/FullWidthBannerCard";
+export { default as HalfWidthBannerCard } from "./shop/cards/HalfWidthBannerCard";
+export { default as BrandsCard } from "./shop/cards/BrandsCard";

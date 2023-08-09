@@ -6,21 +6,28 @@ import {
   ProductCarosel,
   ProductTabs,
   FullWidthBannerCard,
+  HalfWidthBannerCard,
+  BrandsCard,
 } from "../../components";
 import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
+import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
+import HalfWidthBannerImgTwo from "../../assets/shop/cardImages/halfWidthCardImgTwo.png";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import {
+  BrandsCardImageList,
+  blogCardData,
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
   productListFiltersAndProducts,
 } from "../../mappings";
- 
-// TODO: Make all mappings seperate in mappings folder
+import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
+import BlogList from "../../components/shop/components/BlogList";
+
 const LandingPage = () => {
   return (
     <div className="w-screen h-auto">
@@ -75,6 +82,27 @@ const LandingPage = () => {
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />
+      <HalfWidthBannerCard
+        backgroundImageOne={HalfWidthBannerImgOne}
+        backgroundImageTwo={HalfWidthBannerImgTwo}
+        headingOne="Get 50% Off"
+        headingTwo="Get 50% Off"
+        cardTitleOne="Smart TV with Pen"
+        cardTitleTwo="Smart Phone with Pen"
+        productImageOne={GiftOnePngImage}
+        productImageTwo={GiftOnePngImage}
+        buttonHandlerOne={() =>
+          console.log("CLICKED ON HALF WIDTH BANNER CARD")
+        }
+        buttonHandlerTwo={() =>
+          console.log("CLICKED ON HALF WIDTH BANNER CARD")
+        }
+      />
+      <BrandsCard imagesList={BrandsCardImageList} />
+      <TestimonialsCarosel />
+      <BlogList blogItemsData={blogCardData} />
+      <ImagesGrid />
+      <NewsLetterCard />
     </div>
   );
 };
