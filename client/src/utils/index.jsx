@@ -72,7 +72,7 @@ export const showToast = (message, type) => {
 };
 
 // debounced version
-export const debouncedShowToast = debounce(showToast, 1000);
+export const debouncedShowToast = debounce(showToast, 200);
 
 // conditional sidebar mapping based on the role
 export const conditionalSidebarMapping = () => {

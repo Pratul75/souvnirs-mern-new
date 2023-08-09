@@ -18,6 +18,8 @@ const ProductManagement = () => {
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [bulkData, setBulkData] = useState();
+  const [loading, setLoading] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -153,17 +155,22 @@ const ProductManagement = () => {
       debouncedShowToast(response?.data?.data.error, "error");
     }
   };
-  const bulkUpload = async (e) => {
+  const bulkUpload = async () => {
     try {
+      setLoading(true);
+      console.log("ProductManagement.jsx", bulkData);
       const buFormData = new FormData();
-      buFormData.append("file", e);
+      buFormData.append("file", bulkData[0]);
       const response = await API_WRAPPER.post(
         "/products/bulk-upload",
         buFormData
       );
-
+      if (response.status == 200) {
+        setLoading(false);
+      }
       console.log("ProductManagement.jsx", response);
     } catch (e) {
+      setLoading(false);
       console.log(e);
     }
   };
@@ -174,6 +181,11 @@ const ProductManagement = () => {
 
   return (
     <div>
+      {loading && (
+        <div className="w-screen h-screen absolute top-0 left-0 bg-slate-50 opacity-40 flex justify-center items-center z-20">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
@@ -312,11 +324,14 @@ const ProductManagement = () => {
             </h4>
             <hr className="mt-4" />
             <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
-              <Dropzone />
+              <Dropzone onFilesChange={(data) => setBulkData(data)} />
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn bg-themeColor text-white">
+              <button
+                onClick={bulkUpload}
+                className="btn bg-themeColor text-white"
+              >
                 Upload & Preview
               </button>
               <button className="btn">Close</button>

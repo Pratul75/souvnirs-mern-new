@@ -28,6 +28,7 @@ const AddProduct = () => {
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [attrValue, setAttrValue] = useState([]);
   const [img, setImg] = useState();
+  const [preview, setPreview] = useState();
   const product = useSelector((state) => state);
   console.log("AddProduct.jsx", product);
   const uploadToCloud = async (file) => {
@@ -255,6 +256,13 @@ const AddProduct = () => {
     getAllVendors();
   }, []);
   useEffect(() => {}, [selectedCategory]);
+  useEffect(() => {
+    if (formData.img) {
+      const imageUrl = URL.createObjectURL(formData.img[0]);
+      console.log("AddProduct.jsx", imageUrl);
+      setPreview(imageUrl);
+    }
+  }, [formData.img]);
 
   console.log("AddProduct.jsx", selectedCategory);
 
@@ -314,10 +322,6 @@ const AddProduct = () => {
                 <option value="INACTIVE">Inactive</option>
               </select>
             </div>
-            <button onClick={handleSubmit} className="btn btn-accent mt-4">
-              Next
-            </button>
-            <button className="btn  mt-4 ml-4">Cancel</button>
           </motion.div>
         </div>
 
@@ -429,7 +433,7 @@ const AddProduct = () => {
           </motion.div>
         </div>
 
-        <div className="flex  grid-cols-6 col-span-3 gap-4 mt-4">
+        <div className="grid  grid-cols-6 gap-4 mt-4">
           <motion.div
             variants={fadeInFromLeftVariant}
             animate="animate"
@@ -443,13 +447,30 @@ const AddProduct = () => {
 
             <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
               <Dropzone
-                onFilesChange={(data) =>
-                  setFormData({ ...formData, img: data })
-                }
+                accept={".jpeg,.png"}
+                onFilesChange={(data) => {
+                  setFormData({ ...formData, img: data });
+                }}
               />
             </div>
           </motion.div>
-          <div className="md:col-span-2"></div>
+          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
+            {preview && <img src={preview} alt="" />}
+          </motion.div>
+        </div>
+        <div className="grid grid-cols-6 gap-4 mt-4">
+          <div className="col-span-6 md:col-span-4"></div>
+          <motion.div
+            variants={fadeInFromRightVariant}
+            animate="animate"
+            initial="initial"
+            className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
+          >
+            <button onClick={handleSubmit} className="btn btn-accent mt-4">
+              Next
+            </button>
+            <button className="btn  mt-4 ml-4">Cancel</button>
+          </motion.div>
         </div>
       </div>
       <ToastContainer />

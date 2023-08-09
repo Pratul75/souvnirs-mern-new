@@ -17,7 +17,7 @@ const countryRoutes = require("./routes/countryRoutes");
 const collectionConditions = require("./routes/collectionConditionRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const refundRoutes = require("./routes/refundRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes")
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const conditionValueRoutes = require("./routes/conditionValueRoutes");
 const collectionRoutes = require("./routes/collectionRoutes");
 const discountRoutes = require("./routes/discountRoutes");
@@ -36,7 +36,9 @@ app.use(morgan("dev"));
 // connect to db
 connect();
 
-app.get("/", (req, res) => { res.status(200).send("welcome to souvnirs backend") })
+app.get("/", (req, res) => {
+  res.status(200).send("welcome to souvnirs backend");
+});
 // routes
 // product routes
 app.use(productRoutes);

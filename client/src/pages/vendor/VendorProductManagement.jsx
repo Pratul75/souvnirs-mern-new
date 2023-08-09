@@ -1,16 +1,25 @@
-import { Header, ReusableTable } from "../../components";
+import { Header, Modal, ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
-import { getStatusStyles } from "../../utils";
+import {
+  debouncedShowToast,
+  getStatusStyles,
+  getStockStatusStyles,
+} from "../../utils";
 import API_WRAPPER from "../../api";
 import { GoPlus } from "react-icons/go";
-
-const VendorProductManagement = () => {
+import { ToastContainer } from "react-toastify";
+import { BsUpload } from "react-icons/bs";
+import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
+import { Dropzone } from "../../components";
+const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [bulkData, setBulkData] = useState();
+  const [loading, setLoading] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -19,16 +28,24 @@ const VendorProductManagement = () => {
         accessor: "name",
       },
       // {
-      //   Header: "Slug",
-      //   accessor: "slug",
+      //   Header: "Variants",
+      //   accessor: "result.variant",
+      //   Cell: ({ value }) => {
+      //     const variantKeys = Object.keys(value);
+      //     return (
+      //       <div>
+      //         {variantKeys.map((key) => (
+      //           <p key={key}>
+      //             {key}: {value[key]}
+      //           </p>
+      //         ))}
+      //       </div>
+      //     );
+      //   },
       // },
       {
-        Header: "Description",
-        accessor: "description",
-      },
-      {
         Header: "Price",
-        accessor: "price",
+        accessor: "result.price",
       },
       {
         Header: "On Sale",
@@ -47,11 +64,14 @@ const VendorProductManagement = () => {
       },
       {
         Header: "Stock Quantity",
-        accessor: "stockQuantity",
+        accessor: "result.quantity",
       },
       {
         Header: "Stock Status",
         accessor: "stockStatus",
+        Cell: ({ row }) => {
+          return getStockStatusStyles(row?.original?.stockStatus);
+        },
       },
       {
         Header: "Total Sales",
@@ -89,7 +109,7 @@ const VendorProductManagement = () => {
   };
 
   const handleEdit = (row) => {
-    window.product_management_edit_modal.showModal();
+    window.edit_product_modal.showModal();
     setSelectedRow(row);
     console.log("ROW TO BE EDITED: ", row);
   };
@@ -98,21 +118,28 @@ const VendorProductManagement = () => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
   };
 
-  const submitEditedRow = async () => {
+  const submitEditedRow = async (updatedVal) => {
     const response = await API_WRAPPER.put(
       `/products/edit-product/:${selectedRow._id}`,
-      editedRow
+      updatedVal
     );
     if (response.status === 200) {
       setApiTrigger((prevState) => !prevState);
       window.product_management_edit_modal.close();
+      debouncedShowToast(response.data.data);
       console.log(
         "EDITED SUCCESSFULLY WITH THE FOLLOWING RESPONSE: ",
         response?.status
       );
+    } else {
+      debouncedShowToast(response.data.data.error, "error");
     }
   };
-  console.log("VendorProductManagement.jsx", editedRow);
+  const handleSave = (inputValues) => {
+    console.log("SAVING THE INPUT VALUES: ", inputValues);
+    submitEditedRow(inputValues);
+  };
+
   const deleteSelectedRow = async () => {
     const response = await API_WRAPPER.delete(
       `/products/delete-product/:${selectedRow._id}`
@@ -123,6 +150,28 @@ const VendorProductManagement = () => {
         "SELECTED ROW IS DELETED WITH FOLLOWING RESPONSE: ",
         response?.data
       );
+      debouncedShowToast(response?.data?.data, "success");
+    } else {
+      debouncedShowToast(response?.data?.data.error, "error");
+    }
+  };
+  const bulkUpload = async () => {
+    try {
+      setLoading(true);
+      console.log("ProductManagement.jsx", bulkData);
+      const buFormData = new FormData();
+      buFormData.append("file", bulkData[0]);
+      const response = await API_WRAPPER.post(
+        "/products/bulk-upload",
+        buFormData
+      );
+      if (response.status == 200) {
+        setLoading(false);
+      }
+      console.log("ProductManagement.jsx", response);
+    } catch (e) {
+      setLoading(false);
+      console.log(e);
     }
   };
 
@@ -132,181 +181,118 @@ const VendorProductManagement = () => {
 
   return (
     <div>
+      {loading && (
+        <div className="w-screen h-screen absolute top-0 left-0 bg-slate-50 opacity-40 flex justify-center items-center z-20">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
       <Header
         heading="Product Management"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's "
-        // image={HeaderImgTwo}
+        image={ProductManagementBannerImage}
       />
-      <div className="w-full gap-4 mt-14">
-        <div className="flex justify-end">
-          <Link
-            to={PATHS.vendorAddProducts}
-            className="btn btn-primary ml-4 w-48"
-          >
-            <GoPlus size={20} />
-            Add Product
-          </Link>
+      <div className="w-full gap-4 mt-14 relative">
+        <div className="flex absolute right-0">
+          <details className="dropdown dropdown-top md:dropdown-left">
+            <summary className="m-1 btn bg-themeColor text-white">
+              Add Products
+            </summary>
+            <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+              <li>
+                <p
+                  onClick={() => window.my_modal_1.showModal()}
+                  onChange={(e) => bulkUpload(e.target.files[0])}
+                >
+                  <BsUpload size={20} />
+                  Bulk Upload
+                </p>
+              </li>
+              <li>
+                <Link to={PATHS.adminAddProducts}>
+                  <GoPlus size={20} />
+                  Add Product
+                </Link>
+              </li>
+            </ul>
+          </details>
         </div>
 
         <div className="mt-4">
           <ReusableTable
-            tableTitle="Products List"
             columns={columns}
             data={data}
             showButtons
             enableEdit
-            pageSize={10}
-            enablePagination
             enableDelete
             onEdit={handleEdit}
             onDelete={handleDelete}
+            pageSize={10}
+            enablePagination
           />
         </div>
       </div>
 
       {/* edit modal  */}
-      <dialog id="product_management_edit_modal" className="modal">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitEditedRow();
-          }}
-          method="dialog"
-          className="modal-box"
-        >
-          <h3 className="font-bold">Edit Product</h3>
-          <hr className="my-4" />
-          <div className="grid grid-cols-2 gap-4">
-            <div className="form-control col-span-2">
-              <label className="label">
-                <span className="label-text">Product Name</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.name}
-                className="input input-primary"
-                type="text"
-                name="name"
-                id=""
-              />
-            </div>
-            <div className="form-control col-span-2">
-              <label className="label">
-                <span className="label-text">Description</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.description}
-                className="input input-primary"
-                type="text"
-                name="description"
-                id=""
-              />
-            </div>
-
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Stock Quantity</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.stockQuantity}
-                className="input input-primary"
-                type="text"
-                name="stockQuantity"
-                id=""
-              />
-            </div>
-            {/* "IN_STOCK", "OUT_OF_STOCK", "BACK_ORDER" */}
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Stock Status</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.stockStatus}
-                className="select select-primary"
-                name="stockStatus"
-              >
-                <option value="IN_STOCK">IN STOCK</option>
-                <option value="OUT_OF_STOCK">IN STOCK</option>
-                <option value="BACK_ORDER">BACK ORDER</option>
-              </select>
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Price</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.price}
-                className="input input-primary"
-                type="text"
-                name="price"
-                id=""
-              />
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Total Sales</span>
-              </label>
-              <input
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.totalSales}
-                className="input input-primary"
-                type="text"
-                name="totalSales"
-                id=""
-              />
-            </div>
-
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">On Sale</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.onSale}
-                className="select select-primary"
-                name="onSale"
-                id=""
-              >
-                <option value={true}>YES</option>
-                <option value={false}>NO</option>
-              </select>
-            </div>
-            <div className="form-control col-span-1">
-              <label className="label">
-                <span className="label-text">Status</span>
-              </label>
-              <select
-                onChange={(e) => handleEditChange(e)}
-                defaultValue={selectedRow?.status}
-                className="select select-primary"
-                name="status"
-                id=""
-              >
-                <option value="ACTIVE">ACTIVE</option>
-                <option value="DEACTIVE">DEACTIVE</option>
-                <option value="PENDING">PENDING</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="modal-action flex gap-4">
-            <button type="submit" className="btn btn-primary">
-              Save Changes
-            </button>
-            {/* if there is a button in form, it will close the modal */}
-            <button
-              onClick={() => window.product_management_edit_modal.close()}
-              className="btn"
-            >
-              Close
-            </button>
-          </div>
-        </form>
-      </dialog>
+      <Modal
+        id="edit_product_modal"
+        title="Are you sure you want to delete the selected value?"
+        onClose={() => {
+          window.edit_product_modal.close();
+        }}
+        onSave={handleSave}
+        defaultValues={{
+          name: selectedRow?.name,
+          description: selectedRow?.description,
+          stockQuantity: selectedRow?.stockQuantity,
+          stockStatus: selectedRow?.stockStatus,
+          price: selectedRow?.price,
+          totalSales: selectedRow?.totalSales,
+          onSale: selectedRow?.onSale,
+          status: selectedRow?.status,
+        }}
+        inputs={[
+          {
+            label: "Product Name",
+            type: "text",
+            name: "name",
+          },
+          {
+            label: "description",
+            type: "text",
+            name: "description",
+          },
+          {
+            label: "Stock Quantity",
+            type: "text",
+            name: "stockQ",
+          },
+          {
+            label: "Stock Status",
+            type: "text",
+            name: "stockStatus",
+          },
+          {
+            label: "price",
+            type: "number",
+            name: "price",
+          },
+          {
+            label: "Total Sales",
+            type: "number",
+            name: "totalSales",
+          },
+          {
+            label: "On Sale",
+            type: "text",
+            name: "onSale",
+          },
+          {
+            label: "Status",
+            type: "text",
+            name: "status",
+          },
+        ]}
+      />
 
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">
@@ -324,8 +310,38 @@ const VendorProductManagement = () => {
           </div>
         </form>
       </dialog>
+
+      {/* bulk modal */}
+      {/* Open the modal using ID.showModal() method */}
+
+      <dialog id="my_modal_1" className="modal">
+        <form method="dialog" className="modal-box p-0  w-3/4 max-w-5xl">
+          <div className="p-4">
+            <h3 className="font-bold text-xl ">Import products by CSV</h3>
+            <h4 className="mt-2">
+              Download a sample SVG template to see an examble of the format
+              required.
+            </h4>
+            <hr className="mt-4" />
+            <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
+              <Dropzone onFilesChange={(data) => setBulkData(data)} />
+            </div>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button
+                onClick={bulkUpload}
+                className="btn bg-themeColor text-white"
+              >
+                Upload & Preview
+              </button>
+              <button className="btn">Close</button>
+            </div>
+          </div>
+        </form>
+      </dialog>
+      <ToastContainer />
     </div>
   );
 };
 
-export default VendorProductManagement;
+export default ProductManagement;

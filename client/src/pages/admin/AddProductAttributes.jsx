@@ -13,6 +13,8 @@ import { nanoid } from "nanoid";
 import { PATHS } from "../../Routes/paths";
 import { BsCaretDown } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
+import { Tooltip } from "react-tooltip";
+import { AiFillInfoCircle } from "react-icons/ai";
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -25,6 +27,7 @@ const AddProductAttributes = () => {
   const [showData, setShowData] = useState(false);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [catDropdown, setCatDropdown] = useState(false);
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -193,10 +196,26 @@ const AddProductAttributes = () => {
       debouncedShowToast(error.message, "error");
     }
   };
+  const handleCatDrop = () => {
+    setCatDropdown((a) => !a);
+  };
 
   useEffect(() => {
     fetchAllAttributes();
   }, [categoryId]);
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+      event.returnValue =
+        "Are you sure you want to leave? Your changes may not be saved."; // Custom message
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
 
   const handleTableInputChange = (e, index, field) => {
     const value = e.target.value;
@@ -247,8 +266,8 @@ const AddProductAttributes = () => {
           {selectedAttributes.length < 1 ? (
             <div>
               <Card>
-                <div className="flex gap-5 w-full">
-                  <div>
+                <div className="grid grid-cols-6">
+                  <div className="col-span-2">
                     <label className="label">Price</label>
                     <input
                       type="number"
@@ -256,7 +275,7 @@ const AddProductAttributes = () => {
                       className="input input-primary"
                     />
                   </div>
-                  <div>
+                  <div className="col-span-2">
                     <label className="label">Quantity</label>
                     <input
                       type="number"
@@ -264,12 +283,14 @@ const AddProductAttributes = () => {
                       className="input input-primary"
                     />
                   </div>
-                  <button
-                    className="btn btn-accent float-right"
-                    onClick={createProduct}
-                  >
-                    Publish
-                  </button>
+                  <div className="col-span-2 flex justify-end items-center">
+                    <button
+                      className="btn  btn-primary"
+                      onClick={createProduct}
+                    >
+                      Publish
+                    </button>
+                  </div>
                 </div>
               </Card>
             </div>
@@ -279,17 +300,67 @@ const AddProductAttributes = () => {
               <div className="p-4">
                 <div>
                   <h3>Product Name: {p.name}</h3>
-                  <h3>Vendor ID: {p.vendorId}</h3>
-                  <h3>CategoryID: {p.categoryId}</h3>
-                  <h3>Description: {p.desc.replace(/<\/?[^>]+(>|$)/g, "")}</h3>
+                  {/* <h3>Vendor ID: {p.vendorId}</h3>
+                  <h3>CategoryID: {p.categoryId}</h3> */}
+                  <h3>
+                    Description: {p.desc.split("<p>").join().split("</p>")[0]}
+                  </h3>
+                  <h3>tags: {p.tags.join(",")}</h3>
+                  <h3>status: {p.status}</h3>
                 </div>
               </div>
-              <label>
-                <pre className="w-1/2">{JSON.stringify(p)}</pre>
-              </label>
 
               <label>
-                <pre>{JSON.stringify(variantData)}</pre>
+                <div>
+                  variantData:{" "}
+                  <table className="table table-sm ">
+                    <thead>
+                      <tr>
+                        <th>Variant</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>images</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {variantData.map((a, index) => {
+                        const {
+                          price,
+                          productQuantity,
+                          files,
+                          ...variantName
+                        } = a;
+                        if (!price) {
+                          return null;
+                        }
+                        return (
+                          <tr key={index}>
+                            <td>
+                              <pre>{JSON.stringify(variantName)}</pre>
+                            </td>
+                            <td>
+                              <label>{price}</label>
+                            </td>
+                            <td>
+                              <label> {productQuantity}</label>
+                            </td>
+                            <td className="w-72 md:flex gap-2 overflow-auto">
+                              {Array.from(files).map((file) => {
+                                console.log("AddProductAttributes.jsx", file);
+                                return (
+                                  <img
+                                    className="w-20 rounded-md"
+                                    src={URL.createObjectURL(file)}
+                                  />
+                                );
+                              })}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </label>
               <button
                 className="btn btn-accent float-right"
@@ -318,63 +389,86 @@ const AddProductAttributes = () => {
         <div className="mt-4">
           <div className="grid grid-cols-2 gap-4 p-4">
             <div className="col-span-2 md:col-span-1 p-4 bg-base-100 rounded-xl">
-              <div className="flex items-center gap-4 justify-between">
-                <p className="font-bold">Selected Category: {categoryName}</p>
-                <SearchableDropdown
-                  handleSelect={handleSelectedValue}
-                  items={categories}
-                />
-              </div>
+              <SearchableDropdown
+                handleSelect={handleSelectedValue}
+                items={categories}
+                categoryName={categoryName}
+              />
             </div>
-            <Card>
-              <div className="col-span-2 md:col-span-1 p-4">
-                <div className="flex items-center justify-between">
-                  <p className="label font-bold">
-                    Select Attributes:(Optional){" "}
-                  </p>
-                  <div className="dropdown dropdown-left">
-                    <label tabIndex={0}>
-                      <button className="btn btn-circle">
-                        <BsCaretDown className="text-2xl text-primary" />
-                      </button>
-                    </label>
-                    <ul
-                      tabIndex={0}
-                      className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                    >
-                      <li>
-                        <select
-                          className="block bg-transparent w-full"
-                          name=""
-                          onChange={(e) => {
-                            attributeSelection(e);
-                          }}
-                          multiple={true}
+            {categoryId && (
+              <Card>
+                <div className="col-span-2 md:col-span-1 p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="label font-bold">
+                      Select Attributes:(Optional){" "}
+                    </p>
+                    <div className="flex items-center">
+                      <div
+                        className="tooltip  tooltip-top text-2xl"
+                        data-tip="Attributes are optional fields, Add only if product has variants"
+                      >
+                        <AiFillInfoCircle />
+                      </div>
+                      <div className="dropdown dropdown-left">
+                        <label tabIndex={0}>
+                          <button className="btn btn-circle">
+                            <BsCaretDown className="text-2xl text-primary" />
+                          </button>
+                        </label>
+                        <ul
+                          tabIndex={0}
+                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                         >
-                          {convertAttributesList(attributesList).map((item) => (
-                            <option
-                              className="border-[1px] border-base-200 shadow-lg rounded-lg cursor-pointer my-3 py-2 px-4 bg-base-100"
-                              key={item.value}
-                              value={item.value}
+                          <li>
+                            <select
+                              className="block bg-transparent w-full"
+                              name=""
+                              onChange={(e) => {
+                                attributeSelection(e);
+                              }}
+                              multiple={true}
                             >
-                              {item.label}
-                            </option>
-                          ))}
-                        </select>
-                      </li>
-                    </ul>
+                              {convertAttributesList(attributesList).map(
+                                (item) => (
+                                  <option
+                                    className="border-[1px] border-base-200 shadow-lg rounded-lg cursor-pointer my-3 py-2 px-4 bg-base-100"
+                                    key={item.value}
+                                    value={item.value}
+                                  >
+                                    {item.label}
+                                  </option>
+                                )
+                              )}
+                            </select>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
+                <Tooltip
+                  effect="solid"
+                  id="my-tooltip"
+                  style={{ zIndex: 9999, background: "#4680ff36" }}
+                />
+              </Card>
+            )}
           </div>
           <div id="selectedattributes" className="mx-4">
-            <Card id="selectedAtt" className="w-full">
-              <label className="label font-bold p-4">
-                Selecteed Attributes:{" "}
-              </label>
-              {selectedAttributes.length > 0 &&
-                selectedAttributes.map((att) => (
+            {selectedAttributes.length > 0 && (
+              <Card id="selectedAtt" className="w-full">
+                <div className="flex items-center">
+                  <label className="label font-bold p-4">
+                    Selecteed Attributes:{" "}
+                  </label>
+                  <div
+                    className="tooltip  tooltip-top text-2xl"
+                    data-tip="Enter values for selected attributes,press enter to select"
+                  >
+                    <AiFillInfoCircle />
+                  </div>
+                </div>
+                {selectedAttributes.map((att) => (
                   <div className="p-1 mx-2" key={att._id}>
                     <div className="flex justify-between w-auto bg-base-200 p-4 items-center rounded-xl my-2 ">
                       <div className="flex justify-around w-96">
@@ -412,27 +506,28 @@ const AddProductAttributes = () => {
                     </div>
                   </div>
                 ))}
-              <button
-                className="btn btn-accent float-right right-10 bottom-5"
-                onClick={() => {
-                  if (!categoryId) {
-                    debouncedShowToast("select Category First");
-                    return;
-                  }
-                  if (selectedAttributes.length < 1) {
-                    setShowData(true);
-                    return;
-                  } else {
-                    generateValueCombinations();
-                    dispatch(setProduct({ attributes: selectedAttributes }));
+              </Card>
+            )}
+            <button
+              className="btn btn-accent float-right right-10 bottom-5"
+              onClick={() => {
+                if (!categoryId) {
+                  debouncedShowToast("select Category First");
+                  return;
+                }
+                if (selectedAttributes.length < 1) {
+                  setShowData(true);
+                  return;
+                } else {
+                  generateValueCombinations();
+                  dispatch(setProduct({ attributes: selectedAttributes }));
 
-                    setAttSelected(true);
-                  }
-                }}
-              >
-                Next
-              </button>
-            </Card>
+                  setAttSelected(true);
+                }
+              }}
+            >
+              Next
+            </button>
           </div>
         </div>
       ) : (
@@ -440,6 +535,17 @@ const AddProductAttributes = () => {
           <Card className="relative">
             <div className="flex flex-col mt-4">
               <div className="overflow-x-auto">
+                <div className="text-center flex justify-center items-center flex">
+                  <label htmlFor="" className="text-2xl ">
+                    Variant Data
+                  </label>
+                  <div
+                    className="tooltip  tooltip-bottom "
+                    data-tip="Enter price quantity and images only for variants you want to create."
+                  >
+                    <AiFillInfoCircle />
+                  </div>
+                </div>
                 <table className="table  table-sm min-w-full">
                   <thead>
                     <tr>

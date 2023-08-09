@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import { useSelector } from "react-redux";
 import API_WRAPPER from "../../api";
+import MediaCard from "../../components/mediaCard";
 
 const AdminMedia = () => {
   const [media, setMedia] = useState();
@@ -33,7 +34,7 @@ const AdminMedia = () => {
     <div className="m-5">
       <Header heading="Media route to upload media files" />
       <Card>
-        <div className="p-5">
+        <div className="p-5 w-full">
           <button
             className="btn btn-primary"
             onClick={() => {
@@ -44,12 +45,7 @@ const AdminMedia = () => {
           </button>
           <div className="flex flex-col gap-5">
             {medias?.map((a) => (
-              <div className="">
-                <Card>
-                  {" "}
-                  <img src={a} className="object-contain w-48 h-48" alt="" />
-                </Card>
-              </div>
+              <MediaCard link={a} />
             ))}
           </div>
         </div>
