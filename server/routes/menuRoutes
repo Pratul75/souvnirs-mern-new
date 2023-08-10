@@ -1,0 +1,5 @@
+const { createMenu } = require("../controllers/menuController");
+
+const router = require("express").Router();
+router.post("/menu/create", createMenu);
+module.exports = router;
