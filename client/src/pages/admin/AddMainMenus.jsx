@@ -37,11 +37,12 @@ const AddMainMenus = () => {
                 name="menuTitle"
                 id="menuTitle"
               >
-                {menuHeaderTitlesList.map((item) => (
-                  <option value={item.title} key={nanoid()}>
-                    {item.title}
-                  </option>
-                ))}
+                {menuHeaderTitlesList &&
+                  menuHeaderTitlesList.map((item) => (
+                    <option value={item.title} key={nanoid()}>
+                      {item.title}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="form-control">

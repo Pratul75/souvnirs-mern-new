@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { Header, Card } from "../../components";
 import API_WRAPPER from "../../api";
-import { FaTrash } from "react-icons/fa";
 
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
   const [selectedTypeData, setSelectedTypeData] = useState([]);
   const [selectedTypeDataValue, setSelectedTypeDataValue] = useState("");
-  const [numContainers, setNumContainers] = useState(1);
+  const [createdCards, setCreatedCards] = useState([]);
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
@@ -27,7 +26,6 @@ const AddSubMenus = () => {
       }
     } else if (subMenuType === "page") {
       // TODO: Handle page API call
-      // const response = await API_WRAPPER.get("/page");
     }
   };
 
@@ -35,13 +33,17 @@ const AddSubMenus = () => {
     handleApiCalls();
   }, [subMenuType]);
 
-  const handleAddContainer = () => {
-    setNumContainers(numContainers + 1);
-  };
-
-  const handleRemoveContainer = (index) => {
-    // Optionally implement logic to remove a specific container
-    // This function can be triggered on click of a remove button/icon in each container
+  const handleCardSubmit = (e) => {
+    e.preventDefault();
+    const newCard = {
+      heading: subMenuHeading,
+      type: subMenuType,
+      typeValue: selectedTypeDataValue,
+    };
+    setCreatedCards([...createdCards, newCard]);
+    // Clear the form after submission
+    setSubMenuHeading("");
+    setSelectedTypeDataValue("");
   };
 
   return (
@@ -126,10 +128,22 @@ const AddSubMenus = () => {
                 id=""
               />
             </div>
-            <button className="btn btn-primary mt-9">Submit</button>
+            <button onClick={handleCardSubmit} className="btn btn-primary mt-9">
+              Submit
+            </button>
           </form>
         </div>
       </Card>
+      {/* Display created cards */}
+      {createdCards.map((card, index) => (
+        <Card key={index}>
+          <div className="mt-4 p-4">
+            <h2>{card.heading}</h2>
+            <p>Type: {card.type}</p>
+            <p>Type Value: {card.typeValue}</p>
+          </div>
+        </Card>
+      ))}
     </div>
   );
 };
