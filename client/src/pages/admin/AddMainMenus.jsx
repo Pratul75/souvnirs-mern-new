@@ -10,12 +10,27 @@ const AddMainMenus = () => {
   const [subMenuToggle, setSubMenuToggle] = useState(false);
   const [mainMenuHeading, setMainMenuHeading] = useState("");
   const [mainMenuType, setMainMenuType] = useState("");
+  const [mainMenuData, setMainMenuData] = useState({ title: "", type: "" });
 
   const getAllMenuHeaderTitles = async () => {
     const response = await API_WRAPPER.get("/menu");
     if (response?.status === 200) {
       setMenuHeaderTitlesList(response?.data);
     }
+  };
+  console.log("AddMainMenus.jsx", mainMenuData);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setMainMenuData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const createMainMenu = async (e) => {
+    e.preventDefault();
+    const response = await API_WRAPPER.post("/main-menu/create", {
+      ...mainMenuData,
+      link: `${mainMenuData.title}/${mainMenuData.type}`,
+    });
+    console.log("AddMainMenus.jsx", response);
   };
 
   useEffect(() => {
@@ -34,14 +49,16 @@ const AddMainMenus = () => {
               </label>
               <select
                 className="select select-primary"
-                name="menuTitle"
+                name="menuId"
                 id="menuTitle"
+                onChange={(e) => handleInputChange(e)}
               >
-                {menuHeaderTitlesList.map((item) => (
-                  <option value={item.title} key={nanoid()}>
-                    {item.title}
-                  </option>
-                ))}
+                {menuHeaderTitlesList &&
+                  menuHeaderTitlesList.map((item) => (
+                    <option value={item._id} key={nanoid()}>
+                      {item.title}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="form-control">
@@ -87,10 +104,10 @@ const AddMainMenus = () => {
                   <span className="label-text">Main Menu Heading</span>
                 </label>
                 <input
-                  onChange={(e) => setMainMenuHeading(e.target.value)}
+                  onChange={(e) => handleInputChange(e)}
                   className="input input-primary"
                   type="text"
-                  name="subMenuTitle"
+                  name="title"
                   id="subMenuTitle"
                 />
               </div>
@@ -99,9 +116,9 @@ const AddMainMenus = () => {
                   <span className="label-text">Main Menu Type</span>
                 </label>
                 <select
-                  onChange={(e) => setMainMenuType(e.target.value)}
+                  onChange={(e) => handleInputChange(e)}
                   className="select select-primary"
-                  name="subMenuType"
+                  name="type"
                   id="subMenuType"
                 >
                   <option selected disabled value="">
@@ -124,10 +141,15 @@ const AddMainMenus = () => {
                   disabled
                   className="input input-primary join-item"
                   placeholder={`${mainMenuHeading}/${mainMenuType}`}
-                  value={`${mainMenuHeading}/${mainMenuType}`}
+                  value={`${mainMenuData.title}/${mainMenuData.type}`}
                 />
               </div>
-              <button className="btn btn-primary mt-4">Submit</button>
+              <button
+                className="btn btn-primary mt-4"
+                onClick={(e) => createMainMenu(e)}
+              >
+                Submit
+              </button>
             </form>
           )}
         </div>
