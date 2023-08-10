@@ -1,204 +1,65 @@
-import { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import API_WRAPPER from "../../api";
-import { nanoid } from "nanoid";
-
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
+// route -> /menu to get all menus
 const AddMenus = () => {
-  const [headerInputs, setHeaderInputs] = useState({
-    headerTitle: "",
-  });
-
-  const [mainMenuInputs, setMainMenuInputs] = useState({
-    mainMenuTitle: "",
-    selectedMenuType: "",
-    selectedOption: "",
-    isSubMenus: false,
-  });
-
-  const [showMenuTypeList, setShowMenuTypeList] = useState(false);
-  const [selectedMenuTypeData, setSelectedMenuTypeData] = useState([]);
-  const [showPageLink, setShowPageLink] = useState(false);
-
-  const handleHeaderChange = (event) => {
-    const { value, name } = event.target;
-    setHeaderInputs((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleMainMenuSelectChange = (event) => {
-    const { value, name } = event.target;
-
-    // Toggle showPageLink when "pages" is selected
-    if (value === "pages") {
-      setShowPageLink(true);
-    } else {
-      setShowPageLink(false);
+  const navigate = useNavigate();
+  const schema = yup
+    .object({
+      headerTitle: yup.string("header is required").required(),
+    })
+    .required();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
+  const onSubmit = async (data) => {
+    const response = await API_WRAPPER.post("/menu/create", {
+      title: data.headerTitle,
+    });
+    if (response.status === 200) {
+      console.log("RESPONSE: ", response?.data);
+      navigate(PATHS.adminAddMainMenus);
     }
-    setMainMenuInputs((prevState) => ({
-      ...prevState,
-      [name]: value,
-      selectedOption: value === "pages" ? "" : value, // Clear selectedOption when changing menu type
-    }));
-  };
-
-  const handleMainMenuApiCalls = async () => {
-    if (mainMenuInputs.selectedMenuType === "collection") {
-      console.log("GET ALL COLLECTIONS");
-      const response = await API_WRAPPER.get("/collection/get-all-collections");
-      if (response.status === 200) {
-        setSelectedMenuTypeData(response.data);
-        console.log("COLLECTION DATA: ", response.data);
-      }
-      // collection api call
-    } else if (mainMenuInputs.selectedMenuType === "product") {
-      // products api call
-      const response = await API_WRAPPER.get("/products/get-all-products");
-      if (response.status === 200) {
-        setSelectedMenuTypeData(response.data);
-        console.log("GET ALL PRODUCTS", response.data);
-      }
-    } else if (mainMenuInputs.selectedMenuType === "category") {
-      // category api call
-      const response = await API_WRAPPER.get("/category/get-all-categories");
-      if (response.status === 200) {
-        setSelectedMenuTypeData(response.data);
-        console.log("CATEGORIES DATA: ", response.data);
-      }
-      // TODO: CALL API
-      console.log("GET ALL CATEGORIES");
-    } else {
-      // TODO: WHAT TO DO WHEN PAGES ARE SELECTED
-      setShowPageLink((prevState) => !prevState);
-      console.log("GET ALL PAGES");
-    }
-  };
-
-  useEffect(() => {
-    setShowMenuTypeList(mainMenuInputs.selectedMenuType !== "");
-  }, [mainMenuInputs.selectedMenuType]);
-
-  useEffect(() => {
-    handleMainMenuApiCalls();
-  }, [mainMenuInputs.selectedMenuType]);
-
-  const handleMainMenuSubmit = (event) => {
-    event.preventDefault();
-    console.log("MENU TITLE: ", mainMenuInputs.mainMenuTitle);
-    console.log("MENU TOGGLE: ", mainMenuInputs.isSubMenus);
-    console.log("MENU SELECTED TYPE: ", mainMenuInputs.selectedMenuType);
   };
 
   return (
     <div>
       <Header
-        heading="Add Menus"
-        subheading="This sections provides ability to add various types of menus in the application"
+        heading="Add Menu Header"
+        subheading="This sections provides ability to add various types of menu headers in the application"
       />
       <Card>
-        <div className="p-4 mt-4">
-          <form
-            onSubmit={(e) => handleHeaderTitleSubmit(e)}
-            className="grid grid-cols-2"
-          >
-            <div className="form-control col-span-2 md:col-span-1">
+        <div className="p-4 mt-8">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-control">
               <label htmlFor="headerTitle" className="label">
                 <span className="label-text">Header Title</span>
               </label>
               <input
-                value={headerInputs.headerTitle}
-                onChange={(e) => handleHeaderChange(e)}
-                placeholder="enter title for header menu"
+                {...register("headerTitle")}
                 className="input input-primary"
                 type="text"
                 name="headerTitle"
                 id="headerTitle"
               />
+              <p className="text-rose-500">{errors?.headerTitle?.message}</p>
             </div>
+            <input className="btn btn-primary mt-4" type="submit" />
+            <Link
+              className="btn btn-secondary ml-4"
+              to={PATHS.adminAddMainMenus}
+            >
+              I Already have Header
+            </Link>
           </form>
         </div>
       </Card>
-
-      {
-        <Card>
-          <div className="p-4 mt-4">
-            <form
-              className="grid grid-cols-2 gap-4"
-              onSubmit={(e) => handleMainMenuSubmit(e)}
-            >
-              {/* ... (other form controls) */}
-              {!mainMenuInputs.isSubMenus && (
-                <div className="form-control col-span-2 md:col-span-1">
-                  <div className="">
-                    <select
-                      onChange={handleMainMenuSelectChange}
-                      value={mainMenuInputs.selectedMenuType}
-                      className="select select-primary w-full"
-                      name="selectedMenuType"
-                      id="selectedMenuType"
-                    >
-                      <option value="">Select Menu Type</option>
-                      <option value="category">Category</option>
-                      <option value="collection">Collection</option>
-                      <option value="product">Product</option>
-                      <option value="pages">Page</option>
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              {/* Render the second select conditionally */}
-              {showMenuTypeList && (
-                <div className="form-control col-span-2 md:col-span-1">
-                  <div className="">
-                    <select
-                      onChange={(e) => handleMainMenuSelectChange(e)}
-                      className="select select-primary w-full"
-                      name="selectedOption"
-                      id="selectedMenuType"
-                      value={mainMenuInputs.selectedOption}
-                    >
-                      <option>Select Data:</option>
-                      {selectedMenuTypeData.length > 0 &&
-                        selectedMenuTypeData.map((item) => (
-                          <option key={nanoid()} value={item._id}>
-                            {mainMenuInputs.selectedMenuType === "collection"
-                              ? item.title
-                              : item.name}
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-              )}
-
-              {/* Render the input field for Page link */}
-              {showPageLink && (
-                <div className="form-control col-span-2 md:col-span-1">
-                  <label htmlFor="pageLink" className="label">
-                    <span className="label-text">Page Link</span>
-                  </label>
-                  <input
-                    // value={mainMenuInputs.selectedOption}
-                    // onChange={handleMainMenuSelectChange}
-                    className="input input-primary"
-                    type="text"
-                    name="selectedOption"
-                    id="pageLink"
-                  />
-                </div>
-              )}
-
-              <div className="col-span-2">
-                <button type="submit" className="btn btn-primary">
-                  {mainMenuInputs.isSubMenus ? "NEXT" : "SUBMIT"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </Card>
-      }
     </div>
   );
 };
