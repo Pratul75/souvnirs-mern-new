@@ -4,6 +4,8 @@ import { Header, Card } from "../../components";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import { ToastContainer } from "react-toastify";
+import { debouncedShowToast } from "../../utils";
 
 const AddMainMenus = () => {
   const [menuHeaderTitlesList, setMenuHeaderTitlesList] = useState([]);
@@ -26,11 +28,16 @@ const AddMainMenus = () => {
 
   const createMainMenu = async (e) => {
     e.preventDefault();
-    const response = await API_WRAPPER.post("/main-menu/create", {
-      ...mainMenuData,
-      link: `${mainMenuData.title}/${mainMenuData.type}`,
-    });
-    console.log("AddMainMenus.jsx", response);
+    try {
+      const response = await API_WRAPPER.post("/main-menu/create", {
+        ...mainMenuData,
+        link: `${mainMenuData.title}/${mainMenuData.type}`,
+      });
+      debouncedShowToast("Main Menu Item Created Successfully", "success");
+      console.log("AddMainMenus.jsx", response);
+    } catch (e) {
+      debouncedShowToast("something went wrong", "error");
+    }
   };
 
   useEffect(() => {
@@ -51,11 +58,15 @@ const AddMainMenus = () => {
                 className="select select-primary"
                 name="menuId"
                 id="menuTitle"
+                value={mainMenuData.menuId}
                 onChange={(e) => handleInputChange(e)}
               >
+                <option selected disabled>
+                  Select Menu
+                </option>
                 {menuHeaderTitlesList &&
                   menuHeaderTitlesList.map((item) => (
-                    <option value={item.title} key={nanoid()}>
+                    <option value={item._id} key={nanoid()}>
                       {item.title}
                     </option>
                   ))}
@@ -140,7 +151,7 @@ const AddMainMenus = () => {
                 <input
                   disabled
                   className="input input-primary join-item"
-                  placeholder={`${mainMenuHeading}/${mainMenuType}`}
+                  placeholder={`${mainMenuData.title}/${mainMenuData.type}`}
                   value={`${mainMenuData.title}/${mainMenuData.type}`}
                 />
               </div>
@@ -153,6 +164,7 @@ const AddMainMenus = () => {
             </form>
           )}
         </div>
+        <ToastContainer />
       </Card>
     </div>
   );
