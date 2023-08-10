@@ -18,7 +18,12 @@ const getMenu = async () => {
 const createMainMenu = async (req, res) => {
   const { menuId, title, link, type } = req.body;
   const menu = await Menu.findById(menuId);
-  const mainmenu = await MainMenu.create({ link, title, type, menuId });
+  const mainmenu = await MainMenu.create({
+    link,
+    title,
+    type,
+    menuId: menu._id,
+  });
   res.status(200).json("main menu created successfully");
 };
 const getMainMenus = async (req, res) => {
