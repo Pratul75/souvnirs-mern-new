@@ -100,7 +100,19 @@ const AddSubMenus = () => {
                 ))}
               </select>
             </div>
-            <h3>{selectedTypeDataValue}</h3>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Link</span>
+              </label>
+              <input
+                disabled
+                value={`${subMenuType}/${selectedTypeDataValue}`}
+                className="input input-primary "
+                type="text"
+                name=""
+                id=""
+              />
+            </div>
 
             <button className="btn btn-primary">Submit</button>
           </form>
