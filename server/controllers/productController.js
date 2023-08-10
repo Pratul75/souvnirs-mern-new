@@ -190,11 +190,8 @@ const getProduct = async (req, res) => {
   try {
     // Extract the product ID from the request parameters
     const productId = req.params.id;
-    const newProductId = productId.substring(1);
 
-    console.log("PRODUCT ID: ", newProductId);
-
-    const product = await Product.findById(newProductId);
+    const product = await Product.findById(productId);
 
     console.log("PRODUCT SELECTED: ", product);
     // Check if the product exists

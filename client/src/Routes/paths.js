@@ -44,6 +44,7 @@ export const PATHS = {
   adminMedia: "/admin/media",
   adminMenus: "/admin/menus",
   adminAddMenus: "/admin/menus/add-menus",
+  EditProduct: "/admin/edit-product",
 
   // vendor routes
   vendorDashboard: "/vendor/dashboard",

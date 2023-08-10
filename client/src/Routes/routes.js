@@ -67,6 +67,7 @@ import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
 import Wishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
+import EditProduct from "../pages/admin/Dashboard/EditProduct";
 // admin routes
 export const adminRoutes = [
   {
@@ -92,6 +93,12 @@ export const adminRoutes = [
     path: PATHS.adminCmsAndSeo,
     defaultRole: "admin",
     Component: CmsAndSeo,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditProduct}/:id`,
+    defaultRole: "admin",
+    Component: EditProduct,
   },
   {
     id: nanoid(),
