@@ -463,7 +463,7 @@ const EditProduct = () => {
                 <input
                   type="number"
                   name="price"
-                  value={formData.price}
+                  value={formData?.price}
                   className="input input-accent"
                   onChange={(e) => handleInputChange(e)}
                 />
@@ -473,7 +473,7 @@ const EditProduct = () => {
                   Stock Quantity
                 </label>
                 <input
-                  value={formData.stockQuantity}
+                  value={formData?.stockQuantity}
                   type="number"
                   name="stockQuantity"
                   className="input input-accent"
