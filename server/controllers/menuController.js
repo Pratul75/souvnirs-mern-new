@@ -14,4 +14,4 @@ const getMenu = async () => {
   const menus = await Menu.find();
   res.status(200).json(menus);
 };
-module.exports = { createMenu };
+module.exports = { createMenu, getMenu };

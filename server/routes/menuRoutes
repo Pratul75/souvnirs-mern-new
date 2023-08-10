@@ -1,4 +1,4 @@
-const { createMenu } = require("../controllers/menuController");
+const { createMenu, getMenu } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
 const router = require("express").Router();
