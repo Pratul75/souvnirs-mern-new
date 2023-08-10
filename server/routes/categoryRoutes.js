@@ -10,7 +10,6 @@ const authMiddleware = require("../middlewares");
 
 const router = require("express").Router();
 
-authMiddleware(["vendor", "admin", "customer"]);
 router.get(
   "/category/get-all-categories",
   authMiddleware(["vendor", "admin", "customer"]),

@@ -16,17 +16,27 @@ const { upload } = require("../middlewares/ImageUpload");
 
 const router = require("express").Router();
 
-router.post("/media", authMiddleware(["vendor", "admin", "customer"]) upload.array("media"), addMedias);
-router.get("/media", authMiddleware(["vendor", "admin", "customer"]) upload.array("media"), getAllMedia);
+router.post(
+  "/media",
+  authMiddleware(["vendor", "admin", "customer"]),
+  upload.array("media"),
+  addMedias
+);
+router.get(
+  "/media",
+  authMiddleware(["vendor", "admin", "customer"]),
+  upload.array("media"),
+  getAllMedia
+);
 router.post(
   "/products/add-product",
-  authMiddleware(["vendor", "admin", "customer"])
+  authMiddleware(["vendor", "admin", "customer"]),
   upload.any("img"),
   createProduct
 );
 router.post(
   "/products/create-variant",
-  authMiddleware(["vendor", "admin", "customer"])
+  authMiddleware(["vendor", "admin", "customer"]),
   upload.any("images"),
   createProductVariant
 );
@@ -57,7 +67,7 @@ router.put(
 );
 router.post(
   "/products/product-name-based-on-ids",
-  authMiddleware(["vendor", "admin", "customer"])
+  authMiddleware(["vendor", "admin", "customer"]),
   checkProductsFromIds
 );
 

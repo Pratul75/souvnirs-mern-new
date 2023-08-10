@@ -29,6 +29,10 @@ router.put(
   authMiddleware(["vendor", "admin", "customer"]),
   updateAddress
 );
-router.delete("/address/delete-address/:id", authMiddleware(["vendor", "admin", "customer"]) deleteAddress);
+router.delete(
+  "/address/delete-address/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  deleteAddress
+);
 
 module.exports = router;
