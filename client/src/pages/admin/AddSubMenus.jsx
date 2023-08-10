@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Header, Card } from "../../components";
 import API_WRAPPER from "../../api";
+import { FaTrash } from "react-icons/fa";
 
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
   const [selectedTypeData, setSelectedTypeData] = useState([]);
   const [selectedTypeDataValue, setSelectedTypeDataValue] = useState("");
-
+  const [numContainers, setNumContainers] = useState(1);
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
@@ -33,6 +34,15 @@ const AddSubMenus = () => {
   useEffect(() => {
     handleApiCalls();
   }, [subMenuType]);
+
+  const handleAddContainer = () => {
+    setNumContainers(numContainers + 1);
+  };
+
+  const handleRemoveContainer = (index) => {
+    // Optionally implement logic to remove a specific container
+    // This function can be triggered on click of a remove button/icon in each container
+  };
 
   return (
     <div>
@@ -103,6 +113,9 @@ const AddSubMenus = () => {
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Link</span>
+                <span className="label-text-alt badge badge-neutral cursor-pointer">
+                  copy
+                </span>
               </label>
               <input
                 disabled
@@ -113,8 +126,7 @@ const AddSubMenus = () => {
                 id=""
               />
             </div>
-
-            <button className="btn btn-primary">Submit</button>
+            <button className="btn btn-primary mt-9">Submit</button>
           </form>
         </div>
       </Card>
