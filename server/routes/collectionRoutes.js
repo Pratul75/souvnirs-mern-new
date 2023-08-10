@@ -11,24 +11,32 @@ const authMiddleware = require("../middlewares");
 
 router.delete(
   "/collection/delete-collection-by-id/:id",
-  authMiddleware,
+  authMiddleware(["vendor", "admin", "customer"]),
   deleteCollectionById
 );
-router.post("/collection/filter-data", authMiddleware, getRawDataForFilter);
-router.post("/collection/create-collection", authMiddleware, createCollection);
+router.post(
+  "/collection/filter-data",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getRawDataForFilter
+);
+router.post(
+  "/collection/create-collection",
+  authMiddleware(["vendor", "admin", "customer"]),
+  createCollection
+);
 router.get(
   "/collection/get-all-collections",
-  authMiddleware,
+  authMiddleware(["vendor", "admin", "customer"]),
   getAllCollections
 );
 router.get(
   "/collection/get-collection-by-id/:id",
-  authMiddleware,
+  authMiddleware(["vendor", "admin", "customer"]),
   getCollectionById
 );
 router.put(
   "/collection/update-collection-by-id/:id",
-  authMiddleware,
+  authMiddleware(["vendor", "admin", "customer"]),
   updateCollectionById
 );
 

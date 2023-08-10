@@ -8,14 +8,14 @@ const {
 } = require("../controllers/prodcutReviewsController");
 const authMiddleware = require("../middlewares");
 
-router.get("/product-review/get-all-reviews", authMiddleware, getAllReviews);
-router.get("/product-review/get-review/:id", authMiddleware, getReviewById);
-router.post("/product-review/add-review", authMiddleware, createReview);
+router.get("/product-review/get-all-reviews", authMiddleware(["vendor", "admin", "customer"]) getAllReviews);
+router.get("/product-review/get-review/:id", authMiddleware(["vendor", "admin", "customer"]) getReviewById);
+router.post("/product-review/add-review", authMiddleware(["vendor", "admin", "customer"]) createReview);
 router.delete(
   "/product-review/delete-review/:id",
-  authMiddleware,
+  authMiddleware(["vendor", "admin", "customer"])
   deleteReview
 );
-router.put("/product-review/update-review/:id", authMiddleware, updateReview);
+router.put("/product-review/update-review/:id", authMiddleware(["vendor", "admin", "customer"]) updateReview);
 
 module.exports = router;

@@ -3,9 +3,9 @@ const authMiddleware = require('../middlewares')
 
 const router = require('express').Router()
 
-router.get("/dashboard/cards", authMiddleware, fetchDashboardCardsData)
+router.get("/dashboard/cards", authMiddleware(["vendor", "admin", "customer"]) fetchDashboardCardsData)
 
-router.get("/dashboard/barchart", authMiddleware, getBarChartData)
-router.get("/dashboard/products", authMiddleware, getProductDataForAdmin)
-router.get("/dashboard/doughnutchart", authMiddleware, getDoughNutChartData)
+router.get("/dashboard/barchart", authMiddleware(["vendor", "admin", "customer"]) getBarChartData)
+router.get("/dashboard/products", authMiddleware(["vendor", "admin", "customer"]) getProductDataForAdmin)
+router.get("/dashboard/doughnutchart", authMiddleware(["vendor", "admin", "customer"]) getDoughNutChartData)
 module.exports = router
