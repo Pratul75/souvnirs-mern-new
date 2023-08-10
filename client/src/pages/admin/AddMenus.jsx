@@ -4,7 +4,6 @@ import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 
 const AddMenus = () => {
-  const [selectedHeaderTitle, setSelectedHeaderTitle] = useState("");
   const [headerInputs, setHeaderInputs] = useState({
     headerTitle: "",
   });
@@ -28,38 +27,19 @@ const AddMenus = () => {
     }));
   };
 
-  const handleHeaderTitleSubmit = (event) => {
-    event.preventDefault();
-    console.log("HEADER TITLE: ", headerInputs.headerTitle);
-    setSelectedHeaderTitle(headerInputs.headerTitle);
-  };
-
-  const handleMainMenuTextChange = (event) => {
-    const { value, name } = event.target;
-    setMainMenuInputs((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleMainMenuCheckboxChange = (event) => {
-    const { checked, name } = event.target;
-    setMainMenuInputs((prevState) => ({
-      ...prevState,
-      [name]: checked,
-    }));
-  };
-
   const handleMainMenuSelectChange = (event) => {
     const { value, name } = event.target;
 
     // Toggle showPageLink when "pages" is selected
-    setShowPageLink(value === "pages");
-
+    if (value === "pages") {
+      setShowPageLink(true);
+    } else {
+      setShowPageLink(false);
+    }
     setMainMenuInputs((prevState) => ({
       ...prevState,
       [name]: value,
-      selectedOption: "", // Clear selectedOption when changing menu type
+      selectedOption: value === "pages" ? "" : value, // Clear selectedOption when changing menu type
     }));
   };
 
@@ -200,8 +180,8 @@ const AddMenus = () => {
                     <span className="label-text">Page Link</span>
                   </label>
                   <input
-                    value={mainMenuInputs.selectedOption}
-                    onChange={handleMainMenuSelectChange}
+                    // value={mainMenuInputs.selectedOption}
+                    // onChange={handleMainMenuSelectChange}
                     className="input input-primary"
                     type="text"
                     name="selectedOption"
