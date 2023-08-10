@@ -62,12 +62,15 @@ const EditProduct = () => {
       description,
       tags: tagsArray,
     };
+    console.log("EditProduct.jsx", data);
     const editFormData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       if (key === "coverImage") {
         // Stringify the arrays before appending them to the FormData
 
         editFormData.append("coqverImage", value[0]);
+      } else if (key === "variant") {
+        editFormData.append(key, JSON.stringify(value));
       } else {
         editFormData.append(key, value);
       }

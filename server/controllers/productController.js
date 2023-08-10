@@ -257,6 +257,9 @@ const deleteProduct = async (req, res) => {
 const editProduct = async (req, res) => {
   const productId = req.params.id;
   const updatedProductData = req.body;
+  const { variant } = updatedProductData;
+  console.log("productController.js", variant);
+  const parseVariant = JSON.parse(variant);
 
   try {
     // Find the product by ID and update it
@@ -281,6 +284,9 @@ const editProduct = async (req, res) => {
         new: true,
       }
     );
+    if (parseVariant) {
+      await AttributeType.findByIdAndUpdate(parseVariant._id, parseVariant);
+    }
 
     if (!updatedProduct) {
       // If the product is not found, return an error
