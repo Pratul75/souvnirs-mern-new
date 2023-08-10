@@ -6,6 +6,7 @@ const {
   getCountryById,
   updateCountry,
 } = require("../controllers/countryControllers");
+const authMiddleware = require("../middlewares");
 
 router.get("/country/get-all-countries", authMiddleware, getAllCountries);
 router.get("/country/get-country-by-id/:id", authMiddleware, getCountryById);

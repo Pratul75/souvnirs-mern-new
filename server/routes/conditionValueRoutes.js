@@ -6,6 +6,7 @@ const {
   getConditionValueById,
   updateConditionValue,
 } = require("../controllers/conditionValueController");
+const authMiddleware = require("../middlewares");
 
 router.post(
   "/condition-value/add-condition-value",
