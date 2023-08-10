@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import API_WRAPPER from "../../../api";
 import { Dropzone, Header } from "../../../components";
 import { ToastContainer } from "react-toastify";
@@ -11,6 +11,8 @@ import {
 
 import { motion } from "framer-motion";
 import ReactQuill from "react-quill";
+import { GrFormClose } from "react-icons/gr";
+import { PATHS } from "../../../Routes/paths";
 
 const EditProduct = () => {
   const [description, setDescription] = useState();
@@ -24,11 +26,16 @@ const EditProduct = () => {
   const [preview, setPreview] = useState();
 
   const { id } = useParams();
-  const fetchProductData = async (id) => {
+  const navigate = useNavigate();
+  const [query] = useSearchParams();
+  console.log("EditProduct.jsx", query);
+  const fetchProductData = async (id, variantId) => {
     const response = await API_WRAPPER.get(
-      `/products/get-single-product/${id}`
+      `/products/get-single-product/${id}?variantId=${variantId}`
     );
-    setFormData(response.data);
+    setFormData(response.data[0]);
+    setDescription(response.data[0]?.description);
+    setTagsArray(response.data[0]?.tags);
     console.log("EditProduct.jsx", response);
   };
 
@@ -47,6 +54,37 @@ const EditProduct = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  console.log("EditProduct.jsx", formData);
+
+  const editProduct = async () => {
+    let data = {
+      ...formData,
+      description,
+      tags: tagsArray,
+    };
+    const editFormData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (key === "coverImage") {
+        // Stringify the arrays before appending them to the FormData
+
+        editFormData.append("coqverImage", value[0]);
+      } else {
+        editFormData.append(key, value);
+      }
+    });
+
+    const response = await API_WRAPPER.put(
+      `/products/edit-product/${id}`,
+      editFormData,
+      {
+        headers: { "content-type": "multipart/form-data" },
+      }
+    );
+    if (response.status === 200) {
+      navigate(PATHS.adminProductManagement);
+    }
+  };
+
   const getAllVendors = async () => {
     try {
       const response = await API_WRAPPER.get("/vendors/get-vendors");
@@ -63,10 +101,39 @@ const EditProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
+
+  const handleVariantChange = (e, variantFieldKey) => {
+    const { value } = e.target;
+    console.log("EditProduct.jsx", variantFieldKey);
+    setFormData((prevData) => ({
+      ...prevData,
+      variant: {
+        ...prevData.variant,
+        variant: {
+          ...prevData.variant.variant,
+          [variantFieldKey]: value,
+        },
+      },
+    }));
+  };
+
   useEffect(() => {
-    fetchProductData(id);
+    if (formData?.img) {
+      const imageUrl = URL.createObjectURL(formData?.img[0]);
+      console.log("AddProduct.jsx", imageUrl);
+      setPreview(imageUrl);
+    }
+  }, [formData?.img]);
+  const removeTag = (tagToRemove) => {
+    const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
+    setTagsArray(filteredTags);
+  };
+  useEffect(() => {
+    const variantId = query.get("variantID");
+    fetchProductData(id, variantId);
     getAllVendors();
   }, []);
+  console.log("EditProduct.jsx", formData);
   console.log("EditProduct.jsx", id);
   return (
     <div>
@@ -92,7 +159,7 @@ const EditProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                value={formData.name}
+                value={formData?.name}
                 className="input input-accent"
                 type="text"
                 name="name"
@@ -114,7 +181,7 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData.status}
+                value={formData?.status}
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="status"
@@ -134,7 +201,7 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData.readyToShip}
+                value={formData?.readyToShip}
                 defaultValue={prefilledData?.readyToShip}
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
@@ -154,7 +221,7 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData.freeShipping}
+                value={formData?.freeShipping}
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="freeShipping"
@@ -184,7 +251,6 @@ const EditProduct = () => {
                 </span>
               </label>
               <ReactQuill
-                defaultValue={prefilledData?.description}
                 className="h-48"
                 theme="snow"
                 value={description}
@@ -208,10 +274,10 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                defaultValue={prefilledData?.vendorId}
                 onChange={(e) => handleInputChange(e)}
                 className="select select-accent"
                 name="vendorId"
+                value={formData?.vendorId}
               >
                 <option value="" disabled selected>
                   select vendor
@@ -264,6 +330,7 @@ const EditProduct = () => {
               </label>
               <input
                 defaultValue={prefilledData?.sku}
+                value={formData?.sku}
                 onChange={(e) => handleInputChange(e)}
                 className="input input-accent  w-full"
                 placeholder="Enter SKU"
@@ -291,7 +358,7 @@ const EditProduct = () => {
               <Dropzone
                 accept={".jpeg,.png"}
                 onFilesChange={(data) => {
-                  setFormData({ ...formData, img: data });
+                  setFormData({ ...formData, coverImage: data });
                 }}
               />
             </div>
@@ -300,8 +367,121 @@ const EditProduct = () => {
             {preview ? (
               <img src={preview} alt="" />
             ) : (
-              <img src={prefilledData?.coverImage} alt="" />
+              <img src={formData?.coverImage} alt="" />
             )}
+          </motion.div>
+        </div>
+
+        <div className="grid  grid-cols-6 gap-4 mt-4">
+          {formData?.variant && (
+            <motion.div
+              variants={fadeInFromLeftVariant}
+              animate="animate"
+              initial="initial"
+              className="col-span-6 gap-10 items-center flex flex-col md:flex-row  md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+            >
+              <tr className="flex flex-col md:flex-row gap-5">
+                <td>
+                  {Object.keys(formData?.variant?.variant).map(
+                    (variantFieldKey) => (
+                      <div key={variantFieldKey} className="form-control">
+                        <label htmlFor={variantFieldKey} className="label">
+                          {variantFieldKey}
+                        </label>
+                        <input
+                          type="text"
+                          name={`variant.variant.${variantFieldKey}`}
+                          value={formData?.variant?.variant[variantFieldKey]}
+                          className="input input-accent"
+                          onChange={(e) =>
+                            handleVariantChange(e, variantFieldKey)
+                          }
+                        />
+                      </div>
+                    )
+                  )}
+                </td>
+                <td>
+                  <div className="form-control">
+                    <label className="label">Price:</label>
+                    <input
+                      type="number"
+                      className="input input-accent"
+                      name="variant.variant.price" // Note the naming structure
+                      value={formData?.variant?.price} // Accessing the correct nested property
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          variant: {
+                            ...prev.variant,
+
+                            price: parseFloat(e.target.value),
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div className="form-control">
+                    <label className="label">Quantity: </label>
+                    <input
+                      type="number"
+                      className="input input-accent"
+                      name="variant.variant.quantity" // Note the naming structure
+                      value={formData?.variant?.quantity} // Accessing the correct nested property
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          variant: {
+                            ...prev.variant,
+
+                            quantity: parseFloat(e.target.value), // Convert to number
+                          },
+                        }))
+                      }
+                    />
+                  </div>
+                </td>
+              </tr>
+            </motion.div>
+          )}{" "}
+          {!formData?.variant && (
+            <motion.div
+              variants={fadeInFromLeftVariant}
+              animate="animate"
+              initial="initial"
+              className="col-span-6 flex flex-col md:flex-row gap-5   md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+            >
+              <div className="form-control">
+                <label htmlFor="" className="label">
+                  price
+                </label>
+                <input
+                  type="number"
+                  name="price"
+                  className="input input-accent"
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+              <div className="form-control">
+                <label htmlFor="" className="label">
+                  Stock Quantity
+                </label>
+                <input
+                  type="number"
+                  name="stockQuantity"
+                  className="input input-accent"
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+            </motion.div>
+          )}
+          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
+            <button className="btn btn-accent mt-4" onClick={editProduct}>
+              Next
+            </button>
+            <button className="btn  mt-4 ml-4">Cancel</button>
           </motion.div>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
@@ -311,10 +491,7 @@ const EditProduct = () => {
             animate="animate"
             initial="initial"
             className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
-          >
-            <button className="btn btn-accent mt-4">Next</button>
-            <button className="btn  mt-4 ml-4">Cancel</button>
-          </motion.div>
+          ></motion.div>
         </div>
       </div>
       <ToastContainer />

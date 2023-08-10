@@ -1,4 +1,9 @@
-const { createMenu, getMenu } = require("../controllers/menuController");
+const {
+  createMenu,
+  getMenu,
+  getMainMenus,
+  createMainMenu,
+} = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
 const router = require("express").Router();
@@ -7,5 +12,10 @@ router.post(
   authMiddleware(["vendor", "admin", "customer"]),
   createMenu
 );
-router.get("/menu", authMiddleware(["vendor", "admin", "customer"]), getMenu);
+router.get(
+  "/menu",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getMainMenus
+);
+router.post("/main-menu/create", authMiddleware, createMainMenu);
 module.exports = router;

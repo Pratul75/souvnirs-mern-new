@@ -123,7 +123,11 @@ const ProductManagement = () => {
 
   const handleEdit = (row) => {
     console.log("ROW TO BE DELETED: ", row);
-    navigate(`${PATHS.EditProduct}/${row._id}`);
+    if (row?.result?._id) {
+      navigate(`${PATHS.EditProduct}/${row._id}?variantID=${row?.result._id}`);
+    } else {
+      navigate(`${PATHS.EditProduct}/${row._id}/`);
+    }
     // window.edit_product_modal.showModal();
     // setSelectedRow(row);
     // console.log("ROW TO BE EDITED: ", row);

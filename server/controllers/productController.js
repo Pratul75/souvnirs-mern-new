@@ -9,6 +9,7 @@ const Attribute = require("../schema/attributeModal");
 const Category = require("../schema/categoryModal");
 const { v2 } = require("../middlewares/ImageUpload");
 const Media = require("../schema/mediaModal");
+const mongoose = require("mongoose");
 
 // create new product
 const addMedias = async (req, res) => {
@@ -190,8 +191,33 @@ const getProduct = async (req, res) => {
   try {
     // Extract the product ID from the request parameters
     const productId = req.params.id;
-
-    const product = await Product.findById(productId);
+    const { variantId } = req.query;
+    let product;
+    if (variantId != "null") {
+      product = await Product.aggregate([
+        { $match: { _id: new mongoose.Types.ObjectId(productId) } },
+        {
+          $lookup: {
+            from: "attributetypes",
+            localField: "_id",
+            foreignField: "productId",
+            as: "variant",
+          },
+        },
+        {
+          $unwind: {
+            path: "$variant",
+          },
+        },
+        {
+          $match: {
+            "variant._id": new mongoose.Types.ObjectId(variantId),
+          },
+        },
+      ]);
+    } else {
+      product = await Product.find({ _id: productId });
+    }
 
     console.log("PRODUCT SELECTED: ", product);
     // Check if the product exists
@@ -229,15 +255,31 @@ const deleteProduct = async (req, res) => {
 
 // edit product
 const editProduct = async (req, res) => {
-  const productId = req.params.id.substring(1);
+  const productId = req.params.id;
   const updatedProductData = req.body;
 
   try {
     // Find the product by ID and update it
+    let resp;
+    let updateData;
+    if (req.file) {
+      resp = await v2.uploader.upload(req.file.path);
+      updateData = { ...updatedProductData, coverImage: resp.url };
+    } else {
+      updateData = updatedProductData;
+    }
+    const product = await Product.findById(productId);
+
+    updateData.stockQuantity === "null" && delete updateData.stockQuantity;
+    updateData.price === "null" && delete updateData.price;
+    delete updateData._id;
+    delete updateData.attributes;
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
-      updatedProductData,
-      { new: true }
+      updateData,
+      {
+        new: true,
+      }
     );
 
     if (!updatedProduct) {
@@ -245,10 +287,10 @@ const editProduct = async (req, res) => {
       return res.status(404).json(error("Product not found"));
     }
 
-    res.status(200).json(success("product updated successfully"));
+    res.status(200).json("product updated successfully");
   } catch (error) {
     console.error(error);
-    res.status(400).json(error("failed to update product"));
+    res.status(400).json("failed to update product");
   }
 };
 // get total products

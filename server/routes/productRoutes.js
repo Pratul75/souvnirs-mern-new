@@ -63,6 +63,7 @@ router.delete(
 router.put(
   "/products/edit-product/:id",
   authMiddleware(["vendor", "admin"]),
+  upload.single("coverImage"),
   editProduct
 );
 router.post(
