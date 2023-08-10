@@ -6,7 +6,9 @@ const Admin = require("../schema/adminModal");
 const { error, success } = require("../utils/errorHandler");
 const Address = require("../schema/addressModal");
 const { transporter } = require("../services/mailing");
-const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace with your secret key for JWT
+const axios = require("axios");
+const secretKey = "aspdijr230wefn203wqiokn_eww9rijn";
+var SibApiV3Sdk = require("sib-api-v3-sdk");
 
 // Register API for vendors and users
 const registerVendor = async (req, res) => {
@@ -54,13 +56,44 @@ const registerVendor = async (req, res) => {
     const token = jwt.sign({ id: vendor._id, role: "vendor" }, secretKey, {
       expiresIn: "7h", // Token expiration time
     });
-    transporter.send({
-      from: "utkarsh.pawar@rechargestudio.com",
-      to: "pratul.udainiya@rechargestudio.com",
-      subject: "vendor registered",
-      text: `hello testing`,
-    });
 
+    var defaultClient = SibApiV3Sdk.ApiClient.instance;
+
+    // Configure API key authorization: api-key
+    var apiKey = defaultClient.authentications["api-key"];
+    apiKey.apiKey =
+      "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";
+
+    var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+    var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
+
+    sendSmtpEmail = {
+      to: [
+        {
+          email: "pratul.udainiya@rechargestudio.com",
+          name: "John Doe",
+        },
+      ],
+      templateId: 1,
+      params: {
+        name: "John",
+        surname: "Doe",
+      },
+      headers: {
+        "X-Mailin-custom":
+          "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
+      },
+    };
+
+    apiInstance.sendTransacEmail(sendSmtpEmail).then(
+      function (data) {
+        console.log("API called successfully. Returned data: " + data);
+      },
+      function (error) {
+        console.error(error);
+      }
+    );
     res.status(200).json(success("vendor registered successfully"));
   } catch (error) {
     console.error("Error registering vendor:", error);
