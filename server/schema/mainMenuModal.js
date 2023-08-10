@@ -15,7 +15,7 @@ const mainMenuSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
-      enum: ["Collection", "Categories", "Products", "Pages"],
+      enum: ["collection", "category", "product", "page"],
       default: "Collection",
     },
     link: {
