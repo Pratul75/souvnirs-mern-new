@@ -34,6 +34,7 @@ import {
   AddProductAttributes,
   AddMenus,
   Menus,
+  AddMainMenus,
 
   // vendor routes
   VendorDashboard,
@@ -68,6 +69,7 @@ import AddVendor from "../pages/admin/AddVendor";
 import Wishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
+import AddSubMenus from "../pages/admin/AddSubMenus";
 // admin routes
 export const adminRoutes = [
   {
@@ -290,6 +292,18 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminMenus,
     Component: Menus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddMainMenus,
+    Component: AddMainMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddSubMenus,
+    Component: AddSubMenus,
     defaultRole: "admin",
   },
 ];

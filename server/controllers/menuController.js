@@ -2,7 +2,7 @@ const { response } = require("express");
 const Menu = require("../schema/menuItem");
 const MainMenu = require("../schema/mainMenuModal");
 
-const createMenu = async () => {
+const createMenu = async (req, res) => {
   const { title } = req.body;
   const titleExists = await Menu.findOne({ title });
   if (titleExists) {
@@ -11,7 +11,7 @@ const createMenu = async () => {
   const createdMenu = await Menu.create({ title });
   res.status(200).json(createdMenu);
 };
-const getMenu = async () => {
+const getMenu = async (req, res) => {
   const menus = await Menu.find();
   res.status(200).json(menus);
 };
