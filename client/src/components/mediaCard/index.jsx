@@ -17,7 +17,7 @@ const MediaCard = ({ link, vendorName }) => {
       <Card>
         <div className="flex items-center justify-between w-full">
           <img src={link} className="object-contain w-48 h-48" alt="" />
-          <div>Vendor:{vendorName}</div>
+          {vendorName && <div>Vendor:{vendorName}</div>}
           <CopyToClipboard text={link} onCopy={copyHandler}>
             <span className="text-2xl mr-10">
               {copied ? <AiOutlineCheck /> : <AiOutlineLink />}

@@ -7,15 +7,29 @@ const {
   updateConditionValue,
 } = require("../controllers/conditionValueController");
 
-router.post("/condition-value/add-condition-value", addConditionValue);
-router.get("/condition-value/get-all-condition-values", getAllConditionValues);
+router.post(
+  "/condition-value/add-condition-value",
+  authMiddleware,
+  addConditionValue
+);
+router.get(
+  "/condition-value/get-all-condition-values",
+  authMiddleware,
+  getAllConditionValues
+);
 router.get(
   "/condition-value/get-condition-value-by-id/:id",
+  authMiddleware,
   getConditionValueById
 );
-router.put("/condition-value/update-condition-value/:id", updateConditionValue);
+router.put(
+  "/condition-value/update-condition-value/:id",
+  authMiddleware,
+  updateConditionValue
+);
 router.delete(
   "/condition-value/delete-condition-value/:id",
+  authMiddleware,
   deleteConditionValue
 );
 

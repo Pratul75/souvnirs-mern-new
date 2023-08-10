@@ -15,8 +15,8 @@ const router = require("express").Router();
 router.post("/order/add-order", authMiddleware, addOrder);
 router.get("/order/get-orders", authMiddleware, getOrders);
 router.get("/order/get-order/:id", authMiddleware, getOrder);
-router.put("/order/update-order/:id", updateOrderById);
-router.delete("/order/delete-order/:id", deleteOrder);
+router.put("/order/update-order/:id", authMiddleware, updateOrderById);
+router.delete("/order/delete-order/:id", authMiddleware, deleteOrder);
 // get total sales
 router.get("/order/get-total-sales", authMiddleware, getTotalSales);
 // get total orders count

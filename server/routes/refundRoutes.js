@@ -6,11 +6,12 @@ const {
   getRefundById,
   updateRefund,
 } = require("../controllers/refundController");
+const authMiddleware = require("../middlewares");
 
-router.get("/refund/get-all-refunds", getAllRefunds);
-router.get("/refund/get-refund-by-id/:id", getRefundById);
-router.post("/refund/add-refund", addRefund);
-router.put("/refund/update-refund/:id", updateRefund);
-router.delete("/refund/delete-refund/:id", deleteRefund);
+router.get("/refund/get-all-refunds", authMiddleware, getAllRefunds);
+router.get("/refund/get-refund-by-id/:id", authMiddleware, getRefundById);
+router.post("/refund/add-refund", authMiddleware, addRefund);
+router.put("/refund/update-refund/:id", authMiddleware, updateRefund);
+router.delete("/refund/delete-refund/:id", authMiddleware, deleteRefund);
 
 module.exports = router;

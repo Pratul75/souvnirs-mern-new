@@ -1,5 +1,5 @@
 const { createMenu } = require("../controllers/menuController");
 
 const router = require("express").Router();
-router.post("/menu/create", createMenu);
+router.post("/menu/create", authMiddleware, createMenu);
 module.exports = router;
