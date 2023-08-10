@@ -1,14 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
+import API_WRAPPER from "../../api";
 
 const AddMenus = () => {
-  // states for header sections
   const [selectedHeaderTitle, setSelectedHeaderTitle] = useState("");
   const [headerInputs, setHeaderInputs] = useState({
     headerTitle: "",
   });
-
-  //   states for main menu section
 
   const [mainMenuInputs, setMainMenuInputs] = useState({
     mainMenuTitle: "",
@@ -16,33 +14,72 @@ const AddMenus = () => {
     isSubMenus: false,
   });
 
-  //   handlers for header section
+  const [showMenuTypeList, setShowMenuTypeList] = useState(false);
+  const [selectedMenuTypeData, setSelectedMenuTypeData] = useState([]);
+
   const handleHeaderChange = (event) => {
     const { value, name } = event.target;
-    setHeaderInputs((prevState) => {
-      return { ...prevState, [name]: value };
-    });
+    setHeaderInputs((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
+
   const handleHeaderTitleSubmit = (event) => {
     event.preventDefault();
     console.log("HEADER TITLE: ", headerInputs.headerTitle);
     setSelectedHeaderTitle(headerInputs.headerTitle);
   };
 
-  //   handlers for main menu section
-  const handleMainMenuChange = (event) => {
-    const { value, name, type } = event.target;
+  const handleMainMenuTextChange = (event) => {
+    const { value, name } = event.target;
+    setMainMenuInputs((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-    if (type === "checkbox") {
-      setMainMenuInputs((prevState) => {
-        return { ...prevState, [name]: !prevState[name] };
-      });
+  const handleMainMenuCheckboxChange = (event) => {
+    const { checked, name } = event.target;
+    setMainMenuInputs((prevState) => ({
+      ...prevState,
+      [name]: checked,
+    }));
+  };
+
+  const handleMainMenuSelectChange = (event) => {
+    const { value, name } = event.target;
+    setMainMenuInputs((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleMainMenuApiCalls = async () => {
+    if (mainMenuInputs.selectedMenuType === "collection") {
+      console.log("GET ALL COLLECTIONS");
+    } else if (mainMenuInputs.selectedMenuType === "product") {
+      const response = await API_WRAPPER.get("/products/get-all-products");
+      if (response.status === 200) {
+        setSelectedMenuTypeData(response.data);
+      }
+      console.log("GET ALL PRODUCTS", response.data);
+    } else if (mainMenuInputs.selectedMenuType === "category") {
+      // TODO: CALL API
+      console.log("GET ALL CATEGORIES");
     } else {
-      setMainMenuInputs((prevState) => {
-        return { ...prevState, [name]: value };
-      });
+      // TODO: WHAT TO DO WHEN PAGES ARE SELECTED
+      console.log("GET ALL PAGES");
     }
   };
+
+  useEffect(() => {
+    setShowMenuTypeList(mainMenuInputs.selectedMenuType !== "");
+  }, [mainMenuInputs.selectedMenuType]);
+
+  useEffect(() => {
+    handleMainMenuApiCalls();
+  }, [mainMenuInputs.selectedMenuType]);
 
   const handleMainMenuSubmit = (event) => {
     event.preventDefault();
@@ -81,7 +118,7 @@ const AddMenus = () => {
         </div>
       </Card>
 
-      {selectedHeaderTitle ? (
+      {
         <Card>
           <div className="p-4 mt-4">
             <form
@@ -94,7 +131,7 @@ const AddMenus = () => {
                 </label>
                 <input
                   value={mainMenuInputs.mainMenuTitle}
-                  onChange={(e) => handleMainMenuChange(e)}
+                  onChange={handleMainMenuTextChange}
                   className="input input-primary"
                   type="text"
                   name="mainMenuTitle"
@@ -106,8 +143,9 @@ const AddMenus = () => {
                   <span className="label-text">Include Sub Menu</span>
                 </label>
                 <input
+                  disabled={showMenuTypeList}
                   checked={mainMenuInputs.isSubMenus}
-                  onChange={(e) => handleMainMenuChange(e)}
+                  onChange={handleMainMenuCheckboxChange}
                   className="toggle toggle-primary"
                   type="checkbox"
                   name="isSubMenus"
@@ -129,17 +167,38 @@ const AddMenus = () => {
                 <div className="form-control col-span-2 md:col-span-1">
                   <div className="">
                     <select
-                      onChange={(e) => handleMainMenuChange(e)}
+                      onChange={handleMainMenuSelectChange}
                       value={mainMenuInputs.selectedMenuType}
                       className="select select-primary w-full"
                       name="selectedMenuType"
                       id="selectedMenuType"
                     >
-                      <option>Select Menu Type</option>
+                      <option value="">Select Menu Type</option>
                       <option value="category">Category</option>
                       <option value="collection">Collection</option>
-                      <option value="product">Pages</option>
                       <option value="product">Product</option>
+                      <option value="Pages">Page</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {showMenuTypeList && (
+                <div className="form-control col-span-2 md:col-span-1">
+                  <div className="">
+                    <select
+                      className="select select-primary w-full"
+                      name="selectedMenuType"
+                      id="selectedMenuType"
+                      value={mainMenuInputs.selectedMenuType}
+                    >
+                      <option>Select Data:</option>
+                      {selectedMenuTypeData.length > 0 &&
+                        selectedMenuTypeData.map((item) => (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 </div>
@@ -152,7 +211,7 @@ const AddMenus = () => {
             </form>
           </div>
         </Card>
-      ) : null}
+      }
     </div>
   );
 };
