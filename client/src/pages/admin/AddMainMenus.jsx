@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import { Header, Card } from "../../components";
 import { nanoid } from "nanoid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 import { debouncedShowToast } from "../../utils";
@@ -18,6 +18,7 @@ const AddMainMenus = () => {
       setMenuHeaderTitlesList(response?.data);
     }
   };
+  const navigate = useNavigate();
   console.log("AddMainMenus.jsx", mainMenuData);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -112,13 +113,16 @@ const AddMainMenus = () => {
                 />
               </div>
 
-              <Link
+              <button
                 to={PATHS.adminAddSubMenus}
                 className="btn btn-primary mt-4"
-                onClick={(e) => createMainMenu(e)}
+                onClick={(e) => {
+                  createMainMenu(e);
+                  navigate(PATHS.adminAddSubMenus);
+                }}
               >
                 Next
-              </Link>
+              </button>
             </div>
           ) : (
             <form>

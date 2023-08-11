@@ -14,13 +14,11 @@ const mainMenuSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: true,
-      enum: ["collection", "category", "product", "page"],
-      default: "Collection",
+      // required: true,
     },
     link: {
       type: String,
-      required: true,
+      // required: true,
     },
     status: {
       type: String,

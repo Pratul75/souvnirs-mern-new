@@ -14,13 +14,10 @@ const subMenuSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      required: true,
-      enum: ["collection", "category", "product", "page"],
-      default: "Collection",
     },
+    typeValue: { type: String },
     link: {
       type: String,
-      required: true,
     },
     status: {
       type: String,

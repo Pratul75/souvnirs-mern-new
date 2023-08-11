@@ -14,11 +14,15 @@ const AddSubMenus = () => {
   const [link, setLink] = useState(`${subMenuType}/${selectedTypeDataValue}`);
   const [createdCards, setCreatedCards] = useState([]);
   const [areInputsValid, setAreInputsValid] = useState(false);
+  const [mainMenus, setMainMenus] = useState([]);
+  const [mainMenuId, setMainMenuId] = useState("");
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/main-menu");
     console.log("AddSubMenus.jsx", response);
+    setMainMenus(response.data);
   };
+  console.log("AddSubMenus.jsx", createdCards);
 
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
@@ -47,10 +51,14 @@ const AddSubMenus = () => {
     setCreatedCards(updatedCards);
     debouncedShowToast("Submenu deleted successfully", "success");
   };
+  const createSubMenus = async () => {
+    await API_WRAPPER.post("/sub-menu/create", createdCards);
+  };
 
   const handleCardSubmit = (e) => {
     e.preventDefault();
     const newCard = {
+      mainMenuId,
       heading: subMenuHeading,
       type: subMenuType,
       typeValue: selectedTypeDataValue,
@@ -95,6 +103,28 @@ const AddSubMenus = () => {
       <Card>
         <div className="mt-4 p-4">
           <form className="grid grid-cols-2 gap-4">
+            <div className="form-control col-span-1">
+              <label htmlFor="menuTitle" className="label">
+                <span className="label-text">Main Menu Title</span>
+              </label>
+              <select
+                className="select select-primary"
+                name="menuId"
+                id="menuTitle"
+                value={mainMenuId}
+                onChange={(e) => setMainMenuId(e.target.value)}
+              >
+                <option selected disabled>
+                  Select Main Menu
+                </option>
+                {mainMenus &&
+                  mainMenus.map((item) => (
+                    <option value={item._id} key={item._id}>
+                      {item.title}
+                    </option>
+                  ))}
+              </select>
+            </div>
             <div className="form-control col-span-2">
               <label className="label">
                 <span className="label-text">Sub Menu Heading</span>
@@ -172,7 +202,7 @@ const AddSubMenus = () => {
               onClick={handleCardSubmit}
               className="btn btn-primary mt-9"
             >
-              Submit
+              Add
             </button>
           </form>
         </div>
@@ -230,6 +260,12 @@ const AddSubMenus = () => {
           </div>
         </Card>
       ))}
+      <div className="flex justify-end mt-4 p-4">
+        <button className="btn btn-primary" onClick={createSubMenus}>
+          {" "}
+          Submit
+        </button>
+      </div>
       <ToastContainer />
     </div>
   );

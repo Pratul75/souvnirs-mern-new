@@ -4,6 +4,7 @@ const {
   getMainMenus,
   createMainMenu,
   getSubMenus,
+  createSubMenu,
 } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
@@ -26,4 +27,5 @@ router.get(
   getSubMenus
 );
 router.post("/main-menu/create", authMiddleware(["admin"]), createMainMenu);
+router.post("/sub-menu/create", authMiddleware(["admin"]), createSubMenu);
 module.exports = router;

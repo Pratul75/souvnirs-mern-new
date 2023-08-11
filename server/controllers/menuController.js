@@ -22,18 +22,29 @@ const createMainMenu = async (req, res) => {
   const mainmenu = await MainMenu.create({
     link,
     title,
-    type,
+    type: type ?? "collection",
     menuId: menu._id,
   });
   res.status(200).json("main menu created successfully");
 };
 const getMainMenus = async (req, res) => {
-  const mainmenus = await MainMenu.findById();
+  const mainmenus = await MainMenu.find();
   res.status(200).json(mainmenus);
 };
 const createSubMenu = async (req, res) => {
   const { mainMenuId, title, link, type } = req.body;
-  SubMenu.create({ mainMenuId, title, link, type });
+  for (let elem of req.body) {
+    const { heading: title, link, type, typeValue, mainMenuId } = elem;
+
+    const subs = await SubMenu.create({
+      title,
+      link,
+      type,
+      typeValue,
+      mainMenuId,
+    });
+    console.log(subs);
+  }
   res.status(200).json("Sub-menu created successfully");
 };
 const getSubMenus = async (req, res) => {
@@ -46,4 +57,5 @@ module.exports = {
   getMenu,
   getMainMenus,
   createMainMenu,
+  createSubMenu,
 };
