@@ -23,7 +23,7 @@ const FilterProducts = () => {
               heading="Filter By Size"
               filters={[
                 {
-                  filterName: "All",
+                  filterName: "Pratul",
                   productAmount: 62,
                 },
                 {

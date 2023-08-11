@@ -32,12 +32,10 @@ import TestimonialsCarosel from "../../components/shop/components/TestimonialsCa
 import BlogList from "../../components/shop/components/BlogList";
 import FilterProducts from "../../components/shop/components/FilterProducts";
 
-// main landing page for the shop application
-
 const LandingPage = () => {
   return (
     <div className="w-screen h-auto">
-      {/* <HeaderCards
+      <HeaderCards
         mainImage={BigCardBackground}
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
@@ -50,8 +48,8 @@ const LandingPage = () => {
         tertioryHeadingOne="Spring Sales Coming"
         tertioryHeadingTwo="Smart 4K TV"
         tertiorySubHeading="Watch Now"
-      /> */}
-      {/* <FeaturesCard
+      />
+      <FeaturesCard
         iconOne={
           <HiOutlineChatBubbleLeftRight className="text-2xl text-primary" />
         }
@@ -103,15 +101,15 @@ const LandingPage = () => {
         buttonHandlerTwo={() =>
           console.log("CLICKED ON HALF WIDTH BANNER CARD")
         }
-      /> */}
-      {/* <BrandsCard imagesList={BrandsCardImageList} />
+      />
+      <BrandsCard imagesList={BrandsCardImageList} />
       <TestimonialsCarosel />
       <BlogList blogItemsData={blogCardData} />
       <ImagesGrid imagesData={ImageGridMapping} />
       <NewsLetterGrid
         heading="Join our Newsletter"
         subheading="Join our newsletter and get 20$ discount for your first order"
-      /> */}
+      />
       <FilterProducts />
     </div>
   );

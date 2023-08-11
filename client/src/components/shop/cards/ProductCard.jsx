@@ -2,7 +2,8 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";
-
+import { motion } from "framer-motion";
+import { fadeInVariants } from "../../../animation";
 const ProductCard = ({
   id,
   title,
@@ -24,9 +25,12 @@ const ProductCard = ({
   };
 
   return (
-    <div
+    <motion.div
+      variants={fadeInVariants}
+      animate="animate"
+      initial="initial"
       key={id}
-      className="card bg-base-300 p-4 hover:scale-105 transition-all ease-in-out cursor-pointer"
+      className="card bg-base-300 p-4"
     >
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
@@ -51,7 +55,7 @@ const ProductCard = ({
         </h5>
         <Ratings rating={rating} />
       </div>
-    </div>
+    </motion.div>
   );
 };
 
