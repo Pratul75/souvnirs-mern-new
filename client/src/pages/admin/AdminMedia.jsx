@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import API_WRAPPER from "../../api";
 import MediaCard from "../../components/mediaCard";
 import { decodeToken } from "react-jwt";
+import { nanoid } from "nanoid";
 
 const AdminMedia = () => {
   const [media, setMedia] = useState();
@@ -55,11 +56,12 @@ const AdminMedia = () => {
             {userRole === "vendor" &&
               medias?.links?.map((a) => {
                 console.log(a);
-                return <MediaCard link={a} />;
+                return <MediaCard key={nanoid()} link={a} />;
               })}
             {userRole == "admin" &&
               medias?.map((a) => (
                 <MediaCard
+                  key={nanoid()}
                   link={a.links}
                   vendorName={`${a.result.firstName} ${a.result.lastName}`}
                 />
