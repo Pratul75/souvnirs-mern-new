@@ -70,6 +70,7 @@ import Wishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
+import EditCategory from "../pages/EditCategory";
 // admin routes
 export const adminRoutes = [
   {
@@ -95,6 +96,12 @@ export const adminRoutes = [
     path: PATHS.adminCmsAndSeo,
     defaultRole: "admin",
     Component: CmsAndSeo,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCategory}/:id`,
+    defaultRole: "admin",
+    Component: EditCategory,
   },
   {
     id: nanoid(),

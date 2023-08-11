@@ -45,6 +45,7 @@ export const PATHS = {
   adminMenus: "/admin/menus",
   adminAddMenus: "/admin/menus/add-menus",
   EditProduct: "/admin/edit-product",
+  EditCategory: "/admin/edit-category",
   adminAddMainMenus: "/admin/menus/add-menus/add-main-menu",
   adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
   adminAddChildMenus:
