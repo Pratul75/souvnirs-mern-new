@@ -67,7 +67,69 @@ const createChildMenu = async (req, res) => {
   res.status(200).json("Sub-menu created successfully");
 };
 const getNavbarData = async (req, res) => {
-  const Menu.aggregate()
+  const data = await Menu.aggregate([
+    {
+      $match: {
+        title: "navbar",
+      },
+    },
+    {
+      $lookup: {
+        from: "main menus",
+        localField: "_id",
+        foreignField: "menuId",
+        as: "mainMenu",
+      },
+    },
+    {
+      $unwind: "$mainMenu",
+    },
+    {
+      $lookup: {
+        from: "sub menus",
+        localField: "mainMenu._id",
+        foreignField: "mainMenuId",
+        as: "mainMenu.submenus",
+      },
+    },
+    {
+      $unwind: {
+        path: "$mainMenu.submenus",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $lookup: {
+        from: "child menus",
+        localField: "mainMenu.submenus._id",
+        foreignField: "subMenuId",
+        as: "mainMenu.submenus.childMenus",
+      },
+    },
+    {
+      $group: {
+        _id: "$_id",
+        title: {
+          $first: "$title",
+        },
+        mainMenu: {
+          $push: {
+            title: "$mainMenu.title",
+            link: "$mainMenu.link",
+            submenus: {
+              $cond: {
+                if: "$mainMenu.submenus",
+                then: "$mainMenu.submenus",
+                else: [],
+              },
+            },
+          },
+        },
+      },
+    },
+  ]);
+  console.log();
+  res.status(200).json(data);
 };
 module.exports = {
   getSubMenus,
@@ -77,4 +139,5 @@ module.exports = {
   getMainMenus,
   createMainMenu,
   createSubMenu,
+  getNavbarData,
 };
