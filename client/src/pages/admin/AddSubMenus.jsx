@@ -4,7 +4,7 @@ import API_WRAPPER from "../../api";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
@@ -22,7 +22,7 @@ const AddSubMenus = () => {
     console.log("AddSubMenus.jsx", response);
     setMainMenus(response.data);
   };
-  console.log("AddSubMenus.jsx", createdCards);
+  console.log("AddSubMenus.jsx", mainMenuId);
 
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
@@ -49,6 +49,7 @@ const AddSubMenus = () => {
     const updatedCards = [...createdCards];
     updatedCards.splice(index, 1);
     setCreatedCards(updatedCards);
+    ``;
     debouncedShowToast("Submenu deleted successfully", "success");
   };
   const createSubMenus = async () => {
@@ -70,6 +71,7 @@ const AddSubMenus = () => {
     setSelectedTypeDataValue("");
     setSubMenuType("");
   };
+  const navigate = useNavigate();
 
   // side effects
   useEffect(() => {
@@ -114,12 +116,14 @@ const AddSubMenus = () => {
                 value={mainMenuId}
                 onChange={(e) => setMainMenuId(e.target.value)}
               >
-                <option selected disabled>
-                  Select Main Menu
-                </option>
+                <option selected>Select Main Menu</option>
                 {mainMenus &&
                   mainMenus.map((item) => (
-                    <option value={item._id} key={item._id}>
+                    <option
+                      selected={item._id === mainMenuId}
+                      value={item._id}
+                      key={item._id}
+                    >
                       {item.title}
                     </option>
                   ))}
@@ -241,9 +245,15 @@ const AddSubMenus = () => {
                 </p>
               </div>
               <div>
-                <Link to={PATHS.adminAddChildMenus} className="btn btn-primary">
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    createSubMenus();
+                    navigate(PATHS.adminAddChildMenus);
+                  }}
+                >
                   Add Child Menu
-                </Link>
+                </button>
                 <div
                   className="tooltip tooltip-left"
                   data-tip={"Delete sub menu"}
