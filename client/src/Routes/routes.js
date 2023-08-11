@@ -72,6 +72,7 @@ import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";
+import EditCustomer from "../pages/editCustomer";
 // admin routes
 export const adminRoutes = [
   {
@@ -103,6 +104,12 @@ export const adminRoutes = [
     path: `${PATHS.EditCategory}/:id`,
     defaultRole: "admin",
     Component: EditCategory,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCustomer}/:id`,
+    defaultRole: "admin",
+    Component: EditCustomer,
   },
   {
     id: nanoid(),

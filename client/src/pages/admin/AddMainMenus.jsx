@@ -92,8 +92,9 @@ const AddMainMenus = () => {
                 <input
                   className="input input-primary"
                   type="text"
-                  name=""
+                  name="title"
                   id=""
+                  onChange={(e) => handleInputChange(e)}
                 />
               </div>
               <div className="mt-4 w-[200px] form-control">
@@ -114,6 +115,7 @@ const AddMainMenus = () => {
               <Link
                 to={PATHS.adminAddSubMenus}
                 className="btn btn-primary mt-4"
+                onClick={(e) => createMainMenu(e)}
               >
                 Next
               </Link>

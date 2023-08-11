@@ -11,6 +11,8 @@ const Customer = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
 
+  const navigate = useNavigate();
+
   const getAllCustomers = async () => {
     try {
       const response = await API_WRAPPER.get("customers/get-customers");
@@ -101,9 +103,8 @@ const Customer = () => {
   };
 
   const handleEdit = (row) => {
-    window.edit_customer_modal.showModal();
     console.log("ROW TO BE EDITED: ", row);
-    setSelectedRow(row);
+    navigate(`${PATHS.EditCustomer}/${row._id}`);
   };
   const handleDeleteModalClose = () => {
     return window.edit_customer_modal.close();

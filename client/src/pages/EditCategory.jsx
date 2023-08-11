@@ -110,7 +110,7 @@ const EditCategory = () => {
 
   function setInitialAttributes() {
     const initialAttributes = attributesList.filter((attribute) =>
-      formData?.attributes.includes(attribute._id)
+      formData?.attributes?.includes(attribute._id)
     );
     setSelectedAttributes(initialAttributes);
   }
