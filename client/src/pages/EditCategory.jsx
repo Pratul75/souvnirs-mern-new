@@ -1,5 +1,4 @@
 import { Header } from "../components";
-// import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
 import API_WRAPPER from "../api";
 import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
@@ -39,6 +38,30 @@ const EditCategory = () => {
     setParentCategories(response.data);
   };
 
+  const getCategoryData = async () => {
+    try {
+      const response = await API_WRAPPER.get(
+        `/category/get-category/${params.id}`
+      );
+      setFormData(response.data);
+    } catch (error) {
+      console.error({
+        message: "Error occurred while fetching category data",
+        error,
+      });
+    }
+  };
+
+  useEffect(() => {
+    getAllAttributes();
+    getCategoryData();
+    getParentCategories();
+  }, []); // Fetch attributes and category data once on component mount
+
+  useEffect(() => {
+    setInitialAttributes();
+  }, [attributesList, formData.attributes]); // Update selectedAttributes when attributesList or formData.attributes change
+
   useEffect(() => {
     const filteredResults = attributesList.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -48,7 +71,7 @@ const EditCategory = () => {
 
   const handleAddAttribute = (attribute) => {
     setSelectedAttributes((prevState) => {
-      if (prevState.includes(attribute)) {
+      if (prevState.some((selected) => selected._id === attribute._id)) {
         return prevState;
       } else {
         return [...prevState, attribute];
@@ -56,25 +79,17 @@ const EditCategory = () => {
     });
   };
 
-  const getCategoryData = async () => {
-    const response = await API_WRAPPER.get(
-      `/category/get-category/${params.id}`
-    );
-    setFormData(response.data);
-  };
-  console.log("EditCategory.jsx", selectedAttributes);
-
   const handleAttributeDelete = (attribute) => {
-    const updatedAttributes = selectedAttributes.filter(
-      (selectedAttribute) => selectedAttribute._id !== attribute._id
+    setSelectedAttributes((prevAttributes) =>
+      prevAttributes.filter(
+        (selectedAttribute) => selectedAttribute._id !== attribute._id
+      )
     );
-    setSelectedAttributes(updatedAttributes);
   };
-  console.log("AddCategory.jsx", formData);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-    console.log("FORM DATA: ", formData);
   };
 
   const editCategory = async (e) => {
@@ -84,63 +99,21 @@ const EditCategory = () => {
         `/category/update-category/${params.id}`,
         {
           ...formData,
-          attributes: selectedAttributes,
+          attributes: selectedAttributes.map((attribute) => attribute._id),
         }
       );
       navigate(PATHS.adminCategories);
     } catch (e) {
-      debouncedShowToast("something went wrong", "error");
+      debouncedShowToast("Something went wrong", "error");
     }
   };
-  function generateCombinations(attributes) {
-    const combinations = [];
-
-    const generateCombination = (currentCombination, index) => {
-      if (index === attributes.length) {
-        combinations.push(currentCombination);
-        return;
-      }
-
-      const attribute = attributes[index];
-      for (let i = 0; i < attribute.values.length; i++) {
-        const newCombination = { ...currentCombination };
-        newCombination[attribute.name] = attribute.values[i];
-        generateCombination(newCombination, index + 1);
-      }
-    };
-
-    generateCombination({}, 0);
-
-    return combinations;
-  }
 
   function setInitialAttributes() {
-    let arr = [];
-    for (let elem of attributesList) {
-      for (let a of formData?.attributes) {
-        if (elem._id === a) {
-          arr.push(elem);
-        }
-      }
-    }
-    setSelectedAttributes(arr);
+    const initialAttributes = attributesList.filter((attribute) =>
+      formData?.attributes.includes(attribute._id)
+    );
+    setSelectedAttributes(initialAttributes);
   }
-
-  // Example usage
-
-  // Array of combination objects
-  console.log("AddCategory.jsx", combinations);
-
-  // useEffect(() => {
-  //   const res = generateCombinations(attributes)
-  //   setCombinations(res);
-  // }, [selectedAttributes])
-  useEffect(() => {
-    getCategoryData();
-    getAllAttributes();
-    setInitialAttributes();
-    getParentCategories();
-  }, []);
   return (
     <div className="w-full">
       <Header
