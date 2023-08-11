@@ -4,16 +4,23 @@ const Category = require("../schema/categoryModal");
 // add new category
 const addCategory = async (req, res) => {
   try {
-    const { name, hsn_code, description, attributes, parentId, type } = req.body;
+    const { name, hsn_code, description, attributes, parentId, type } =
+      req.body;
     if (req.body.parentId) {
-      const Parent = await Category.findById(req.body.parentId)
-      console.log('categoryController.js', Parent.attributes);
-      const category = new Category({ name, hsn_code, Description: description, parentId, type, attributes: [...Parent.attributes, ...req.body.attributes] });
+      const Parent = await Category.findById(req.body.parentId);
+      console.log("categoryController.js", Parent.attributes);
+      const category = new Category({
+        name,
+        hsn_code,
+        Description: description,
+        parentId,
+        type,
+        attributes: [...Parent.attributes, ...req.body.attributes],
+      });
       await category.save();
       return res.status(201).json(category);
-      console.log('categoryController.js', Parent);
+      console.log("categoryController.js", Parent);
     } else {
-
       const category = new Category({ ...req.body });
       await category.save();
       res.status(201).json(category);
@@ -38,8 +45,7 @@ const getAllCategories = async (req, res) => {
 // get category by id
 const getCategoryById = async (req, res) => {
   try {
-    const categoryId = req.params.id.substring(1);
-    const category = await Category.findById(categoryId);
+    const category = await Category.findById(req.params.id);
     console.log("SELECTED CATEGORY: ", category);
     res.status(200).json(category);
   } catch (error) {
@@ -50,8 +56,7 @@ const getCategoryById = async (req, res) => {
 // update category
 const updateCategory = async (req, res) => {
   try {
-    const categoryId = req.params.id.substring(1);
-    const existingCategory = await Category.findById(categoryId);
+    const existingCategory = await Category.findById(req.params.id);
     if (!existingCategory) {
       return res.status(404).json({ message: "Category not found" });
     }
@@ -137,10 +142,9 @@ const deleteCategory = async (req, res) => {
   }
 };
 const getParentCategories = async (req, res) => {
-  const categories = await Category.find({ parentId: "0" })
-  res.status(200).json(categories)
-
-}
+  const categories = await Category.find({ parentId: "0" });
+  res.status(200).json(categories);
+};
 
 module.exports = {
   addCategory,
@@ -149,5 +153,5 @@ module.exports = {
   updateCategory,
   deleteCategory,
   removeAttributeFromCategory,
-  getParentCategories
+  getParentCategories,
 };

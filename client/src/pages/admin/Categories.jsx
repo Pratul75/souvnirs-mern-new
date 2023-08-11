@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
 import ReusableTable from "../../components/Table";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
@@ -15,6 +15,8 @@ const Categories = () => {
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
   // Add selectedRow.attributes to selectedAttributes
+
+  const navigate = useNavigate();
 
   const [selectedAttributes, setSelectedAttributes] = useState([]);
 
@@ -61,8 +63,7 @@ const Categories = () => {
 
   const handleEdit = (row) => {
     console.log("SELECTED ROW: ", row);
-    window.categories_edit_modal.showModal();
-    setSelectedRow(row);
+    navigate(`${PATHS.EditCategory}/${row._id}`);
   };
 
   const handleEditChange = (e) => {
