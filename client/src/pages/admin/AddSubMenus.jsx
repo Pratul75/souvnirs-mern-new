@@ -11,7 +11,7 @@ const AddSubMenus = () => {
   const [selectedTypeDataValue, setSelectedTypeDataValue] = useState("");
   const [link, setLink] = useState(`${subMenuType}/${selectedTypeDataValue}`);
   const [createdCards, setCreatedCards] = useState([]);
-
+  const [areInputsValid, setAreInputsValid] = useState(false);
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
@@ -62,6 +62,16 @@ const AddSubMenus = () => {
 
   useEffect(() => {
     setLink(`${subMenuType}/${selectedTypeDataValue}`);
+    const isSubMenuHeadingValid = subMenuHeading.trim() !== "";
+    const isSubMenuTypeValid = subMenuType !== "";
+    const isSelectedTypeDataValueValid = selectedTypeDataValue !== "";
+
+    // Update the validation state
+    setAreInputsValid(
+      isSubMenuHeadingValid &&
+        isSubMenuTypeValid &&
+        isSelectedTypeDataValueValid
+    );
   }, [subMenuType, selectedTypeDataValue]);
 
   return (
@@ -146,7 +156,11 @@ const AddSubMenus = () => {
                 id=""
               />
             </div>
-            <button onClick={handleCardSubmit} className="btn btn-primary mt-9">
+            <button
+              disabled={!areInputsValid}
+              onClick={handleCardSubmit}
+              className="btn btn-primary mt-9"
+            >
               Submit
             </button>
           </form>
