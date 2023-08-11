@@ -4,6 +4,8 @@ import API_WRAPPER from "../../api";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../Routes/paths";
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
@@ -209,6 +211,9 @@ const AddSubMenus = () => {
                 </p>
               </div>
               <div>
+                <Link to={PATHS.adminAddChildMenus} className="btn btn-primary">
+                  Add Child Menu
+                </Link>
                 <div
                   className="tooltip tooltip-left"
                   data-tip={"Delete sub menu"}

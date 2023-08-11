@@ -30,7 +30,6 @@ const createMainMenu = async (req, res) => {
 const getMainMenus = async (req, res) => {
   const mainmenus = await MainMenu.findById();
   res.status(200).json(mainmenus);
-  q;
 };
 const createSubMenu = async (req, res) => {
   const { mainMenuId, title, link, type } = req.body;
@@ -38,7 +37,7 @@ const createSubMenu = async (req, res) => {
   res.status(200).json("Sub-menu created successfully");
 };
 const getSubMenus = async (req, res) => {
-  const subMenus = SubMenu.find();
+  const subMenus = await SubMenu.find();
   res.status(200).json(subMenus);
 };
 module.exports = {
