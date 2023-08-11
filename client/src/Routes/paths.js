@@ -49,7 +49,7 @@ export const PATHS = {
   adminAddMainMenus: "/admin/menus/add-menus/add-main-menu",
   adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
   adminAddChildMenus:
-    "admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
+    "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",

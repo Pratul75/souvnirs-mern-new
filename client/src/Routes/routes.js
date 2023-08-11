@@ -35,6 +35,7 @@ import {
   AddMenus,
   Menus,
   AddMainMenus,
+  AddChildMenu,
 
   // vendor routes
   VendorDashboard,
@@ -311,6 +312,12 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddSubMenus,
     Component: AddSubMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddChildMenus,
+    Component: AddChildMenu,
     defaultRole: "admin",
   },
 ];
