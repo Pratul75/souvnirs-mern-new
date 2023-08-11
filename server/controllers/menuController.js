@@ -67,70 +67,41 @@ const createChildMenu = async (req, res) => {
   res.status(200).json("Sub-menu created successfully");
 };
 const getNavbarData = async (req, res) => {
-  const data = await Menu.aggregate([
-    {
-      $match: {
-        title: "navbar",
-      },
-    },
-    {
-      $lookup: {
-        from: "main menus",
-        localField: "_id",
-        foreignField: "menuId",
-        as: "mainMenu",
-      },
-    },
-    {
-      $unwind: "$mainMenu",
-    },
-    {
-      $lookup: {
-        from: "sub menus",
-        localField: "mainMenu._id",
-        foreignField: "mainMenuId",
-        as: "mainMenu.submenus",
-      },
-    },
-    {
-      $unwind: {
-        path: "$mainMenu.submenus",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-    {
-      $lookup: {
-        from: "child menus",
-        localField: "mainMenu.submenus._id",
-        foreignField: "subMenuId",
-        as: "mainMenu.submenus.childMenus",
-      },
-    },
-    {
-      $group: {
-        _id: "$_id",
-        title: {
-          $first: "$title",
-        },
-        mainMenu: {
-          $push: {
-            title: "$mainMenu.title",
-            link: "$mainMenu.link",
-            submenus: {
-              $cond: {
-                if: "$mainMenu.submenus",
-                then: "$mainMenu.submenus",
-                else: [],
-              },
-            },
-          },
-        },
-      },
-    },
-  ]);
-  console.log();
-  res.status(200).json(data);
+  try {
+    const menu = await Menu.findOne({ title: "navbar" });
+    let mainMenu = await MainMenu.find({ menuId: menu._id });
+    let finalData = [];
+
+    for (let main of mainMenu) {
+      let mainMenuObj = main.toObject();
+      let subMenus = await SubMenu.find({ mainMenuId: main._id });
+      mainMenuObj.submenus = [];
+
+      for (let sub of subMenus) {
+        let subMenuObj = sub.toObject();
+        let cMenus = await SubMenuChild.find({ subMenuId: sub._id });
+        subMenuObj.child = cMenus;
+        mainMenuObj.submenus.push(subMenuObj);
+      }
+
+      finalData.push(mainMenuObj);
+    }
+
+    res.status(200).json(finalData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
+
+// Assuming you have your models and database connections set up properly
+// const Menu = require('./models/Menu');
+// const MainMenu = require('./models/MainMenu');
+// const SubMenu = require('./models/SubMenu');
+// const ChildMenu = require('./models/ChildMenu');
+
+module.exports = { getNavbarData };
+
 module.exports = {
   getSubMenus,
   createChildMenu,
