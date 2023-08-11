@@ -64,7 +64,10 @@ const createChildMenu = async (req, res) => {
     });
     console.log(subs);
   }
-  res.status(200).json("Sub-menu created successfully", "success");
+  res.status(200).json("Sub-menu created successfully");
+};
+const getNavbarData = async (req, res) => {
+  const Menu.aggregate()
 };
 module.exports = {
   getSubMenus,
