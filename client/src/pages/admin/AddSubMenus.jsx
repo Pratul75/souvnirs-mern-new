@@ -4,8 +4,6 @@ import API_WRAPPER from "../../api";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { Link } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
@@ -14,6 +12,12 @@ const AddSubMenus = () => {
   const [link, setLink] = useState(`${subMenuType}/${selectedTypeDataValue}`);
   const [createdCards, setCreatedCards] = useState([]);
   const [areInputsValid, setAreInputsValid] = useState(false);
+
+  const getMainMenus = async () => {
+    const response = await API_WRAPPER.get("/main-menu");
+    console.log("AddSubMenus.jsx", response);
+  };
+
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
@@ -61,6 +65,9 @@ const AddSubMenus = () => {
   useEffect(() => {
     handleApiCalls();
   }, [subMenuType]);
+  useEffect(() => {
+    getMainMenus();
+  }, []);
 
   useEffect(() => {
     setLink(`${subMenuType}/${selectedTypeDataValue}`);
@@ -202,12 +209,6 @@ const AddSubMenus = () => {
                 </p>
               </div>
               <div>
-                <Link
-                  to={PATHS.adminAddChildMenus}
-                  className="btn btn-sm btn-accent"
-                >
-                  Child Menu
-                </Link>
                 <div
                   className="tooltip tooltip-left"
                   data-tip={"Delete sub menu"}

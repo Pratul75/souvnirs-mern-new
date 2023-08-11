@@ -1,6 +1,7 @@
 const { response } = require("express");
 const Menu = require("../schema/menuItem");
 const MainMenu = require("../schema/mainMenuModal");
+const SubMenu = require("../schema/subMenuModal");
 
 const createMenu = async (req, res) => {
   const { title } = req.body;
@@ -29,5 +30,21 @@ const createMainMenu = async (req, res) => {
 const getMainMenus = async (req, res) => {
   const mainmenus = await MainMenu.findById();
   res.status(200).json(mainmenus);
+  q;
 };
-module.exports = { createMenu, getMenu, getMainMenus, createMainMenu };
+const createSubMenu = async (req, res) => {
+  const { mainMenuId, title, link, type } = req.body;
+  SubMenu.create({ mainMenuId, title, link, type });
+  res.status(200).json("Sub-menu created successfully");
+};
+const getSubMenus = async (req, res) => {
+  const subMenus = SubMenu.find();
+  res.status(200).json(subMenus);
+};
+module.exports = {
+  getSubMenus,
+  createMenu,
+  getMenu,
+  getMainMenus,
+  createMainMenu,
+};
