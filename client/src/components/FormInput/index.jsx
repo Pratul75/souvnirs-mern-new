@@ -1,6 +1,13 @@
 import { Controller } from "react-hook-form";
 import PropTypes from "prop-types";
-const FormInput = ({ label, name, control, errors, ...inputProps }) => {
+const FormInput = ({
+  label,
+  name,
+  control,
+  errors,
+  defaultValue,
+  ...inputProps
+}) => {
   return (
     <div className="form-control col-span-1">
       <label htmlFor={name} className="label">
@@ -9,7 +16,7 @@ const FormInput = ({ label, name, control, errors, ...inputProps }) => {
       <Controller
         name={name}
         control={control}
-        defaultValue=""
+        defaultValue={defaultValue}
         render={({ field }) => (
           <input
             {...field}

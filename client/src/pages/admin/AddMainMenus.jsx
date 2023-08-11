@@ -117,8 +117,9 @@ const AddMainMenus = () => {
                 to={PATHS.adminAddSubMenus}
                 className="btn btn-primary mt-4"
                 onClick={(e) => {
-                  createMainMenu(e);
-                  navigate(PATHS.adminAddSubMenus);
+                  createMainMenu(e).then(() => {
+                    navigate(PATHS.adminAddSubMenus);
+                  });
                 }}
               >
                 Next

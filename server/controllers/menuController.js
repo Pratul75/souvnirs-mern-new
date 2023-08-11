@@ -2,6 +2,7 @@ const { response } = require("express");
 const Menu = require("../schema/menuItem");
 const MainMenu = require("../schema/mainMenuModal");
 const SubMenu = require("../schema/subMenuModal");
+const SubMenuChild = require("../schema/subMenuChild");
 
 const createMenu = async (req, res) => {
   const { title } = req.body;
@@ -13,7 +14,7 @@ const createMenu = async (req, res) => {
   res.status(200).json(createdMenu);
 };
 const getMenu = async (req, res) => {
-  const menus = await Menu.find();
+  const menus = await Menu.find().sort({ _id: -1 });
   res.status(200).json(menus);
 };
 const createMainMenu = async (req, res) => {
@@ -28,11 +29,10 @@ const createMainMenu = async (req, res) => {
   res.status(200).json("main menu created successfully");
 };
 const getMainMenus = async (req, res) => {
-  const mainmenus = await MainMenu.find();
+  const mainmenus = await MainMenu.find().sort({ _id: -1 });
   res.status(200).json(mainmenus);
 };
 const createSubMenu = async (req, res) => {
-  const { mainMenuId, title, link, type } = req.body;
   for (let elem of req.body) {
     const { heading: title, link, type, typeValue, mainMenuId } = elem;
 
@@ -48,11 +48,27 @@ const createSubMenu = async (req, res) => {
   res.status(200).json("Sub-menu created successfully");
 };
 const getSubMenus = async (req, res) => {
-  const subMenus = await SubMenu.find();
+  const subMenus = await SubMenu.find().sort({ _id: -1 });
   res.status(200).json(subMenus);
+};
+const createChildMenu = async (req, res) => {
+  for (let elem of req.body) {
+    const { heading: title, link, type, typeValue, subMenuId } = elem;
+
+    const subs = await SubMenuChild.create({
+      title,
+      link,
+      type,
+      typeValue,
+      subMenuId,
+    });
+    console.log(subs);
+  }
+  res.status(200).json("Sub-menu created successfully", "success");
 };
 module.exports = {
   getSubMenus,
+  createChildMenu,
   createMenu,
   getMenu,
   getMainMenus,

@@ -12,10 +12,13 @@ const AddChildMenu = () => {
   const [link, setLink] = useState(`${childMenuType}/${selectedTypeDataValue}`);
   const [createdCards, setCreatedCards] = useState([]);
   const [areInputsValid, setAreInputsValid] = useState(false);
+  const [subMenus, setSubmenus] = useState([]);
+  const [subMenuId, setSubMenuId] = useState("");
 
   const getMainMenus = async () => {
-    const response = await API_WRAPPER.get("/main-menu");
+    const response = await API_WRAPPER.get("/sub-menu");
     console.log("AddChildMenu.jsx", response);
+    setSubmenus(response.data);
   };
 
   const handleApiCalls = async () => {
@@ -38,6 +41,12 @@ const AddChildMenu = () => {
       // TODO: Handle page API call
     }
   };
+  const createChildMenus = async () => {
+    const response = await API_WRAPPER.post("/child-menu/create", createdCards);
+    if (response) {
+      debouncedShowToast("child-menu created successfully");
+    }
+  };
 
   const handleCardDelete = (index) => {
     const updatedCards = [...createdCards];
@@ -45,10 +54,12 @@ const AddChildMenu = () => {
     setCreatedCards(updatedCards);
     debouncedShowToast("Submenu deleted successfully", "success");
   };
+  console.log("AddChildMenu.jsx", createdCards);
 
   const handleCardSubmit = (e) => {
     e.preventDefault();
     const newCard = {
+      subMenuId,
       heading: childMenuHeading,
       type: childMenuType,
       typeValue: selectedTypeDataValue,
@@ -95,12 +106,24 @@ const AddChildMenu = () => {
           <form className="grid grid-cols-2 gap-4">
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Main Menu Heading</span>
+                <span className="label-text">Sub Menu Heading</span>
               </label>
-              <select className="select select-primary">
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
+              <select
+                className="select select-primary"
+                name="menuId"
+                id="menuTitle"
+                // value={subMenuId}
+                onChange={(e) => setSubMenuId(e.target.value)}
+              >
+                <option disabled selected>
+                  e Select Sub Menu
+                </option>
+                {subMenus &&
+                  subMenus.map((item) => (
+                    <option value={item._id} key={item._id}>
+                      {item.title}
+                    </option>
+                  ))}
               </select>
             </div>
             <div className="form-control col-span-2">
@@ -236,6 +259,12 @@ const AddChildMenu = () => {
           </div>
         </Card>
       ))}
+      <div className="flex justify-end mt-4 p-4">
+        <button className="btn btn-primary" onClick={createChildMenus}>
+          {" "}
+          Submit
+        </button>
+      </div>
       <ToastContainer />
     </div>
   );
