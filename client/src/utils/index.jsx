@@ -66,7 +66,7 @@ export const showToast = (message, type) => {
   toast(message, {
     type, // 'success', 'error', 'warning', or 'info'
     position: "top-right",
-    autoClose: 2000,
+    autoClose: 1500,
     theme: "dark",
   });
 };

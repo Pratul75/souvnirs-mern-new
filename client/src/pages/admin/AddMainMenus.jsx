@@ -10,8 +10,6 @@ import { debouncedShowToast } from "../../utils";
 const AddMainMenus = () => {
   const [menuHeaderTitlesList, setMenuHeaderTitlesList] = useState([]);
   const [subMenuToggle, setSubMenuToggle] = useState(false);
-  const [mainMenuHeading, setMainMenuHeading] = useState("");
-  const [mainMenuType, setMainMenuType] = useState("");
   const [mainMenuData, setMainMenuData] = useState({ title: "", type: "" });
 
   const getAllMenuHeaderTitles = async () => {
@@ -78,7 +76,7 @@ const AddMainMenus = () => {
               </label>
               <input
                 onChange={(e) => setSubMenuToggle(e.target.checked)}
-                className="toggle"
+                className="toggle toggle-primary"
                 type="checkbox"
                 name="isSubMenu"
                 id="isSubMenu"
@@ -87,6 +85,17 @@ const AddMainMenus = () => {
           </form>
           {subMenuToggle ? (
             <div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Main Menu Heading</span>
+                </label>
+                <input
+                  className="input input-primary"
+                  type="text"
+                  name=""
+                  id=""
+                />
+              </div>
               <div className="mt-4 w-[200px] form-control">
                 <label className="label">
                   <span className="label-text">Link</span>
@@ -101,6 +110,7 @@ const AddMainMenus = () => {
                   value={`#`}
                 />
               </div>
+
               <Link
                 to={PATHS.adminAddSubMenus}
                 className="btn btn-primary mt-4"

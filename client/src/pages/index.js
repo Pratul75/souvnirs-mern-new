@@ -38,6 +38,7 @@ export { default as AddProductAttributes } from "./admin/AddProductAttributes";
 export { default as AddMenus } from "./admin/AddMenus";
 export { default as Menus } from "./admin/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
+export { default as AddChildMenu } from "./admin/AddChildMenu";
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
 export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
