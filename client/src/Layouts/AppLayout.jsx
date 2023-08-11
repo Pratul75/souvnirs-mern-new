@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { Breadcrumb, Footer } from "../components";
+
 const AppLayout = ({ children }) => {
   return (
     <div className="h-screen flex bg-base-200">
