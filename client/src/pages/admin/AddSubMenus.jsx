@@ -279,8 +279,9 @@ const AddSubMenus = () => {
                   <button
                     className="btn btn-primary"
                     onClick={() => {
-                      createSubMenus();
-                      navigate(PATHS.adminAddChildMenus);
+                      createSubMenus().then(() => {
+                        navigate(PATHS.adminAddChildMenus);
+                      });
                     }}
                   >
                     Add Child Menu
