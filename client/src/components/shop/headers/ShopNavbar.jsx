@@ -2,6 +2,7 @@ import { BsChevronDown } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 
 const ShopNavbar = () => {
   const [navbarData, setNavbarData] = useState([]);
@@ -10,6 +11,7 @@ const ShopNavbar = () => {
     const response = await API_WRAPPER.get("/getNavbarMenu");
     if (response.status === 200) {
       setNavbarData(response.data);
+      console.log("NAVBAR DATA: ", response.data);
     }
   };
 
@@ -23,6 +25,7 @@ const ShopNavbar = () => {
         {subMenu.map((submenu) => (
           <li key={submenu._id}>
             <Link
+              // /landing-page/${PATHS.shopCategory}/:slug
               to={submenu.link}
               className="font-bold block py-2 px-3 hover:bg-gray-100 hover:text-primary"
             >
