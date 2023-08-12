@@ -73,6 +73,7 @@ import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";
 import EditCustomer from "../pages/editCustomer";
+import EditCollection from "../pages/admin/EditCollection";
 // admin routes
 export const adminRoutes = [
   {
@@ -104,6 +105,12 @@ export const adminRoutes = [
     path: `${PATHS.EditCategory}/:id`,
     defaultRole: "admin",
     Component: EditCategory,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCollection}/:id`,
+    defaultRole: "admin",
+    Component: EditCollection,
   },
   {
     id: nanoid(),
@@ -468,6 +475,21 @@ export const shopRoutes = [
   {
     id: nanoid(),
     path: PATHS.landingPage,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.shopCategory}/:slug`,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.shopCollection}/:slug`,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.shopProduct}/:slug`,
     Component: LandingPage,
   },
 ];

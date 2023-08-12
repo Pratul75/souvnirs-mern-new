@@ -51,6 +51,7 @@ export const PATHS = {
   adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
   adminAddChildMenus:
     "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
+  EditCollection: "/admin/edit-collection",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",
@@ -79,4 +80,8 @@ export const PATHS = {
   // shop routes
   landingPage: "/landing-page",
   shop: "/shop",
+  shopCollection: "/collection",
+  shopCategory: "/category",
+  shopProduct: "/product",
+  shopPage: "/page",
 };
