@@ -536,7 +536,7 @@ const EditCollection = () => {
               </div>
             </div>
 
-            {filterDivStates?.map((state, index) => (
+            {/* {filterDivStates?.map((state, index) => (
               <div
                 id={`filter-div-${index + 1}`}
                 className="grid grid-cols-3 gap-4 mt-4"
@@ -605,7 +605,7 @@ const EditCollection = () => {
                   </div>
                 )}
               </div>
-            ))}
+            ))} */}
             <div>
               <p className="text-[#A4A4A4] mt-4">
                 *This collection will include all products with at least one
