@@ -53,7 +53,7 @@ const AddMainMenus = () => {
     try {
       const response = await API_WRAPPER.post("/main-menu/create", {
         ...mainMenuData,
-        link: `${mainMenuData.title}/${mainMenuData.type}`,
+        link: `${mainMenuData.type}/${selectedTypeDataValue}`,
       });
       debouncedShowToast("Main Menu Item Created Successfully", "success");
       console.log("AddMainMenus.jsx", response);
