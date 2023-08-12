@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import { Header, Card } from "../../components";
 import { nanoid } from "nanoid";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 import { debouncedShowToast } from "../../utils";
@@ -168,8 +168,8 @@ const AddMainMenus = () => {
                 <input
                   disabled
                   className="input input-primary join-item"
-                  placeholder={`${mainMenuData.title}/${mainMenuData.type}`}
-                  value={`${mainMenuData.title}/${mainMenuData.type}`}
+                  placeholder={`${mainMenuData.type}`}
+                  value={`${mainMenuData.type}`}
                 />
               </div>
               <button
