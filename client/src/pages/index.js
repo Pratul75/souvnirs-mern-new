@@ -64,3 +64,5 @@ export { default as CustomerWishlist } from "./customer/CustomerWishlist";
 
 // shop routes
 export { default as LandingPage } from "./shop/LandingPage";
+export { default as CategoryProducts } from "./shop/CategoryProducts";
+export { default as CollectionProducts } from "./shop/CollectionProducts";
