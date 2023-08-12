@@ -11,11 +11,34 @@ const AddMainMenus = () => {
   const [menuHeaderTitlesList, setMenuHeaderTitlesList] = useState([]);
   const [subMenuToggle, setSubMenuToggle] = useState(false);
   const [mainMenuData, setMainMenuData] = useState({ title: "", type: "" });
+  const [selectedTypeData, setSelectedTypeData] = useState([]);
+  const [selectedTypeDataValue, setSelectedTypeDataValue] = useState("");
 
   const getAllMenuHeaderTitles = async () => {
     const response = await API_WRAPPER.get("/menu");
     if (response?.status === 200) {
       setMenuHeaderTitlesList(response?.data);
+    }
+  };
+
+  const handleApiCalls = async () => {
+    if (mainMenuData.type === "collection") {
+      const response = await API_WRAPPER.get("/collection/get-all-collections");
+      if (response.status === 200) {
+        setSelectedTypeData(response.data);
+      }
+    } else if (mainMenuData.type === "category") {
+      const response = await API_WRAPPER.get("/category/get-all-categories");
+      if (response.status === 200) {
+        setSelectedTypeData(response.data);
+      }
+    } else if (mainMenuData.type === "product") {
+      const response = await API_WRAPPER.get("/products/get-all-products");
+      if (response.status === 200) {
+        setSelectedTypeData(response.data);
+      }
+    } else if (mainMenuData.type === "page") {
+      // TODO: Handle page API call
     }
   };
   const navigate = useNavigate();
@@ -42,6 +65,10 @@ const AddMainMenus = () => {
   useEffect(() => {
     getAllMenuHeaderTitles();
   }, []);
+
+  useEffect(() => {
+    handleApiCalls();
+  }, [mainMenuData.type]);
 
   return (
     <div>
@@ -158,6 +185,31 @@ const AddMainMenus = () => {
                   <option value="page">Page</option>
                 </select>
               </div>
+              <div className="form-control col-span-2 md:col-span-1">
+                <label className="label" htmlFor="">
+                  <span className="label-text">Sub Menu Type Value</span>
+                </label>
+                <select
+                  onChange={(e) => setSelectedTypeDataValue(e.target.value)}
+                  className="select select-primary"
+                  name=""
+                  id=""
+                >
+                  <option selected disabled>
+                    Select Menu Type
+                  </option>
+                  {selectedTypeData.map((selectedType) => (
+                    <option key={selectedType.id}>
+                      {mainMenuData.type === "collection"
+                        ? selectedType.title
+                        : mainMenuData.type === "category" ||
+                          mainMenuData.type === "product"
+                        ? selectedType.name
+                        : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="mt-4 w-[200px] form-control">
                 <label className="label">
                   <span className="label-text">Link</span>
@@ -169,7 +221,7 @@ const AddMainMenus = () => {
                   disabled
                   className="input input-primary join-item"
                   placeholder={`${mainMenuData.type}`}
-                  value={`${mainMenuData.type}`}
+                  value={`${mainMenuData.type}/${selectedTypeDataValue}`}
                 />
               </div>
               <button
