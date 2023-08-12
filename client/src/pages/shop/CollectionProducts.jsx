@@ -1,5 +1,11 @@
+import FilterProducts from "../../components/shop/components/FilterProducts";
+
 const CollectionProducts = () => {
-  return <div>CollectionProducts</div>;
+  return (
+    <div>
+      <FilterProducts />
+    </div>
+  );
 };
 
 export default CollectionProducts;

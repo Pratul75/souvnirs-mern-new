@@ -114,50 +114,48 @@ const ProductOverviewAndAddProduct = () => {
       </div>
 
       {/* Section for the second Line chart */}
-      <div className="col-span-8 md:col-span-3">
-        <Card>
-          <div className="p-4 rounded-xl">
-            <div className="flex">
-              <div className="flex items-center gap-4">
-                <div className="w-11 h-11 rounded-xl bg-base-300"></div>
-                <div>
-                  <h2>Add new product</h2>
-                  <p>@product Details</p>
-                </div>
+      <div className="col-span-8 md:col-span-3 bg-base-100 rounded-xl border-[1px] border-base-300">
+        <div className="p-4 rounded-xl">
+          <div className="flex">
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-xl bg-base-300"></div>
+              <div>
+                <h2>Add new product</h2>
+                <p>@product Details</p>
               </div>
-            </div>
-            <div className="flex justify-between items-center mt-10">
-              <div className="avatar-group -space-x-6">
-                <div className="avatar">
-                  <div className={`w-12 ${getRandomColor()}`}></div>
-                </div>
-                <div className="avatar">
-                  <div className={`w-12 ${getRandomColor()}`}></div>
-                </div>
-                <div className="avatar">
-                  <div className={`w-12 ${getRandomColor()}`}></div>
-                </div>
-                <div className="avatar">
-                  <div className={`w-12 ${getRandomColor()}`}></div>
-                </div>
-                <div className="avatar">
-                  <div className={`w-12 ${getRandomColor()}`}></div>
-                </div>
-                <div className="avatar placeholder">
-                  <div className="w-12 bg-neutral-focus text-neutral-content">
-                    <span>+99</span>
-                  </div>
-                </div>
-              </div>
-              <Link
-                to={PATHS.adminAddProducts}
-                className="btn btn-primary btn-circle"
-              >
-                <AiOutlinePlus />
-              </Link>
             </div>
           </div>
-        </Card>
+          <div className="flex justify-between items-center mt-10">
+            <div className="avatar-group -space-x-6">
+              <div className="avatar">
+                <div className={`w-12 ${getRandomColor()}`}></div>
+              </div>
+              <div className="avatar">
+                <div className={`w-12 ${getRandomColor()}`}></div>
+              </div>
+              <div className="avatar">
+                <div className={`w-12 ${getRandomColor()}`}></div>
+              </div>
+              <div className="avatar">
+                <div className={`w-12 ${getRandomColor()}`}></div>
+              </div>
+              <div className="avatar">
+                <div className={`w-12 ${getRandomColor()}`}></div>
+              </div>
+              <div className="avatar placeholder">
+                <div className="w-12 bg-neutral-focus text-neutral-content">
+                  <span>+99</span>
+                </div>
+              </div>
+            </div>
+            <Link
+              to={PATHS.adminAddProducts}
+              className="btn btn-primary btn-circle"
+            >
+              <AiOutlinePlus />
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

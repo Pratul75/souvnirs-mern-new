@@ -1,12 +1,17 @@
 import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
 import { AiOutlineHeart } from "react-icons/ai";
 import { PiBag } from "react-icons/pi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { CiSearch } from "react-icons/ci";
+import { RiDashboardLine } from "react-icons/ri";
 
 // souvnirs main header
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+  const navigate = useNavigate();
+
   return (
     <header className="py-[32px]">
       <div className="flex justify-between items-center px-16">
@@ -37,8 +42,33 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <Link to={PATHS.login}>Login</Link>
-          <Link to={PATHS.register}>Register</Link>|
+          {token ? (
+            <div className="flex gap-4">
+              {/* TODO: need to add condition for user and vendor login as well */}
+              <div className="tooltip tooltip-bottom" data-tip="dashboard">
+                <Link
+                  to={PATHS.adminDashboard}
+                  className="btn btn-primary btn-square btn-sm"
+                >
+                  <RiDashboardLine className="text-2xl" />
+                </Link>
+              </div>
+              <button
+                onClick={() => {
+                  localStorage.clear();
+                  navigate(PATHS.login);
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <>
+              <Link to={PATHS.login}>Login</Link>
+              <Link to={PATHS.register}>Register</Link>|
+            </>
+          )}
+
           <AiOutlineHeart className="text-2xl cursor-pointer" />
           <div className="indicator">
             <div
