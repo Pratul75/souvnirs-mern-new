@@ -41,26 +41,26 @@ const Menus = () => {
     ],
     []
   );
-  const extractedMenuData = useMemo(
-    () => extractTitlesAndStatuses(menuData),
-    [menuData]
-  );
+  // const extractedMenuData = useMemo(
+  //   () => extractTitlesAndStatuses(menuData),
+  //   [menuData]
+  // );
 
-  function extractTitlesAndStatuses(data) {
-    console.log("Menus.jsx", data);
-    const extractedData = [];
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
-      const extractedItem = {
-        title: element.title,
-        status: element.status,
-      };
-      extractedData.push(extractedItem);
-    }
-    console.log("CONVERTED DATA :", extractedData);
+  // function extractTitlesAndStatuses(data) {
+  //   console.log("Menus.jsx", data);
+  //   const extractedData = [];
+  //   for (let index = 0; index < data.length; index++) {
+  //     const element = data[index];
+  //     const extractedItem = {
+  //       title: element.title,
+  //       status: element.status,
+  //     };
+  //     extractedData.push(extractedItem);
+  //   }
+  //   console.log("CONVERTED DATA :", extractedData);
 
-    return extractedData;
-  }
+  //   return extractedData;
+  // }
 
   useEffect(() => {
     async function fetchData() {
@@ -80,6 +80,7 @@ const Menus = () => {
         subheading="This section shows information about all the added menus in the application."
       />
       <div className="mt-5">
+        {" "}
         {/* {menuData && (
           // <ReusableTable
           //   tableTitle="Main menu List"
@@ -95,12 +96,9 @@ const Menus = () => {
           //   // onEdit={handleEdit}
           // />
         )} */}
-
         {/* edit modal */}
-
         {/* delete modal */}
-      </div>
-
+      </div>{" "}
       <div className="flex justify-end mt-4">
         <Link className="btn btn-primary" to={PATHS.adminAddMenus}>
           Add Menu
