@@ -4,6 +4,11 @@ const secretKey = "aspdijr230wefn203wqiokn_eww9rijn"; // Replace this with your 
 
 const authMiddleware = (authorizedRoles) => (req, res, next) => {
   // Get the token from the request headers
+  if (!req.header("Authorization")) {
+    res.status(401).json({
+      message: "no token passed",
+    });
+  }
   const token = req.header("Authorization").split(" ")[1];
 
   if (!token) {
