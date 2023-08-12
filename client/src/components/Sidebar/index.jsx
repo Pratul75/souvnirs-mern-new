@@ -27,7 +27,7 @@ const Sidebar = () => {
   }, [isExpanded]);
 
   const username = JSON.parse(localStorage.getItem("username"));
-  console.log('index.jsx', username);
+  console.log("index.jsx", username);
   const userInitials = username
     .split(" ")
     .map((item) => item[0]?.toUpperCase())

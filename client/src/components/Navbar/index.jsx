@@ -14,13 +14,19 @@ import { PATHS } from "../../Routes/paths";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const sidebarState = useSelector((x) => x.appConfig.sidebarExpanded);
   const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
   const handleLogout = () => {
     localStorage.clear();
     dispatch(getLoginInfo(""));
     navigate(PATHS.login);
   };
+
+  const username = JSON.parse(localStorage.getItem("username"));
+  console.log("index.jsx", username);
+  const userInitials = username
+    .split(" ")
+    .map((item) => item[0]?.toUpperCase())
+    .join("");
 
   return (
     <nav className="w-full">
@@ -105,7 +111,7 @@ const Navbar = () => {
 
           <div className="dropdown dropdown-left dropdown-bottom cursor-pointer">
             <label tabIndex={0}>
-              <Avatar bgColor={"bg-info"} initials="VB" />
+              <Avatar bgColor={"bg-info"} initials={userInitials} />
             </label>
             <ul
               tabIndex={0}
@@ -140,7 +146,7 @@ const Navbar = () => {
           <Avatar
             onClick={() => handleLogout()}
             bgColor={"bg-info"}
-            initials="VB"
+            initials={userInitials}
           />
         </div>
       </div>
