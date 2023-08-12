@@ -183,7 +183,37 @@ const EditCollection = () => {
     }
   };
   const fetchCollectionData = async (id) => {
-    await API_WRAPPER.get(`/collection/get-collection-by-id/:${id}`);
+    const response = await API_WRAPPER.get(
+      `/collection/get-collection-by-id/:${id}`
+    );
+    setFormData({...response.data,filterDivStates:response.data.});
+    setDescriptionValue(response?.data?.description);
+  };
+  const updateCollection = async () => {
+    let extractedConditionNames = formData.filterDivStates.map(
+      (item) => item.selectedTitle
+    );
+    let extractedConditionValue = formData.filterDivStates.map(
+      (item) => item.conditionValue
+    );
+
+    const updatedFormData = {
+      ...formData,
+      description: descriptionValue,
+      collectionConditionId: extractedConditionNames,
+      conditionValue: extractedConditionValue,
+      deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
+      activeProducts: activeProducts.map((product) => product._id) || [],
+    };
+    const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
+      updatedFormData;
+
+    const { filterDivCount, ...abstractedFormData } =
+      updatedFormDataWithoutFilterDivStates;
+    API_WRAPPER.put(
+      `/collection/update-collection-by-id/:${params.id}`,
+      abstractedFormData
+    );
   };
 
   const resetForm = () => {
@@ -386,6 +416,7 @@ const EditCollection = () => {
     }
   }, [formData.selectedTitle, collectionConditionList, conditionValueList]);
 
+  console.log("EditCollection.jsx", formData);
   return (
     <div>
       <Header
@@ -411,7 +442,7 @@ const EditCollection = () => {
                 type="text"
                 name="title"
                 id="title"
-                value={title}
+                value={formData.title}
                 onChange={handleChange} // Add onChange event handler to update the state
               />
             </div>
@@ -505,7 +536,7 @@ const EditCollection = () => {
               </div>
             </div>
 
-            {filterDivStates.map((state, index) => (
+            {filterDivStates?.map((state, index) => (
               <div
                 id={`filter-div-${index + 1}`}
                 className="grid grid-cols-3 gap-4 mt-4"
@@ -693,7 +724,10 @@ const EditCollection = () => {
         </div>
       </div>
       <div className="flex gap-4 my-8 w-full justify-end border-t-base-300">
-        <button className="btn btn-primary" onClick={(e) => handleSubmit(e)}>
+        <button
+          className="btn btn-primary"
+          onClick={(e) => updateCollection(e)}
+        >
           Submit
         </button>
         <button onClick={() => resetForm()} className="btn btn-primary">
