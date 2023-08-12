@@ -69,6 +69,7 @@ const createProduct = async (req, res) => {
       totalSales,
       tags,
       attributes,
+      categoryId,
     } = req.body;
     // if (!name || !vendorId || !slug || !description || !price) {
 
@@ -102,6 +103,7 @@ const createProduct = async (req, res) => {
       tags,
       attributes: attArr,
       coverImage: imageUrl.url,
+      categoryId,
     });
 
     // Save the product to the database

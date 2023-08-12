@@ -120,7 +120,7 @@ const EditCollection = () => {
 
   // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
-    const changedTitleFilterArr = filterDivStates.map((filter) => {
+    const changedTitleFilterArr = filterDivStates?.map((filter) => {
       switch (filter.selectedTitle) {
         case "compare at price":
           return { ...filter, selectedTitle: "compareAtPrice" };
@@ -190,10 +190,10 @@ const EditCollection = () => {
     setDescriptionValue(response?.data?.description);
   };
   const updateCollection = async () => {
-    let extractedConditionNames = formData.filterDivStates.map(
+    let extractedConditionNames = formData.filterDivStates?.map(
       (item) => item.selectedTitle
     );
-    let extractedConditionValue = formData.filterDivStates.map(
+    let extractedConditionValue = formData.filterDivStates?.map(
       (item) => item.conditionValue
     );
 
@@ -295,7 +295,7 @@ const EditCollection = () => {
     const { value } = e.target;
 
     setFormData((prevData) => {
-      const updatedFilterDivStates = prevData.filterDivStates.map(
+      const updatedFilterDivStates = prevData.filterDivStates?.map(
         (state, i) => {
           if (i === index) {
             return {
@@ -325,7 +325,7 @@ const EditCollection = () => {
 
         updatedFilterDivStates;
         const updatedFilterDivStatesWithConditionValue =
-          updatedFilterDivStates.map((state, i) => {
+          updatedFilterDivStates?.map((state, i) => {
             if (i === index) {
               return {
                 ...state,
@@ -367,10 +367,10 @@ const EditCollection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let extractedConditionNames = formData.filterDivStates.map(
+    let extractedConditionNames = formData.filterDivStates?.map(
       (item) => item.selectedTitle
     );
-    let extractedConditionValue = formData.filterDivStates.map(
+    let extractedConditionValue = formData.filterDivStates?.map(
       (item) => item.conditionValue
     );
 
