@@ -30,7 +30,7 @@ const getAllCollections = async (req, res) => {
 // Get a single collection by ID
 const getCollectionById = async (req, res) => {
   try {
-    const collection = await Collection.findById(req.params.id);
+    const collection = await Collection.findById(req.params.id.substring(1));
     if (!collection) {
       return res.status(404).json({ error: "Collection not found" });
     }
