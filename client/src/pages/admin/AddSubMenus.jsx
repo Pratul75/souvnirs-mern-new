@@ -16,6 +16,7 @@ const AddSubMenus = () => {
   const [areInputsValid, setAreInputsValid] = useState(false);
   const [mainMenus, setMainMenus] = useState([]);
   const [mainMenuId, setMainMenuId] = useState("");
+  const [childMenuToggle, setChildMenuToggle] = useState(false);
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/main-menu");
@@ -88,12 +89,14 @@ const AddSubMenus = () => {
     const isSelectedTypeDataValueValid = selectedTypeDataValue !== "";
 
     // Update the validation state
-    setAreInputsValid(
-      isSubMenuHeadingValid &&
-        isSubMenuTypeValid &&
-        isSelectedTypeDataValueValid
-    );
-  }, [subMenuType, selectedTypeDataValue]);
+    !childMenuToggle
+      ? setAreInputsValid(
+          isSubMenuHeadingValid &&
+            isSubMenuTypeValid &&
+            isSelectedTypeDataValueValid
+        )
+      : setAreInputsValid(isSubMenuHeadingValid);
+  });
 
   return (
     <div>
@@ -142,49 +145,66 @@ const AddSubMenus = () => {
                 id=""
               />
             </div>
-            <div className="form-control col-span-2 md:col-span-1">
-              <label className="label" htmlFor="">
-                <span className="label-text">Sub Menu Type</span>
+            <div className="form-control">
+              <label htmlFor="isSubMenu" className="label">
+                <span className="label-text">Create Child Menu</span>
               </label>
-              <select
-                onChange={(e) => setSubMenuType(e.target.value)}
-                className="select select-primary"
-                name=""
-                id=""
-              >
-                <option selected disabled>
-                  Select Menu Type
-                </option>
-                <option value="collection">Collection</option>
-                <option value="category">Category</option>
-                <option value="product">Product</option>
-                <option value="page">Page</option>
-              </select>
+              <input
+                onChange={(e) => setChildMenuToggle(e.target.checked)}
+                className="toggle toggle-primary"
+                type="checkbox"
+                name="isSubMenu"
+                id="isSubMenu"
+              />
             </div>
-            <div className="form-control col-span-2 md:col-span-1">
-              <label className="label" htmlFor="">
-                <span className="label-text">Sub Menu Type Value</span>
-              </label>
-              <select
-                onChange={(e) => setSelectedTypeDataValue(e.target.value)}
-                className="select select-primary"
-                name=""
-                id=""
-              >
-                <option selected disabled>
-                  Select Menu Type
-                </option>
-                {selectedTypeData.map((selectedType) => (
-                  <option key={selectedType.id}>
-                    {subMenuType === "collection"
-                      ? selectedType.title
-                      : subMenuType === "category" || subMenuType === "product"
-                      ? selectedType.name
-                      : ""}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {!childMenuToggle && (
+              <div>
+                <div className="form-control col-span-2 md:col-span-1">
+                  <label className="label" htmlFor="">
+                    <span className="label-text">Sub Menu Type</span>
+                  </label>
+                  <select
+                    onChange={(e) => setSubMenuType(e.target.value)}
+                    className="select select-primary"
+                    name=""
+                    id=""
+                  >
+                    <option selected disabled>
+                      Select Menu Type
+                    </option>
+                    <option value="collection">Collection</option>
+                    <option value="category">Category</option>
+                    <option value="product">Product</option>
+                    <option value="page">Page</option>
+                  </select>
+                </div>
+                <div className="form-control col-span-2 md:col-span-1">
+                  <label className="label" htmlFor="">
+                    <span className="label-text">Sub Menu Type Value</span>
+                  </label>
+                  <select
+                    onChange={(e) => setSelectedTypeDataValue(e.target.value)}
+                    className="select select-primary"
+                    name=""
+                    id=""
+                  >
+                    <option selected disabled>
+                      Select Menu Type
+                    </option>
+                    {selectedTypeData.map((selectedType) => (
+                      <option key={selectedType.id}>
+                        {subMenuType === "collection"
+                          ? selectedType.title
+                          : subMenuType === "category" ||
+                            subMenuType === "product"
+                          ? selectedType.name
+                          : ""}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Link</span>
@@ -194,7 +214,11 @@ const AddSubMenus = () => {
               </label>
               <input
                 disabled
-                value={`${subMenuType}/${selectedTypeDataValue}`}
+                value={
+                  !childMenuToggle
+                    ? `${subMenuType}/${selectedTypeDataValue}`
+                    : "#"
+                }
                 className="input input-primary "
                 type="text"
                 name=""
@@ -225,35 +249,43 @@ const AddSubMenus = () => {
                   <span className="text-primary font-semibold">
                     Sub Menu Heading:
                   </span>{" "}
-                  {card.heading}
+                  {card.heading && card.heading}
                 </h2>
-                <p>
-                  <span className="text-primary font-semibold">
-                    Sub Menu Type:
-                  </span>{" "}
-                  {card.type}
-                </p>
-                <p>
-                  <span className="text-primary font-semibold">
-                    Sub Menu Type Value:
-                  </span>{" "}
-                  {card.typeValue}{" "}
-                </p>
-                <p>
-                  <span className="text-primary font-semibold">Link:</span>
-                  {card.link}
-                </p>
+                {card.type && (
+                  <p>
+                    <span className="text-primary font-semibold">
+                      Sub Menu Type:
+                    </span>{" "}
+                    {card.type && card.type}
+                  </p>
+                )}
+                {card.typeValue && (
+                  <p>
+                    <span className="text-primary font-semibold">
+                      Sub Menu Type Value:
+                    </span>{" "}
+                    {card.typeValue}{" "}
+                  </p>
+                )}
+                {card.link && (
+                  <p>
+                    <span className="text-primary font-semibold">Link:</span>
+                    {card.link}
+                  </p>
+                )}
               </div>
               <div>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => {
-                    createSubMenus();
-                    navigate(PATHS.adminAddChildMenus);
-                  }}
-                >
-                  Add Child Menu
-                </button>
+                {card.type && (
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => {
+                      createSubMenus();
+                      navigate(PATHS.adminAddChildMenus);
+                    }}
+                  >
+                    Add Child Menu
+                  </button>
+                )}
                 <div
                   className="tooltip tooltip-left"
                   data-tip={"Delete sub menu"}
