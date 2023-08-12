@@ -31,5 +31,5 @@ router.get(
 router.post("/main-menu/create", authMiddleware(["admin"]), createMainMenu);
 router.post("/sub-menu/create", authMiddleware(["admin"]), createSubMenu);
 router.post("/child-menu/create", authMiddleware(["admin"]), createChildMenu);
-router.get("/getNavbarMenu", authMiddleware(["admin"]), getNavbarData);
+router.get("/getNavbarMenu", getNavbarData);
 module.exports = router;
