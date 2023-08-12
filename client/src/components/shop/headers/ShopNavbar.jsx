@@ -22,7 +22,7 @@ const ShopNavbar = () => {
 
   const renderSubMenu = (subMenu) => {
     return (
-      <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 overflow-y-auto max-h-[20rem] absolute left-0 mt-1">
+      <ul className="w-96 max-w-[1200px] flex-wrap menu dropdown-content flex flex-row  p-2 shadow bg-base-100 z-[1] rounded-box">
         {subMenu.map((submenu) => (
           <li key={submenu._id}>
             <Link
@@ -32,7 +32,7 @@ const ShopNavbar = () => {
               {submenu.title}
             </Link>
             {submenu.child && submenu.child.length > 0 && (
-              <ul className="sub-submenu pl-2">
+              <ul className="menu pl-2">
                 {submenu.child.map((child) => (
                   <li key={child._id}>
                     <Link
