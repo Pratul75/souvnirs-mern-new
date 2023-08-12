@@ -64,6 +64,7 @@ import {
   // shop routes
   LandingPage,
   CategoryProducts,
+  CollectionProducts,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
@@ -481,7 +482,7 @@ export const shopRoutes = [
   {
     id: nanoid(),
     path: `${PATHS.shopCollection}/:slug`,
-    Component: LandingPage,
+    Component: CollectionProducts,
   },
   {
     id: nanoid(),

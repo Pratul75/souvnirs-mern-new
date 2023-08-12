@@ -1,14 +1,12 @@
 import { BsChevronDown } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { PATHS } from "../../../Routes/paths";
+import { Link, useLocation } from "react-router-dom";
 
 const ShopNavbar = () => {
   const [navbarData, setNavbarData] = useState([]);
   const location = useLocation();
   console.log("LOCATION OBJ: ", location);
-  const navigate = useNavigate();
 
   const getNavbarData = async () => {
     const response = await API_WRAPPER.get("/getNavbarMenu");

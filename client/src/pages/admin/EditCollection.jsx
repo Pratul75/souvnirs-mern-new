@@ -186,7 +186,7 @@ const EditCollection = () => {
     const response = await API_WRAPPER.get(
       `/collection/get-collection-by-id/:${id}`
     );
-    setFormData({...response.data,filterDivStates:response.data.});
+    setFormData({ ...response.data, filterDivStates: response.data });
     setDescriptionValue(response?.data?.description);
   };
   const updateCollection = async () => {
