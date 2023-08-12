@@ -475,12 +475,7 @@ export const customerRoutes = [
 export const shopRoutes = [
   {
     id: nanoid(),
-    path: PATHS.landingPage,
-    Component: LandingPage,
-  },
-  {
-    id: nanoid(),
-    path: `/landing-page${PATHS.shopCategory}/:slug`,
+    path: `${PATHS.shopCategory}/:slug`,
     Component: CategoryProducts,
   },
   {
@@ -491,6 +486,11 @@ export const shopRoutes = [
   {
     id: nanoid(),
     path: `${PATHS.shopProduct}/:slug`,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.landingPage,
     Component: LandingPage,
   },
 ];
