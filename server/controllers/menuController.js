@@ -68,29 +68,38 @@ const createChildMenu = async (req, res) => {
 };
 const getNavbarData = async (req, res) => {
   try {
-    const menu = await Menu.findOne({ title: "navbar" });
-    let mainMenu = await MainMenu.find({ menuId: menu._id });
-    let finalData = [];
+    const menu = await Menu.findOne({ title: "navbar" }).lean();
+    const mainMenuIds = await MainMenu.find({ menuId: menu._id }, "_id").lean();
 
-    for (let main of mainMenu) {
-      let mainMenuObj = main.toObject();
-      let subMenus = await SubMenu.find({ mainMenuId: main._id });
-      mainMenuObj.submenus = [];
+    const mainMenuPromises = mainMenuIds.map(async (mainMenu) => {
+      const mainMenuObj = { ...mainMenu };
+      const subMenus = await SubMenu.find({ mainMenuId: mainMenu._id }).lean();
 
-      for (let sub of subMenus) {
-        let subMenuObj = sub.toObject();
-        let cMenus = await SubMenuChild.find({ subMenuId: sub._id });
-        subMenuObj.child = cMenus;
-        mainMenuObj.submenus.push(subMenuObj);
-      }
+      const subMenuPromises = subMenus.map(async (subMenu) => {
+        const subMenuObj = { ...subMenu };
+        subMenuObj.child = await SubMenuChild.find({
+          subMenuId: subMenu._id,
+        }).lean();
+        return subMenuObj;
+      });
 
-      finalData.push(mainMenuObj);
-    }
+      mainMenuObj.submenus = await Promise.all(subMenuPromises);
+      return mainMenuObj;
+    });
+
+    const finalData = await Promise.all(mainMenuPromises);
 
     res.status(200).json(finalData);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+const deleteMenu = async () => {
+  const { id } = req.params;
+  const deleted = await Menu.findByIdAndDelete(id);
+  if (deleted.deleteCount > 0) {
+    return res.status(200).json("Menu deleted successfully");
   }
 };
 
@@ -99,8 +108,6 @@ const getNavbarData = async (req, res) => {
 // const MainMenu = require('./models/MainMenu');
 // const SubMenu = require('./models/SubMenu');
 // const ChildMenu = require('./models/ChildMenu');
-
-module.exports = { getNavbarData };
 
 module.exports = {
   getSubMenus,
@@ -111,4 +118,5 @@ module.exports = {
   createMainMenu,
   createSubMenu,
   getNavbarData,
+  deleteMenu,
 };

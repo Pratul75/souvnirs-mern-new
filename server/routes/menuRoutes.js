@@ -7,6 +7,7 @@ const {
   createSubMenu,
   createChildMenu,
   getNavbarData,
+  deleteMenu,
 } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
@@ -17,6 +18,7 @@ router.post(
   createMenu
 );
 router.get("/menu", authMiddleware(["vendor", "admin", "customer"]), getMenu);
+router.delete("/menu/:id", authMiddleware(["admin"]), deleteMenu);
 
 router.get(
   "/main-menu",
