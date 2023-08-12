@@ -275,7 +275,7 @@ const AddSubMenus = () => {
                 )}
               </div>
               <div>
-                {card.type && (
+                {!card.type && (
                   <button
                     className="btn btn-primary"
                     onClick={() => {
