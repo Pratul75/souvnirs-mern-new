@@ -8,6 +8,7 @@ const Menus = () => {
   const [menuData, setMenuData] = useState();
   const fetchMenuData = async (req, res) => {
     const response = await API_WRAPPER.get("/menu");
+    setMenuData(response.data);
   };
   useEffect(() => {
     fetchMenuData();

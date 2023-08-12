@@ -69,7 +69,10 @@ const createChildMenu = async (req, res) => {
 const getNavbarData = async (req, res) => {
   try {
     const menu = await Menu.findOne({ title: "navbar" }).lean();
-    const mainMenuIds = await MainMenu.find({ menuId: menu._id }, "_id").lean();
+    const mainMenuIds = await MainMenu.find(
+      { menuId: menu._id },
+      "_id title"
+    ).lean();
 
     const mainMenuPromises = mainMenuIds.map(async (mainMenu) => {
       const mainMenuObj = { ...mainMenu };
