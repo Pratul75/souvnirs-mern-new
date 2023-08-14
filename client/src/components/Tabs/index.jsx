@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
 import Card from "../Card";
 
-const Tabs = ({ tabs, enableBorder, hasCard }) => {
+const Tabs = ({ tabs, enableBorder, hasCard, alignCenter }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return hasCard ? (
@@ -62,7 +62,7 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
         enableBorder ? "border-[1px] border-base-300" : ""
       } bg-base-100`}
     >
-      <div className="flex">
+      <div className={`flex ${alignCenter ? "w-full justify-center" : ""} `}>
         {tabs.map((tab, index) => (
           <button
             key={index}
@@ -102,6 +102,7 @@ const Tabs = ({ tabs, enableBorder, hasCard }) => {
 Tabs.propTypes = {
   enableBorder: PropTypes.bool,
   hasCard: PropTypes.bool,
+  alignCenter: PropTypes.bool,
   tabs: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,

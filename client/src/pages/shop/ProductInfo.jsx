@@ -3,11 +3,50 @@ import ProductImagePrimary from "../../assets/shop/productImages/productImagePri
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
-import { Ratings } from "../../components";
+import { ProductsListWithFilters, Ratings, Tabs } from "../../components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { productListFiltersAndProducts } from "../../mappings";
+
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
-
+  const tabs = [
+    {
+      label: "Description",
+      content: (
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
+          quo numquam quae dolorum, quam quasi suscipit illum nemo nobis unde
+          commodi soluta error exercitationem ab nostrum sequi pariatur
+          provident voluptatum!
+        </p>
+      ),
+    },
+    {
+      label: "Specification",
+      content: (
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
+          repellendus dolorum tenetur laborum recusandae iure exercitationem
+          quis possimus vel atque nam quidem ut nobis, iusto nemo, magni
+          asperiores suscipit. Quae? Lorem ipsum, dolor sit amet consectetur
+          adipisicing elit. Laboriosam similique, repellat necessitatibus cum
+          cumque ex excepturi aliquid optio ipsa eligendi beatae impedit
+          recusandae! Omnis ipsum voluptatem possimus tenetur itaque esse?
+        </p>
+      ),
+    },
+    {
+      label: "Review",
+      content: (
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
+          repellendus dolorum tenetur laborum recusandae iure exercitationem
+          quis possimus vel atque nam quidem ut nobis, iusto nemo, magni
+          asperiores suscipit. Quae?
+        </p>
+      ),
+    },
+  ];
   return (
     <div className="mx-16 mt-4">
       <Link to={PATHS.landingPage} className="btn">
@@ -132,6 +171,13 @@ const ProductInfo = () => {
           </div>
         </div>
       </div>
+      <Tabs tabs={tabs} alignCenter />
+
+      <ProductsListWithFilters
+        heading="Top Seasonal Gifts"
+        filters={productListFiltersAndProducts.filters}
+        products={productListFiltersAndProducts.products}
+      />
     </div>
   );
 };

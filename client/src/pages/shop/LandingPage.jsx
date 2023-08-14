@@ -31,28 +31,8 @@ import {
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
 import FilterProducts from "../../components/shop/components/FilterProducts";
-import API_WRAPPER from "../../api";
-import { useEffect, useState } from "react";
-import { debouncedShowToast } from "../../utils";
 
 const LandingPage = () => {
-  const [productsList, setProductsList] = useState([]);
-
-  useEffect(() => {
-    const getProducts = async () => {
-      try {
-        const response = API_WRAPPER.get("/products/get-all-products");
-        if (response.status === 200) {
-          setProductsList(response?.data);
-          console.log("ALL PRODUCTS LIST: ", response?.data);
-        }
-      } catch (error) {
-        debouncedShowToast(error.message, "error");
-      }
-    };
-    getProducts();
-  }, [setProductsList]);
-
   return (
     <div className="w-screen h-auto">
       <HeaderCards

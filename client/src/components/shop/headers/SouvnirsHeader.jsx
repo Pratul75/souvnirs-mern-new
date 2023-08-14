@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { CiSearch } from "react-icons/ci";
 import { RiDashboardLine } from "react-icons/ri";
+import AddToCartACard from "../cards/AddToCartACard";
 
 // souvnirs main header
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
@@ -15,9 +16,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   return (
     <header className="py-[32px]">
       <div className="flex justify-between items-center px-16">
-        <div>
+        <Link to={PATHS.landingPage} className="cursor-pointer">
           <img src={SouvnirsLogoImage} alt="souvnirs logo" />
-        </div>
+        </Link>
         <div className="join">
           <div>
             <div>
@@ -80,6 +81,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           </div>
         </div>
       </div>
+      <AddToCartACard />
     </header>
   );
 };
