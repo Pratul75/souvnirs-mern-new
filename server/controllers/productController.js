@@ -19,6 +19,13 @@ const addMedias = async (req, res) => {
     urls.push(uploaded.url);
     console.log("productController.js", uploaded);
   }
+  if (req.role === "admin") {
+    const media = await Media.findOneAndUpdate(
+      { vendorId: req.userId },
+      { $addToSet: { links: urls } },
+      { upsert: true, new: true }
+    );
+  }
   const media = await Media.findOneAndUpdate(
     { vendorId: req.userId },
     { $addToSet: { links: urls } },
@@ -36,17 +43,23 @@ const getAllMedia = async (req, res) => {
           from: "vendors",
           localField: "vendorId",
           foreignField: "_id",
-          as: "result",
+          as: "vendorId",
         },
       },
       {
         $unwind: {
-          path: "$result",
+          path: "$vendorId",
+          preserveNullAndEmptyArrays: true,
         },
       },
       {
         $unwind: {
           path: "$links",
+        },
+      },
+      {
+        $sort: {
+          createdAt: -1,
         },
       },
     ]);
@@ -120,6 +133,87 @@ const createProduct = async (req, res) => {
     console.error(error);
     res.status(400).json({ error: "Failed to create product" });
   }
+};
+
+const getProductsByCategorySlug = async (req, res) => {
+  const { slug } = req.params;
+  console.log("productController.js", slug);
+
+  const products = await Product.aggregate([
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    {
+      $unwind: {
+        path: "$category",
+      },
+    },
+    {
+      $match: {
+        "category.name": "apparels",
+      },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "_id",
+        foreignField: "productId",
+        as: "variants",
+      },
+    },
+    {
+      $sort: { createdAt: -1 },
+    },
+  ]);
+
+  // Gather unique attributes and their values
+  const uniqueAttributes = {};
+
+  products.forEach((product) => {
+    product.variants.forEach((variant) => {
+      Object.entries(variant).forEach(([attribute, value]) => {
+        if (attribute !== "productId") {
+          if (!uniqueAttributes[attribute]) {
+            uniqueAttributes[attribute] = new Set();
+          }
+
+          if (Array.isArray(value)) {
+            value.forEach((subValue) =>
+              uniqueAttributes[attribute].add(subValue)
+            );
+          } else {
+            uniqueAttributes[attribute].add(value);
+          }
+        }
+      });
+    });
+  });
+
+  // Convert uniqueAttributes into arrays
+  Object.keys(uniqueAttributes).forEach((attribute) => {
+    uniqueAttributes[attribute] = Array.from(uniqueAttributes[attribute]);
+  });
+  const variantComb = uniqueAttributes.variant.reduce((attributes, item) => {
+    if (typeof item === "object" && !Array.isArray(item)) {
+      for (const key in item) {
+        if (!attributes[key]) {
+          attributes[key] = [];
+        }
+        if (!attributes[key].includes(item[key])) {
+          attributes[key].push(item[key]);
+        }
+      }
+    }
+    return attributes;
+  }, {});
+  console.log();
+
+  res.status(200).json({ products, filters, variantComb });
 };
 
 // creating a api for creating product variant separetely because its not doable with product creation.
@@ -261,7 +355,10 @@ const editProduct = async (req, res) => {
   const updatedProductData = req.body;
   const { variant } = updatedProductData;
   console.log("productController.js", variant);
-  const parseVariant = JSON.parse(variant);
+  let parseVariant;
+  if (variant) {
+    parseVariant = JSON.parse(variant);
+  }
 
   try {
     // Find the product by ID and update it
@@ -364,6 +461,7 @@ const bulkProductUpload = async (req, res) => {
       Fabric,
       Type,
       Flavour,
+      coverImage,
       ...rest
     } = item;
 
@@ -391,6 +489,7 @@ const bulkProductUpload = async (req, res) => {
         VendorEmail,
         tags,
         Category,
+        coverImage,
         attributes: [
           { Color },
           { Size },
@@ -435,17 +534,20 @@ const bulkProductUpload = async (req, res) => {
       tags: thisdata.tags.split("/"),
       attributes: attributeIds,
       categoryId: category._id,
+      coverImage: thisdata.FeatureImage,
     });
     console.log(productCreated);
     for (let variant of thisdata.data) {
       console.log("productController.js", variant);
-      let variants = Object.values(variant.variant).filter(
-        (value) => value !== undefined
-      );
+      for (const key in variant.variant) {
+        if (variant.variant[key] === undefined) {
+          delete variant.variant[key];
+        }
+      }
       const created = await AttributeType.create({
         productId: productCreated._id,
         attributeIds,
-        variant: variants.join(" "),
+        variant: variant.variant,
         quantity: variant.Quantity,
         price: variant.Price,
         images: variant.VariantsImages.split("/"),
@@ -468,5 +570,6 @@ module.exports = {
   checkProductsFromIds,
   createProductVariant,
   addMedias,
+  getProductsByCategorySlug,
   getAllMedia,
 };

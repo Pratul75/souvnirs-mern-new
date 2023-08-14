@@ -68,7 +68,7 @@ const EditProduct = () => {
       if (key === "coverImage") {
         // Stringify the arrays before appending them to the FormData
 
-        editFormData.append("coqverImage", value[0]);
+        editFormData.append("coverImage", value[0]);
       } else if (key === "variant") {
         editFormData.append(key, JSON.stringify(value));
       } else {
