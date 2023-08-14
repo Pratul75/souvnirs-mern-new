@@ -139,7 +139,28 @@ const getProductsByCategorySlug = async (req, res) => {
   const { slug } = req.params;
   console.log("productController.js", slug);
 
-  const products = await Product.aggregate([
+  const filters = {
+    color: ["red", "blue"],
+    // Add more filters here
+  };
+
+  const filterConditions = [];
+  for (const attribute in filters) {
+    if (filters.hasOwnProperty(attribute)) {
+      const attributeValues = filters[attribute];
+      filterConditions.push({
+        [`variants.${attribute}`]: { $in: attributeValues },
+      });
+    }
+  }
+
+  const attributesArray = [
+    { key: "Color", values: ["black", "blue"] },
+    // Add more attribute filters as needed
+    { key: "size", values: ["sm", "blue"] },
+  ];
+
+  const aggregationPipeline = [
     {
       $lookup: {
         from: "categories",
@@ -149,13 +170,11 @@ const getProductsByCategorySlug = async (req, res) => {
       },
     },
     {
-      $unwind: {
-        path: "$category",
-      },
+      $unwind: "$category",
     },
     {
       $match: {
-        "category.name": "apparels",
+        "category.name": slug,
       },
     },
     {
@@ -167,50 +186,83 @@ const getProductsByCategorySlug = async (req, res) => {
       },
     },
     {
+      $addFields: {
+        filteredVariants: {
+          $filter: {
+            input: "$variants",
+            as: "variant",
+            cond: {
+              $or: attributesArray.map((attribute) => {
+                const key = attribute.key;
+                const values = attribute.values;
+                return {
+                  $or: values.map((value) => ({
+                    $eq: ["$$variant.variant." + key, value],
+                  })),
+                };
+              }),
+            },
+          },
+        },
+      },
+    },
+    {
+      $match: {
+        "filteredVariants.0": { $exists: true },
+      },
+    },
+    {
       $sort: { createdAt: -1 },
     },
-  ]);
+  ];
+
+  const products = await Product.aggregate(aggregationPipeline);
+  console.log(products);
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
 
   products.forEach((product) => {
-    product.variants.forEach((variant) => {
-      Object.entries(variant).forEach(([attribute, value]) => {
-        if (attribute !== "productId") {
-          if (!uniqueAttributes[attribute]) {
-            uniqueAttributes[attribute] = new Set();
-          }
+    if (product.variants.length > 0) {
+      product.variants.forEach((variant) => {
+        Object.entries(variant).forEach(([attribute, value]) => {
+          if (attribute !== "productId") {
+            if (!uniqueAttributes[attribute]) {
+              uniqueAttributes[attribute] = new Set();
+            }
 
-          if (Array.isArray(value)) {
-            value.forEach((subValue) =>
-              uniqueAttributes[attribute].add(subValue)
-            );
-          } else {
-            uniqueAttributes[attribute].add(value);
+            if (Array.isArray(value)) {
+              value.forEach((subValue) =>
+                uniqueAttributes[attribute].add(subValue)
+              );
+            } else {
+              uniqueAttributes[attribute].add(value);
+            }
           }
-        }
+        });
       });
-    });
+    }
   });
 
   // Convert uniqueAttributes into arrays
   Object.keys(uniqueAttributes).forEach((attribute) => {
     uniqueAttributes[attribute] = Array.from(uniqueAttributes[attribute]);
   });
-  const variantComb = uniqueAttributes.variant.reduce((attributes, item) => {
-    if (typeof item === "object" && !Array.isArray(item)) {
-      for (const key in item) {
-        if (!attributes[key]) {
-          attributes[key] = [];
-        }
-        if (!attributes[key].includes(item[key])) {
-          attributes[key].push(item[key]);
+  const variantComb =
+    uniqueAttributes.variant &&
+    uniqueAttributes.variant.reduce((attributes, item) => {
+      if (typeof item === "object" && !Array.isArray(item)) {
+        for (const key in item) {
+          if (!attributes[key]) {
+            attributes[key] = [];
+          }
+          if (!attributes[key].includes(item[key])) {
+            attributes[key].push(item[key]);
+          }
         }
       }
-    }
-    return attributes;
-  }, {});
+      return attributes;
+    }, {});
 
   res.status(200).json({ products, filters: variantComb });
 };

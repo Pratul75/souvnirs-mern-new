@@ -8,6 +8,7 @@ import { ProductCard } from "../../components";
 import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
+import { useFilters } from "react-table";
 
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -17,6 +18,7 @@ const CategoryProducts = () => {
   });
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
+  const [filters, setFilters] = useState([]);
   const location = useParams();
   console.log("LOCATION OBJECT: ", location);
 
@@ -26,6 +28,11 @@ const CategoryProducts = () => {
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
   };
+
+  const handleFilterSelection = (filterData) => {
+    console.log(filterData);
+  };
+  console.log("CategoryProducts.jsx", useFilters);
 
   useEffect(() => {
     getProducts();
@@ -42,7 +49,8 @@ const CategoryProducts = () => {
                   <FilterCard
                     key={filter} // You should add a unique key for each item in the list
                     title="Product Filter"
-                    heading={`Filter By ${filter}`}
+                    onSelect={handleFilterSelection}
+                    heading={filter}
                     filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
                   />
                 );
@@ -156,51 +164,6 @@ const CategoryProducts = () => {
                       />
                     );
                   })}
-                <ProductCard
-                  badgeColor="badge-accent"
-                  badgeText="NEW"
-                  price={800}
-                  rating={4.2}
-                  title="New Product"
-                  discountPrice="300"
-                  image={GiftOneImage}
-                />
-                <ProductCard
-                  badgeColor="badge-accent"
-                  badgeText="NEW"
-                  price={800}
-                  rating={4.2}
-                  title="New Product"
-                  discountPrice="300"
-                  image={GiftOneImage}
-                />
-                <ProductCard
-                  badgeColor="badge-accent"
-                  badgeText="NEW"
-                  price={800}
-                  rating={4.2}
-                  title="New Product"
-                  discountPrice="300"
-                  image={GiftOneImage}
-                />
-                <ProductCard
-                  badgeColor="badge-accent"
-                  badgeText="NEW"
-                  price={800}
-                  rating={4.2}
-                  title="New Product"
-                  discountPrice="300"
-                  image={GiftOneImage}
-                />
-                <ProductCard
-                  badgeColor="badge-accent"
-                  badgeText="NEW"
-                  price={800}
-                  rating={4.2}
-                  title="New Product"
-                  discountPrice="300"
-                  image={GiftOneImage}
-                />
               </div>
             )}
           </div>
