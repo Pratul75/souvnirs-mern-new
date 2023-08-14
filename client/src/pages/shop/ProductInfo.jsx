@@ -6,13 +6,15 @@ import { CiLogin } from "react-icons/ci";
 import { Ratings } from "../../components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 const ProductInfo = () => {
+  const isLogged = localStorage.getItem("token");
+
   return (
     <div className="mx-16 mt-4">
       <Link to={PATHS.landingPage} className="btn">
         <IoMdArrowBack className="text-2xl" />
         Back
       </Link>
- 
+
       <div className="grid grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
           <img src={ProductImagePrimary} alt="primary image" />
@@ -21,18 +23,26 @@ const ProductInfo = () => {
           <h1 className="font-bold text-2xl">
             Android Television Super Salon New DGT -256
           </h1>
-          <div className="flex items-center justify-between gap-4">
+          <div
+            className={`flex items-center ${
+              !isLogged && "justify-between"
+            } gap-4`}
+          >
             <span className="text-4xl font-thin">USD</span>
-            <Link to={PATHS.login} className="join cursor-pointer">
-              <div className="bg-base-200 join-item flex items-center px-2">
-                <span className="text-sm">
-                  To revel price please signin/sign up
-                </span>
-              </div>
-              <div className="p-4 join-item bg-primary">
-                <CiLogin className="text-2xl text-white" />
-              </div>
-            </Link>
+            {isLogged ? (
+              <span className="text-4xl">400</span>
+            ) : (
+              <Link to={PATHS.login} className="join cursor-pointer">
+                <div className="bg-base-200 join-item flex items-center px-2">
+                  <span className="text-sm">
+                    To revel price please signin/sign up
+                  </span>
+                </div>
+                <div className="p-4 join-item bg-primary">
+                  <CiLogin className="text-2xl text-white" />
+                </div>
+              </Link>
+            )}
           </div>
           <div className="flex gap-4 my-2">
             <Ratings rating={3} />
