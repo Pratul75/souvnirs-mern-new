@@ -76,7 +76,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             >
               1
             </div>
-            <PiBag className="text-2xl cursor-pointer" />
+            <Link to={PATHS.cartPage} className="btn">
+              <PiBag className="text-2xl cursor-pointer" />
+            </Link>
           </div>
         </div>
       </div>

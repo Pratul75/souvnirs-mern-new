@@ -16,8 +16,8 @@ const OrderSuccess = () => {
           <p>Payment is successful and your order is on the way</p>
           <p>Transaction ID: 12398010289123</p>
         </div>
-        <div className="mx-16"></div>
       </div>
+      <div className="mx-16"></div>
     </div>
   );
 };
