@@ -186,35 +186,20 @@ const EditCollection = () => {
     const response = await API_WRAPPER.get(
       `/collection/get-collection-by-id/:${id}`
     );
-    setFormData({ ...response.data, filterDivStates: response.data });
+    console.log("EditCollection.jsx", response.data);
+    let filterdivStates = [];
+    for (let i = 0; i < response.data.collectionConditionId.length; i++) {
+      filterdivStates.push({
+        selectedTitle: response.data.collectionConditionId[i],
+        conditionValue: response.data.conditionValue[i],
+        inputValue: response.data.inputValue[i],
+      });
+    }
+    console.log("EditCollection.jsx", filterdivStates);
+    setFormData({ ...response.data, filterDivStates: filterdivStates });
     setDescriptionValue(response?.data?.description);
   };
-  const updateCollection = async () => {
-    let extractedConditionNames = formData.filterDivStates?.map(
-      (item) => item.selectedTitle
-    );
-    let extractedConditionValue = formData.filterDivStates?.map(
-      (item) => item.conditionValue
-    );
-
-    const updatedFormData = {
-      ...formData,
-      description: descriptionValue,
-      collectionConditionId: extractedConditionNames,
-      conditionValue: extractedConditionValue,
-      deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
-      activeProducts: activeProducts.map((product) => product._id) || [],
-    };
-    const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
-      updatedFormData;
-
-    const { filterDivCount, ...abstractedFormData } =
-      updatedFormDataWithoutFilterDivStates;
-    API_WRAPPER.put(
-      `/collection/update-collection-by-id/:${params.id}`,
-      abstractedFormData
-    );
-  };
+  console.log("EditCollection.jsx", formData);
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -401,6 +386,38 @@ const EditCollection = () => {
     fetchCollectionData(params.id);
   }, []);
 
+  const editCollection = async (e) => {
+    e.preventDefault();
+    let extractedConditionNames = formData.filterDivStates.map(
+      (item) => item.selectedTitle
+    );
+    let extractedConditionValue = formData.filterDivStates.map(
+      (item) => item.conditionValue
+    );
+    let inputValues = formData.filterDivStates.map((item) => item.inputValue);
+
+    const updatedFormData = {
+      ...formData,
+      description: descriptionValue,
+      collectionConditionId: extractedConditionNames,
+      conditionValue: extractedConditionValue,
+      inputValue: inputValues,
+      deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
+      activeProducts: activeProducts.map((product) => product._id) || [],
+    };
+    const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
+      updatedFormData;
+
+    const { filterDivCount, ...abstractedFormData } =
+      updatedFormDataWithoutFilterDivStates;
+
+    console.log("FORM DATA ON SUBMIT: ", abstractedFormData);
+    API_WRAPPER.put(
+      `/collection/update-collection-by-id/:${params.id}`,
+      abstractedFormData
+    );
+  };
+
   useEffect(() => {
     const selectedCondition = collectionConditionList.find(
       (condition) => condition.title === formData.selectedTitle
@@ -535,8 +552,7 @@ const EditCollection = () => {
                 </label>
               </div>
             </div>
-
-            {/* {filterDivStates?.map((state, index) => (
+            {filterDivStates?.map((state, index) => (
               <div
                 id={`filter-div-${index + 1}`}
                 className="grid grid-cols-3 gap-4 mt-4"
@@ -605,7 +621,7 @@ const EditCollection = () => {
                   </div>
                 )}
               </div>
-            ))} */}
+            ))}{" "}
             <div>
               <p className="text-[#A4A4A4] mt-4">
                 *This collection will include all products with at least one
@@ -628,7 +644,6 @@ const EditCollection = () => {
                 Submit Filters
               </button>
             </div>
-
             <div className="mt-4 relative">
               <button
                 className="btn btn-primary absolute right-60 top-5"
@@ -724,10 +739,7 @@ const EditCollection = () => {
         </div>
       </div>
       <div className="flex gap-4 my-8 w-full justify-end border-t-base-300">
-        <button
-          className="btn btn-primary"
-          onClick={(e) => updateCollection(e)}
-        >
+        <button className="btn btn-primary" onClick={(e) => editCollection(e)}>
           Submit
         </button>
         <button onClick={() => resetForm()} className="btn btn-primary">

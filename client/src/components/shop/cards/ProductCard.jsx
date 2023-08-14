@@ -30,7 +30,7 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card bg-base-300 p-4"
+      className="card bg-base-300 p-4 w-56"
     >
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
@@ -51,7 +51,7 @@ const ProductCard = ({
       <div>
         <h3 className="text-2xl">{title}</h3>
         <h5>
-          <span className="text-primary">{discountPrice}</span> - {price}
+          <span className="text-primary">{discountPrice}</span> {price}
         </h5>
         <Ratings rating={rating} />
       </div>

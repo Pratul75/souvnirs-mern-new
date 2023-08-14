@@ -12,7 +12,7 @@ const router = require("express").Router();
 
 router.get(
   "/category/get-all-categories",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getAllCategories
 );
 router.get(
