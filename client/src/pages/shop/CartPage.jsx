@@ -51,9 +51,9 @@ const CartPage = () => {
                   <h3>$132.58</h3>
                 </div>
                 <div className="flex flex-col gap-4 px-2">
-                  <button className="btn btn-primary ">
+                  <Link to={PATHS.checkout} className="btn btn-primary ">
                     Proceed to checkout
-                  </button>
+                  </Link>
                   <Link to={PATHS.landingPage} className="btn">
                     Return To Shopping
                   </Link>
