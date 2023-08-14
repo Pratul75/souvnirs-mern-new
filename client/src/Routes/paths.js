@@ -86,4 +86,8 @@ export const PATHS = {
   shopPage: "/page",
   // TODO: newed to change it as per the params
   productInfo: "/productInfo",
+  orderSuccess: "/order_success",
+  compareProduct: "/compare_product",
+  cartPage: "/cart_page",
+  checkout: "/checkout",
 };

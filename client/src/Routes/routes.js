@@ -66,6 +66,10 @@ import {
   CategoryProducts,
   CollectionProducts,
   ProductInfo,
+  CartPage,
+  Checkout,
+  CompareProducts,
+  OrderSuccess,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
@@ -499,5 +503,25 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.productInfo,
     Component: ProductInfo,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.cartPage,
+    Component: CartPage,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.checkout,
+    Component: Checkout,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.compareProduct,
+    Component: CompareProducts,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.orderSuccess,
+    Component: OrderSuccess,
   },
 ];

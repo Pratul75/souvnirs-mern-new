@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { CiSearch } from "react-icons/ci";
 import { RiDashboardLine } from "react-icons/ri";
-import AddToCartACard from "../cards/AddToCartACard";
 
 // souvnirs main header
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
@@ -81,7 +80,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           </div>
         </div>
       </div>
-      <AddToCartACard />
     </header>
   );
 };
