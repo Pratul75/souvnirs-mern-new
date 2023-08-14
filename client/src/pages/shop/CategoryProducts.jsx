@@ -15,14 +15,18 @@ const CategoryProducts = () => {
     freeShipping: false,
     readyToShip: false,
   });
+  const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
-
-  const getProducts = async () => {
-    const response = await API_WRAPPER.get("/products/abc");
-    setProducts(response?.data);
-  };
   const location = useParams();
   console.log("LOCATION OBJECT: ", location);
+
+  const getProducts = async () => {
+    const response = await API_WRAPPER.get(`/products/${location.slug}`);
+    console.log("CategoryProducts.jsx", response);
+    setProducts(response?.data?.products);
+    setFilterList(response?.data?.filters);
+  };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -31,76 +35,18 @@ const CategoryProducts = () => {
       <div className="grid grid-cols-4">
         <div className="col-span-1">
           <div className="flex gap-4 flex-col">
-            <FilterCard
-              title="Product Filter"
-              heading="Filter By Size"
-              filters={[
-                {
-                  filterName: "Pratul",
-                  productAmount: 62,
-                },
-                {
-                  filterName: "Small",
-                  productAmount: 15,
-                },
-                {
-                  filterName: "Medium",
-                  productAmount: 10,
-                },
-                {
-                  filterName: "Large",
-                  productAmount: 32,
-                },
-              ]}
-            />
-            <FilterCard
-              title="Category"
-              heading="Filter By Size"
-              filters={[
-                {
-                  filterName: "Fashion",
-                  productAmount: 62,
-                },
-                {
-                  filterName: "Jewellery",
-                  productAmount: 155,
-                },
-                {
-                  filterName: "Accessories",
-                  productAmount: 10,
-                },
-                {
-                  filterName: "BottomWear",
-                  productAmount: 32,
-                },
-              ]}
-            />
-            <FilterCard
-              title="Shipping Speed"
-              filters={[
-                {
-                  filterName: "Make to order",
-                  productAmount: 30,
-                },
-                {
-                  filterName: "Ready To ship",
-                  productAmount: 10,
-                },
-              ]}
-            />
-            <FilterCard
-              title="Values"
-              filters={[
-                {
-                  filterName: "Artisanal",
-                  productAmount: 62,
-                },
-                {
-                  filterName: "Ready To ship",
-                  productAmount: 155,
-                },
-              ]}
-            />
+            {filterList &&
+              Object.keys(filterList).map((filter) => {
+                console.log("CategoryProducts.jsx", filter);
+                return (
+                  <FilterCard
+                    key={filter} // You should add a unique key for each item in the list
+                    title="Product Filter"
+                    heading={`Filter By ${filter}`}
+                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
+                  />
+                );
+              })}
           </div>
         </div>
         <div className="col-span-3 container px-8">

@@ -211,9 +211,8 @@ const getProductsByCategorySlug = async (req, res) => {
     }
     return attributes;
   }, {});
-  console.log();
 
-  res.status(200).json({ products, filters, variantComb });
+  res.status(200).json({ products, filters: variantComb });
 };
 
 // creating a api for creating product variant separetely because its not doable with product creation.
@@ -550,7 +549,7 @@ const bulkProductUpload = async (req, res) => {
         variant: variant.variant,
         quantity: variant.Quantity,
         price: variant.Price,
-        images: variant.VariantsImages.split("/"),
+        images: variant.VariantsImages.split("~"),
       });
       console.log("productController.js");
     }

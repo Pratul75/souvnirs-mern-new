@@ -25,9 +25,7 @@ const FilterCard = ({ title, heading, filters }) => {
                   id=""
                 />
                 <label className="label">
-                  <span className="label-text">
-                    {filter.filterName} ({filter.productAmount})
-                  </span>
+                  <span className="label-text">{filter.filterName}</span>
                 </label>
               </div>
             );
