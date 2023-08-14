@@ -3,18 +3,24 @@ import { Card, Header } from "../../components";
 import { useSelector } from "react-redux";
 import API_WRAPPER from "../../api";
 import MediaCard from "../../components/mediaCard";
+import { decodeToken } from "react-jwt";
+import { nanoid } from "nanoid";
 
 const AdminMedia = () => {
   const [media, setMedia] = useState();
   const [medias, setMedias] = useState();
   const [ref, setRef] = useState(false);
+  const [userRole, setRole] = useState("");
+
+  const token = localStorage.getItem("token");
 
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   const fetchMedias = async (req, res) => {
     const resp = await API_WRAPPER.get("/media");
     console.log("AdminMedia.jsx", resp);
-    setMedias(resp.data.links);
+    setMedias(resp.data);
   };
+  console.log("AdminMedia.jsx", userRole);
 
   const addFiles = async () => {
     const mediaData = new FormData();
@@ -28,8 +34,11 @@ const AdminMedia = () => {
     }
   };
   useEffect(() => {
+    const { role } = decodeToken(token);
+    setRole(role); // Set the userRole here
+
     fetchMedias();
-  }, [ref]);
+  }, [token, ref]);
   return (
     <div className="m-5">
       <Header heading="Media route to upload media files" />
@@ -44,9 +53,19 @@ const AdminMedia = () => {
             Add media Files{" "}
           </button>
           <div className="flex flex-col gap-5">
-            {medias?.map((a) => (
-              <MediaCard link={a} />
-            ))}
+            {userRole === "vendor" &&
+              medias?.links?.map((a) => {
+                console.log(a);
+                return <MediaCard key={nanoid()} link={a} />;
+              })}
+            {userRole == "admin" &&
+              medias?.map((a) => (
+                <MediaCard
+                  key={nanoid()}
+                  link={a.links}
+                  vendorName={`${a.result.firstName} ${a.result.lastName}`}
+                />
+              ))}
           </div>
         </div>
       </Card>

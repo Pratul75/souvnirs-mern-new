@@ -64,27 +64,30 @@ const getCustomers = async (req, res) => {
 // Get a customer by ID
 const getCustomerById = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const aggQuery = [
       {
-        '$match': {
-          '_id': new mongoose.Types.ObjectId(id.substring(1))
-        }
-      }, {
-        '$lookup': {
-          'from': 'addresses',
-          'localField': '_id',
-          'foreignField': 'customer_id',
-          'as': 'address'
-        }
-      }, {
-        '$unwind': {
-          'path': '$address'
-        }
-      }
-    ]
+        $match: {
+          _id: new mongoose.Types.ObjectId(id.substring(1)),
+        },
+      },
+      {
+        $lookup: {
+          from: "addresses",
+          localField: "_id",
+          foreignField: "customer_id",
+          as: "address",
+        },
+      },
+      {
+        $unwind: {
+          path: "$address",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+    ];
 
-    const customer = await Customer.aggregate(aggQuery)
+    const customer = await Customer.aggregate(aggQuery);
     if (!customer) {
       return res
         .status(404)
@@ -100,11 +103,16 @@ const getCustomerById = async (req, res) => {
 // Update a customer by ID
 const updateCustomerById = async (req, res) => {
   try {
+    let hashedPassword;
+    if (req.body.password) {
+      hashedPassword = await bcrypt.hash(req.body.password, 10);
+    }
     const customer = await Customer.findByIdAndUpdate(
       req.params.id.substring(1),
-      { $set: req.body },
+      { $set: { ...req.body, password: hashedPassword } },
       { new: true }
     );
+
     if (!customer) {
       return res
         .status(404)

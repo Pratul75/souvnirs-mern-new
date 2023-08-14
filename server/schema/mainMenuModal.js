@@ -12,9 +12,13 @@ const mainMenuSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      // required: true,
+    },
     link: {
       type: String,
-      required: true,
+      // required: true,
     },
     status: {
       type: String,

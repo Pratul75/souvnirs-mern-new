@@ -82,6 +82,9 @@ const AddProductAttributes = () => {
       productFormData.append("slug", randomSlug());
       productFormData.append("price", price);
       productFormData.append("quantity", quantity);
+      productFormData.append("freeShipping", p.freeShipping);
+      productFormData.append("readyToShip", p.readyToShip);
+      productFormData.append("categoryId", categoryId);
 
       const prodResponse = await API_WRAPPER.post(
         "/products/add-product",

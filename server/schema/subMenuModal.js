@@ -12,9 +12,12 @@ const subMenuSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+    },
+    typeValue: { type: String },
     link: {
       type: String,
-      required: true,
     },
     status: {
       type: String,
@@ -27,6 +30,6 @@ const subMenuSchema = new mongoose.Schema(
   }
 );
 
-const MainMenu = mongoose.model("Main Menu", subMenuSchema);
+const SubMenu = mongoose.model("Sub Menu", subMenuSchema);
 
-module.exports = MainMenu;
+module.exports = SubMenu;

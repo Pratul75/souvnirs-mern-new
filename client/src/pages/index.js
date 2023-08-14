@@ -35,7 +35,10 @@ export { default as AddDiscount } from "./admin/AddDiscount";
 export { default as AddCoupon } from "./admin/AddCoupon";
 export { default as AddCollection } from "./admin/AddCollection";
 export { default as AddProductAttributes } from "./admin/AddProductAttributes";
-
+export { default as AddMenus } from "./admin/AddMenus";
+export { default as Menus } from "./admin/Menus";
+export { default as AddMainMenus } from "./admin/AddMainMenus";
+export { default as AddChildMenu } from "./admin/AddChildMenu";
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
 export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
@@ -48,7 +51,6 @@ export { default as VendorShipments } from "./vendor/VendorShipments";
 export { default as VendorRefund } from "./vendor/VendorRefund";
 export { default as VendorProductInventory } from "./vendor/VendorProductInventory";
 export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
-
 // customer routes
 export { default as CustomerDashboard } from "./customer/CustomerDashboard";
 export { default as CustomerCartList } from "./customer/CustomerCartList";
@@ -62,3 +64,10 @@ export { default as CustomerWishlist } from "./customer/CustomerWishlist";
 
 // shop routes
 export { default as LandingPage } from "./shop/LandingPage";
+export { default as CategoryProducts } from "./shop/CategoryProducts";
+export { default as CollectionProducts } from "./shop/CollectionProducts";
+export { default as ProductInfo } from "./shop/ProductInfo";
+export { default as CartPage } from "./shop/CartPage";
+export { default as Checkout } from "./shop/Checkout";
+export { default as CompareProducts } from "./shop/CompareProducts";
+export { default as OrderSuccess } from "./shop/OrderSuccess";

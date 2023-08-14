@@ -1,5 +1,5 @@
 import { Header, Modal, ReusableTable } from "../../components";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -20,6 +20,7 @@ const ProductManagement = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [bulkData, setBulkData] = useState();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const columns = useMemo(
     () => [
@@ -46,6 +47,12 @@ const ProductManagement = () => {
       {
         Header: "Price",
         accessor: "result.price",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.price
+            : row?.original?.price;
+        },
       },
       {
         Header: "On Sale",
@@ -65,6 +72,12 @@ const ProductManagement = () => {
       {
         Header: "Stock Quantity",
         accessor: "result.quantity",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.quantity
+            : row?.original?.stockQuantity;
+        },
       },
       {
         Header: "Stock Status",
@@ -109,9 +122,15 @@ const ProductManagement = () => {
   };
 
   const handleEdit = (row) => {
-    window.edit_product_modal.showModal();
-    setSelectedRow(row);
-    console.log("ROW TO BE EDITED: ", row);
+    console.log("ROW TO BE DELETED: ", row);
+    if (row?.result?._id) {
+      navigate(`${PATHS.EditProduct}/${row._id}?variantID=${row?.result._id}`);
+    } else {
+      navigate(`${PATHS.EditProduct}/${row._id}/`);
+    }
+    // window.edit_product_modal.showModal();
+    // setSelectedRow(row);
+    // console.log("ROW TO BE EDITED: ", row);
   };
 
   const handleEditChange = (e) => {
@@ -233,7 +252,7 @@ const ProductManagement = () => {
       </div>
 
       {/* edit modal  */}
-      <Modal
+      {/* <Modal
         id="edit_product_modal"
         title="Are you sure you want to delete the selected value?"
         onClose={() => {
@@ -292,7 +311,7 @@ const ProductManagement = () => {
             name: "status",
           },
         ]}
-      />
+      /> */}
 
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">
@@ -302,7 +321,6 @@ const ProductManagement = () => {
             Are you sure you want to delete the selected product?
           </p>
           <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
             <button onClick={deleteSelectedRow} className="btn btn-error">
               Delete
             </button>

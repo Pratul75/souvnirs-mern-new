@@ -22,7 +22,6 @@ export { default as MultiSelect } from "./MultiSelect";
 export { default as RouteNavigator } from "./RouterNavigator";
 export { default as DoughnutChart } from "./Charts/DoughnutChart";
 export { default as Breadcrumb } from "./Breadcrumb";
-
 // shop components
 export { default as FeaturesCard } from "./shop/cards/FeaturesCard";
 export { default as HeaderCards } from "./shop/cards/HeaderCards";
@@ -40,5 +39,6 @@ export { default as SouvnirsHeader } from "./shop/headers/SouvnirsHeader";
 export { default as ShopNavbar } from "./shop/headers/ShopNavbar";
 export { default as ShopFooter } from "./shop/footer";
 export { default as ProductTabs } from "./shop/components/ProductTabs";
+export { default as AddToCartCard } from "./shop/cards/AddToCartACard";
 export { default as ImagesGrid } from "./shop/components/ImagesGrid";
 export { default as NewsLetterGrid } from "./shop/components/NewsLetterGrid";

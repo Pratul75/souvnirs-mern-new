@@ -195,7 +195,7 @@ const AddCategory = () => {
               {searchResults.map((item) => (
                 <p
                   onClick={() => handleAddAttribute(item)}
-                  className={` bg-accent-focus p-4 mb-4 cursor-pointer rounded-xl text-white font-semibold shadow-sm`}
+                  className={` bg-primary-focus p-4 mb-4 cursor-pointer rounded-xl text-white font-semibold shadow-sm`}
                   key={nanoid()}
                 >
                   {item.name}

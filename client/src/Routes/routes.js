@@ -32,6 +32,10 @@ import {
   AddCoupon,
   AddCollection,
   AddProductAttributes,
+  AddMenus,
+  Menus,
+  AddMainMenus,
+  AddChildMenu,
 
   // vendor routes
   VendorDashboard,
@@ -59,12 +63,24 @@ import {
 
   // shop routes
   LandingPage,
+  CategoryProducts,
+  CollectionProducts,
+  ProductInfo,
+  CartPage,
+  Checkout,
+  CompareProducts,
+  OrderSuccess,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
 import Wishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
+import EditProduct from "../pages/admin/Dashboard/EditProduct";
+import AddSubMenus from "../pages/admin/AddSubMenus";
+import EditCategory from "../pages/EditCategory";
+import EditCustomer from "../pages/editCustomer";
+import EditCollection from "../pages/admin/EditCollection";
 // admin routes
 export const adminRoutes = [
   {
@@ -90,6 +106,30 @@ export const adminRoutes = [
     path: PATHS.adminCmsAndSeo,
     defaultRole: "admin",
     Component: CmsAndSeo,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCategory}/:id`,
+    defaultRole: "admin",
+    Component: EditCategory,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCollection}/:id`,
+    defaultRole: "admin",
+    Component: EditCollection,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditCustomer}/:id`,
+    defaultRole: "admin",
+    Component: EditCustomer,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditProduct}/:id`,
+    defaultRole: "admin",
+    Component: EditProduct,
   },
   {
     id: nanoid(),
@@ -271,6 +311,36 @@ export const adminRoutes = [
     Component: AddProductAttributes,
     defaultRole: "admin",
   },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddMenus,
+    Component: AddMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminMenus,
+    Component: Menus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddMainMenus,
+    Component: AddMainMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddSubMenus,
+    Component: AddSubMenus,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddChildMenus,
+    Component: AddChildMenu,
+    defaultRole: "admin",
+  },
 ];
 
 // vendor routes
@@ -411,7 +481,47 @@ export const customerRoutes = [
 export const shopRoutes = [
   {
     id: nanoid(),
+    path: `${PATHS.shopCategory}/:slug`,
+    Component: CategoryProducts,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.shopCollection}/:slug`,
+    Component: CollectionProducts,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.shopProduct}/:slug`,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
     path: PATHS.landingPage,
     Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.productInfo,
+    Component: ProductInfo,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.cartPage,
+    Component: CartPage,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.checkout,
+    Component: Checkout,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.compareProduct,
+    Component: CompareProducts,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.orderSuccess,
+    Component: OrderSuccess,
   },
 ];

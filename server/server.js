@@ -25,6 +25,7 @@ const couponRoutes = require("./routes/couponRoutes");
 const authRoutes = require("./auth/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
+const menuRoutes = require("./routes/menuRoutes");
 const morgan = require("morgan");
 
 // app initialization
@@ -80,6 +81,9 @@ app.use(couponRoutes);
 app.use(authRoutes);
 // admin routes
 app.use(wishlistRoutes);
+
+//routes to create and read menu items
+app.use(menuRoutes);
 
 // admin routes should only be exposed when its required to create a new admin, else it should be commented out
 app.use(adminRoutes);

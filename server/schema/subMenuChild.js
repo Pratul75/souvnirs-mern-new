@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const subMenuChild = new mongoose.Schema(
   {
     subMenuId: {
@@ -27,6 +26,6 @@ const subMenuChild = new mongoose.Schema(
   }
 );
 
-const SubMenuChild = mongoose.model("Main Menu", subMenuChild);
+const SubMenuChild = mongoose.model("Child Menu", subMenuChild);
 
 module.exports = SubMenuChild;

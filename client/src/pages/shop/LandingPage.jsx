@@ -30,8 +30,7 @@ import {
 } from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
-
-// main landing page for the shop application
+import FilterProducts from "../../components/shop/components/FilterProducts";
 
 const LandingPage = () => {
   return (
@@ -111,6 +110,7 @@ const LandingPage = () => {
         heading="Join our Newsletter"
         subheading="Join our newsletter and get 20$ discount for your first order"
       />
+      <FilterProducts />
     </div>
   );
 };

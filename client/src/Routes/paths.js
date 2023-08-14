@@ -42,7 +42,16 @@ export const PATHS = {
   adminCreateVendor: "/admin/vendor/create-vendor",
   adminWishlist: "/admin/wishlist",
   adminMedia: "/admin/media",
-
+  adminMenus: "/admin/menus",
+  adminAddMenus: "/admin/menus/add-menus",
+  EditProduct: "/admin/edit-product",
+  EditCategory: "/admin/edit-category",
+  EditCustomer: "/admin/edit-Customer",
+  adminAddMainMenus: "/admin/menus/add-menus/add-main-menu",
+  adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
+  adminAddChildMenus:
+    "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
+  EditCollection: "/admin/edit-collection",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",
@@ -71,4 +80,14 @@ export const PATHS = {
   // shop routes
   landingPage: "/landing-page",
   shop: "/shop",
+  shopCollection: "/collection",
+  shopCategory: "category",
+  shopProduct: "/product",
+  shopPage: "/page",
+  // TODO: newed to change it as per the params
+  productInfo: "/productInfo",
+  orderSuccess: "/order_success",
+  compareProduct: "/compare_product",
+  cartPage: "/cart_page",
+  checkout: "/checkout",
 };

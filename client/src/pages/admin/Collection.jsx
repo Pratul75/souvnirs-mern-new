@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
 import { Header, ReusableTable } from "../../components";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 import CollectionBannerImage from "../../assets/bannerImages/collectionImage.png";
@@ -12,6 +12,7 @@ const Collection = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
 
   const [editedRow, setEditedRow] = useState({});
+  const navigate = useNavigate();
 
   const fetchAllCollections = async () => {
     try {
@@ -92,7 +93,8 @@ const Collection = () => {
 
   const handleEdit = (row) => {
     setSelectedRow(row);
-    window.collection_edit_modal.showModal();
+    navigate(`${PATHS.EditCollection}/${row._id}`);
+    // window.collection_edit_modal.showModal();
     console.log("ROW TO BE EDITED: ", row);
   };
 

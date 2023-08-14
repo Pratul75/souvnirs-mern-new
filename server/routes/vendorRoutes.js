@@ -10,11 +10,35 @@ const authMiddleware = require("../middlewares");
 
 const router = require("express").Router();
 
-router.post("/vendors/add-vendor", createVendor);
-router.get("/vendors/get-vendors", authMiddleware, getVendors);
-router.get("/vendors/get-vendor/:id", getVendorById);
-router.get("/vendors/get-vendors-count", getVendorsCount);
-router.delete("/vendors/delete-vendor/:id", deleteVendor);
-router.put("/vendors/update-vendor/:id", updateVendor);
+router.post(
+  "/vendors/add-vendor",
+  authMiddleware(["vendor", "admin", "customer"]),
+  createVendor
+);
+router.get(
+  "/vendors/get-vendors",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getVendors
+);
+router.get(
+  "/vendors/get-vendor/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getVendorById
+);
+router.get(
+  "/vendors/get-vendors-count",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getVendorsCount
+);
+router.delete(
+  "/vendors/delete-vendor/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  deleteVendor
+);
+router.put(
+  "/vendors/update-vendor/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  updateVendor
+);
 
 module.exports = router;

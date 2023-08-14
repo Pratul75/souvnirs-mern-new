@@ -36,6 +36,7 @@ import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
 import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
 import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
 import { Ratings } from "../components";
+import { BsMenuApp } from "react-icons/bs";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -52,6 +53,11 @@ export const adminSidebarMapping = [
     title: "Media",
     navLink: PATHS.adminMedia,
     Icon: MdOutlinePermMedia,
+  },
+  {
+    title: "Menus",
+    navLink: PATHS.adminMenus,
+    Icon: BsMenuApp,
   },
   {
     title: "Order Management",

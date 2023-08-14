@@ -9,18 +9,25 @@ import {
   getLoginInfo,
 } from "../../features/appConfig/appSlice";
 import RouteNavigator from "../RouterNavigator";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import { BsShop } from "react-icons/bs";
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const sidebarState = useSelector((x) => x.appConfig.sidebarExpanded);
   const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
   const handleLogout = () => {
     localStorage.clear();
     dispatch(getLoginInfo(""));
     navigate(PATHS.login);
   };
+
+  const username = JSON.parse(localStorage.getItem("username"));
+  console.log("index.jsx", username);
+  const userInitials = username
+    .split(" ")
+    .map((item) => item[0]?.toUpperCase())
+    .join("");
 
   return (
     <nav className="w-full">
@@ -40,8 +47,8 @@ const Navbar = () => {
               <svg
                 className="swap-off fill-current"
                 xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="26"
+                width="22"
+                height="22"
                 viewBox="0 0 512 512"
               >
                 <path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" />
@@ -51,8 +58,8 @@ const Navbar = () => {
               <svg
                 className="swap-on fill-current"
                 xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="26"
+                width="22"
+                height="22"
                 viewBox="0 0 512 512"
               >
                 <polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" />
@@ -63,9 +70,9 @@ const Navbar = () => {
         </div>
         {/* right side of nav */}
         <div className="flex items-center gap-4">
-          <span className="cursor-pointer">
-            {/* <GrNotification className="text-3xl" /> */}
-          </span>
+          <Link to={PATHS.landingPage} className="cursor-pointer">
+            <BsShop className="text-3xl" />
+          </Link>
           <span
             onClick={() => dispatch(toggleDarkMode())}
             className="cursor-pointer"
@@ -104,8 +111,8 @@ const Navbar = () => {
           </span>
 
           <div className="dropdown dropdown-left dropdown-bottom cursor-pointer">
-            <label tabIndex={0}>
-              <Avatar bgColor={"bg-info"} initials="VB" />
+            <label className="cursor-pointer" tabIndex={0}>
+              <Avatar bgColor={"bg-info"} initials={userInitials} />
             </label>
             <ul
               tabIndex={0}
@@ -140,7 +147,7 @@ const Navbar = () => {
           <Avatar
             onClick={() => handleLogout()}
             bgColor={"bg-info"}
-            initials="VB"
+            initials={userInitials}
           />
         </div>
       </div>

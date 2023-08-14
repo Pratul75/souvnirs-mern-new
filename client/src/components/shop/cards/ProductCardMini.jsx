@@ -1,9 +1,17 @@
 import PropTypes from "prop-types";
 import Ratings from "../components/Ratings";
 import { BiShoppingBag } from "react-icons/bi";
+import { motion } from "framer-motion";
+import { fadeInVariants } from "../../../animation";
 const ProductCardMini = ({ id, title, price, rating, image }) => {
   return (
-    <div key={id} className="flex justify-between gap-4">
+    <motion.div
+      animate="animate"
+      initial="initial"
+      variants={fadeInVariants}
+      key={id}
+      className="flex justify-between gap-4 bg-base-200 rounded-xl"
+    >
       <div className="">
         <img
           style={{
@@ -27,7 +35,7 @@ const ProductCardMini = ({ id, title, price, rating, image }) => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
