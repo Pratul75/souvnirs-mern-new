@@ -34,36 +34,6 @@ const ProductCard = ({
       key={id}
       className="card bg-base-300 p-4 w-56"
     >
-<<<<<<< HEAD
-      <Link to={PATHS.productInfo}>
-        <div className="card-title flex justify-between">
-          <span className={`badge ${badgeColor}`}>{badgeText}</span>
-          <button className="btn btn-circle" onClick={handleHeartClick}>
-            <AiOutlineHeart
-              className="text-2xl"
-              style={{ color: heartColor }}
-            />
-          </button>
-        </div>
-        <div className="flex py-4  justify-center">
-          <img
-            style={{
-              mixBlendMode: "multiply",
-            }}
-            className="py-2"
-            src={image}
-            alt={title}
-          />
-        </div>
-        <div>
-          <h3 className="text-2xl">{title}</h3>
-          <h5>
-            <span className="text-primary">{discountPrice}</span> - {price}
-          </h5>
-          <Ratings rating={rating} />
-        </div>
-      </Link>
-=======
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
         <button className="btn btn-circle" onClick={handleHeartClick}>
@@ -87,7 +57,6 @@ const ProductCard = ({
         </h5>
         <Ratings rating={rating} />
       </div>
->>>>>>> 004439bdb8584cda25fbaecdd23c03acdfeacea6
     </motion.div>
   );
 };
