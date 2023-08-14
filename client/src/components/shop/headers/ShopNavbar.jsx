@@ -1,8 +1,9 @@
-import { BsChevronDown } from "react-icons/bs";
+import { BsChevronDown, BsHeadphones } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-
+import { MdOutlineRequestQuote } from "react-icons/md";
+import RequestQuoteForm from "../components/RequestQuoteForm";
 const ShopNavbar = () => {
   const [navbarData, setNavbarData] = useState([]);
   const location = useLocation();
@@ -52,8 +53,8 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="mx-16 flex justify-between w-full border-[1px] bg-base-200">
-      <div className="join">
+    <div className="mx-16 flex justify-between items-center px-4 w-full border-[1px] bg-base-200">
+      <div className="join w-full">
         {navbarData?.map((mainmenu) => (
           <div
             key={mainmenu._id}
@@ -71,6 +72,28 @@ const ShopNavbar = () => {
           </div>
         ))}
       </div>
+
+      <div className="flex justify-end w-full">
+        <div className="flex justify-between gap-4">
+          <button
+            onClick={() => window.request_quote_modal.showModal()}
+            className="btn"
+          >
+            <MdOutlineRequestQuote className="text-3xl" />
+            Request Quote
+          </button>
+          <button className="btn flex gap-2">
+            <BsHeadphones className="text-primary text-3xl" />
+            <div className="flex flex-col">
+              <span className="text-xs">CALL US 24/7</span>
+              <span className="text-xs text-primary">+00 123 456 789</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* request quote modal */}
+      <RequestQuoteForm />
     </div>
   );
 };

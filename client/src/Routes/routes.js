@@ -65,6 +65,7 @@ import {
   LandingPage,
   CategoryProducts,
   CollectionProducts,
+  ProductInfo,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
@@ -493,5 +494,10 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.landingPage,
     Component: LandingPage,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.productInfo,
+    Component: ProductInfo,
   },
 ];

@@ -84,4 +84,6 @@ export const PATHS = {
   shopCategory: "category",
   shopProduct: "/product",
   shopPage: "/page",
+  // TODO: newed to change it as per the params
+  productInfo: "/productInfo",
 };

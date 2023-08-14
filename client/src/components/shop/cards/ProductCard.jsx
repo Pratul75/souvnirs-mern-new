@@ -4,6 +4,8 @@ import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 const ProductCard = ({
   id,
   title,
@@ -32,29 +34,34 @@ const ProductCard = ({
       key={id}
       className="card bg-base-300 p-4"
     >
-      <div className="card-title flex justify-between">
-        <span className={`badge ${badgeColor}`}>{badgeText}</span>
-        <button className="btn btn-circle" onClick={handleHeartClick}>
-          <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
-        </button>
-      </div>
-      <div className="flex py-4  justify-center">
-        <img
-          style={{
-            mixBlendMode: "multiply",
-          }}
-          className="py-2"
-          src={image}
-          alt={title}
-        />
-      </div>
-      <div>
-        <h3 className="text-2xl">{title}</h3>
-        <h5>
-          <span className="text-primary">{discountPrice}</span> - {price}
-        </h5>
-        <Ratings rating={rating} />
-      </div>
+      <Link to={PATHS.productInfo}>
+        <div className="card-title flex justify-between">
+          <span className={`badge ${badgeColor}`}>{badgeText}</span>
+          <button className="btn btn-circle" onClick={handleHeartClick}>
+            <AiOutlineHeart
+              className="text-2xl"
+              style={{ color: heartColor }}
+            />
+          </button>
+        </div>
+        <div className="flex py-4  justify-center">
+          <img
+            style={{
+              mixBlendMode: "multiply",
+            }}
+            className="py-2"
+            src={image}
+            alt={title}
+          />
+        </div>
+        <div>
+          <h3 className="text-2xl">{title}</h3>
+          <h5>
+            <span className="text-primary">{discountPrice}</span> - {price}
+          </h5>
+          <Ratings rating={rating} />
+        </div>
+      </Link>
     </motion.div>
   );
 };
