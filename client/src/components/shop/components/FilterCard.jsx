@@ -19,7 +19,7 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
 
   useEffect(() => {
     onSelect({ key: heading, values: selectedFilters });
-  }, [selectedFilters]);
+  }, [selectedFilters, heading, onSelect]);
 
   return (
     <Card>
@@ -66,7 +66,7 @@ FilterCard.propTypes = {
       productAmount: PropTypes.number.isRequired,
     })
   ).isRequired,
-  onSelect: PropTypes.func.isRequired, // Add a new prop for handling selected filters
+  onSelect: PropTypes.func, // Add a new prop for handling selected filters
 };
 
 export default FilterCard;

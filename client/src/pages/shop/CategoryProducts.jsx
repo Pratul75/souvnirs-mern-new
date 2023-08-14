@@ -47,11 +47,11 @@ const CategoryProducts = () => {
                 console.log("CategoryProducts.jsx", filter);
                 return (
                   <FilterCard
-                    key={filter} // You should add a unique key for each item in the list
+                    key={filter}
                     title="Product Filter"
                     onSelect={handleFilterSelection}
                     heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
+                    filters={filterList[filter].map((a) => ({ filterName: a }))}
                   />
                 );
               })}

@@ -110,7 +110,7 @@ const LandingPage = () => {
         heading="Join our Newsletter"
         subheading="Join our newsletter and get 20$ discount for your first order"
       />
-      <FilterProducts />
+      {/* <FilterProducts /> */}
     </div>
   );
 };
