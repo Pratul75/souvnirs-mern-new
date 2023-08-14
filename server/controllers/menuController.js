@@ -29,7 +29,8 @@ const createMainMenu = async (req, res) => {
   res.status(200).json("main menu created successfully");
 };
 const getMainMenus = async (req, res) => {
-  const mainmenus = await MainMenu.find().sort({ _id: -1 });
+  const mainmenus = await MainMenu.find().sort({ _id: -1 }).populate("menuId");
+
   res.status(200).json(mainmenus);
 };
 const createSubMenu = async (req, res) => {
@@ -48,7 +49,13 @@ const createSubMenu = async (req, res) => {
   res.status(200).json("Sub-menu created successfully");
 };
 const getSubMenus = async (req, res) => {
-  const subMenus = await SubMenu.find().sort({ _id: -1 });
+  const subMenus = await SubMenu.find().sort({ _id: -1 }).populate();
+  res.status(200).json(subMenus);
+};
+const getChildMenus = async (req, res) => {
+  const subMenus = await SubMenuChild.find()
+    .sort({ _id: -1 })
+    .populate("subMenuId");
   res.status(200).json(subMenus);
 };
 const createChildMenu = async (req, res) => {
@@ -122,4 +129,5 @@ module.exports = {
   createSubMenu,
   getNavbarData,
   deleteMenu,
+  getChildMenus,
 };
