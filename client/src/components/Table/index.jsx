@@ -243,7 +243,7 @@ const ReusableTable = ({
                 onChange={handlePageSizeChange}
                 className=" select select-sm select-primary input-bordered mx-2"
               >
-                {[10, 25, 50, 100].map((size) => (
+                {[5, 10, 25, 50, 100].map((size) => (
                   <option key={size} value={size}>
                     {size}
                   </option>
