@@ -16,10 +16,12 @@ import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackgr
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
 import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
 import HalfWidthBannerImgTwo from "../../assets/shop/cardImages/halfWidthCardImgTwo.png";
+import BannerProductImgOne from "../../assets/shop/productImages/bannerProduct.png";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
+import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
 import {
   BrandsCardImageList,
   ImageGridMapping,
@@ -38,6 +40,9 @@ const LandingPage = () => {
         mainImage={BigCardBackground}
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
+        productImgOne={BannerProductImgOne}
+        productImageTwo={BannerProductImgOne}
+        productImageThree={BannerProductImgOne}
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
@@ -106,10 +111,10 @@ const LandingPage = () => {
       <BlogList blogItemsData={blogCardData} />
       <ImagesGrid imagesData={ImageGridMapping} />
       <NewsLetterGrid
+        backgroundImage={NewsLetterBanner}
         heading="Join our Newsletter"
         subheading="Join our newsletter and get 20$ discount for your first order"
       />
-      {/* <FilterProducts /> */}
     </div>
   );
 };
