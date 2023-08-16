@@ -11,6 +11,8 @@ const {
   addMedias,
   getAllMedia,
   getProductsByCategorySlug,
+  getProductsByCollectionSlug,
+  getProductsByFilter,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -73,7 +75,8 @@ router.post(
   checkProductsFromIds
 );
 
-router.get("/products/:slug", getProductsByCategorySlug);
-
+router.post("/products/category/:slug", getProductsByCategorySlug);
+router.post("/products/collection/:slug", getProductsByCollectionSlug);
+router.post("/products", getProductsByFilter);
 router.post("/products/bulk-upload", upload.single("file"), bulkProductUpload);
 module.exports = router;

@@ -10,7 +10,7 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
 
-const CategoryProducts = () => {
+const Products = () => {
   const [filterType, setFilterType] = useState(false);
   const [shippingStates, setShippingStates] = useState({
     freeShipping: false,
@@ -23,12 +23,9 @@ const CategoryProducts = () => {
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
-    const response = await API_WRAPPER.post(
-      `/products/category/${location.slug}`,
-      {
-        data: filters,
-      }
-    );
+    const response = await API_WRAPPER.post(`/products`, {
+      data: filters,
+    });
     console.log("CategoryProducts.jsx", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
@@ -197,4 +194,4 @@ const CategoryProducts = () => {
   );
 };
 
-export default CategoryProducts;
+export default Products;

@@ -81,6 +81,7 @@ import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";
 import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";
+import Products from "../pages/shop/Products";
 // admin routes
 export const adminRoutes = [
   {
@@ -491,8 +492,8 @@ export const shopRoutes = [
   },
   {
     id: nanoid(),
-    path: `${PATHS.shopProduct}/:slug`,
-    Component: LandingPage,
+    path: `${PATHS.shopProduct}`,
+    Component: Products,
   },
   {
     id: nanoid(),
