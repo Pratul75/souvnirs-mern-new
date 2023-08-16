@@ -75,6 +75,8 @@ router.post(
   checkProductsFromIds
 );
 
+router.get("/product/:slug", getProductBySlug);
+
 router.post("/products/category/:slug", getProductsByCategorySlug);
 router.post("/products/collection/:slug", getProductsByCollectionSlug);
 router.post("/products", getProductsByFilter);

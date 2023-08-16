@@ -1,6 +1,6 @@
 import { IoMdArrowBack } from "react-icons/io";
 import ProductImagePrimary from "../../assets/shop/productImages/productImagePrimary.png";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
 import { ProductsListWithFilters, Ratings, Tabs } from "../../components";
@@ -9,6 +9,9 @@ import { productListFiltersAndProducts } from "../../mappings";
 
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
+  const params = useParams();
+  console.log(params);
+
   const tabs = [
     {
       label: "Description",

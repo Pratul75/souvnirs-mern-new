@@ -165,7 +165,11 @@ const CategoryProducts = () => {
                   }
                   rating={4.5}
                   title={product.name}
-                  image={product.coverImage}
+                  image={
+                    product.coverImage
+                      ? product.coverImage
+                      : product.variants[0].images[0]
+                  }
                 />
               ))
             ) : (
