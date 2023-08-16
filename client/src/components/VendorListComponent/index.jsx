@@ -26,6 +26,8 @@ const VendorListComponent = ({ firstName, lastName }) => {
   );
 };
 
+
+
 VendorListComponent.propTypes = {
   firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,

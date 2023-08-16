@@ -8,7 +8,7 @@ const BrandsCard = ({ imagesList }) => {
         return (
           <div
             key={nanoid()}
-            className="col-span-4 md:col-span-1 p-4 border-[1px] border-base-200"
+            className="col-span-4 md:col-span-1 flex items-center justify-center p-4 border-[1px] border-base-200"
           >
             <img src={image} alt={alt} />
           </div>
@@ -17,7 +17,7 @@ const BrandsCard = ({ imagesList }) => {
     </div>
   );
 };
-// prop types for the validation od the brand card component
+
 BrandsCard.propTypes = {
   imagesList: PropTypes.arrayOf(
     PropTypes.shape({

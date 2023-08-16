@@ -16,10 +16,12 @@ import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackgr
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
 import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
 import HalfWidthBannerImgTwo from "../../assets/shop/cardImages/halfWidthCardImgTwo.png";
+import BannerProductImgOne from "../../assets/shop/productImages/bannerProduct.png";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
+import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
 import {
   BrandsCardImageList,
   ImageGridMapping,
@@ -30,7 +32,6 @@ import {
 } from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
-import FilterProducts from "../../components/shop/components/FilterProducts";
 
 const LandingPage = () => {
   return (
@@ -39,6 +40,9 @@ const LandingPage = () => {
         mainImage={BigCardBackground}
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
+        productImgOne={BannerProductImgOne}
+        productImageTwo={BannerProductImgOne}
+        productImageThree={BannerProductImgOne}
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
@@ -82,7 +86,7 @@ const LandingPage = () => {
         imageTwo={GiftOnePngImage}
       />
       <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
+        heading="Best Products at price"
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />
@@ -107,10 +111,10 @@ const LandingPage = () => {
       <BlogList blogItemsData={blogCardData} />
       <ImagesGrid imagesData={ImageGridMapping} />
       <NewsLetterGrid
+        backgroundImage={NewsLetterBanner}
         heading="Join our Newsletter"
         subheading="Join our newsletter and get 20$ discount for your first order"
       />
-      {/* <FilterProducts /> */}
     </div>
   );
 };

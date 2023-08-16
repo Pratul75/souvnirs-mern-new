@@ -68,7 +68,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
 
   return (
     <header className="py-4">
-      <div className="flex justify-between items-center px-16">
+      <div className="flex flex-col md:flex-row justify-between items-center px-16">
         <Link to={PATHS.landingPage} className="cursor-pointer">
           <img src={SouvnirsLogoImage} alt="souvnirs logo" />
         </Link>
@@ -171,7 +171,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             </>
           )}
 
-          <div className="tooltip tooltip-bottom" data-tip="wishlist">
+          <div className="tooltip tooltip-bottom" data-tip="Wishlist">
             <Link to={PATHS.shopWishlist} className="btn btn-circle">
               <AiOutlineHeart className="text-2xl cursor-pointer" />
             </Link>
@@ -182,9 +182,11 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             >
               1
             </div>
-            <Link to={PATHS.cartPage} className="btn btn-circle">
-              <FiShoppingBag className="text-2xl cursor-pointer" />
-            </Link>
+            <div className="tooptip tooltip-bottom" data-tip="Cart">
+              <Link to={PATHS.cartPage} className="btn btn-circle">
+                <FiShoppingBag className="text-2xl cursor-pointer" />
+              </Link>
+            </div>
           </div>
         </div>
       </div>
