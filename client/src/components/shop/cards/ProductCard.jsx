@@ -43,7 +43,6 @@ const ProductCard = ({
           style={{
             mixBlendMode: "multiply",
           }}
-          className="py-2"
           src={image}
           alt={title}
         />
