@@ -10,6 +10,7 @@ const {
   createProductVariant,
   addMedias,
   getAllMedia,
+  getProductsByCategorySlug,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -71,6 +72,8 @@ router.post(
   authMiddleware(["vendor", "admin", "customer"]),
   checkProductsFromIds
 );
+
+router.get("/products/:slug", getProductsByCategorySlug);
 
 router.post("/products/bulk-upload", upload.single("file"), bulkProductUpload);
 module.exports = router;

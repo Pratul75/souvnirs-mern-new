@@ -63,7 +63,11 @@ const AdminMedia = () => {
                 <MediaCard
                   key={nanoid()}
                   link={a.links}
-                  vendorName={`${a.result.firstName} ${a.result.lastName}`}
+                  vendorName={
+                    a.vendorId
+                      ? `${a.vendorId.firstName} ${a.vendorId.lastName}`
+                      : "admin"
+                  }
                 />
               ))}
           </div>
@@ -86,7 +90,7 @@ const AdminMedia = () => {
               onChange={(e) => {
                 setMedia(e.target.files);
               }}
-              accept=".jpeg,.png"
+              accept=".jpeg,.png,.jpg"
             />
           </div>
           <div className="shadow-lg p-5 flex gap-5 rounded-md self-end">

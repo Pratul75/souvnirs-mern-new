@@ -39,6 +39,7 @@ const AddCollection = () => {
   const [collectionProductTableList, setCollectionProductTableList] = useState(
     []
   );
+  console.log("AddCollection.jsx", formData.filterDivStates);
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
@@ -337,12 +338,14 @@ const AddCollection = () => {
     let extractedConditionValue = formData.filterDivStates.map(
       (item) => item.conditionValue
     );
+    let inputValues = formData.filterDivStates.map((item) => item.inputValue);
 
     const updatedFormData = {
       ...formData,
       description: descriptionValue,
       collectionConditionId: extractedConditionNames,
       conditionValue: extractedConditionValue,
+      inputValue: inputValues,
       deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
       activeProducts: activeProducts.map((product) => product._id) || [],
     };

@@ -17,6 +17,11 @@ const CollectionSchema = new mongoose.Schema(
         ref: "Condition Value",
       },
     ],
+    inputValue: [
+      {
+        type: String,
+      },
+    ],
     title: {
       type: String,
       required: true,

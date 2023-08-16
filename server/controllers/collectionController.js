@@ -20,7 +20,7 @@ const createCollection = async (req, res) => {
 // Get all collections
 const getAllCollections = async (req, res) => {
   try {
-    const collections = await Collection.find();
+    const collections = await Collection.find().sort({ createdAt: -1 });
     res.status(200).json(collections);
   } catch (error) {
     res.status(400).json({ error: "Failed to retrieve collections" });
