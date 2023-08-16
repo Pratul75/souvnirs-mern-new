@@ -32,7 +32,7 @@ const AddChildMenu = () => {
       if (response.status === 200) {
         setSelectedTypeData(response.data);
       }
-    } else if (childMenuType === "product") {
+    } else if (childMenuType === "productInfo") {
       const response = await API_WRAPPER.get("/products/get-all-products");
       if (response.status === 200) {
         setSelectedTypeData(response.data);
@@ -154,7 +154,7 @@ const AddChildMenu = () => {
                 </option>
                 <option value="collection">Collection</option>
                 <option value="category">Category</option>
-                <option value="product">Product</option>
+                <option value="productInfo">Product</option>
                 <option value="page">Page</option>
               </select>
             </div>
@@ -172,7 +172,18 @@ const AddChildMenu = () => {
                   Select Menu Type
                 </option>
                 {selectedTypeData.map((selectedType) => (
-                  <option key={selectedType.id}>
+                  <option
+                    key={selectedType.id}
+                    value={
+                      childMenuType === "collection"
+                        ? selectedType.title
+                        : childMenuType === "category"
+                        ? selectedType.name
+                        : childMenuType === "productInfo"
+                        ? selectedType.slug
+                        : ""
+                    }
+                  >
                     {childMenuType === "collection"
                       ? selectedType.title
                       : childMenuType === "category" ||

@@ -36,7 +36,7 @@ const AddSubMenus = () => {
       if (response.status === 200) {
         setSelectedTypeData(response.data);
       }
-    } else if (subMenuType === "product") {
+    } else if (subMenuType === "productInfo") {
       const response = await API_WRAPPER.get("/products/get-all-products");
       if (response.status === 200) {
         setSelectedTypeData(response.data);
@@ -174,7 +174,7 @@ const AddSubMenus = () => {
                     </option>
                     <option value="collection">Collection</option>
                     <option value="category">Category</option>
-                    <option value="product">Product</option>
+                    <option value="productInfo">Product</option>
                     <option value="page">Page</option>
                   </select>
                 </div>
@@ -192,7 +192,18 @@ const AddSubMenus = () => {
                       Select Menu Type
                     </option>
                     {selectedTypeData.map((selectedType) => (
-                      <option key={selectedType.id}>
+                      <option
+                        key={selectedType.id}
+                        value={
+                          subMenuType === "collection"
+                            ? selectedType.title
+                            : subMenuType === "category"
+                            ? selectedType.name
+                            : subMenuType === "productInfo"
+                            ? selectedType.slug
+                            : ""
+                        }
+                      >
                         {subMenuType === "collection"
                           ? selectedType.title
                           : subMenuType === "category" ||

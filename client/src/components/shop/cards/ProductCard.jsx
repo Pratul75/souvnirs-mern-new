@@ -4,6 +4,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
+import { useNavigate } from "react-router-dom";
 const ProductCard = ({
   id,
   title,
@@ -13,6 +14,7 @@ const ProductCard = ({
   image,
   badgeColor,
   badgeText,
+  slug,
 }) => {
   const [heartColor, setHeartColor] = useState("black"); // Initial color
 
@@ -23,6 +25,7 @@ const ProductCard = ({
       setHeartColor("black");
     }
   };
+  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -30,7 +33,8 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card bg-base-200 px-3 py-2 w-full"
+      className="card bg-base-200 px-3 py-2 w-full cursor-pointer"
+      onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>

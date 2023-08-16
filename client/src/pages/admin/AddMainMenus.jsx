@@ -32,7 +32,7 @@ const AddMainMenus = () => {
       if (response.status === 200) {
         setSelectedTypeData(response.data);
       }
-    } else if (mainMenuData.type === "product") {
+    } else if (mainMenuData.type === "productInfo") {
       const response = await API_WRAPPER.get("/products/get-all-products");
       if (response.status === 200) {
         setSelectedTypeData(response.data);
@@ -42,7 +42,7 @@ const AddMainMenus = () => {
     }
   };
   const navigate = useNavigate();
-  console.log("AddMainMenus.jsx", mainMenuData);
+  console.log("AddMainMenus.jsx", selectedTypeDataValue);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setMainMenuData((prevData) => ({ ...prevData, [name]: value }));
@@ -181,7 +181,7 @@ const AddMainMenus = () => {
                   </option>
                   <option value="collection">Collection</option>
                   <option value="category">Category</option>
-                  <option value="product">Product</option>
+                  <option value="productInfo">Product</option>
                   <option value="page">Page</option>
                 </select>
               </div>
@@ -199,11 +199,22 @@ const AddMainMenus = () => {
                     Select Menu Type
                   </option>
                   {selectedTypeData.map((selectedType) => (
-                    <option key={selectedType.id}>
+                    <option
+                      key={selectedType.id}
+                      value={
+                        mainMenuData.type === "collection"
+                          ? selectedType.title
+                          : mainMenuData.type === "category"
+                          ? selectedType.name
+                          : mainMenuData.type === "productInfo"
+                          ? selectedType.slug
+                          : ""
+                      }
+                    >
                       {mainMenuData.type === "collection"
                         ? selectedType.title
                         : mainMenuData.type === "category" ||
-                          mainMenuData.type === "product"
+                          mainMenuData.type === "productInfo"
                         ? selectedType.name
                         : ""}
                     </option>

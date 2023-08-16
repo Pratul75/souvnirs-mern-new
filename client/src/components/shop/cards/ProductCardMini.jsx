@@ -3,14 +3,17 @@ import Ratings from "../components/Ratings";
 import { BiShoppingBag } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
-const ProductCardMini = ({ id, title, price, rating, image }) => {
+import { useNavigate } from "react-router-dom";
+const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
+  const navigate = useNavigate();
   return (
     <motion.div
       animate="animate"
       initial="initial"
       variants={fadeInVariants}
       key={id}
-      className="flex justify-between gap-4 bg-base-200 rounded-xl"
+      className="flex justify-between gap-4 bg-base-200 rounded-xl cursor-pointer"
+      onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="">
         <img
