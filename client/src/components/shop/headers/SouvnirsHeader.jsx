@@ -1,39 +1,161 @@
-import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
-import { AiOutlineHeart } from "react-icons/ai";
-import { PiBag } from "react-icons/pi";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
+import PropTypes from "prop-types";
+import API_WRAPPER from "../../../api";
+import { debouncedShowToast } from "../../../utils";
+import { nanoid } from "nanoid";
+// Make sure to import the correct icons based on your icon libraries
+import { AiOutlineHeart } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
+import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
-
-// souvnirs main header
+import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
+import useCategories from "../../../hooks/useCategories";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
   const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [productsList, setProductsList] = useState([]);
+  const [collectionList, setCollectionList] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const categoriesList = useCategories();
+
+  const getAllProducts = async () => {
+    try {
+      const response = await API_WRAPPER.get("/products/get-all-products");
+      if (response.status === 200) {
+        setProductsList(response?.data);
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  const getAllCollections = async () => {
+    try {
+      const response = await API_WRAPPER.get("/collection/get-all-collections");
+      if (response.status === 200) {
+        setCollectionList(response?.data);
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      await Promise.all([getAllProducts(), getAllCollections()]);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const applyFilters = () => {
+      if (selectedFilter === "product") {
+        const filteredProducts = productsList.filter((product) => {
+          return product.name.toLowerCase().includes(searchInput.toLowerCase());
+        });
+        setFilteredProducts(filteredProducts);
+      }
+      if (selectedFilter === "collection") {
+        const filteredCollections = collectionList.filter((collection) => {
+          return collection.title
+            .toLowerCase()
+            .includes(searchInput.toLowerCase());
+        });
+        setFilteredProducts(filteredCollections);
+      }
+      if (selectedFilter === "category") {
+        const filteredCategories = categoriesList.filter((category) => {
+          return category.name
+            .toLowerCase()
+            .includes(searchInput.toLowerCase());
+        });
+        setFilteredProducts(filteredCategories);
+      }
+    };
+
+    applyFilters();
+  }, [
+    searchInput,
+    selectedFilter,
+    productsList,
+    collectionList,
+    categoriesList,
+  ]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "searchInput") {
+      setSearchInput(value);
+    } else if (name === "selectedFilter") {
+      setSelectedFilter(value);
+    }
+  };
 
   return (
-    <header className="py-[32px]">
+    <header className="py-4">
       <div className="flex justify-between items-center px-16">
         <Link to={PATHS.landingPage} className="cursor-pointer">
           <img src={SouvnirsLogoImage} alt="souvnirs logo" />
         </Link>
-        <div className="join">
+        <div className="join relative">
+          {searchInput.length > 0 && (
+            <div
+              id="filtered-products-list"
+              className="bg-base-100 shadow-xl rounded-xl absolute top-14 w-full z-50 p-4 overflow-y-scroll h-60"
+            >
+              <div className="flex justify-between">
+                <span>Search by: {searchInput}</span>
+                <span>Filter by: {selectedFilter.toUpperCase()}</span>
+              </div>
+              <div>
+                {selectedFilter === "" ? (
+                  <p className="text-center text-error">
+                    Select a filter first
+                  </p>
+                ) : (
+                  filteredProducts.map((filteredProduct) => (
+                    <h5
+                      className="py-2 px-2 hover:bg-base-200 cursor-pointer"
+                      key={nanoid()}
+                    >
+                      {selectedFilter === "collection"
+                        ? filteredProduct.title
+                        : selectedFilter === "category"
+                        ? filteredProduct.name
+                        : filteredProduct.name}
+                    </h5>
+                  ))
+                )}
+              </div>
+            </div>
+          )}
           <div>
             <div>
               <input
+                value={searchInput}
+                onChange={handleInputChange}
+                name="searchInput"
                 className="input w-96 input-bordered join-item rounded-none"
                 placeholder="Search products"
               />
             </div>
           </div>
-          <select className="select select-bordered join-item">
-            <option disabled selected>
-              Filter
-            </option>
-            <option>Sci-fi</option>
-            <option>Drama</option>
-            <option>Action</option>
+          <select
+            onChange={handleInputChange}
+            name="selectedFilter"
+            className="select select-bordered join-item"
+            value={selectedFilter}
+          >
+            <option value="">Filter</option>
+            <option value="product">Products</option>
+            <option value="category">Category</option>
+            <option value="collection">Collection</option>
+            <option value="vendor">Vendor</option>
           </select>
           <div className="indicator">
             <button className={`btn ${buttonColor} join-item rounded-none`}>
@@ -44,7 +166,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         <div className="flex items-center gap-3">
           {token ? (
             <div className="flex gap-4">
-              {/* TODO: need to add condition for user and vendor login as well */}
               <div className="tooltip tooltip-bottom" data-tip="dashboard">
                 <Link
                   to={PATHS.adminDashboard}
@@ -77,13 +198,18 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               1
             </div>
             <Link to={PATHS.cartPage} className="btn">
-              <PiBag className="text-2xl cursor-pointer" />
+              <FiShoppingBag className="text-2xl cursor-pointer" />
             </Link>
           </div>
         </div>
       </div>
     </header>
   );
+};
+
+SouvnirsHeader.propTypes = {
+  badgeColor: PropTypes.string.isRequired,
+  buttonColor: PropTypes.string.isRequired,
 };
 
 export default SouvnirsHeader;
