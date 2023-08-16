@@ -86,6 +86,11 @@ const productSchema = new mongoose.Schema(
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
+    images: [
+      {
+        type: String,
+      },
+    ],
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

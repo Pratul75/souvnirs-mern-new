@@ -824,7 +824,7 @@ const bulkProductUpload = async (req, res) => {
 
   // Read the Excel file using xlsx library
   const workbook = xlsx.readFile(filePath);
-  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const worksheet = workbook.Sheets["final"];
   const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
   console.log(jsonData);
@@ -833,13 +833,14 @@ const bulkProductUpload = async (req, res) => {
       Id,
       Title,
       Description,
-      FeatureImage,
+      ["Feature Image"]: featureImage,
       Category,
       VendorEmail,
+      Price,
+      Quantity,
       tags,
       Color,
       Size,
-      Quantity,
       Set,
       Style,
       Material,
@@ -871,9 +872,11 @@ const bulkProductUpload = async (req, res) => {
         Id,
         Title,
         Description,
-        FeatureImage,
+        featureImage,
         VendorEmail,
         tags,
+        Price,
+        Quantity,
         Category,
         coverImage,
         attributes: [
@@ -901,7 +904,19 @@ const bulkProductUpload = async (req, res) => {
     let thisdata = groupedData[id];
     let slug = uuidv4(10);
     slug = slug.slice(0, 8);
-    const vendor = await Vendor.findOne({ email: thisdata.VendorEmail });
+    let vendor;
+    if (thisdata.VendorEmail) {
+      console.log("productController.js", thisdata.VendorEmail);
+
+      vendor = await Vendor.findOne({ email: thisdata.VendorEmail });
+      if (!vendor) {
+        vendor = await Vendor.create({ email: thisdata.VendorEmail });
+      }
+    }
+
+    if (!vendor) {
+      vendor = { _id: "64be5d22780219dfbf5e705f" };
+    }
     let attributes = thisdata.attributes.flatMap((obj) =>
       Object.keys(obj).filter((key) => obj[key] !== undefined)
     );
@@ -916,30 +931,40 @@ const bulkProductUpload = async (req, res) => {
       description: thisdata.Description,
       name: thisdata.Title,
       slug,
+      price: thisdata.Price,
+      quantity: thisdata.Quantity,
       vendorId: vendor._id,
-      tags: thisdata.tags.split("/"),
+      tags: [],
       attributes: attributeIds,
-      categoryId: category._id,
-      coverImage: thisdata.FeatureImage,
+      categoryId: category ? category._id : "64dcb581fffb862e5484805e",
+      coverImage: thisdata.featureImage,
     });
-    console.log(productCreated);
+    let images = [];
     for (let variant of thisdata.data) {
-      console.log("productController.js", variant);
       for (const key in variant.variant) {
         if (variant.variant[key] === undefined) {
           delete variant.variant[key];
         }
       }
-      const created = await AttributeType.create({
-        productId: productCreated._id,
-        attributeIds,
-        variant: variant.variant,
-        quantity: variant.Quantity,
-        price: variant.Price,
-        images: variant.VariantsImages.split("~"),
-      });
+      images.push(variant.VariantsImages);
+      // const created = await AttributeType.create({
+      //   productId: productCreated._id,
+      //   attributeIds,
+      //   variant: variant.variant,
+      //   quantity: variant.Quantity,
+      //   price: variant.Price,
+      //   images: variant.VariantsImages.split("~"),
+      // });
       console.log("productController.js");
     }
+    const updated = await Product.findByIdAndUpdate(
+      productCreated._id,
+      {
+        images,
+      },
+      { new: true }
+    );
+    console.log("productController.js", updated.images);
   }
   console.log("productController.js", workbook);
   res.status(200).json("bulk upload successfull");
