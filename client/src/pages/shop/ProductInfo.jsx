@@ -6,9 +6,12 @@ import { CiLogin } from "react-icons/ci";
 import { ProductsListWithFilters, Ratings, Tabs } from "../../components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { productListFiltersAndProducts } from "../../mappings";
+import API_WRAPPER from "../../api";
+import { useEffect, useState } from "react";
 
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
+  const [product, setProduct] = useState();
   const params = useParams();
   console.log(params);
 
@@ -50,6 +53,14 @@ const ProductInfo = () => {
       ),
     },
   ];
+
+  const fetchProductData = async () => {
+    await API_WRAPPER.get(`/product/${slug}`);
+  };
+  useEffect(() => {
+    fetchProductData();
+  }, []);
+
   return (
     <div className="mx-16 mt-4">
       <Link to={PATHS.landingPage} className="btn">

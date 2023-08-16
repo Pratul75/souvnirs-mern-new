@@ -13,6 +13,7 @@ const {
   getProductsByCategorySlug,
   getProductsByCollectionSlug,
   getProductsByFilter,
+  getProductBySlug,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
