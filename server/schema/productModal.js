@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+var aggregatePaginate = require("mongoose-aggregate-paginate-v2");
 
 const productSchema = new mongoose.Schema(
   {
@@ -81,6 +82,11 @@ const productSchema = new mongoose.Schema(
     viewCount: {
       type: Number,
     },
+    images: [
+      {
+        type: String,
+      },
+    ],
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
@@ -91,6 +97,8 @@ const productSchema = new mongoose.Schema(
     timestamps: true, // Adds createdAt and updatedAt fields
   }
 );
+
+productSchema.plugin(aggregatePaginate);
 
 const Product = mongoose.model("Product", productSchema);
 module.exports = Product;

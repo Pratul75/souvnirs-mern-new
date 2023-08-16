@@ -7,6 +7,7 @@ import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { ProductCard } from "../../components";
 import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
+import InputRange from "react-input-range";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
 
@@ -21,6 +22,11 @@ const Products = () => {
   const [filters, setFilters] = useState([]);
   const location = useParams();
   console.log("LOCATION OBJECT: ", location);
+  const [value, setValue] = useState({ min: 10, max: 200 });
+
+  const handlePriceChange = (newRange) => {
+    setValue(newRange);
+  };
 
   const getProducts = async () => {
     const response = await API_WRAPPER.post(`/products`, {
@@ -63,6 +69,21 @@ const Products = () => {
       <div className="grid grid-cols-4">
         <div className="col-span-1">
           <div className="flex gap-4 flex-col">
+            <div
+              key={nanoid()}
+              className="form-control flex flex-row items-center gap-4"
+            >
+              <div className="my-4">
+                <InputRange
+                  maxValue={value.max}
+                  minValue={value.min}
+                  value={value}
+                  onChange={handlePriceChange}
+                />
+                <div className="flex justify-between"></div>
+              </div>
+            </div>
+
             {filterList &&
               Object.keys(filterList).map((filter) => {
                 console.log("CategoryProducts.jsx", filter);
@@ -155,11 +176,7 @@ const Products = () => {
               products.map((product) => (
                 <ProductCardMini
                   id={nanoid()}
-                  price={
-                    product.variants.length > 0
-                      ? product.variants[0].price
-                      : product.price
-                  }
+                  price={product.price}
                   slug={product.slug}
                   rating={4.5}
                   title={product.name}
@@ -174,11 +191,7 @@ const Products = () => {
                       <ProductCard
                         badgeColor="badge-accent"
                         badgeText="NEW"
-                        price={
-                          product.variants.length > 0
-                            ? product.variants[0].price
-                            : product.price
-                        }
+                        price={product.price}
                         rating={4.2}
                         slug={product.slug}
                         title={product.name}
