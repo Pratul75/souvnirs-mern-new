@@ -90,4 +90,5 @@ export const PATHS = {
   compareProduct: "/compare_product",
   cartPage: "/cart_page",
   checkout: "/checkout",
+  shopWishlist: "/shop/wishlist",
 };

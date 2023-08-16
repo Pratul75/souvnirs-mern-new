@@ -42,6 +42,8 @@ body {
 }
 */
 
+/* this styles is of no use as its not reflected in the select component */
+
 .rmsc {
   --rmsc-main: #4285f4 !important;
   --rmsc-hover: #f1f3f5 !important;

@@ -169,14 +169,18 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             </>
           )}
 
-          <AiOutlineHeart className="text-2xl cursor-pointer" />
+          <div className="tooltip tooltip-bottom" data-tip="wishlist">
+            <Link to={PATHS.shopWishlist} className="btn btn-circle">
+              <AiOutlineHeart className="text-2xl cursor-pointer" />
+            </Link>
+          </div>
           <div className="indicator">
             <div
               className={`indicator-item badge ${badgeColor} badge-xs absolute p-2`}
             >
               1
             </div>
-            <Link to={PATHS.cartPage} className="btn">
+            <Link to={PATHS.cartPage} className="btn btn-circle">
               <FiShoppingBag className="text-2xl cursor-pointer" />
             </Link>
           </div>
