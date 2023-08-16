@@ -70,11 +70,12 @@ import {
   Checkout,
   CompareProducts,
   OrderSuccess,
+  Wishlist,
 } from "../pages";
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
-import Wishlist from "../pages/admin/Wishlist";
+import AdminWishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
@@ -304,7 +305,7 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminWishlist,
     defaultRole: "admin",
-    Component: Wishlist,
+    Component: AdminWishlist,
   },
   {
     id: nanoid(),
@@ -482,6 +483,11 @@ export const customerRoutes = [
 export const shopRoutes = [
   {
     id: nanoid(),
+    path: PATHS.landingPage,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
     path: `${PATHS.shopCategory}/:slug`,
     Component: CategoryProducts,
   },
@@ -495,11 +501,7 @@ export const shopRoutes = [
     path: `${PATHS.shopProduct}`,
     Component: Products,
   },
-  {
-    id: nanoid(),
-    path: PATHS.landingPage,
-    Component: LandingPage,
-  },
+
   {
     id: nanoid(),
     path: PATHS.productInfo,
@@ -524,5 +526,10 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.orderSuccess,
     Component: OrderSuccess,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.shopWishlist,
+    Component: Wishlist,
   },
 ];

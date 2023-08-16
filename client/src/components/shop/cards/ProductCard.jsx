@@ -4,8 +4,6 @@ import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
-import { Link } from "react-router-dom";
-import { PATHS } from "../../../Routes/paths";
 const ProductCard = ({
   id,
   title,
@@ -32,7 +30,7 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card bg-base-300 p-4 w-56"
+      className="card bg-base-200 px-3 py-2 w-full"
     >
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
@@ -50,9 +48,9 @@ const ProductCard = ({
           alt={title}
         />
       </div>
-      <div>
-        <h3 className="text-2xl">{title}</h3>
-        <h5>
+      <div className="flex justify-center flex-col items-center gap-2">
+        <h3 className="text-[16px] text-center">{title}</h3>
+        <h5 className="justify-center flex w-36 items-center">
           <span className="text-primary">{discountPrice}</span> {price}
         </h5>
         <Ratings rating={rating} />

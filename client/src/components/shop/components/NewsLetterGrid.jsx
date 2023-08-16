@@ -20,7 +20,7 @@ const NewsLetterGrid = ({
   };
 
   return (
-    <div className="flex w-full justify-center mx-16">
+    <div className="flex w-full justify-center">
       <div className="w-3/4 bg-white rounded-lg shadow-md p-6">
         <img
           className="object-cover mb-4"

@@ -71,3 +71,4 @@ export { default as CartPage } from "./shop/CartPage";
 export { default as Checkout } from "./shop/Checkout";
 export { default as CompareProducts } from "./shop/CompareProducts";
 export { default as OrderSuccess } from "./shop/OrderSuccess";
+export { default as Wishlist } from "./shop/Wishlist";
