@@ -14,8 +14,9 @@ const ProductCard = ({
   badgeColor,
   badgeText,
 }) => {
-  const [heartColor, setHeartColor] = useState("black"); // Initial color
+  const [heartColor, setHeartColor] = useState("black");
 
+  // TODO: need to be changed to icons switching instead of colors
   const handleHeartClick = () => {
     if (heartColor === "black") {
       setHeartColor("red");
@@ -38,14 +39,16 @@ const ProductCard = ({
           <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
         </button>
       </div>
-      <div className="flex py-4  justify-center">
-        <img
-          style={{
-            mixBlendMode: "multiply",
-          }}
-          src={image}
-          alt={title}
-        />
+      <div className="flex justify-center">
+        <div className="flex py-4  justify-center">
+          <img
+            style={{
+              mixBlendMode: "multiply",
+            }}
+            src={image}
+            alt={title}
+          />
+        </div>
       </div>
       <div className="flex justify-center flex-col items-center gap-2">
         <h3 className="text-[16px] text-center">{title}</h3>

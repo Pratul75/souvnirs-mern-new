@@ -30,7 +30,6 @@ import {
 } from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
-import FilterProducts from "../../components/shop/components/FilterProducts";
 
 const LandingPage = () => {
   return (
@@ -82,7 +81,7 @@ const LandingPage = () => {
         imageTwo={GiftOnePngImage}
       />
       <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
+        heading="Best Products at price"
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />

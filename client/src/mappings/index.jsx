@@ -31,6 +31,22 @@ import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.
 import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
 import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
 import LenovoImage from "../assets/shop/brandImages/lenovo.png";
+import PrestigeLogo from "../assets/shop/brandImages/prestigeLogo.png";
+import VeromodaLogo from "../assets/shop/brandImages/veromodaLogo.png";
+import BorosilLogo from "../assets/shop/brandImages/borosilLogo.png";
+import XechLogo from "../assets/shop/brandImages/xechLogo.png";
+import BoatLogo from "../assets/shop/brandImages/boatLogo.png";
+import ParkAvenueLogo from "../assets/shop/brandImages/parkavenue.png";
+import PumaLogo from "../assets/shop/brandImages/pumaLogo.png";
+import BajajLogo from "../assets/shop/brandImages/bajajLogo.png";
+import HavellsLogo from "../assets/shop/brandImages/havellsLogo.png";
+import PoliceLogo from "../assets/shop/brandImages/policeLogo.png";
+import BeardLogo from "../assets/shop/brandImages/beardLogo.png";
+import WildcraftLogo from "../assets/shop/brandImages/wildcraftLogo.png";
+import PigeonLogo from "../assets/shop/brandImages/pigeonLogo.png";
+import WonderChefLogo from "../assets/shop/brandImages/wonderchefLogo.png";
+
+import TitanLogo from "../assets/shop/brandImages/titanLogo.png";
 import ImageGridImageOne from "../assets/shop/cardImages/imageGridImageOne.png";
 import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
 import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
@@ -385,7 +401,7 @@ export const caroselMapppingDailyDeals = [
           className="radial-progress flex  flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <span className="font-extrabold text-2xl text-gray-300">01</span>
           <p>days</p>
         </div>
 
@@ -393,20 +409,20 @@ export const caroselMapppingDailyDeals = [
           className="radial-progress flex  flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <span className="font-extrabold text-2xl text-gray-300">01</span>
           <p>days</p>
         </div>
         <div
           className="radial-progress flex  flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
+          <span className="font-extrabold text-2xl text-gray-300">01</span>
           <p>days</p>
         </div>
       </div>
 
       <div>
-        <p>Cosmos Bold Pro Smart Watch</p>
+        <p>One Plus Smart Watch</p>
         <p className="text-bold text-primary text-xl">$256.00</p>
         <Ratings rating={4.5} />
       </div>
@@ -415,79 +431,146 @@ export const caroselMapppingDailyDeals = [
       <img src={GiftOnePng} alt="" />`
     </div>
   </div>,
+  <div className="flex" key={nanoid()}>
+    <div className="flex flex-col  gap-4 mt-4 py-2">
+      <div className="flex  gap-4 my-2">
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">02</span>
+          <p>days</p>
+        </div>
 
-  <div key={nanoid()} className="bg-green-500 p-4">
-    Item 2
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">02</span>
+          <p>days</p>
+        </div>
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">02</span>
+          <p>days</p>
+        </div>
+      </div>
+
+      <div>
+        <p>Cosmos Bold Pro Smart Watch</p>
+        <p className="text-bold text-primary text-xl">$100.00</p>
+        <Ratings rating={5} />
+      </div>
+    </div>
+    <div>
+      <img src={GiftOnePng} alt="" />`
+    </div>
   </div>,
-  <div key={nanoid()} className="bg-yellow-500 p-4">
-    Item 3
+  <div className="flex" key={nanoid()}>
+    <div className="flex flex-col  gap-4 mt-4 py-2">
+      <div className="flex  gap-4 my-2">
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">04</span>
+          <p>days</p>
+        </div>
+
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">04</span>
+          <p>days</p>
+        </div>
+        <div
+          className="radial-progress flex  flex-col items-center"
+          style={{ "--value": 70 }}
+        >
+          <span className="font-extrabold text-2xl text-gray-300">04</span>
+          <p>days</p>
+        </div>
+      </div>
+
+      <div>
+        <p>Smart TV</p>
+        <p className="text-bold text-primary text-xl">$499.00</p>
+        <Ratings rating={4.5} />
+      </div>
+    </div>
+    <div>
+      <img src={GiftOnePng} alt="" />`
+    </div>
   </div>,
 ];
 
 export const BrandsCardImageList = [
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PrestigeLogo,
+    alt: "prestige",
+  },
+  {
+    image: VeromodaLogo,
+    alt: "veromoda",
+  },
+  {
+    image: BorosilLogo,
+    alt: "borosil",
   },
   {
     image: LenovoImage,
     alt: "lenovo",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: XechLogo,
+    alt: "xech",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BoatLogo,
+    alt: "boat",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: ParkAvenueLogo,
+    alt: "parkavenue",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: TitanLogo,
+    alt: "titan",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PumaLogo,
+    alt: "puma",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BajajLogo,
+    alt: "bajaj",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: HavellsLogo,
+    alt: "havells",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PoliceLogo,
+    alt: "police",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BeardLogo,
+    alt: "beard",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: WildcraftLogo,
+    alt: "wildcraft",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PigeonLogo,
+    alt: "pigeon",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
-  },
-  {
-    image: LenovoImage,
-    alt: "lenovo",
-  },
-  {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: WonderChefLogo,
+    alt: "wonderchef",
   },
 ];
 

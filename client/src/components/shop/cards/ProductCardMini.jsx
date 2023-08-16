@@ -3,6 +3,7 @@ import Ratings from "../components/Ratings";
 import { BiShoppingBag } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
+
 const ProductCardMini = ({ id, title, price, rating, image }) => {
   return (
     <motion.div
@@ -12,7 +13,7 @@ const ProductCardMini = ({ id, title, price, rating, image }) => {
       key={id}
       className="flex justify-between gap-4 bg-base-200 rounded-xl"
     >
-      <div className="">
+      <div>
         <img
           style={{
             mixBlendMode: "multiply",
@@ -22,14 +23,14 @@ const ProductCardMini = ({ id, title, price, rating, image }) => {
         />
       </div>
       <div className="flex flex-col justify-center">
-        <h3 className="text-xl font-semibold">{title}</h3>
+        <h3 className="text-md font-semibold">{title}</h3>
         <div className="flex items-center justify-between gap-2 rounded-full mt-2">
           <div>
             <p className="text-xl text-primary font-semibold">${price}.00</p>
             <Ratings rating={rating} />
           </div>
           <div>
-            <button className="btn btn-circle">
+            <button className="btn btn-circle btn-ghost">
               <BiShoppingBag />
             </button>
           </div>
