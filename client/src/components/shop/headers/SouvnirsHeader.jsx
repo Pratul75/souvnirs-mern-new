@@ -24,7 +24,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
 
   useEffect(() => {
     const applyFilters = () => {
-      if (selectedFilter === "product") {
+      if (selectedFilter === "productInfo") {
         const filteredProducts = productsList.filter((product) => {
           return product.name.toLowerCase().includes(searchInput.toLowerCase());
         });
@@ -96,6 +96,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                         navigate(
                           selectedFilter === "collection"
                             ? `/${selectedFilter}/${filteredProduct.title}`
+                            : selectedFilter === "productInfo"
+                            ? `/${selectedFilter}/${filteredProduct.slug}`
                             : `/${selectedFilter}/${filteredProduct.name}`
                         );
                         setSearchInput("");

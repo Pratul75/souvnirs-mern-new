@@ -12,8 +12,8 @@ import { useEffect, useState } from "react";
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [product, setProduct] = useState();
+  const [slug, setSlug] = useState();
   const params = useParams();
-  console.log(params);
 
   const tabs = [
     {
@@ -55,11 +55,21 @@ const ProductInfo = () => {
   ];
 
   const fetchProductData = async () => {
-    await API_WRAPPER.get(`/product/${slug}`);
+    const response = await API_WRAPPER.get(`/product/${slug}`);
+    if (response.data) setProduct(response.data);
   };
+  console.log(product);
   useEffect(() => {
-    fetchProductData();
-  }, []);
+    // Set the slug parameter from the URL
+    setSlug(params.slug);
+  }, [params.slug]); // Add params.slug as a dependency
+
+  useEffect(() => {
+    // Fetch product data whenever the slug changes
+    if (slug) {
+      fetchProductData();
+    }
+  }, [slug]); // Add slug as a dependency
 
   return (
     <div className="mx-16 mt-4">
@@ -70,12 +80,10 @@ const ProductInfo = () => {
 
       <div className="grid grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
-          <img src={ProductImagePrimary} alt="primary image" />
+          <img src={product?.coverImage} alt="primary image" />
         </div>
         <div className="col-span-1">
-          <h1 className="font-bold text-2xl">
-            Android Television Super Salon New DGT -256
-          </h1>
+          <h1 className="font-bold text-2xl">{product?.name}</h1>
           <div
             className={`flex items-center ${
               !isLogged && "justify-between"
@@ -83,7 +91,11 @@ const ProductInfo = () => {
           >
             <span className="text-4xl font-thin">USD</span>
             {isLogged ? (
-              <span className="text-4xl">400</span>
+              <span className="text-4xl">
+                {product?.variants.length > 0
+                  ? product?.variants[0].price
+                  : product?.price}
+              </span>
             ) : (
               <Link to={PATHS.login} className="join cursor-pointer">
                 <div className="bg-base-200 join-item flex items-center px-2">
@@ -127,8 +139,7 @@ const ProductInfo = () => {
             </div>
             <div className="col-span-1">
               <div className="text-xs mt-7 bg-base-200 rounded-xl px-2 py-1">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Mollitia accusamus
+                {product?.description}
               </div>
               <div className="form-control">
                 <label className="label">

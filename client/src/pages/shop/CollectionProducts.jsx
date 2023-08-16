@@ -161,11 +161,13 @@ const CollectionProducts = () => {
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
-                      : product.price
+                      : product.products.price
                   }
+                  slug={product.products.slug}
                   rating={4.5}
-                  title={product.name}
-                  image={product.coverImage}
+                  title={product.products.name}
+                  // discountPrice="300"
+                  image={product.products.coverImage}
                 />
               ))
             ) : (
@@ -176,6 +178,7 @@ const CollectionProducts = () => {
                       <ProductCard
                         badgeColor="badge-accent"
                         badgeText="NEW"
+                        slug={product.products.slug}
                         price={
                           product.variants.length > 0
                             ? product.variants[0].price
@@ -185,6 +188,7 @@ const CollectionProducts = () => {
                         title={product.products.name}
                         // discountPrice="300"
                         image={product.products.coverImage}
+                        onClick={() => {}}
                       />
                     );
                   })}

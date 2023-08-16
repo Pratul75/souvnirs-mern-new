@@ -160,6 +160,7 @@ const Products = () => {
                       ? product.variants[0].price
                       : product.price
                   }
+                  slug={product.slug}
                   rating={4.5}
                   title={product.name}
                   image={product.coverImage}
@@ -179,6 +180,7 @@ const Products = () => {
                             : product.price
                         }
                         rating={4.2}
+                        slug={product.slug}
                         title={product.name}
                         // discountPrice="300"
                         image={product.coverImage}

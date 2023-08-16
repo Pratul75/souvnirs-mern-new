@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FilterCard from "../../components/shop/components/FilterCard";
 import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
@@ -20,6 +20,7 @@ const CategoryProducts = () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
   const location = useParams();
+  const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
@@ -163,6 +164,7 @@ const CategoryProducts = () => {
                       ? product.variants[0].price
                       : product.price
                   }
+                  slug={product.slug}
                   rating={4.5}
                   title={product.name}
                   image={
@@ -188,6 +190,8 @@ const CategoryProducts = () => {
                         rating={4.2}
                         title={product.name}
                         // discountPrice="300"
+                        slug={product.slug}
+                        className="cursor-pointer"
                         image={product.coverImage}
                       />
                     );
