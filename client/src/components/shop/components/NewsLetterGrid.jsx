@@ -47,7 +47,7 @@ const NewsLetterGrid = ({
               onChange={handleInputChange}
             />
             <button
-              className="border-b text-white  py-2 px-4 mx-8 transition duration-300"
+              className="border-b text-white  py-2 px-4 mx-8 transition duration-300 hover:bg-white hover:text-black"
               onClick={handleSubscribe}
             >
               Subscribe
