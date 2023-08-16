@@ -11,6 +11,7 @@ const { v2 } = require("../middlewares/ImageUpload");
 const Media = require("../schema/mediaModal");
 const mongoose = require("mongoose");
 const Collection = require("../schema/collectionModal");
+const Product = require("../schema/productModal");
 
 // create new product
 const addMedias = async (req, res) => {
@@ -798,6 +799,26 @@ const checkProductsFromIds = async (req, res) => {
     console.error("Error occurred while checking products:", error);
     res.status(400).json({ error: "somthing went wrong" });
   }
+};
+
+const getProductBySlug = async (req, res) => {
+  const { slug } = req.params;
+  const Product = await Product.aggregate([
+    {
+      $match: {
+        slug: slug,
+      },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "_id",
+        foreignField: "productId",
+        as: "result",
+      },
+    },
+  ]);
+  res.status(200).json(product);
 };
 const bulkProductUpload = async (req, res) => {
   const filePath = req.file.path;

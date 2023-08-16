@@ -179,12 +179,12 @@ const CollectionProducts = () => {
                         price={
                           product.variants.length > 0
                             ? product.variants[0].price
-                            : product.price
+                            : product.products.price
                         }
                         rating={4.2}
-                        title={product.name}
+                        title={product.products.name}
                         // discountPrice="300"
-                        image={product.coverImage}
+                        image={product.products.coverImage}
                       />
                     );
                   })}

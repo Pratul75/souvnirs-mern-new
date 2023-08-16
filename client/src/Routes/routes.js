@@ -502,7 +502,7 @@ export const shopRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.productInfo,
+    path: `${PATHS.productInfo}/:slug`,
     Component: ProductInfo,
   },
   {

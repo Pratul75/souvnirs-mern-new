@@ -92,6 +92,15 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                     <h5
                       className="py-2 px-2 hover:bg-base-200 cursor-pointer"
                       key={nanoid()}
+                      onClick={() => {
+                        navigate(
+                          selectedFilter === "collection"
+                            ? `/${selectedFilter}/${filteredProduct.title}`
+                            : `/${selectedFilter}/${filteredProduct.name}`
+                        );
+                        setSearchInput("");
+                        // navigate(0);
+                      }}
                     >
                       {selectedFilter === "collection"
                         ? filteredProduct.title
@@ -122,7 +131,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             value={selectedFilter}
           >
             <option value="">Filter</option>
-            <option value="product">Products</option>
+            <option value="productInfo">Products</option>
             <option value="category">Category</option>
             <option value="collection">Collection</option>
             <option value="vendor">Vendor</option>
