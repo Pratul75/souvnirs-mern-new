@@ -802,7 +802,7 @@ const checkProductsFromIds = async (req, res) => {
 
 const getProductBySlug = async (req, res) => {
   const { slug } = req.params;
-  const Product = await Product.aggregate([
+  const product = await Product.aggregate([
     {
       $match: {
         slug: slug,
@@ -813,11 +813,11 @@ const getProductBySlug = async (req, res) => {
         from: "attributetypes",
         localField: "_id",
         foreignField: "productId",
-        as: "result",
+        as: "variants",
       },
     },
   ]);
-  res.status(200).json(Product);
+  res.status(200).json(product[0]);
 };
 const bulkProductUpload = async (req, res) => {
   const filePath = req.file.path;
