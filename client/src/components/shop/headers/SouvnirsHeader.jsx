@@ -1,56 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import PropTypes from "prop-types";
-import API_WRAPPER from "../../../api";
-import { debouncedShowToast } from "../../../utils";
 import { nanoid } from "nanoid";
-// Make sure to import the correct icons based on your icon libraries
 import { AiOutlineHeart } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
 import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
 import useCategories from "../../../hooks/useCategories";
+import useProducts from "../../../hooks/useProducts";
+import useCollections from "../../../hooks/useCollections";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
-  const [productsList, setProductsList] = useState([]);
-  const [collectionList, setCollectionList] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   const categoriesList = useCategories();
-
-  const getAllProducts = async () => {
-    try {
-      const response = await API_WRAPPER.get("/products/get-all-products");
-      if (response.status === 200) {
-        setProductsList(response?.data);
-      }
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
-  };
-
-  const getAllCollections = async () => {
-    try {
-      const response = await API_WRAPPER.get("/collection/get-all-collections");
-      if (response.status === 200) {
-        setCollectionList(response?.data);
-      }
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
-  };
-
-  useEffect(() => {
-    async function fetchData() {
-      await Promise.all([getAllProducts(), getAllCollections()]);
-    }
-    fetchData();
-  }, []);
+  const productsList = useProducts();
+  const collectionList = useCollections();
 
   useEffect(() => {
     const applyFilters = () => {
