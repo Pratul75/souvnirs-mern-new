@@ -184,8 +184,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               </div>
             ) : (
               <>
-                <Link to={() => PATHS.login}>Login</Link>
-                <Link to={() => PATHS.register}>Register</Link>|
+                <Link to={PATHS.login}>Login</Link>
+                <Link to={PATHS.register}>Register</Link>|
               </>
             )}
 
