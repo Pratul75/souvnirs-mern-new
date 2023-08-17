@@ -218,6 +218,7 @@ const CategoryProducts = () => {
                         }
                         rating={4.2}
                         title={product.name}
+                        id={product._id}
                         // discountPrice="300"
                         slug={product.slug}
                         className="cursor-pointer"

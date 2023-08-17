@@ -12,17 +12,28 @@ import useCategories from "../../../hooks/useCategories";
 import useProducts from "../../../hooks/useProducts";
 import useCollections from "../../../hooks/useCollections";
 import { RxHamburgerMenu } from "react-icons/rx";
+import API_WRAPPER from "../../../api";
+import { useSelector } from "react-redux";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [wishlistItems, setWishlistItems] = useState();
 
   const categoriesList = useCategories();
   const productsList = useProducts();
   const collectionList = useCollections();
+  const refresh = useSelector((state) => state.appConfig.refresh);
+  console.log("SouvnirsHeader.jsx", productsList);
 
+  console.log("SouvnirsHeader.jsx", refresh);
+  const getWishlistData = async () => {
+    const response = await API_WRAPPER.get("/wishlist/getmywishlist");
+    console.log("ShopNavbar.jsx", response);
+    setWishlistItems(response.data.data.wishlist);
+  };
   useEffect(() => {
     const applyFilters = () => {
       if (selectedFilter === "productInfo") {
@@ -66,7 +77,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       setSelectedFilter(value);
     }
   };
-
+  useEffect(() => {
+    getWishlistData();
+  }, [refresh]);
+  console.log("SouvnirsHeader.jsx", wishlistItems);
   return (
     <>
       {/* // desktop header */}
@@ -175,6 +189,12 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             )}
 
             <div className="tooltip tooltip-bottom" data-tip="Wishlist">
+              <div
+                className={`indicator-item badge ${badgeColor} badge-xs absolute p-2`}
+              >
+                {" "}
+                {wishlistItems && wishlistItems?.length}
+              </div>
               <Link to={PATHS.shopWishlist} className="btn btn-circle">
                 <AiOutlineHeart className="text-2xl cursor-pointer" />
               </Link>
@@ -182,9 +202,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             <div className="indicator">
               <div
                 className={`indicator-item badge ${badgeColor} badge-xs absolute p-2`}
-              >
-                1
-              </div>
+              ></div>
               <div className="tooptip tooltip-bottom" data-tip="Cart">
                 <Link to={PATHS.cartPage} className="btn btn-circle">
                   <FiShoppingBag className="text-2xl cursor-pointer" />

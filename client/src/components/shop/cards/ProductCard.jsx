@@ -5,6 +5,10 @@ import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import { useNavigate } from "react-router-dom";
+import API_WRAPPER from "../../../api";
+import { debouncedShowToast } from "../../../utils";
+import { useDispatch } from "react-redux";
+import { toggleRefresh } from "../../../features/appConfig/appSlice";
 const ProductCard = ({
   id,
   title,
@@ -18,6 +22,15 @@ const ProductCard = ({
   isDiscounted,
 }) => {
   const [heartColor, setHeartColor] = useState("black");
+  const dispatch = useDispatch();
+  const addToWishlist = async () => {
+    const response = await API_WRAPPER.post("/wishlist/create", {
+      productId: id,
+    });
+    if (response.status === 200)
+      debouncedShowToast("added to wishlist", "success");
+    dispatch(toggleRefresh());
+  };
 
   // TODO: need to be changed to icons switching instead of colors
   const handleHeartClick = () => {
@@ -26,6 +39,7 @@ const ProductCard = ({
     } else {
       setHeartColor("black");
     }
+    addToWishlist();
   };
   const navigate = useNavigate();
 
@@ -42,7 +56,10 @@ const ProductCard = ({
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
         <button
           className="btn btn-circle bg-base-300 rounded-full"
-          onClick={handleHeartClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleHeartClick();
+          }}
         >
           <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
         </button>
