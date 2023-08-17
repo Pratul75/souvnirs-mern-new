@@ -75,6 +75,7 @@ const ShopNavbar = () => {
           >
             {categories.map((category) => (
               <li
+                onClick
                 key={category._id}
                 className="p-2 hover:bg-yellow-200 cursor-pointer"
               >
