@@ -14,7 +14,7 @@ const VendorListComponent = ({ firstName, lastName }) => {
       <div>
         <Avatar
           bgColor={getRandomColor()}
-          initials={`${firstName[0]}${lastName[0]}`}
+          initials={firstName ? `${firstName[0]}${lastName[0]}` : "vendor Name"}
         />
       </div>
       <div>

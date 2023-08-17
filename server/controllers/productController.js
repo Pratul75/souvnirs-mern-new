@@ -512,9 +512,6 @@ const getProductsByFilter = async (req, res) => {
           "filteredVariants.0": { $exists: true },
         },
       },
-      {
-        $sort: { createdAt: -1 },
-      },
     ];
   } else {
     aggregationPipeline = aggregationPipeline = [
@@ -526,9 +523,13 @@ const getProductsByFilter = async (req, res) => {
           as: "variants",
         },
       },
-
       {
-        $sort: { createdAt: -1 },
+        $match: {
+          price: {
+            $gt: 100,
+            $lt: 500,
+          },
+        },
       },
     ];
   }
@@ -537,9 +538,14 @@ const getProductsByFilter = async (req, res) => {
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
+  const paginated = await Product.aggregatePaginate(products, {
+    page: 1,
+    limit: 10,
+    sort: { _id: -1 },
+  });
 
-  products.forEach((product) => {
-    if (product.variants.length > 0) {
+  paginated.docs.forEach((product) => {
+    if (product && product.variants && product.variants.length > 0) {
       product.variants.forEach((variant) => {
         Object.entries(variant).forEach(([attribute, value]) => {
           if (attribute !== "productId") {
@@ -580,7 +586,7 @@ const getProductsByFilter = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products, filters: variantComb });
+  res.status(200).json({ products: paginated.docs, filters: variantComb });
 };
 // creating a api for creating product variant separetely because its not doable with product creation.
 const createProductVariant = async (req, res) => {
