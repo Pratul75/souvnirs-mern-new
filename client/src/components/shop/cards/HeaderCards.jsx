@@ -22,7 +22,7 @@ const HeaderCards = ({
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-16">
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-16 h-[650px]">
         <motion.div
           animate="animate"
           initial="initial"
@@ -48,7 +48,8 @@ const HeaderCards = ({
 
               <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
                 <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span>Shop Now</span> <BsArrowRight className="text-2xl" />
+                  <span className="font-semibold">Shop Now</span>{" "}
+                  <BsArrowRight className="text-2xl" />
                 </div>
               </div>
             </div>
@@ -64,8 +65,12 @@ const HeaderCards = ({
           variants={fadeInVariants}
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
-          <img className="object-cover w-full" src={secondaryImageOne} alt="" />
-          <div className="inset-0 absolute flex justify-center items-center">
+          <img
+            className="object-cover w-full h-full rounded-xl"
+            src={secondaryImageTwo}
+            alt=""
+          />
+          <div className="inset-0 absolute flex justify-center items-center gap-8">
             <div>
               <h3 className="text-white text-base font-medium leading-tight">
                 {secondaryHeadingOne}
@@ -76,8 +81,14 @@ const HeaderCards = ({
               <div className="text-white text-3xl font-semibold leading-[39px]">
                 {secondarySubHeadingOne}
               </div>
+              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
+                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
+                  <span className="font-semibold">Shop Now</span>{" "}
+                  <BsArrowRight className="text-2xl" />
+                </div>
+              </div>
             </div>
-            <div>
+            <div className="w-80">
               <img src={productImageTwo} alt="" />
             </div>
           </div>
@@ -88,8 +99,12 @@ const HeaderCards = ({
           variants={fadeInVariants}
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
-          <img className="object-cover w-full" src={secondaryImageTwo} alt="" />
-          <div className="inset-0 absolute flex justify-center items-center">
+          <img
+            className="object-cover w-full h-full rounded-xl"
+            src={secondaryImageOne}
+            alt=""
+          />
+          <div className="inset-0 absolute flex justify-center items-center gap-8">
             <div>
               <h3 className="text-white text-base font-medium leading-tight">
                 {tertioryHeadingOne}
@@ -100,9 +115,15 @@ const HeaderCards = ({
               <div className="text-white text-3xl font-semibold leading-[39px]">
                 {tertiorySubHeading}
               </div>
+              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
+                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
+                  <span className="font-semibold">Shop Now</span>{" "}
+                  <BsArrowRight className="text-2xl" />
+                </div>
+              </div>
             </div>
-            <div>
-              <img src={productImageTwo} alt="" />
+            <div className="w-80">
+              <img src={productImageThree} alt="" />
             </div>
           </div>
         </motion.div>

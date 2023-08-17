@@ -12,11 +12,11 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
   return (
     <div className="mt-16">
       <div className="flex items-center justify-between ">
-        <h1 className="font-bold text-2xl">{heading}</h1>
+        <h1 className="font-semibold text-2xl">{heading}</h1>
         <div className="flex gap-2">
           {filters.map((filter) => (
             <button
-              className={`text-xs p-4 border-b-[1px] ${
+              className={`text-lg mr-12 p-4 border-b-[1px] ${
                 activeFilter === filter.id
                   ? "border-primary"
                   : "border-transparent"

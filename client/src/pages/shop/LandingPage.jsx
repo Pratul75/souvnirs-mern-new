@@ -35,17 +35,18 @@ import {
 } from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
-
+import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
+import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 const LandingPage = () => {
   return (
     <div>
       <HeaderCards
-        mainImage={BigCardBackground}
+        mainImage={MainBannerPng}
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
         productImgOne={BannerProductImgOne}
         productImageTwo={BannerImageTwo}
-        productImageThree={BannerImageTwo}
+        productImageThree={TvImagePng}
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
