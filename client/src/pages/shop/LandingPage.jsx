@@ -38,7 +38,7 @@ import BlogList from "../../components/shop/components/BlogList";
 
 const LandingPage = () => {
   return (
-    <div className="w-screen h-auto">
+    <div className="">
       <HeaderCards
         mainImage={BigCardBackground}
         secondaryImageOne={SmallCardBackgroundOne}
@@ -58,17 +58,17 @@ const LandingPage = () => {
       />
       <FeaturesCard
         iconOne={
-          <HiOutlineChatBubbleLeftRight className="text-2xl text-primary" />
+          <HiOutlineChatBubbleLeftRight className="text-4xl text-primary" />
         }
         headingOne="SUPPORT 24/7"
         subHeadingOne="Dedicate 24/7 Support"
-        iconTwo={<BsBoxSeam className="text-2xl text-primary" />}
+        iconTwo={<BsBoxSeam className="text-4xl text-primary" />}
         headingTwo="EASY RETURNS"
         subHeadingTwo="Shop With Confidence"
-        iconThree={<BsCreditCard2Front className="text-2xl text-primary" />}
+        iconThree={<BsCreditCard2Front className="text-4xl text-primary" />}
         headingThree="CARD PAYMENT"
         subHeadingThree="12 Months Installments"
-        iconFour={<LiaShippingFastSolid className="text-2xl text-primary" />}
+        iconFour={<LiaShippingFastSolid className="text-4xl text-primary" />}
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
@@ -224,7 +224,7 @@ const LandingPage = () => {
       </section> */}
       <GradiantCardList cardData={gradiantCardListCardData} />
 
-      <div className="grid grid-cols-3 gap-4 mx-16 mt-4">
+      <div className="grid grid-cols-3 gap-4 mt-16">
         <ProductCarosel items={caroselMapppingDailyDeals} />
         <ProductTabs />
       </div>

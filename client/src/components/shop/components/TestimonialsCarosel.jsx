@@ -23,7 +23,7 @@ const TestimonialsCarosel = () => {
   };
 
   return (
-    <div className="relative h-[350px] mx-16 my-4">
+    <div className="relative h-[350px] mt-16">
       <AnimatePresence initial={false} mode="wait">
         <motion.img
           key={currentImageIndex}
@@ -38,7 +38,7 @@ const TestimonialsCarosel = () => {
       </AnimatePresence>
       <button
         onClick={prevImage}
-        className="absolute btn btn-circle top-1/2 left-5 transform -translate-y-1/2 px-4 py-2  text-white" 
+        className="absolute btn btn-circle top-1/2 left-5 transform -translate-y-1/2 px-4 py-2  text-white"
       >
         <FaArrowLeft />
       </button>

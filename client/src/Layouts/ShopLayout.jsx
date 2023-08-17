@@ -8,7 +8,7 @@ import {
 
 const ShopLayout = ({ children }) => {
   return (
-    <div>
+    <>
       <TopHeader
         heading="World Wide Completely Free Returns and Free Shipping"
         language="English"
@@ -18,9 +18,9 @@ const ShopLayout = ({ children }) => {
       <div className="w-full  flex items-center justify-center">
         <ShopNavbar />
       </div>
-      {children}
+      <div className="mx-5 md:mx-16 flex flex-col">{children}</div>
       <ShopFooter />
-    </div>
+    </>
   );
 };
 

@@ -45,12 +45,14 @@ import BeardLogo from "../assets/shop/brandImages/beardLogo.png";
 import WildcraftLogo from "../assets/shop/brandImages/wildcraftLogo.png";
 import PigeonLogo from "../assets/shop/brandImages/pigeonLogo.png";
 import WonderChefLogo from "../assets/shop/brandImages/wonderchefLogo.png";
-
 import TitanLogo from "../assets/shop/brandImages/titanLogo.png";
 import ImageGridImageOne from "../assets/shop/cardImages/imageGridImageOne.png";
 import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
 import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
 import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
+import GradiantCardImgOne from "../assets/shop/productImages/gradiantCardImgOne.png";
+import GradiantCardImgTwo from "../assets/shop/productImages/gradiantCardImgTwo.png";
+import GradiantCardImgThree from "../assets/shop/productImages/GradiantCardImgThree.png";
 import { Ratings } from "../components";
 import { BsMenuApp } from "react-icons/bs";
 // admin sidebar mapping
@@ -386,7 +388,7 @@ export const gradiantCardListCardData = [
     heading: "Smart Phone",
     subheading: "With Pen",
     background: GradiantCardOneBackground,
-    image: GiftOnePng,
+    image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
   },
@@ -396,7 +398,7 @@ export const gradiantCardListCardData = [
     heading: "New Smart Phone",
     subheading: "With Touch",
     background: GradiantCardTwoBackground,
-    image: GiftOnePng,
+    image: GradiantCardImgTwo,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
   },
@@ -406,7 +408,7 @@ export const gradiantCardListCardData = [
     heading: "Smart Watch",
     subheading: "Android",
     background: GradiantCardThreeBackground,
-    image: GiftOnePng,
+    image: GradiantCardImgThree,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
   },

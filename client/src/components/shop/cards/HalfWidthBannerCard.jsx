@@ -13,7 +13,7 @@ const HalfWidthBannerCard = ({
   buttonHandlerTwo,
 }) => {
   return (
-    <div className="grid grid-cols-2 mx-16 gap-4">
+    <div className="grid grid-cols-2 gap-4 mt-16">
       <div className="col-span-2 md:col-span-1 relative">
         <div>
           <img

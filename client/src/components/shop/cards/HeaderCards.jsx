@@ -2,7 +2,7 @@ import { IoMdArrowForward } from "react-icons/io";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
-
+import { BsArrowRight } from "react-icons/bs";
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,
@@ -22,7 +22,7 @@ const HeaderCards = ({
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mx-16 mt-4">
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-16">
         <motion.div
           animate="animate"
           initial="initial"
@@ -34,26 +34,27 @@ const HeaderCards = ({
             src={mainImage}
             alt=""
           />
-          <div className="inset-0 absolute p-4 flex flex-col gap-4  items-start justify-center mx-16">
-            <div className="w-full flex justify-around">
-              <div className="flex flex-col gap-2 justify-center">
-                <h1 className="sm:text-3xl md:text-5xl lg:text-8xl text-white font-bold">
-                  {mainHeading}
-                </h1>
-                <h2 className="text-5xl text-white font-bold">
-                  {mainHeadingTwo}
-                </h2>
-                <p className="text-sm text-white font-semibold">
-                  {mainSubHeading}
-                </p>
-                <button className="btn bg-white text-black text-bold w-1/2 gap-4">
-                  Shop now
-                  <IoMdArrowForward className="text-2xl" />
-                </button>
+          <div className="inset-0 absolute w-full flex items-center justify-around px-4">
+            <div>
+              <h2 className="text-white text-6xl font-bold leading-[72px]">
+                {mainHeading}
+              </h2>
+              <h3 className="text-white text-6xl font-bold leading-[72px]">
+                {mainHeadingTwo}
+              </h3>
+              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
+                {mainSubHeading}
+              </h6>
+
+              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
+                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
+                  <span>Shop Now</span> <BsArrowRight className="text-2xl" />
+                </div>
               </div>
-              <div className="w-80">
-                <img className="w-full" src={productImgOne} />
-              </div>
+            </div>
+
+            <div>
+              <img src={productImgOne} alt="" />
             </div>
           </div>
         </motion.div>
@@ -64,24 +65,20 @@ const HeaderCards = ({
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
           <img className="object-cover w-full" src={secondaryImageOne} alt="" />
-          <div className="inset-0 absolute p-4 flex flex-col gap-2  items-start justify-center mx-8">
-            <div className="flex">
-              <div className="flex flex-col justify-center">
-                <h1 className="text-lg text-white">{secondaryHeadingOne}</h1>
-                <h2 className="text-2xl text-white font-bold">
-                  {secondaryHeadingTwo}
-                </h2>
-                <p className="text-2xl text-white font-semibold">
-                  {secondarySubHeadingOne}
-                </p>
-                <button className="btn btn-sm bg-white text-black text-bold mt-2 gap-4">
-                  Shop now
-                  <IoMdArrowForward className="text-2xl" />
-                </button>
+          <div className="inset-0 absolute flex justify-center items-center">
+            <div>
+              <h3 className="text-white text-base font-medium leading-tight">
+                {secondaryHeadingOne}
+              </h3>
+              <div className="text-white text-3xl font-semibold leading-[39px]">
+                {secondaryHeadingTwo}
               </div>
-              <div>
-                <img src={productImageTwo} alt="" />
+              <div className="text-white text-3xl font-semibold leading-[39px]">
+                {secondarySubHeadingOne}
               </div>
+            </div>
+            <div>
+              <img src={productImageTwo} alt="" />
             </div>
           </div>
         </motion.div>
@@ -92,24 +89,20 @@ const HeaderCards = ({
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
           <img className="object-cover w-full" src={secondaryImageTwo} alt="" />
-          <div className="inset-0 absolute p-4 flex flex-col gap-2  items-start justify-center mx-4">
-            <div className="flex">
-              <div className="flex flex-col justify-center w-full">
-                <h1 className="text-lg text-white">{tertioryHeadingOne}</h1>
-                <h2 className="text-2xl text-white font-bold">
-                  {tertioryHeadingTwo}
-                </h2>
-                <p className="text-2xl text-white font-semibold">
-                  {tertiorySubHeading}
-                </p>
-                <button className="btn btn-sm bg-white text-black text-bold mt-2 gap-4">
-                  Shop now
-                  <IoMdArrowForward className="text-2xl" />
-                </button>
+          <div className="inset-0 absolute flex justify-center items-center">
+            <div>
+              <h3 className="text-white text-base font-medium leading-tight">
+                {tertioryHeadingOne}
+              </h3>
+              <div className="text-white text-3xl font-semibold leading-[39px]">
+                {tertioryHeadingTwo}
               </div>
-              <div>
-                <img src={productImageThree} alt="" />
+              <div className="text-white text-3xl font-semibold leading-[39px]">
+                {tertiorySubHeading}
               </div>
+            </div>
+            <div>
+              <img src={productImageTwo} alt="" />
             </div>
           </div>
         </motion.div>
