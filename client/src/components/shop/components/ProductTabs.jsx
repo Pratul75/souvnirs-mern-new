@@ -12,7 +12,7 @@ const ProductTabs = () => {
     Recent: [
       {
         id: 1,
-        title: "Does drinking coffee make you smarter?",
+        title: "Does drinking ",
         price: 400,
         image: GiftOne,
         rating: 5,
@@ -20,7 +20,7 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've ",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -28,7 +28,7 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've bought ",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -36,7 +36,7 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've bought ",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -44,7 +44,7 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -52,7 +52,7 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've ",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -118,10 +118,7 @@ const ProductTabs = () => {
             >
               <ul className="grid grid-cols-9">
                 {posts.map((post) => (
-                  <li
-                    key={post.id}
-                    className="rounded-md p-3 hover:bg-gray-100 col-span-3"
-                  >
+                  <li key={post.id} className="rounded-md p-3  col-span-3">
                     <ProductCardMini
                       id={post.id}
                       title={post.title}
