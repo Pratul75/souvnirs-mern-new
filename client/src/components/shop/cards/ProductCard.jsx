@@ -35,7 +35,7 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card bg-base-200 px-3 py-2 w-full cursor-pointer pb-8"
+      className="card bg-base-200 px-3 py-2 cursor-pointer pb-8 w-96 h-auto"
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="card-title flex justify-between">
@@ -50,7 +50,7 @@ const ProductCard = ({
       <div className="flex justify-center">
         <div className="flex py-4  justify-center">
           <img
-            className="w-56"
+            className="w-[75%]"
             style={{
               mixBlendMode: "multiply",
             }}

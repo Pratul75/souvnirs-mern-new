@@ -4,36 +4,41 @@ import { BiShoppingBag } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import { useNavigate } from "react-router-dom";
-const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
+import { AiOutlineHeart } from "react-icons/ai";
+const ProductCardMini = ({
+  id,
+  title,
+  price,
+  rating,
+  image,
+  slug,
+  showbackground,
+  showBorder,
+}) => {
   const navigate = useNavigate();
   return (
     <motion.div
+      variants={fadeInVariants}
       animate="animate"
       initial="initial"
-      variants={fadeInVariants}
-      key={id}
-      className="flex justify-between gap-4 bg-base-200 rounded-xl cursor-pointer"
+      className={` ${showBorder && "border"} rounded-xl w-96`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
-      <div>
-        <img
-          style={{
-            mixBlendMode: "multiply",
-          }}
-          className="w-56"
-          src={image}
-          alt={title}
-        />
-      </div>
-      <div className="flex flex-col justify-center">
-        <h3 className="text-md font-semibold">{title}</h3>
-        <div className="flex items-center justify-between gap-2 rounded-full mt-2">
+      <div className="flex items-center p-4">
+        <div className="w-20">
+          <img className="object-cover w-full h-full" src={image} alt={title} />
+        </div>
+        <div className="flex flex-col justify-between ml-4">
           <div>
-            <p className="text-xl text-primary font-semibold">${price}.00</p>
+            <h1 className="text-lg font-semibold">{title}</h1>
             <Ratings rating={rating} />
+            <p className="text-lg text-primary font-semibold">${price}.00</p>
           </div>
-          <div>
-            <button className="btn btn-circle btn-ghost">
+          <div className="flex gap-2 mt-2">
+            <button className="btn btn-circle btn-ghost bg-rose-200">
+              <AiOutlineHeart />
+            </button>
+            <button className="btn btn-circle btn-ghost bg-base-200">
               <BiShoppingBag />
             </button>
           </div>
@@ -49,6 +54,7 @@ ProductCardMini.propTypes = {
   price: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
+  showBorder: PropTypes.bool,
 };
 
 export default ProductCardMini;

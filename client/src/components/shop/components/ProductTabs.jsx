@@ -12,7 +12,7 @@ const ProductTabs = () => {
     Recent: [
       {
         id: 1,
-        title: "Does drinking coffee make you smarter?",
+        title: "Does drinking ",
         price: 400,
         image: GiftOne,
         rating: 5,
@@ -20,7 +20,39 @@ const ProductTabs = () => {
       },
       {
         id: 2,
-        title: "So you've bought coffee... now what?",
+        title: "So you've ",
+        price: 400,
+        image: GiftOne,
+        rating: 3,
+        shareCount: 2,
+      },
+      {
+        id: 2,
+        title: "So you've bought ",
+        price: 400,
+        image: GiftOne,
+        rating: 3,
+        shareCount: 2,
+      },
+      {
+        id: 2,
+        title: "So you've bought ",
+        price: 400,
+        image: GiftOne,
+        rating: 3,
+        shareCount: 2,
+      },
+      {
+        id: 2,
+        title: "So you've",
+        price: 400,
+        image: GiftOne,
+        rating: 3,
+        shareCount: 2,
+      },
+      {
+        id: 2,
+        title: "So you've ",
         price: 400,
         image: GiftOne,
         rating: 3,
@@ -66,7 +98,7 @@ const ProductTabs = () => {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full col-span-3">
       <Tab.Group>
         <Tab.List className="flex justify-center flex-wrap gap-2 md:justify-end">
           {Object.keys(categories).map((category) => (
@@ -84,12 +116,9 @@ const ProductTabs = () => {
               key={idx}
               className={classNames("rounded-xl bg-white p-3")}
             >
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              <ul className="grid grid-cols-9">
                 {posts.map((post) => (
-                  <li
-                    key={post.id}
-                    className="rounded-md p-3 hover:bg-gray-100"
-                  >
+                  <li key={post.id} className="rounded-md p-3  col-span-3">
                     <ProductCardMini
                       id={post.id}
                       title={post.title}
@@ -97,6 +126,7 @@ const ProductTabs = () => {
                       price={post.price}
                       rating={post.rating}
                     />
+                    <div className="divider-horizontal"></div>
                   </li>
                 ))}
               </ul>
