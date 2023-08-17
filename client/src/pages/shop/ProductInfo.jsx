@@ -9,6 +9,10 @@ import { productListFiltersAndProducts } from "../../mappings";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
 import parse from "html-react-parser";
+import { debouncedShowToast } from "../../utils";
+import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { toggleRefresh } from "../../features/appConfig/appSlice";
 
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
@@ -17,6 +21,8 @@ const ProductInfo = () => {
   const [slug, setSlug] = useState();
   const params = useParams();
   const [quantity, setQuantity] = useState(0);
+  4;
+  const dispatch = useDispatch();
 
   const tabs = [
     {
@@ -51,11 +57,15 @@ const ProductInfo = () => {
   ];
   const addToCart = async (e) => {
     e.preventDefault();
+    if (quantity < 1) {
+      return debouncedShowToast("quantity must be greater than 0");
+    }
     console.log("triggered");
     const response = await API_WRAPPER.post("/cart/create", {
       productId: product._id,
       quantity,
     });
+    dispatch(toggleRefresh());
   };
 
   const fetchProductData = async () => {
@@ -235,6 +245,7 @@ const ProductInfo = () => {
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />
+      <ToastContainer />
     </div>
   );
 };

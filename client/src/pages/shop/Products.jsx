@@ -212,6 +212,7 @@ const Products = () => {
                         slug={product.slug}
                         title={product.name}
                         // discountPrice="300"
+                        id={product._id}
                         image={product.coverImage}
                       />
                     );

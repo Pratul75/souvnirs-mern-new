@@ -22,7 +22,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [wishlistItems, setWishlistItems] = useState();
-
+  const [cartItems, setcartItems] = useState();
   const categoriesList = useCategories();
   const productsList = useProducts();
   const collectionList = useCollections();
@@ -34,6 +34,12 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     const response = await API_WRAPPER.get("/wishlist/getmywishlist");
     console.log("ShopNavbar.jsx", response);
     setWishlistItems(response.data.data.wishlist);
+  };
+
+  const getCartItems = async () => {
+    const response = await API_WRAPPER.get("/cart/mycart");
+    console.log("wishlist.jsx", response);
+    setcartItems(response.data);
   };
   useEffect(() => {
     const applyFilters = () => {
@@ -79,7 +85,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     }
   };
   useEffect(() => {
-    getWishlistData();
+    if (token) {
+      getWishlistData();
+      getCartItems();
+    }
   }, [refresh]);
   console.log("SouvnirsHeader.jsx", wishlistItems);
   return (
@@ -203,7 +212,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             <div className="indicator">
               <div
                 className={`indicator-item badge ${badgeColor} badge-xs absolute p-2`}
-              ></div>
+              >
+                {cartItems && cartItems.length}
+              </div>
               <div className="tooptip tooltip-bottom" data-tip="Cart">
                 <Link to={PATHS.cartPage} className="btn btn-circle">
                   <FiShoppingBag className="text-2xl cursor-pointer" />

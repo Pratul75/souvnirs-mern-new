@@ -13,7 +13,7 @@ router.post(
 );
 router.get(
   "/wishlist/getmywishlist",
-  // authMiddleware(["vendor", "admin", "customer"]),
+  authMiddleware(["vendor", "admin", "customer"]),
   getwishlistItems
 );
 

@@ -203,6 +203,7 @@ const CollectionProducts = () => {
                         badgeColor="badge-accent"
                         badgeText="NEW"
                         slug={product.products.slug}
+                        id={product.products._id}
                         price={
                           product.variants.length > 0
                             ? product.variants[0].price

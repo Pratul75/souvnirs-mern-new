@@ -85,6 +85,16 @@ const addItemToCart = async (req, res) => {
     res.status(400).json("something went wrong");
   }
 };
+const getMycartItems = async (req, res) => {
+  try {
+    const carts = await Cart.find({ customer_id: req.userId }).populate(
+      "product_id"
+    );
+    res.status(200).json(carts);
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
 
 // Get a specific cart by ID
 const getCartById = async (req, res) => {
@@ -104,11 +114,11 @@ const getCartById = async (req, res) => {
 const createCustomerCart = async (req, res) => {
   try {
     const { userId } = req;
-    const { product_id, product_quantity } = req.body;
+    const { productId, quantity } = req.body;
     await Cart.findOneAndUpdate(
-      { customer_id: userId, product_id },
+      { customer_id: userId, product_id: productId },
       {
-        product_quantity,
+        $inc: { product_quantity: +quantity },
       },
       { upsert: true, new: true }
     );
@@ -169,4 +179,6 @@ module.exports = {
   getCartById,
   deleteCart,
   updateCart,
+  getMycartItems,
+  createCustomerCart,
 };
