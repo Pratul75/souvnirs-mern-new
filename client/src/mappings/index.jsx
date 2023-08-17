@@ -355,6 +355,26 @@ export const productListFiltersAndProducts = {
       badgeText: "-20%",
       image: GiftOnePng,
     },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "99",
+      rating: 4.5,
+      badgeColor: "badge-info",
+      badgeText: "-20%",
+      image: GiftOnePng,
+    },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "99",
+      rating: 4.5,
+      badgeColor: "badge-info",
+      badgeText: "-20%",
+      image: GiftOnePng,
+    },
   ],
 };
 

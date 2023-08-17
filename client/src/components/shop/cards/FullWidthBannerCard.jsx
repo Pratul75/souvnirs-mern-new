@@ -7,28 +7,16 @@ const FullWidthBannerCard = ({
   subHeading,
 }) => {
   return (
-    <div className="banner bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white mx-16 mt-4 rounded-xl">
+    <div className="banner py-10 bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white mx-16 mt-4 rounded-xl h-[400px] px-8">
       <div>
-        <img
-          style={{
-            mixBlendMode: "multiply",
-          }}
-          src={imageOne}
-          alt=""
-        />
+        <img src={imageOne} alt="" />
       </div>
-      <div className="text-center">
-        <h3 className="text-4xl text-black">{mainHeading}</h3>
+      <div className="flex justify-center flex-col items-center">
+        <h3 className="font-medium text-[41.77px] text-black">{mainHeading}</h3>
         <h3 className="text-4xl text-black">{subHeading}</h3>
       </div>
       <div>
-        <img
-          style={{
-            mixBlendMode: "multiply",
-          }}
-          src={imageTwo}
-          alt=""
-        />
+        <img src={imageTwo} alt="" />
       </div>
     </div>
   );

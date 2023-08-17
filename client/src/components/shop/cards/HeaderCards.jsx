@@ -35,9 +35,11 @@ const HeaderCards = ({
             alt=""
           />
           <div className="inset-0 absolute p-4 flex flex-col gap-4  items-start justify-center mx-16">
-            <div className="flex">
+            <div className="w-full flex justify-around">
               <div className="flex flex-col gap-2 justify-center">
-                <h1 className="text-5xl text-white font-bold">{mainHeading}</h1>
+                <h1 className="sm:text-3xl md:text-5xl lg:text-8xl text-white font-bold">
+                  {mainHeading}
+                </h1>
                 <h2 className="text-5xl text-white font-bold">
                   {mainHeadingTwo}
                 </h2>
