@@ -5,6 +5,7 @@ const initialState = {
   sidebarExpanded: false,
   mobileSidebarExpanded: false,
   activeLink: "/admin-dashboard",
+  refresh: false,
   login: "",
 };
 
@@ -28,6 +29,9 @@ export const appConfigSlice = createSlice({
       console.log("appSlice.js", action.payload);
       state.login = action.payload;
     },
+    toggleRefresh: (state, action) => {
+      state.refresh = !state.refresh;
+    },
   },
 });
 
@@ -38,5 +42,6 @@ export const {
   toggleDarkMode,
   setActiveLink,
   getLoginInfo,
+  toggleRefresh,
 } = appConfigSlice.actions;
 export default appConfigSlice.reducer;

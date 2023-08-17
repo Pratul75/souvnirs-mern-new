@@ -661,7 +661,7 @@ const getProducts = async (req, res) => {
   try {
     // Get all products
     let productsList;
-    if (req.role === "admin") {
+    if (req.role === "admin" || req.role === "customer") {
       productsList = await Product.aggregate([
         {
           $lookup: {
