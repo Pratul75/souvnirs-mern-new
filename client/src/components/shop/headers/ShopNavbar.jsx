@@ -1,12 +1,14 @@
 import { BsChevronDown, BsHeadphones } from "react-icons/bs";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdOutlineRequestQuote } from "react-icons/md";
 import RequestQuoteForm from "../components/RequestQuoteForm";
 const ShopNavbar = () => {
   const [navbarData, setNavbarData] = useState([]);
+  const [categories, setCategories] = useState([]);
   const location = useLocation();
+  const navigate = useNavigate();
   console.log("LOCATION OBJ: ", location);
 
   const getNavbarData = async () => {
@@ -16,9 +18,15 @@ const ShopNavbar = () => {
       console.log("NAVBAR DATA: ", response.data);
     }
   };
+  const getCategories = async () => {
+    const response = await API_WRAPPER.get("/category/get-all-categories");
+    console.log("ShopNavbar.jsx", response);
+    setCategories(response.data);
+  };
 
   useEffect(() => {
     getNavbarData();
+    getCategories();
   }, []);
 
   const renderSubMenu = (subMenu) => {
@@ -55,6 +63,27 @@ const ShopNavbar = () => {
   return (
     <div className="mx-16 flex justify-between items-center px-4 w-full border-[1px] bg-base-200">
       <div className="join w-full">
+        <div className="dropdown  join-item relative dropdown-hover h-96">
+          <label tabIndex={1} className=" m-1 btn btn-primary">
+            All Categories
+            <BsChevronDown className="ml-1" />
+          </label>
+
+          <ul
+            tabIndex={1}
+            className="dropdown-content p-2 relative shadow bg-base-100 z-50  w-52"
+          >
+            {categories.map((category) => (
+              <li
+                key={category._id}
+                className="p-2 hover:bg-yellow-200 cursor-pointer"
+              >
+                {category.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         {navbarData?.map((mainmenu) => (
           <div
             key={mainmenu._id}

@@ -28,6 +28,7 @@ router.delete(
   authMiddleware(["admin", "customer"]),
   deleteCart
 );
+router.post("/cart/create");
 router.post("/cart/add-cart", authMiddleware(["admin", "customer"]), addCart);
 
 module.exports = router;

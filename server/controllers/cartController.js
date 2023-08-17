@@ -9,29 +9,29 @@ const getAllCarts = async (req, res) => {
     if (role === "admin") {
       carts = await Cart.aggregate([
         {
-          '$lookup': {
-            'from': 'customers',
-            'localField': 'customer_id',
-            'foreignField': '_id',
-            'as': 'customer'
-          }
-        }, {
-          '$unwind': {
-            'path': '$customer'
-          }
-        }, {
-          '$project': {
-            'name': {
-              '$concat': [
-                '$customer.firstName', '  ', '$customer.lastName'
-              ]
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
+          },
+        },
+        {
+          $project: {
+            name: {
+              $concat: ["$customer.firstName", "  ", "$customer.lastName"],
             },
-            'product_name': 1,
-            'customer_id': 1,
-            'product_quantity': 1,
-            'product_price': 1
-          }
-        }
+            product_name: 1,
+            customer_id: 1,
+            product_quantity: 1,
+            product_price: 1,
+          },
+        },
       ]);
     }
     if (role === "vendor") {
@@ -63,7 +63,7 @@ const getAllCarts = async (req, res) => {
       carts = await Cart.aggregate(aggregationQuery);
     }
     if (role === "customer") {
-      carts = await Cart.find({ customer_id: req.userId })
+      carts = await Cart.find({ customer_id: req.userId });
     }
     res.status(200).json(carts);
   } catch (error) {
@@ -87,6 +87,22 @@ const getCartById = async (req, res) => {
 };
 
 // Create a new cart
+const createCustomerCart = async (req, res) => {
+  try {
+    const { userId } = req;
+    const { product_id, product_quantity } = req.body;
+    await Cart.findOneAndUpdate(
+      { customer_id: userId, product_id },
+      {
+        product_quantity,
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json("Cart Updated Successfully");
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
 const addCart = async (req, res) => {
   try {
     const cart = new Cart(req.body);
