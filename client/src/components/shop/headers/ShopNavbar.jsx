@@ -53,7 +53,7 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="mx-16 flex justify-between items-center px-4 w-full border-[1px] bg-base-200">
+    <div className="mx-16  md:justify-between md:items-center px-4 w-full border-[1px] bg-base-200 hidden md:flex">
       <div className="join w-full">
         {navbarData?.map((mainmenu) => (
           <div

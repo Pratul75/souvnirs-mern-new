@@ -10,7 +10,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
   // );
 
   return (
-    <div className="mx-16 mt-8">
+    <div>
       <div className="flex items-center justify-between">
         <h1 className="font-bold text-2xl">{heading}</h1>
         <div className="flex gap-2">

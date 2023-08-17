@@ -26,28 +26,30 @@ const NewsLetterGrid = ({
   };
 
   return (
-    <div className="flex mx-16 justify-center mt-4">
+    <div className="flex mt-8 md:mt-16 justify-center">
       <div
-        className="bg-white rounded-lg shadow-md p-6 w-full py-16"
+        className="bg-white rounded-lg shadow-md p-4 md:p-6 w-full md:w-[480px] lg:w-[600px] xl:w-[800px]"
         style={containerStyle}
       >
-        <div className="py-5">
-          <h1 className="text-4xl text-center text-white font-semibold mb-2">
+        <div className="py-3 md:py-5">
+          <h1 className="text-2xl md:text-4xl text-center text-black font-semibold mb-2">
             {heading}
           </h1>
-          <h6 className="text-sm text-center text-white mb-4">{subheading}</h6>
+          <h6 className="text-xs md:text-sm text-center text-gray-600 mb-4">
+            {subheading}
+          </h6>
         </div>
         <div className="w-full justify-center flex">
-          <div className="flex w-1/2">
+          <div className="flex w-full md:w-1/2">
             <input
-              className="flex-1 border-b py-2 px-4  focus:outline-none bg-transparent text-white"
+              className="flex-1 border-b py-2 px-2 md:px-4 focus:outline-none bg-transparent text-black md:text-white"
               type="text"
               placeholder="Enter your Email"
               value={email}
               onChange={handleInputChange}
             />
             <button
-              className="border-b text-white  py-2 px-4 mx-8 transition duration-300 hover:bg-white hover:text-black"
+              className="border-b text-black md:text-white py-2 px-2 md:px-4 mx-2 md:mx-4 transition duration-300 hover:bg-black hover:text-white"
               onClick={handleSubscribe}
             >
               Subscribe

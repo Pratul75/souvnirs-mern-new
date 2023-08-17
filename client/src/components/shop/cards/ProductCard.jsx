@@ -15,6 +15,7 @@ const ProductCard = ({
   badgeColor,
   badgeText,
   slug,
+  isDiscounted,
 }) => {
   const [heartColor, setHeartColor] = useState("black");
 
@@ -39,7 +40,10 @@ const ProductCard = ({
     >
       <div className="card-title flex justify-between">
         <span className={`badge ${badgeColor}`}>{badgeText}</span>
-        <button className="btn btn-circle" onClick={handleHeartClick}>
+        <button
+          className="btn btn-circle bg-base-300 rounded-full"
+          onClick={handleHeartClick}
+        >
           <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
         </button>
       </div>
@@ -55,10 +59,19 @@ const ProductCard = ({
         </div>
       </div>
       <div className="flex justify-center flex-col items-center gap-2">
-        <h3 className="text-[16px] text-center">{title}</h3>
-        <h5 className="justify-center flex w-36 items-center">
-          <span className="text-primary">{discountPrice}</span> {price}
-        </h5>
+        <h3 className="text-center text-neutral-700 text-base font-medium leading-[25px]">
+          {title}
+        </h3>
+        {isDiscounted ? (
+          <h5 className="justify-center flex w-36 items-center gap-4">
+            <span className="line-through">${price}</span>
+            <span className="text-primary">${discountPrice}</span>
+          </h5>
+        ) : (
+          <h5 className="text-center text-red-600 text-lg font-medium leading-[18px]">
+            ${price}
+          </h5>
+        )}
         <Ratings rating={rating} />
       </div>
     </motion.div>

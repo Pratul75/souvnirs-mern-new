@@ -17,15 +17,23 @@ const GradiantCard = ({
         alt="gradiant-background-image"
       />
       <div className="inset-0 absolute flex items-center justify-between px-8">
-        <div className="">
+        <div className="flex flex-col justify-center">
           <div className="text-center">
-            <h5 className="text-sm">{title}</h5>
-            <h1 className="font-bold">{heading}</h1>
-            <h1 className="font-bold">{subheading}</h1>
+            <h5 className="text-center text-black text-base font-medium leading-tight">
+              {title}
+            </h5>
+            <h1 className="text-center text-black text-3xl font-semibold leading-[39px]">
+              {heading}
+            </h1>
+            <h1 className="text-center text-black text-3xl font-semibold leading-[39px]">
+              {subheading}
+            </h1>
           </div>
-          <Link to={link} className="btn mt-4 btn-sm">
-            {" "}
-            Buy Now <BsArrowRightShort />
+          <Link
+            to={link}
+            className="text-white btn mt-4 bg-gradient-to-r from-blue-500 to-purple-500 border-none outline-none"
+          >
+            Shop Now <BsArrowRightShort className="text-2xl" />
           </Link>
         </div>
         <div>

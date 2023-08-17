@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const GradiantCardList = ({ cardData }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 mx-16">
+    <div className="grid grid-cols-3 gap-4 mt-16">
       {cardData?.map(
         ({ id, title, heading, subheading, background, image, link }) => {
           return (

@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 
 const BrandsCard = ({ imagesList }) => {
   return (
-    <div className="grid grid-cols-8 mx-16 my-4">
+    <div className="grid grid-cols-8 mt-16">
       {imagesList?.map(({ image, alt }) => {
         return (
           <div

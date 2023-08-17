@@ -66,9 +66,9 @@ const ProductTabs = () => {
   });
 
   return (
-    <div className="col-span-2 w-full">
+    <div className="w-full">
       <Tab.Group>
-        <Tab.List className="flex justify-end">
+        <Tab.List className="flex justify-center flex-wrap gap-2 md:justify-end">
           {Object.keys(categories).map((category) => (
             <Tab
               key={category}
@@ -84,7 +84,7 @@ const ProductTabs = () => {
               key={idx}
               className={classNames("rounded-xl bg-white p-3")}
             >
-              <ul className="flex">
+              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {posts.map((post) => (
                   <li
                     key={post.id}
