@@ -46,7 +46,7 @@ router.post(
 );
 router.get(
   "/products/get-all-products",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getProducts
 );
 router.get(

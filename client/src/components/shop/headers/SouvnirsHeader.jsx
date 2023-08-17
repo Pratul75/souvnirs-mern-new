@@ -16,6 +16,7 @@ import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
+  console.log("SouvnirsHeader.jsx", token);
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -162,7 +163,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {token ? (
+            {token && token.length > 0 ? (
               <div className="flex gap-4">
                 <div className="tooltip tooltip-bottom" data-tip="dashboard">
                   <Link
@@ -183,8 +184,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               </div>
             ) : (
               <>
-                <Link to={PATHS.login}>Login</Link>
-                <Link to={PATHS.register}>Register</Link>|
+                <Link to={() => PATHS.login}>Login</Link>
+                <Link to={() => PATHS.register}>Register</Link>|
               </>
             )}
 
