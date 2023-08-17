@@ -10,8 +10,8 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
   // );
 
   return (
-    <div>
-      <div className="flex items-center justify-between">
+    <div className="mt-16">
+      <div className="flex items-center justify-between ">
         <h1 className="font-bold text-2xl">{heading}</h1>
         <div className="flex gap-2">
           {filters.map((filter) => (

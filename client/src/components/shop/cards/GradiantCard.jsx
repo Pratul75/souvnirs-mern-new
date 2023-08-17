@@ -29,21 +29,17 @@ const GradiantCard = ({
               {subheading}
             </h1>
           </div>
-          <Link
-            to={link}
-            className="text-white btn mt-4 bg-gradient-to-r from-blue-500 to-purple-500 border-none outline-none"
-          >
-            Shop Now <BsArrowRightShort className="text-2xl" />
-          </Link>
+          <div className="w-full flex justify-center mt-4">
+            <Link
+              to={link}
+              className="text-white btn bg-gradient-to-r from-blue-500 to-purple-500 border-none outline-none"
+            >
+              Shop Now <BsArrowRightShort className="text-2xl" />
+            </Link>
+          </div>
         </div>
         <div>
-          <img
-            style={{
-              mixBlendMode: "multiply",
-            }}
-            src={image}
-            alt="image"
-          />
+          <img src={image} alt="image" />
         </div>
       </div>
     </div>
