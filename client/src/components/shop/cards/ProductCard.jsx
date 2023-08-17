@@ -50,6 +50,7 @@ const ProductCard = ({
       <div className="flex justify-center">
         <div className="flex py-4  justify-center">
           <img
+            className="w-56"
             style={{
               mixBlendMode: "multiply",
             }}

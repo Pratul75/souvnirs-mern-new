@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
-import { ProductCard } from "../../components";
+import { Card, ProductCard } from "../../components";
 import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
+import debounce from "lodash/debounce";
 import { useFilters } from "react-table";
 
 const Products = () => {
   const [filterType, setFilterType] = useState(false);
+  const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
+
   const [shippingStates, setShippingStates] = useState({
     freeShipping: false,
     readyToShip: false,
@@ -30,6 +33,7 @@ const Products = () => {
   const getProducts = async () => {
     const response = await API_WRAPPER.post(`/products`, {
       data: filters,
+      priceMax: inputRangeValue,
     });
     console.log("CategoryProducts.jsx", response);
     setProducts(response?.data?.products);
@@ -61,8 +65,10 @@ const Products = () => {
   console.log("CategoryProducts.jsx", filters);
 
   useEffect(() => {
-    getProducts();
-  }, [filters]);
+    debounce(() => {
+      getProducts();
+    }, 100)();
+  }, [filters, inputRangeValue]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -73,16 +79,27 @@ const Products = () => {
               className="form-control flex flex-row items-center gap-4"
             >
               <div className="my-4">
-                <InputRange
-                  maxValue={value.max}
-                  minValue={value.min}
-                  value={value}
-                  onChange={handlePriceChange}
-                />
                 <div className="flex justify-between"></div>
               </div>
             </div>
-
+            <Card>
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <h6 className="text-primary text-lg font-bold ">Price</h6>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100000}
+                  onChange={(e) => setInputRangeValue(e.target.value)}
+                  value={inputRangeValue}
+                  className="range"
+                />
+                <div>
+                  <span>0 - {inputRangeValue}</span>
+                </div>
+              </div>
+            </Card>
             {filterList &&
               Object.keys(filterList).map((filter) => {
                 console.log("CategoryProducts.jsx", filter);

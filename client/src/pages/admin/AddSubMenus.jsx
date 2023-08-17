@@ -23,7 +23,7 @@ const AddSubMenus = () => {
     console.log("AddSubMenus.jsx", response);
     setMainMenus(response.data);
   };
-  console.log("AddSubMenus.jsx", mainMenuId);
+  console.log("AddSubMenus.jsx", createdCards);
 
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
@@ -97,6 +97,7 @@ const AddSubMenus = () => {
         )
       : setAreInputsValid(isSubMenuHeadingValid);
   });
+  console.log("AddSubMenus.jsx", mainMenuId);
 
   return (
     <div>
