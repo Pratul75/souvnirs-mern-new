@@ -224,7 +224,7 @@ const LandingPage = () => {
       </section> */}
       <GradiantCardList cardData={gradiantCardListCardData} />
 
-      <div className="grid grid-cols-3 gap-4 mt-16">
+      <div className="grid grid-cols-5 gap-4 mt-16">
         <ProductCarosel items={caroselMapppingDailyDeals} />
         <ProductTabs />
       </div>

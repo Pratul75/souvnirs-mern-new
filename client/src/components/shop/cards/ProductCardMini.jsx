@@ -4,7 +4,15 @@ import { BiShoppingBag } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import { useNavigate } from "react-router-dom";
-const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
+const ProductCardMini = ({
+  id,
+  title,
+  price,
+  rating,
+  image,
+  slug,
+  showbackground,
+}) => {
   const navigate = useNavigate();
   return (
     <motion.div
@@ -12,7 +20,9 @@ const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
       initial="initial"
       variants={fadeInVariants}
       key={id}
-      className="flex justify-between gap-4 bg-base-200 rounded-xl cursor-pointer"
+      className={`flex justify-between gap-4 ${
+        showbackground && "bg-base-200"
+      } rounded-xl cursor-pointer p-4 w-56`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div>
@@ -20,14 +30,14 @@ const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
           style={{
             mixBlendMode: "multiply",
           }}
-          className="w-56"
+          className="w-96"
           src={image}
           alt={title}
         />
       </div>
       <div className="flex flex-col justify-center">
-        <h3 className="text-md font-semibold">{title}</h3>
-        <div className="flex items-center justify-between gap-2 rounded-full mt-2">
+        <h3 className="text-md font-semibold mb-2">{title}</h3>
+        <div className="flex items-center justify-between gap-2">
           <div>
             <p className="text-xl text-primary font-semibold">${price}.00</p>
             <Ratings rating={rating} />
