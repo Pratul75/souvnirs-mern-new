@@ -63,15 +63,15 @@ const ShopNavbar = () => {
   return (
     <div className="mx-16  md:justify-between md:items-center px-4 w-full border-[1px] bg-base-200 hidden md:flex">
       <div className="join w-full">
-        <div className="dropdown  join-item relative dropdown-hover ">
-          <label tabIndex={1} className=" m-1 btn btn-primary">
+        <div className="dropdown join-item relative dropdown-hover">
+          <label tabIndex={1} className="m-1 btn btn-primary">
             All Categories
             <BsChevronDown className="ml-1" />
           </label>
 
           <ul
             tabIndex={1}
-            className="dropdown-content p-2 relative shadow bg-base-100 z-50  w-52"
+            className="dropdown-content p-2 relative shadow bg-base-100 z-50 w-52 max-h-96 overflow-y-auto"
           >
             {categories.map((category) => (
               <li
