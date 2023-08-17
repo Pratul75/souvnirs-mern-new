@@ -3,14 +3,16 @@ import ProductImagePrimary from "../../assets/shop/productImages/productImagePri
 import { Link, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
-import { ProductsListWithFilters, Ratings, Tabs } from "../../components";
+import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { productListFiltersAndProducts } from "../../mappings";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
+import parse from "html-react-parser";
 
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
+  const [selectedImage, setSelectedImage] = useState();
   const [product, setProduct] = useState();
   const [slug, setSlug] = useState();
   const params = useParams();
@@ -18,14 +20,7 @@ const ProductInfo = () => {
   const tabs = [
     {
       label: "Description",
-      content: (
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
-          quo numquam quae dolorum, quam quasi suscipit illum nemo nobis unde
-          commodi soluta error exercitationem ab nostrum sequi pariatur
-          provident voluptatum!
-        </p>
-      ),
+      content: product?.description && parse(product.description),
     },
     {
       label: "Specification",
@@ -56,8 +51,12 @@ const ProductInfo = () => {
 
   const fetchProductData = async () => {
     const response = await API_WRAPPER.get(`/product/${slug}`);
-    if (response.data) setProduct(response.data);
+    if (response.data) {
+      setProduct(response.data);
+      setSelectedImage(response.data.images[0]);
+    }
   };
+  console.log(product);
   console.log(product);
   useEffect(() => {
     // Set the slug parameter from the URL
@@ -80,7 +79,23 @@ const ProductInfo = () => {
 
       <div className="grid grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
-          <img src={product?.coverImage} alt="primary image" />
+          <img src={selectedImage} alt="primary image" />
+          <div className="flex">
+            {product?.images.map((image) => {
+              return (
+                <Card className="">
+                  <img
+                    onClick={() => {
+                      setSelectedImage(image);
+                    }}
+                    src={image}
+                    className="w-16 cursor-pointer hover:scale-110"
+                    alt=""
+                  />
+                </Card>
+              );
+            })}
+          </div>
         </div>
         <div className="col-span-1">
           <h1 className="font-bold text-2xl">{product?.name}</h1>
@@ -139,7 +154,7 @@ const ProductInfo = () => {
             </div>
             <div className="col-span-1">
               <div className="text-xs mt-7 bg-base-200 rounded-xl px-2 py-1">
-                {product?.description}
+                {/* {product?.description} */}
               </div>
               <div className="form-control">
                 <label className="label">
@@ -196,6 +211,7 @@ const ProductInfo = () => {
           </div>
         </div>
       </div>
+
       <Tabs tabs={tabs} alignCenter />
 
       <ProductsListWithFilters

@@ -138,6 +138,7 @@ const createProduct = async (req, res) => {
 
 const getProductsByCategorySlug = async (req, res) => {
   const { data } = req.body;
+  const { priceMax } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -205,10 +206,13 @@ const getProductsByCategorySlug = async (req, res) => {
       {
         $match: {
           "filteredVariants.0": { $exists: true },
+          price: {
+            $lt: +priceMax,
+          },
         },
       },
       {
-        $sort: { createdAt: -1 },
+        $sort: { price: -1 },
       },
     ];
   } else {
@@ -237,9 +241,16 @@ const getProductsByCategorySlug = async (req, res) => {
           as: "variants",
         },
       },
+      {
+        $match: {
+          price: {
+            $lt: +priceMax,
+          },
+        },
+      },
 
       {
-        $sort: { createdAt: -1 },
+        $sort: { price: -1 },
       },
     ];
   }
@@ -248,6 +259,20 @@ const getProductsByCategorySlug = async (req, res) => {
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
+  const allPrices = products.flatMap((product) => {
+    const productPrices = [product.price]; // Assuming the top-level product price is stored in "price" field
+    const variantPrices = product.variants.map(
+      (variant) => variant.variant.price
+    ); // Modify this based on your data structure
+    return [...productPrices, ...variantPrices];
+  });
+
+  // Calculate min and max prices using reduce
+  const minPrice = allPrices.reduce(
+    (min, price) => Math.min(min, price),
+    Number.MAX_SAFE_INTEGER
+  );
+  const maxPrice = allPrices.reduce((max, price) => Math.max(max, price), 0);
 
   products.forEach((product) => {
     if (product.variants.length > 0) {
@@ -291,11 +316,11 @@ const getProductsByCategorySlug = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products, filters: variantComb });
+  res.status(200).json({ products, filters: variantComb, max: maxPrice });
 };
 
 const getProductsByCollectionSlug = async (req, res) => {
-  const { data } = req.body;
+  const { data, priceMax } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -365,6 +390,9 @@ const getProductsByCollectionSlug = async (req, res) => {
       {
         $match: {
           "filteredVariants.0": { $exists: true },
+          price: {
+            $lt: +priceMax,
+          },
         },
       },
       {
@@ -397,6 +425,13 @@ const getProductsByCollectionSlug = async (req, res) => {
           localField: "_id",
           foreignField: "productId",
           as: "variants",
+        },
+      },
+      {
+        $match: {
+          "products.price": {
+            $lt: +priceMax,
+          },
         },
       },
 
@@ -459,6 +494,7 @@ const getProductsByCollectionSlug = async (req, res) => {
 
 const getProductsByFilter = async (req, res) => {
   const { data } = req.body;
+  const { priceMax } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -510,6 +546,14 @@ const getProductsByFilter = async (req, res) => {
       {
         $match: {
           "filteredVariants.0": { $exists: true },
+          price: {
+            $lt: +priceMax,
+          },
+        },
+      },
+      {
+        $sort: {
+          price: -1,
         },
       },
     ];
@@ -526,9 +570,13 @@ const getProductsByFilter = async (req, res) => {
       {
         $match: {
           price: {
-            $gt: 100,
-            $lt: 500,
+            $lt: +priceMax,
           },
+        },
+      },
+      {
+        $sort: {
+          price: -1,
         },
       },
     ];
@@ -538,13 +586,8 @@ const getProductsByFilter = async (req, res) => {
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
-  const paginated = await Product.aggregatePaginate(products, {
-    page: 1,
-    limit: 10,
-    sort: { _id: -1 },
-  });
 
-  paginated.docs.forEach((product) => {
+  products.forEach((product) => {
     if (product && product.variants && product.variants.length > 0) {
       product.variants.forEach((variant) => {
         Object.entries(variant).forEach(([attribute, value]) => {
@@ -586,7 +629,7 @@ const getProductsByFilter = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products: paginated.docs, filters: variantComb });
+  res.status(200).json({ products: products, filters: variantComb });
 };
 // creating a api for creating product variant separetely because its not doable with product creation.
 const createProductVariant = async (req, res) => {

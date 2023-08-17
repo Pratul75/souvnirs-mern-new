@@ -5,6 +5,7 @@ import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { ToastContainer } from "react-toastify";
+import parse from "html-react-parser";
 import CollectionBannerImage from "../../assets/bannerImages/collectionImage.png";
 const Collection = () => {
   const [collectionList, setCollectionList] = useState([]);
@@ -36,6 +37,9 @@ const Collection = () => {
       {
         Header: "Description",
         accessor: "description",
+        // cell: ({ row }) => {
+        //   return parse(row?.original?.description);
+        // },
       },
       {
         Header: "Status",

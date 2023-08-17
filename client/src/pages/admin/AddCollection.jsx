@@ -609,7 +609,7 @@ const AddCollection = () => {
                 data={data}
                 columns={columns}
                 enablePagination
-                pageSize={10}
+                pageSize={100}
                 onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
                   handleSelectedObjectChange(selectedRows, unselectedRows)
                 }

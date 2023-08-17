@@ -20,6 +20,7 @@ const ProductCardMini = ({ id, title, price, rating, image, slug }) => {
           style={{
             mixBlendMode: "multiply",
           }}
+          className="w-56"
           src={image}
           alt={title}
         />

@@ -4,11 +4,12 @@ import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
-import { ProductCard } from "../../components";
+import { Card, ProductCard } from "../../components";
 import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
+import debounce from "lodash/debounce";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -20,6 +21,8 @@ const CollectionProducts = () => {
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
   const location = useParams();
+  const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
+
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
@@ -27,6 +30,7 @@ const CollectionProducts = () => {
       `/products/collection/${location.slug}`,
       {
         data: filters,
+        priceMax: inputRangeValue,
       }
     );
     console.log("CategoryProducts.jsx", response);
@@ -59,13 +63,33 @@ const CollectionProducts = () => {
   console.log("CategoryProducts.jsx", filters);
 
   useEffect(() => {
-    getProducts();
-  }, [filters]);
+    debounce(() => {
+      getProducts();
+    }, 100)();
+  }, [filters, inputRangeValue]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
         <div className="col-span-1">
           <div className="flex gap-4 flex-col">
+            <Card>
+              <div className="p-4">
+                <div className="flex items-center justify-between">
+                  <h6 className="text-primary text-lg font-bold ">Price</h6>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100000}
+                  onChange={(e) => setInputRangeValue(e.target.value)}
+                  value={inputRangeValue}
+                  className="range"
+                />
+                <div>
+                  <span>0 - {inputRangeValue}</span>
+                </div>
+              </div>
+            </Card>
             {filterList &&
               Object.keys(filterList).map((filter) => {
                 console.log("CategoryProducts.jsx", filter);
