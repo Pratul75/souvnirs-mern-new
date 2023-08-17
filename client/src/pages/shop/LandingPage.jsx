@@ -23,7 +23,7 @@ import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import FullWidthBannerImgOne from "../../assets/shop/bannerImages/fullWidthbannerImgOne.png";
 import FullWidthBannerImgTwo from "../../assets/shop/bannerImages/fullWidthBannerImgTwo.png";
-
+import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
 import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
 import {
   BrandsCardImageList,
@@ -44,8 +44,8 @@ const LandingPage = () => {
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
         productImgOne={BannerProductImgOne}
-        productImageTwo={BannerProductImgOne}
-        productImageThree={BannerProductImgOne}
+        productImageTwo={BannerImageTwo}
+        productImageThree={BannerImageTwo}
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"

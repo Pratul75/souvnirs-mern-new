@@ -7,7 +7,6 @@ import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { ProductCard } from "../../components";
 import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
-import InputRange from "react-input-range";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
 
