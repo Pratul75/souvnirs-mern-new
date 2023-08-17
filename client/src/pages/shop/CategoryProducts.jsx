@@ -22,19 +22,17 @@ const CategoryProducts = () => {
   const [filters, setFilters] = useState([]);
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
   const [max, setMax] = useState(0); // Add this line
+  const [slug, setSlug] = useState();
 
-  const location = useParams();
+  const params = useParams();
   const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
-    const response = await API_WRAPPER.post(
-      `/products/category/${location.slug}`,
-      {
-        data: filters,
-        priceMax: inputRangeValue,
-      }
-    );
+    const response = await API_WRAPPER.post(`/products/category/${slug}`, {
+      data: filters,
+      priceMax: inputRangeValue,
+    });
     console.log("CategoryProducts.jsx", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
@@ -66,10 +64,15 @@ const CategoryProducts = () => {
   console.log("CategoryProducts.jsx", inputRangeValue);
 
   useEffect(() => {
+    // Set the slug parameter from the URL
+    setSlug(params.slug);
+  }, [params.slug]);
+
+  useEffect(() => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue]);
+  }, [filters, inputRangeValue, slug]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">

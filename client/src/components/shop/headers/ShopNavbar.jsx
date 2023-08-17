@@ -7,6 +7,7 @@ import RequestQuoteForm from "../components/RequestQuoteForm";
 const ShopNavbar = () => {
   const [navbarData, setNavbarData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [open, setOpen] = useState("dropdown-content");
   const location = useLocation();
   const navigate = useNavigate();
   console.log("LOCATION OBJ: ", location);
@@ -63,7 +64,7 @@ const ShopNavbar = () => {
   return (
     <div className="mx-16  md:justify-between md:items-center px-4 w-full border-[1px] bg-base-200 hidden md:flex">
       <div className="join w-full">
-        <div className="dropdown join-item relative dropdown-hover">
+        <div className={`dropdown ${open} join-item relative dropdown-hover`}>
           <label tabIndex={1} className="m-1 btn btn-primary">
             All Categories
             <BsChevronDown className="ml-1" />
@@ -71,11 +72,16 @@ const ShopNavbar = () => {
 
           <ul
             tabIndex={1}
-            className="dropdown-content p-2 relative shadow bg-base-100 z-50 w-52 max-h-96 overflow-y-auto"
+            className={
+              "dropdown-content p-2 relative shadow bg-base-100 z-50 w-52 max-h-96 overflow-y-auto"
+            }
           >
             {categories.map((category) => (
               <li
-                onClick
+                onClick={() => {
+                  setOpen("");
+                  navigate(`/category/${category.name}`);
+                }}
                 key={category._id}
                 className="p-2 hover:bg-yellow-200 cursor-pointer"
               >
