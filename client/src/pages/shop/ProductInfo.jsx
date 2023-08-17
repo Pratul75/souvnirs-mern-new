@@ -16,6 +16,7 @@ const ProductInfo = () => {
   const [product, setProduct] = useState();
   const [slug, setSlug] = useState();
   const params = useParams();
+  const [quantity, setQuantity] = useState(0);
 
   const tabs = [
     {
@@ -48,6 +49,14 @@ const ProductInfo = () => {
       ),
     },
   ];
+  const addToCart = async (e) => {
+    e.preventDefault();
+    console.log("triggered");
+    const response = await API_WRAPPER.post("/cart/create", {
+      productId: product._id,
+      quantity,
+    });
+  };
 
   const fetchProductData = async () => {
     const response = await API_WRAPPER.get(`/product/${slug}`);
@@ -140,6 +149,8 @@ const ProductInfo = () => {
                   type="text"
                   name=""
                   id=""
+                  onChange={(e) => setQuantity(e.target.value)}
+                  value={quantity}
                 />
               </div>
               <div className="form-control">
@@ -166,7 +177,12 @@ const ProductInfo = () => {
                   placeholder="4*3*7"
                 />
               </div>
-              <button className="btn btn-primary mt-4 w-full">
+              <button
+                className="btn btn-primary mt-4 w-full"
+                onClick={(e) => {
+                  addToCart(e);
+                }}
+              >
                 <AiOutlineShoppingCart className="text-2xl text-white" />
                 Add To Cart
               </button>

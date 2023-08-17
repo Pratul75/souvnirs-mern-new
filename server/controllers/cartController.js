@@ -1,5 +1,6 @@
 const { default: mongoose } = require("mongoose");
 const Cart = require("../schema/cartModal");
+const { response } = require("express");
 
 // Get all carts
 const getAllCarts = async (req, res) => {
@@ -69,6 +70,19 @@ const getAllCarts = async (req, res) => {
   } catch (error) {
     console.error("Error fetching carts:", error);
     res.status(400).json({ error: "somthing went wrong" });
+  }
+};
+const addItemToCart = async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+    await Cart.create({
+      product_id: productId,
+      quantity: +quantity,
+      customer_id: req.userId,
+    });
+    res.status(200).json("added to cart");
+  } catch (e) {
+    res.status(400).json("something went wrong");
   }
 };
 
@@ -148,4 +162,11 @@ const deleteCart = async (req, res) => {
   }
 };
 
-module.exports = { addCart, getAllCarts, getCartById, deleteCart, updateCart };
+module.exports = {
+  addItemToCart,
+  addCart,
+  getAllCarts,
+  getCartById,
+  deleteCart,
+  updateCart,
+};
