@@ -116,8 +116,8 @@ const createCustomerCart = async (req, res) => {
   try {
     const { userId } = req;
     const { productId, quantity } = req.body;
-    await Cart.findOneAndUpdate(
-      { customer_id: userId, product_id: productId },
+    const created = await Cart.findOneAndUpdate(
+      { customer_id: userId, product_id: productId, checkedOut: false },
       {
         $inc: { product_quantity: +quantity },
       },
