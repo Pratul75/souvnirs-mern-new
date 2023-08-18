@@ -8,6 +8,7 @@ const {
   addItemToCart,
   getMycartItems,
   createCustomerCart,
+  updateCustomerCart,
 } = require("../controllers/cartController");
 const authMiddleware = require("../middlewares");
 
@@ -34,5 +35,10 @@ router.delete(
 router.post("/cart/create", authMiddleware(["customer"]), createCustomerCart);
 router.get("/cart/mycart", authMiddleware(["customer"]), getMycartItems);
 router.post("/cart/add-cart", authMiddleware(["admin", "customer"]), addCart);
+router.put(
+  "/cart/update",
+  authMiddleware(["admin", "customer"]),
+  updateCustomerCart
+);
 
 module.exports = router;

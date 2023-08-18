@@ -57,15 +57,34 @@ const ProductInfo = () => {
   ];
   const addToCart = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
     if (quantity < 1) {
       return debouncedShowToast("quantity must be greater than 0");
     }
-    console.log("triggered");
-    const response = await API_WRAPPER.post("/cart/create", {
-      productId: product._id,
-      quantity,
-    });
-    dispatch(toggleRefresh());
+    if (token) {
+      console.log("triggered");
+      const response = await API_WRAPPER.post("/cart/create", {
+        productId: product._id,
+        quantity,
+      });
+      dispatch(toggleRefresh());
+    } else {
+      const existingCart = localStorage.getItem("cart");
+      const i = JSON.parse(existingCart).findIndex(
+        (a) => a.productId == product._id
+      );
+      if (i == -1) {
+        const updatedcart = [
+          ...JSON.parse(existingCart),
+          { productId: product._id, quantity },
+        ];
+        localStorage.setItem("cart", JSON.stringify(updatedcart));
+      } else {
+        const cartItems = JSON.parse(existingCart);
+        cartItems[i].quantity = quantity;
+        console.log("ProductInfo.jsx", cartItems);
+      }
+    }
   };
 
   const fetchProductData = async () => {
@@ -75,6 +94,7 @@ const ProductInfo = () => {
       setSelectedImage(response.data.images[0]);
     }
   };
+
   console.log(product);
   console.log(product);
   useEffect(() => {

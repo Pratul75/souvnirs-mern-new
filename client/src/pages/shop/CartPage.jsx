@@ -2,19 +2,34 @@ import { useEffect, useState } from "react";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
+import { useDispatch } from "react-redux";
+import { toggleRefresh } from "../../features/appConfig/appSlice";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState();
+  const [apitrigger, setApiTrigger] = useState(false);
+  const dispatch = useDispatch();
 
   const getCartItems = async () => {
     const response = await API_WRAPPER.get("/cart/mycart");
     console.log("wishlist.jsx", response);
     setCartItems(response.data);
   };
+  const deleteCartItem = async (id) => {
+    await API_WRAPPER.delete(`/cart/delete-cart/${id}`);
+    setApiTrigger((a) => !a);
+    dispatch(toggleRefresh());
+  };
+  const cartItemUpdate = async (id, quantity) => {
+    console.log(id, quantity);
+    await API_WRAPPER.put("/cart/update", { id, quantity });
+    setApiTrigger((a) => !a);
+    dispatch(toggleRefresh());
+  };
 
   useEffect(() => {
     getCartItems();
-  }, []);
+  }, [apitrigger]);
 
   return (
     <div>
@@ -31,11 +46,11 @@ const CartPage = () => {
 
             <div className="mt-8">
               <ul className="space-y-4">
-                {cartItems &&
+                {cartItems && cartItems.length > 0 ? (
                   cartItems.map((item) => (
                     <li className="flex items-center gap-4">
                       <img
-                        src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=830&q=80"
+                        src={item.product_id.coverImage}
                         alt=""
                         className="h-16 w-16 rounded object-cover"
                       />
@@ -65,19 +80,25 @@ const CartPage = () => {
                             Quantity{" "}
                           </label>
 
-                          {/* <input
+                          <input
                             type="number"
                             min="1"
-                            value="1"
+                            className="input"
+                            value={item.product_quantity}
+                            onChange={(e) =>
+                              cartItemUpdate(item._id, e.target.value)
+                            }
                             id="Line1Qty"
-                            className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                          /> */}
-                          <span className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none">
-                            {item.product_quantity}
-                          </span>
+                          />
                         </form>
 
-                        <button className="text-gray-600 transition hover:text-red-600">
+                        <button
+                          onClick={() => {
+                            // console.log(item._id);
+                            deleteCartItem(item._id);
+                          }}
+                          className="text-gray-600 transition hover:text-red-600"
+                        >
                           <span className="sr-only">Remove item</span>
 
                           <svg
@@ -97,7 +118,10 @@ const CartPage = () => {
                         </button>
                       </div>
                     </li>
-                  ))}
+                  ))
+                ) : (
+                  <h2>Nothing in cart. Add items to see</h2>
+                )}
               </ul>
 
               <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">

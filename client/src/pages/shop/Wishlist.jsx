@@ -2,17 +2,32 @@ import { useEffect, useState } from "react";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
+import { useDispatch } from "react-redux";
+import { toggleRefresh } from "../../features/appConfig/appSlice";
+import { debouncedShowToast } from "../../utils";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState();
+  const [apiTrigger, setApiTrigger] = useState(false);
+  const dispatch = useDispatch();
   const getWishlistItems = async () => {
     const response = await API_WRAPPER.get("/wishlist/getmywishlist");
     console.log("wishlist.jsx", response);
     setWishlistItems(response.data.data.wishlist);
   };
+
+  const removeFromWishlist = async (id) => {
+    const response = await API_WRAPPER.post("/wishlist/create", {
+      productId: id,
+    });
+    setApiTrigger((a) => !a);
+    if (response.status === 200)
+      debouncedShowToast("Removed from wishlist", "success");
+    dispatch(toggleRefresh());
+  };
   useEffect(() => {
     getWishlistItems();
-  }, []);
+  }, [apiTrigger]);
   console.log("Wishlist.jsx", wishlistItems);
   return (
     <div>
@@ -69,16 +84,21 @@ const Wishlist = () => {
                               Quantity{" "}
                             </label>
 
-                            <input
+                            {/* <input
                               type="number"
                               min="1"
                               value="1"
                               id="Line1Qty"
                               className="h-8 w-12 rounded border-gray-200 bg-gray-50 p-0 text-center text-xs text-gray-600 [-moz-appearance:_textfield] focus:outline-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                            />
+                            /> */}
                           </form>
 
-                          <button className="text-gray-600 transition hover:text-red-600">
+                          <button
+                            onClick={() => {
+                              removeFromWishlist(item.productId._id);
+                            }}
+                            className="text-gray-600 transition hover:text-red-600"
+                          >
                             <span className="sr-only">Remove item</span>
 
                             <svg

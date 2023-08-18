@@ -24,12 +24,22 @@ const ProductCard = ({
   const [heartColor, setHeartColor] = useState("black");
   const dispatch = useDispatch();
   const addToWishlist = async () => {
-    const response = await API_WRAPPER.post("/wishlist/create", {
-      productId: id,
-    });
-    if (response.status === 200)
-      debouncedShowToast("added to wishlist", "success");
-    dispatch(toggleRefresh());
+    const token = localStorage.getItem("token");
+    if (token) {
+      const response = await API_WRAPPER.post("/wishlist/create", {
+        productId: id,
+      });
+      if (response.status === 200)
+        debouncedShowToast("added to wishlist", "success");
+      dispatch(toggleRefresh());
+    } else {
+      const existingWL = localStorage.getItem("wishlist");
+      const i = JSON.parse(existingWL).findIndex((a) => a == id);
+      if (i == -1) {
+        const updatedwl = [...JSON.parse(existingWL), id];
+        localStorage.setItem("wishlist", JSON.stringify(updatedwl));
+      }
+    }
   };
 
   // TODO: need to be changed to icons switching instead of colors

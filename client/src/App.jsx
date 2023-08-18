@@ -18,10 +18,23 @@ import { useSelector } from "react-redux";
 import ReverseAuthRoute from "./Routes/ReverseAuthRoute";
 import { ProtectedRoute } from "./Routes/ProtectedRoute";
 import ShopLayout from "./Layouts/ShopLayout";
+import { useEffect } from "react";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   const role = useSelector((state) => state.appConfig.login);
+  useEffect(() => {
+    const wl = localStorage.getItem("wishlist");
+    const cart = localStorage.getItem("cart");
+
+    if (!wl) {
+      localStorage.setItem("wishlist", JSON.stringify([]));
+    }
+
+    if (!cart) {
+      localStorage.setItem("cart", JSON.stringify([]));
+    }
+  }, []);
 
   return (
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
