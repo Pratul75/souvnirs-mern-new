@@ -39,8 +39,6 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
                 <input
                   className="checkbox checkbox-primary"
                   type="checkbox"
-                  name=""
-                  id=""
                   checked={selectedFilters.includes(filter.filterName)}
                   onChange={() => handleFilterToggle(filter.filterName)}
                 />

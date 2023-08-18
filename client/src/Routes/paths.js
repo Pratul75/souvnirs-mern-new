@@ -91,4 +91,5 @@ export const PATHS = {
   cartPage: "/cart_page",
   checkout: "/checkout",
   shopWishlist: "/shop/wishlist",
+  blogs: "/blogs",
 };
