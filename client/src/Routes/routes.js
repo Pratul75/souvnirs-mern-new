@@ -72,6 +72,7 @@ import {
   OrderSuccess,
   Wishlist,
 } from "../pages";
+
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";

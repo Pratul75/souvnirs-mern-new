@@ -7,7 +7,6 @@ const ReverseAuthRoute = ({ children }) => {
   const token = localStorage.getItem("token");
   const role = JSON.parse(localStorage.getItem("role"));
   const loggedRole = useSelector((state) => state.appConfig.login);
-  console.log("LOGGED ROLE: ", loggedRole);
 
   if (location.pathname === "/login" && token) {
     if (loggedRole === "customer" || role === "customer") {

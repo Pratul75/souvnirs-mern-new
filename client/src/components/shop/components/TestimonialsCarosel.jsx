@@ -62,8 +62,11 @@ const testimonials = [
   {
     id: 2,
     content: (
-      <div>
-        <h1 className="text-center text-4xl mb-10"> Customer Reviews </h1>
+      <div className="mx-36">
+        <h1 className="text-center text-4xl mb-10 text-white mt-10">
+          {" "}
+          Customer Reviews{" "}
+        </h1>
         <div className="grid grid-cols-3 gap-4 my-4">
           <div className="col-span-1 bg-white rounded-xl">
             <p className="p-4">
@@ -79,19 +82,33 @@ const testimonials = [
               </div>
             </div>
           </div>
-          <div className="col-span-1">
-            <p>
+          <div className="col-span-1 bg-white rounded-xl">
+            <p className="p-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
+            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
+              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="flex flex-col text-white">
+                <h2>Merida Swan</h2>
+                <p>Chairman</p>
+              </div>
+            </div>
           </div>
-          <div className="col-span-1">
-            <p>
+          <div className="col-span-1 bg-white rounded-xl">
+            <p className="p-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
+            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
+              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="flex flex-col text-white">
+                <h2>Merida Swan</h2>
+                <p>Chairman</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -100,8 +117,11 @@ const testimonials = [
   {
     id: 3,
     content: (
-      <div>
-        <h1 className="text-center text-4xl mb-10"> Customer Reviews </h1>
+      <div className="mx-36">
+        <h1 className="text-center text-4xl mb-10 text-white mt-10">
+          {" "}
+          Customer Reviews{" "}
+        </h1>
         <div className="grid grid-cols-3 gap-4 my-4">
           <div className="col-span-1 bg-white rounded-xl">
             <p className="p-4">
@@ -117,19 +137,33 @@ const testimonials = [
               </div>
             </div>
           </div>
-          <div className="col-span-1">
-            <p>
+          <div className="col-span-1 bg-white rounded-xl">
+            <p className="p-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
+            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
+              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="flex flex-col text-white">
+                <h2>Merida Swan</h2>
+                <p>Chairman</p>
+              </div>
+            </div>
           </div>
-          <div className="col-span-1">
-            <p>
+          <div className="col-span-1 bg-white rounded-xl">
+            <p className="p-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
+            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
+              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="flex flex-col text-white">
+                <h2>Merida Swan</h2>
+                <p>Chairman</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

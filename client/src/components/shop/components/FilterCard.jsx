@@ -15,7 +15,6 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
       setSelectedFilters([...selectedFilters, filterName]);
     }
   };
-  console.log("FilterCard.jsx", selectedFilters);
 
   useEffect(() => {
     onSelect({ key: heading, values: selectedFilters });

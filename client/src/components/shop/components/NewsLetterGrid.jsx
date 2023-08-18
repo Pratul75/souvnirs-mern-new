@@ -69,3 +69,5 @@ NewsLetterGrid.propTypes = {
 };
 
 export default NewsLetterGrid;
+
+

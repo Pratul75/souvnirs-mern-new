@@ -22,6 +22,7 @@ const GradiantCardList = ({ cardData }) => {
     </div>
   );
 };
+
 GradiantCardList.propTypes = {
   cardData: PropTypes.arrayOf(
     PropTypes.shape({
