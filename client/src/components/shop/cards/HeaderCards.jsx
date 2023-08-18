@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeInFromRightVariant, fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
+// header card component is uesd to show the main headers of the landing page of shop
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,

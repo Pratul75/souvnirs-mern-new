@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const BlogList = ({ blogItemsData }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-16">
+    <div className="grid grid-cols-3 gap-4 mt-28">
       {blogItemsData?.map(
         ({ id, blogImage, date, views, heading, paragraph, buttonHandler }) => {
           return (

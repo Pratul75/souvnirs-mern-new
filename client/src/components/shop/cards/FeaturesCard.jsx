@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+// the component is to show all the features of the shop in a conscice manner
 const FeaturesCard = ({
   iconOne,
   iconTwo,

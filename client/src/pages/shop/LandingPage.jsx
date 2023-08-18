@@ -57,6 +57,7 @@ const LandingPage = () => {
         tertioryHeadingTwo="Smart 4K TV"
         tertiorySubHeading="Watch Now"
       />
+
       <FeaturesCard
         iconOne={
           <HiOutlineChatBubbleLeftRight className="text-4xl text-primary" />
