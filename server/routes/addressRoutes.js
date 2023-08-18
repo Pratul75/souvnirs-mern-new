@@ -4,6 +4,8 @@ const {
   getAddressById,
   updateAddress,
   deleteAddress,
+  addCustomerAddress,
+  getCustomerAdresses,
 } = require("../controllers/addressController");
 const authMiddleware = require("../middlewares");
 const { verifyToken } = require("../middlewares");
@@ -33,6 +35,16 @@ router.delete(
   "/address/delete-address/:id",
   authMiddleware(["vendor", "admin", "customer"]),
   deleteAddress
+);
+router.post(
+  "/addCustomerAddress",
+  authMiddleware(["customer"]),
+  addCustomerAddress
+);
+router.get(
+  "/getCustomerAddress",
+  authMiddleware(["customer"]),
+  getCustomerAdresses
 );
 
 module.exports = router;

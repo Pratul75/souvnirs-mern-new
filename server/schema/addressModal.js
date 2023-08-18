@@ -9,6 +9,13 @@ const addressSchema = new mongoose.Schema(
     },
     email: { type: String },
     address: { type: String },
+    name: {
+      type: String,
+    },
+    type: {
+      type: String,
+      enum: ["home", "office", "other"],
+    },
     city: { type: String, required: true },
     country: { type: String, required: true },
     pin_code: { type: String, required: true },
