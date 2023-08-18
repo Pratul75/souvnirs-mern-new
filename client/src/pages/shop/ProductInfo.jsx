@@ -1,6 +1,6 @@
 import { IoMdArrowBack } from "react-icons/io";
 import ProductImagePrimary from "../../assets/shop/productImages/productImagePrimary.png";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
 import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
@@ -23,6 +23,7 @@ const ProductInfo = () => {
   const [quantity, setQuantity] = useState(0);
   4;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const tabs = [
     {
@@ -119,7 +120,7 @@ const ProductInfo = () => {
 
   return (
     <div className="mx-16 mt-4">
-      <Link to={PATHS.landingPage} className="btn">
+      <Link onClick={() => navigate(-1)} className="btn">
         <IoMdArrowBack className="text-2xl" />
         Back
       </Link>

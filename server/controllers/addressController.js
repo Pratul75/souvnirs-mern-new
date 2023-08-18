@@ -70,10 +70,32 @@ const deleteAddress = async (req, res) => {
   }
 };
 
+const addCustomerAddress = async (req, res) => {
+  try {
+    const address = await Address.create({
+      ...req.body,
+      customer_id: req.userId,
+    });
+    res.status(201).json(address);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to create address" });
+  }
+};
+const getCustomerAdresses = async (req, res) => {
+  try {
+    const addresses = await Address.find({ customer_id: req.userId });
+    res.status(200).json(addresses);
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
+
 module.exports = {
   addAddress,
   getAddresses,
   getAddressById,
   updateAddress,
   deleteAddress,
+  addCustomerAddress,
+  getCustomerAdresses,
 };
