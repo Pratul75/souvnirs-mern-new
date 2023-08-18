@@ -36,6 +36,10 @@ const CartSchema = new mongoose.Schema(
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
+    checkedOut: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

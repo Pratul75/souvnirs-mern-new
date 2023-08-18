@@ -68,6 +68,7 @@ const ProductInfo = () => {
         quantity,
       });
       dispatch(toggleRefresh());
+      debouncedShowToast("added to cart successfully");
     } else {
       const existingCart = localStorage.getItem("cart");
       if (existingCart) {

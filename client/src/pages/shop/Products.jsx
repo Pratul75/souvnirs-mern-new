@@ -12,6 +12,7 @@ import debounce from "lodash/debounce";
 import { useFilters } from "react-table";
 import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../features/appConfig/appSlice";
+import Loading from "../common/Loading";
 
 const Products = () => {
   const [filterType, setFilterType] = useState(false);
@@ -24,6 +25,7 @@ const Products = () => {
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState();
   const [filters, setFilters] = useState([]);
+  const [loading, setloading] = useState(false);
   const location = useParams();
   const dispatch = useDispatch();
   console.log("LOCATION OBJECT: ", location);
@@ -35,7 +37,7 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
-      dispatch(startLoading());
+      setloading(true);
       const response = await API_WRAPPER.post(`/products`, {
         data: filters,
         priceMax: inputRangeValue,
@@ -83,7 +85,7 @@ const Products = () => {
   }, [filters, inputRangeValue]);
   useEffect(() => {
     if (products) {
-      dispatch(stopLoading());
+      setloading(false);
     }
   }, [products]);
   return (
@@ -239,6 +241,7 @@ const Products = () => {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   );
 };

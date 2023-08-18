@@ -82,10 +82,9 @@ const LoginForm = () => {
               const response = await API_WRAPPER.post("/cart/create", cart);
             }
             debouncedShowToast("You are logged in", "success");
-            if (role === "customer") {
+            if (role) {
+              console.log("ROLE EXISTS", role);
               return <Navigate to={PATHS.landingPage} />;
-            } else {
-              return <Navigate to={PATHS.adminDashboard} />;
             }
           }
         }

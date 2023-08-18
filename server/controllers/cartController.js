@@ -87,9 +87,10 @@ const addItemToCart = async (req, res) => {
 };
 const getMycartItems = async (req, res) => {
   try {
-    const carts = await Cart.find({ customer_id: req.userId }).populate(
-      "product_id"
-    );
+    const carts = await Cart.find({
+      customer_id: req.userId,
+      checkedOut: false,
+    }).populate("product_id");
     res.status(200).json(carts);
   } catch (e) {
     res.status(400).json("something went wrong");
@@ -158,6 +159,27 @@ const updateCart = async (req, res) => {
   }
 };
 
+const checkout = async (req, res) => {
+  const existingItemsInCart = await Cart.updateMany(
+    {
+      customer_id: req.userId,
+      checkedOut: false,
+    },
+    {
+      checkedOut: true,
+    },
+    { new: true }
+  );
+  res.status(200).json("cart updated successfully");
+};
+const getCheckedOutItems = async (req, res) => {
+  const checkedOutItems = await Cart.find({
+    customer_id: req.userId,
+    checkedOut: true,
+  }).populate("product_id");
+  res.status(200).json(checkedOutItems);
+};
+
 // Delete a cart
 const deleteCart = async (req, res) => {
   try {
@@ -180,7 +202,6 @@ const updateCustomerCart = async (req, res) => {
     },
     { new: true }
   );
-  l;
   res.status(200).json("updated Successfully");
 };
 
@@ -194,4 +215,6 @@ module.exports = {
   updateCart,
   getMycartItems,
   createCustomerCart,
+  checkout,
+  getCheckedOutItems,
 };

@@ -1,8 +1,19 @@
 import { BiSolidOffer } from "react-icons/bi";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
+import { useEffect, useState } from "react";
+import API_WRAPPER from "../../api";
 
 const Checkout = () => {
+  const [items, setItems] = useState();
+  const getCheckedOutItems = async () => {
+    const response = await API_WRAPPER.get("/checkedout");
+    console.log(response);
+    setItems(response.data);
+  };
+  useEffect(() => {
+    getCheckedOutItems();
+  }, []);
   return (
     <div>
       <Banner
@@ -64,47 +75,48 @@ const Checkout = () => {
               <h4>Order Summary</h4>
               <hr className="my-4" />
               <div className="border-b">
-                <div className="flex justify-between w-full my-4">
-                  <span className="text-xs">Bell Pepper X 1</span>
-                  <span className="text-xs"> $32.00</span>
-                </div>
-                <div className="flex justify-between w-full my-4">
-                  <span className="text-xs">Egg Plant X 3</span>
-                  <span className="text-xs"> $11.45</span>
-                </div>
-                <div className="flex justify-between w-full my-4">
-                  <span className="text-xs">Onion X 4</span>
-                  <span className="text-xs"> $12.45</span>
-                </div>
-                <div className="flex justify-between w-full my-4">
-                  <span className="text-xs">Potato X 3</span>
-                  <span className="text-xs"> $3.45</span>
-                </div>
-                <div className="flex justify-between w-full my-4">
-                  <span className="text-xs"> Broccoli X 2</span>
-                  <span className="text-xs"> $2.45</span>
-                </div>
+                {items &&
+                  items.map((item) => (
+                    <div className="flex justify-between w-full my-4">
+                      <span className="text-sm">
+                        {item.product_id.name} X {item.product_quantity}
+                      </span>
+                      <span className="text-sm">
+                        {" "}
+                        ${item.product_quantity * item.product_id.price}
+                      </span>
+                    </div>
+                  ))}
               </div>
               <div className="my-4 flex justify-between">
-                <span className="text-sm">Sub Total</span>
+                {/* <span className="text-sm">Sub Total</span>
                 <span className="text-sm">$111.45</span>
               </div>
               <div className="my-4 flex justify-between">
                 <span className="text-sm">Shipping</span>
-                <span className="text-sm">$8.00</span>
+                <span className="text-sm">$8.00</span> */}
               </div>
               <div className="my-4 flex justify-between">
-                <span className="text-sm font-semibold text-primary">
+                {/* <span className="text-sm font-semibold text-primary">
                   Coupon Discount
                 </span>
                 <span className="text-sm font-semibold text-primary">
                   -$8.00
-                </span>
+                </span> */}
               </div>
               <hr className="my-4" />
               <div className="my-4 flex justify-between">
                 <span className="text-sm font-semibold">Total (USD)</span>
-                <span className="text-sm font-semibold">$90</span>
+                <span className="text-sm font-semibold">
+                  $
+                  {items && items.length > 0
+                    ? items.reduce((total, item) => {
+                        return (
+                          total + item.product_quantity * +item.product_id.price
+                        );
+                      }, 0)
+                    : 0}
+                </span>
               </div>
             </div>
           </div>

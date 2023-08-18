@@ -9,6 +9,8 @@ const {
   getMycartItems,
   createCustomerCart,
   updateCustomerCart,
+  checkout,
+  getCheckedOutItems,
 } = require("../controllers/cartController");
 const authMiddleware = require("../middlewares");
 
@@ -40,5 +42,8 @@ router.put(
   authMiddleware(["admin", "customer"]),
   updateCustomerCart
 );
+
+router.post("/checkout", authMiddleware(["customer"]), checkout);
+router.get("/checkedout", authMiddleware(["customer"]), getCheckedOutItems);
 
 module.exports = router;
