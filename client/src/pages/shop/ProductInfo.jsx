@@ -70,19 +70,26 @@ const ProductInfo = () => {
       dispatch(toggleRefresh());
     } else {
       const existingCart = localStorage.getItem("cart");
-      const i = JSON.parse(existingCart).findIndex(
-        (a) => a.productId == product._id
-      );
-      if (i == -1) {
-        const updatedcart = [
-          ...JSON.parse(existingCart),
-          { productId: product._id, quantity },
-        ];
-        localStorage.setItem("cart", JSON.stringify(updatedcart));
+      if (existingCart) {
+        const i = JSON.parse(existingCart).findIndex(
+          (a) => a.productId == product._id
+        );
+        if (i == -1) {
+          const updatedcart = [
+            ...JSON.parse(existingCart),
+            { productId: product._id, quantity },
+          ];
+          localStorage.setItem("cart", JSON.stringify(updatedcart));
+        } else {
+          const cartItems = JSON.parse(existingCart);
+          cartItems[i].quantity = quantity;
+          console.log("ProductInfo.jsx", cartItems);
+        }
       } else {
-        const cartItems = JSON.parse(existingCart);
-        cartItems[i].quantity = quantity;
-        console.log("ProductInfo.jsx", cartItems);
+        localStorage.setItem(
+          "cart",
+          JSON.stringify([{ productId: product._id, quantity }])
+        );
       }
     }
   };

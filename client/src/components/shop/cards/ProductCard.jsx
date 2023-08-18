@@ -34,10 +34,14 @@ const ProductCard = ({
       dispatch(toggleRefresh());
     } else {
       const existingWL = localStorage.getItem("wishlist");
-      const i = JSON.parse(existingWL).findIndex((a) => a == id);
-      if (i == -1) {
-        const updatedwl = [...JSON.parse(existingWL), id];
-        localStorage.setItem("wishlist", JSON.stringify(updatedwl));
+      if (existingWL) {
+        const i = JSON.parse(existingWL).findIndex((a) => a == id);
+        if (i == -1) {
+          const updatedwl = [...JSON.parse(existingWL), id];
+          localStorage.setItem("wishlist", JSON.stringify(updatedwl));
+        }
+      } else {
+        localStorage.setItem("wishlist", JSON.stringify([id]));
       }
     }
   };
