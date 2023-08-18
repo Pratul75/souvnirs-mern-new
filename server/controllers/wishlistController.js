@@ -19,6 +19,7 @@ exports.createWishlist = async (req, res) => {
     }
   } catch (error) {}
 };
+
 exports.getwishlistItems = async (req, res) => {
   try {
     let items;

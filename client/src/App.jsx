@@ -19,10 +19,12 @@ import ReverseAuthRoute from "./Routes/ReverseAuthRoute";
 import { ProtectedRoute } from "./Routes/ProtectedRoute";
 import ShopLayout from "./Layouts/ShopLayout";
 import { useEffect } from "react";
+import Loading from "./pages/common/Loading";
 
 const App = () => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   const role = useSelector((state) => state.appConfig.login);
+  const loading = useSelector((state) => state.appConfig.loading);
   useEffect(() => {
     const wl = localStorage.getItem("wishlist");
     const cart = localStorage.getItem("cart");
@@ -38,6 +40,7 @@ const App = () => {
 
   return (
     <div data-theme={darkMode ? "dark" : "light"} className={`font-sans`}>
+      {/* {loading && <Loading />} */}
       <AnimatePresence>
         <Routes>
           <Route

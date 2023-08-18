@@ -5,8 +5,11 @@ import {
   ShopFooter,
   ShopNavbar,
 } from "../components";
+import { useSelector } from "react-redux";
 
 const ShopLayout = ({ children }) => {
+  const loading = useSelector((x) => x.appConfig.loading);
+
   return (
     <>
       <TopHeader

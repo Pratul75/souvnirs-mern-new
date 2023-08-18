@@ -7,6 +7,7 @@ const initialState = {
   activeLink: "/admin-dashboard",
   refresh: false,
   login: "",
+  loading: false,
 };
 
 export const appConfigSlice = createSlice({
@@ -32,6 +33,12 @@ export const appConfigSlice = createSlice({
     toggleRefresh: (state, action) => {
       state.refresh = !state.refresh;
     },
+    startLoading: (state, action) => {
+      state.loading = true;
+    },
+    stopLoading: (state, action) => {
+      state.loading = false;
+    },
   },
 });
 
@@ -43,5 +50,7 @@ export const {
   setActiveLink,
   getLoginInfo,
   toggleRefresh,
+  startLoading,
+  stopLoading,
 } = appConfigSlice.actions;
 export default appConfigSlice.reducer;

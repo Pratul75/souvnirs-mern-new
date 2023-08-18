@@ -84,6 +84,8 @@ const LoginForm = () => {
             debouncedShowToast("You are logged in", "success");
             if (role === "customer") {
               return <Navigate to={PATHS.landingPage} />;
+            } else {
+              return <Navigate to={PATHS.adminDashboard} />;
             }
           }
         }
