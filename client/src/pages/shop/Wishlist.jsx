@@ -8,6 +8,7 @@ import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
+import { PATHS } from "../../Routes/paths";
 
 const Wishlist = () => {
   const [wishlistItems, setWishlistItems] = useState([]);
@@ -50,11 +51,13 @@ const Wishlist = () => {
         accessor: "productId.coverImage",
         Cell: ({ row }) => {
           return (
-            <img
-              className="w-10 h-10"
-              src={row?.original?.productId?.coverImage}
-              alt=""
-            />
+            <Link to={`/productInfo/${row.original.productId.slug}`}>
+              <img
+                className="w-10 h-10"
+                src={row?.original?.productId?.coverImage}
+                alt=""
+              />
+            </Link>
           );
         },
       },
