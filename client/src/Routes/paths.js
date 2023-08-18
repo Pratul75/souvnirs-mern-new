@@ -75,6 +75,7 @@ export const PATHS = {
   customerProfile: "/customer/profile",
   customerRefunds: "/customer/refunds",
   customerReplacements: "/customer/replacements",
+
   customerWishlist: "/customer/wishlist",
 
   // shop routes

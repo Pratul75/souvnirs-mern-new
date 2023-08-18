@@ -10,6 +10,8 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import { useFilters } from "react-table";
+import { useDispatch } from "react-redux";
+import { startLoading, stopLoading } from "../../features/appConfig/appSlice";
 
 const Products = () => {
   const [filterType, setFilterType] = useState(false);
@@ -20,9 +22,10 @@ const Products = () => {
     readyToShip: false,
   });
   const [filterList, setFilterList] = useState();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState();
   const [filters, setFilters] = useState([]);
   const location = useParams();
+  const dispatch = useDispatch();
   console.log("LOCATION OBJECT: ", location);
   const [value, setValue] = useState({ min: 10, max: 200 });
 
@@ -31,13 +34,22 @@ const Products = () => {
   };
 
   const getProducts = async () => {
-    const response = await API_WRAPPER.post(`/products`, {
-      data: filters,
-      priceMax: inputRangeValue,
-    });
-    console.log("CategoryProducts.jsx", response);
-    setProducts(response?.data?.products);
-    setFilterList(response?.data?.filters);
+    try {
+      dispatch(startLoading());
+      const response = await API_WRAPPER.post(`/products`, {
+        data: filters,
+        priceMax: inputRangeValue,
+      });
+      // if (response.status === 200) {
+      //   // dispatch(stopLoading());
+      // }
+      console.log("CategoryProducts.jsx", response);
+      setProducts(response?.data?.products);
+      setFilterList(response?.data?.filters);
+    } catch (error) {
+      // Handle the error here
+      console.error("An error occurred while fetching products:", error);
+    }
   };
 
   const handleFilterSelection = (filterData) => {
@@ -67,8 +79,13 @@ const Products = () => {
   useEffect(() => {
     debounce(() => {
       getProducts();
-    }, 100)();
+    }, 0)();
   }, [filters, inputRangeValue]);
+  useEffect(() => {
+    if (products) {
+      dispatch(stopLoading());
+    }
+  }, [products]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">

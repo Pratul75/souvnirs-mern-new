@@ -1,14 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../features/appConfig/appSlice";
+import Loading from "../common/Loading";
+import { ReusableTable } from "../../components";
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState();
   const [apitrigger, setApiTrigger] = useState(false);
   const dispatch = useDispatch();
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: "Name",
+        accessor: "product_id.coverImage",
+      },
+      // {
+      //   Header: "HSN Id",
+      //   accessor: "",
+      // },
+      // {
+      //   Header: "Type",
+      //   accessor: "type",
+      // },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(row?.original?.status);
+      //   },
+      // },
+    ],
+    []
+  );
 
   const getCartItems = async () => {
     const response = await API_WRAPPER.get("/cart/mycart");
@@ -46,6 +73,18 @@ const CartPage = () => {
 
             <div className="mt-8">
               <ul className="space-y-4">
+                <ReusableTable
+                  tableTitle="Categories List"
+                  data={cartItems}
+                  columns={columns}
+                  showButtons
+                  enableDelete
+                  enableEdit
+                  enablePagination
+                  pageSize={10}
+                  // onDelete={handleDelete}
+                  // onEdit={handleEdit}
+                />
                 {cartItems && cartItems.length > 0 ? (
                   cartItems.map((item) => (
                     <li className="flex items-center gap-4">
@@ -144,7 +183,16 @@ const CartPage = () => {
 
                     <div className="flex justify-between !text-base font-medium">
                       <dt>Total</dt>
-                      <dd>{}</dd>
+                      <dd>
+                        {cartItems && cartItems.length > 0
+                          ? cartItems.reduce((total, item) => {
+                              return (
+                                total +
+                                item.product_quantity * +item.product_id.price
+                              );
+                            }, 0)
+                          : 0}
+                      </dd>
                     </div>
                   </dl>
 
