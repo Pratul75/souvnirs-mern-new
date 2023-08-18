@@ -13,7 +13,9 @@ import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../features/appConfig/appSlice";
-
+import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
+import InnerImageZoom from "react-inner-image-zoom";
+import { nanoid } from "nanoid";
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
@@ -127,11 +129,12 @@ const ProductInfo = () => {
 
       <div className="grid grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
-          <img src={selectedImage} alt="primary image" />
+          <InnerImageZoom src={selectedImage} />
+          {/* <img src={selectedImage} alt="primary image" /> */}
           <div className="flex">
             {product?.images.map((image) => {
               return (
-                <Card className="">
+                <Card key={nanoid()} className="">
                   <img
                     onClick={() => {
                       setSelectedImage(image);
