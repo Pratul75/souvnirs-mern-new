@@ -71,6 +71,7 @@ import {
   CompareProducts,
   OrderSuccess,
   Wishlist,
+  Blogs,
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
@@ -532,5 +533,10 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.shopWishlist,
     Component: Wishlist,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.blogs,
+    Component: Blogs,
   },
 ];
