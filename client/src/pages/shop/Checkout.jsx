@@ -67,7 +67,10 @@ const Checkout = () => {
             <div className="flex gap-4">
               {addresses && addresses.length > 0 ? (
                 addresses.map((a) => (
-                  <div className="bg-base-100 rounded-xl w-full p-4 flex justify-between">
+                  <div
+                    key={a._id}
+                    className="bg-base-100 rounded-xl w-full p-4 flex justify-between"
+                  >
                     <div className="flex gap-4">
                       <input
                         className="radio radio-primary "

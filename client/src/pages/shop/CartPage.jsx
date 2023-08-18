@@ -6,11 +6,12 @@ import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../features/appConfig/appSlice";
 import Loading from "../common/Loading";
 import { ReusableTable } from "../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const getCartItems = async () => {
     const response = await API_WRAPPER.get("/cart/mycart");
@@ -44,7 +45,10 @@ const CartPage = () => {
   };
 
   const checkoutHandler = async () => {
-    await API_WRAPPER.post(`/checkout`);
+    const response = await API_WRAPPER.post(`/checkout`);
+    if (response.status == 200) {
+      navigate("/checkout");
+    }
   };
 
   useEffect(() => {
