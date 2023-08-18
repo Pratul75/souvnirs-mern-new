@@ -22,12 +22,12 @@ const HalfWidthBannerCard = ({
             alt=""
           />
         </div>
-        <div className="inset-0 absolute flex justify-between px-8">
+        <div className="inset-0 absolute flex justify-between items-center px-16">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xs">{headingOne}</h1>
+            <h1 className="text-lg">{headingOne}</h1>
             <h2 className="text-2xl font-bold">{cardTitleOne.toUpperCase()}</h2>
             <button
-              className="btn btn-sm bg-orange-500 text-white mt-4"
+              className="btn  bg-orange-500 text-white mt-4"
               onClick={buttonHandlerOne}
             >
               Shop Now
@@ -53,12 +53,12 @@ const HalfWidthBannerCard = ({
             alt=""
           />
         </div>
-        <div className="inset-0 absolute flex justify-between px-8">
+        <div className="inset-0 absolute flex justify-between items-center px-16">
           <div className="flex flex-col items-center justify-center">
-            <h1 className="text-xs">{headingTwo}</h1>
+            <h1 className="text-lg">{headingTwo}</h1>
             <h2 className="text-2xl font-bold">{cardTitleTwo.toUpperCase()}</h2>
             <button
-              className="btn btn-sm bg-orange-500 text-white mt-4"
+              className="btn  bg-orange-500 text-white mt-4"
               onClick={buttonHandlerTwo}
             >
               Shop Now

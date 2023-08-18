@@ -12,6 +12,7 @@ export const fadeInVariants = {
     },
   },
 };
+
 export const headerVariant = {
   initial: {
     y: -50,

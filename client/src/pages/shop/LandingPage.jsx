@@ -11,7 +11,14 @@ import {
   ImagesGrid,
   NewsLetterGrid,
 } from "../../components";
-import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
+import {
+  BrandsCardImageList,
+  ImageGridMapping,
+  blogCardData,
+  caroselMapppingDailyDeals,
+  gradiantCardListCardData,
+  productListFiltersAndProducts,
+} from "../../mappings";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
 import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
@@ -25,18 +32,11 @@ import FullWidthBannerImgOne from "../../assets/shop/bannerImages/fullWidthbanne
 import FullWidthBannerImgTwo from "../../assets/shop/bannerImages/fullWidthBannerImgTwo.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
 import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
-import {
-  BrandsCardImageList,
-  ImageGridMapping,
-  blogCardData,
-  caroselMapppingDailyDeals,
-  gradiantCardListCardData,
-  productListFiltersAndProducts,
-} from "../../mappings";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
+
 const LandingPage = () => {
   return (
     <div>

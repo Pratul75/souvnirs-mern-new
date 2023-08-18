@@ -53,8 +53,8 @@ import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png"
 import GradiantCardImgOne from "../assets/shop/productImages/gradiantCardImgOne.png";
 import GradiantCardImgTwo from "../assets/shop/productImages/gradiantCardImgTwo.png";
 import GradiantCardImgThree from "../assets/shop/productImages/GradiantCardImgThree.png";
-import { Ratings } from "../components";
 import { BsMenuApp } from "react-icons/bs";
+import ProductCardMini from "../components/shop/cards/ProductCardMini";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -420,111 +420,102 @@ export const caroselMapppingDailyDeals = [
     <div className="flex flex-col  gap-4 mt-4 py-2">
       <div className="flex  gap-4 my-2">
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">01</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">01</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">01</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
       </div>
 
-      <div>
-        <p>One Plus Smart Watch</p>
-        <p className="text-bold text-primary text-xl">$256.00</p>
-        <Ratings rating={4.5} />
-      </div>
-    </div>
-    <div>
-      <img src={GiftOnePng} alt="" />`
+      <ProductCardMini
+        showBorder
+        title="One plus smart Watch"
+        image={GiftOnePng}
+      />
     </div>
   </div>,
   <div className="flex" key={nanoid()}>
     <div className="flex flex-col  gap-4 mt-4 py-2">
       <div className="flex  gap-4 my-2">
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">02</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">02</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">02</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
       </div>
 
-      <div>
-        <p>Cosmos Bold Pro Smart Watch</p>
-        <p className="text-bold text-primary text-xl">$100.00</p>
-        <Ratings rating={5} />
-      </div>
-    </div>
-    <div>
-      <img src={GiftOnePng} alt="" />`
+      <ProductCardMini
+        showBorder
+        title="One plus smart Watch"
+        image={GiftOnePng}
+      />
     </div>
   </div>,
   <div className="flex" key={nanoid()}>
     <div className="flex flex-col  gap-4 mt-4 py-2">
       <div className="flex  gap-4 my-2">
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">04</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">04</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex  flex-col items-center"
+          className="radial-progress flex w-32 h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-2xl text-gray-300">04</span>
-          <p>days</p>
+          <span className="font-extrabold text-5xl text-gray-300">01</span>
+          <p className="text-xl">days</p>
         </div>
       </div>
 
-      <div>
-        <p>Smart TV</p>
-        <p className="text-bold text-primary text-xl">$499.00</p>
-        <Ratings rating={4.5} />
-      </div>
-    </div>
-    <div>
-      <img src={GiftOnePng} alt="" />`
+      <ProductCardMini
+        showBorder
+        title="One plus smart Watch"
+        image={GiftOnePng}
+      />
     </div>
   </div>,
 ];

@@ -28,14 +28,14 @@ const NewsLetterGrid = ({
   return (
     <div className="flex mt-8 md:mt-16 justify-center">
       <div
-        className="bg-white rounded-lg shadow-md p-4 md:p-6 w-full md:w-[480px] lg:w-[600px] xl:w-[800px]"
+        className="bg-white rounded-lg shadow-md p-4 md:p-6 w-full md:w-[480px] lg:w-[600px] xl:w-[1200px]"
         style={containerStyle}
       >
         <div className="py-3 md:py-5">
-          <h1 className="text-2xl md:text-4xl text-center text-black font-semibold mb-2">
+          <h1 className="text-2xl md:text-4xl text-center text-white font-semibold mb-2">
             {heading}
           </h1>
-          <h6 className="text-xs md:text-sm text-center text-gray-600 mb-4">
+          <h6 className="text-xs md:text-sm text-center text-white mb-4">
             {subheading}
           </h6>
         </div>

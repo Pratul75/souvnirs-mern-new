@@ -1,6 +1,5 @@
-import { IoMdArrowForward } from "react-icons/io";
 import { motion } from "framer-motion";
-import { fadeInVariants } from "../../../animation";
+import { fadeInFromRightVariant, fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
 const HeaderCards = ({
@@ -62,7 +61,7 @@ const HeaderCards = ({
         <motion.div
           animate="animate"
           initial="initial"
-          variants={fadeInVariants}
+          variants={fadeInFromRightVariant}
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
           <img
@@ -70,7 +69,7 @@ const HeaderCards = ({
             src={secondaryImageTwo}
             alt=""
           />
-          <div className="inset-0 absolute flex justify-center items-center gap-8">
+          <div className="inset-0 absolute flex justify-center items-center gap-8 md:px-6">
             <div>
               <h3 className="text-white text-base font-medium leading-tight">
                 {secondaryHeadingOne}
@@ -96,7 +95,7 @@ const HeaderCards = ({
         <motion.div
           animate="animate"
           initial="initial"
-          variants={fadeInVariants}
+          variants={fadeInFromRightVariant}
           className="col-span-3 md:col-span-1 row-span-1 relative"
         >
           <img
@@ -104,7 +103,7 @@ const HeaderCards = ({
             src={secondaryImageOne}
             alt=""
           />
-          <div className="inset-0 absolute flex justify-center items-center gap-8">
+          <div className="inset-0 absolute flex justify-center items-center gap-8 md:px-6">
             <div>
               <h3 className="text-white text-base font-medium leading-tight">
                 {tertioryHeadingOne}
