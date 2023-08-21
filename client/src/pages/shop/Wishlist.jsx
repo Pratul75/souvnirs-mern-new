@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom"; // If using React Router
 import { toggleRefresh } from "../../features/appConfig/appSlice";
@@ -7,7 +7,6 @@ import { Table } from "../../components";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
-import { nanoid } from "nanoid";
 import { PATHS } from "../../Routes/paths";
 
 const Wishlist = () => {
@@ -50,15 +49,13 @@ const Wishlist = () => {
         Header: "Product Image",
         accessor: "productId.coverImage",
         Cell: ({ row }) => {
-          return (
-            <Link to={`/productInfo/${row.original.productId.slug}`}>
-              <img
-                className="w-10 h-10"
-                src={row?.original?.productId?.coverImage}
-                alt=""
-              />
-            </Link>
-          );
+          <Link to={`/productInfo/${row.original.productId.slug}`}>
+            <img
+              className="w-10 h-10"
+              src={row.original.productId.coverImage}
+              alt=""
+            />
+          </Link>;
         },
       },
       {
@@ -81,7 +78,6 @@ const Wishlist = () => {
       />
 
       <section>
-        {/* ... Rest of your code ... */}
         <Table
           columns={columns}
           data={wishlistItems}
@@ -93,14 +89,12 @@ const Wishlist = () => {
           pageSize={"10"}
         />
 
-        {/* ... Rest of your code ... */}
         <Link
-          to="#" // Replace "#" with the actual checkout path
+          to={PATHS.checkout}
           className="block rounded bg-gray-700 px-5 py-3 text-sm text-gray-100 transition hover:bg-gray-600"
         >
           Checkout
         </Link>
-        {/* ... Rest of your code ... */}
       </section>
     </div>
   );

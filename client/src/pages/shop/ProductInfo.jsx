@@ -121,17 +121,17 @@ const ProductInfo = () => {
   }, [slug]); // Add slug as a dependency
 
   return (
-    <div className="mx-16 mt-4">
+    <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
       <Link onClick={() => navigate(-1)} className="btn">
         <IoMdArrowBack className="text-2xl" />
         Back
       </Link>
 
-      <div className="grid grid-cols-3 mt-4 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
           <InnerImageZoom src={selectedImage} />
           {/* <img src={selectedImage} alt="primary image" /> */}
-          <div className="flex">
+          <div className="flex flex-wrap gap-2 md:gap-4">
             {product?.images.map((image) => {
               return (
                 <Card key={nanoid()} className="">
@@ -148,13 +148,9 @@ const ProductInfo = () => {
             })}
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-1 border-t md:border-l lg:border-l-0 md:border-t-0 lg:border-t flex flex-col items-center justify-center px-4 ">
           <h1 className="font-bold text-2xl">{product?.name}</h1>
-          <div
-            className={`flex items-center ${
-              !isLogged && "justify-between"
-            } gap-4`}
-          >
+          <div className={"gap-2 md:gap-4 flex flex-col"}>
             <span className="text-4xl font-thin">USD</span>
             {isLogged ? (
               <span className="text-4xl">

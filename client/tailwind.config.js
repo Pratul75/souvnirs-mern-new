@@ -1,5 +1,30 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: "#48068E",
+
+          secondary: "#8afcac",
+
+          accent: "#8dbc2f",
+
+          neutral: "#2d2c35",
+
+          "base-100": "#363239",
+
+          info: "#71b6d1",
+
+          success: "#16b67e",
+
+          warning: "#f3c268",
+
+          error: "#e92563",
+        },
+      },
+    ],
+  },
   theme: {
     extend: {
       fontFamily: {
@@ -11,42 +36,11 @@ module.exports = {
         cardDarker: "#1E252F",
         cardLight: "#FFFFFF",
         carsLighter: "#F8F9FA",
+        shopPrimaryColor: "#48068E",
       },
     },
   },
-  daisyui: {
-    themes: [
-      "light",
-      "dark",
-      "cupcake",
-      "bumblebee",
-      "emerald",
-      "corporate",
-      "synthwave",
-      "retro",
-      "cyberpunk",
-      "valentine",
-      "halloween",
-      "garden",
-      "forest",
-      "aqua",
-      "lofi",
-      "pastel",
-      "fantasy",
-      "wireframe",
-      "black",
-      "luxury",
-      "dracula",
-      "cmyk",
-      "autumn",
-      "business",
-      "acid",
-      "lemonade",
-      "night",
-      "coffee",
-      "winter",
-    ],
-  },
+
   darkMode: "class",
   plugins: [require("daisyui")],
 };

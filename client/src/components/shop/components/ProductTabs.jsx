@@ -98,7 +98,7 @@ const ProductTabs = () => {
   });
 
   return (
-    <div className="w-full col-span-3">
+    <div className="w-full col-span-3 hidden md:block">
       <Tab.Group>
         <Tab.List className="flex justify-center flex-wrap gap-2 md:justify-end">
           {Object.keys(categories).map((category) => (

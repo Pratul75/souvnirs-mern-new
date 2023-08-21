@@ -28,8 +28,10 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
-import FullWidthBannerImgOne from "../../assets/shop/bannerImages/fullWidthbannerImgOne.png";
-import FullWidthBannerImgTwo from "../../assets/shop/bannerImages/fullWidthBannerImgTwo.png";
+// import FullWidthBannerImgOne from "../../assets/shop/bannerImages/fullWidthbannerImgOne.png";
+// import FullWidthBannerImgTwo from "../../assets/shop/bannerImages/fullWidthBannerImgTwo.png";
+import BudsImage from "../../assets/shop/productImages/buds.png";
+import WatchImage from "../../assets/shop/productImages/watch.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
 import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
@@ -90,8 +92,8 @@ const LandingPage = () => {
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"
         subHeading="On Your Entire Order"
-        imageOne={FullWidthBannerImgTwo}
-        imageTwo={FullWidthBannerImgOne}
+        imageOne={BudsImage}
+        imageTwo={WatchImage}
       />
       <ProductsListWithFilters
         heading="Best Products at price"

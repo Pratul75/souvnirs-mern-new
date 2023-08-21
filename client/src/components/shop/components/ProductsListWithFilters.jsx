@@ -11,9 +11,9 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
 
   return (
     <div className="mt-16">
-      <div className="flex items-center justify-between ">
+      <div className="flex flex-col md:flex-row items-center justify-between ">
         <h1 className="font-semibold text-2xl">{heading}</h1>
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row  gap-2">
           {filters.map((filter) => (
             <button
               className={`text-lg mr-12 p-4 border-b-[1px] ${
@@ -30,7 +30,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
         </div>
       </div>
       <hr />
-      <div className="flex justify-between gap-4 py-4">
+      <div className="flex justify-center md:justify-between gap-4 py-4 flex-wrap md:flex-nowrap">
         {products.map(
           ({
             id,

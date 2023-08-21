@@ -17,7 +17,7 @@ const FeaturesCard = ({
   return (
     <div className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 ">
       <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
-        <div className="flex items-center gap-5 ">
+        <div className="flex items-center gap-5 justify-center md:justify-start ">
           <div className="mr-2">{iconOne}</div>
           <div>
             <div className="text-black text-2xl font-semibold uppercase leading-normal">
@@ -28,8 +28,8 @@ const FeaturesCard = ({
             </div>
           </div>
         </div>
-        <div className="divider divide-[#ededed] lg:divider-horizontal"></div>
-        <div className="flex items-center gap-5">
+        <div className="divider divide-[#ededed] lg:divider-horizontal "></div>
+        <div className="flex items-center justify-center md:justify-start gap-5">
           <div className="mr-2">{iconTwo}</div>
           <div>
             <div className="text-black text-2xl font-semibold uppercase leading-normal">
@@ -41,7 +41,7 @@ const FeaturesCard = ({
           </div>
         </div>
         <div className="divider lg:divider-horizontal"></div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 justify-center md:justify-start">
           <div className="mr-2">{iconThree}</div>
           <div>
             <div className="text-black text-2xl font-semibold uppercase leading-normal">
@@ -53,7 +53,7 @@ const FeaturesCard = ({
           </div>
         </div>
         <div className="divider lg:divider-horizontal"></div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 justify-center md:justify-start">
           <div className="mr-2">{iconFour}</div>
           <div>
             <div className="text-black text-2xl font-semibold uppercase leading-normal">

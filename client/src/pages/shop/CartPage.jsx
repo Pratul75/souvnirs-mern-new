@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../features/appConfig/appSlice";
-import Loading from "../common/Loading";
 import { ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 const CartPage = () => {

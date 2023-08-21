@@ -11,12 +11,9 @@ const GradiantCard = ({
 }) => {
   return (
     <div className="relative col-span-3 md:col-span-1">
-      <img
-        className="object-cover w-full h-full rounded-xl"
-        src={background}
-        alt="gradiant-background-image"
-      />
-      <div className="inset-0 absolute flex items-center justify-between px-16">
+      <div
+        className={`${background} h-full flex items-center justify-between px-16`}
+      >
         <div className="flex flex-col">
           <div className="">
             <h5 className=" text-black text-base font-medium leading-tight">

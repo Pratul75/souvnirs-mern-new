@@ -15,7 +15,7 @@ const BlogsCard = ({
   return (
     <Link
       to={PATHS.blogs}
-      className="overflow-hidden rounded-lg shadow transition hover:shadow-lg mt-16 cursor-pointer"
+      className="overflow-hidden rounded-lg shadow transition hover:shadow-lg md:mt-16 mt-8 cursor-pointer col-span-3 md:col-span-1"
     >
       <img
         alt="Office"

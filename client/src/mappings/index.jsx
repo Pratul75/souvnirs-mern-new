@@ -388,7 +388,7 @@ export const gradiantCardListCardData = [
     title: "Spring Sale Coming",
     heading: "Smart Phone",
     subheading: "With Pen",
-    background: GradiantCardOneBackground,
+    background: "bg-blue-200",
     image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
@@ -398,7 +398,7 @@ export const gradiantCardListCardData = [
     title: "Spring Sale Coming",
     heading: "New Smart Phone",
     subheading: "With Touch",
-    background: GradiantCardTwoBackground,
+    background: "bg-green-200",
     image: GradiantCardImgTwo,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
@@ -408,7 +408,7 @@ export const gradiantCardListCardData = [
     title: "Spring Sale Coming",
     heading: "Smart Watch",
     subheading: "Android",
-    background: GradiantCardThreeBackground,
+    background: "bg-rose-200",
     image: GradiantCardImgThree,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
@@ -419,28 +419,34 @@ export const gradiantCardListCardData = [
 export const caroselMapppingDailyDeals = [
   <div className="flex" key={nanoid()}>
     <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex  gap-4 my-2">
+      <div className="flex justify-center md:justify-start gap-4 my-2">
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
       </div>
 
@@ -453,70 +459,86 @@ export const caroselMapppingDailyDeals = [
   </div>,
   <div className="flex" key={nanoid()}>
     <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex  gap-4 my-2">
+      <div className="flex justify-center md:justify-start gap-4 my-2">
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
       </div>
 
-      <ProductCardMini
-        showBorder
-        title="One plus smart Watch"
-        image={GiftOnePng}
-      />
+      <div className="mx-14 ml-10">
+        <ProductCardMini
+          showBorder
+          title="One plus smart Watch"
+          image={GiftOnePng}
+        />
+      </div>
     </div>
   </div>,
   <div className="flex" key={nanoid()}>
     <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex  gap-4 my-2">
+      <div className="flex justify-center md:justify-start gap-4 my-2">
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
 
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
         <div
-          className="radial-progress flex w-32 h-32 flex-col items-center"
+          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
           style={{ "--value": 70 }}
         >
-          <span className="font-extrabold text-5xl text-gray-300">01</span>
-          <p className="text-xl">days</p>
+          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
+            01
+          </span>
+          <p className=" text-lg md:text-xl">days</p>
         </div>
       </div>
 
-      <ProductCardMini
-        showBorder
-        title="One plus smart Watch"
-        image={GiftOnePng}
-      />
+      <div>
+        <ProductCardMini
+          showBorder
+          title="One plus smart Watch"
+          image={GiftOnePng}
+        />
+      </div>
     </div>
   </div>,
 ];

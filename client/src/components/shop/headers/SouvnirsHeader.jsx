@@ -14,6 +14,9 @@ import useCollections from "../../../hooks/useCollections";
 import { RxHamburgerMenu } from "react-icons/rx";
 import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
+import { motion, AnimatePresence } from "framer-motion";
+import { GrFormClose } from "react-icons/gr";
+
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   console.log("SouvnirsHeader.jsx", token);
@@ -27,9 +30,16 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const productsList = useProducts();
   const collectionList = useCollections();
   const refresh = useSelector((state) => state.appConfig.refresh);
-  console.log("SouvnirsHeader.jsx", productsList);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  console.log("SouvnirsHeader.jsx", refresh);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   const getWishlistData = async () => {
     const response = await API_WRAPPER.get("/wishlist/getmywishlist");
     console.log("ShopNavbar.jsx", response);
@@ -41,6 +51,15 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     console.log("wishlist.jsx", response);
     setcartItems(response.data);
   };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "searchInput") {
+      setSearchInput(value);
+    } else if (name === "selectedFilter") {
+      setSelectedFilter(value);
+    }
+  };
+
   useEffect(() => {
     const applyFilters = () => {
       if (selectedFilter === "productInfo") {
@@ -76,21 +95,13 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     categoriesList,
   ]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "searchInput") {
-      setSearchInput(value);
-    } else if (name === "selectedFilter") {
-      setSelectedFilter(value);
-    }
-  };
   useEffect(() => {
     if (token) {
       getWishlistData();
       getCartItems();
     }
   }, [refresh]);
-  console.log("SouvnirsHeader.jsx", wishlistItems);
+
   return (
     <>
       {/* // desktop header */}
@@ -166,7 +177,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               <option value="vendor">Vendor</option>
             </select>
             <div className="indicator">
-              <button className={`btn ${buttonColor} join-item rounded-none`}>
+              <button
+                className={`btn ${buttonColor} join-item rounded-none hover:bg-shopPrimaryColor`}
+              >
                 <CiSearch color="white" className="text-2xl" />
               </button>
             </div>
@@ -226,12 +239,131 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       </header>
 
       {/* mobile header */}
-      <header className="md:hidden grid grid-flow-col gap-4 place-items-center mt-4">
+      <header className="md:hidden flex justify-between px-8 mt-4">
+        <div>
+          <RxHamburgerMenu id="open-sidebar" onClick={toggleSidebar} />
+        </div>
         <div className="flex gap-1">
           <AiOutlineShoppingCart className="text-2xl" />
           <AiOutlineHeart className="text-2xl text-rose-600" />
         </div>
       </header>
+      {/* Overlay */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={closeSidebar}
+            className="fixed top-0 left-0 h-screen w-screen bg-transparent opacity-50 z-50 backdrop-blur-md"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      {/* Sidebar */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 h-screen w-60 bg-white shadow-lg overflow-y-auto z-50"
+          >
+            {/* Sidebar content */}
+            {/* Sidebar content */}
+            <div className="p-4">
+              {/* Search input with filtering options */}
+              <div className="mb-4">
+                <input
+                  value={searchInput}
+                  onChange={handleInputChange}
+                  name="searchInput"
+                  className="input w-full input-bordered rounded-none"
+                  placeholder="Search products"
+                />
+                <select
+                  onChange={handleInputChange}
+                  name="selectedFilter"
+                  className="select select-bordered mt-2 w-full"
+                  value={selectedFilter}
+                >
+                  <option value="">Filter</option>
+                  <option value="productInfo">Products</option>
+                  <option value="category">Category</option>
+                  <option value="collection">Collection</option>
+                  <option value="vendor">Vendor</option>
+                </select>
+                <button
+                  className={`btn ${buttonColor} mt-2 w-full`}
+                  onClick={() => {
+                    // Perform search with selected filter
+                    // You can add your search logic here
+                  }}
+                >
+                  Search
+                </button>
+              </div>
+
+              {/* User authentication and wishlist/cart indicators */}
+              {token && token.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    to={PATHS.adminDashboard}
+                    className="btn btn-primary btn-sm"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={() => {
+                      localStorage.clear();
+                      navigate(PATHS.login);
+                    }}
+                    className="btn w-full"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <Link to={PATHS.login} className="btn w-full">
+                    Login
+                  </Link>
+                  <Link to={PATHS.register} className="btn w-full">
+                    Register
+                  </Link>
+                </div>
+              )}
+              <Link to={PATHS.shopWishlist} className="btn btn-circle mt-4">
+                <AiOutlineHeart className="text-2xl cursor-pointer" />
+                <div
+                  className={`badge ${badgeColor} badge-sm absolute top-0 -right-2`}
+                >
+                  {wishlistItems && wishlistItems?.length}
+                </div>
+              </Link>
+              <Link to={PATHS.cartPage} className="btn btn-circle mt-2">
+                <FiShoppingBag className="text-2xl cursor-pointer" />
+                <div
+                  className={`badge ${badgeColor} badge-sm absolute top-0 -right-2`}
+                >
+                  {cartItems && cartItems.length}
+                </div>
+              </Link>
+            </div>
+            {/* Close sidebar button */}
+            <div className="flex w-full justify-end p-4">
+              <GrFormClose
+                className="text-2xl cursor-pointer"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
