@@ -83,7 +83,7 @@ const RequestQuoteForm = () => {
                 Attach reference image, please select
               </span>
             </label>
-            <div className="w-1/2">
+            <div className="border rounded-xl">
               <Dropzone />
             </div>
           </div>
@@ -118,7 +118,6 @@ const RequestQuoteForm = () => {
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn">Close</button>
           </div>
           <div className="form-control">
             <label className="label">
@@ -148,7 +147,9 @@ const RequestQuoteForm = () => {
           </div>
 
           <div>
-            <h5>Please share your details so we can respond:</h5>
+            <h5 className="mt-4">
+              Please share your details so we can respond:
+            </h5>
             <p className="tet-xs">Your information is safe with us</p>
           </div>
 
