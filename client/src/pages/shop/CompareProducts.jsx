@@ -1,5 +1,4 @@
-import { useState } from "react";
-import CompareProductBanner from "../../assets/shop/bannerImages/compareProductBanner.png";
+import React, { useState } from "react";
 
 const ProductComparison = () => {
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -61,17 +60,36 @@ const ProductComparison = () => {
     });
   };
 
+  const renderAttributeValueCell = (attribute, productId) => {
+    const product = productData.find((p) => p.id === productId);
+    const value = product.attributes[attribute];
+    const isLowest = selectedProducts.every((id) => {
+      return (
+        productData.find((p) => p.id === id).attributes[attribute] >= value
+      );
+    });
+
+    return (
+      <td
+        key={`${productId}-${attribute}`}
+        className={`p-3 ${isLowest ? "bg-green-200" : "bg-white"}`}
+      >
+        {value}
+      </td>
+    );
+  };
+
   return (
     <div className="p-4">
-      <img src={CompareProductBanner} alt="" />
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
+      <h2 className="text-xl font-bold mb-4">Compare Products</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {productData.map((product) => (
           <div
             key={product.id}
             className={`border p-4 ${
               selectedProducts.includes(product.id)
                 ? "border-blue-500 rounded-xl"
-                : "rounded-xl"
+                : "rounded-xl shadow-xl"
             }`}
           >
             <label className="flex items-center mb-2">
@@ -123,26 +141,31 @@ const ProductComparison = () => {
                 {Object.keys(productData[0].attributes).map((attribute) => (
                   <tr key={attribute}>
                     <td className="p-3 font-semibold">{attribute}</td>
-                    {selectedProducts.map((productId) => (
-                      <td key={productId} className="p-3">
-                        {
-                          productData.find((p) => p.id === productId)
-                            .attributes[attribute]
-                        }
-                      </td>
-                    ))}
+                    {selectedProducts.map((productId) =>
+                      renderAttributeValueCell(attribute, productId)
+                    )}
                   </tr>
                 ))}
                 <tr>
-                  <td>
-                    <h5>Add to cart</h5>
-                  </td>
-                  <td>
-                    <button className="btn">Add to cart</button>
-                  </td>
-                  <td>
-                    <button className="btn">Add to cart</button>
-                  </td>
+                  <td className="p-3 font-semibold">Add to Cart</td>
+                  {selectedProducts.map((productId) => (
+                    <td key={productId} className="p-3 text-center">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox checkbox h-5 w-5 text-blue-600"
+                        checked={selectedProducts.includes(productId)}
+                        onChange={() => toggleProductSelection(productId)}
+                      />
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="p-3 font-semibold">Add to Cart</td>
+                  {selectedProducts.map((productId) => (
+                    <td key={productId} className="p-3 text-center">
+                      <button className="btn btn-accent">Add to Cart</button>
+                    </td>
+                  ))}
                 </tr>
               </tbody>
             </table>
