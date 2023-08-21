@@ -13,6 +13,7 @@ const ProductComparison = () => {
         attribute2: "Value 2A",
         attribute3: "Value 3A",
       },
+      image: "https://dummyimage.com/150x150/1f1f1f/ffffff",
     },
     {
       id: 2,
@@ -24,6 +25,7 @@ const ProductComparison = () => {
         attribute2: "Value 2B",
         attribute3: "Value 3B",
       },
+      image: "https://dummyimage.com/150x150/2f2f2f/ffffff",
     },
     {
       id: 3,
@@ -35,6 +37,7 @@ const ProductComparison = () => {
         attribute2: "Value 2C",
         attribute3: "Value 3C",
       },
+      image: "https://dummyimage.com/150x150/3f3f3f/ffffff",
     },
     {
       id: 4,
@@ -47,6 +50,7 @@ const ProductComparison = () => {
         attribute2: "Value 2D",
         attribute3: "Value 3D",
       },
+      image: "https://dummyimage.com/150x150/4f4f4f/ffffff",
     },
   ];
 
@@ -101,6 +105,7 @@ const ProductComparison = () => {
               />
               {product.name}
             </label>
+
             <p>{product.description}</p>
             <p className="mt-2">${product.price}</p>
           </div>
@@ -123,7 +128,19 @@ const ProductComparison = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>Price</td>
+                  <td className="text-purple-500">Image</td>
+                  {selectedProducts.map((productId) => (
+                    <td key={productId} className="p-3">
+                      <img
+                        src={productData.find((p) => p.id === productId).image}
+                        alt={productData.find((p) => p.id === productId).name}
+                        className="w-16 h-16"
+                      />
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="text-purple-500">Price</td>
                   {selectedProducts.map((productId) => (
                     <td key={productId}>
                       ${productData.find((p) => p.id === productId).price}
@@ -131,7 +148,7 @@ const ProductComparison = () => {
                   ))}
                 </tr>
                 <tr>
-                  <td>Description</td>
+                  <td className="text-purple-500">Description</td>
                   {selectedProducts.map((productId) => (
                     <td key={productId}>
                       {productData.find((p) => p.id === productId).description}
@@ -140,14 +157,15 @@ const ProductComparison = () => {
                 </tr>
                 {Object.keys(productData[0].attributes).map((attribute) => (
                   <tr key={attribute}>
-                    <td className="p-3 font-semibold">{attribute}</td>
+                    <td className="p-3 text-purple-500">{attribute}</td>
                     {selectedProducts.map((productId) =>
                       renderAttributeValueCell(attribute, productId)
                     )}
                   </tr>
                 ))}
+
                 <tr>
-                  <td className="p-3 font-semibold">Add to Cart</td>
+                  <td className="p-3 text-purple-500">Select or unselect</td>
                   {selectedProducts.map((productId) => (
                     <td key={productId} className="p-3 text-center">
                       <input
@@ -160,7 +178,9 @@ const ProductComparison = () => {
                   ))}
                 </tr>
                 <tr>
-                  <td className="p-3 font-semibold">Add to Cart</td>
+                  <td className="p-3 font-semibold text-purple-500">
+                    Add to Cart
+                  </td>
                   {selectedProducts.map((productId) => (
                     <td key={productId} className="p-3 text-center">
                       <button className="btn btn-accent">Add to Cart</button>
