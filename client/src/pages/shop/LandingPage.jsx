@@ -28,8 +28,6 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
-// import FullWidthBannerImgOne from "../../assets/shop/bannerImages/fullWidthbannerImgOne.png";
-// import FullWidthBannerImgTwo from "../../assets/shop/bannerImages/fullWidthBannerImgTwo.png";
 import BudsImage from "../../assets/shop/productImages/buds.png";
 import WatchImage from "../../assets/shop/productImages/watch.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
@@ -38,6 +36,7 @@ import TestimonialsCarosel from "../../components/shop/components/TestimonialsCa
 import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
+import SingleTab from "./SingleTab";
 
 const LandingPage = () => {
   return (
@@ -95,6 +94,15 @@ const LandingPage = () => {
         imageOne={BudsImage}
         imageTwo={WatchImage}
       />
+
+      <div className="flex container mx-auto">
+        <div className="flex justify-between gap-10 w-full px-[50px]">
+          <SingleTab heading="Budget Buy" />
+          <SingleTab heading="Recently Added" />
+          <SingleTab heading="Trending Products" />
+        </div>
+      </div>
+
       <ProductsListWithFilters
         heading="Best Products at price"
         filters={productListFiltersAndProducts.filters}
@@ -117,6 +125,7 @@ const LandingPage = () => {
         }
       />
       <BrandsCard imagesList={BrandsCardImageList} />
+
       <TestimonialsCarosel />
       <BlogList blogItemsData={blogCardData} />
       <ImagesGrid imagesData={ImageGridMapping} />

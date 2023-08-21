@@ -73,3 +73,4 @@ export { default as CompareProducts } from "./shop/CompareProducts";
 export { default as OrderSuccess } from "./shop/OrderSuccess";
 export { default as Wishlist } from "./shop/Wishlist";
 export { default as Blogs } from "./shop/Blog";
+export { default as SingleTab } from "./shop/SingleTab";
