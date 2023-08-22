@@ -7,7 +7,7 @@ const FullWidthBannerCard = ({
   subHeading,
 }) => {
   return (
-    <div className="flex flex-col w-full justify-center mt-52">
+    <div className="flex flex-col w-full justify-center mt-8">
       <div className=" py-10 bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white rounded-xl px-16 mt-16">
         <div className="hidden md:block w-96 h-full">
           <img

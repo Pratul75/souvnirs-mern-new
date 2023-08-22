@@ -258,7 +258,7 @@ const LandingPage = () => {
       <TestimonialsCarosel />
 
       <div className="flex container mx-auto">
-        <div className="flex justify-between gap-10 w-full px-[50px]">
+        <div className="flex justify-between gap-10 w-full px-[50px] mt-16">
           <SingleTab heading="Budget Buy" />
           <SingleTab heading="Recently Added" />
           <SingleTab heading="Trending Products" />
