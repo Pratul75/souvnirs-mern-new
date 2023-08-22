@@ -473,7 +473,9 @@ export const caroselMapppingDailyDeals = [
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
           <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
         </div>
         <Ratings rating={3.5} />
       </div>

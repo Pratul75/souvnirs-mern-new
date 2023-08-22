@@ -4,11 +4,12 @@ import {
   ProductsListWithFilters,
   GradiantCardList,
   ProductCarosel,
-  ProductTabs,
   FullWidthBannerCard,
   HalfWidthBannerCard,
   BrandsCard,
   NewsLetterGrid,
+  Tabs,
+  Ratings,
 } from "../../components";
 import {
   BrandsCardImageList,
@@ -35,6 +36,7 @@ import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 import SingleTab from "./SingleTab";
+import { ShopIcon } from "../../icons";
 
 const LandingPage = () => {
   return (
@@ -81,9 +83,147 @@ const LandingPage = () => {
 
       <GradiantCardList cardData={gradiantCardListCardData} />
 
-      <div className="grid grid-cols-5 gap-4 mt-16 h-[200px]">
+      <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
         <ProductCarosel items={caroselMapppingDailyDeals} />
-        <ProductTabs />
+        <div className="col-span-3">
+          <Tabs
+            alignCenter
+            tabs={[
+              {
+                content: (
+                  <div className="grid grid-cols-2">
+                    <div className="col-span-1">
+                      <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="justify-start items-start flex">
+                          <img
+                            className="w-[122.01px] h-[122.01px]"
+                            src="https://via.placeholder.com/200x200"
+                          />
+                        </div>
+                        <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
+                          <div className="justify-center items-center inline-flex mt-5 ">
+                            <div className="text-neutral-700 text-lg font-medium leading-7 ">
+                              D-Phone Android Latest UI New
+                              <br />
+                              XP
+                            </div>
+                          </div>
+
+                          <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
+                            <div className="text-violet-900 text-xl font-medium leading-tight">
+                              $256.00
+                            </div>
+                            <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
+                              <Ratings rating={4} />
+                              <div className="px-4 py-2 border rounded-full ml-8">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ,
+                      <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="justify-start items-start flex">
+                          <img
+                            className="w-[122.01px] h-[122.01px]"
+                            src="https://via.placeholder.com/200x200"
+                          />
+                        </div>
+                        <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
+                          <div className="justify-center items-center inline-flex mt-5 ">
+                            <div className="text-neutral-700 text-lg font-medium leading-7 ">
+                              D-Phone Android Latest UI New
+                              <br />
+                              XP
+                            </div>
+                          </div>
+
+                          <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
+                            <div className="text-violet-900 text-xl font-medium leading-tight">
+                              $256.00
+                            </div>
+                            <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
+                              <Ratings rating={4} />
+                              <div className="px-4 py-2 border rounded-full ml-8">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-span-1">
+                      <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="justify-start items-start flex">
+                          <img
+                            className="w-[122.01px] h-[122.01px]"
+                            src="https://via.placeholder.com/200x200"
+                          />
+                        </div>
+                        <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
+                          <div className="justify-center items-center inline-flex mt-5 ">
+                            <div className="text-neutral-700 text-lg font-medium leading-7 ">
+                              D-Phone Android Latest UI New
+                              <br />
+                              XP
+                            </div>
+                          </div>
+
+                          <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
+                            <div className="text-violet-900 text-xl font-medium leading-tight">
+                              $256.00
+                            </div>
+                            <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
+                              <Ratings rating={4} />
+                              <div className="px-4 py-2 border rounded-full ml-8">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      ,
+                      <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="justify-start items-start flex">
+                          <img
+                            className="w-[122.01px] h-[122.01px]"
+                            src="https://via.placeholder.com/200x200"
+                          />
+                        </div>
+                        <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
+                          <div className="justify-center items-center inline-flex mt-5 ">
+                            <div className="text-neutral-700 text-lg font-medium leading-7 ">
+                              D-Phone Android Latest UI New
+                              <br />
+                              XP
+                            </div>
+                          </div>
+
+                          <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
+                            <div className="text-violet-900 text-xl font-medium leading-tight">
+                              $256.00
+                            </div>
+                            <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
+                              <Ratings rating={4} />
+                              <div className="px-4 py-2 border rounded-full ml-8">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    ,
+                  </div>
+                ),
+                label: "CONTENT 1",
+              },
+              { content: "I AM CONTENT 2", label: "CONTENT 1" },
+              { content: "I AM CONTENT 3", label: "CONTENT 1" },
+            ]}
+          />
+        </div>
       </div>
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"
