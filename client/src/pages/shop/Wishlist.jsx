@@ -47,16 +47,16 @@ const Wishlist = () => {
     return [
       {
         Header: "Product Image",
-        accessor: "productId.coverImage",
-        Cell: ({ row }) => {
+        accessor: "productId.images[0]",
+        Cell: ({ row }) => (
           <Link to={`/productInfo/${row.original.productId.slug}`}>
             <img
               className="w-10 h-10"
-              src={row.original.productId.coverImage}
+              src={row.original.productId.images[0]}
               alt=""
             />
-          </Link>;
-        },
+          </Link>
+        ),
       },
       {
         Header: "Product Name",

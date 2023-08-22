@@ -102,12 +102,12 @@ const ProductInfo = () => {
     const response = await API_WRAPPER.get(`/product/${slug}`);
     if (response.data) {
       setProduct(response.data);
-      setSelectedImage(response.data.images[0]);
+      console.log("RESPONSE PRODUCT DATA:", response.data);
+      // cheanged to cover image instead of first index of images arr
+      setSelectedImage(response.data.coverImage);
     }
   };
 
-  console.log(product);
-  console.log(product);
   useEffect(() => {
     // Set the slug parameter from the URL
     setSlug(params.slug);
@@ -130,24 +130,37 @@ const ProductInfo = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-8">
         <div className="col-span-1">
           <InnerImageZoom src={selectedImage} />
-          {/* <img src={selectedImage} alt="primary image" /> */}
           <div className="flex flex-wrap gap-2 md:gap-4">
-            {product?.images.map((image) => {
-              return (
-                <Card key={nanoid()} className="">
-                  <img
-                    onClick={() => {
-                      setSelectedImage(image);
-                    }}
-                    src={image}
-                    className="w-16 cursor-pointer hover:scale-110"
-                    alt=""
-                  />
-                </Card>
-              );
-            })}
+            {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
+            {product?.images && product.images.length > 0
+              ? product.images.map((image) => (
+                  <Card key={nanoid()} className="">
+                    <img
+                      onClick={() => {
+                        setSelectedImage(image);
+                      }}
+                      src={image}
+                      className="w-16 cursor-pointer hover:scale-110"
+                      alt=""
+                    />
+                  </Card>
+                ))
+              : product?.variants.map((variantObj) => {
+                  return (
+                    <img
+                      className="w-16 cursor-pointer hover:scale-110"
+                      key={nanoid()}
+                      src={variantObj.images[0]}
+                      alt=""
+                      onClick={() => {
+                        setSelectedImage(variantObj.images[0]);
+                      }}
+                    />
+                  );
+                })}
           </div>
         </div>
+
         <div className="col-span-1 border-t md:border-l lg:border-l-0 md:border-t-0 lg:border-t flex flex-col items-center justify-center px-4 ">
           <h1 className="font-bold text-2xl">{product?.name}</h1>
           <div className={"gap-2 md:gap-4 flex flex-col"}>
