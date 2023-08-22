@@ -55,6 +55,20 @@ import GradiantCardImgTwo from "../assets/shop/productImages/gradiantCardImgTwo.
 import GradiantCardImgThree from "../assets/shop/productImages/GradiantCardImgThree.png";
 import { BsMenuApp } from "react-icons/bs";
 import ProductCardMini from "../components/shop/cards/ProductCardMini";
+import TextureOne from "../assets/shop/bannerImages/texture1.jpg";
+import TextureTwo from "../assets/shop/bannerImages/texture2.jpg";
+import TextureThree from "../assets/shop/bannerImages/texture3.jpg";
+import TextureFour from "../assets/shop/bannerImages/texture4.jpg";
+import TextureFive from "../assets/shop/bannerImages/texture5.jpg";
+import TextureSIx from "../assets/shop/bannerImages/texture6.jpg";
+import TextureBrown from "../assets/shop/bannerImages/textureBrown.jpg";
+import TexturePink from "../assets/shop/bannerImages/texturePink.jpg";
+import TextureYellow from "../assets/shop/bannerImages/textureYellow.png";
+import TexturePurple from "../assets/shop/bannerImages/texturePurple.jpg.png";
+import TexturePaleYellow from "../assets/shop/bannerImages/texturePaleYellow.png";
+import GradiantImageThree from "../assets/shop/productImages/plant.png";
+import { Ratings, TimerComponent } from "../components";
+import { ShopIcon } from "../icons";
 
 // admin sidebar mapping
 export const adminSidebarMapping = [
@@ -388,156 +402,83 @@ export const gradiantCardListCardData = [
     title: "Spring Sale Coming",
     heading: "Smart Phone",
     subheading: "With Pen",
-    background: "bg-blue-200",
+    background: TexturePurple,
     image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "653A4F",
   },
   {
     id: nanoid(),
     title: "Spring Sale Coming",
     heading: "New Smart Phone",
     subheading: "With Touch",
-    background: "bg-green-200",
+    background: TexturePink,
     image: GradiantCardImgTwo,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "8d473f",
   },
   {
     id: nanoid(),
     title: "Spring Sale Coming",
-    heading: "Smart Watch",
-    subheading: "Android",
-    background: "bg-rose-200",
-    image: GradiantCardImgThree,
+    heading: "Smart Phone",
+    subheading: "With Pen",
+    background: TexturePaleYellow,
+    image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "83541e",
   },
 ];
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex" key={nanoid()}>
-    <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex justify-center md:justify-start gap-4 my-2">
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <ShopIcon />
         </div>
-
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
+        <Ratings rating={3.5} />
       </div>
-
-      <ProductCardMini
-        showBorder
-        title="One plus smart Watch"
-        image={GiftOnePng}
-      />
-    </div>
-  </div>,
-  <div className="flex" key={nanoid()}>
-    <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex justify-center md:justify-start gap-4 my-2">
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-      </div>
-
-      <div className="mx-14 ml-10">
-        <ProductCardMini
-          showBorder
-          title="One plus smart Watch"
-          image={GiftOnePng}
-        />
-      </div>
-    </div>
-  </div>,
-  <div className="flex" key={nanoid()}>
-    <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex justify-center md:justify-start gap-4 my-2">
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-        <div
-          className="radial-progress flex w-20 h-20 md:w-32 md:h-32 flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl md:text-5xl text-gray-300">
-            01
-          </span>
-          <p className=" text-lg md:text-xl">days</p>
-        </div>
-      </div>
-
       <div>
-        <ProductCardMini
-          showBorder
-          title="One plus smart Watch"
-          image={GiftOnePng}
-        />
+        <img src={GiftOnePng} alt="" />
+      </div>
+    </div>
+  </div>,
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <ShopIcon />
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div>
+        <img src={GiftOnePng} alt="" />
+      </div>
+    </div>
+  </div>,
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <ShopIcon />
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div>
+        <img src={GiftOnePng} alt="" />
       </div>
     </div>
   </div>,

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 // the component is to show all the features of the shop in a conscice manner
 const FeaturesCard = ({
@@ -15,7 +16,10 @@ const FeaturesCard = ({
   subHeadingFour,
 }) => {
   return (
-    <div className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 ">
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 "
+    >
       <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
         <div className="flex items-center gap-5 justify-center md:justify-start ">
           <div className="mr-2">{iconOne}</div>
@@ -65,7 +69,7 @@ const FeaturesCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 FeaturesCard.propTypes = {

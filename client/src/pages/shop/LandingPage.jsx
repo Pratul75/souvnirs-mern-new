@@ -8,12 +8,10 @@ import {
   FullWidthBannerCard,
   HalfWidthBannerCard,
   BrandsCard,
-  ImagesGrid,
   NewsLetterGrid,
 } from "../../components";
 import {
   BrandsCardImageList,
-  ImageGridMapping,
   blogCardData,
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
@@ -75,7 +73,6 @@ const LandingPage = () => {
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
-
       <ProductsListWithFilters
         heading="Top Seasonal Gifts"
         filters={productListFiltersAndProducts.filters}
@@ -84,7 +81,7 @@ const LandingPage = () => {
 
       <GradiantCardList cardData={gradiantCardListCardData} />
 
-      <div className="grid grid-cols-5 gap-4 mt-16">
+      <div className="grid grid-cols-5 gap-4 mt-16 h-[200px]">
         <ProductCarosel items={caroselMapppingDailyDeals} />
         <ProductTabs />
       </div>
@@ -94,14 +91,6 @@ const LandingPage = () => {
         imageOne={BudsImage}
         imageTwo={WatchImage}
       />
-
-      <div className="flex container mx-auto">
-        <div className="flex justify-between gap-10 w-full px-[50px]">
-          <SingleTab heading="Budget Buy" />
-          <SingleTab heading="Recently Added" />
-          <SingleTab heading="Trending Products" />
-        </div>
-      </div>
 
       <ProductsListWithFilters
         heading="Best Products at price"
@@ -127,8 +116,15 @@ const LandingPage = () => {
       <BrandsCard imagesList={BrandsCardImageList} />
 
       <TestimonialsCarosel />
+
+      <div className="flex container mx-auto">
+        <div className="flex justify-between gap-10 w-full px-[50px]">
+          <SingleTab heading="Budget Buy" />
+          <SingleTab heading="Recently Added" />
+          <SingleTab heading="Trending Products" />
+        </div>
+      </div>
       <BlogList blogItemsData={blogCardData} />
-      <ImagesGrid imagesData={ImageGridMapping} />
       <NewsLetterGrid
         backgroundImage={NewsLetterBanner}
         heading="Join our Newsletter"

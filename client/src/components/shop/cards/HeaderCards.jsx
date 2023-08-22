@@ -60,6 +60,7 @@ const HeaderCards = ({
           </div>
         </motion.div>
         <motion.div
+          whileHover={{ scale: 1.02 }} // Add this line for hover animation
           animate="animate"
           initial="initial"
           variants={fadeInFromRightVariant}
@@ -94,6 +95,7 @@ const HeaderCards = ({
           </div>
         </motion.div>
         <motion.div
+          whileHover={{ scale: 1.02 }} // Add this line for hover animation
           animate="animate"
           initial="initial"
           variants={fadeInFromRightVariant}

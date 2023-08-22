@@ -42,3 +42,4 @@ export { default as ProductTabs } from "./shop/components/ProductTabs";
 export { default as AddToCartCard } from "./shop/cards/AddToCartACard";
 export { default as ImagesGrid } from "./shop/components/ImagesGrid";
 export { default as NewsLetterGrid } from "./shop/components/NewsLetterGrid";
+export { default as TimerComponent } from "./shop/components/TimerComponent";

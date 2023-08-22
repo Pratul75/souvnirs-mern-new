@@ -7,7 +7,7 @@ const FullWidthBannerCard = ({
   subHeading,
 }) => {
   return (
-    <div className="flex flex-col w-full justify-center">
+    <div className="flex flex-col w-full justify-center mt-52">
       <div className=" py-10 bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white rounded-xl px-16 mt-16">
         <div className="hidden md:block w-96 h-full">
           <img
@@ -24,8 +24,8 @@ const FullWidthBannerCard = ({
             {subHeading}
           </h3>
           <div>
-            <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none">
-              I am button
+            <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none ">
+              Shop Now
             </button>
           </div>
         </div>

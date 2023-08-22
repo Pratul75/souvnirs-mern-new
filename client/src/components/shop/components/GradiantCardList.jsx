@@ -5,7 +5,16 @@ const GradiantCardList = ({ cardData }) => {
   return (
     <div className="grid grid-cols-3 gap-4 mt-16">
       {cardData?.map(
-        ({ id, title, heading, subheading, background, image, link }) => {
+        ({
+          id,
+          title,
+          heading,
+          subheading,
+          background,
+          image,
+          link,
+          btnColorCode,
+        }) => {
           return (
             <GradiantCard
               key={id}
@@ -15,6 +24,7 @@ const GradiantCardList = ({ cardData }) => {
               subheading={subheading}
               image={image}
               link={link}
+              btnColorCode={btnColorCode}
             />
           );
         }

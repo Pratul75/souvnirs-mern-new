@@ -17,7 +17,7 @@ const Carousel = ({ items }) => {
   };
 
   return (
-    <div className="col-span-5 md:col-span-2 h-full">
+    <div className="col-span-5 md:col-span-2">
       <div className="flex justify-between items-center px-4 py-2  bg-primary">
         <h4 className="text-2xl text-white">Daily Deals</h4>
         <div className="flex gap-4">
@@ -31,9 +31,7 @@ const Carousel = ({ items }) => {
           />
         </div>
       </div>
-      <div className="border-[1px] border-primary p-2 h-full flex justify-center items-center">
-        {items[currentIndex]}
-      </div>
+      <div className="border border-primary h-auto">{items[currentIndex]}</div>
     </div>
   );
 };
