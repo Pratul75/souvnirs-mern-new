@@ -218,13 +218,13 @@ const TestimonialsCarousel = () => {
       </AnimatePresence>
       <button
         onClick={prevTestimonial}
-        className="absolute btn btn-circle top-1/2 left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
+        className="absolute btn btn-circle top-2/3 left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
       >
         <FaArrowLeft />
       </button>
       <button
         onClick={nextTestimonial}
-        className="absolute btn btn-circle top-1/2 right-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
+        className="absolute btn btn-circle top-2/3 right-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
       >
         <FaArrowRight />
       </button>
