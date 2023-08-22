@@ -12,7 +12,7 @@ const testimonials = [
           {" "}
           Customer Reviews{" "}
         </h1>
-        <div className="grid grid-cols-3 gap-4 my-4">
+        <div className="grid grid-cols-3 gap-4 my-8">
           <div className="col-span-3 md:col-span-1 bg-white rounded-xl">
             <p className="p-4">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
@@ -20,7 +20,11 @@ const testimonials = [
               voluptatibus
             </p>
             <div className="bg-violet-600 hidden  p-4 md:flex gap-10 rounded-l-full">
-              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="avatar placeholder">
+                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                  <span className="text-3xl">K</span>
+                </div>
+              </div>
               <div className="flex flex-col text-white">
                 <h2>Merida Swan</h2>
                 <p>Chairman</p>
@@ -34,7 +38,11 @@ const testimonials = [
               voluptatibus
             </p>
             <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
-              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="avatar placeholder">
+                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                  <span className="text-3xl">K</span>
+                </div>
+              </div>
               <div className="flex flex-col text-white">
                 <h2>Merida Swan</h2>
                 <p>Chairman</p>
@@ -48,7 +56,11 @@ const testimonials = [
               voluptatibus
             </p>
             <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
-              <Avatar bgColor="bg-primary" initials="VB" />
+              <div className="avatar placeholder">
+                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                  <span className="text-3xl">K</span>
+                </div>
+              </div>
               <div className="flex flex-col text-white">
                 <h2>Merida Swan</h2>
                 <p>Chairman</p>
@@ -206,13 +218,13 @@ const TestimonialsCarousel = () => {
       </AnimatePresence>
       <button
         onClick={prevTestimonial}
-        className="absolute btn btn-circle top-2/3 md:top-1/2 left-0 md:left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
+        className="absolute btn btn-circle top-1/2 left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
       >
         <FaArrowLeft />
       </button>
       <button
         onClick={nextTestimonial}
-        className="absolute btn btn-circle top-2/3 md:top-1/2  right-0 md:left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
+        className="absolute btn btn-circle top-1/2 right-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
       >
         <FaArrowRight />
       </button>
