@@ -315,7 +315,15 @@ const ProductInfo = () => {
                   <option value="Black">Black</option>
                 </select>
               </div> */}
-              <button className="btn  mt-4 w-full">Get Quote</button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  request_quote_modal.showModal();
+                }}
+                className="btn cursor-pointer  mt-4 w-full"
+              >
+                Get Quote
+              </button>
             </div>
             <div className="col-span-1">
               <h1 className="text-sm">Description</h1>

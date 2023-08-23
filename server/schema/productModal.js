@@ -53,6 +53,7 @@ const productSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    minQuantity: { type: Number },
     freeShipping: {
       type: Boolean,
     },
