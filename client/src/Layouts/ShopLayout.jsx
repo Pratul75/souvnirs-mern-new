@@ -5,10 +5,13 @@ import {
   ShopFooter,
   ShopNavbar,
 } from "../components";
+import { useSelector } from "react-redux";
 
 const ShopLayout = ({ children }) => {
+  const loading = useSelector((x) => x.appConfig.loading);
+
   return (
-    <div>
+    <div className="overflow-x-hiddend">
       <TopHeader
         heading="World Wide Completely Free Returns and Free Shipping"
         language="English"
@@ -18,7 +21,7 @@ const ShopLayout = ({ children }) => {
       <div className="w-full  flex items-center justify-center">
         <ShopNavbar />
       </div>
-      {children}
+      <div className="mx-5 md:mx-16 flex flex-col">{children}</div>
       <ShopFooter />
     </div>
   );

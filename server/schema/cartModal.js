@@ -14,11 +14,11 @@ const CartSchema = new mongoose.Schema(
     },
     product_name: {
       type: String,
-      required: true,
+      // required: true,
     },
     product_price: {
       type: Number,
-      required: true,
+      // required: true,
     },
     product_quantity: {
       type: Number,
@@ -35,6 +35,10 @@ const CartSchema = new mongoose.Schema(
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
+    },
+    checkedOut: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

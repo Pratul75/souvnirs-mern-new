@@ -1,6 +1,7 @@
 @import "react-toastify/dist/ReactToastify.css";
 @import "react-tooltip/dist/react-tooltip.css";
 @import url(https://fonts.googleapis.com/css?family=Plus+Jakarta+Sans:200,300,regular,500,600,700,800,200italic,300italic,italic,500italic,600italic,700italic,800italic);
+@import url(https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -41,6 +42,8 @@ body {
   scrollbar-color: #888 #f1f1f1;
 }
 */
+
+/* this styles is of no use as its not reflected in the select component */
 
 .rmsc {
   --rmsc-main: #4285f4 !important;
@@ -100,4 +103,56 @@ body {
 .chart-container {
   height: 100px;
   width: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+}
+
+body {
+  scroll-snap-type: y mandatory;
+}
+
+/* Create the bounce effect */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.2);
+  }
+  40% {
+    transform: translateY(-20px);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  60% {
+    transform: translateY(-10px);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+.scroll-element {
+  /* Apply the bounce animation */
+  animation: bounce 2s;
+
+  /* Enable scroll snapping */
+  scroll-snap-align: start;
+}
+
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.card_animation {
+  animation: fadeInCard 5s forwards;
 }

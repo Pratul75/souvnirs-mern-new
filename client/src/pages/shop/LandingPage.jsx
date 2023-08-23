@@ -4,41 +4,67 @@ import {
   ProductsListWithFilters,
   GradiantCardList,
   ProductCarosel,
-  ProductTabs,
   FullWidthBannerCard,
   HalfWidthBannerCard,
   BrandsCard,
-  ImagesGrid,
-  NewsLetterGrid,
+  Tabs,
+  Ratings,
+  ScrollAnimationWrapper,
 } from "../../components";
-import BigCardBackground from "../../assets/shop/cardImages/bigCardBackground.jpg";
-import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
-import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
-import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
-import HalfWidthBannerImgTwo from "../../assets/shop/cardImages/halfWidthCardImgTwo.png";
-import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
-import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
-import { LiaShippingFastSolid } from "react-icons/lia";
-import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import {
   BrandsCardImageList,
-  ImageGridMapping,
   blogCardData,
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
   productListFiltersAndProducts,
 } from "../../mappings";
+import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
+import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
+import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
+import HalfWidthBannerImgTwo from "../../assets/shop/cardImages/halfWidthCardImgTwo.png";
+import BannerProductImgOne from "../../assets/shop/productImages/bannerProduct.png";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
+import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
+import { LiaShippingFastSolid } from "react-icons/lia";
+import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
+import BudsImage from "../../assets/shop/productImages/buds.png";
+import WatchImage from "../../assets/shop/productImages/watch.png";
+import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
-import FilterProducts from "../../components/shop/components/FilterProducts";
+import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
+import TvImagePng from "../../assets/shop/productImages/tvImage.png";
+import SingleTab from "./SingleTab";
+import { ShopIcon } from "../../icons";
+import { useEffect, useState } from "react";
+import API_WRAPPER from "../../api";
+import { debouncedShowToast } from "../../utils";
 
 const LandingPage = () => {
+  const [productsList, setProductList] = useState([]);
+  const getAllProducts = async () => {
+    try {
+      const response = await API_WRAPPER.get("products/get-all-products");
+      if (response.status === 200) {
+        setProductList(response.data);
+        console.log("PRODUCTS DATA: ", response.data);
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+  useEffect(() => {
+    getAllProducts();
+  }, []);
   return (
-    <div className="w-screen h-auto">
+    <div>
       <HeaderCards
-        mainImage={BigCardBackground}
+        mainImage={MainBannerPng}
         secondaryImageOne={SmallCardBackgroundOne}
         secondaryImageTwo={SmallCardBackgroundTwo}
+        productImgOne={BannerProductImgOne}
+        productImageTwo={BannerImageTwo}
+        productImageThree={TvImagePng}
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
@@ -51,17 +77,17 @@ const LandingPage = () => {
       />
       <FeaturesCard
         iconOne={
-          <HiOutlineChatBubbleLeftRight className="text-2xl text-primary" />
+          <HiOutlineChatBubbleLeftRight className="text-4xl text-primary" />
         }
         headingOne="SUPPORT 24/7"
         subHeadingOne="Dedicate 24/7 Support"
-        iconTwo={<BsBoxSeam className="text-2xl text-primary" />}
+        iconTwo={<BsBoxSeam className="text-4xl text-primary" />}
         headingTwo="EASY RETURNS"
         subHeadingTwo="Shop With Confidence"
-        iconThree={<BsCreditCard2Front className="text-2xl text-primary" />}
+        iconThree={<BsCreditCard2Front className="text-4xl text-primary" />}
         headingThree="CARD PAYMENT"
         subHeadingThree="12 Months Installments"
-        iconFour={<LiaShippingFastSolid className="text-2xl text-primary" />}
+        iconFour={<LiaShippingFastSolid className="text-4xl text-primary" />}
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
@@ -70,19 +96,139 @@ const LandingPage = () => {
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />
+
       <GradiantCardList cardData={gradiantCardListCardData} />
-      <div className="grid grid-cols-3 gap-4 mx-16 mt-4">
-        <ProductCarosel items={caroselMapppingDailyDeals} />
-        <ProductTabs />
-      </div>
+
+      <ScrollAnimationWrapper>
+        <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
+          <ProductCarosel items={caroselMapppingDailyDeals} />
+          <div className="col-span-3">
+            <Tabs
+              alignCenter
+              tabs={[
+                {
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Item 1 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Item 2 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Item 3 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Item 4 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ),
+                  label: "CONTENT 1",
+                },
+                { content: "I AM CONTENT 2", label: "CONTENT 2" },
+                { content: "I AM CONTENT 3", label: "CONTENT 3" },
+              ]}
+            />
+          </div>
+        </div>
+      </ScrollAnimationWrapper>
+
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"
         subHeading="On Your Entire Order"
-        imageOne={GiftOnePngImage}
-        imageTwo={GiftOnePngImage}
+        imageOne={BudsImage}
+        imageTwo={WatchImage}
       />
+
       <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
+        heading="Best Products at price"
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
       />
@@ -103,14 +249,17 @@ const LandingPage = () => {
         }
       />
       <BrandsCard imagesList={BrandsCardImageList} />
+
       <TestimonialsCarosel />
+
+      <div className="flex justify-between mt-32">
+        <div className="flex flex-col md:flex-row my-16">
+          <SingleTab productsList={productsList} heading="Budget Buy" />
+          <SingleTab productsList={productsList} heading="Recently Added" />
+          <SingleTab productsList={productsList} heading="Trending Products" />
+        </div>
+      </div>
       <BlogList blogItemsData={blogCardData} />
-      <ImagesGrid imagesData={ImageGridMapping} />
-      <NewsLetterGrid
-        heading="Join our Newsletter"
-        subheading="Join our newsletter and get 20$ discount for your first order"
-      />
-      {/* <FilterProducts /> */}
     </div>
   );
 };

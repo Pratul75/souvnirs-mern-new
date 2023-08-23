@@ -30,16 +30,10 @@ const AddProduct = () => {
   const [img, setImg] = useState();
   const [preview, setPreview] = useState();
   const product = useSelector((state) => state);
-  console.log("AddProduct.jsx", product);
   const uploadToCloud = async (file) => {
     const uploaded = await cloudinary.v2.uploader.upload(file);
-    console.log("AddProduct.jsx", uploaded);
   };
   const dispatch = useDispatch();
-
-  // Function to generate all possible combinations of multiple arrays as strings
-
-  // Example of usage:
 
   // get all categories
   console.log("AddProduct.jsx", selectedAttributes);
@@ -64,8 +58,6 @@ const AddProduct = () => {
         if (vendorsList.length == 1) {
           debouncedShowToast("vendor list is empty array", "error");
         }
-        console.log("AddProduct.jsx", vendorsList.length);
-        console.log("VENDORS LIST RESPONSE: ", response?.data);
       }
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
@@ -77,7 +69,6 @@ const AddProduct = () => {
   //   );
   //   setAttArr(response.data);
   // };
-  console.log("AddProduct.jsx");
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -185,12 +176,9 @@ const AddProduct = () => {
   //     debouncedShowToast(data, "success");
   //   }
   // };
-  console.log(selectedAttributes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("AddProduct.jsx", { ...formData, description, tagsArray });
 
     // postProduct();
 
@@ -206,11 +194,8 @@ const AddProduct = () => {
     dispatch(setProduct({ ...formData, description, tags: tagsArray }));
     navigate(PATHS.adminAddProductAttributes);
     // postProduct();
-
-    console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
   const p = useSelector((state) => state.product);
-  console.log({ ...formData, description, tags: tagsArray });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -227,12 +212,9 @@ const AddProduct = () => {
       setTagValue("");
     }
   };
-  console.log("AddProduct.jsx", attrValue);
 
   // Example usage:
   const dataArray = [];
-
-  console.log(dataArray);
 
   // Function to handle attribute values input changes
   const handleAttriibuteValues = (e) => {
@@ -249,8 +231,6 @@ const AddProduct = () => {
     setTagsArray(filteredTags);
   };
 
-  console.log("AddProduct.jsx", img);
-
   useEffect(() => {
     getAllCategories();
     getAllVendors();
@@ -259,12 +239,9 @@ const AddProduct = () => {
   useEffect(() => {
     if (formData.img) {
       const imageUrl = URL.createObjectURL(formData.img[0]);
-      console.log("AddProduct.jsx", imageUrl);
       setPreview(imageUrl);
     }
   }, [formData.img]);
-
-  console.log("AddProduct.jsx", selectedCategory);
 
   return (
     <div>
@@ -290,7 +267,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="name"
                 id=""
@@ -312,7 +289,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
               >
                 <option disabled selected>
@@ -330,7 +307,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="readyToShip"
               >
                 <option disabled selected>
@@ -348,7 +325,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="freeShipping"
               >
                 <option disabled selected>
@@ -400,7 +377,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="vendorId"
                 value={formData.vendorId}
               >
@@ -410,7 +387,7 @@ const AddProduct = () => {
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>
-                      {vendor.firstName}
+                      {vendor?.firstName ? vendor.firstName : vendor?.email}
                     </option>
                   );
                 })}
@@ -430,7 +407,7 @@ const AddProduct = () => {
                 onChange={handleTagInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter a tag and press Enter"
-                className="input input-accent"
+                className="input input-primary"
               />
               <div className="mt-4 flex gap-4 flex-wrap">
                 {tagsArray.map((tag, index) => (
@@ -459,7 +436,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent  w-full"
+                className="input input-primary  w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
@@ -481,7 +458,7 @@ const AddProduct = () => {
             </h3>
             <hr className="mt-4" />
 
-            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
+            <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
                 accept={".jpeg,.png"}
                 onFilesChange={(data) => {
@@ -502,7 +479,7 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
-            <button onClick={handleSubmit} className="btn btn-accent mt-4">
+            <button onClick={handleSubmit} className="btn btn-primary mt-4">
               Next
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>

@@ -36,9 +36,11 @@ export { default as FullWidthBannerCard } from "./shop/cards/FullWidthBannerCard
 export { default as BrandsCard } from "./shop/cards/BrandsCard";
 export { default as HalfWidthBannerCard } from "./shop/cards/HalfWidthBannerCard";
 export { default as SouvnirsHeader } from "./shop/headers/SouvnirsHeader";
+export { default as NewsLetterGrid } from "./shop/components/NewsLetterGrid";
+export { default as ImagesGrid } from "./shop/components/ImagesGrid";
 export { default as ShopNavbar } from "./shop/headers/ShopNavbar";
 export { default as ShopFooter } from "./shop/footer";
 export { default as ProductTabs } from "./shop/components/ProductTabs";
 export { default as AddToCartCard } from "./shop/cards/AddToCartACard";
-export { default as ImagesGrid } from "./shop/components/ImagesGrid";
-export { default as NewsLetterGrid } from "./shop/components/NewsLetterGrid";
+export { default as TimerComponent } from "./shop/components/TimerComponent";
+export { default as ScrollAnimationWrapper } from "../components/ScrollAnimationWrapper";

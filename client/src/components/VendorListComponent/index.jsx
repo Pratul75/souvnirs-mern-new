@@ -14,12 +14,14 @@ const VendorListComponent = ({ firstName, lastName }) => {
       <div>
         <Avatar
           bgColor={getRandomColor()}
-          initials={`${firstName[0]}${lastName[0]}`}
+          initials={
+            firstName ? `${firstName[0]}${lastName[0]}` : "vendor surname"
+          }
         />
       </div>
       <div>
         <h3>
-          {firstName} {lastName}
+          {firstName ?? "vendor"} {lastName ?? "surname"}
         </h3>
       </div>
     </div>

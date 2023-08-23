@@ -1,4 +1,8 @@
+import { motion } from "framer-motion";
 import PropTypes from "prop-types";
+import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+
+// the component is to show all the features of the shop in a conscice manner
 const FeaturesCard = ({
   iconOne,
   iconTwo,
@@ -14,38 +18,59 @@ const FeaturesCard = ({
   subHeadingFour,
 }) => {
   return (
-    <div className="mx-16 bg-[#F0F2F5] p-4 py-8 my-4 rounded-xl">
-      <div className="flex-col md:flex-row flex  justify-center md:justify-between px-8">
-        <div className="flex items-center gap-2 ">
-          <div>{iconOne}</div>
-          <div>
-            <h3 className="font-semibold text-sm">{headingOne}</h3>
-            <p className="text-xs">{subHeadingOne}</p>
+    <ScrollAnimationWrapper>
+      <div className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 shadow-lg ">
+        <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
+          <div className="flex items-center gap-5 justify-center md:justify-start ">
+            <div className="mr-2">{iconOne}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingOne}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingOne}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div>{iconTwo}</div>
-          <div>
-            <h3 className="font-semibold text-sm">{headingTwo}</h3>
-            <p className="text-xs">{subHeadingTwo}</p>
+          <div className="divider divide-[#ededed] lg:divider-horizontal "></div>
+          <div className="flex items-center justify-center md:justify-start gap-5">
+            <div className="mr-2">{iconTwo}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingTwo}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingTwo}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div>{iconThree}</div>
-          <div>
-            <h3 className="font-semibold text-sm">{headingThree}</h3>
-            <p className="text-xs">{subHeadingThree}</p>
+          <div className="divider lg:divider-horizontal"></div>
+          <div className="flex items-center gap-5 justify-center md:justify-start">
+            <div className="mr-2">{iconThree}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingThree}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingThree}
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <div>{iconFour}</div>
-          <div>
-            <h3 className="font-semibold text-sm">{headingFour}</h3>
-            <p className="text-xs">{subHeadingFour}</p>
+          <div className="divider lg:divider-horizontal"></div>
+          <div className="flex items-center gap-5 justify-center md:justify-start">
+            <div className="mr-2">{iconFour}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingFour}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingFour}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ScrollAnimationWrapper>
   );
 };
 FeaturesCard.propTypes = {

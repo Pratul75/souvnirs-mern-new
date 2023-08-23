@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 const ImagesGrid = ({ imagesData }) => {
   return (
-    <div className="grid grid-cols-7 mt-4">
+    <div className="grid grid-cols-7 mt-16">
       {imagesData.map(({ image, alt }) => (
         <div key={alt}>
           <img src={image} alt={alt} />

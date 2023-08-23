@@ -31,12 +31,45 @@ import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.
 import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
 import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
 import LenovoImage from "../assets/shop/brandImages/lenovo.png";
+import PrestigeLogo from "../assets/shop/brandImages/prestigeLogo.png";
+import VeromodaLogo from "../assets/shop/brandImages/veromodaLogo.png";
+import BorosilLogo from "../assets/shop/brandImages/borosilLogo.png";
+import XechLogo from "../assets/shop/brandImages/xechLogo.png";
+import BoatLogo from "../assets/shop/brandImages/boatLogo.png";
+import ParkAvenueLogo from "../assets/shop/brandImages/parkavenue.png";
+import PumaLogo from "../assets/shop/brandImages/pumaLogo.png";
+import BajajLogo from "../assets/shop/brandImages/bajajLogo.png";
+import HavellsLogo from "../assets/shop/brandImages/havellsLogo.png";
+import PoliceLogo from "../assets/shop/brandImages/policeLogo.png";
+import BeardLogo from "../assets/shop/brandImages/beardLogo.png";
+import WildcraftLogo from "../assets/shop/brandImages/wildcraftLogo.png";
+import PigeonLogo from "../assets/shop/brandImages/pigeonLogo.png";
+import WonderChefLogo from "../assets/shop/brandImages/wonderchefLogo.png";
+import TitanLogo from "../assets/shop/brandImages/titanLogo.png";
 import ImageGridImageOne from "../assets/shop/cardImages/imageGridImageOne.png";
 import ImageGridImageTwo from "../assets/shop/cardImages/imageGridImageTwo.png";
 import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.png";
 import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
-import { Ratings } from "../components";
+import GradiantCardImgOne from "../assets/shop/productImages/gradiantCardImgOne.png";
+import GradiantCardImgTwo from "../assets/shop/productImages/gradiantCardImgTwo.png";
+import GradiantCardImgThree from "../assets/shop/productImages/GradiantCardImgThree.png";
 import { BsMenuApp } from "react-icons/bs";
+import ProductCardMini from "../components/shop/cards/ProductCardMini";
+import TextureOne from "../assets/shop/bannerImages/texture1.jpg";
+import TextureTwo from "../assets/shop/bannerImages/texture2.jpg";
+import TextureThree from "../assets/shop/bannerImages/texture3.jpg";
+import TextureFour from "../assets/shop/bannerImages/texture4.jpg";
+import TextureFive from "../assets/shop/bannerImages/texture5.jpg";
+import TextureSIx from "../assets/shop/bannerImages/texture6.jpg";
+import TextureBrown from "../assets/shop/bannerImages/textureBrown.jpg";
+import TexturePink from "../assets/shop/bannerImages/texturePink.jpg";
+import TextureYellow from "../assets/shop/bannerImages/textureYellow.png";
+import TexturePurple from "../assets/shop/bannerImages/texturePurple.jpg.png";
+import TexturePaleYellow from "../assets/shop/bannerImages/texturePaleYellow.png";
+import GradiantImageThree from "../assets/shop/productImages/plant.png";
+import { Ratings, TimerComponent } from "../components";
+import { ShopIcon } from "../icons";
+
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -287,15 +320,15 @@ export const productListFiltersAndProducts = {
   filters: [
     {
       id: nanoid(),
-      name: "Audio",
+      name: "Seasonal",
     },
     {
       id: nanoid(),
-      name: "Gaming",
+      name: "Electronics",
     },
     {
       id: nanoid(),
-      name: "Headphones",
+      name: "Budget",
     },
   ],
   products: [
@@ -339,6 +372,26 @@ export const productListFiltersAndProducts = {
       badgeText: "-20%",
       image: GiftOnePng,
     },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "99",
+      rating: 4.5,
+      badgeColor: "badge-info",
+      badgeText: "-20%",
+      image: GiftOnePng,
+    },
+    {
+      id: nanoid(),
+      title: "Game Trigger Finger New",
+      price: "260",
+      discountPrice: "99",
+      rating: 4.5,
+      badgeColor: "badge-info",
+      badgeText: "-20%",
+      image: GiftOnePng,
+    },
   ],
 };
 
@@ -349,145 +402,154 @@ export const gradiantCardListCardData = [
     title: "Spring Sale Coming",
     heading: "Smart Phone",
     subheading: "With Pen",
-    background: GradiantCardOneBackground,
-    image: GiftOnePng,
+    background: TexturePurple,
+    image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "653A4F",
   },
   {
     id: nanoid(),
     title: "Spring Sale Coming",
     heading: "New Smart Phone",
     subheading: "With Touch",
-    background: GradiantCardTwoBackground,
-    image: GiftOnePng,
+    background: TexturePink,
+    image: GradiantCardImgTwo,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "8d473f",
   },
   {
     id: nanoid(),
     title: "Spring Sale Coming",
-    heading: "Smart Watch",
-    subheading: "Android",
-    background: GradiantCardThreeBackground,
-    image: GiftOnePng,
+    heading: "Smart Phone",
+    subheading: "With Pen",
+    background: TexturePaleYellow,
+    image: GradiantCardImgOne,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
+    btnColorCode: "83541e",
   },
 ];
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex" key={nanoid()}>
-    <div className="flex flex-col  gap-4 mt-4 py-2">
-      <div className="flex  gap-4 my-2">
-        <div
-          className="radial-progress flex  flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
-          <p>days</p>
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <ShopIcon />
         </div>
-
-        <div
-          className="radial-progress flex  flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
-          <p>days</p>
-        </div>
-        <div
-          className="radial-progress flex  flex-col items-center"
-          style={{ "--value": 70 }}
-        >
-          <span className="font-extrabold text-2xl text-gray-300">06</span>
-          <p>days</p>
-        </div>
+        <Ratings rating={3.5} />
       </div>
-
       <div>
-        <p>Cosmos Bold Pro Smart Watch</p>
-        <p className="text-bold text-primary text-xl">$256.00</p>
-        <Ratings rating={4.5} />
+        <img src={GiftOnePng} alt="" />
       </div>
     </div>
-    <div>
-      <img src={GiftOnePng} alt="" />`
+  </div>,
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <ShopIcon />
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div>
+        <img src={GiftOnePng} alt="" />
+      </div>
     </div>
   </div>,
-
-  <div key={nanoid()} className="bg-green-500 p-4">
-    Item 2
-  </div>,
-  <div key={nanoid()} className="bg-yellow-500 p-4">
-    Item 3
+  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-09-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div>
+        <img src={GiftOnePng} alt="" />
+      </div>
+    </div>
   </div>,
 ];
 
 export const BrandsCardImageList = [
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PrestigeLogo,
+    alt: "prestige",
+  },
+  {
+    image: VeromodaLogo,
+    alt: "veromoda",
+  },
+  {
+    image: BorosilLogo,
+    alt: "borosil",
   },
   {
     image: LenovoImage,
     alt: "lenovo",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: XechLogo,
+    alt: "xech",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BoatLogo,
+    alt: "boat",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: ParkAvenueLogo,
+    alt: "parkavenue",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: TitanLogo,
+    alt: "titan",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PumaLogo,
+    alt: "puma",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BajajLogo,
+    alt: "bajaj",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: HavellsLogo,
+    alt: "havells",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PoliceLogo,
+    alt: "police",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: BeardLogo,
+    alt: "beard",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: WildcraftLogo,
+    alt: "wildcraft",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: PigeonLogo,
+    alt: "pigeon",
   },
   {
-    image: LenovoImage,
-    alt: "lenovo",
-  },
-  {
-    image: LenovoImage,
-    alt: "lenovo",
-  },
-  {
-    image: LenovoImage,
-    alt: "lenovo",
+    image: WonderChefLogo,
+    alt: "wonderchef",
   },
 ];
 

@@ -70,17 +70,21 @@ import {
   Checkout,
   CompareProducts,
   OrderSuccess,
+  Wishlist,
+  Blogs,
 } from "../pages";
+
 import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor";
-import Wishlist from "../pages/admin/Wishlist";
+import AdminWishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";
 import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";
+import Products from "../pages/shop/Products";
 // admin routes
 export const adminRoutes = [
   {
@@ -303,7 +307,7 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminWishlist,
     defaultRole: "admin",
-    Component: Wishlist,
+    Component: AdminWishlist,
   },
   {
     id: nanoid(),
@@ -481,6 +485,11 @@ export const customerRoutes = [
 export const shopRoutes = [
   {
     id: nanoid(),
+    path: PATHS.landingPage,
+    Component: LandingPage,
+  },
+  {
+    id: nanoid(),
     path: `${PATHS.shopCategory}/:slug`,
     Component: CategoryProducts,
   },
@@ -491,17 +500,13 @@ export const shopRoutes = [
   },
   {
     id: nanoid(),
-    path: `${PATHS.shopProduct}/:slug`,
-    Component: LandingPage,
+    path: `${PATHS.shopProduct}`,
+    Component: Products,
   },
+
   {
     id: nanoid(),
-    path: PATHS.landingPage,
-    Component: LandingPage,
-  },
-  {
-    id: nanoid(),
-    path: PATHS.productInfo,
+    path: `${PATHS.productInfo}/:slug`,
     Component: ProductInfo,
   },
   {
@@ -523,5 +528,15 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.orderSuccess,
     Component: OrderSuccess,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.shopWishlist,
+    Component: Wishlist,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.blogs,
+    Component: Blogs,
   },
 ];

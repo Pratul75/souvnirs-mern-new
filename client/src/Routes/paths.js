@@ -75,6 +75,7 @@ export const PATHS = {
   customerProfile: "/customer/profile",
   customerRefunds: "/customer/refunds",
   customerReplacements: "/customer/replacements",
+
   customerWishlist: "/customer/wishlist",
 
   // shop routes
@@ -82,7 +83,7 @@ export const PATHS = {
   shop: "/shop",
   shopCollection: "/collection",
   shopCategory: "category",
-  shopProduct: "/product",
+  shopProduct: "/products",
   shopPage: "/page",
   // TODO: newed to change it as per the params
   productInfo: "/productInfo",
@@ -90,4 +91,6 @@ export const PATHS = {
   compareProduct: "/compare_product",
   cartPage: "/cart_page",
   checkout: "/checkout",
+  shopWishlist: "/shop/wishlist",
+  blogs: "/blogs",
 };

@@ -22,7 +22,6 @@ export const useAuth = () => {
     }
   }
   if (user || vendor || admin) {
-    console.log("ProtectedRoute.jsx", role);
     return {
       auth: true,
       role: role,

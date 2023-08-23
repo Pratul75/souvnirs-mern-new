@@ -165,6 +165,7 @@ const FilterProducts = () => {
             {filterType ? (
               <>
                 <ProductCardMini
+                  showBorder
                   id={nanoid()}
                   price={300}
                   rating={4.5}
@@ -172,6 +173,7 @@ const FilterProducts = () => {
                   image={GiftOneImage}
                 />
                 <ProductCardMini
+                  showBorder
                   id={nanoid()}
                   price={300}
                   rating={4.5}

@@ -11,11 +11,11 @@ const WishlistSchema = new mongoose.Schema({
   },
   productName: {
     type: String,
-    required: true,
+    // required: true,
   },
   productPrice: {
     type: String,
-    required: true,
+    // required: true,
   },
   productImages: [],
   status: {
@@ -25,5 +25,5 @@ const WishlistSchema = new mongoose.Schema({
   },
 });
 
-const Wishlist = mongoose.model('Wishlist', WishlistSchema)
-module.exports = Wishlist
+const Wishlist = mongoose.model("Wishlist", WishlistSchema);
+module.exports = Wishlist;

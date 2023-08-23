@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
 
 const NewsLetterGrid = ({
   backgroundImage,
@@ -19,35 +20,47 @@ const NewsLetterGrid = ({
     }
   };
 
+  const containerStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  };
+
   return (
-    <div className="flex w-full justify-center mx-16">
-      <div className="w-3/4 bg-white rounded-lg shadow-md p-6">
-        <img
-          className="object-cover mb-4"
-          src={backgroundImage}
-          alt="newsletter"
-        />
-        <div>
-          <h1 className="text-3xl font-semibold mb-2">{heading}</h1>
-          <h6 className="text-xs text-gray-500 mb-4">{subheading}</h6>
-        </div>
-        <div className="flex">
-          <input
-            className="flex-1 rounded-l-md py-2 px-4 border border-gray-300 focus:outline-none"
-            type="text"
-            placeholder="Enter your Email"
-            value={email}
-            onChange={handleInputChange}
-          />
-          <button
-            className="bg-blue-500 hover:bg-blue-600 text-white rounded-r-md py-2 px-4 transition duration-300"
-            onClick={handleSubscribe}
-          >
-            Subscribe
-          </button>
+    <ScrollAnimationWrapper>
+      <div className="flex mt-8 md:mt-16 justify-center">
+        <div
+          className="bg-white rounded-lg shadow-md p-4 md:p-6 w-full md:w-[480px] lg:w-[600px] xl:w-[1200px]"
+          style={containerStyle}
+        >
+          <div className="py-3 md:py-5">
+            <h1 className="text-2xl md:text-4xl text-center text-white font-semibold mb-2">
+              {heading}
+            </h1>
+            <h6 className="text-xs md:text-sm text-center text-white mb-4">
+              {subheading}
+            </h6>
+          </div>
+          <div className="w-full justify-center flex">
+            <div className="flex w-full md:w-1/2">
+              <input
+                className="flex-1 border-b py-2 px-2 md:px-4 focus:outline-none bg-transparent text-black md:text-white"
+                type="text"
+                placeholder="Enter your Email"
+                value={email}
+                onChange={handleInputChange}
+              />
+              <button
+                className="border-b text-black md:text-white py-2 px-2 md:px-4 mx-2 md:mx-4 transition duration-300 hover:bg-black hover:text-white"
+                onClick={handleSubscribe}
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </ScrollAnimationWrapper>
   );
 };
 

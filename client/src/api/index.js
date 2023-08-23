@@ -1,9 +1,8 @@
 import axios from "axios";
 
-let API_WRAPPER
+let API_WRAPPER;
 // Create an instance of Axios
 if (process.env.NODE_ENV === "development") {
-
   API_WRAPPER = axios.create({
     baseURL: "http://localhost:8080/",
   });

@@ -26,7 +26,7 @@ router.post(
 );
 router.get(
   "/collection/get-all-collections",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getAllCollections
 );
 router.get(

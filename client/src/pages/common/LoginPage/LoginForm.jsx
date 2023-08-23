@@ -59,7 +59,6 @@ const LoginForm = () => {
         const token = response?.data?.token;
         const { id, role, userName } = decodeToken(token);
         console.log("DECODED TOKEN OBJECTS: ", { id, role, userName });
-        debouncedShowToast("You are logged in", "success");
 
         if (response?.data) {
           localStorage.setItem("role", JSON.stringify(role));
@@ -68,7 +67,25 @@ const LoginForm = () => {
           if (response?.data?.token) {
             dispatch(getLoginInfo(role));
             localStorage.setItem("token", JSON.stringify(token));
-            return <Navigate to={PATHS.adminDashboard} />;
+            const cartItems = localStorage.getItem("cart");
+            const wishlistItems = localStorage.getItem("wishlist");
+
+            const parsedWishlist = JSON.parse(wishlistItems);
+            const parsedCart = JSON.parse(cartItems);
+            for (let wishlist of parsedWishlist) {
+              console.log("LoginForm.jsx", wishlist);
+              const response = await API_WRAPPER.post("/wishlist/create", {
+                productId: wishlist,
+              });
+            }
+            for (let cart of parsedCart) {
+              const response = await API_WRAPPER.post("/cart/create", cart);
+            }
+            debouncedShowToast("You are logged in", "success");
+            if (role) {
+              console.log("ROLE EXISTS", role);
+              return <Navigate to={PATHS.landingPage} />;
+            }
           }
         }
       }
@@ -93,7 +110,7 @@ const LoginForm = () => {
               className="btn btn-ghost float-right mr-8"
             >
               {" "}
-              <BiArrowBack /> Go Back
+              <BiArrowBack /> Shop
             </Link>
           </div>
 
