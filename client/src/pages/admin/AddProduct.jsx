@@ -30,10 +30,8 @@ const AddProduct = () => {
   const [img, setImg] = useState();
   const [preview, setPreview] = useState();
   const product = useSelector((state) => state);
-  console.log("AddProduct.jsx", product);
   const uploadToCloud = async (file) => {
     const uploaded = await cloudinary.v2.uploader.upload(file);
-    console.log("AddProduct.jsx", uploaded);
   };
   const dispatch = useDispatch();
 
@@ -64,8 +62,6 @@ const AddProduct = () => {
         if (vendorsList.length == 1) {
           debouncedShowToast("vendor list is empty array", "error");
         }
-        console.log("AddProduct.jsx", vendorsList.length);
-        console.log("VENDORS LIST RESPONSE: ", response?.data);
       }
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
@@ -77,7 +73,6 @@ const AddProduct = () => {
   //   );
   //   setAttArr(response.data);
   // };
-  console.log("AddProduct.jsx");
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -185,12 +180,9 @@ const AddProduct = () => {
   //     debouncedShowToast(data, "success");
   //   }
   // };
-  console.log(selectedAttributes);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log("AddProduct.jsx", { ...formData, description, tagsArray });
 
     // postProduct();
 
@@ -206,11 +198,8 @@ const AddProduct = () => {
     dispatch(setProduct({ ...formData, description, tags: tagsArray }));
     navigate(PATHS.adminAddProductAttributes);
     // postProduct();
-
-    console.log("SUBMIT FORM TRIGGERED FOR ADD PRODUCT");
   };
   const p = useSelector((state) => state.product);
-  console.log({ ...formData, description, tags: tagsArray });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -227,12 +216,9 @@ const AddProduct = () => {
       setTagValue("");
     }
   };
-  console.log("AddProduct.jsx", attrValue);
 
   // Example usage:
   const dataArray = [];
-
-  console.log(dataArray);
 
   // Function to handle attribute values input changes
   const handleAttriibuteValues = (e) => {
@@ -249,8 +235,6 @@ const AddProduct = () => {
     setTagsArray(filteredTags);
   };
 
-  console.log("AddProduct.jsx", img);
-
   useEffect(() => {
     getAllCategories();
     getAllVendors();
@@ -259,12 +243,9 @@ const AddProduct = () => {
   useEffect(() => {
     if (formData.img) {
       const imageUrl = URL.createObjectURL(formData.img[0]);
-      console.log("AddProduct.jsx", imageUrl);
       setPreview(imageUrl);
     }
   }, [formData.img]);
-
-  console.log("AddProduct.jsx", selectedCategory);
 
   return (
     <div>
@@ -410,7 +391,7 @@ const AddProduct = () => {
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>
-                      {vendor.firstName}
+                      {vendor?.firstName ? vendor.firstName : "vendorname"}
                     </option>
                   );
                 })}
