@@ -187,7 +187,7 @@ const CategoryProducts = () => {
               products &&
               products.map((product) => (
                 <ProductCardMini
-                  id={nanoid()}
+                  key={nanoid()}
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
@@ -209,6 +209,7 @@ const CategoryProducts = () => {
                   products.map((product) => {
                     return (
                       <ProductCard
+                        key={nanoid()}
                         badgeColor="badge-accent"
                         badgeText="NEW"
                         price={
