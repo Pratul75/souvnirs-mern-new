@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
-import { FiShoppingBag } from "react-icons/fi";
+import { FiShoppingBag, FiSun } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
 import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
 import useCategories from "../../../hooks/useCategories";
@@ -16,11 +16,12 @@ import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
-
 import { LuMoon } from "react-icons/lu";
 import { useDispatch } from "react-redux";
 import { toggleDarkMode } from "../../../features/appConfig/appSlice";
+
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
+  const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   console.log("SouvnirsHeader.jsx", token);
@@ -237,13 +238,25 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                   <FiShoppingBag className="text-2xl cursor-pointer" />
                 </Link>
               </div>
-              <div className="tooptip tooltip-bottom ml-3" data-tip="Dark">
-                <button
-                  onClick={() => dispatch(toggleDarkMode())}
-                  className="btn btn-circle"
-                >
-                  <LuMoon className="text-2xl" />
-                </button>
+              <div data-tip="Dark">
+                {darkModeToggle ? (
+                  <button
+                    onClick={() => dispatch(toggleDarkMode())}
+                    className="btn btn-circle"
+                  >
+                    {" "}
+                    <FiSun className="text-2xl" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => dispatch(toggleDarkMode())}
+                    className="btn btn-circle"
+                  >
+                    <LuMoon className="text-2xl" />
+                  </button>
+                )}
+
+                {/* add light mode icon here */}
               </div>
             </div>
           </div>
