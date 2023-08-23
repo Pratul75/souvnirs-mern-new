@@ -10,6 +10,7 @@ import { debouncedShowToast } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../../features/appConfig/appSlice";
 import { PATHS } from "../../../Routes/paths";
+
 const ProductCard = ({
   id,
   title,
@@ -122,7 +123,10 @@ const ProductCard = ({
                 ) : (
                   <Link to={PATHS.register} className="flex gap-4">
                     <span>signup to view price</span>{" "}
-                    <AiOutlineLogin className="cursor-pointer" />
+                    <AiOutlineLogin
+                      onClick={(e) => e.stopPropagation()}
+                      className="cursor-pointer"
+                    />
                   </Link>
                 )}
               </h5>
