@@ -35,10 +35,6 @@ const AddProduct = () => {
   };
   const dispatch = useDispatch();
 
-  // Function to generate all possible combinations of multiple arrays as strings
-
-  // Example of usage:
-
   // get all categories
   console.log("AddProduct.jsx", selectedAttributes);
   const getAllCategories = async () => {
@@ -271,7 +267,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="name"
                 id=""
@@ -293,7 +289,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
               >
                 <option disabled selected>
@@ -311,7 +307,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="readyToShip"
               >
                 <option disabled selected>
@@ -329,7 +325,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="freeShipping"
               >
                 <option disabled selected>
@@ -381,7 +377,7 @@ const AddProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="vendorId"
                 value={formData.vendorId}
               >
@@ -411,7 +407,7 @@ const AddProduct = () => {
                 onChange={handleTagInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter a tag and press Enter"
-                className="input input-accent"
+                className="input input-primary"
               />
               <div className="mt-4 flex gap-4 flex-wrap">
                 {tagsArray.map((tag, index) => (
@@ -440,7 +436,7 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent  w-full"
+                className="input input-primary  w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
@@ -462,7 +458,7 @@ const AddProduct = () => {
             </h3>
             <hr className="mt-4" />
 
-            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
+            <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
                 accept={".jpeg,.png"}
                 onFilesChange={(data) => {
@@ -483,7 +479,7 @@ const AddProduct = () => {
             initial="initial"
             className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
-            <button onClick={handleSubmit} className="btn btn-accent mt-4">
+            <button onClick={handleSubmit} className="btn btn-primary mt-4">
               Next
             </button>
             <button className="btn  mt-4 ml-4">Cancel</button>

@@ -154,5 +154,5 @@ body {
   }
 }
 .card_animation {
-  animation: fadeInCard 1s forwards;
+  animation: fadeInCard 5s forwards;
 }
