@@ -203,7 +203,7 @@ const TestimonialsCarousel = () => {
 
   return (
     <ScrollAnimationWrapper>
-      <div className="relative h-[350px] mt-16">
+      <div className="relative h-[350px] my-16">
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={currentTestimonial.id}

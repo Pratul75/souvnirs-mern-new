@@ -1,19 +1,25 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
-const ScrollAnimationWrapper = ({ children }) => {
+const ScrollAnimationWrapper = (props) => {
+  const { children } = props;
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.8, // Adjust this threshold as needed
   });
 
   const variants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-    transition: {
-      duration: 1,
-      ease: [0.6, -0.05, 0.01, 0.99],
-    },
+    hidden: { opacity: 0, y: 20, scale: 0.9 },
+    visible: (index) => ({
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        delay: index * 0.1,
+        ease: [0.6, -0.05, 0.01, 0.99],
+        duration: 0.6,
+      },
+    }),
   };
 
   return (

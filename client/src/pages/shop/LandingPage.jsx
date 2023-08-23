@@ -7,7 +7,6 @@ import {
   FullWidthBannerCard,
   HalfWidthBannerCard,
   BrandsCard,
-  NewsLetterGrid,
   Tabs,
   Ratings,
   ScrollAnimationWrapper,
@@ -31,7 +30,6 @@ import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import BudsImage from "../../assets/shop/productImages/buds.png";
 import WatchImage from "../../assets/shop/productImages/watch.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
-import NewsLetterBanner from "../../assets/shop/bannerImages/newsLetterBanner.png";
 import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
@@ -279,18 +277,13 @@ const LandingPage = () => {
       <TestimonialsCarosel />
 
       <div className="flex justify-between mt-32">
-        <div className="flex flex-col md:flex-row ">
+        <div className="flex flex-col md:flex-row my-16">
           <SingleTab productsList={productsList} heading="Budget Buy" />
           <SingleTab productsList={productsList} heading="Recently Added" />
           <SingleTab productsList={productsList} heading="Trending Products" />
         </div>
       </div>
       <BlogList blogItemsData={blogCardData} />
-      <NewsLetterGrid
-        backgroundImage={NewsLetterBanner}
-        heading="Join our Newsletter"
-        subheading="Join our newsletter and get 20$ discount for your first order"
-      />
     </div>
   );
 };

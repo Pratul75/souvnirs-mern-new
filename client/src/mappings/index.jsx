@@ -320,15 +320,15 @@ export const productListFiltersAndProducts = {
   filters: [
     {
       id: nanoid(),
-      name: "Audio",
+      name: "Seasonal",
     },
     {
       id: nanoid(),
-      name: "Gaming",
+      name: "Electronics",
     },
     {
       id: nanoid(),
-      name: "Headphones",
+      name: "Budget",
     },
   ],
   products: [

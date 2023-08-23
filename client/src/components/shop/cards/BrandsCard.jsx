@@ -5,7 +5,7 @@ import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
 const BrandsCard = ({ imagesList }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="grid grid-cols-8 mt-16">
+      <div className="grid grid-cols-8 my-16">
         {imagesList?.map(({ image, alt }) => {
           return (
             <div

@@ -14,7 +14,7 @@ const HalfWidthBannerCard = ({
   buttonHandlerTwo,
 }) => {
   return (
-    <div className="grid grid-cols-2 gap-4 mt-16">
+    <div className="grid grid-cols-2 gap-4 my-16">
       <ScrollAnimationWrapper>
         <div className="col-span-2 md:col-span-1 relative">
           <img className="rounded-xl w-full" src={backgroundImageOne} alt="" />
@@ -31,6 +31,7 @@ const HalfWidthBannerCard = ({
                 Shop Now <BsArrowRightShort className="text-2xl" />
               </button>
             </div>
+
             <img
               className=" object-contain"
               style={{

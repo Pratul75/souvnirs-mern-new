@@ -5,6 +5,7 @@ import API_WRAPPER from "../../../api";
 const ProductsListWithFilters = ({ heading, filters, products }) => {
   const [activeFilter, setActiveFilter] = useState(filters[0].id); // Set the initial active filter
   const [productsList, setProductsList] = useState([]);
+  const [apiTrigger, setApiTrigger] = useState(false);
 
   // Todo: to be used once api call is triggered
   // const filteredProducts = products.filter(
@@ -44,7 +45,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
 
   useEffect(() => {
     getAllProducts();
-  }, []);
+  }, [apiTrigger]);
 
   return (
     <ScrollAnimationWrapper>
@@ -60,7 +61,10 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
                     : "border-transparent"
                 } w-24 text-center font-semibold focus:outline-none`}
                 key={filter.id}
-                onClick={() => setActiveFilter(filter.id)}
+                onClick={() => {
+                  setActiveFilter(filter.id);
+                  setApiTrigger((prevState) => !prevState);
+                }}
               >
                 {filter.name}
               </button>
