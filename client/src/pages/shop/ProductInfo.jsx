@@ -105,6 +105,7 @@ const ProductInfo = () => {
       console.log("RESPONSE PRODUCT DATA:", response.data);
       // cheanged to cover image instead of first index of images arr
       setSelectedImage(response.data.coverImage);
+      extractVariantsData(response.data?.variants);
     }
   };
   const extractVariantsData = async (variants) => {
@@ -144,7 +145,6 @@ const ProductInfo = () => {
     // Fetch product data whenever the slug changes
     if (slug) {
       fetchProductData();
-      extractVariantsData(product?.variants);
     }
   }, [slug]); // Add slug as a dependency
 
