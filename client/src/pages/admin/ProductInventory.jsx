@@ -14,6 +14,22 @@ const ProductInventory = () => {
         accessor: "name",
       },
       {
+        Header: "Variant",
+        Cell: ({ row }) => {
+          if (row?.original?.result?.variant) {
+            const keys = Object.keys(row?.original?.result?.variant);
+
+            return keys.map((key) => (
+              <p>
+                {key}:{row?.original?.result?.variant[key]}
+              </p>
+            ));
+          } else {
+            return <p> </p>;
+          }
+        },
+      },
+      {
         Header: "Product Price",
         accessor: "result.price",
       },

@@ -206,14 +206,14 @@ const getProductsByCategorySlug = async (req, res) => {
       {
         $match: {
           "filteredVariants.0": { $exists: true },
-          price: {
-            $lt: +priceMax,
-          },
+          // price: {
+          //   $lt: +priceMax,
+          // },
         },
       },
-      {
-        $sort: { price: -1 },
-      },
+      // {
+      //   $sort: { price: -1 },
+      // },
     ];
   } else {
     aggregationPipeline = aggregationPipeline = [
@@ -241,17 +241,17 @@ const getProductsByCategorySlug = async (req, res) => {
           as: "variants",
         },
       },
-      {
-        $match: {
-          price: {
-            $lt: +priceMax,
-          },
-        },
-      },
+      // {
+      //   $match: {
+      //     price: {
+      //       $lt: +priceMax,
+      //     },
+      //   },
+      // },
 
-      {
-        $sort: { price: -1 },
-      },
+      // {
+      //   $sort: { price: -1 },
+      // },
     ];
   }
 
