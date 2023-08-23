@@ -256,6 +256,13 @@ const getProductsByCategorySlug = async (req, res) => {
   }
 
   const products = await Product.aggregate(aggregationPipeline);
+  const filteredProducts = products.filter((product) => {
+    if (product.variants && product.variants.length > 0) {
+      return product.variants.some((variant) => variant.price <= priceMax);
+    } else {
+      return product.price <= priceMax;
+    }
+  });
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
@@ -316,7 +323,9 @@ const getProductsByCategorySlug = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products, filters: variantComb, max: maxPrice });
+  res
+    .status(200)
+    .json({ products: filteredProducts, filters: variantComb, max: maxPrice });
 };
 
 const getProductsByCollectionSlug = async (req, res) => {
@@ -387,14 +396,7 @@ const getProductsByCollectionSlug = async (req, res) => {
           },
         },
       },
-      {
-        $match: {
-          "filteredVariants.0": { $exists: true },
-          price: {
-            $lt: +priceMax,
-          },
-        },
-      },
+
       {
         $sort: { createdAt: -1 },
       },
@@ -427,13 +429,6 @@ const getProductsByCollectionSlug = async (req, res) => {
           as: "variants",
         },
       },
-      {
-        $match: {
-          "products.price": {
-            $lt: +priceMax,
-          },
-        },
-      },
 
       {
         $sort: { createdAt: -1 },
@@ -443,6 +438,13 @@ const getProductsByCollectionSlug = async (req, res) => {
 
   const products = await Collection.aggregate(aggregationPipeline);
   // console.log(products);
+  const filteredProducts = products.filter((product) => {
+    if (product.variants && product.variants.length > 0) {
+      return product.variants.some((variant) => variant.price <= priceMax);
+    } else {
+      return product.products.price <= priceMax;
+    }
+  });
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
@@ -489,7 +491,7 @@ const getProductsByCollectionSlug = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products, filters: variantComb });
+  res.status(200).json({ products: filteredProducts, filters: variantComb });
 };
 
 const getProductsByFilter = async (req, res) => {

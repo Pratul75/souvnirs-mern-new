@@ -25,20 +25,20 @@ const GradiantCard = ({
       <div className="inset-0 absolute flex items-center justify-between px-16">
         <div className="flex flex-col">
           <div className="">
-            <h5 className="text-white text-base font-medium leading-tight">
+            <h5 className="text-white md:text-base font-medium md:leading-tight">
               {title}
             </h5>
-            <h1 className="text-white text-3xl font-semibold leading-[39px]">
+            <h1 className="text-white text-sm md:text-3xl font-normal md:leading-[39px]">
               {heading}
             </h1>
-            <h1 className="text-white text-3xl font-semibold leading-[39px]">
+            <h1 className="text-white md:text-3xl font-semibold md:leading-[39px]">
               {subheading}
             </h1>
           </div>
-          <div className="w-full flex justify-start mt-4">
+          <div className="w-full flex justify-start md:mt-4">
             <Link
               to={link}
-              className={`mt-4 text-white btn outline-none border-none hover:shadow-lg hover:shadow-[#${btnColorCode}]`}
+              className={`md:mt-4 text-white btn outline-none border-none hover:shadow-lg hover:shadow-[#${btnColorCode}]`}
               style={btnStyle}
             >
               Shop Now <BsArrowRightShort className="text-2xl" />

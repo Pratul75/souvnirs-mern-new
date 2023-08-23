@@ -36,10 +36,14 @@ const Collection = () => {
       },
       {
         Header: "Description",
-        accessor: "description",
-        // cell: ({ row }) => {
-        //   return parse(row?.original?.description);
-        // },
+        // accessor: "description",
+        cell: ({ row }) => {
+          return (
+            <p>
+              {row?.original?.description && parse(row?.original?.description)}
+            </p>
+          );
+        },
       },
       {
         Header: "Status",

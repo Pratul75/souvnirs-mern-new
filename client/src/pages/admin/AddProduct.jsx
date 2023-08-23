@@ -391,7 +391,7 @@ const AddProduct = () => {
                 {vendorsList?.map((vendor) => {
                   return (
                     <option key={nanoid()} value={vendor._id}>
-                      {vendor?.firstName ? vendor.firstName : "vendorname"}
+                      {vendor?.firstName ? vendor.firstName : vendor?.email}
                     </option>
                   );
                 })}

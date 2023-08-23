@@ -25,7 +25,14 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
       <div className="p-4">
         <div className="flex items-center justify-between">
           <h4 className="text-primary text-sm font-bold underline">{title}</h4>
-          <h6 className="text-gray-500 underline text-sm">Clear all</h6>
+          <h6
+            className="text-gray-500 underline text-sm cursor-pointer"
+            onClick={() => {
+              setSelectedFilters([]);
+            }}
+          >
+            Clear all
+          </h6>
         </div>
         <div className="text-md mt-4">{heading && `Filter By ${heading}`}</div>
 

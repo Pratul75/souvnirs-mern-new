@@ -108,9 +108,9 @@ const LandingPage = () => {
               tabs={[
                 {
                   content: (
-                    <div className="grid grid-cols-2">
-                      <div className="col-span-1">
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                    <div className="grid  grid-cols-2">
+                      <div className="col-span-2 md:col-span-1">
+                        <div className="w-full md:w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
                           <div className="justify-start items-start flex">
                             <img
                               className="w-[122.01px] h-[122.01px]"
@@ -140,7 +140,7 @@ const LandingPage = () => {
                           </div>
                         </div>
                         ,
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="w-full md:w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
                           <div className="justify-start items-start flex">
                             <img
                               className="w-[122.01px] h-[122.01px]"
@@ -171,7 +171,7 @@ const LandingPage = () => {
                         </div>
                       </div>
                       <div className="col-span-1">
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
+                        <div className="w-full md:w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
                           <div className="justify-start items-start flex">
                             <img
                               className="w-[122.01px] h-[122.01px]"

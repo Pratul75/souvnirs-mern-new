@@ -11,7 +11,7 @@ const ShopLayout = ({ children }) => {
   const loading = useSelector((x) => x.appConfig.loading);
 
   return (
-    <>
+    <div className="overflow-x-hiddend">
       <TopHeader
         heading="World Wide Completely Free Returns and Free Shipping"
         language="English"
@@ -23,7 +23,7 @@ const ShopLayout = ({ children }) => {
       </div>
       <div className="mx-5 md:mx-16 flex flex-col">{children}</div>
       <ShopFooter />
-    </>
+    </div>
   );
 };
 
