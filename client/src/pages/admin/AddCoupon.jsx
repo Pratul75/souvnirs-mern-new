@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 const AddCoupon = () => {
   const [couponData, setCouponData] = useState({});
+  const [error, setError] = useState();
   console.log("AddCoupon.jsx", couponData);
   const [
     minimumPurchaseAmountInputToggle,
@@ -60,6 +61,9 @@ const AddCoupon = () => {
     title: Yup.string().required("Title is required"),
     // Add validation rules for other fields here
     typeValue: Yup.number().required("Value is required"),
+    typeTitle: Yup.number().required("Type Title is required"),
+    couponCode: Yup.string().required("coupon code is required"),
+
     // ... continue with other fields
   });
 
@@ -88,7 +92,10 @@ const AddCoupon = () => {
 
   const postCoupon = async () => {
     try {
-      await validationSchema.validate(couponData, { abortEarly: false });
+      await validationSchema.validate(
+        { ...couponData, couponCode },
+        { abortEarly: false }
+      );
       const response = await API_WRAPPER.post("/coupon/create-coupon", {
         ...couponData,
         couponCode: couponCode,
@@ -104,6 +111,7 @@ const AddCoupon = () => {
       validationError.inner.forEach((error) => {
         errors[error.path] = error.message;
       });
+      setError(errors);
       console.error("Validation error:", errors);
     }
   };
@@ -258,6 +266,9 @@ const AddCoupon = () => {
                   type="text"
                   className="input input-bordered input-primary bg-transparent t w-full"
                 />
+                <span className="text-red-500">
+                  {error?.title && error?.title}
+                </span>
               </div>
               <div className="form-control w-full">
                 <label htmlFor="" className="label">
@@ -282,6 +293,7 @@ const AddCoupon = () => {
                     Generate
                   </button>
                 </div>
+                <span className="text-red-500"> {error?.couponCode}</span>
               </div>
             </div>
           </div>
@@ -401,6 +413,9 @@ const AddCoupon = () => {
                 value="percentage"
                 aria-label="Percentage"
               />
+              <div className="block">
+                <span className="text-red-500">{error?.typeTitle}</span>
+              </div>
             </div>
             <div className="form-control col-span-1 w-full">
               <label className="input-group">
@@ -413,6 +428,7 @@ const AddCoupon = () => {
                 />
                 <span>{couponData.typeTitle === "percentage" ? "%" : ""}</span>
               </label>
+              <span className="text-red-500">{error?.typeValue}</span>
             </div>
           </div>
         </motion.div>
