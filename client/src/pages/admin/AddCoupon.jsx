@@ -7,6 +7,7 @@ import {
   fadeInFromRightVariant,
   buttonVariants,
 } from "../../animation";
+import * as Yup from "yup";
 import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
@@ -55,6 +56,12 @@ const AddCoupon = () => {
       console.error("Error occured while getting all categories", error);
     }
   };
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required("Title is required"),
+    // Add validation rules for other fields here
+    typeValue: Yup.number().required("Value is required"),
+    // ... continue with other fields
+  });
 
   // get all products
   const getAllProducts = async () => {
@@ -80,13 +87,24 @@ const AddCoupon = () => {
   };
 
   const postCoupon = async () => {
-    const response = await API_WRAPPER.post("/coupon/create-coupon", {
-      ...couponData,
-      couponCode: couponCode,
-    });
-    if (response.status === 201) {
-      console.log("DISCOUNT DATA POSTED: ", response.data);
-      navigate(PATHS.adminCoupons);
+    try {
+      await validationSchema.validate(couponData, { abortEarly: false });
+      const response = await API_WRAPPER.post("/coupon/create-coupon", {
+        ...couponData,
+        couponCode: couponCode,
+      });
+
+      if (response.status === 201) {
+        console.log("DISCOUNT DATA POSTED: ", response.data);
+        navigate(PATHS.adminCoupons);
+      }
+    } catch (validationError) {
+      // Handle validation error here
+      const errors = {};
+      validationError.inner.forEach((error) => {
+        errors[error.path] = error.message;
+      });
+      console.error("Validation error:", errors);
     }
   };
 

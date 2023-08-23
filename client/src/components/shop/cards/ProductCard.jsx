@@ -97,7 +97,7 @@ const ProductCard = ({
           <div className="flex justify-center items-center">
             <div className="flex py-4 justify-center w-2/3">
               <img
-                className="w-full max-w-full"
+                className="  aspect-square"
                 style={{
                   mixBlendMode: "multiply",
                 }}
