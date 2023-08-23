@@ -18,7 +18,7 @@ const SingleTab = ({ productsList, heading }) => {
           </h1>
         </div>
         {/* row 1 */}
-        {productsList.map((product) => (
+        {productsList.slice(0, 10).map((product) => (
           <div
             onClick={() => {
               navigate(`/productInfo/${product.slug}`);
