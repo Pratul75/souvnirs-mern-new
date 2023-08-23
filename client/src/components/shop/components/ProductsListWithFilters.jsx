@@ -5,7 +5,10 @@ import API_WRAPPER from "../../../api";
 
 const SkeletonProductCard = () => {
   return (
-    <div className="animate-pulse p-4 border border-gray-300 rounded-md w-full md:w-64">
+    <div className="animate-pulse p-4 border border-gray-300 rounded-xl w-full ">
+      <div className="w-full">
+        <div className="loading loading-lg loading-ring text-center"></div>
+      </div>
       <div className="bg-gray-300 h-44 w-full mb-2 rounded-md"></div>
       <div className="h-4 w-1/2 bg-gray-300 mb-2 rounded-md"></div>
       <div className="h-4 w-1/4 bg-gray-300 mb-2 rounded-md"></div>
