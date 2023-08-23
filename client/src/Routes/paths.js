@@ -79,7 +79,7 @@ export const PATHS = {
   customerWishlist: "/customer/wishlist",
 
   // shop routes
-  landingPage: "/landing-page",
+  landingPage: "/",
   shop: "/shop",
   shopCollection: "/collection",
   shopCategory: "category",
