@@ -22,16 +22,16 @@ const GradiantCard = ({
         src={background}
         alt="gradiant-background-image"
       />
-      <div className="inset-0 absolute flex items-center justify-between px-16">
+      <div className="inset-0 absolute flex flex-col md:flex-row items-center justify-center px-16">
         <div className="flex flex-col">
           <div className="">
-            <h5 className="text-white text-base font-medium leading-tight">
+            <h5 className="text-white text-sm  md:text-base font-medium leading-tight">
               {title}
             </h5>
-            <h1 className="text-white text-3xl font-semibold leading-[39px]">
+            <h1 className="text-white text-xl font-semibold leading-[39px]">
               {heading}
             </h1>
-            <h1 className="text-white text-3xl font-semibold leading-[39px]">
+            <h1 className="text-white text-xl font-semibold leading-[39px]">
               {subheading}
             </h1>
           </div>
@@ -46,7 +46,7 @@ const GradiantCard = ({
           </div>
         </div>
         <div>
-          <img src={image} alt="image" />
+          <img className="hidden  top-4 md:flex" src={image} alt="image" />
         </div>
       </div>
     </div>

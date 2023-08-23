@@ -108,130 +108,106 @@ const LandingPage = () => {
               tabs={[
                 {
                   content: (
-                    <div className="grid grid-cols-2">
-                      <div className="col-span-1">
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
-                          <div className="justify-start items-start flex">
-                            <img
-                              className="w-[122.01px] h-[122.01px]"
-                              src="https://via.placeholder.com/200x200"
-                            />
-                          </div>
-                          <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
-                            <div className="justify-center items-center inline-flex mt-5 ">
-                              <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                                D-Phone Android Latest UI New
-                                <br />
-                                XP
-                              </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Item 1 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
                             </div>
-
-                            <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
-                              <div className="text-violet-900 text-xl font-medium leading-tight">
-                                $256.00
-                              </div>
-                              <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
-                                <Ratings rating={4} />
-                                <div className="px-4 py-2 border rounded-full ml-8">
-                                  <ShopIcon />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        ,
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
-                          <div className="justify-start items-start flex">
-                            <img
-                              className="w-[122.01px] h-[122.01px]"
-                              src="https://via.placeholder.com/200x200"
-                            />
-                          </div>
-                          <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
-                            <div className="justify-center items-center inline-flex mt-5 ">
-                              <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                                D-Phone Android Latest UI New
-                                <br />
-                                XP
-                              </div>
-                            </div>
-
-                            <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
-                              <div className="text-violet-900 text-xl font-medium leading-tight">
-                                $256.00
-                              </div>
-                              <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
-                                <Ratings rating={4} />
-                                <div className="px-4 py-2 border rounded-full ml-8">
-                                  <ShopIcon />
-                                </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="col-span-1">
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
-                          <div className="justify-start items-start flex">
-                            <img
-                              className="w-[122.01px] h-[122.01px]"
-                              src="https://via.placeholder.com/200x200"
-                            />
-                          </div>
-                          <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
-                            <div className="justify-center items-center inline-flex mt-5 ">
-                              <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                                D-Phone Android Latest UI New
-                                <br />
-                                XP
-                              </div>
-                            </div>
 
-                            <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
-                              <div className="text-violet-900 text-xl font-medium leading-tight">
-                                $256.00
-                              </div>
-                              <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
-                                <Ratings rating={4} />
-                                <div className="px-4 py-2 border rounded-full ml-8">
-                                  <ShopIcon />
-                                </div>
-                              </div>
+                      {/* Item 2 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
                             </div>
-                          </div>
-                        </div>
-                        ,
-                        <div className="w-[400.94px] h-[125.92px] justify-start items-end inline-flex mt-8">
-                          <div className="justify-start items-start flex">
-                            <img
-                              className="w-[122.01px] h-[122.01px]"
-                              src="https://via.placeholder.com/200x200"
-                            />
-                          </div>
-                          <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
-                            <div className="justify-center items-center inline-flex mt-5 ">
-                              <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                                D-Phone Android Latest UI New
-                                <br />
-                                XP
-                              </div>
-                            </div>
-
-                            <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
-                              <div className="text-violet-900 text-xl font-medium leading-tight">
-                                $256.00
-                              </div>
-                              <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
-                                <Ratings rating={4} />
-                                <div className="px-4 py-2 border rounded-full ml-8">
-                                  <ShopIcon />
-                                </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                      ,
+
+                      {/* Item 3 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Item 4 */}
+                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src="https://via.placeholder.com/200x200"
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              D-Phone Android Latest UI New XP
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900">
+                              $256.00
+                            </div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   ),
                   label: "CONTENT 1",
