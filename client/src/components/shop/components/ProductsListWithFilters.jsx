@@ -89,15 +89,18 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
                 <SkeletonProductCard key={index} />
               ))
             : // Render actual product cards when data is available
-              productsList.map(({ _id, name, price, rating, coverImage }) => (
-                <ProductCard
-                  key={_id}
-                  title={name}
-                  price={price}
-                  rating={4.3}
-                  image={coverImage}
-                />
-              ))}
+              productsList.map(
+                ({ _id, name, price, rating, coverImage, slug }) => (
+                  <ProductCard
+                    key={_id}
+                    title={name}
+                    price={price}
+                    rating={4.3}
+                    image={coverImage}
+                    slug={slug}
+                  />
+                )
+              )}
         </div>
       </div>
     </ScrollAnimationWrapper>
