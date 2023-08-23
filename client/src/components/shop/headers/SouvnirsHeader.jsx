@@ -242,7 +242,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 {darkModeToggle ? (
                   <button
                     onClick={() => dispatch(toggleDarkMode())}
-                    className="btn btn-circle"
+                    className="btn btn-circle ml-3"
                   >
                     {" "}
                     <FiSun className="text-2xl" />
@@ -250,13 +250,11 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 ) : (
                   <button
                     onClick={() => dispatch(toggleDarkMode())}
-                    className="btn btn-circle"
+                    className="btn btn-circle ml-3"
                   >
                     <LuMoon className="text-2xl" />
                   </button>
                 )}
-
-                {/* add light mode icon here */}
               </div>
             </div>
           </div>
