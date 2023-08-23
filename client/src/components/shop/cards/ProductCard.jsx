@@ -9,6 +9,7 @@ import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../../features/appConfig/appSlice";
+
 const ProductCard = ({
   id,
   title,
@@ -20,9 +21,12 @@ const ProductCard = ({
   badgeText,
   slug,
   isDiscounted,
+  isLoading,
 }) => {
   const [heartColor, setHeartColor] = useState("black");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const addToWishlist = async () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -35,8 +39,8 @@ const ProductCard = ({
     } else {
       const existingWL = localStorage.getItem("wishlist");
       if (existingWL) {
-        const i = JSON.parse(existingWL).findIndex((a) => a == id);
-        if (i == -1) {
+        const i = JSON.parse(existingWL).findIndex((a) => a === id);
+        if (i === -1) {
           const updatedwl = [...JSON.parse(existingWL), id];
           localStorage.setItem("wishlist", JSON.stringify(updatedwl));
         }
@@ -46,7 +50,6 @@ const ProductCard = ({
     }
   };
 
-  // TODO: need to be changed to icons switching instead of colors
   const handleHeartClick = () => {
     if (heartColor === "black") {
       setHeartColor("red");
@@ -55,7 +58,6 @@ const ProductCard = ({
     }
     addToWishlist();
   };
-  const navigate = useNavigate();
 
   return (
     <motion.div
@@ -69,46 +71,59 @@ const ProductCard = ({
       className="card  border  px-3 py-4 cursor-pointer w-96  shadow-lg"
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
-      <div className="card-title flex justify-between">
-        <span className={`badge ${badgeColor}`}>{badgeText}</span>
-        <button
-          className="btn btn-circle bg-base-300 rounded-full"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleHeartClick();
-          }}
-        >
-          <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
-        </button>
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="flex py-4 justify-center w-2/3">
-          <img
-            className="w-full max-w-full"
-            style={{
-              mixBlendMode: "multiply",
-            }}
-            src={image}
-            alt={title}
-          />
+      {isLoading ? (
+        // Skeleton layout
+        <div className="skeleton-layout">
+          {/* Your skeleton layout goes here */}
         </div>
-      </div>
-      <div className="flex justify-center flex-col items-center gap-2">
-        <h3 className="text-center text-neutral-700 text-base font-medium leading-[25px]">
-          {title}
-        </h3>
-        {isDiscounted ? (
-          <h5 className="justify-center flex w-36 items-center gap-4">
-            <span className="line-through">${price}</span>
-            <span className="text-primary">${discountPrice}</span>
-          </h5>
-        ) : (
-          <h5 className="text-center text-red-600 text-lg font-medium leading-[18px]">
-            ${price}
-          </h5>
-        )}
-        <Ratings rating={rating} />
-      </div>
+      ) : (
+        // Actual card content
+        <>
+          <div className="card-title flex justify-between">
+            <span className={`badge ${badgeColor}`}>{badgeText}</span>
+            <button
+              className="btn btn-circle bg-base-200 rounded-full"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleHeartClick();
+              }}
+            >
+              <AiOutlineHeart
+                className="text-2xl"
+                style={{ color: heartColor }}
+              />
+            </button>
+          </div>
+          <div className="flex justify-center items-center">
+            <div className="flex py-4 justify-center w-2/3">
+              <img
+                className="w-full max-w-full"
+                style={{
+                  mixBlendMode: "multiply",
+                }}
+                src={image}
+                alt={title}
+              />
+            </div>
+          </div>
+          <div className="flex justify-center flex-col items-center gap-2">
+            <h3 className="text-center text-neutral-700 text-base font-medium leading-[25px]">
+              {title}
+            </h3>
+            {isDiscounted ? (
+              <h5 className="justify-center flex w-36 items-center gap-4">
+                <span className="line-through">${price}</span>
+                <span className="text-primary">${discountPrice}</span>
+              </h5>
+            ) : (
+              <h5 className="text-center text-red-600 text-lg font-medium leading-[18px]">
+                ${price}
+              </h5>
+            )}
+            <Ratings rating={rating} />
+          </div>
+        </>
+      )}
     </motion.div>
   );
 };
@@ -122,6 +137,7 @@ ProductCard.propTypes = {
   image: PropTypes.string.isRequired,
   badgeColor: PropTypes.string.isRequired,
   badgeText: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool,
 };
 
 export default ProductCard;
