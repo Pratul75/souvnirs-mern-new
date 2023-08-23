@@ -1,5 +1,4 @@
 import { IoMdArrowBack } from "react-icons/io";
-import ProductImagePrimary from "../../assets/shop/productImages/productImagePrimary.png";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
@@ -278,7 +277,7 @@ const ProductInfo = () => {
               {variantFilters?.map((attribute) => {
                 const key = Object.keys(attribute)[0];
                 return (
-                  <div className="form-control">
+                  <div key={nanoid()} className="form-control">
                     <label className="label">
                       <span className="label-text">{key}</span>
                     </label>
@@ -295,7 +294,9 @@ const ProductInfo = () => {
                         select value
                       </option>
                       {attribute[key].map((value) => (
-                        <option value={value}>{value}</option>
+                        <option key={nanoid()} value={value}>
+                          {value}
+                        </option>
                       ))}
                     </select>
                   </div>
