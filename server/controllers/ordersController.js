@@ -3,8 +3,10 @@ const Product = require("../schema/productModal");
 const Customer = require("../schema/customerModal");
 const Vendor = require("../schema/vendorModal");
 const { roles } = require("../utils");
+const axios = require("axios");
 
 const Razorpay = require("razorpay");
+const cartModal = require("../schema/cartModal");
 const instance = new Razorpay({
   key_id: process.env.RAZOR_PAY_KEY_ID,
   key_secret: "FyiZ6gn5TDRQjzCWYAPhCbao",
@@ -144,11 +146,23 @@ const getTotalOrders = async (req, res) => {
 
 const createOrder = async (req, res) => {
   try {
+    const checkedOutItems = await cartModal
+      .find({
+        customer_id: req.userId,
+        checkedOut: true,
+      })
+      .populate("product_id");
+
+    const totalSum = checkedOutItems.reduce(
+      (sum, item) => sum + item.product_id.price,
+      0
+    );
+
     const options = {
-      amount: 10 * 10, // amount == Rs 10
+      amount: totalSum * 100, // amount == Rs 10
       currency: "INR",
       receipt: "receipt#1",
-      payment_capture: 0,
+      payment_capture: 1,
       // 1 for automatic capture // 0 for manual capture
     };
     const order = await instance.orders.create(options);
@@ -158,8 +172,17 @@ const createOrder = async (req, res) => {
   }
 };
 const captureOrder = async (req, res) => {
-  console.log(req.params);
-  console.log(req.params);
+  try {
+    console.log(req.params);
+    console.log(req.params);
+    const response = await axios.post(
+      `https://${process.env.RAZOR_PAY_KEY_ID}:"FyiZ6gn5TDRQjzCWYAPhCbao@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
+      { amount: 10 * 10, currency: "INR" }
+    );
+    console.log(response);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 // order table data

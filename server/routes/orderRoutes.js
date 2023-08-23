@@ -57,6 +57,6 @@ router.get(
   authMiddleware(["vendor", "admin"]),
   getOrderTableData
 );
-router.post("/order/create", createOrder);
+router.post("/order/create", authMiddleware(["customer"]), createOrder);
 router.post("/order/capture/:paymentId", captureOrder);
 module.exports = router;

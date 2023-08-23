@@ -48,7 +48,7 @@ const Checkout = () => {
   const paymentHandler = async (e) => {
     e.preventDefault();
     const orderUrl = `http://localhost:8080/order/create`;
-    const response = await Axios.post(orderUrl);
+    const response = await API_WRAPPER.post(orderUrl);
     const { data } = response;
     const options = {
       key: "rzp_live_80LvVdqLPUaiKR",
