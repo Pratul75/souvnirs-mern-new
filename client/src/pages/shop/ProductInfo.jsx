@@ -23,9 +23,24 @@ const ProductInfo = () => {
   const [slug, setSlug] = useState();
   const params = useParams();
   const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
+  const [selectedVariants, setSelectedVariants] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const updateSelectedVariants = (key, value) => {
+    setSelectedVariants((prevVariants) => ({
+      ...prevVariants,
+      [key]: value,
+    }));
+    const newSelectedVariants = {
+      ...selectedVariants,
+      [key]: value,
+    };
+    setSelectedVariant(newSelectedVariants);
+  };
+  console.log("ProductInfo.jsx", selectedVariants);
 
   const tabs = [
     {
@@ -106,8 +121,33 @@ const ProductInfo = () => {
       // cheanged to cover image instead of first index of images arr
       setSelectedImage(response.data.coverImage);
       extractVariantsData(response.data?.variants);
+      setPrice(
+        product?.variants.length > 0
+          ? product?.variants[0].price
+          : product?.price
+      );
     }
   };
+
+  const findSelectedVariant = (selectedAttributes) => {
+    if (!selectedAttributes || !product?.variants) {
+      return null;
+    }
+
+    return product.variants.find((variant) => {
+      return Object.keys(selectedAttributes).every((key) => {
+        return variant.variant[key] === selectedAttributes[key];
+      });
+    });
+  };
+
+  const setSelectedVariant = (variants) => {
+    setSelectedVariants(variants);
+    const newSelectedVariant = findSelectedVariant(variants);
+    setSelectedImage(newSelectedVariant.images[0]);
+    setPrice(newSelectedVariant.price);
+  };
+
   const extractVariantsData = async (variants) => {
     let result = [];
     console.log(variants);
@@ -135,6 +175,7 @@ const ProductInfo = () => {
     setVariantFilters(result);
     console.log("ProductInfo.jsx", result);
   };
+  useEffect(() => {}, [selectedVariants]);
 
   useEffect(() => {
     // Set the slug parameter from the URL
@@ -198,11 +239,7 @@ const ProductInfo = () => {
               <div className="flex gap-4">
                 <span className="text-4xl font-thin">USD</span>
                 {isLogged ? (
-                  <span className="text-4xl">
-                    {product?.variants.length > 0
-                      ? product?.variants[0].price
-                      : product?.price}
-                  </span>
+                  <span className="text-4xl">{price}</span>
                 ) : (
                   <Link to={PATHS.login} className="join cursor-pointer">
                     <div className="bg-base-200 join-item flex items-center px-2">
@@ -245,7 +282,18 @@ const ProductInfo = () => {
                     <label className="label">
                       <span className="label-text">{key}</span>
                     </label>
-                    <select className="select select-bordered">
+                    <select
+                      className="select select-bordered"
+                      onChange={(e) =>
+                        updateSelectedVariants(key, e.target.value)
+                      }
+                      value={
+                        selectedVariants ? selectedVariants[key] || "" : ""
+                      }
+                    >
+                      <option value="" disabled selected>
+                        select value
+                      </option>
                       {attribute[key].map((value) => (
                         <option value={value}>{value}</option>
                       ))}

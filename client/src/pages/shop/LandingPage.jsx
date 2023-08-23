@@ -252,8 +252,8 @@ const LandingPage = () => {
 
       <TestimonialsCarosel />
 
-      <div className="flex justify-between mt-32">
-        <div className="flex flex-col md:flex-row my-16">
+      <div className="flex justify-between  mt-32">
+        <div className="flex flex-col md:flex-row ">
           <SingleTab productsList={productsList} heading="Budget Buy" />
           <SingleTab productsList={productsList} heading="Recently Added" />
           <SingleTab productsList={productsList} heading="Trending Products" />

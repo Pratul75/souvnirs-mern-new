@@ -7,8 +7,8 @@ import { ShopIcon } from "../../icons";
 const SingleTab = ({ heading }) => {
   return (
     <div>
-      <div className="overflow-y-auto h-[600px] relative mt-4">
-        <div className="flex gap-4 items-center border-b w-[325px] md:w-[470.94px] sticky top-0 z-10 bg-white">
+      <div className="overflow-y-auto h-[600px] relative mt-4 flex-1  md:ml-10">
+        <div className="flex gap-4 items-center border-b w-[325px] md:w-[470.94px]  sticky top-0 z-10 bg-white">
           <h1 className="font-semibold  border-b-4 border-shopPrimaryColor py-4 text-[27.37px] flex gap-4 items-center">
             <GoDot className="text-2xl text-shopPrimaryColor" />
             {heading}
