@@ -175,7 +175,12 @@ const ProductInfo = () => {
     console.log("ProductInfo.jsx", result);
   };
   useEffect(() => {}, [selectedVariants]);
-
+  useEffect(() => {
+    window.scrollTo({
+      top: 10,
+      behavior: "smooth", // Optional: Add smooth scrolling animation
+    });
+  }, []);
   useEffect(() => {
     // Set the slug parameter from the URL
     setSlug(params.slug);
