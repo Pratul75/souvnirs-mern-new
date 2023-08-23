@@ -52,7 +52,7 @@ const Wishlist = () => {
           <Link to={`/productInfo/${row.original.productId.slug}`}>
             <img
               className="w-10 h-10"
-              src={row.original.productId.images[0]}
+              src={row.original.productId.coverImage}
               alt=""
             />
           </Link>

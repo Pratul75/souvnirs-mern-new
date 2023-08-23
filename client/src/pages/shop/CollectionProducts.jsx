@@ -5,10 +5,8 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { Card, ProductCard } from "../../components";
-import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
-import { useFilters } from "react-table";
 import debounce from "lodash/debounce";
 
 const CollectionProducts = () => {
@@ -23,8 +21,6 @@ const CollectionProducts = () => {
   const location = useParams();
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
 
-  console.log("LOCATION OBJECT: ", location);
-
   const getProducts = async () => {
     const response = await API_WRAPPER.post(
       `/products/collection/${location.slug}`,
@@ -33,7 +29,7 @@ const CollectionProducts = () => {
         priceMax: inputRangeValue,
       }
     );
-    console.log("CategoryProducts.jsx", response);
+    console.log("COLLECTION RESPONSE: ", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
   };
@@ -60,13 +56,13 @@ const CollectionProducts = () => {
       setFilters((prevFilters) => [...prevFilters, newFilter]);
     }
   };
-  console.log("CategoryProducts.jsx", filters);
 
   useEffect(() => {
     debounce(() => {
       getProducts();
     }, 100)();
   }, [filters, inputRangeValue]);
+
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -75,7 +71,7 @@ const CollectionProducts = () => {
             <Card>
               <div className="p-4">
                 <div className="flex items-center justify-between">
-                  <h6 className="text-primary text-lg font-bold ">Price</h6>
+                  <h6 className="text-primary text-lg font-bold">Price</h6>
                 </div>
                 <input
                   type="range"
@@ -90,19 +86,24 @@ const CollectionProducts = () => {
                 </div>
               </div>
             </Card>
+
+            <Card>
+              <div className="p-4">
+                <span className="text-xl">Size</span>
+              </div>
+            </Card>
             {filterList &&
-              Object.keys(filterList).map((filter) => {
-                console.log("CategoryProducts.jsx", filter);
-                return (
-                  <FilterCard
-                    key={filter} // You should add a unique key for each item in the list
-                    title="Product Filter"
-                    onSelect={handleFilterSelection}
-                    heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
-                  />
-                );
-              })}
+              filterList.conditionValue.map((conditionId, index) => (
+                <FilterCard
+                  key={index}
+                  title="Product Filter"
+                  onSelect={handleFilterSelection}
+                  heading={`Condition Value ${index + 1}`}
+                  filters={[
+                    { filterName: conditionId }, // Replace with actual filter values
+                  ]}
+                />
+              ))}
           </div>
         </div>
         <div className="col-span-3 container px-8">
@@ -181,6 +182,7 @@ const CollectionProducts = () => {
               products &&
               products.map((product) => (
                 <ProductCardMini
+                  key={nanoid()}
                   id={nanoid()}
                   price={
                     product.variants.length > 0
@@ -200,6 +202,7 @@ const CollectionProducts = () => {
                   products.map((product) => {
                     return (
                       <ProductCard
+                        key={nanoid()}
                         badgeColor="badge-accent"
                         badgeText="NEW"
                         slug={product.products.slug}

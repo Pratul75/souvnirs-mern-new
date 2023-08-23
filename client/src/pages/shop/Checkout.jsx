@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import { Card } from "../../components";
 import { RxCross2 } from "react-icons/rx";
+import { nanoid } from "nanoid";
 
 const Checkout = () => {
   const [items, setItems] = useState();
@@ -101,7 +102,10 @@ const Checkout = () => {
               <div className="border-b">
                 {items &&
                   items.map((item) => (
-                    <div className="flex justify-between w-full my-4">
+                    <div
+                      key={nanoid()}
+                      className="flex justify-between w-full my-4"
+                    >
                       <span className="text-sm">
                         {item.product_id.name} X {item.product_quantity}
                       </span>
