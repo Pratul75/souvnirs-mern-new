@@ -6,22 +6,7 @@ const orderSchema = new mongoose.Schema(
     ServiceType: { type: String },
     productCategory: { type: String },
     customizationReq: { type: String },
-    customer_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Customer",
-      required: true,
-    },
-    vendor_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Vendor",
-      required: true,
-    },
 
-    address_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Address",
-      required: true,
-    },
     coupon_code: { type: String },
     discounts: { type: Number },
     total_products: { type: Number },

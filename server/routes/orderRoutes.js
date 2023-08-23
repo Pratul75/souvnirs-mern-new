@@ -7,6 +7,8 @@ const {
   getTotalSales,
   getTotalOrders,
   getOrderTableData,
+  createOrder,
+  captureOrder,
 } = require("../controllers/ordersController");
 const authMiddleware = require("../middlewares");
 
@@ -55,4 +57,6 @@ router.get(
   authMiddleware(["vendor", "admin"]),
   getOrderTableData
 );
+router.post("/order/create", createOrder);
+router.post("/order/capture/:paymentId", captureOrder);
 module.exports = router;
