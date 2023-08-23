@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 const BlogList = ({ blogItemsData }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="grid grid-cols-3 gap-4 my-16">
+      <div className="grid grid-cols-4 gap-4 my-16">
         {blogItemsData?.map(
           ({
             id,

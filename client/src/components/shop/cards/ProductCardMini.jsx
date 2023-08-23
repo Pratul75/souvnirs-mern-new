@@ -21,7 +21,9 @@ const ProductCardMini = ({
       variants={fadeInVariants}
       animate="animate"
       initial="initial"
-      className={` ${showBorder && "border"} rounded-xl w-96 bg-base-200`}
+      className={` ${
+        showBorder && "border"
+      } rounded-xl w-full bg-base-100  shadow-xl`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="flex items-center p-4">

@@ -590,6 +590,18 @@ export const blogCardData = [
       console.log("CLICKED ON BLOG CARD");
     },
   },
+  {
+    id: nanoid(),
+    blogImage: GiftOnePng,
+    date: "22  October  2023",
+    views: 100,
+    heading: "What should I know about...",
+    paragraph:
+      "lorem ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa ipsum ect dolor emet doloris de futa",
+    buttonHandler: () => {
+      console.log("CLICKED ON BLOG CARD");
+    },
+  },
 ];
 
 export const ImageGridMapping = [

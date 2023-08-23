@@ -14,15 +14,15 @@ const testimonials = [
           Customer Reviews{" "}
         </h1>
         <div className="grid grid-cols-3 gap-4 my-8">
-          <div className="col-span-3 md:col-span-1 bg-white rounded-xl">
-            <p className="p-4">
+          <div className="col-span-1 hidden md:block border p-4 hover:scale-105 transition ease-in-out duration-300  bg-transparent rounded-xl">
+            <p className="p-4 text-white">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
-            <div className="bg-violet-600 hidden  p-4 md:flex gap-10 rounded-l-full">
+            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
               <div className="avatar placeholder">
-                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                <div className="bg-accent text-neutral-content rounded-full w-24">
                   <span className="text-3xl">K</span>
                 </div>
               </div>
@@ -32,15 +32,15 @@ const testimonials = [
               </div>
             </div>
           </div>
-          <div className="col-span-1 hidden md:block bg-white rounded-xl">
-            <p className="p-4">
+          <div className="col-span-1 hidden md:block border p-4 hover:scale-105 transition ease-in-out duration-300  bg-transparent rounded-xl">
+            <p className="p-4 text-white">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
             <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
               <div className="avatar placeholder">
-                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                <div className="bg-primary text-neutral-content rounded-full w-24">
                   <span className="text-3xl">K</span>
                 </div>
               </div>
@@ -50,15 +50,15 @@ const testimonials = [
               </div>
             </div>
           </div>
-          <div className="col-span-1 hidden md:block bg-white rounded-xl">
-            <p className="p-4">
+          <div className="col-span-1 hidden md:block border p-4 hover:scale-105 transition ease-in-out duration-300  bg-transparent rounded-xl">
+            <p className="p-4 text-white">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Modi
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
             <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
               <div className="avatar placeholder">
-                <div className="bg-neutral-focus text-neutral-content rounded-full w-24">
+                <div className="bg-secondary text-neutral-content rounded-full w-24">
                   <span className="text-3xl">K</span>
                 </div>
               </div>
@@ -87,7 +87,7 @@ const testimonials = [
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
-            <div className="bg-violet-600 hidden  p-4 md:flex gap-10 rounded-l-full">
+            <div className="bg-rose-600 hidden  p-4 md:flex gap-10 rounded-l-full">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div className="flex flex-col text-white">
                 <h2>Merida Swan</h2>
@@ -101,7 +101,7 @@ const testimonials = [
               corrupti dolor quos dolores dolorem perferendis laudantium
               voluptatibus
             </p>
-            <div className="bg-violet-600 p-4 flex gap-10 rounded-l-full">
+            <div className="bg-teal-600 p-4 flex gap-10 rounded-l-full">
               <Avatar bgColor="bg-primary" initials="VB" />
               <div className="flex flex-col text-white">
                 <h2>Merida Swan</h2>
@@ -207,7 +207,7 @@ const TestimonialsCarousel = () => {
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             key={currentTestimonial.id}
-            className="w-full  flex  items-center justify-center rounded-lg shadow-lg bg-violet-950"
+            className="w-full flex items-center justify-center rounded-lg shadow-lg bg-gradient-to-r from-violet-700  to-shopPrimaryColor"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
