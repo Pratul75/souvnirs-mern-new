@@ -13,6 +13,7 @@ import {
 } from "../../animation";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import parse from "html-react-parser";
 
 const AddCollection = () => {
   const initialFormData = {
@@ -61,7 +62,9 @@ const AddCollection = () => {
       },
       {
         Header: "Description",
-        accessor: "description",
+        Cell: ({ row }) => {
+          return parse(row?.original?.description);
+        },
       },
       {
         Header: "tags",

@@ -23,7 +23,7 @@ const ProductInfo = () => {
   const [slug, setSlug] = useState();
   const params = useParams();
   const [quantity, setQuantity] = useState(0);
-  4;
+  const [variantFilters, setVariantFilters] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ const ProductInfo = () => {
       content: (
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-          repellendus dolorum tenetur laborum recusandae iure exercitationem
+          repellendus dolorum ten etur laborum recusandae iure exercitationem
           quis possimus vel atque nam quidem ut nobis, iusto nemo, magni
           asperiores suscipit. Quae? Lorem ipsum, dolor sit amet consectetur
           adipisicing elit. Laboriosam similique, repellat necessitatibus cum
@@ -107,6 +107,33 @@ const ProductInfo = () => {
       setSelectedImage(response.data.coverImage);
     }
   };
+  const extractVariantsData = async (variants) => {
+    let result = [];
+    console.log(variants);
+
+    for (let variant of variants) {
+      for (const key in variant.variant) {
+        console.log("ProductInfo.jsx", key);
+
+        // Find the object in the result array with the matching key
+        let existingObject = result.find((obj) => obj[key]);
+
+        if (!existingObject) {
+          // If the object with the key doesn't exist, create a new one
+          existingObject = { [key]: [] };
+          result.push(existingObject);
+        }
+
+        // Push the value to the existing object's array
+        if (!existingObject[key].includes(variant.variant[key])) {
+          existingObject[key].push(variant.variant[key]);
+        }
+      }
+    }
+
+    setVariantFilters(result);
+    console.log("ProductInfo.jsx", result);
+  };
 
   useEffect(() => {
     // Set the slug parameter from the URL
@@ -117,8 +144,11 @@ const ProductInfo = () => {
     // Fetch product data whenever the slug changes
     if (slug) {
       fetchProductData();
+      extractVariantsData(product?.variants);
     }
   }, [slug]); // Add slug as a dependency
+
+  console.log("ProductInfo.jsx", variantFilters);
 
   return (
     <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
@@ -208,14 +238,29 @@ const ProductInfo = () => {
                   value={quantity}
                 />
               </div>
-              <div className="form-control">
+              {variantFilters?.map((attribute) => {
+                const key = Object.keys(attribute)[0];
+                return (
+                  <div className="form-control">
+                    <label className="label">
+                      <span className="label-text">{key}</span>
+                    </label>
+                    <select className="select select-bordered">
+                      {attribute[key].map((value) => (
+                        <option value={value}>{value}</option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              })}
+              {/* <div className="form-control">
                 <label className="label">
                   <span className="label-text">Color</span>
                 </label>
                 <select className="select select-bordered">
                   <option value="Black">Black</option>
                 </select>
-              </div>
+              </div> */}
               <button className="btn  mt-4 w-full">Get Quote</button>
             </div>
             <div className="col-span-1">
