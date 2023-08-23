@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { ProductCard } from "../../../components";
+import { ProductCard, ScrollAnimationWrapper } from "../../../components";
 import API_WRAPPER from "../../../api";
-
 const ProductsListWithFilters = ({ heading, filters, products }) => {
   const [activeFilter, setActiveFilter] = useState(filters[0].id); // Set the initial active filter
   const [productsList, setProductsList] = useState([]);
@@ -48,38 +47,40 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
   }, []);
 
   return (
-    <div className="mt-16">
-      <div className="flex flex-col md:flex-row items-center justify-between ">
-        <h1 className="font-semibold text-2xl">{heading}</h1>
-        <div className="flex flex-col md:flex-row  gap-2">
-          {filters.map((filter) => (
-            <button
-              className={`text-lg mr-12 p-4 border-b-[1px] ${
-                activeFilter === filter.id
-                  ? "border-primary"
-                  : "border-transparent"
-              } w-24 text-center font-semibold focus:outline-none`}
-              key={filter.id}
-              onClick={() => setActiveFilter(filter.id)}
-            >
-              {filter.name}
-            </button>
+    <ScrollAnimationWrapper>
+      <div className="mt-16">
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <h1 className="font-semibold text-2xl">{heading}</h1>
+          <div className="flex flex-col md:flex-row  gap-2">
+            {filters.map((filter) => (
+              <button
+                className={`text-lg mr-12 p-4 border-b-[1px] ${
+                  activeFilter === filter.id
+                    ? "border-primary"
+                    : "border-transparent"
+                } w-24 text-center font-semibold focus:outline-none`}
+                key={filter.id}
+                onClick={() => setActiveFilter(filter.id)}
+              >
+                {filter.name}
+              </button>
+            ))}
+          </div>
+        </div>
+        <hr />
+        <div className="flex justify-center md:justify-between gap-4 py-4 flex-wrap md:flex-nowrap">
+          {productsList.map(({ _id, name, price, rating, coverImage }) => (
+            <ProductCard
+              key={_id}
+              title={name}
+              price={price}
+              rating={4.3}
+              image={coverImage}
+            />
           ))}
         </div>
       </div>
-      <hr />
-      <div className="flex justify-center md:justify-between gap-4 py-4 flex-wrap md:flex-nowrap">
-        {productsList.map(({ _id, name, price, rating, coverImage }) => (
-          <ProductCard
-            key={_id}
-            title={name}
-            price={price}
-            rating={rating}
-            image={coverImage}
-          />
-        ))}
-      </div>
-    </div>
+    </ScrollAnimationWrapper>
   );
 };
 

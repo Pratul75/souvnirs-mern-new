@@ -1,35 +1,38 @@
+import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
 import GradiantCard from "../cards/GradiantCard";
 import PropTypes from "prop-types";
 
 const GradiantCardList = ({ cardData }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 mt-16">
-      {cardData?.map(
-        ({
-          id,
-          title,
-          heading,
-          subheading,
-          background,
-          image,
-          link,
-          btnColorCode,
-        }) => {
-          return (
-            <GradiantCard
-              key={id}
-              background={background}
-              title={title}
-              heading={heading}
-              subheading={subheading}
-              image={image}
-              link={link}
-              btnColorCode={btnColorCode}
-            />
-          );
-        }
-      )}
-    </div>
+    <ScrollAnimationWrapper>
+      <div className="grid grid-cols-3 gap-4 mt-16">
+        {cardData?.map(
+          ({
+            id,
+            title,
+            heading,
+            subheading,
+            background,
+            image,
+            link,
+            btnColorCode,
+          }) => {
+            return (
+              <GradiantCard
+                key={id}
+                background={background}
+                title={title}
+                heading={heading}
+                subheading={subheading}
+                image={image}
+                link={link}
+                btnColorCode={btnColorCode}
+              />
+            );
+          }
+        )}
+      </div>
+    </ScrollAnimationWrapper>
   );
 };
 

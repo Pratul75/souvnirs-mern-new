@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Avatar from "../../Avatar";
+import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
 
 const testimonials = [
   {
@@ -201,34 +202,36 @@ const TestimonialsCarousel = () => {
   const currentTestimonial = testimonials[currentTestimonialIndex];
 
   return (
-    <div className="relative h-[350px] mt-16">
-      <AnimatePresence initial={false} mode="wait">
-        <motion.div
-          key={currentTestimonial.id}
-          className="w-full  flex  items-center justify-center rounded-lg shadow-lg bg-violet-950"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+    <ScrollAnimationWrapper>
+      <div className="relative h-[350px] mt-16">
+        <AnimatePresence initial={false} mode="wait">
+          <motion.div
+            key={currentTestimonial.id}
+            className="w-full  flex  items-center justify-center rounded-lg shadow-lg bg-violet-950"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="">
+              <p className="text-xl">{currentTestimonial.content}</p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+        <button
+          onClick={prevTestimonial}
+          className="absolute btn btn-circle top-2/3 left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
         >
-          <div className="">
-            <p className="text-xl">{currentTestimonial.content}</p>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-      <button
-        onClick={prevTestimonial}
-        className="absolute btn btn-circle top-2/3 left-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
-      >
-        <FaArrowLeft />
-      </button>
-      <button
-        onClick={nextTestimonial}
-        className="absolute btn btn-circle top-2/3 right-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
-      >
-        <FaArrowRight />
-      </button>
-    </div>
+          <FaArrowLeft />
+        </button>
+        <button
+          onClick={nextTestimonial}
+          className="absolute btn btn-circle top-2/3 right-5 transform -translate-y-1/2 px-4 py-2 text-violet-600"
+        >
+          <FaArrowRight />
+        </button>
+      </div>
+    </ScrollAnimationWrapper>
   );
 };
 

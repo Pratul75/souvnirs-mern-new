@@ -43,3 +43,4 @@ export { default as ShopFooter } from "./shop/footer";
 export { default as ProductTabs } from "./shop/components/ProductTabs";
 export { default as AddToCartCard } from "./shop/cards/AddToCartACard";
 export { default as TimerComponent } from "./shop/components/TimerComponent";
+export { default as ScrollAnimationWrapper } from "../components/ScrollAnimationWrapper";

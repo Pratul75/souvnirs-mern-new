@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
+import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+
 // the component is to show all the features of the shop in a conscice manner
 const FeaturesCard = ({
   iconOne,
@@ -16,60 +18,59 @@ const FeaturesCard = ({
   subHeadingFour,
 }) => {
   return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 "
-    >
-      <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
-        <div className="flex items-center gap-5 justify-center md:justify-start ">
-          <div className="mr-2">{iconOne}</div>
-          <div>
-            <div className="text-black text-2xl font-semibold uppercase leading-normal">
-              {headingOne}
-            </div>
-            <div className="text-neutral-700 text-sm font-medium leading-relaxed">
-              {subHeadingOne}
-            </div>
-          </div>
-        </div>
-        <div className="divider divide-[#ededed] lg:divider-horizontal "></div>
-        <div className="flex items-center justify-center md:justify-start gap-5">
-          <div className="mr-2">{iconTwo}</div>
-          <div>
-            <div className="text-black text-2xl font-semibold uppercase leading-normal">
-              {headingTwo}
-            </div>
-            <div className="text-neutral-700 text-sm font-medium leading-relaxed">
-              {subHeadingTwo}
+    <ScrollAnimationWrapper>
+      <div className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 shadow-lg ">
+        <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
+          <div className="flex items-center gap-5 justify-center md:justify-start ">
+            <div className="mr-2">{iconOne}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingOne}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingOne}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="divider lg:divider-horizontal"></div>
-        <div className="flex items-center gap-5 justify-center md:justify-start">
-          <div className="mr-2">{iconThree}</div>
-          <div>
-            <div className="text-black text-2xl font-semibold uppercase leading-normal">
-              {headingThree}
-            </div>
-            <div className="text-neutral-700 text-sm font-medium leading-relaxed">
-              {subHeadingThree}
+          <div className="divider divide-[#ededed] lg:divider-horizontal "></div>
+          <div className="flex items-center justify-center md:justify-start gap-5">
+            <div className="mr-2">{iconTwo}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingTwo}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingTwo}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="divider lg:divider-horizontal"></div>
-        <div className="flex items-center gap-5 justify-center md:justify-start">
-          <div className="mr-2">{iconFour}</div>
-          <div>
-            <div className="text-black text-2xl font-semibold uppercase leading-normal">
-              {headingFour}
+          <div className="divider lg:divider-horizontal"></div>
+          <div className="flex items-center gap-5 justify-center md:justify-start">
+            <div className="mr-2">{iconThree}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingThree}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingThree}
+              </div>
             </div>
-            <div className="text-neutral-700 text-sm font-medium leading-relaxed">
-              {subHeadingFour}
+          </div>
+          <div className="divider lg:divider-horizontal"></div>
+          <div className="flex items-center gap-5 justify-center md:justify-start">
+            <div className="mr-2">{iconFour}</div>
+            <div>
+              <div className="text-black text-2xl font-semibold uppercase leading-normal">
+                {headingFour}
+              </div>
+              <div className="text-neutral-700 text-sm font-medium leading-relaxed">
+                {subHeadingFour}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </motion.div>
+    </ScrollAnimationWrapper>
   );
 };
 FeaturesCard.propTypes = {

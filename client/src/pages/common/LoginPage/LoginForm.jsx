@@ -110,7 +110,7 @@ const LoginForm = () => {
               className="btn btn-ghost float-right mr-8"
             >
               {" "}
-              <BiArrowBack /> Go Back
+              <BiArrowBack /> Shop
             </Link>
           </div>
 

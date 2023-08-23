@@ -15,12 +15,12 @@ const BlogsCard = ({
   return (
     <Link
       to={PATHS.blogs}
-      className="overflow-hidden rounded-lg shadow transition hover:shadow-lg md:mt-16 mt-8 cursor-pointer col-span-3 md:col-span-1"
+      className="overflow-hidden shadow transition hover:shadow-lg md:mt-16 mt-8 cursor-pointer col-span-3 md:col-span-1 p-4 border rounded-xl"
     >
       <img
         alt="Office"
         src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-        className="h-56 w-full object-cover"
+        className="h-56 w-full object-cover rounded-xl"
       />
 
       <div className="bg-white p-4 sm:p-6">

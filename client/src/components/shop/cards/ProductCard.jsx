@@ -60,10 +60,13 @@ const ProductCard = ({
   return (
     <motion.div
       variants={fadeInVariants}
+      whileHover={{
+        scale: 1.05,
+      }}
       animate="animate"
       initial="initial"
       key={id}
-      className="card bg-base-200 px-3 py-2 cursor-pointer pb-8 w-96 h-auto"
+      className="card  border  px-3 py-4 cursor-pointer w-96  shadow-lg"
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="card-title flex justify-between">
@@ -78,10 +81,10 @@ const ProductCard = ({
           <AiOutlineHeart className="text-2xl" style={{ color: heartColor }} />
         </button>
       </div>
-      <div className="flex justify-center">
-        <div className="flex py-4  justify-center">
+      <div className="flex justify-center items-center">
+        <div className="flex py-4 justify-center w-2/3">
           <img
-            className="w-[80%]"
+            className="w-full max-w-full"
             style={{
               mixBlendMode: "multiply",
             }}
