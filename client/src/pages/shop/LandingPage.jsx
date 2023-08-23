@@ -212,8 +212,8 @@ const LandingPage = () => {
                   ),
                   label: "CONTENT 1",
                 },
-                { content: "I AM CONTENT 2", label: "CONTENT 1" },
-                { content: "I AM CONTENT 3", label: "CONTENT 1" },
+                { content: "I AM CONTENT 2", label: "CONTENT 2" },
+                { content: "I AM CONTENT 3", label: "CONTENT 3" },
               ]}
             />
           </div>

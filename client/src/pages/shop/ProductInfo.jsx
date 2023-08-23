@@ -161,28 +161,32 @@ const ProductInfo = () => {
           </div>
         </div>
 
-        <div className="col-span-1 border-t md:border-l lg:border-l-0 md:border-t-0 lg:border-t flex flex-col items-center justify-center px-4 ">
-          <h1 className="font-bold text-2xl">{product?.name}</h1>
-          <div className={"gap-2 md:gap-4 flex flex-col"}>
-            <span className="text-4xl font-thin">USD</span>
-            {isLogged ? (
-              <span className="text-4xl">
-                {product?.variants.length > 0
-                  ? product?.variants[0].price
-                  : product?.price}
-              </span>
-            ) : (
-              <Link to={PATHS.login} className="join cursor-pointer">
-                <div className="bg-base-200 join-item flex items-center px-2">
-                  <span className="text-sm">
-                    To revel price please signin/sign up
+        <div className="col-span-1  flex flex-col items-center justify-center px-4 ">
+          <div className="flex flex-col">
+            <h1 className="font-bold text-2xl">{product?.name}</h1>
+            <div className={"gap-2 md:gap-4 flex flex-col"}>
+              <div className="flex gap-4">
+                <span className="text-4xl font-thin">USD</span>
+                {isLogged ? (
+                  <span className="text-4xl">
+                    {product?.variants.length > 0
+                      ? product?.variants[0].price
+                      : product?.price}
                   </span>
-                </div>
-                <div className="p-4 join-item bg-primary">
-                  <CiLogin className="text-2xl text-white" />
-                </div>
-              </Link>
-            )}
+                ) : (
+                  <Link to={PATHS.login} className="join cursor-pointer">
+                    <div className="bg-base-200 join-item flex items-center px-2">
+                      <span className="text-sm">
+                        To revel price please signin/sign up
+                      </span>
+                    </div>
+                    <div className="p-4 join-item bg-primary">
+                      <CiLogin className="text-2xl text-white" />
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </div>
           </div>
           <div className="flex gap-4 my-2">
             <Ratings rating={3} />
@@ -215,8 +219,9 @@ const ProductInfo = () => {
               <button className="btn  mt-4 w-full">Get Quote</button>
             </div>
             <div className="col-span-1">
-              <div className="text-xs mt-7 bg-base-200 rounded-xl px-2 py-1">
-                {/* {product?.description} */}
+              <h1 className="text-sm">Description</h1>
+              <div className="text-xs mt-4 bg-base-200 rounded-xl px-2">
+                {product?.description.split(" ").slice(0, 10).join(" ")}
               </div>
               <div className="form-control">
                 <label className="label">
