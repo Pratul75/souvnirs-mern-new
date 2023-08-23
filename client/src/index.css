@@ -105,6 +105,54 @@ body {
   width: 100%;
 }
 
-body {
+html {
   scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+}
+
+body {
+  scroll-snap-type: y mandatory;
+}
+
+/* Create the bounce effect */
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1.2);
+  }
+  40% {
+    transform: translateY(-20px);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  60% {
+    transform: translateY(-10px);
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+}
+
+.scroll-element {
+  /* Apply the bounce animation */
+  animation: bounce 2s;
+
+  /* Enable scroll snapping */
+  scroll-snap-align: start;
+}
+
+@keyframes fadeInCard {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.card_animation {
+  animation: fadeInCard 1s forwards;
 }
