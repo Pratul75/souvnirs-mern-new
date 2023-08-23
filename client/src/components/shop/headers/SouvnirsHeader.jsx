@@ -17,7 +17,11 @@ import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 
+import { LuMoon } from "react-icons/lu";
+import { useDispatch } from "react-redux";
+import { toggleDarkMode } from "../../../features/appConfig/appSlice";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
+  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   console.log("SouvnirsHeader.jsx", token);
   const navigate = useNavigate();
@@ -42,13 +46,11 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
 
   const getWishlistData = async () => {
     const response = await API_WRAPPER.get("/wishlist/getmywishlist");
-    console.log("ShopNavbar.jsx", response);
     setWishlistItems(response.data.data.wishlist);
   };
 
   const getCartItems = async () => {
     const response = await API_WRAPPER.get("/cart/mycart");
-    console.log("wishlist.jsx", response);
     setcartItems(response.data);
   };
   const handleInputChange = (e) => {
@@ -218,6 +220,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 {" "}
                 {wishlistItems && wishlistItems?.length}
               </div>
+              <div>{/* add dark mode toggle */}</div>
+
               <Link to={PATHS.shopWishlist} className="btn btn-circle">
                 <AiOutlineHeart className="text-2xl cursor-pointer" />
               </Link>
@@ -232,6 +236,14 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 <Link to={PATHS.cartPage} className="btn btn-circle">
                   <FiShoppingBag className="text-2xl cursor-pointer" />
                 </Link>
+              </div>
+              <div className="tooptip tooltip-bottom ml-3" data-tip="Dark">
+                <button
+                  onClick={() => dispatch(toggleDarkMode())}
+                  className="btn btn-circle"
+                >
+                  <LuMoon className="text-2xl" />
+                </button>
               </div>
             </div>
           </div>
@@ -337,6 +349,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                   </Link>
                 </div>
               )}
+
               <Link to={PATHS.shopWishlist} className="btn btn-circle mt-4">
                 <AiOutlineHeart className="text-2xl cursor-pointer" />
                 <div

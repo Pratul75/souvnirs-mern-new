@@ -45,7 +45,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
     try {
       const response = await API_WRAPPER.get("/products/get-all-products");
       if (response.status === 200) {
-        console.log("PRODUCT DATA: ", response?.data);
+        // console.log("PRODUCT DATA: ", response?.data);
         setProductsList(getRandomValues(response?.data));
         setLoading(false); // Set loading to false after data is fetched
       }
