@@ -46,10 +46,10 @@ const App = () => {
         {/* {loading && <Loading />} */}
         <AnimatePresence>
           <Routes>
-            <Route
+            {/* <Route
               path={PATHS.root}
               element={<Navigate to={PATHS.landingPage} />}
-            />
+            /> */}
 
             <Route element={<RegisterPage />} path={PATHS.register} />
 
