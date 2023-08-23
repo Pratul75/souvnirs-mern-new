@@ -1,5 +1,5 @@
 import { BiSolidOffer } from "react-icons/bi";
-import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
+import ShopBanner from "../../assets/shop/bannerImages/checkoutBaner.png";
 import Banner from "./Banner";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
@@ -51,7 +51,7 @@ const Checkout = () => {
         navigation={"Home/Checkout"}
         text={"Checkout"}
       />
-      <div className="mx-16">
+      <div className="my-8">
         <div className="grid grid-cols-4 gap-4 mt-4">
           <div className="col-span-3 bg-base-200 p-4 rounded-xl">
             <h1 className="font-semibold tect-2xl my-4">

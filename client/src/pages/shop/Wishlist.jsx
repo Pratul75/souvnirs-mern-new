@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"; // If using React Router
 import { toggleRefresh } from "../../features/appConfig/appSlice";
 import { debouncedShowToast } from "../../utils";
 import { Table } from "../../components";
-import ShopBanner from "../../assets/shop/bannerImages/shopBanner.png";
+import ShopBanner from "../../assets/shop/bannerImages/wishlistBanner.png";
 import Banner from "./Banner";
 import API_WRAPPER from "../../api";
 import { PATHS } from "../../Routes/paths";
