@@ -121,9 +121,9 @@ const ProductInfo = () => {
       setSelectedImage(response.data.coverImage);
       extractVariantsData(response.data?.variants);
       setPrice(
-        product?.variants.length > 0
-          ? product?.variants[0].price
-          : product?.price
+        response?.data?.variants.length > 0
+          ? response.data?.variants[0].price
+          : response?.data?.price
       );
     }
   };
