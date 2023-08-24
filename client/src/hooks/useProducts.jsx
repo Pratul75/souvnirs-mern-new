@@ -5,7 +5,7 @@ const useProducts = () => {
   const [productsList, setProductsList] = useState([]);
   const getAllProducts = async () => {
     try {
-      const response = await API_WRAPPER.get("/products/get-all-products");
+      const response = await API_WRAPPER.get("/products/get-search-products");
       if (response.status === 200) {
         setProductsList(response?.data);
       }

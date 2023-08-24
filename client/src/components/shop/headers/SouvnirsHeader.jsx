@@ -24,7 +24,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
-  console.log("SouvnirsHeader.jsx", token);
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");

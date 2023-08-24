@@ -250,7 +250,8 @@ const LandingPage = () => {
       />
       <BrandsCard imagesList={BrandsCardImageList} />
 
-      <TestimonialsCarosel />
+      {/* For Phase 2 */}
+      {/* <TestimonialsCarosel /> */}
 
       <div className="flex justify-between  mt-32">
         <div className="flex flex-col md:flex-row ">
