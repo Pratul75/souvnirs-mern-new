@@ -265,7 +265,7 @@ const CategoryProducts = () => {
           </div>
         </div>
       </div>
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
     </div>
   );
 };
