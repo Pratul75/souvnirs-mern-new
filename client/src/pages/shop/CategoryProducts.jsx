@@ -79,7 +79,7 @@ const CategoryProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, page, inputRangeValue, slug]);
+  }, [filters, page, inputRangeValue]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
