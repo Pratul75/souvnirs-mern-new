@@ -43,8 +43,10 @@ const AddChildMenu = () => {
     }
   };
   const createChildMenus = async () => {
+    setLoading(true);
     const response = await API_WRAPPER.post("/child-menu/create", createdCards);
     if (response) {
+      setLoading(false);
       debouncedShowToast("child-menu created successfully");
     }
   };

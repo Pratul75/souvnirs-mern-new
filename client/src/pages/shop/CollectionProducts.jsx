@@ -8,6 +8,7 @@ import { Card, ProductCard } from "../../components";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
+import Loading from "../common/Loading";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -18,10 +19,14 @@ const CollectionProducts = () => {
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+
   const location = useParams();
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
 
   const getProducts = async () => {
+    setLoading(true);
     const response = await API_WRAPPER.post(
       `/products/collection/${location.slug}`,
       {
@@ -32,6 +37,7 @@ const CollectionProducts = () => {
     console.log("COLLECTION RESPONSE: ", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
+    setLoading(false);
   };
 
   const handleFilterSelection = (filterData) => {
@@ -225,6 +231,7 @@ const CollectionProducts = () => {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   );
 };
