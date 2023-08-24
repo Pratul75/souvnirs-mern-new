@@ -199,11 +199,7 @@ const CategoryProducts = () => {
                   slug={product.slug}
                   rating={4.5}
                   title={product.name}
-                  image={
-                    product.coverImage
-                      ? product.coverImage
-                      : product.variants[0].images[0]
-                  }
+                  image={product.coverImage && product.coverImage}
                 />
               ))
             ) : (
