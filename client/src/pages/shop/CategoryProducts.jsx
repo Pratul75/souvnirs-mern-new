@@ -79,7 +79,7 @@ const CategoryProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, page, inputRangeValue]);
+  }, [filters, page, inputRangeValue, slug]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -108,11 +108,11 @@ const CategoryProducts = () => {
                 console.log("CategoryProducts.jsx", filter);
                 return (
                   <FilterCard
-                    key={filter}
+                    key={filter} // You should add a unique key for each item in the list
                     title="Product Filter"
                     onSelect={handleFilterSelection}
                     heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))}
+                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
                   />
                 );
               })}
@@ -265,7 +265,7 @@ const CategoryProducts = () => {
           </div>
         </div>
       </div>
-      {/* {loading && <Loading />} */}
+      {loading && <Loading />}
     </div>
   );
 };
