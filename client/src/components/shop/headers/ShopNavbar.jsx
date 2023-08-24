@@ -33,7 +33,7 @@ const ShopNavbar = () => {
   const renderSubMenu = (subMenu) => {
     return (
       <ul className="flex  w-auto flex-wrap-reverse   dropdown-content  flex-row p-2 shadow bg-base-100 z-[1] rounded-box">
-        <div className="container flex w-[600px]">
+        <div className="container flex">
           {subMenu.map((submenu) => (
             <li className="ml-4" key={submenu._id}>
               <Link
@@ -118,22 +118,22 @@ const ShopNavbar = () => {
       </div>
 
       {/* ! need to create new  */}
-      {/* <div className="flex items-center">
-        <button
+      <div className="flex gap-4">
+        <div
+          className="flex  items-center  gap-4"
           onClick={() => window.request_quote_modal.showModal()}
-          className="btn"
         >
-          <MdOutlineRequestQuote className="text-3xl" />
-          Request Quote
-        </button>
-        <button className="btn flex gap-2">
+          <MdOutlineRequestQuote className="text-xl" />
+          <span className="text-xs btn btn-ghost mr-10">Request Quote</span>
+        </div>
+        <button className="w-full flex gap-2">
           <BsHeadphones className="text-primary text-3xl" />
-          <div className="flex flex-col">
+          <div className="flex flex-col w-[100px]">
             <span className="text-xs">CALL US 24/7</span>
             <span className="text-xs text-primary">+00 123 456 789</span>
           </div>
         </button>
-      </div> */}
+      </div>
 
       {/* request quote modal */}
       <RequestQuoteForm />
