@@ -9,6 +9,7 @@ const { transporter } = require("../services/mailing");
 const axios = require("axios");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn";
 var SibApiV3Sdk = require("sib-api-v3-sdk");
+const sendEmail = require("../services/mailing");
 
 // Register API for vendors and users
 const registerVendor = async (req, res) => {
@@ -118,7 +119,7 @@ const registerCustomer = async (req, res) => {
     const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
       expiresIn: "7h",
     });
-
+    await sendEmail({ email: "utkarshpawar910910@gmail.com", name: "utkarsh" });
     res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);

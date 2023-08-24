@@ -7,6 +7,7 @@ const axios = require("axios");
 
 const Razorpay = require("razorpay");
 const cartModal = require("../schema/cartModal");
+const sendEmail = require("../services/mailing");
 const instance = new Razorpay({
   key_id: process.env.RAZOR_PAY_KEY_ID,
   key_secret: "FyiZ6gn5TDRQjzCWYAPhCbao",
@@ -159,12 +160,19 @@ const createOrder = async (req, res) => {
     );
 
     const options = {
-      amount: totalSum * 100, // amount == Rs 10
+      amount: 1 * 100, // amount == Rs 10
       currency: "INR",
       receipt: "receipt#1",
       payment_capture: 1,
       // 1 for automatic capture // 0 for manual capture
     };
+    // const options = {
+    //   amount: totalSum * 100, // amount == Rs 10
+    //   currency: "INR",
+    //   receipt: "receipt#1",
+    //   payment_capture: 1,
+    //   // 1 for automatic capture // 0 for manual capture
+    // };
     const order = await instance.orders.create(options);
     res.status(200).json(order);
   } catch (e) {
@@ -176,11 +184,19 @@ const captureOrder = async (req, res) => {
     console.log(req.params);
     console.log(req.params);
     const response = await axios.post(
-      `https://${process.env.RAZOR_PAY_KEY_ID}:"FyiZ6gn5TDRQjzCWYAPhCbao@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
+      `https://${process.env.RAZOR_PAY_KEY_ID}:FyiZ6gn5TDRQjzCWYAPhCbao@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
       { amount: 10 * 10, currency: "INR" }
     );
     console.log(response);
+    await sendEmail({
+      email: "utkarsh.pawar@rechargestudio.com",
+      name: "utkarsh pawar",
+    });
   } catch (e) {
+    await sendEmail({
+      email: "utkarsh.pawar@rechargestudio.com",
+      name: "utkarsh pawar",
+    });
     console.log(e);
   }
 };

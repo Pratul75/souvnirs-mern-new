@@ -136,11 +136,11 @@ const Checkout = () => {
                       className="flex justify-between w-full my-4"
                     >
                       <span className="text-sm">
-                        {item.product_id.name} X {item.product_quantity}
+                        {item?.product_id?.name} X {item.product_quantity}
                       </span>
                       <span className="text-sm">
                         {" "}
-                        ${item.product_quantity * item.product_id.price}
+                        ${item.product_quantity * item?.product_id?.price}
                       </span>
                     </div>
                   ))}
