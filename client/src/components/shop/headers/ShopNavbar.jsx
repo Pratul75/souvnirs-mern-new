@@ -62,7 +62,6 @@ const ShopNavbar = () => {
       </ul>
     );
   };
-
   return (
     <nav className="w-full md:justify-between md:items-center border-b-2  hidden md:flex">
       <div className="join w-full flex items-center">

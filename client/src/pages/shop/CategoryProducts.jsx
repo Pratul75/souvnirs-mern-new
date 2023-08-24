@@ -80,6 +80,7 @@ const CategoryProducts = () => {
       getProducts();
     }, 100)();
   }, [filters, page, inputRangeValue, slug]);
+
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -265,7 +266,7 @@ const CategoryProducts = () => {
           </div>
         </div>
       </div>
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
     </div>
   );
 };
