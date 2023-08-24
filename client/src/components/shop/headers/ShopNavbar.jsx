@@ -33,12 +33,12 @@ const ShopNavbar = () => {
   const renderSubMenu = (subMenu) => {
     return (
       <ul className="flex  w-auto flex-wrap-reverse   dropdown-content  flex-row p-2 shadow bg-base-100 z-[1] rounded-box">
-        <div className="container flex">
+        <div className="flex px-8">
           {subMenu.map((submenu) => (
             <li className="ml-4" key={submenu._id}>
               <Link
                 to={`${window.location.origin}/${submenu.link}`}
-                className="font-semibold block p-4 hover:bg-gray-100 hover:text-primary text-sm w-full"
+                className="font-semibold block p-2  hover:bg-gray-100 hover:text-primary text-sm w-28 min-w-[32px] text-center"
               >
                 {submenu.title}
               </Link>
@@ -63,7 +63,7 @@ const ShopNavbar = () => {
     );
   };
   return (
-    <nav className="w-full md:justify-between md:items-center border-b-2  hidden md:flex">
+    <nav className=" md:justify-between md:items-center border-b-2  hidden md:flex">
       <div className="join w-full flex items-center">
         <div
           className={`dropdown ${open} join-item relative dropdown-hover dropdown-right dropdown-bottom`}
@@ -102,7 +102,7 @@ const ShopNavbar = () => {
               tabIndex={0}
               className=" m-1 cursor-pointer flex items-center mx-2"
             >
-              <span className="text-xs hover:text-shopPrimaryColor hover:bg-base-200 px-2 py-1 rounded-full hover:scale-105 transition duration-300">
+              <span className="text-[10px] hover:text-shopPrimaryColor hover:bg-base-200 px-2 py-1 rounded-full hover:scale-105 transition duration-300">
                 {mainmenu.title}
               </span>
               {/* {mainmenu.submenus && mainmenu.submenus.length > 0 && (
