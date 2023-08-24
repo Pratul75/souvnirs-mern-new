@@ -194,6 +194,7 @@ const CategoryProducts = () => {
               products &&
               products.map((product) => (
                 <ProductCardMini
+                  key={nanoid()}
                   id={nanoid()}
                   price={
                     product.variants.length > 0
@@ -212,6 +213,7 @@ const CategoryProducts = () => {
                   products.map((product) => {
                     return (
                       <ProductCard
+                        key={nanoid()}
                         badgeColor="badge-accent"
                         badgeText="NEW"
                         price={
@@ -232,30 +234,34 @@ const CategoryProducts = () => {
               </div>
             )}
           </div>
-          <div>
-            <button
-              onClick={() => {
-                if (page === 1) {
-                  return;
-                }
-                setPage((prev) => prev - 1);
-              }}
-              className="bg-primary p-5 rounded-xl text-2xl text-white"
-            >
-              -
-            </button>
-            <span className="text-3xl">{page}</span>
-            <button
-              onClick={() => {
-                if (page == lastPage) {
-                  return;
-                }
-                setPage((prev) => prev + 1);
-              }}
-              className="bg-primary p-5 rounded-xl text-2xl text-white"
-            >
-              +
-            </button>
+          <div className="flex  w-full justify-center my-4">
+            <div className="flex justify-center items-center gap-5 w-1/3">
+              <button
+                onClick={() => {
+                  if (page === 1) {
+                    return;
+                  }
+                  setPage((prev) => prev - 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary"
+              >
+                -
+              </button>
+              <span className="text-3xl ">{page}</span>
+              <button
+                onClick={() => {
+                  if (page == lastPage) {
+                    return;
+                  }
+                  setPage((prev) => prev + 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary text-white"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
       </div>
