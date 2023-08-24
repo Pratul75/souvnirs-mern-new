@@ -21,6 +21,7 @@ const CollectionProducts = () => {
   const [filters, setFilters] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   const location = useParams();
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
@@ -32,6 +33,7 @@ const CollectionProducts = () => {
       {
         data: filters,
         priceMax: inputRangeValue,
+        page: page,
       }
     );
     console.log("COLLECTION RESPONSE: ", response);
@@ -67,7 +69,7 @@ const CollectionProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue]);
+  }, [filters, inputRangeValue, page]);
 
   return (
     <div className="mx-16 mt-4">
@@ -228,6 +230,28 @@ const CollectionProducts = () => {
                   })}
               </div>
             )}
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                // if (page === 1) {
+                //   return;
+                // }
+                setPage((prev) => prev - 1);
+              }}
+              className="bg-primary p-5 rounded-xl text-2xl text-white"
+            >
+              -
+            </button>
+            <span className="text-3xl">{page}</span>
+            <button
+              onClick={() => {
+                setPage((prev) => prev + 1);
+              }}
+              className="bg-primary p-5 rounded-xl text-2xl text-white"
+            >
+              +
+            </button>
           </div>
         </div>
       </div>

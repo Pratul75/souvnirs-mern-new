@@ -26,6 +26,8 @@ const CategoryProducts = () => {
   const [slug, setSlug] = useState();
   const [loading, setLoading] = useState(false);
   const params = useParams();
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(2);
   const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
@@ -34,11 +36,13 @@ const CategoryProducts = () => {
     const response = await API_WRAPPER.post(`/products/category/${slug}`, {
       data: filters,
       priceMax: inputRangeValue,
+      page: page,
     });
     console.log("CategoryProducts.jsx", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
     setMax(response?.data?.max);
+    setLastPage(response?.data?.lastPage);
     setLoading(false);
   };
 
@@ -75,7 +79,7 @@ const CategoryProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue, slug]);
+  }, [filters, page, inputRangeValue, slug]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -227,6 +231,31 @@ const CategoryProducts = () => {
                   })}
               </div>
             )}
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                if (page === 1) {
+                  return;
+                }
+                setPage((prev) => prev - 1);
+              }}
+              className="bg-primary p-5 rounded-xl text-2xl text-white"
+            >
+              -
+            </button>
+            <span className="text-3xl">{page}</span>
+            <button
+              onClick={() => {
+                if (page == lastPage) {
+                  return;
+                }
+                setPage((prev) => prev + 1);
+              }}
+              className="bg-primary p-5 rounded-xl text-2xl text-white"
+            >
+              +
+            </button>
           </div>
         </div>
       </div>

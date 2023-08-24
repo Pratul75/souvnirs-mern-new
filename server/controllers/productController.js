@@ -137,7 +137,7 @@ const createProduct = async (req, res) => {
 };
 
 const getProductsByCategorySlug = async (req, res) => {
-  const { data } = req.body;
+  const { data, page } = req.body;
   const { priceMax } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
@@ -322,14 +322,20 @@ const getProductsByCategorySlug = async (req, res) => {
       }
       return attributes;
     }, {});
+  const lastPage = Math.ceil(filteredProducts.length / 10);
 
-  res
-    .status(200)
-    .json({ products: filteredProducts, filters: variantComb, max: maxPrice });
+  const finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
+
+  res.status(200).json({
+    products: finalProducts,
+    filters: variantComb,
+    max: maxPrice,
+    lastPage,
+  });
 };
 
 const getProductsByCollectionSlug = async (req, res) => {
-  const { data, priceMax } = req.body;
+  const { data, priceMax, page } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -491,7 +497,11 @@ const getProductsByCollectionSlug = async (req, res) => {
       return attributes;
     }, {});
 
-  res.status(200).json({ products: filteredProducts, filters: variantComb });
+  const lastPage = Math.ceil(filteredProducts / 10);
+
+  const finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
+
+  res.status(200).json({ products: finalProducts, filters: variantComb });
 };
 
 const getProductsByFilter = async (req, res) => {
