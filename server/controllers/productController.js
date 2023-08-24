@@ -657,6 +657,14 @@ const createProductVariant = async (req, res) => {
   });
   res.status(200).json("success");
 };
+const getSearchProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json(products);
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
 
 // get all products
 const getProducts = async (req, res) => {
@@ -1011,5 +1019,6 @@ module.exports = {
   getAllMedia,
   getProductsByCollectionSlug,
   getProductsByFilter,
+  getSearchProducts,
   getProductBySlug,
 };
