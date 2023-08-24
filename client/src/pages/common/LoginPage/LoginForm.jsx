@@ -72,19 +72,24 @@ const LoginForm = () => {
 
             const parsedWishlist = JSON.parse(wishlistItems);
             const parsedCart = JSON.parse(cartItems);
-            for (let wishlist of parsedWishlist) {
-              console.log("LoginForm.jsx", wishlist);
-              const response = await API_WRAPPER.post("/wishlist/create", {
-                productId: wishlist,
-              });
+            console.log("LoginForm.jsx", parsedWishlist, parsedCart);
+            if (parsedWishlist != null || parsedWishlist?.length > 0) {
+              for (let wishlist of parsedWishlist) {
+                console.log("LoginForm.jsx", wishlist);
+                const response = await API_WRAPPER.post("/wishlist/create", {
+                  productId: wishlist,
+                });
+              }
             }
-            for (let cart of parsedCart) {
-              const response = await API_WRAPPER.post("/cart/create", cart);
+            if (parsedCart != null || parsedCart.length > 0) {
+              for (let cart of parsedCart) {
+                const response = await API_WRAPPER.post("/cart/create", cart);
+              }
             }
             debouncedShowToast("You are logged in", "success");
+            return <Navigate to={PATHS.landingPage} />;
             if (role) {
               console.log("ROLE EXISTS", role);
-              return <Navigate to={PATHS.landingPage} />;
             }
           }
         }

@@ -1,5 +1,4 @@
 import { IoMdArrowBack } from "react-icons/io";
-import ProductImagePrimary from "../../assets/shop/productImages/productImagePrimary.png";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
@@ -23,9 +22,24 @@ const ProductInfo = () => {
   const [slug, setSlug] = useState();
   const params = useParams();
   const [quantity, setQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
+  const [selectedVariants, setSelectedVariants] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const updateSelectedVariants = (key, value) => {
+    setSelectedVariants((prevVariants) => ({
+      ...prevVariants,
+      [key]: value,
+    }));
+    const newSelectedVariants = {
+      ...selectedVariants,
+      [key]: value,
+    };
+    setSelectedVariant(newSelectedVariants);
+  };
+  console.log("ProductInfo.jsx", selectedVariants);
 
   const tabs = [
     {
@@ -106,8 +120,33 @@ const ProductInfo = () => {
       // cheanged to cover image instead of first index of images arr
       setSelectedImage(response.data.coverImage);
       extractVariantsData(response.data?.variants);
+      setPrice(
+        response?.data?.variants.length > 0
+          ? response.data?.variants[0].price
+          : response?.data?.price
+      );
     }
   };
+
+  const findSelectedVariant = (selectedAttributes) => {
+    if (!selectedAttributes || !product?.variants) {
+      return null;
+    }
+
+    return product.variants.find((variant) => {
+      return Object.keys(selectedAttributes).every((key) => {
+        return variant.variant[key] === selectedAttributes[key];
+      });
+    });
+  };
+
+  const setSelectedVariant = (variants) => {
+    setSelectedVariants(variants);
+    const newSelectedVariant = findSelectedVariant(variants);
+    setSelectedImage(newSelectedVariant.images[0]);
+    setPrice(newSelectedVariant.price);
+  };
+
   const extractVariantsData = async (variants) => {
     let result = [];
     console.log(variants);
@@ -135,7 +174,13 @@ const ProductInfo = () => {
     setVariantFilters(result);
     console.log("ProductInfo.jsx", result);
   };
-
+  useEffect(() => {}, [selectedVariants]);
+  useEffect(() => {
+    window.scrollTo({
+      top: 10,
+      behavior: "smooth", // Optional: Add smooth scrolling animation
+    });
+  }, []);
   useEffect(() => {
     // Set the slug parameter from the URL
     setSlug(params.slug);
@@ -198,11 +243,7 @@ const ProductInfo = () => {
               <div className="flex gap-4">
                 <span className="text-4xl font-thin">USD</span>
                 {isLogged ? (
-                  <span className="text-4xl">
-                    {product?.variants.length > 0
-                      ? product?.variants[0].price
-                      : product?.price}
-                  </span>
+                  <span className="text-4xl">{price}</span>
                 ) : (
                   <Link to={PATHS.login} className="join cursor-pointer">
                     <div className="bg-base-200 join-item flex items-center px-2">
@@ -241,13 +282,26 @@ const ProductInfo = () => {
               {variantFilters?.map((attribute) => {
                 const key = Object.keys(attribute)[0];
                 return (
-                  <div className="form-control">
+                  <div key={nanoid()} className="form-control">
                     <label className="label">
                       <span className="label-text">{key}</span>
                     </label>
-                    <select className="select select-bordered">
+                    <select
+                      className="select select-bordered"
+                      onChange={(e) =>
+                        updateSelectedVariants(key, e.target.value)
+                      }
+                      value={
+                        selectedVariants ? selectedVariants[key] || "" : ""
+                      }
+                    >
+                      <option value="" disabled selected>
+                        select value
+                      </option>
                       {attribute[key].map((value) => (
-                        <option value={value}>{value}</option>
+                        <option key={nanoid()} value={value}>
+                          {value}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -261,7 +315,15 @@ const ProductInfo = () => {
                   <option value="Black">Black</option>
                 </select>
               </div> */}
-              <button className="btn  mt-4 w-full">Get Quote</button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  request_quote_modal.showModal();
+                }}
+                className="btn cursor-pointer  mt-4 w-full"
+              >
+                Get Quote
+              </button>
             </div>
             <div className="col-span-1">
               <h1 className="text-sm">Description</h1>

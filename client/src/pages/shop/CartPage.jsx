@@ -6,6 +6,7 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import { ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import ShopBanner from "../../assets/shop/bannerImages/cartBanner.png";
+import { PATHS } from "../../Routes/paths";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);

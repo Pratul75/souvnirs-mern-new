@@ -32,48 +32,54 @@ const ShopNavbar = () => {
 
   const renderSubMenu = (subMenu) => {
     return (
-      <ul className="w-96 max-w-[1200px] flex-wrap menu dropdown-content flex flex-row  p-2 shadow bg-base-100 z-[1] rounded-box">
-        {subMenu.map((submenu) => (
-          <li key={submenu._id}>
-            <Link
-              to={`${window.location.origin}/${submenu.link}`}
-              className="font-bold block py-2 px-3 hover:bg-gray-100 hover:text-primary"
-            >
-              {submenu.title}
-            </Link>
-            {submenu.child && submenu.child.length > 0 && (
-              <ul className="menu pl-2">
-                {submenu.child.map((child) => (
-                  <li key={child._id}>
-                    <Link
-                      to={`${window.location.origin}/${child.link}`}
-                      className="block py-1 px-2 hover:bg-gray-100 hover:text-primary"
-                    >
-                      {child.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+      <ul className="flex  w-auto flex-wrap-reverse   dropdown-content  flex-row p-2 shadow bg-base-100 z-[1] rounded-box">
+        <div className="container flex">
+          {subMenu.map((submenu) => (
+            <li className="ml-4" key={submenu._id}>
+              <Link
+                to={`${window.location.origin}/${submenu.link}`}
+                className="font-semibold block p-4 hover:bg-gray-100 hover:text-primary text-sm w-full"
+              >
+                {submenu.title}
+              </Link>
+              {submenu.child && submenu.child.length > 0 && (
+                <ul className="menu pl-2">
+                  {submenu.child.map((child) => (
+                    <li key={child._id}>
+                      <Link
+                        to={`${window.location.origin}/${child.link}`}
+                        className="block py-1 px-2 hover:bg-gray-100 hover:text-primary text-xs"
+                      >
+                        {child.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </div>
       </ul>
     );
   };
 
   return (
-    <div className="mx-16  md:justify-between md:items-center px-4 w-full border-[1px] bg-base-200 hidden md:flex">
-      <div className="join w-full">
-        <div className={`dropdown ${open} join-item relative dropdown-hover`}>
-          <label tabIndex={1} className="m-1 btn btn-primary">
+    <nav className="w-full md:justify-between md:items-center border-b-2  hidden md:flex">
+      <div className="join w-full flex items-center">
+        <div
+          className={`dropdown ${open} join-item relative dropdown-hover dropdown-right dropdown-bottom`}
+        >
+          <label
+            tabIndex={1}
+            className=" flex items-center gap-4 bg-shopPrimaryColor w-full h-full p-4 text-white rounded-none"
+          >
             All Categories
-            <BsChevronDown className="ml-1" />
+            <BsChevronDown className="" />
           </label>
-
           <ul
             tabIndex={1}
             className={
-              "dropdown-content p-2 relative shadow bg-base-100 z-50 w-52 max-h-96 overflow-y-auto"
+              "dropdown-content p-2 w-96 shadow bg-base-100 z-50  max-h-96 overflow-y-auto right-0"
             }
           >
             {categories.map((category) => (
@@ -83,7 +89,7 @@ const ShopNavbar = () => {
                   navigate(`/category/${category.name}`);
                 }}
                 key={category._id}
-                className="p-2 hover:bg-yellow-200 cursor-pointer"
+                className="p-2 hover:bg-violet-200 cursor-pointer rounded-xl"
               >
                 {category.name}
               </li>
@@ -92,15 +98,17 @@ const ShopNavbar = () => {
         </div>
 
         {navbarData?.map((mainmenu) => (
-          <div
-            key={mainmenu._id}
-            className="dropdown dropdown-hover join-item relative"
-          >
-            <label tabIndex={0} className="btn m-1 cursor-pointer">
-              {mainmenu.title}
-              {mainmenu.submenus && mainmenu.submenus.length > 0 && (
+          <div key={mainmenu._id} className="dropdown dropdown-hover join-item">
+            <label
+              tabIndex={0}
+              className=" m-1 cursor-pointer flex items-center mx-2"
+            >
+              <span className="text-xs hover:text-shopPrimaryColor hover:bg-base-200 px-2 py-1 rounded-full hover:scale-105 transition duration-300">
+                {mainmenu.title}
+              </span>
+              {/* {mainmenu.submenus && mainmenu.submenus.length > 0 && (
                 <BsChevronDown className="ml-1" />
-              )}
+              )} */}
             </label>
             {mainmenu.submenus &&
               mainmenu.submenus.length > 0 &&
@@ -109,28 +117,27 @@ const ShopNavbar = () => {
         ))}
       </div>
 
-      <div className="flex justify-end w-full">
-        <div className="flex justify-between gap-4">
-          <button
-            onClick={() => window.request_quote_modal.showModal()}
-            className="btn"
-          >
-            <MdOutlineRequestQuote className="text-3xl" />
-            Request Quote
-          </button>
-          <button className="btn flex gap-2">
-            <BsHeadphones className="text-primary text-3xl" />
-            <div className="flex flex-col">
-              <span className="text-xs">CALL US 24/7</span>
-              <span className="text-xs text-primary">+00 123 456 789</span>
-            </div>
-          </button>
+      {/* ! need to create new  */}
+      <div className="flex gap-4">
+        <div
+          className="flex  items-center  gap-4"
+          onClick={() => window.request_quote_modal.showModal()}
+        >
+          <MdOutlineRequestQuote className="text-xl" />
+          <span className="text-xs btn btn-ghost mr-10">Request Quote</span>
         </div>
+        <button className="w-full flex gap-2">
+          <BsHeadphones className="text-primary text-3xl" />
+          <div className="flex flex-col w-[100px]">
+            <span className="text-xs">CALL US 24/7</span>
+            <span className="text-xs text-primary">+00 123 456 789</span>
+          </div>
+        </button>
       </div>
 
       {/* request quote modal */}
       <RequestQuoteForm />
-    </div>
+    </nav>
   );
 };
 

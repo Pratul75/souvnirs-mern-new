@@ -35,6 +35,7 @@ const AddChildMenu = () => {
     } else if (childMenuType === "productInfo") {
       const response = await API_WRAPPER.get("/products/get-all-products");
       if (response.status === 200) {
+        console.log("AddChildMenu.jsx", response.data);
         setSelectedTypeData(response.data);
       }
     } else if (childMenuType === "page") {
@@ -42,8 +43,10 @@ const AddChildMenu = () => {
     }
   };
   const createChildMenus = async () => {
+    setLoading(true);
     const response = await API_WRAPPER.post("/child-menu/create", createdCards);
     if (response) {
+      setLoading(false);
       debouncedShowToast("child-menu created successfully");
     }
   };
@@ -187,7 +190,7 @@ const AddChildMenu = () => {
                     {childMenuType === "collection"
                       ? selectedType.title
                       : childMenuType === "category" ||
-                        childMenuType === "product"
+                        childMenuType === "productInfo"
                       ? selectedType.name
                       : ""}
                   </option>

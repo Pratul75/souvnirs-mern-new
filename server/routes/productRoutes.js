@@ -14,6 +14,7 @@ const {
   getProductsByCollectionSlug,
   getProductsByFilter,
   getProductBySlug,
+  getSearchProducts,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -48,6 +49,11 @@ router.get(
   "/products/get-all-products",
   // authMiddleware(["vendor", "admin", "customer"]),
   getProducts
+);
+router.get(
+  "/products/get-search-products",
+  // authMiddleware(["vendor", "admin", "customer"]),
+  getSearchProducts
 );
 router.get(
   "/products/get-single-product/:id",

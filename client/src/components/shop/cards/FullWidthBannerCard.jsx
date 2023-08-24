@@ -21,11 +21,11 @@ const FullWidthBannerCard = ({
             <h3 className="font-medium text-xl md:text-6xl text-black text-center">
               {mainHeading}
             </h3>
-            <h3 className="text-4xl md:text-6xl font-medium text-black text-center">
+            <h3 className="text-xl md:text-6xl font-medium text-black text-center">
               {subHeading}
             </h3>
             <div>
-              <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none ">
+              <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none mt-4 ">
                 Shop Now
               </button>
             </div>

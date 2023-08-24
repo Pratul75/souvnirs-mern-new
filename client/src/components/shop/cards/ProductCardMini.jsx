@@ -15,13 +15,17 @@ const ProductCardMini = ({
   showbackground,
   showBorder,
 }) => {
+  const token = localStorage.getItem("token");
+
   const navigate = useNavigate();
   return (
     <motion.div
       variants={fadeInVariants}
       animate="animate"
       initial="initial"
-      className={` ${showBorder && "border"} rounded-xl w-96 bg-base-200`}
+      className={` ${
+        showBorder && "border"
+      } rounded-xl w-full bg-base-100  shadow-xl`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="flex items-center p-4">
@@ -32,7 +36,9 @@ const ProductCardMini = ({
           <div>
             <h1 className="text-lg font-semibold">{title}</h1>
             <Ratings rating={rating} />
-            <p className="text-lg text-primary font-semibold">${price}.00</p>
+            <p className="text-lg text-primary font-semibold">
+              {token ? `$${price}` : "login to reveal price"}
+            </p>
           </div>
           <div className="flex gap-2 mt-2">
             <button className="btn btn-circle btn-ghost bg-rose-200">

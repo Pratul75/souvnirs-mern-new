@@ -250,11 +250,21 @@ const LandingPage = () => {
       />
       <BrandsCard imagesList={BrandsCardImageList} />
 
-      <TestimonialsCarosel />
+      {/* For Phase 2 */}
+      {/* <TestimonialsCarosel /> */}
 
-      <div className="flex justify-between mt-32">
-        <div className="flex flex-col md:flex-row my-16">
-          <SingleTab productsList={productsList} heading="Budget Buy" />
+      <div className="flex justify-between  mt-32">
+        <div className="flex flex-col md:flex-row ">
+          <SingleTab
+            productsList={productsList.filter((product) => {
+              if (product.result) {
+                product.result.price < 150;
+              } else {
+                return product.price < 150;
+              }
+            })}
+            heading="Budget Buy"
+          />
           <SingleTab productsList={productsList} heading="Recently Added" />
           <SingleTab productsList={productsList} heading="Trending Products" />
         </div>

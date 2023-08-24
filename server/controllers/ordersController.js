@@ -3,6 +3,16 @@ const Product = require("../schema/productModal");
 const Customer = require("../schema/customerModal");
 const Vendor = require("../schema/vendorModal");
 const { roles } = require("../utils");
+const axios = require("axios");
+
+const Razorpay = require("razorpay");
+const cartModal = require("../schema/cartModal");
+const sendEmail = require("../services/mailing");
+const instance = new Razorpay({
+  key_id: process.env.RAZOR_PAY_KEY_ID,
+  key_secret: "FyiZ6gn5TDRQjzCWYAPhCbao",
+});
+
 // Create a new order
 const addOrder = async (req, res) => {
   try {
@@ -18,10 +28,8 @@ const getOrders = async (req, res) => {
   try {
     let orders;
     if (req.role === "admin") {
-
       orders = await Order.find();
-    }
-    else if (req.role === "vendor") {
+    } else if (req.role === "vendor") {
       orders = await Order.find({ vendor_id: req.userId });
     }
     res.json(orders);
@@ -102,9 +110,8 @@ const deleteOrder = async (req, res) => {
 // total sales
 const getTotalSales = async (req, res) => {
   try {
-    let orders
+    let orders;
     if (req.role === "admin") {
-
       orders = await Order.find();
       const totalAmount = orders.reduce(
         (sum, order) => sum + order.total_paid,
@@ -126,17 +133,71 @@ const getTotalSales = async (req, res) => {
 // total orders count
 const getTotalOrders = async (req, res) => {
   try {
-    let totalOrders
+    let totalOrders;
     if (req.role === "admin") {
-
       totalOrders = await Order.countDocuments();
-    }
-    else if (req.role === "vendor") {
-      totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments
+    } else if (req.role === "vendor") {
+      totalOrders = await Order.find({ vendor_id: req.userId }).countDocuments;
     }
     res.json({ totalOrders: totalOrders });
   } catch (error) {
     res.status(400).json({ error: "Failed to retrieve total orders" });
+  }
+};
+
+const createOrder = async (req, res) => {
+  try {
+    const checkedOutItems = await cartModal
+      .find({
+        customer_id: req.userId,
+        checkedOut: true,
+      })
+      .populate("product_id");
+
+    const totalSum = checkedOutItems.reduce(
+      (sum, item) => sum + item.product_id.price,
+      0
+    );
+
+    const options = {
+      amount: 1 * 100, // amount == Rs 10
+      currency: "INR",
+      receipt: "receipt#1",
+      payment_capture: 1,
+      // 1 for automatic capture // 0 for manual capture
+    };
+    // const options = {
+    //   amount: totalSum * 100, // amount == Rs 10
+    //   currency: "INR",
+    //   receipt: "receipt#1",
+    //   payment_capture: 1,
+    //   // 1 for automatic capture // 0 for manual capture
+    // };
+    const order = await instance.orders.create(options);
+    res.status(200).json(order);
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
+const captureOrder = async (req, res) => {
+  try {
+    console.log(req.params);
+    console.log(req.params);
+    const response = await axios.post(
+      `https://${process.env.RAZOR_PAY_KEY_ID}:FyiZ6gn5TDRQjzCWYAPhCbao@api.razorpay.com/v1/payments/${req.params.paymentId}/capture`,
+      { amount: 10 * 10, currency: "INR" }
+    );
+    console.log(response);
+    await sendEmail({
+      email: "utkarsh.pawar@rechargestudio.com",
+      name: "utkarsh pawar",
+    });
+  } catch (e) {
+    await sendEmail({
+      email: "utkarsh.pawar@rechargestudio.com",
+      name: "utkarsh pawar",
+    });
+    console.log(e);
   }
 };
 
@@ -147,12 +208,11 @@ const getOrderTableData = async (req, res) => {
   try {
     let allOrders;
     if (req.role === "admin") {
-
       allOrders = await Order.find({});
     } else if (req.role === "vendor") {
-      allOrders = await Order.find({ vendor_id: req.userId })
+      allOrders = await Order.find({ vendor_id: req.userId });
     } else if (req.role === "customer") {
-      allOrders = await Order.find({ customer_id: req.userId })
+      allOrders = await Order.find({ customer_id: req.userId });
     }
 
     const orderData = await Promise.all(
@@ -195,4 +255,6 @@ module.exports = {
   getTotalSales,
   getTotalOrders,
   getOrderTableData,
+  createOrder,
+  captureOrder,
 };

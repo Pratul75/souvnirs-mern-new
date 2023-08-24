@@ -1,14 +1,15 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiOutlineLogin } from "react-icons/ai";
 import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../../features/appConfig/appSlice";
+import { PATHS } from "../../../Routes/paths";
 
 const ProductCard = ({
   id,
@@ -27,8 +28,8 @@ const ProductCard = ({
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
   const addToWishlist = async () => {
-    const token = localStorage.getItem("token");
     if (token) {
       const response = await API_WRAPPER.post("/wishlist/create", {
         productId: id,
@@ -97,7 +98,7 @@ const ProductCard = ({
           <div className="flex justify-center items-center">
             <div className="flex py-4 justify-center w-2/3">
               <img
-                className="  aspect-square"
+                className="aspect-square"
                 style={{
                   mixBlendMode: "multiply",
                 }}
@@ -116,8 +117,18 @@ const ProductCard = ({
                 <span className="text-primary">${discountPrice}</span>
               </h5>
             ) : (
-              <h5 className="text-center text-red-600 text-lg font-medium leading-[18px]">
-                ${price}
+              <h5 className="text-center  text-lg font-medium leading-[18px]">
+                {token ? (
+                  `$${price}`
+                ) : (
+                  <Link to={PATHS.register} className="flex gap-4">
+                    <span>signup to view price</span>{" "}
+                    <AiOutlineLogin
+                      onClick={(e) => e.stopPropagation()}
+                      className="cursor-pointer"
+                    />
+                  </Link>
+                )}
               </h5>
             )}
             <Ratings rating={rating} />

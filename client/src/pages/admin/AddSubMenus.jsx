@@ -6,6 +6,7 @@ import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import Loading from "../common/Loading";
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
@@ -17,6 +18,7 @@ const AddSubMenus = () => {
   const [mainMenus, setMainMenus] = useState([]);
   const [mainMenuId, setMainMenuId] = useState("");
   const [childMenuToggle, setChildMenuToggle] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/main-menu");
@@ -54,7 +56,9 @@ const AddSubMenus = () => {
     debouncedShowToast("Submenu deleted successfully", "success");
   };
   const createSubMenus = async () => {
+    setLoading(true);
     await API_WRAPPER.post("/sub-menu/create", createdCards);
+    setLoading(false);
   };
 
   const handleCardSubmit = (e) => {
@@ -322,6 +326,7 @@ const AddSubMenus = () => {
         </button>
       </div>
       <ToastContainer />
+      {loading && <Loading />}
     </div>
   );
 };

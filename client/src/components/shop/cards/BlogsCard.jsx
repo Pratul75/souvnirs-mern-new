@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { IoCalendarOutline } from "react-icons/io5";
-import { AiOutlineEye } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 
@@ -19,14 +19,22 @@ const BlogsCard = ({
     >
       <img
         alt="Office"
-        src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+        src="https://images.pexels.com/photos/17821306/pexels-photo-17821306/free-photo-of-landscape-of-hills-and-mountains.jpeg"
         className="h-56 w-full object-cover rounded-xl"
       />
+      <div className="bg-white  p-4 sm:p-6">
+        <div className="flex gap-4">
+          <time
+            dateTime="2022-10-10"
+            className="flex items-center gap-2 text-xs text-gray-500"
+          >
+            <AiOutlineCalendar className="text-xl" /> 10th Oct 2022
+          </time>
 
-      <div className="bg-white p-4 sm:p-6">
-        <time dateTime="2022-10-10" className="block text-xs text-gray-500">
-          10th Oct 2022
-        </time>
+          <div className="flex gap-2 text-sm items-center">
+            <AiOutlineEye /> Views
+          </div>
+        </div>
 
         <a href="#">
           <h3 className="mt-0.5 text-lg text-gray-900">

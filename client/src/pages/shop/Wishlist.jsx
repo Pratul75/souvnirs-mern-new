@@ -48,15 +48,19 @@ const Wishlist = () => {
       {
         Header: "Product Image",
         accessor: "productId.images[0]",
-        Cell: ({ row }) => (
-          <Link to={`/productInfo/${row.original.productId.slug}`}>
-            <img
-              className="w-10 h-10"
-              src={row.original.productId.coverImage}
-              alt=""
-            />
-          </Link>
-        ),
+        Cell: ({ row }) => {
+          const productId = row.original.productId;
+
+          // Check if productId is defined before accessing properties
+          if (productId) {
+            return (
+              <Link to={`/productInfo/${productId.slug}`}>
+                <img className="w-10 h-10" src={productId.coverImage} alt="" />
+              </Link>
+            );
+          }
+          return null; // Return null if productId is undefined
+        },
       },
       {
         Header: "Product Name",

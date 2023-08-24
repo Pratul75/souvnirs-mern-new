@@ -6,6 +6,7 @@ import API_WRAPPER from "../../api";
 import { Card } from "../../components";
 import { RxCross2 } from "react-icons/rx";
 import { nanoid } from "nanoid";
+import Axios from "axios";
 
 const Checkout = () => {
   const [items, setItems] = useState();
@@ -43,6 +44,34 @@ const Checkout = () => {
     getAddresses();
   }, [apiTrigger]);
   console.log("Checkout.jsx", address);
+
+  const paymentHandler = async (e) => {
+    e.preventDefault();
+    const orderUrl = `http://localhost:8080/order/create`;
+    const response = await API_WRAPPER.post(orderUrl);
+    const { data } = response;
+    const options = {
+      key: "rzp_live_80LvVdqLPUaiKR",
+      name: "Souvnirs",
+      description: "Some Description",
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const paymentId = response.razorpay_payment_id;
+          const url = `http://localhost:8080/order/capture/${paymentId}`;
+          const captureResponse = await Axios.post(url, {});
+          console.log(captureResponse.data);
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      theme: {
+        color: "#686CFD",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
+  };
 
   return (
     <div>
@@ -107,11 +136,11 @@ const Checkout = () => {
                       className="flex justify-between w-full my-4"
                     >
                       <span className="text-sm">
-                        {item.product_id.name} X {item.product_quantity}
+                        {item?.product_id?.name} X {item.product_quantity}
                       </span>
                       <span className="text-sm">
                         {" "}
-                        ${item.product_quantity * item.product_id.price}
+                        ${item.product_quantity * item?.product_id?.price}
                       </span>
                     </div>
                   ))}
@@ -188,7 +217,12 @@ const Checkout = () => {
               </li>
             </ul>
             <div>
-              <button className="btn btn-primary w-full">Place Order</button>
+              <button
+                className="btn btn-primary w-full"
+                onClick={(e) => paymentHandler(e)}
+              >
+                Place Order
+              </button>
             </div>
           </div>
           <dialog id="address_modal">

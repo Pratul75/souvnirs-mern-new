@@ -10,6 +10,7 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
 import debounce from "lodash/debounce";
+import Loading from "../common/Loading";
 
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -23,20 +24,26 @@ const CategoryProducts = () => {
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
   const [max, setMax] = useState(0); // Add this line
   const [slug, setSlug] = useState();
-
+  const [loading, setLoading] = useState(false);
   const params = useParams();
+  const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(2);
   const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
+    setLoading(true);
     const response = await API_WRAPPER.post(`/products/category/${slug}`, {
       data: filters,
       priceMax: inputRangeValue,
+      page: page,
     });
     console.log("CategoryProducts.jsx", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
     setMax(response?.data?.max);
+    setLastPage(response?.data?.lastPage);
+    setLoading(false);
   };
 
   const handleFilterSelection = (filterData) => {
@@ -72,7 +79,7 @@ const CategoryProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue, slug]);
+  }, [filters, page, inputRangeValue, slug]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -188,6 +195,7 @@ const CategoryProducts = () => {
               products.map((product) => (
                 <ProductCardMini
                   key={nanoid()}
+                  id={nanoid()}
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
@@ -196,11 +204,7 @@ const CategoryProducts = () => {
                   slug={product.slug}
                   rating={4.5}
                   title={product.name}
-                  image={
-                    product.coverImage
-                      ? product.coverImage
-                      : product.variants[0].images[0]
-                  }
+                  image={product.coverImage && product.coverImage}
                 />
               ))
             ) : (
@@ -230,8 +234,38 @@ const CategoryProducts = () => {
               </div>
             )}
           </div>
+          <div className="flex  w-full justify-center my-4">
+            <div className="flex justify-center items-center gap-5 w-1/3">
+              <button
+                onClick={() => {
+                  if (page === 1) {
+                    return;
+                  }
+                  setPage((prev) => prev - 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary"
+              >
+                -
+              </button>
+              <span className="text-3xl ">{page}</span>
+              <button
+                onClick={() => {
+                  if (page == lastPage) {
+                    return;
+                  }
+                  setPage((prev) => prev + 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary text-white"
+              >
+                +
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   );
 };
