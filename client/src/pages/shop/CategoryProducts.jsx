@@ -10,6 +10,7 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import { useFilters } from "react-table";
 import debounce from "lodash/debounce";
+import Loading from "../common/Loading";
 
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -23,12 +24,13 @@ const CategoryProducts = () => {
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
   const [max, setMax] = useState(0); // Add this line
   const [slug, setSlug] = useState();
-
+  const [loading, setLoading] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
+    setLoading(true);
     const response = await API_WRAPPER.post(`/products/category/${slug}`, {
       data: filters,
       priceMax: inputRangeValue,
@@ -37,6 +39,7 @@ const CategoryProducts = () => {
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
     setMax(response?.data?.max);
+    setLoading(false);
   };
 
   const handleFilterSelection = (filterData) => {
@@ -231,6 +234,7 @@ const CategoryProducts = () => {
           </div>
         </div>
       </div>
+      {loading && <Loading />}
     </div>
   );
 };
