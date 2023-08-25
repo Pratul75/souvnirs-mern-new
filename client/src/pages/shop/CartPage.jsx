@@ -7,6 +7,8 @@ import { ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import ShopBanner from "../../assets/shop/bannerImages/cartBanner.png";
 import { PATHS } from "../../Routes/paths";
+import { debouncedShowToast } from "../../utils";
+import { ToastContainer } from "react-toastify";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);
@@ -97,6 +99,9 @@ const CartPage = () => {
         const decreaseQuantity = () => {
           if (product_quantity > 1) {
             const newQuantity = product_quantity - 1;
+            if (newQuantity < 15) {
+              return debouncedShowToast("minimumQuantity is 15", "info");
+            }
             cartItemUpdate(_id, newQuantity); // Update on the server
             updateQuantity(_id, newQuantity); // Update in local state
           }
@@ -115,9 +120,14 @@ const CartPage = () => {
             <input
               type="number"
               id="Quantity"
-              value={product_quantity} // Bind value to product_quantity
+              value={product_quantity}
+              min={15} // Bind value to product_quantity
               onChange={(e) => {
                 const newQuantity = parseInt(e.target.value, 10);
+                if (newQuantity < 15) {
+                  debouncedShowToast("Minimum quantity is 15");
+                  return;
+                }
                 if (!isNaN(newQuantity)) {
                   cartItemUpdate(_id, newQuantity); // Update on the server
                   updateQuantity(_id, newQuantity); // Update in local state
@@ -144,6 +154,9 @@ const CartPage = () => {
 
   return (
     <div>
+      <ToastContainer
+        style={{ position: "fixed", top: "10px", right: "10px" }}
+      />
       <Banner bannerImage={ShopBanner} text={"Cart"} navigation={"Home/Cart"} />
 
       <section>

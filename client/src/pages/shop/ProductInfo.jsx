@@ -21,7 +21,7 @@ const ProductInfo = () => {
   const [product, setProduct] = useState();
   const [slug, setSlug] = useState();
   const params = useParams();
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(15);
   const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
   const [selectedVariants, setSelectedVariants] = useState();
@@ -109,6 +109,7 @@ const ProductInfo = () => {
           JSON.stringify([{ productId: product._id, quantity }])
         );
       }
+      debouncedShowToast("Login to view cart", "success");
     }
   };
 
@@ -272,9 +273,10 @@ const ProductInfo = () => {
                 </label>
                 <input
                   className="input input-bordered"
-                  type="text"
+                  type="number"
                   name=""
                   id=""
+                  min={15}
                   onChange={(e) => setQuantity(e.target.value)}
                   value={quantity}
                 />

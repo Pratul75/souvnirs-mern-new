@@ -65,8 +65,9 @@ export const getStockStatusStyles = (stockStatus) => {
 export const showToast = (message, type) => {
   toast(message, {
     type, // 'success', 'error', 'warning', or 'info'
-    position: "top-right",
+    // position: "top-right",
     autoClose: 1500,
+    className: "sticky top-10 right-10",
     theme: "dark",
   });
 };

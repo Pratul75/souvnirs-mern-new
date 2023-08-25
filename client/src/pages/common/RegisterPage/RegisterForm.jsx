@@ -107,7 +107,8 @@ const RegisterForm = () => {
         }
       }
     } catch (error) {
-      debouncedShowToast(error.message, "error");
+      console.log("RegisterForm.jsx", error);
+      debouncedShowToast(error.response.data, "error");
     }
   };
 

@@ -11,6 +11,7 @@ const { v2 } = require("../middlewares/ImageUpload");
 const Media = require("../schema/mediaModal");
 const mongoose = require("mongoose");
 const Collection = require("../schema/collectionModal");
+const sendEmail = require("../services/mailing");
 
 // create new product
 const addMedias = async (req, res) => {
@@ -886,6 +887,7 @@ const getProductBySlug = async (req, res) => {
       },
     },
   ]);
+  await sendEmail();
   res.status(200).json(product[0]);
 };
 const bulkProductUpload = async (req, res) => {

@@ -89,7 +89,7 @@ const getRawDataForFilter = async (req, res) => {
     };
 
     for (const condition of conditionsArray) {
-      const { selectedTitle, conditionValue, inputValue } = condition;
+      let { selectedTitle, conditionValue, inputValue } = condition;
 
       // Query the "ConditionValue" schema to get the actual value based on conditionValue
       const actualConditionValue = await ConditionValue.findById(
@@ -106,6 +106,9 @@ const getRawDataForFilter = async (req, res) => {
         console.log("CONDITION OPERATOR STRING: ", condition.conditionValue);
 
         // Build the query object for the current condition
+        if (operator == "$regex") {
+          inputValue = new RegExp(`^${inputValue}`, "i");
+        }
         const conditionQuery = {
           [selectedTitle]: { [operator]: inputValue },
         };
@@ -116,6 +119,7 @@ const getRawDataForFilter = async (req, res) => {
     }
 
     // Make a request to the "Products" collection using the constructed query
+    // filteredProducts = await Product.find({ name: { $regex: /^o/i } });
     filteredProducts = await Product.find(query);
 
     // Return the filtered products or send a response to the client

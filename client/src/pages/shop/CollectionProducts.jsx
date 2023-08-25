@@ -95,23 +95,19 @@ const CollectionProducts = () => {
               </div>
             </Card>
 
-            <Card>
-              <div className="p-4">
-                <span className="text-xl">Size</span>
-              </div>
-            </Card>
             {filterList &&
-              filterList.conditionValue.map((conditionId, index) => (
-                <FilterCard
-                  key={index}
-                  title="Product Filter"
-                  onSelect={handleFilterSelection}
-                  heading={`Condition Value ${index + 1}`}
-                  filters={[
-                    { filterName: conditionId }, // Replace with actual filter values
-                  ]}
-                />
-              ))}
+              Object.keys(filterList).map((filter) => {
+                console.log("CategoryProducts.jsx", filter);
+                return (
+                  <FilterCard
+                    key={filter} // You should add a unique key for each item in the list
+                    title="Product Filter"
+                    onSelect={handleFilterSelection}
+                    heading={filter}
+                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
+                  />
+                );
+              })}
           </div>
         </div>
         <div className="col-span-3 container px-8">
@@ -206,6 +202,8 @@ const CollectionProducts = () => {
               ))
             ) : (
               <div className="flex flex-wrap gap-4 justify-center">
+                {products && products.length == 0 && <div>No product</div>}
+
                 {products &&
                   products.map((product) => {
                     return (
@@ -231,27 +229,34 @@ const CollectionProducts = () => {
               </div>
             )}
           </div>
-          <div>
-            <button
-              onClick={() => {
-                // if (page === 1) {
-                //   return;
-                // }
-                setPage((prev) => prev - 1);
-              }}
-              className="bg-primary p-5 rounded-xl text-2xl text-white"
-            >
-              -
-            </button>
-            <span className="text-3xl">{page}</span>
-            <button
-              onClick={() => {
-                setPage((prev) => prev + 1);
-              }}
-              className="bg-primary p-5 rounded-xl text-2xl text-white"
-            >
-              +
-            </button>
+          <div className="flex  w-full justify-center my-4">
+            <div className="flex justify-center items-center gap-5 w-1/3">
+              <button
+                onClick={() => {
+                  if (page === 1) {
+                    return;
+                  }
+                  setPage((prev) => prev - 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary"
+              >
+                -
+              </button>
+              <span className="text-3xl ">{page}</span>
+              <button
+                onClick={() => {
+                  if (page == lastPage) {
+                    return;
+                  }
+                  setPage((prev) => prev + 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className="btn btn-circle btn-primary text-white"
+              >
+                +
+              </button>
+            </div>
           </div>
         </div>
       </div>

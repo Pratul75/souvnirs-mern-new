@@ -195,6 +195,7 @@ const deleteCart = async (req, res) => {
 };
 const updateCustomerCart = async (req, res) => {
   const { id, quantity } = req.body;
+
   const updated = await Cart.findByIdAndUpdate(
     id,
     {

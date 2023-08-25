@@ -188,15 +188,7 @@ const captureOrder = async (req, res) => {
       { amount: 10 * 10, currency: "INR" }
     );
     console.log(response);
-    await sendEmail({
-      email: "utkarsh.pawar@rechargestudio.com",
-      name: "utkarsh pawar",
-    });
   } catch (e) {
-    await sendEmail({
-      email: "utkarsh.pawar@rechargestudio.com",
-      name: "utkarsh pawar",
-    });
     console.log(e);
   }
 };

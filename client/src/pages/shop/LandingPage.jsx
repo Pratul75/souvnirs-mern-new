@@ -111,7 +111,10 @@ const LandingPage = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
                       {productsList.slice(0, 4).map((product) => (
-                        <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
+                        <div
+                          key={product._id}
+                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                        >
                           <div className="flex items-center space-x-4">
                             <img
                               className="w-24 h-24"

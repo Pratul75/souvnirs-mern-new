@@ -180,7 +180,7 @@ const AddCollection = () => {
     );
     if (response.status === 201) {
       console.log("COLLECTION CREATED SUCCESSFULL", response?.data);
-      Navigate(PATHS.adminCollection);
+      navigate(PATHS.adminCollection);
     }
   };
 

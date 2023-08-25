@@ -10,6 +10,7 @@ const axios = require("axios");
 const secretKey = "aspdijr230wefn203wqiokn_eww9rijn";
 var SibApiV3Sdk = require("sib-api-v3-sdk");
 const sendEmail = require("../services/mailing");
+const { response } = require("express");
 
 // Register API for vendors and users
 const registerVendor = async (req, res) => {
@@ -53,48 +54,17 @@ const registerVendor = async (req, res) => {
         .json({ error: "Vendor not found after registration" });
     }
 
+    await sendEmail(
+      "pratul.udainiya@rechargestudio.com",
+      "new vendor registered",
+      `vendor with email address: ${vendor.email} and name: ${vendor.firstName} ${vendor.lastName}`
+    );
+
     // Generate and send the JWT token to the front end
     const token = jwt.sign({ id: vendor._id, role: "vendor" }, secretKey, {
       expiresIn: "7h", // Token expiration time
     });
 
-    var defaultClient = SibApiV3Sdk.ApiClient.instance;
-
-    // Configure API key authorization: api-key
-    var apiKey = defaultClient.authentications["api-key"];
-    apiKey.apiKey =
-      "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";
-
-    var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-    var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
-
-    sendSmtpEmail = {
-      to: [
-        {
-          email: "pratul.udainiya@rechargestudio.com",
-          name: "John Doe",
-        },
-      ],
-      templateId: 1,
-      params: {
-        name: "John",
-        surname: "Doe",
-      },
-      headers: {
-        "X-Mailin-custom":
-          "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
-      },
-    };
-
-    apiInstance.sendTransacEmail(sendSmtpEmail).then(
-      function (data) {
-        console.log("API called successfully. Returned data: " + data);
-      },
-      function (error) {
-        console.error(error);
-      }
-    );
     res.status(200).json(success("vendor registered successfully"));
   } catch (error) {
     console.error("Error registering vendor:", error);
@@ -104,8 +74,12 @@ const registerVendor = async (req, res) => {
 
 const registerCustomer = async (req, res) => {
   try {
-    const { city, pincode, country } = req.body;
+    const { city, pincode, country, email } = req.body;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    const alreadyExists = await Customer.findOne({ email });
+    if (alreadyExists) {
+      return res.status(400).json("customer with given email already exists");
+    }
     const customer = await Customer.create({
       ...req.body,
       password: hashedPassword,
@@ -119,7 +93,11 @@ const registerCustomer = async (req, res) => {
     const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
       expiresIn: "7h",
     });
-    await sendEmail({ email: "utkarshpawar910910@gmail.com", name: "utkarsh" });
+    await sendEmail(
+      "pratul.udainiya@rechargestudio.com",
+      "New Customer Registered",
+      `Customer with following email address registered: ${customer.email}`
+    );
     res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);
