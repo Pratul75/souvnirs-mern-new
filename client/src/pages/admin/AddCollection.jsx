@@ -49,10 +49,6 @@ const AddCollection = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Product Id",
-        accessor: "_id",
-      },
-      {
         Header: "Product Name",
         accessor: "name",
       },

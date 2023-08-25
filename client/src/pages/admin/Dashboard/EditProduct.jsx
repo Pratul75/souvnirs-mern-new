@@ -1,93 +1,77 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Dropzone, Header, Tabs } from "../../../components";
+import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
-import { Dropzone, Header } from "../../../components";
+import ReactQuill from "react-quill";
+import { nanoid } from "nanoid";
+import { debouncedShowToast } from "../../../utils";
 import { ToastContainer } from "react-toastify";
+import {
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
+import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../../assets/bannerImages/productManagementImage.png";
+import { motion } from "framer-motion";
 import {
   fadeInFromLeftVariant,
   fadeInFromRightVariant,
 } from "../../../animation";
-
-import { motion } from "framer-motion";
-import ReactQuill from "react-quill";
+import { useDispatch, useSelector } from "react-redux";
+import { setProduct } from "../../../features/appConfig/addProductSlice";
 import { GrFormClose } from "react-icons/gr";
-import { PATHS } from "../../../Routes/paths";
+// add products
 
 const EditProduct = () => {
-  const [description, setDescription] = useState();
-  const [editedData, setEditedData] = useState();
-  const [prefilledData, setPrefilledData] = useState();
-  const [formData, setFormData] = useState();
-
+  const navigate = useNavigate();
+  const [description, setDescription] = useState("");
+  const [categoriesList, setCategoriesList] = useState([]);
   const [vendorsList, setVendorsList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [formData, setFormData] = useState({});
   const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
+  const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [attrValue, setAttrValue] = useState([]);
+  const [img, setImg] = useState();
   const [preview, setPreview] = useState();
+  const product = useSelector((state) => state);
+  const uploadToCloud = async (file) => {
+    const uploaded = await cloudinary.v2.uploader.upload(file);
+  };
+  const dispatch = useDispatch();
 
   const { id } = useParams();
-  const navigate = useNavigate();
+  console.log("EditProduct.jsx", id);
   const [query] = useSearchParams();
   console.log("EditProduct.jsx", query);
   const fetchProductData = async (id, variantId) => {
     const response = await API_WRAPPER.get(
       `/products/get-single-product/${id}?variantId=${variantId}`
     );
-    setFormData(response.data[0]);
-    setDescription(response.data[0]?.description);
-    setTagsArray(response.data[0]?.tags);
+    setFormData(response.data);
+    setDescription(response.data?.description);
+    setTagsArray(response.data?.tags);
     console.log("EditProduct.jsx", response);
   };
+  console.log("EditProduct.jsx", formData, description, tagsArray);
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && tagValue.trim() !== "") {
-      setTagsArray([...tagsArray, tagValue.trim()]);
-      setTagValue("");
+  // get all categories
+  console.log("AddProduct.jsx", selectedAttributes);
+  const getAllCategories = async () => {
+    try {
+      const response = await API_WRAPPER.get("/category/get-all-categories");
+      if (response.status === 200) {
+        setCategoriesList(response?.data);
+      }
+    } catch (error) {
+      console.error("Error occured while getting all categories", error);
     }
   };
 
-  const handleTagInputChange = (event) => {
-    setTagValue(event.target.value);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-  console.log("EditProduct.jsx", formData);
-
-  const editProduct = async () => {
-    let data = {
-      ...formData,
-      description,
-      tags: tagsArray,
-    };
-    console.log("EditProduct.jsx", data);
-    const editFormData = new FormData();
-    Object.entries(data).forEach(([key, value]) => {
-      if (key === "coverImage") {
-        // Stringify the arrays before appending them to the FormData
-
-        editFormData.append("coverImage", value[0]);
-      } else if (key === "variant") {
-        editFormData.append(key, JSON.stringify(value));
-      } else {
-        editFormData.append(key, value);
-      }
-    });
-
-    const response = await API_WRAPPER.put(
-      `/products/edit-product/${id}`,
-      editFormData,
-      {
-        headers: { "content-type": "multipart/form-data" },
-      }
-    );
-    if (response.status === 200) {
-      navigate(PATHS.adminProductManagement);
-    }
-  };
-
+  // get all vendors
   const getAllVendors = async () => {
     try {
       const response = await API_WRAPPER.get("/vendors/get-vendors");
@@ -97,47 +81,200 @@ const EditProduct = () => {
         if (vendorsList.length == 1) {
           debouncedShowToast("vendor list is empty array", "error");
         }
-        console.log("AddProduct.jsx", vendorsList.length);
-        console.log("VENDORS LIST RESPONSE: ", response?.data);
       }
     } catch (error) {
       console.error("Error occured while getting all vendors", error);
     }
   };
+  // const fetchAllAttributes = async () => {
+  //   const response = await API_WRAPPER.get(
+  //     `/attribute/get-all-attributes/${selectedCategory}`
+  //   );
+  //   setAttArr(response.data);
+  // };
+  const randomSlug = () => {
+    return nanoid(10);
+  };
+  // add product
 
-  const handleVariantChange = (e, variantFieldKey) => {
-    const { value } = e.target;
-    console.log("EditProduct.jsx", variantFieldKey);
-    setFormData((prevData) => ({
-      ...prevData,
-      variant: {
-        ...prevData.variant,
-        variant: {
-          ...prevData.variant.variant,
-          [variantFieldKey]: value,
-        },
-      },
-    }));
+  // const postProduct = async () => {
+  //   let data = {
+  //     ...formData,
+  //     description,
+  //     slug: randomSlug(),
+  //     tags: tagsArray,
+  //     attributes: attrValue,
+  //     // attributeValues: fAttValue,
+  //   };
+  //   const addProdData = new FormData();
+  //   Object.entries(data).forEach(([key, value]) => {
+  //     if (key === "attributes" || key === "attributeValues") {
+  //       // Stringify the arrays before appending them to the FormData
+  //       value.forEach((item, index) => {
+  //         addProdData.append(`${key}[${index}]`, JSON.stringify(item));
+  //       });
+  //     } else {
+  //       addProdData.append(key, value);
+  //     }
+  //   });
+
+  //   // Append the variant images
+  //   // fAttValue.forEach((variant) => {
+  //   //   if (variant.images && variant.images[0]) {
+  //   //     addProdData.append(`images[${variant.name}]`, variant.images[0]);
+  //   //   }
+  //   // });
+
+  //   // Append the file data to the FormData
+  //   img.forEach((file) => {
+  //     addProdData.append("img", file);
+  //   });
+
+  //   const response = await API_WRAPPER.post(
+  //     "/products/add-product",
+  //     addProdData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     }
+  //   );
+  //   const productId = response.data.data._id;
+  //   console.log("AddProduct.jsx", productId);
+  //   if (response) {
+  //     let doneUpload = false;
+  //     try {
+  //       for (let value of fAttValue) {
+  //         console.log("AddProduct.jsx", value);
+  //         const variantData = {
+  //           variant: value.name,
+  //           productId: productId,
+  //           attributes: attrValue,
+  //           price: value.price,
+  //           quantity: value.quantity,
+  //         };
+  //         const variantFormData = new FormData();
+
+  //         Object.entries(variantData).forEach(([key, value]) => {
+  //           if (key === "attributes" || key === "attributeValues") {
+  //             // Stringify the arrays before appending them to the FormData
+  //             value.forEach((item, index) => {
+  //               variantFormData.append(
+  //                 `${key}[${index}]`,
+  //                 JSON.stringify(item)
+  //               );
+  //             });
+  //           } else {
+  //             variantFormData.append(key, value);
+  //           }
+  //         });
+
+  //         for (let i = 0; i < value.images.length; i++) {
+  //           variantFormData.append("images", value.images[i]);
+  //         }
+  //         const res = await API_WRAPPER.post(
+  //           "/products/create-variant",
+  //           variantFormData,
+  //           {
+  //             headers: {
+  //               "Content-Type": "multipart/form-data",
+  //             },
+  //           }
+  //         );
+  //         if (res) {
+  //           continue;
+  //         }
+  //       }
+  //       doneUpload = true;
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //     if (doneUpload) {
+  //       debouncedShowToast("uploaded Successfully", "success");
+  //       Navigate(PATHS.adminProductManagement);
+  //     }
+  //     console.log("RESPONSE RECEIVED: ", response?.data?.data);
+  //     navigate(PATHS.adminProductManagement);
+  //     const data = response.data.data;
+  //     debouncedShowToast(data, "success");
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const addProdData = new FormData();
+    Object.entries(formData).forEach(([key, value]) => {
+      console.log("EditProduct.jsx", key, value);
+      console.log("EditProduct.jsx", key);
+      if (key === "attributes" || key === "img") {
+        if (key == "img") {
+          addProdData.append(key, value[0]);
+        } else {
+          value.forEach((item, index) => {
+            addProdData.append(`${key}[${index}]`, JSON.stringify(item));
+          });
+        }
+      } else {
+        addProdData.append(key, value);
+      }
+    });
+    try {
+      await API_WRAPPER.put(`/products/edit-product/${id}`, addProdData);
+    } catch (e) {}
+    // postProduct();
+
+    // navigate(PATHS.adminAddProductAttributes);
+    // postProduct();
+  };
+  const p = useSelector((state) => state.product);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  useEffect(() => {
-    if (formData?.img) {
-      const imageUrl = URL.createObjectURL(formData?.img[0]);
-      console.log("AddProduct.jsx", imageUrl);
-      setPreview(imageUrl);
+  const handleTagInputChange = (event) => {
+    setTagValue(event.target.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && tagValue.trim() !== "") {
+      setTagsArray([...tagsArray, tagValue.trim()]);
+      setTagValue("");
     }
-  }, [formData?.img]);
+  };
+
+  // Example usage:
+  const dataArray = [];
+
+  // Function to handle attribute values input changes
+  const handleAttriibuteValues = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    // Check if the attribute value already exists in the array
+    setAtName(name);
+    setAtValue(value);
+  };
+
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
     setTagsArray(filteredTags);
   };
+
   useEffect(() => {
-    const variantId = query.get("variantID");
-    fetchProductData(id, variantId);
+    getAllCategories();
     getAllVendors();
+    fetchProductData(id);
   }, []);
-  console.log("EditProduct.jsx", formData);
-  console.log("EditProduct.jsx", id);
+  useEffect(() => {}, [selectedCategory]);
+  useEffect(() => {
+    if (formData.img) {
+      const imageUrl = URL.createObjectURL(formData.img[0]);
+      setPreview(imageUrl);
+    }
+  }, [formData.img]);
+
   return (
     <div>
       <Header
@@ -162,10 +299,10 @@ const EditProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                value={formData?.name}
-                className="input input-accent"
+                className="input input-primary"
                 type="text"
                 name="name"
+                defaultValue={formData?.name}
                 id=""
               />
             </div>
@@ -184,11 +321,10 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData?.status}
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="status"
-                defaultValue={prefilledData?.status}
+                defaultValue={formData.status}
               >
                 <option disabled selected>
                   select status
@@ -204,10 +340,8 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData?.readyToShip}
-                defaultValue={prefilledData?.readyToShip}
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="readyToShip"
               >
                 <option disabled selected>
@@ -224,9 +358,8 @@ const EditProduct = () => {
                 </span>
               </label>
               <select
-                value={formData?.freeShipping}
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="freeShipping"
               >
                 <option disabled selected>
@@ -278,7 +411,7 @@ const EditProduct = () => {
               </label>
               <select
                 onChange={(e) => handleInputChange(e)}
-                className="select select-accent"
+                className="select select-primary"
                 name="vendorId"
                 value={formData?.vendorId}
               >
@@ -286,7 +419,11 @@ const EditProduct = () => {
                   select vendor
                 </option>
                 {vendorsList?.map((vendor) => {
-                  return <option value={vendor._id}>{vendor.firstName}</option>;
+                  return (
+                    <option key={nanoid()} value={vendor._id}>
+                      {vendor?.firstName ? vendor.firstName : vendor?.email}
+                    </option>
+                  );
                 })}
               </select>
             </div>
@@ -304,10 +441,10 @@ const EditProduct = () => {
                 onChange={handleTagInputChange}
                 onKeyPress={handleKeyPress}
                 placeholder="Enter a tag and press Enter"
-                className="input input-accent"
+                className="input input-primary"
               />
               <div className="mt-4 flex gap-4 flex-wrap">
-                {tagsArray.map((tag, index) => (
+                {tagsArray?.map((tag, index) => (
                   <div
                     key={index}
                     className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
@@ -332,10 +469,8 @@ const EditProduct = () => {
                 </span>
               </label>
               <input
-                defaultValue={prefilledData?.sku}
-                value={formData?.sku}
                 onChange={(e) => handleInputChange(e)}
-                className="input input-accent  w-full"
+                className="input input-primary  w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
@@ -357,11 +492,11 @@ const EditProduct = () => {
             </h3>
             <hr className="mt-4" />
 
-            <div className="border-[1px]  border-accent rounded-xl flex items-center justify-center mt-4">
+            <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
                 accept={".jpeg,.png"}
                 onFilesChange={(data) => {
-                  setFormData({ ...formData, coverImage: data });
+                  setFormData({ ...formData, img: data });
                 }}
               />
             </div>
@@ -374,121 +509,6 @@ const EditProduct = () => {
             )}
           </motion.div>
         </div>
-
-        <div className="grid  grid-cols-6 gap-4 mt-4">
-          {formData?.variant && (
-            <motion.div
-              variants={fadeInFromLeftVariant}
-              animate="animate"
-              initial="initial"
-              className="col-span-6 gap-10 items-center flex flex-col md:flex-row  md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
-            >
-              <tr className="flex flex-col md:flex-row gap-5">
-                <td>
-                  {Object.keys(formData?.variant?.variant).map(
-                    (variantFieldKey) => (
-                      <div key={variantFieldKey} className="form-control">
-                        <label htmlFor={variantFieldKey} className="label">
-                          {variantFieldKey}
-                        </label>
-                        <input
-                          type="text"
-                          name={`variant.variant.${variantFieldKey}`}
-                          value={formData?.variant?.variant[variantFieldKey]}
-                          className="input input-accent"
-                          onChange={(e) =>
-                            handleVariantChange(e, variantFieldKey)
-                          }
-                        />
-                      </div>
-                    )
-                  )}
-                </td>
-                <td>
-                  <div className="form-control">
-                    <label className="label">Price:</label>
-                    <input
-                      type="number"
-                      className="input input-accent"
-                      name="variant.variant.price" // Note the naming structure
-                      value={formData?.variant?.price} // Accessing the correct nested property
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          variant: {
-                            ...prev.variant,
-
-                            price: parseFloat(e.target.value),
-                          },
-                        }))
-                      }
-                    />
-                  </div>
-                </td>
-                <td>
-                  <div className="form-control">
-                    <label className="label">Quantity: </label>
-                    <input
-                      type="number"
-                      className="input input-accent"
-                      name="variant.variant.quantity" // Note the naming structure
-                      value={formData?.variant?.quantity} // Accessing the correct nested property
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          variant: {
-                            ...prev.variant,
-
-                            quantity: parseFloat(e.target.value), // Convert to number
-                          },
-                        }))
-                      }
-                    />
-                  </div>
-                </td>
-              </tr>
-            </motion.div>
-          )}{" "}
-          {!formData?.variant && (
-            <motion.div
-              variants={fadeInFromLeftVariant}
-              animate="animate"
-              initial="initial"
-              className="col-span-6 flex flex-col md:flex-row gap-5   md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
-            >
-              <div className="form-control">
-                <label htmlFor="" className="label">
-                  price
-                </label>
-                <input
-                  type="number"
-                  name="price"
-                  value={formData?.price}
-                  className="input input-accent"
-                  onChange={(e) => handleInputChange(e)}
-                />
-              </div>
-              <div className="form-control">
-                <label htmlFor="" className="label">
-                  Stock Quantity
-                </label>
-                <input
-                  value={formData?.stockQuantity}
-                  type="number"
-                  name="stockQuantity"
-                  className="input input-accent"
-                  onChange={(e) => handleInputChange(e)}
-                />
-              </div>
-            </motion.div>
-          )}
-          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
-            <button className="btn btn-accent mt-4" onClick={editProduct}>
-              Next
-            </button>
-            <button className="btn  mt-4 ml-4">Cancel</button>
-          </motion.div>
-        </div>
         <div className="grid grid-cols-6 gap-4 mt-4">
           <div className="col-span-6 md:col-span-4"></div>
           <motion.div
@@ -496,7 +516,12 @@ const EditProduct = () => {
             animate="animate"
             initial="initial"
             className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
-          ></motion.div>
+          >
+            <button onClick={handleSubmit} className="btn btn-primary mt-4">
+              Next
+            </button>
+            <button className="btn  mt-4 ml-4">Cancel</button>
+          </motion.div>
         </div>
       </div>
       <ToastContainer />

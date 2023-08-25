@@ -725,31 +725,8 @@ const getProduct = async (req, res) => {
     const productId = req.params.id;
     const { variantId } = req.query;
     let product;
-    if (variantId != "null") {
-      product = await Product.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(productId) } },
-        {
-          $lookup: {
-            from: "attributetypes",
-            localField: "_id",
-            foreignField: "productId",
-            as: "variant",
-          },
-        },
-        {
-          $unwind: {
-            path: "$variant",
-          },
-        },
-        {
-          $match: {
-            "variant._id": new mongoose.Types.ObjectId(variantId),
-          },
-        },
-      ]);
-    } else {
-      product = await Product.find({ _id: productId });
-    }
+
+    product = await Product.findById(productId);
 
     console.log("PRODUCT SELECTED: ", product);
     // Check if the product exists
@@ -783,6 +760,26 @@ const deleteProduct = async (req, res) => {
     console.error(error);
     res.status(400).json(error("failed to delete product"));
   }
+};
+
+const getProductVariants = async (req, res) => {
+  const { productId } = req.params;
+  const products = await Product.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(productId),
+      },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "_id",
+        foreignField: "productId",
+        as: "result",
+      },
+    },
+  ]);
+  res.status(200).json(products[0]);
 };
 
 // edit product
@@ -1033,4 +1030,5 @@ module.exports = {
   getProductsByFilter,
   getSearchProducts,
   getProductBySlug,
+  getProductVariants,
 };

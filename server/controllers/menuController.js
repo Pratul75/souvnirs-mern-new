@@ -22,6 +22,9 @@ const createMainMenu = async (req, res) => {
   if (!menuId) {
     return res.status(400).json("selecting menu is required");
   }
+  if (!title) {
+    return res.status(400).json("title is required");
+  }
   const menu = await Menu.findById(menuId);
   const mainmenu = await MainMenu.create({
     link,
@@ -41,6 +44,9 @@ const createSubMenu = async (req, res) => {
     const { heading: title, link, type, typeValue, mainMenuId } = elem;
     if (!mainMenuId) {
       return res.status(400).json("selecting main menu is required");
+    }
+    if (!title) {
+      return res.status(400).json("title is required");
     }
     const subs = await SubMenu.create({
       title,
@@ -68,6 +74,9 @@ const createChildMenu = async (req, res) => {
     const { heading: title, link, type, typeValue, subMenuId } = elem;
     if (!subMenuId) {
       return res.status(400).json("selecting sub Menu is required");
+    }
+    if (!title) {
+      return res.status(400).json("title is required");
     }
     const subs = await SubMenuChild.create({
       title,

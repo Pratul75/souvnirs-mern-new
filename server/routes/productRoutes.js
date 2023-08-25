@@ -15,6 +15,7 @@ const {
   getProductsByFilter,
   getProductBySlug,
   getSearchProducts,
+  getProductVariants,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -73,7 +74,7 @@ router.delete(
 router.put(
   "/products/edit-product/:id",
   authMiddleware(["vendor", "admin"]),
-  upload.single("coverImage"),
+  upload.single("img"),
   editProduct
 );
 router.post(
@@ -81,6 +82,7 @@ router.post(
   authMiddleware(["vendor", "admin", "customer"]),
   checkProductsFromIds
 );
+router.get("/product/variants/:productId", getProductVariants);
 
 router.get("/product/:slug", getProductBySlug);
 
