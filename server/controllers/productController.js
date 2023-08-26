@@ -762,6 +762,37 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const editProductVariant = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    let { variant, quantity, price, images } = req.body;
+    variant = JSON.parse(variant);
+    let urls = [];
+    if (req.files.length > 0) {
+      for (let file of req.files) {
+        const uploaded = await v2.uploader.upload(file.path);
+        urls.push(uploaded.url);
+        console.log("productController.js", uploaded);
+      }
+    }
+    const variantFound = await AttributeType.findOneAndUpdate(
+      {
+        variant,
+      },
+      {
+        price,
+        quantity,
+        images: req.files.length > 0 ? urls : images,
+        productId: productId,
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(productId);
+  } catch (e) {
+    console.log("productController.js", e);
+  }
+};
+
 const getProductVariants = async (req, res) => {
   const { productId } = req.params;
   const products = await Product.aggregate([
@@ -1031,4 +1062,5 @@ module.exports = {
   getSearchProducts,
   getProductBySlug,
   getProductVariants,
+  editProductVariant,
 };

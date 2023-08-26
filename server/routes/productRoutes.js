@@ -16,6 +16,7 @@ const {
   getProductBySlug,
   getSearchProducts,
   getProductVariants,
+  editProductVariant,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -76,6 +77,11 @@ router.put(
   authMiddleware(["vendor", "admin"]),
   upload.single("img"),
   editProduct
+);
+router.post(
+  "/product/variant/:productId",
+  upload.any("images"),
+  editProductVariant
 );
 router.post(
   "/products/product-name-based-on-ids",

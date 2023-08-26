@@ -28,6 +28,7 @@ const EditProductAttributes = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [catDropdown, setCatDropdown] = useState(false);
+  const [product, setProduct] = useState();
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const EditProductAttributes = () => {
   const { id } = params;
 
   const categories = useCategories();
-  console.log("EditProductAttributes.jsx", attributesList);
+  console.log("EditProductAttributes.jsx", variantData);
 
   const finAttributeName = (id) => {
     const attribute = attributesList.find((attr) => attr._id === id);
@@ -79,63 +80,86 @@ const EditProductAttributes = () => {
   const getProductVariants = async () => {
     const response = await API_WRAPPER.get(`/product/variants/${id}`);
     console.log(response.data);
-    setVariantData(response.data.result);
+    setProduct(response.data);
     setCategoryId(response.data.categoryId);
     setSelectedAttributes(response.data.attributes);
+    fetchAllAttributes();
 
-    const selectedAttribute = attributesList.find(
-      (att) => att._id === e.target.value
-    );
+    const uniqueAttributes = {};
 
-    if (!selectedAttributes.some((att) => att._id === selectedAttribute._id)) {
-      setSelectedAttributes((prevSelectedAttributes) => [
-        ...prevSelectedAttributes,
-        selectedAttribute,
-      ]);
-      scrollToSection();
+    // Loop through the variants' result array and extract attributes
+    response?.data.result.forEach((variant) => {
+      const attributes = variant.variant;
+
+      // Loop through the attributes of each variant
+      for (const attribute in attributes) {
+        if (attributes.hasOwnProperty(attribute)) {
+          const attributeValue = attributes[attribute];
+
+          // Check if the attribute exists in the uniqueAttributes object
+          if (!uniqueAttributes[attribute]) {
+            uniqueAttributes[attribute] = [attributeValue];
+          } else if (!uniqueAttributes[attribute].includes(attributeValue)) {
+            uniqueAttributes[attribute].push(attributeValue);
+          }
+        }
+      }
+    });
+
+    console.log("EditProductAttributes.jsx", attributesList);
+
+    if (response.data.attributes.length > 0) {
+      const combinedAttributes = response.data.attributes.map((attributeId) => {
+        console.log("EditProductAttributes.jsx", attributeId);
+        const attributeInfo = attributesList.find(
+          (attr) => attr._id === attributeId
+        );
+        if (!attributeInfo) {
+          console.log(
+            `Attribute with ID ${attributeId} not found in attributesList.`
+          );
+          return null;
+        }
+
+        const attributeName = attributeInfo.name;
+        const attributeValues = attributeName
+          ? uniqueAttributes[attributeName] || []
+          : [];
+
+        return {
+          id: attributeId,
+          name: attributeName,
+          values: attributeValues,
+        };
+      });
+
+      console.log("EditProductAttributes.jsx", combinedAttributes);
+      setAttributeValues(combinedAttributes);
     }
   };
 
-  const createProduct = async () => {
+  const editVariants = async () => {
     try {
-      console.log("AddProductAttributes.jsx", p);
-      const productFormData = new FormData();
-      productFormData.append("name", p.name);
-      productFormData.append("vendorId", p.vendorId);
-      productFormData.append("description", p.desc);
-      productFormData.append("tags", p.tags);
-      productFormData.append("img", p.coverImg[0]);
-      productFormData.append("attributes", JSON.stringify(p.attributes));
-      productFormData.append("slug", randomSlug());
-      productFormData.append("price", price);
-      productFormData.append("quantity", quantity);
-      productFormData.append("freeShipping", p.freeShipping);
-      productFormData.append("readyToShip", p.readyToShip);
-      productFormData.append("categoryId", categoryId);
-
-      const prodResponse = await API_WRAPPER.post(
-        "/products/add-product",
-        productFormData
-      );
-      const productId = prodResponse.data.data._id;
+      const productId = product._id;
       console.log("AddProductAttributes.jsx", productId);
-      if (prodResponse.status == 201) {
-        for (let variant of variantData) {
-          const { price, productQuantity, files, ...variantName } = variant;
-          console.log("AddProductAttributes.jsx", files);
-          const variantFormData = new FormData();
-          variantFormData.append("variant", JSON.stringify(variantName));
-          variantFormData.append("price", price);
-          variantFormData.append("quantity", productQuantity);
 
-          variantFormData.append("productId", productId);
-          if (files) {
-            for (let file of files) {
-              variantFormData.append("images", file);
-            }
+      for (let variant of variantData) {
+        const { price, productQuantity, files, ...variantName } = variant;
+        console.log("AddProductAttributes.jsx", files);
+        const variantFormData = new FormData();
+        variantFormData.append("variant", JSON.stringify(variantName));
+        variantFormData.append("price", price);
+        variantFormData.append("quantity", productQuantity);
+        variantFormData.append("productId", productId);
+        if (files) {
+          for (let file of files) {
+            variantFormData.append("images", file);
           }
-          await API_WRAPPER.post("/products/create-variant", variantFormData);
         }
+        await API_WRAPPER.post(
+          `/product/variant/${productId}`,
+          variantFormData
+        );
       }
       navigate(PATHS.adminProductManagement);
     } catch (error) {
@@ -195,13 +219,15 @@ const EditProductAttributes = () => {
 
   const handleAtttributeValueSelection = (e, attribute) => {
     if (e.key === "Enter") {
+      console.log("EditProductAttributes.jsx", attributeValues);
       const existingIndex = attributeValues.findIndex(
-        (item) => item.id === attribute._id
+        (item) => item.id === attribute
       );
+      console.log("EditProductAttributes.jsx", attribute);
 
       const newEntry = {
         name: attribute.name,
-        id: attribute._id,
+        id: attribute,
         values: [e.target.value],
       };
 
@@ -215,6 +241,8 @@ const EditProductAttributes = () => {
       e.target.value = "";
     }
   };
+
+  console.log(variantData);
 
   const fetchAllAttributes = async () => {
     try {
@@ -231,7 +259,9 @@ const EditProductAttributes = () => {
   };
 
   useEffect(() => {
-    fetchAllAttributes();
+    fetchAllAttributes().then(() => {
+      getProductVariants();
+    });
   }, [categoryId]);
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -274,19 +304,28 @@ const EditProductAttributes = () => {
     // For simplicity, I'm assuming each variant is an object with properties
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
+  // useEffect(() => {
+  //   getProductVariants();
+  //   // prefillAttributeValues();
+  // }, []);
   useEffect(() => {
-    getProductVariants();
-  }, []);
-  useEffect(() => {
-    setVariantData(
-      combinations.map((combination) => ({
+    const updatedVariantData = combinations.map((combination) => {
+      const matchingVariant = product.result.find((variant) =>
+        isEqualVariants(variant.variant, combination)
+      );
+
+      return {
         ...combination,
-        price: "",
-        productQuantity: "",
-        files: null,
-      }))
-    );
-  }, [combinations]);
+        price: matchingVariant ? matchingVariant.price : "",
+        productQuantity: matchingVariant ? matchingVariant.quantity : "",
+        files: matchingVariant ? matchingVariant.images : null,
+      };
+    });
+
+    setVariantData(updatedVariantData);
+  }, [combinations, product?.result]);
+
+  console.log("EditProductAttributes.jsx", attributeValues);
   if (showData) {
     return (
       <div>
@@ -332,14 +371,12 @@ const EditProductAttributes = () => {
               {console.log("ALL PRODUCT DATA: ", p, variantData[0])}
               <div className="p-4">
                 <div>
-                  <h3>Product Name: {p.name}</h3>
+                  <h3>Product Name: {product?.name}</h3>
                   {/* <h3>Vendor ID: {p.vendorId}</h3>
                   <h3>CategoryID: {p.categoryId}</h3> */}
-                  <h3>
-                    Description: {p.desc.split("<p>").join().split("</p>")[0]}
-                  </h3>
-                  <h3>tags: {p.tags.join(",")}</h3>
-                  <h3>status: {p.status}</h3>
+                  <h3>Description: {product?.description}</h3>
+                  <h3>tags: {product.tags.join(",")}</h3>
+                  <h3>status: {product.status}</h3>
                 </div>
               </div>
 
@@ -378,15 +415,34 @@ const EditProductAttributes = () => {
                               <label> {productQuantity}</label>
                             </td>
                             <td className="w-72 md:flex gap-2 overflow-auto">
-                              {Array.from(files).map((file) => {
-                                console.log("AddProductAttributes.jsx", file);
-                                return (
-                                  <img
-                                    className="w-20 rounded-md"
-                                    src={URL.createObjectURL(file)}
-                                  />
-                                );
-                              })}
+                              {files &&
+                                Array.from(files)?.map((file, index) => {
+                                  console.log("AddProductAttributes.jsx", file);
+
+                                  // Check if the file is a URL (string) or a File object
+                                  const isURL = typeof file === "string";
+
+                                  return (
+                                    <div
+                                      key={index}
+                                      className="flex items-center space-x-2"
+                                    >
+                                      {isURL ? (
+                                        <img
+                                          className="w-20 rounded-md"
+                                          src={file}
+                                          alt={`Image ${index}`}
+                                        />
+                                      ) : (
+                                        <img
+                                          className="w-20 rounded-md"
+                                          src={URL.createObjectURL(file)}
+                                          alt={`Image ${index}`}
+                                        />
+                                      )}
+                                    </div>
+                                  );
+                                })}
                             </td>
                           </tr>
                         );
@@ -397,7 +453,7 @@ const EditProductAttributes = () => {
               </label>
               <button
                 className="btn btn-accent float-right"
-                onClick={createProduct}
+                onClick={editVariants}
               >
                 Publish
               </button>
@@ -501,7 +557,7 @@ const EditProductAttributes = () => {
                     <AiFillInfoCircle />
                   </div>
                 </div>
-                {selectedAttributes.map(
+                {selectedAttributes?.map(
                   (att) =>
                     att && (
                       <div className="p-1 mx-2" key={att}>
@@ -520,25 +576,26 @@ const EditProductAttributes = () => {
                             />
                           </div>
                           <div className="flex gap-4">
-                            {attributeValues.map((elem) => {
-                              if (elem.id === att._id) {
-                                return elem?.values?.map((a, index) => (
-                                  <div
-                                    className="flex gap-4 items-center bg-base-100 p-2 rounded-full"
-                                    onClick={(e) =>
-                                      removeAttributeValue(att._id, index)
-                                    }
-                                    key={index}
-                                  >
-                                    {a}
-                                    <button className="btn btn-xs btn-circle btn-error">
-                                      <GrFormClose className="text-xl text-base-100" />
-                                    </button>
-                                  </div>
-                                ));
-                              }
-                              return null;
-                            })}
+                            {attributeValues &&
+                              attributeValues?.map((elem) => {
+                                if (elem?.id === att) {
+                                  return elem?.values?.map((a, index) => (
+                                    <div
+                                      className="flex gap-4 items-center bg-base-100 p-2 rounded-full"
+                                      onClick={(e) =>
+                                        removeAttributeValue(att, index)
+                                      }
+                                      key={index}
+                                    >
+                                      {a}
+                                      <button className="btn btn-xs btn-circle btn-error">
+                                        <GrFormClose className="text-xl text-base-100" />
+                                      </button>
+                                    </div>
+                                  ));
+                                }
+                                return null;
+                              })}
                           </div>
                         </div>
                       </div>
@@ -558,7 +615,7 @@ const EditProductAttributes = () => {
                   return;
                 } else {
                   generateValueCombinations();
-                  dispatch(setProduct({ attributes: selectedAttributes }));
+                  // dispatch(setProduct({ attributes: selectedAttributes }));
 
                   setAttSelected(true);
                 }
@@ -598,6 +655,10 @@ const EditProductAttributes = () => {
                       const matchingVariantIndex = variantData.findIndex(
                         (variant) => isEqualVariants(variant, x)
                       );
+
+                      const matchedProductVariant = product.result.find(
+                        (variant) => isEqualVariants(variant.variant, x)
+                      );
                       return (
                         <tr key={index}>
                           <td>
@@ -619,6 +680,11 @@ const EditProductAttributes = () => {
                                 type="number"
                                 name={`price-${index}`}
                                 className="input input-primary input-sm"
+                                defaultValue={
+                                  matchedProductVariant
+                                    ? matchedProductVariant.price
+                                    : ""
+                                }
                                 onChange={(e) =>
                                   handleTableInputChange(
                                     e,
@@ -638,6 +704,11 @@ const EditProductAttributes = () => {
                                 name={`productQuantity-${index}`}
                                 placeholder="enter quantity"
                                 className="input input-primary input-sm"
+                                defaultValue={
+                                  matchedProductVariant
+                                    ? matchedProductVariant.quantity
+                                    : ""
+                                }
                                 onChange={(e) =>
                                   handleTableInputChange(
                                     e,

@@ -24,9 +24,12 @@ const ProductInfo = () => {
   const [quantity, setQuantity] = useState(15);
   const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
-  const [selectedVariants, setSelectedVariants] = useState();
+  const [selectedVariants, setSelectedVariants] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  console.log("ProductInfo.jsx", selectedVariants);
+  console.log("ProductInfo.jsx", variantFilters);
 
   const updateSelectedVariants = (key, value) => {
     setSelectedVariants((prevVariants) => ({
@@ -72,8 +75,27 @@ const ProductInfo = () => {
       ),
     },
   ];
+  function checkVariantsMatch(variantFilters, selectedVariants) {
+    for (const filter of variantFilters) {
+      const [key, values] = Object.entries(filter)[0];
+      const selectedValue = selectedVariants[key];
+      console.log("ProductInfo.jsx", key, selectedValue);
+
+      if (!selectedValue) {
+        return false;
+      }
+    }
+
+    return true;
+  }
   const addToCart = async (e) => {
     e.preventDefault();
+    const isTrue = checkVariantsMatch(variantFilters, selectedVariants);
+    console.log("ProductInfo.jsx", isTrue);
+    if (!isTrue) {
+      debouncedShowToast("select all attributes to add to cart");
+      return;
+    }
     const token = localStorage.getItem("token");
     if (quantity < 1) {
       return debouncedShowToast("quantity must be greater than 0");
@@ -83,6 +105,7 @@ const ProductInfo = () => {
       const response = await API_WRAPPER.post("/cart/create", {
         productId: product._id,
         quantity,
+        variant: selectedVariants,
       });
       dispatch(toggleRefresh());
       debouncedShowToast("added to cart successfully");
@@ -90,12 +113,12 @@ const ProductInfo = () => {
       const existingCart = localStorage.getItem("cart");
       if (existingCart) {
         const i = JSON.parse(existingCart).findIndex(
-          (a) => a.productId == product._id
+          (a) => a.productId == product._id && a.variant == selectedVariants
         );
         if (i == -1) {
           const updatedcart = [
             ...JSON.parse(existingCart),
-            { productId: product._id, quantity },
+            { productId: product._id, quantity, variant: selectedVariants },
           ];
           localStorage.setItem("cart", JSON.stringify(updatedcart));
         } else {
@@ -106,7 +129,9 @@ const ProductInfo = () => {
       } else {
         localStorage.setItem(
           "cart",
-          JSON.stringify([{ productId: product._id, quantity }])
+          JSON.stringify([
+            { productId: product._id, quantity, variant: selectedVariants },
+          ])
         );
       }
       debouncedShowToast("Login to view cart", "success");

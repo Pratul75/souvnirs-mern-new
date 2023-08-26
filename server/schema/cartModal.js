@@ -12,6 +12,11 @@ const CartSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
+    variant_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "AttributeType",
+      required: true,
+    },
     product_name: {
       type: String,
       // required: true,

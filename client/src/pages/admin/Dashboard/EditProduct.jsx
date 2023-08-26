@@ -220,6 +220,7 @@ const EditProduct = () => {
     });
     try {
       await API_WRAPPER.put(`/products/edit-product/${id}`, addProdData);
+      navigate(`${PATHS.EditVariants}/${id}`);
     } catch (e) {}
     // postProduct();
 
