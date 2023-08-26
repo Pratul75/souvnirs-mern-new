@@ -33,22 +33,26 @@ const ShopNavbar = () => {
   const renderSubMenu = (subMenu) => {
     return (
       <ul className="flex flex-wrap w-[500px] relative   dropdown-content shadow bg-red-100 z-[1]">
-        <div className="grid grid-cols-4 menu gap-4 relative flex-wrap w-full">
+        <div className="grid grid-cols-4 menu border border-base relative flex-wrap w-full">
           {subMenu.map((submenu) => (
-            <li className="" key={submenu._id}>
-              <Link
-                to={`${window.location.origin}/${submenu.link}`}
-                className="font-semibold block hover:bg-gray-100 hover:text-primary text-sm w-full"
-              >
-                {submenu.title}
-              </Link>
+            <span className="border dropdown dropdown-hover   border-gray-300" key={submenu._id}>
+              <summary>
+                <Link
+                  tabIndex={0}
+                  to={`${window.location.origin}/${submenu.link}`}
+                  className="  font-semibold block hover:bg-gray-100 hover:text-primary text-sm col-span-1"
+                >
+                  {/* {submenu.title} */}
+                  {submenu.title}
+                </Link>
+              </summary>
               {submenu.child && submenu.child.length > 0 && (
-                <ul className="menu">
+                <ul className="z-20  bg-white ">
                   {submenu.child.map((child) => (
                     <li key={child._id}>
                       <Link
                         to={`${window.location.origin}/${child.link}`}
-                        className="block p-1 hover:bg-gray-100 hover:text-primary text-xs"
+                        className="block dropdown-content p-1 hover:bg-gray-100 hover:text-primary text-xs"
                       >
                         {child.title}
                       </Link>
@@ -56,7 +60,7 @@ const ShopNavbar = () => {
                   ))}
                 </ul>
               )}
-            </li>
+            </span>
           ))}
         </div>
       </ul>
