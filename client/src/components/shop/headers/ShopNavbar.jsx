@@ -38,11 +38,13 @@ const ShopNavbar = () => {
   );
 
   const renderSubMenu = (subMenu) => (
-    <div className="py-2 px-4 block">
-      <details>
+    <div tabIndex={0} className=" dropdown dropdown-hover px-4 block  ">
+      <div className=" ">
         <summary className="font-semibold">{subMenu.title}</summary>
-        {subMenu.child.length > 0 && renderChildMenu(subMenu.child)}
-      </details>
+        <span className="dropdown-content bg-white z-20 ">
+          {subMenu.child.length > 0 && renderChildMenu(subMenu.child)}
+        </span>
+      </div>
     </div>
   );
 
@@ -64,14 +66,16 @@ const ShopNavbar = () => {
         <div className="hidden group-hover:block w-96 absolute left-full top-0 mt-1 z-10 p-2 rounded-lg bg-white shadow-xl">
           <div className="flex items-center justify-between flex-wrap">
             {menu.submenus.map((subMenu) => (
-              <div key={subMenu._id} className="w-1/2 p-2">
+              <div key={subMenu._id} className="w-1/4 p-2 ">
                 <a
                   href={subMenu.link}
                   className="block py-2 px-4 hover:bg-blue-100 transition duration-300"
                 >
                   {subMenu.child.length > 0 ? null : subMenu.title}
                 </a>
-                {subMenu.child.length > 0 && renderSubMenu(subMenu)}
+                <span>
+                  {subMenu.child.length > 0 && renderSubMenu(subMenu)}
+                </span>
               </div>
             ))}
           </div>
