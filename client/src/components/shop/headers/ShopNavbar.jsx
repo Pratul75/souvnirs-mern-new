@@ -32,23 +32,23 @@ const ShopNavbar = () => {
 
   const renderSubMenu = (subMenu) => {
     return (
-      <ul className="flex  w-auto flex-wrap-reverse   dropdown-content  flex-row p-2 shadow bg-base-100 z-[1] rounded-box">
-        <div className="container flex">
+      <ul className="flex flex-wrap w-[500px] relative   dropdown-content shadow bg-red-100 z-[1]">
+        <div className="grid grid-cols-4 menu gap-4 relative flex-wrap w-full">
           {subMenu.map((submenu) => (
-            <li className="ml-4" key={submenu._id}>
+            <li className="" key={submenu._id}>
               <Link
                 to={`${window.location.origin}/${submenu.link}`}
-                className="font-semibold block p-4 hover:bg-gray-100 hover:text-primary text-sm w-full"
+                className="font-semibold block hover:bg-gray-100 hover:text-primary text-sm w-full"
               >
                 {submenu.title}
               </Link>
               {submenu.child && submenu.child.length > 0 && (
-                <ul className="menu pl-2">
+                <ul className="menu">
                   {submenu.child.map((child) => (
                     <li key={child._id}>
                       <Link
                         to={`${window.location.origin}/${child.link}`}
-                        className="block py-1 px-2 hover:bg-gray-100 hover:text-primary text-xs"
+                        className="block p-1 hover:bg-gray-100 hover:text-primary text-xs"
                       >
                         {child.title}
                       </Link>
@@ -64,7 +64,7 @@ const ShopNavbar = () => {
   };
 
   return (
-    <nav className="w-full md:justify-between md:items-center border-b-2  hidden md:flex">
+    <nav className="w-full md:justify-between md:items-center border-b-2  hidden md:flex bg-green-500">
       <div className="join w-full flex items-center">
         <div
           className={`dropdown ${open} join-item relative dropdown-hover dropdown-right dropdown-bottom`}
@@ -98,7 +98,10 @@ const ShopNavbar = () => {
         </div>
 
         {navbarData?.map((mainmenu) => (
-          <div key={mainmenu._id} className="dropdown dropdown-hover join-item">
+          <div
+            key={mainmenu._id}
+            className="dropdown dropdown-hover  relative join-item"
+          >
             <label
               tabIndex={0}
               className=" m-1 cursor-pointer flex items-center mx-2"
