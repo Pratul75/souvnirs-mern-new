@@ -1,80 +1,67 @@
-import { useEffect, useState } from "react";
-import API_WRAPPER from "../../../api";
-import { motion } from "framer-motion";
+import { Menu } from "antd";
+import {
+  UserOutlined,
+  ShopOutlined,
+  TeamOutlined,
+  FullscreenExitOutlined,
+  FullscreenOutlined,
+} from "@ant-design/icons";
 
+const MegaMenu = () => {
+  return <>{/* render menus here */}</>;
+};
 const ShopNavbar = () => {
-  const [menuData, setMenuData] = useState([]);
-  const fadeInVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-    transition: {
-      duration: 1000,
-    },
-  };
-
-  const renderChildMenu = (childMenu) => (
-    <ul className="pl-4 mt-2 space-y-1">
-      {childMenu.map((childItem) => (
-        <li key={childItem._id} className="hover:text-blue-500">
-          <a href={childItem.link}>{childItem.title}</a>
-        </li>
-      ))}
-    </ul>
-  );
-
-  const renderSubMenu = (subMenu) => (
-    <div tabIndex={0} className=" dropdown dropdown-hover px-4 block  ">
-      <div className=" ">
-        <summary className="font-semibold">{subMenu.title}</summary>
-        <span className="dropdown-content bg-white z-20 ">
-          {subMenu.child.length > 0 && renderChildMenu(subMenu.child)}
-        </span>
-      </div>
-    </div>
-  );
-
-  const renderMenu = (menu) => (
-    <motion.li
-      key={menu._id}
-      className="relative group menu"
-      initial="hidden"
-      animate="visible"
-      variants={fadeInVariants}
-    >
-      <a
-        href={menu.link}
-        className="block py-2 px-4 hover:bg-blue-100 transition duration-300"
-      >
-        {menu.title}
-      </a>
-      {menu.submenus.length > 0 && (
-        <div className="hidden group-hover:block w-[1200px] absolute top-0 mt-1 z-10 p-2 rounded-lg bg-white shadow-xl">
-          <div className="flex items-center justify-between flex-wrap">
-            {menu.submenus.map((subMenu) => (
-              <div key={subMenu._id} className="w-1/4 p-2 ">
-                <a
-                  href={subMenu.link}
-                  className="block py-2 px-4 hover:bg-blue-100 transition duration-300"
-                >
-                  {subMenu.child.length > 0 ? null : subMenu.title}
-                </a>
-                <span>
-                  {subMenu.child.length > 0 && renderSubMenu(subMenu)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </motion.li>
-  );
-
   return (
-    <nav className="py-4 flex items-center">
-      <div className="container mx-auto">
-        <ul className="flex">{menuData.map((menu) => renderMenu(menu))}</ul>
-      </div>
-    </nav>
+    <div>
+      <Menu
+        mode="horizontal"
+        items={[
+          {
+            label: "Fashion",
+            key: "fashion",
+            icon: <ShopOutlined />,
+            children: [
+              {
+                label: "Men",
+                key: "mens",
+                icon: <UserOutlined />,
+              },
+              {
+                label: "Women",
+                key: "women",
+                icon: <UserOutlined />,
+              },
+              {
+                label: "Kids",
+                key: "kids",
+                icon: <TeamOutlined />,
+              },
+            ],
+          },
+          {
+            label: "Home Decor",
+            key: "home_decor",
+            children: [
+              {
+                label: "Interior Decor",
+                key: "interior-decor",
+                icon: <FullscreenExitOutlined />,
+              },
+              {
+                label: "Exterior Decor",
+                key: "exterior-decor",
+                icon: <FullscreenOutlined />,
+              },
+            ],
+          },
+          {
+            label: "Electronics",
+            key: "electronics",
+            children: [{ label: <MegaMenu />, key: "megamenu" }],
+          },
+        ]}
+      ></Menu>
+    </div>
   );
 };
 
