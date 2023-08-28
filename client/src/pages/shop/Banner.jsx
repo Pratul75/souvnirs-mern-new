@@ -7,7 +7,7 @@ const Banner = ({ bannerImage, text, navigation }) => {
           <p className="text-primary font-bold">{navigation}</p>
         </div>
         <img
-          className="absolute right-0 left-0 top-0 bottom-0 rounded-xl "
+          className="absolute right-0 left-0 top-0 bottom-0 rounded-xl"
           src={bannerImage}
           alt="bannerImage"
         />

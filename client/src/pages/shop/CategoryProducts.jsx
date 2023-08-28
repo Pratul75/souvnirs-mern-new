@@ -123,13 +123,13 @@ const CategoryProducts = () => {
             <div className="flex gap-4">
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${filterType && "btn-primary"} btn-square`}
+                className={`btn ${!filterType && "btn-primary"} btn-square`}
               >
                 <MdOutlineDashboard className="text-2xl" />
               </button>
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${!filterType && "btn-primary"} btn-square`}
+                className={`btn ${filterType && "btn-primary"} btn-square`}
               >
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>

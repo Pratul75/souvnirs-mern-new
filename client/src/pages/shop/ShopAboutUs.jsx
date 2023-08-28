@@ -1,6 +1,6 @@
-import React from "react";
 import ProductsBanner from "../../assets/shop/bannerImages/productsBanner.png";
 import Banner from "./Banner";
+
 const ShopAboutUs = () => {
   return (
     <div>
