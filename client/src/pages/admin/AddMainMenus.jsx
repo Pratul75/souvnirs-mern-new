@@ -58,7 +58,8 @@ const AddMainMenus = () => {
       debouncedShowToast("Main Menu Item Created Successfully", "success");
       console.log("AddMainMenus.jsx", response);
     } catch (e) {
-      debouncedShowToast("something went wrong", "error");
+      console.log("AddMainMenus.jsx", e);
+      debouncedShowToast(e.response.data, "error");
     }
   };
 

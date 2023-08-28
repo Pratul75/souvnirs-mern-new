@@ -49,10 +49,6 @@ const AddCollection = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Product Id",
-        accessor: "_id",
-      },
-      {
         Header: "Product Name",
         accessor: "name",
       },
@@ -180,7 +176,7 @@ const AddCollection = () => {
     );
     if (response.status === 201) {
       console.log("COLLECTION CREATED SUCCESSFULL", response?.data);
-      Navigate(PATHS.adminCollection);
+      navigate(PATHS.adminCollection);
     }
   };
 

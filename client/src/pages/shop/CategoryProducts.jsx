@@ -209,6 +209,7 @@ const CategoryProducts = () => {
               ))
             ) : (
               <div className="flex flex-wrap gap-4 justify-center">
+                {products && products.length == 0 && <div>No products</div>}
                 {products &&
                   products.map((product) => {
                     return (

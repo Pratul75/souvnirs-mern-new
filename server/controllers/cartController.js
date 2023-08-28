@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
 const Cart = require("../schema/cartModal");
 const { response } = require("express");
+const AttributeType = require("../schema/attributeTypeModal");
 
 // Get all carts
 const getAllCarts = async (req, res) => {
@@ -115,14 +116,38 @@ const getCartById = async (req, res) => {
 const createCustomerCart = async (req, res) => {
   try {
     const { userId } = req;
-    const { productId, quantity } = req.body;
-    const created = await Cart.findOneAndUpdate(
-      { customer_id: userId, product_id: productId, checkedOut: false },
-      {
-        $inc: { product_quantity: +quantity },
-      },
-      { upsert: true, new: true }
-    );
+    const { productId, quantity, variant } = req.body;
+
+    const Variant = await AttributeType.findOne({
+      productId,
+      variant,
+    });
+    if (variant) {
+      const created = await Cart.findOneAndUpdate(
+        {
+          customer_id: userId,
+          product_id: productId,
+          variant_id: Variant?._id,
+          checkedOut: false,
+        },
+        {
+          $inc: { product_quantity: +quantity },
+        },
+        { upsert: true, new: true }
+      );
+    } else {
+      const created = await Cart.findOneAndUpdate(
+        {
+          customer_id: userId,
+          product_id: productId,
+          checkedOut: false,
+        },
+        {
+          $inc: { product_quantity: +quantity },
+        },
+        { upsert: true, new: true }
+      );
+    }
     res.status(200).json("Cart Updated Successfully");
   } catch (e) {
     res.status(400).json("something went wrong");
@@ -195,6 +220,7 @@ const deleteCart = async (req, res) => {
 };
 const updateCustomerCart = async (req, res) => {
   const { id, quantity } = req.body;
+
   const updated = await Cart.findByIdAndUpdate(
     id,
     {

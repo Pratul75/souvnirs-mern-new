@@ -27,6 +27,10 @@ import { FiUsers } from "react-icons/fi";
 import { RiRefund2Fill } from "react-icons/ri";
 import { nanoid } from "nanoid";
 import GiftOnePng from "../assets/shop/cardImages/giftOne.png";
+import One from "../assets/shop/cardImages/1.jpg";
+import Two from "../assets/shop/cardImages/2.jpg";
+import Three from "../assets/shop/cardImages/3.jpg";
+import Four from "../assets/shop/cardImages/4.jpg";
 import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.png";
 import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
 import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
@@ -556,7 +560,7 @@ export const BrandsCardImageList = [
 export const blogCardData = [
   {
     id: nanoid(),
-    blogImage: GiftOnePng,
+    blogImage: One,
     date: "22  October  2023",
     views: 100,
     heading: "What should I know about...",
@@ -568,7 +572,7 @@ export const blogCardData = [
   },
   {
     id: nanoid(),
-    blogImage: GiftOnePng,
+    blogImage: Two,
     date: "22  October  2023",
     views: 100,
     heading: "What should I know about...",
@@ -580,7 +584,7 @@ export const blogCardData = [
   },
   {
     id: nanoid(),
-    blogImage: GiftOnePng,
+    blogImage: Three,
     date: "22  October  2023",
     views: 100,
     heading: "What should I know about...",
@@ -592,7 +596,7 @@ export const blogCardData = [
   },
   {
     id: nanoid(),
-    blogImage: GiftOnePng,
+    blogImage: Four,
     date: "22  October  2023",
     views: 100,
     heading: "What should I know about...",

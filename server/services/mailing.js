@@ -1,49 +1,29 @@
 const axios = require("axios");
-var SibApiV3Sdk = require("sib-api-v3-sdk");
+const nodemailer = require("nodemailer");
 
-const sendEmail = async (email, name) => {
-  var SibApiV3Sdk = require("sib-api-v3-sdk");
-  var defaultClient = SibApiV3Sdk.ApiClient.instance;
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: "pratul.udainiya@rechargestudio.com",
+    pass: "recharge@123",
+  },
+});
 
-  // Configure API key authorization: api-key
-  var apiKey = defaultClient.authentications["api-key"];
-  apiKey.apiKey =
-    "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";
-
-  // Uncomment below two lines to configure authorization using: partner-key
-  // var partnerKey = defaultClient.authentications['partner-key'];
-  // partnerKey.apiKey = 'YOUR API KEY';
-
-  var apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-
-  var sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail(); // SendSmtpEmail | Values to send a transactional email
-
-  sendSmtpEmail = {
-    to: [
-      {
-        email: "utkarshpawar910910@gmail.com",
-        name: "John Doe",
-      },
-    ],
-    templateId: 1,
-    params: {
-      name: "John",
-      surname: "Doe",
-    },
-    headers: {
-      "X-Mailin-custom":
-        "custom_header_1:custom_value_1|custom_header_2:custom_value_2",
-    },
-  };
-
-  apiInstance.sendTransacEmail(sendSmtpEmail).then(
-    function (data) {
-      console.log("API called successfully. Returned data: " + data);
-    },
-    function (error) {
-      console.error(error);
-    }
-  );
+const sendEmail = async (to, subject, text) => {
+  try {
+    const mailOptions = {
+      from: "utkarsh.pawar@rechargestudio.com",
+      to: to,
+      subject: subject,
+      text: text,
+    };
+    const response = await transporter.sendMail(mailOptions);
+    console.log("mailing.js", response);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 module.exports = sendEmail;

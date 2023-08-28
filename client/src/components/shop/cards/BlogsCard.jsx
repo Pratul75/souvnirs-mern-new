@@ -19,7 +19,7 @@ const BlogsCard = ({
     >
       <img
         alt="Office"
-        src="https://images.pexels.com/photos/17821306/pexels-photo-17821306/free-photo-of-landscape-of-hills-and-mountains.jpeg"
+        src={blogImage}
         className="h-56 w-full object-cover rounded-xl"
       />
       <div className="bg-white  p-4 sm:p-6">

@@ -11,6 +11,7 @@ const { v2 } = require("../middlewares/ImageUpload");
 const Media = require("../schema/mediaModal");
 const mongoose = require("mongoose");
 const Collection = require("../schema/collectionModal");
+const sendEmail = require("../services/mailing");
 
 // create new product
 const addMedias = async (req, res) => {
@@ -724,31 +725,8 @@ const getProduct = async (req, res) => {
     const productId = req.params.id;
     const { variantId } = req.query;
     let product;
-    if (variantId != "null") {
-      product = await Product.aggregate([
-        { $match: { _id: new mongoose.Types.ObjectId(productId) } },
-        {
-          $lookup: {
-            from: "attributetypes",
-            localField: "_id",
-            foreignField: "productId",
-            as: "variant",
-          },
-        },
-        {
-          $unwind: {
-            path: "$variant",
-          },
-        },
-        {
-          $match: {
-            "variant._id": new mongoose.Types.ObjectId(variantId),
-          },
-        },
-      ]);
-    } else {
-      product = await Product.find({ _id: productId });
-    }
+
+    product = await Product.findById(productId);
 
     console.log("PRODUCT SELECTED: ", product);
     // Check if the product exists
@@ -782,6 +760,57 @@ const deleteProduct = async (req, res) => {
     console.error(error);
     res.status(400).json(error("failed to delete product"));
   }
+};
+
+const editProductVariant = async (req, res) => {
+  try {
+    const { productId } = req.params;
+    let { variant, quantity, price, images } = req.body;
+    variant = JSON.parse(variant);
+    let urls = [];
+    if (req.files.length > 0) {
+      for (let file of req.files) {
+        const uploaded = await v2.uploader.upload(file.path);
+        urls.push(uploaded.url);
+        console.log("productController.js", uploaded);
+      }
+    }
+    const variantFound = await AttributeType.findOneAndUpdate(
+      {
+        variant,
+      },
+      {
+        price,
+        quantity,
+        images: req.files.length > 0 ? urls : images,
+        productId: productId,
+      },
+      { upsert: true, new: true }
+    );
+    res.status(200).json(productId);
+  } catch (e) {
+    console.log("productController.js", e);
+  }
+};
+
+const getProductVariants = async (req, res) => {
+  const { productId } = req.params;
+  const products = await Product.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId(productId),
+      },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "_id",
+        foreignField: "productId",
+        as: "result",
+      },
+    },
+  ]);
+  res.status(200).json(products[0]);
 };
 
 // edit product
@@ -886,6 +915,7 @@ const getProductBySlug = async (req, res) => {
       },
     },
   ]);
+  await sendEmail();
   res.status(200).json(product[0]);
 };
 const bulkProductUpload = async (req, res) => {
@@ -1031,4 +1061,6 @@ module.exports = {
   getProductsByFilter,
   getSearchProducts,
   getProductBySlug,
+  getProductVariants,
+  editProductVariant,
 };

@@ -9,7 +9,7 @@ const RequestQuoteForm = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data); // You can do something with the form data here
+    console.log("REQUEST QUOTE DATA: ", data);
   };
 
   return (

@@ -110,104 +110,38 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
-                        <div className="flex items-center space-x-4">
-                          <img
-                            className="w-24 h-24"
-                            src="https://via.placeholder.com/200x200"
-                            alt="Product"
-                          />
-                          <div className="flex-grow">
-                            <h2 className="text-lg font-medium text-neutral-700">
-                              D-Phone Android Latest UI New XP
-                            </h2>
-                            <div className="text-xl font-medium text-violet-900">
-                              $256.00
-                            </div>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <Ratings rating={4} />
-                              <div className="border rounded-full p-2">
-                                <ShopIcon />
+                      {productsList.slice(0, 4).map((product) => (
+                        <div
+                          key={product._id}
+                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                        >
+                          <div className="flex items-center space-x-4">
+                            <img
+                              className="w-24 h-24"
+                              src={product.coverImage}
+                              alt="Product"
+                            />
+                            <div className="flex-grow">
+                              <h2 className="text-lg font-medium text-neutral-700">
+                                {product.name}
+                              </h2>
+                              <div className="text-xl font-medium text-violet-900"></div>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <Ratings rating={4} />
+                                <div className="border rounded-full p-2">
+                                  <ShopIcon />
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
 
                       {/* Item 2 */}
-                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
-                        <div className="flex items-center space-x-4">
-                          <img
-                            className="w-24 h-24"
-                            src="https://via.placeholder.com/200x200"
-                            alt="Product"
-                          />
-                          <div className="flex-grow">
-                            <h2 className="text-lg font-medium text-neutral-700">
-                              D-Phone Android Latest UI New XP
-                            </h2>
-                            <div className="text-xl font-medium text-violet-900">
-                              $256.00
-                            </div>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <Ratings rating={4} />
-                              <div className="border rounded-full p-2">
-                                <ShopIcon />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       {/* Item 3 */}
-                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
-                        <div className="flex items-center space-x-4">
-                          <img
-                            className="w-24 h-24"
-                            src="https://via.placeholder.com/200x200"
-                            alt="Product"
-                          />
-                          <div className="flex-grow">
-                            <h2 className="text-lg font-medium text-neutral-700">
-                              D-Phone Android Latest UI New XP
-                            </h2>
-                            <div className="text-xl font-medium text-violet-900">
-                              $256.00
-                            </div>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <Ratings rating={4} />
-                              <div className="border rounded-full p-2">
-                                <ShopIcon />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       {/* Item 4 */}
-                      <div className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md">
-                        <div className="flex items-center space-x-4">
-                          <img
-                            className="w-24 h-24"
-                            src="https://via.placeholder.com/200x200"
-                            alt="Product"
-                          />
-                          <div className="flex-grow">
-                            <h2 className="text-lg font-medium text-neutral-700">
-                              D-Phone Android Latest UI New XP
-                            </h2>
-                            <div className="text-xl font-medium text-violet-900">
-                              $256.00
-                            </div>
-                            <div className="flex items-center space-x-4 mt-2">
-                              <Ratings rating={4} />
-                              <div className="border rounded-full p-2">
-                                <ShopIcon />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   ),
                   label: "CONTENT 1",

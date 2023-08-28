@@ -85,6 +85,7 @@ import EditCategory from "../pages/EditCategory";
 import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";
 import Products from "../pages/shop/Products";
+import EditProductAttributes from "../pages/admin/Dashboard/EditProductAttributes";
 // admin routes
 export const adminRoutes = [
   {
@@ -119,6 +120,12 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
+    path: `${PATHS.EditCategory}/:id`,
+    defaultRole: "admin",
+    Component: EditCategory,
+  },
+  {
+    id: nanoid(),
     path: `${PATHS.EditCollection}/:id`,
     defaultRole: "admin",
     Component: EditCollection,
@@ -134,6 +141,12 @@ export const adminRoutes = [
     path: `${PATHS.EditProduct}/:id`,
     defaultRole: "admin",
     Component: EditProduct,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.EditVariants}/:id`,
+    defaultRole: "admin",
+    Component: EditProductAttributes,
   },
   {
     id: nanoid(),
