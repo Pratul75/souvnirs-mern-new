@@ -86,6 +86,7 @@ import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";
 import Products from "../pages/shop/Products";
 import EditProductAttributes from "../pages/admin/Dashboard/EditProductAttributes";
+import ShopAboutUs from "../pages/shop/ShopAboutUs";
 // admin routes
 export const adminRoutes = [
   {
@@ -551,5 +552,10 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.blogs,
     Component: Blogs,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.shopAboutUs,
+    Component: ShopAboutUs,
   },
 ];

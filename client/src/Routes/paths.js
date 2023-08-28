@@ -95,4 +95,5 @@ export const PATHS = {
   checkout: "/checkout",
   shopWishlist: "/shop/wishlist",
   blogs: "/blogs",
+  shopAboutUs: "/shop/about_us",
 };

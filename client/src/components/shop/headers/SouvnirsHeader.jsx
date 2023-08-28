@@ -237,24 +237,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                   <FiShoppingBag className="text-2xl cursor-pointer" />
                 </Link>
               </div>
-              <div data-tip="Dark">
-                {darkModeToggle ? (
-                  <button
-                    onClick={() => dispatch(toggleDarkMode())}
-                    className="btn btn-circle ml-3"
-                  >
-                    {" "}
-                    <FiSun className="text-2xl" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => dispatch(toggleDarkMode())}
-                    className="btn btn-circle ml-3"
-                  >
-                    <LuMoon className="text-2xl" />
-                  </button>
-                )}
-              </div>
             </div>
           </div>
         </div>
