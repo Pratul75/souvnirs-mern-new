@@ -1,14 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import FilterCard from "../../components/shop/components/FilterCard";
 import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { Card, ProductCard } from "../../components";
-import GiftOneImage from "../../assets/shop/cardImages/giftOne.png";
 import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
-import { useFilters } from "react-table";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
 
@@ -28,7 +26,6 @@ const CategoryProducts = () => {
   const params = useParams();
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
-  const navigate = useNavigate();
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
