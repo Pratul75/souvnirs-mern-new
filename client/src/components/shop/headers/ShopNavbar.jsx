@@ -2,9 +2,11 @@ import { Menu } from "antd";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import RequestQuoteForm from "../components/RequestQuoteForm";
 const ShopNavbar = () => {
   // navbar data stored here in navbarData state
   const [navbarData, setNavbarData] = useState([]);
+  const [categories, setCategories] = useState([]);
   const getNavbarData = async () => {
     const response = await API_WRAPPER.get("/getNavbarMenu");
     if (response.status === 200) {
@@ -13,11 +15,27 @@ const ShopNavbar = () => {
     }
   };
 
+  const getAllCategories = async () => {
+    const response = await API_WRAPPER.get("/category/get-all-categories");
+    if (response.status === 200) {
+      setCategories(response.data);
+      console.log("CATEGORIES DATA: ", response.data);
+    }
+  };
+
+  const categoriesItems = (categoryList) => {
+    const items = categoryList.map((category) => {
+      return { label: category.name, key: category.name };
+    });
+    return items;
+  };
+
   useEffect(() => {
     getNavbarData();
+    getAllCategories();
   }, []);
 
-  // Recursive function to render nested submenus
+  // recursive function to render nested submenus
   const renderSubmenus = (submenus) => {
     return submenus.map((submenu) => (
       <Link to={`${window.location.origin}/${submenu.link}`} key={submenu._id}>
@@ -34,7 +52,18 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div>
+    <div className="flex">
+      <Menu
+        className="bg-shopPrimaryColor text-white"
+        mode="horizontal"
+        items={[
+          {
+            label: "All Categories",
+            key: "all_categories",
+            children: categoriesItems(categories),
+          },
+        ]}
+      />
       <Menu mode="horizontal">
         {navbarData.map((menu) => (
           <Menu.SubMenu
@@ -48,6 +77,13 @@ const ShopNavbar = () => {
           </Menu.SubMenu>
         ))}
       </Menu>
+      <button
+        onClick={() => window.request_quote_modal.showModal()}
+        className="btn"
+      >
+        Request Quote
+      </button>
+      <RequestQuoteForm />
     </div>
   );
 };
