@@ -190,7 +190,7 @@ const CategoryProducts = () => {
             {filterType ? (
               products &&
               products.map((product) => (
-                <div className="w-1/2 p-2" key={nanoid()}>
+                <div className="w-1/2 p-2 cursor-pointer" key={nanoid()}>
                   <ProductCardMini
                     key={nanoid()}
                     id={nanoid()}

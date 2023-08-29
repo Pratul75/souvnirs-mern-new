@@ -6,9 +6,9 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import { ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import ShopBanner from "../../assets/shop/bannerImages/cartBanner.png";
-import { PATHS } from "../../Routes/paths";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
+import { BsPlus } from "react-icons/bs";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);
@@ -140,7 +140,7 @@ const CartPage = () => {
               onClick={increaseQuantity}
               className="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75"
             >
-              +
+              <BsPlus />
             </button>
           </div>
         );

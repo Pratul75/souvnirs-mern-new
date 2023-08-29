@@ -18,7 +18,6 @@ const ProductCardMini = ({
 }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
-
   return (
     <motion.div
       variants={fadeInVariants}
