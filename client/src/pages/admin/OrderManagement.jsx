@@ -6,50 +6,19 @@ import { getStatusStyles } from "../../utils";
 import OrderManagementBanner from "../../assets/bannerImages/orderManagementImage.png";
 const OrderManagement = () => {
   const [orderTableList, setOrderTableList] = useState([]);
-  const [selectedRow, setSelectedRow] = useState({});
-  const [editedRow, setEditedRow] = useState({});
+  const [orderToBeEdited, setOrderToBeEdited] = useState({});
+  const [orderEditedObject, setOrderEditedObject] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
 
   const getOrderTableData = async () => {
     try {
-      const response = await API_WRAPPER.get("/order/get-order-table-data");
+      const response = await API_WRAPPER.get("/order/get-orders");
       if (response.status === 200) {
         setOrderTableList(response?.data);
-        console.log("ORDER TABLE DATA: ", orderTableList);
+        console.log("ORDER TABLE DATA: ", response?.data);
       }
     } catch (error) {
       console.error("Error occured while getting all order table list", error);
-    }
-  };
-
-  const handleDeleteOrder = (row) => {
-    setSelectedRow(row);
-    window.order_management_delete_modal.showModal();
-    console.log("ROW TO BE DELETED: ", row);
-  };
-
-  const handleEditOrder = (row) => {
-    setSelectedRow(row);
-    window.order_management_edit_modal.showModal();
-    console.log("ROW TO BE EDITED: ", row);
-  };
-
-  const handleEditChange = (e) => {
-    setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
-  };
-
-  const submitEditedRow = async () => {
-    const response = await API_WRAPPER.put(
-      `/order/update-order/:${selectedRow.orderId}`,
-      editedRow
-    );
-    if (response.status === 200) {
-      setApiTrigger((prevState) => !prevState);
-      window.order_management_edit_modal.close();
-      console.log(
-        "EDITED SUCCESSFULLY WITH THE FOLLOWING RESPONSE: ",
-        response?.status
-      );
     }
   };
 
@@ -57,23 +26,27 @@ const OrderManagement = () => {
     () => [
       {
         Header: "Invoice ID",
-        accessor: "invoiceId",
+        accessor: "invoice_id",
       },
       {
-        Header: "Product Name",
-        accessor: "productName",
+        Header: "Billing ID",
+        accessor: "billing_id",
       },
       {
-        Header: "Vendor Name",
-        accessor: "vendorName",
+        Header: "Coupon Code",
+        accessor: "coupon_code",
       },
       {
-        Header: "Customer Name",
-        accessor: "customerName",
+        Header: "Courier ID",
+        accessor: "courier_id",
       },
       {
         Header: "Price",
         accessor: "price",
+      },
+      {
+        Header: "Order Status",
+        accessor: "order_status",
       },
       {
         Header: "Status",
@@ -87,9 +60,45 @@ const OrderManagement = () => {
   );
 
   const data = useMemo(() => orderTableList, [orderTableList]);
+
+  const handleDeleteModal = (orderObjToBeDeleted) => {
+    window.order_management_delete_modal.showModal();
+    setOrderToBeEdited(orderObjToBeDeleted);
+  };
+
+  const handleEditModal = (orderObjToBeEdited) => {
+    window.order_management_edit_modal.showModal();
+    setOrderToBeEdited(orderObjToBeEdited);
+    console.log("ORDER OBJECT: ", orderObjToBeEdited);
+  };
+
+  const handleEditSubmit = async () => {
+    const response = await API_WRAPPER.put(
+      `/order/update-order/:${orderToBeEdited._id}`,
+      orderEditedObject
+    );
+    if (response.status === 200) {
+      setApiTrigger((prevState) => !prevState);
+      window.order_management_edit_modal.close();
+      console.log("EDITED OBJ RESPONSE: ", response);
+    }
+  };
+
+  const handleDeleteSubmit = async () => {
+    const response = await API_WRAPPER.delete(
+      `/order/delete-order/:${orderToBeEdited._id}`,
+      orderEditedObject
+    );
+    if (response.status === 200) {
+      window.order_management_delete_modal.close();
+      console.log("RESPONSE: ", response);
+    }
+  };
+
   useEffect(() => {
     getOrderTableData();
   }, [apiTrigger]);
+
   return (
     <div>
       <Header
@@ -107,8 +116,8 @@ const OrderManagement = () => {
           enableEdit
           enablePagination
           pageSize={10}
-          onDelete={handleDeleteOrder}
-          onEdit={handleEditOrder}
+          onDelete={handleDeleteModal}
+          onEdit={handleEditModal}
         />
 
         {/* edit modal */}
@@ -116,7 +125,7 @@ const OrderManagement = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              submitEditedRow();
+              handleEditSubmit();
             }}
             method="dialog"
             className="modal-box"
@@ -128,8 +137,12 @@ const OrderManagement = () => {
                   <span className="label-text">Invoice ID</span>
                 </label>
                 <input
-                  onChange={(e) => handleEditChange(e)}
-                  defaultValue={selectedRow?.invoiceId}
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, invoice_id: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited?.invoice_id}
                   className="input input-primary"
                   type="text"
                   name="invoice_id"
@@ -141,8 +154,12 @@ const OrderManagement = () => {
                   <span className="label-text">Product Name</span>
                 </label>
                 <input
-                  onChange={(e) => handleEditChange(e)}
-                  defaultValue={selectedRow?.productName}
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, billing_id: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited?.billing_id}
                   className="input input-primary"
                   type="text"
                   name="productName"
@@ -154,8 +171,12 @@ const OrderManagement = () => {
                   <span className="label-text">Vendor Name</span>
                 </label>
                 <input
-                  onChange={(e) => handleEditChange(e)}
-                  defaultValue={selectedRow?.vendorName}
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, coupon_code: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited?.coupon_code}
                   className="input input-primary"
                   type="text"
                   name="vendorName"
@@ -167,11 +188,31 @@ const OrderManagement = () => {
                   <span className="label-text">Customer Name</span>
                 </label>
                 <input
-                  onChange={(e) => handleEditChange(e)}
-                  defaultValue={selectedRow?.customerName}
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, courier_id: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited?.courier_id}
                   className="input input-primary"
                   type="text"
                   name="customerName"
+                  id=""
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Customer Name</span>
+                </label>
+                <input
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, price: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited?.price}
+                  className="input input-primary"
+                  type="text"
                   id=""
                 />
               </div>
@@ -180,8 +221,12 @@ const OrderManagement = () => {
                   <span className="label-text">Status</span>
                 </label>
                 <select
-                  onChange={(e) => handleEditChange(e)}
-                  defaultValue={selectedRow?.status}
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, status: e.target.value };
+                    })
+                  }
+                  defaultValue={orderToBeEdited.status}
                   className="select select-primary"
                   name="status"
                   id=""
@@ -194,7 +239,7 @@ const OrderManagement = () => {
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button type="submit" className="btn btn-error">
+              <button type="submit" className="btn btn-primary">
                 Save Changes
               </button>
               <button
@@ -208,14 +253,23 @@ const OrderManagement = () => {
         </dialog>
 
         <dialog id="order_management_delete_modal" className="modal">
-          <form method="dialog" className="modal-box">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleDeleteSubmit();
+            }}
+            method="dialog"
+            className="modal-box"
+          >
             <h3 className="font-bold text-lg">Hello!</h3>
             <p className="py-4">
               Are you sure you want to delete the selected order?
             </p>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-error">Delete</button>
+              <button type="submit" className="btn btn-primary">
+                Delete
+              </button>
               <button className="btn">Close</button>
             </div>
           </form>
