@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { debouncedShowToast } from "../../../utils";
 import { ToastContainer } from "react-toastify";
 import {
+  Link,
   Navigate,
   useNavigate,
   useParams,
@@ -521,7 +522,9 @@ const EditProduct = () => {
             <button onClick={handleSubmit} className="btn btn-primary mt-4">
               Next
             </button>
-            <button className="btn  mt-4 ml-4">Cancel</button>
+            <Link to={PATHS.adminProductManagement} className="btn  mt-4 ml-4">
+              Cancel
+            </Link>
           </motion.div>
         </div>
       </div>

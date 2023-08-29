@@ -105,9 +105,12 @@ const LoginForm = () => {
       <div className="w-screen lg:w-full h-full flex justify-center items-center">
         <div className="w-full p-8 bg-base-200 shadow-lg md:mx-8">
           <div className="flex justify-center">
-            <div className="flex justify-center py-4 mb-5 md:mb-0 ">
+            <Link
+              to={PATHS.landingPage}
+              className="flex justify-center py-4 mb-5 md:mb-0 "
+            >
               <img className="w-full" src={SouvnirsLogoImg} alt="" />
-            </div>
+            </Link>
           </div>
           <div>
             <Link

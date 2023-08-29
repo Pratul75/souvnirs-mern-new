@@ -334,14 +334,7 @@ const ProductInfo = () => {
                   </div>
                 );
               })}
-              {/* <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Color</span>
-                </label>
-                <select className="select select-bordered">
-                  <option value="Black">Black</option>
-                </select>
-              </div> */}
+
               <button
                 onClick={(e) => {
                   e.preventDefault();

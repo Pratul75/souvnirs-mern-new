@@ -233,33 +233,35 @@ const CategoryProducts = () => {
             )}
           </div>
           <div className="flex  w-full justify-center my-4">
-            <div className="flex justify-center items-center gap-5 w-1/3">
-              <button
-                onClick={() => {
-                  if (page === 1) {
-                    return;
-                  }
-                  setPage((prev) => prev - 1);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="btn btn-circle btn-primary"
-              >
-                -
-              </button>
-              <span className="text-3xl ">{page}</span>
-              <button
-                onClick={() => {
-                  if (page == lastPage) {
-                    return;
-                  }
-                  setPage((prev) => prev + 1);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                }}
-                className="btn btn-circle btn-primary text-white"
-              >
-                +
-              </button>
-            </div>
+            {products.length > 0 && (
+              <div className="flex justify-center items-center gap-5 w-1/3">
+                <button
+                  onClick={() => {
+                    if (page === 1) {
+                      return;
+                    }
+                    setPage((prev) => prev - 1);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="btn btn-circle btn-primary"
+                >
+                  -
+                </button>
+                <span className="text-3xl ">{page}</span>
+                <button
+                  onClick={() => {
+                    if (page == lastPage) {
+                      return;
+                    }
+                    setPage((prev) => prev + 1);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
+                  className="btn btn-circle btn-primary text-white"
+                >
+                  +
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

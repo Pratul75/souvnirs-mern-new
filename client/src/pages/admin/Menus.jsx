@@ -8,11 +8,12 @@ const Menus = () => {
   const [menuData, setMenuData] = useState([]);
   const [subMenuData, setSubMenuData] = useState([]);
   const [childMenuData, setChildMenuData] = useState([]);
-
+  const [apiTrigger, setApiTrigger] = useState(false);
   const fetchMenuData = async () => {
     const response = await API_WRAPPER.get("/main-menu");
     if (response && response.data) {
       setMenuData(response.data);
+      console.log("MENU DATA", response.data);
     }
   };
 
@@ -36,7 +37,7 @@ const Menus = () => {
     }
 
     fetchData();
-  }, []);
+  }, [apiTrigger]);
 
   const columns = useMemo(
     () => [
@@ -48,20 +49,24 @@ const Menus = () => {
         Header: "Status",
         accessor: "status",
       },
-      {
-        Header: "Menu",
-        accessor: "menu",
-      },
     ],
     []
   );
 
   const extractedMenuData = useMemo(() => {
     return menuData.map((element) => ({
+      id: element._id,
       title: element.title,
       status: element.status,
     }));
   }, [menuData]);
+
+  const handleDelete = async (rowToBeDeleted) => {
+    console.log("MENU ROW: ", rowToBeDeleted);
+    const response = await API_WRAPPER.delete(`/menu/${rowToBeDeleted.id}`);
+    setApiTrigger((prevState) => !prevState);
+    console.log("DELETE RESPONSE: ", response);
+  };
 
   return (
     <div>
@@ -85,7 +90,7 @@ const Menus = () => {
             enableEdit
             enablePagination
             pageSize={10}
-            // onDelete={handleDelete}
+            onDelete={handleDelete}
             // onEdit={handleEdit}
           />
         )}

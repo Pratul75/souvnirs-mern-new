@@ -21,7 +21,6 @@ const Dropzone = ({ onFilesChange, accept }) => {
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-  console.log("index.jsx", getInputProps);
 
   return (
     <div className="h-[30vh]" {...getRootProps()}>
