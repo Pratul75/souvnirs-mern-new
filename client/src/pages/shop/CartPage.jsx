@@ -45,7 +45,6 @@ const CartPage = () => {
     setCartItems(updatedCartItems);
     cartItemUpdate(id, newQuantity);
   };
-
   const checkoutHandler = async () => {
     const response = await API_WRAPPER.post(`/checkout`);
     if (response.status == 200) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { ToastContainer } from "react-toastify";
@@ -54,49 +54,54 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       if (!validateForm()) return;
+
       const response = await API_WRAPPER.post("/auth/login", formData);
+
       if (response.status === 200) {
         const token = response?.data?.token;
         const { id, role, userName } = decodeToken(token);
         console.log("DECODED TOKEN OBJECTS: ", { id, role, userName });
 
-        if (response?.data) {
-          localStorage.setItem("role", JSON.stringify(role));
-          localStorage.setItem("username", JSON.stringify(userName));
+        localStorage.setItem("role", JSON.stringify(role));
+        localStorage.setItem("username", JSON.stringify(userName));
+        localStorage.setItem("token", JSON.stringify(token));
 
-          if (response?.data?.token) {
-            dispatch(getLoginInfo(role));
-            localStorage.setItem("token", JSON.stringify(token));
-            const cartItems = localStorage.getItem("cart");
-            const wishlistItems = localStorage.getItem("wishlist");
+        dispatch(getLoginInfo(role));
 
-            const parsedWishlist = JSON.parse(wishlistItems);
-            const parsedCart = JSON.parse(cartItems);
-            console.log("LoginForm.jsx", parsedWishlist, parsedCart);
-            if (parsedWishlist != null || parsedWishlist?.length > 0) {
-              for (let wishlist of parsedWishlist) {
-                console.log("LoginForm.jsx", wishlist);
-                const response = await API_WRAPPER.post("/wishlist/create", {
-                  productId: wishlist,
-                });
-              }
-            }
-            if (parsedCart != null || parsedCart.length > 0) {
-              for (let cart of parsedCart) {
-                const response = await API_WRAPPER.post("/cart/create", cart);
-              }
-            }
-            debouncedShowToast("You are logged in", "success");
-            return <Navigate to={PATHS.landingPage} />;
-            if (role) {
-              console.log("ROLE EXISTS", role);
-            }
+        const cartItems = localStorage.getItem("cart");
+        const wishlistItems = localStorage.getItem("wishlist");
+
+        const parsedWishlist = JSON.parse(wishlistItems);
+        const parsedCart = JSON.parse(cartItems);
+
+        console.log("LoginForm.jsx", parsedWishlist, parsedCart);
+
+        if (parsedWishlist != null && parsedWishlist.length > 0) {
+          for (let wishlist of parsedWishlist) {
+            console.log("LoginForm.jsx", wishlist);
+            const response = await API_WRAPPER.post("/wishlist/create", {
+              productId: wishlist,
+            });
           }
         }
+
+        if (parsedCart != null && parsedCart.length > 0) {
+          for (let cart of parsedCart) {
+            const response = await API_WRAPPER.post("/cart/create", cart);
+          }
+        }
+
+        debouncedShowToast("You are logged in", "success");
+        // Return a navigation action if needed
+        // Example: return <Navigate to={PATHS.landingPage} />;
       }
     } catch (error) {
       console.error("Error while logging in:", error);
-      debouncedShowToast(error.response.data.error, "error");
+      if (error.response && error.response.data && error.response.data.error) {
+        debouncedShowToast(error.response.data.error, "error");
+      } else {
+        debouncedShowToast("An error occurred", "error");
+      }
     }
   };
 

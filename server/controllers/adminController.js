@@ -7,11 +7,10 @@ const createAdmin = async (req, res) => {
     const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newAdmin = await Admin.create({
+    const newAdmin = new Admin({
       email,
       password: hashedPassword,
     });
-
     res
       .status(200)
       .json({ message: "Admin created successfully!", admin: newAdmin });
