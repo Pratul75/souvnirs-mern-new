@@ -186,23 +186,25 @@ const CategoryProducts = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-between gap-4 mt-4 flex-wrap">
+          <div className="flex flex-wrap mt-4">
             {filterType ? (
               products &&
               products.map((product) => (
-                <ProductCardMini
-                  key={nanoid()}
-                  id={nanoid()}
-                  price={
-                    product.variants.length > 0
-                      ? product.variants[0].price
-                      : product.price
-                  }
-                  slug={product.slug}
-                  rating={4.5}
-                  title={product.name}
-                  image={product.coverImage && product.coverImage}
-                />
+                <div className="w-1/2 p-2" key={nanoid()}>
+                  <ProductCardMini
+                    key={nanoid()}
+                    id={nanoid()}
+                    price={
+                      product.variants.length > 0
+                        ? product.variants[0].price
+                        : product.price
+                    }
+                    slug={product.slug}
+                    rating={4.5}
+                    title={product.name}
+                    image={product.coverImage && product.coverImage}
+                  />
+                </div>
               ))
             ) : (
               <div className="flex flex-wrap gap-4 justify-center">

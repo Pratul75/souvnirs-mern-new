@@ -48,6 +48,7 @@ export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   if (defaultRole !== role) {
     return <Navigate to={PATHS.permissionDenied} />;
   }
+
   if (!auth) {
     // If not authenticated, redirect to login
     return <Navigate to={PATHS.login} />;

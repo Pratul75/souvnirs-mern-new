@@ -443,6 +443,12 @@ export const vendorRoutes = [
     Component: vendorAddProduct,
     defaultRole: "vendor",
   },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddProducts,
+    defaultRole: "vendor",
+    Component: AddProduct,
+  },
 ];
 
 // customer routes
