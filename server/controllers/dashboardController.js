@@ -49,6 +49,7 @@ const fetchDashboardCardsData = async (req, res) => {
 
   res.status(200).json({ sales, orders, products, vendors });
 };
+
 const getBarChartData = async (req, res) => {
   const { role, userId } = req;
   if (role === "vendor") {
@@ -367,6 +368,11 @@ const getBarChartData = async (req, res) => {
     },
   ]);
 
+  let totalSalesAmount = 0; // Default value in case totalSales is empty
+  if (totalSales.length > 0) {
+    totalSalesAmount = totalSales[0].totalSales;
+  }
+
   const mixeddateData = mixArrays(last7Dates, r);
   const mixedMonthData = mixArrays(last7Months, m);
   const mixedYearData = mixArrays(last7Years, y);
@@ -374,7 +380,7 @@ const getBarChartData = async (req, res) => {
     dateData: mixeddateData,
     monthData: mixedMonthData,
     yearData: mixedYearData,
-    totalSales: totalSales[0].totalSales,
+    totalSales: totalSales.length > 0 ? totalSales[0].totalSales : [],
   });
 };
 
