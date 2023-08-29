@@ -50,26 +50,7 @@ const Discounts = () => {
         Header: "Title",
         accessor: "title",
       },
-      // {
-      //   Header: "Type Title",
-      //   accessor: "typeTitle",
-      // },
-      // {
-      //   Header: "Requirement Title",
-      //   accessor: "requirementTitle",
-      // },
-      // {
-      //   Header: "Requirement Value",
-      //   accessor: "requirementValue",
-      // },
-      // {
-      //   Header: "Eligiblity Title",
-      //   accessor: "eligiblityTitle",
-      // },
-      // {
-      //   Header: "Eligiblity Value",
-      //   accessor: "eligiblityValue",
-      // },
+
       {
         Header: "Total Limit",
         accessor: "totalLimit",
