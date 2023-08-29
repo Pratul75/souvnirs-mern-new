@@ -75,3 +75,4 @@ export { default as Wishlist } from "./shop/Wishlist";
 export { default as Blogs } from "./shop/Blog";
 export { default as SingleTab } from "./shop/SingleTab";
 export { default as SghopAboutUs } from "./shop/ShopAboutUs";
+export { default as Commissions } from "./admin/Commissions";

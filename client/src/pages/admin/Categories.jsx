@@ -68,6 +68,7 @@ const Categories = () => {
 
   const handleEditChange = (e) => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+    console.log("EDITED ROW: ", editedRow);
   };
 
   const submitEditedRow = async (e) => {

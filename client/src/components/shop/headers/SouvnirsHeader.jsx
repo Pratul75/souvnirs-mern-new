@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
 import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
-import { FiShoppingBag, FiSun } from "react-icons/fi";
+import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
 import SouvnirsLogoImage from "../../../assets/images/souvnirsLogo.png";
 import useCategories from "../../../hooks/useCategories";
@@ -16,13 +16,8 @@ import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
-import { LuMoon } from "react-icons/lu";
-import { useDispatch } from "react-redux";
-import { toggleDarkMode } from "../../../features/appConfig/appSlice";
 
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
-  const darkModeToggle = useSelector((x) => x.appConfig.darkMode);
-  const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
@@ -208,8 +203,12 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               </div>
             ) : (
               <>
-                <Link to={PATHS.login}>Login</Link>
-                <Link to={PATHS.register}>Register</Link>|
+                <Link className="link" to={PATHS.login}>
+                  Login
+                </Link>
+                <Link className="link" to={PATHS.register}>
+                  Sell on Souvnirs
+                </Link>
               </>
             )}
 
@@ -337,7 +336,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                     Login
                   </Link>
                   <Link to={PATHS.register} className="btn w-full">
-                    Register
+                    Sell on Souvnirs
                   </Link>
                 </div>
               )}

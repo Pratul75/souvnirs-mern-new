@@ -27,7 +27,6 @@ const Collection = () => {
     }
   };
   console.log("Collection.jsx", selectedRow);
-
   const columns = useMemo(
     () => [
       {
@@ -113,6 +112,7 @@ const Collection = () => {
   const getFlatRowsData = (data) => {
     console.log("Collection.jsx", data);
   };
+
   return (
     <div>
       <Header

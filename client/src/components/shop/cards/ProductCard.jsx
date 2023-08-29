@@ -29,6 +29,7 @@ const ProductCard = ({
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
+
   const addToWishlist = async () => {
     if (token) {
       const response = await API_WRAPPER.post("/wishlist/create", {
@@ -122,11 +123,14 @@ const ProductCard = ({
                   `$${price}`
                 ) : (
                   <Link to={PATHS.register} className="flex gap-4">
-                    <span>signup to view price</span>{" "}
-                    <AiOutlineLogin
+                    <span>
+                      ${price - 100}-{price + 100}
+                    </span>{" "}
+                    {/* Not needed if showing range */}
+                    {/* <AiOutlineLogin
                       onClick={(e) => e.stopPropagation()}
                       className="cursor-pointer"
-                    />
+                    /> */}
                   </Link>
                 )}
               </h5>
