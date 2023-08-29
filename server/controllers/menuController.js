@@ -35,10 +35,39 @@ const createMainMenu = async (req, res) => {
   });
   res.status(200).json("main menu created successfully");
 };
+
 const getMainMenus = async (req, res) => {
   const mainmenus = await MainMenu.find().sort({ _id: -1 }).populate("menuId");
 
   res.status(200).json(mainmenus);
+};
+// Update a main menu item by ID
+const editMainMenu = async (req, res) => {
+  try {
+    const menuItemId = req.params.id;
+    const { title, status } = req.body;
+
+    const updatedMenuItem = await MainMenu.findByIdAndUpdate(
+      menuItemId,
+      {
+        $set: {
+          title,
+          status,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedMenuItem) {
+      return res.status(404).json({ error: "Main menu item not found." });
+    }
+
+    res.json(updatedMenuItem);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the main menu item." });
+  }
 };
 
 const createSubMenu = async (req, res) => {
@@ -147,4 +176,5 @@ module.exports = {
   getNavbarData,
   deleteMenu,
   getChildMenus,
+  editMainMenu,
 };

@@ -9,6 +9,7 @@ const {
   getNavbarData,
   deleteMenu,
   getChildMenus,
+  editMainMenu,
 } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
@@ -25,6 +26,11 @@ router.get(
   "/main-menu",
   authMiddleware(["vendor", "admin", "customer"]),
   getMainMenus
+);
+router.put(
+  "/main-menu/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  editMainMenu
 );
 router.get(
   "/sub-menu",
