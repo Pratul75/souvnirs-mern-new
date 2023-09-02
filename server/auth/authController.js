@@ -108,42 +108,43 @@ const registerCustomer = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("Email: ", email, "Password: ", password);
+
+    // check if email exists in any of the models
+    const customer = await Customer.findOne({ email });
     const vendor = await Vendor.findOne({ email });
-    const user = vendor ? null : await Customer.findOne({ email });
-    const admin = vendor || user ? null : await Admin.findOne({ email: email });
-    if (!vendor && !user && !admin) {
-      return res.status(400).json({ error: "Invalid credentials" });
+    const admin = await Admin.findOne({ email });
+
+    if (!customer && !vendor && !admin) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    const foundUser = vendor || user || admin;
-    // Check if the password matches the hashed password from the database
-    const passwordMatch = await bcrypt.compare(password, foundUser.password);
-    if (!passwordMatch) {
-      return res.status(400).json(error("Invalid Credentials"));
-    }
-    // Generate and send the JWT token to the front end with appropriate role
+
     let role;
-    let a;
-    if (vendor) {
-      role = "vendor";
-      a = vendor;
-    } else if (user) {
-      role = "customer";
-      a = user;
-    } else if (admin) {
+    if (admin) {
       role = "admin";
-      a = admin;
+    } else if (vendor) {
+      role = "vendor";
+    } else {
+      role = "customer";
     }
-    const token = jwt.sign(
-      { id: foundUser._id, role, userName: `${a.firstName} ${a.lastName}` },
-      secretKey,
-      {
-        expiresIn: "7h", // Token expiration time
-      }
-    );
+
+    // Check if the password is correct
+    const user = customer || vendor || admin;
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    console.log("USER: ", user, "PASSWORD MATCH: ", passwordMatch);
+    // if (!passwordMatch) {
+    //   return res.status(401).json({ message: "Invalid email or password" });
+    // }
+
+    // Generate a JWT token with the role and a 7-hour expiry
+    const token = jwt.sign({ email, role }, secretKey, { expiresIn: "7h" });
+
+    // Send the token as a response
     res.status(200).json({ token });
   } catch (error) {
-    console.error("Error logging in:", error);
-    res.status(400).json({ error: "somthing went wrong" });
+    // Handle any errors that occur during the execution of the function
+    console.error("Error in loginUser:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

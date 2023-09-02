@@ -22,9 +22,9 @@ const Navbar = () => {
     navigate(PATHS.login);
   };
 
-  const username = JSON.parse(localStorage.getItem("username"));
-  console.log("index.jsx", username);
-  const userInitials = username;
+  // const username = JSON.parse(localStorage.getItem("username"));
+  // console.log("index.jsx", username);
+  const userInitials = "VB";
   // .split(" ")
   // .map((item) => item[0]?.toUpperCase())
   // .join("");

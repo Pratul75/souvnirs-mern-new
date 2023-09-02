@@ -53,9 +53,10 @@ const LoginForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!validateForm()) return;
+      // if (!validateForm()) return;
 
       const response = await API_WRAPPER.post("/auth/login", formData);
+      console.log("RESPONSE: ", response);
 
       if (response.status === 200) {
         const token = response?.data?.token;
@@ -97,11 +98,6 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Error while logging in:", error);
-      if (error.response && error.response.data && error.response.data.error) {
-        debouncedShowToast(error.response.data.error, "error");
-      } else {
-        debouncedShowToast("An error occurred", "error");
-      }
     }
   };
 

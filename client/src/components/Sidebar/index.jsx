@@ -25,10 +25,10 @@ const Sidebar = () => {
   useEffect(() => {
     setSidebarState(isExpanded);
   }, [isExpanded]);
-
-  const username = JSON.parse(localStorage.getItem("username"));
-  console.log("index.jsx", username);
-  const userInitials = username;
+  // TODO : Temperory commented as first and lat name cannot be fetched from be for the moment
+  // const username = JSON.parse(localStorage.getItem("username"));
+  // console.log("index.jsx", username);
+  const userInitials = "VB";
   // .split(" ")
 
   const role = JSON.parse(localStorage.getItem("role"));
@@ -71,7 +71,7 @@ const Sidebar = () => {
                       bgColor={getRandomColor()}
                     />
                     <div className="flex flex-col">
-                      <h3 className="text-lg font-bold">{username}</h3>
+                      <h3 className="text-lg font-bold">{userInitials}</h3>
                       <h5 className="text-sm">{role.toUpperCase()}</h5>
                     </div>
                   </div>
