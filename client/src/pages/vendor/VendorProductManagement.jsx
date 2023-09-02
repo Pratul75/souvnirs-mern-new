@@ -208,7 +208,7 @@ const ProductManagement = () => {
                 </p>
               </li>
               <li>
-                <Link to={PATHS.adminAddProducts}>
+                <Link to={PATHS.vendorAddProduct}>
                   <GoPlus size={20} />
                   Add Product
                 </Link>

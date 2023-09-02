@@ -439,15 +439,9 @@ export const vendorRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.vendorAddProducts,
+    path: PATHS.vendorAddProduct,
     Component: vendorAddProduct,
     defaultRole: "vendor",
-  },
-  {
-    id: nanoid(),
-    path: PATHS.adminAddProducts,
-    defaultRole: "vendor",
-    Component: AddProduct,
   },
 ];
 
