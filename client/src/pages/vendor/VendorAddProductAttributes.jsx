@@ -28,7 +28,6 @@ const AddProductAttributes = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [catDropdown, setCatDropdown] = useState(false);
-
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -65,6 +64,7 @@ const AddProductAttributes = () => {
     combination.push(...generateCombinations(attributeValues));
     setCombinations(combination);
   };
+
   const randomSlug = () => {
     return nanoid(10);
   };
@@ -148,6 +148,7 @@ const AddProductAttributes = () => {
       scrollToSection();
     }
   };
+
   const removeAttributeValue = (attributeId, valueIndex) => {
     setAttributeValues((prevValues) => {
       const updatedAttributeValues = prevValues.map((elem) => {
@@ -352,6 +353,7 @@ const AddProductAttributes = () => {
                                 console.log("AddProductAttributes.jsx", file);
                                 return (
                                   <img
+                                    key={nanoid()}
                                     className="w-20 rounded-md"
                                     src={URL.createObjectURL(file)}
                                   />
@@ -538,7 +540,7 @@ const AddProductAttributes = () => {
           <Card className="relative">
             <div className="flex flex-col mt-4">
               <div className="overflow-x-auto">
-                <div className="text-center flex justify-center items-center flex">
+                <div className="text-center flex justify-center items-center">
                   <label htmlFor="" className="text-2xl ">
                     Variant Data
                   </label>

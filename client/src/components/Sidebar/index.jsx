@@ -29,7 +29,6 @@ const Sidebar = () => {
   // const username = JSON.parse(localStorage.getItem("username"));
   // console.log("index.jsx", username);
   const userInitials = "VB";
-  // .split(" ")
 
   const role = JSON.parse(localStorage.getItem("role"));
   console.log("USER CREDENTIALS: ", userInitials);

@@ -51,6 +51,7 @@ export { default as VendorShipments } from "./vendor/VendorShipments";
 export { default as VendorRefund } from "./vendor/VendorRefund";
 export { default as VendorProductInventory } from "./vendor/VendorProductInventory";
 export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
+export { default as VendorAddProductAttributes } from "./vendor/VendorAddProductAttributes";
 // customer routes
 export { default as CustomerDashboard } from "./customer/CustomerDashboard";
 export { default as CustomerCartList } from "./customer/CustomerCartList";

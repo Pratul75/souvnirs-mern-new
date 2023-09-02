@@ -50,6 +50,7 @@ import {
   VendorShipments,
   VendorProductInventory,
   vendorAddProduct,
+  VendorAddProductAttributes,
 
   // customer routes
   CustomerCartList,
@@ -441,6 +442,12 @@ export const vendorRoutes = [
     id: nanoid(),
     path: PATHS.vendorAddProduct,
     Component: vendorAddProduct,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorAddProductAttributes,
+    Component: VendorAddProductAttributes,
     defaultRole: "vendor",
   },
 ];
