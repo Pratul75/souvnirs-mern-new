@@ -9,7 +9,7 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
-
+import { Slider } from "antd";
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
   const [shippingStates, setShippingStates] = useState({
@@ -19,7 +19,7 @@ const CategoryProducts = () => {
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
+  const [inputRangeValue, setInputRangeValue] = useState([0, 1000]); // Add this line
   const [max, setMax] = useState(0); // Add this line
   const [slug, setSlug] = useState();
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const CategoryProducts = () => {
     setLoading(true);
     const response = await API_WRAPPER.post(`/products/category/${slug}`, {
       data: filters,
-      priceMax: inputRangeValue,
+      priceMax: inputRangeValue[1],
       page: page,
     });
     console.log("CategoryProducts.jsx", response);
@@ -87,16 +87,19 @@ const CategoryProducts = () => {
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold ">Price</h6>
                 </div>
-                <input
-                  type="range"
+                <Slider
+                  range
                   min={0}
-                  max={100000}
-                  onChange={(e) => setInputRangeValue(e.target.value)}
+                  max={1000}
+                  step={50} // Set the step value to 50
+                  onChange={(value) => setInputRangeValue(value)} // Update the state when the slider value changes
                   value={inputRangeValue}
                   className="range"
                 />
                 <div>
-                  <span>0 - {inputRangeValue}</span>
+                  <span>
+                    {inputRangeValue[0]} - {inputRangeValue[1]}
+                  </span>
                 </div>
               </div>
             </Card>
