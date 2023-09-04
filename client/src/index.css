@@ -133,3 +133,13 @@ body {
 .card_animation {
   animation: fadeInCard 5s forwards;
 }
+
+.ant-slider-track {
+  background-color: blue;
+}
+
+/* Change the handle color */
+.ant-slider-handle {
+  border-color: blue;
+  background-color: blue;
+}
