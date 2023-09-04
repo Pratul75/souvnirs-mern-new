@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-import ReusableTable from "../../components/Table";
+import { Table as ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";

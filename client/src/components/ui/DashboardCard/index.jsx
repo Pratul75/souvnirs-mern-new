@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-import Card from "../Card";
+import Card from "../../ui/Card";
 
 const DashboardCard = ({
   number,

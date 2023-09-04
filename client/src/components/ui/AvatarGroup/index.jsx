@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { getRandomColor } from "../../utils";
+import { getRandomColor } from "../../../utils";
 import Avatar from "../Avatar";
 const AvatarGroup = ({ totalAmount }) => {
   return (

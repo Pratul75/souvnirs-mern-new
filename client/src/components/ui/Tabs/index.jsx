@@ -1,8 +1,8 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
-import { fadeInVariants } from "../../animation";
-import Card from "../Card";
+import { fadeInVariants } from "../../../animation";
+import Card from "../../ui/Card";
 
 const Tabs = ({ tabs, enableBorder, hasCard, alignCenter }) => {
   const [activeTab, setActiveTab] = useState(0);

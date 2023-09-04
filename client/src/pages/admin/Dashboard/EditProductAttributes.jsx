@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Header } from "../../../components";
 import AttributeBannerImage from "../../../assets/bannerImages/attributesImage.png";
 import useCategories from "../../../hooks/useCategories";
-import SearchableDropdown from "../../../components/SearchableDropdown";
+import { SearchableDropdown } from "../../../components";
 import { ToastContainer } from "react-toastify";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";

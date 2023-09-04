@@ -14,7 +14,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { GrFormClose } from "react-icons/gr";
 // add products
-
 const AddProduct = () => {
   const navigate = useNavigate();
   const [description, setDescription] = useState("");

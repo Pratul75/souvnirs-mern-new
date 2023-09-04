@@ -1,4 +1,4 @@
-import { BellSvg, SunSvg } from "../../icons";
+import { BellSvg, SunSvg } from "../../../icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import Avatar from "../Avatar";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,10 +7,10 @@ import {
   toggleMobileSidebar,
   toggleDarkMode,
   getLoginInfo,
-} from "../../features/appConfig/appSlice";
+} from "../../../features/appConfig/appSlice";
 import RouteNavigator from "../RouterNavigator";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import { BsShop } from "react-icons/bs";
 const Navbar = () => {
   const navigate = useNavigate();

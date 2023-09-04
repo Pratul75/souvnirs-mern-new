@@ -1,6 +1,6 @@
 import { BsArrowRightShort } from "react-icons/bs";
 import PropTypes from "prop-types";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 const HalfWidthBannerCard = ({
   backgroundImageOne,
   backgroundImageTwo,

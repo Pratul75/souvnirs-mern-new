@@ -1,4 +1,4 @@
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 import GradiantCard from "../cards/GradiantCard";
 import PropTypes from "prop-types";
 

@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import { Sidebar, Navbar } from "../components";
 import { Breadcrumb, Footer } from "../components";
 
 const AppLayout = ({ children }) => {

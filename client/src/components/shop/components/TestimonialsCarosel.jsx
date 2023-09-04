@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import Avatar from "../../Avatar";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
+import Avatar from "../../ui/Avatar";
 
 const testimonials = [
   {

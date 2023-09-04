@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"; // Import useState
 import { nanoid } from "nanoid";
-import Card from "../../Card";
+import { Card } from "../../index";
 import PropTypes from "prop-types";
 
 const FilterCard = ({ title, heading, filters, onSelect }) => {

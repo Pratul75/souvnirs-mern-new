@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { headerVariant } from "../../animation";
+import { headerVariant } from "../../../animation";
 import { motion } from "framer-motion";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../../Routes/paths";
 // ... (import statements)
 
 const BreadCrumb = () => {

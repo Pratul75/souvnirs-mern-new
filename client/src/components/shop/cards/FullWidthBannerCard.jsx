@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 const FullWidthBannerCard = ({
   imageOne,
   imageTwo,

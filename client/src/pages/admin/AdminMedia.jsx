@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import { useSelector } from "react-redux";
 import API_WRAPPER from "../../api";
-import MediaCard from "../../components/mediaCard";
+import { MediaCard } from "../../components";
 import { decodeToken } from "react-jwt";
 import { nanoid } from "nanoid";
 

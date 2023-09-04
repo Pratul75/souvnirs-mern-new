@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import HeaderBanner from "../../assets/images/HeaderBanner.png";
-import { headerVariant } from "../../animation";
+import HeaderBanner from "../../../assets/images/HeaderBanner.png";
+import { headerVariant } from "../../../animation";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
-import DarkModeHeaderImage from "../../assets/images/bannerDarkMode.png";
+import DarkModeHeaderImage from "../../../assets/images/bannerDarkMode.png";
 const Header = ({ heading, subheading, image }) => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
   return (

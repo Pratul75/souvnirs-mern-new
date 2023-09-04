@@ -1,4 +1,4 @@
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 import BlogsCard from "../cards/BlogsCard"; // Make sure the path is correct
 import PropTypes from "prop-types";
 

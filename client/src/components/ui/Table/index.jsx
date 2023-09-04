@@ -13,9 +13,9 @@ import {
   AiOutlineSortAscending,
   AiOutlineSortDescending,
 } from "react-icons/ai";
-import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
+import { DeleteBtnSvg, EditBtnSvg, EyeBtnSvg } from "../../../icons/tableIcons";
 import { motion } from "framer-motion";
-import { fadeInVariants } from "../../animation";
+import { fadeInVariants } from "../../../animation";
 import IndeterminateCheckbox from "../IndeterminateCheckbox";
 import {
   BiFirstPage,
@@ -23,7 +23,7 @@ import {
   BiRightArrowAlt,
   BiLeftArrowAlt,
 } from "react-icons/bi";
-import Card from "../Card";
+import Card from "../../ui/Card";
 const ReusableTable = ({
   columns,
   data,

@@ -1,6 +1,6 @@
 import { Tabs } from "../../../components";
 import { Bar } from "react-chartjs-2";
-import { options } from "../../../components/Charts/BarChart";
+import { options } from "../../../components/ui/Charts/BarChart";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 const TotalSalesTab = () => {

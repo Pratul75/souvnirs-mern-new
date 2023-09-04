@@ -47,7 +47,7 @@ export const getStatusStyles = (status) => {
       );
   }
 };
-  export const getStockStatusStyles = (stockStatus) => {
+export const getStockStatusStyles = (stockStatus) => {
   switch (stockStatus) {
     case "IN_STOCK":
       return <div className="text-primary">IN STOCK</div>;

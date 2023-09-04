@@ -4,7 +4,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { AiOutlineCheck } from "react-icons/ai";
 import { AiOutlineLink } from "react-icons/ai";
 import { ToastContainer } from "react-toastify";
-import { debouncedShowToast } from "../../utils";
+import { debouncedShowToast } from "../../../utils";
 import PropTypes from "prop-types";
 const MediaCard = ({ link, vendorName }) => {
   const [copied, setCopied] = useState();

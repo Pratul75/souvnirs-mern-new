@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import Dropzone from "../../Dropzone";
+import Dropzone from "../../ui/Dropzone";
 
 const RequestQuoteForm = () => {
   const {

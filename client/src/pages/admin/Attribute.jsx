@@ -2,7 +2,7 @@ import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 // import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
-import ReusableTable from "../../components/Table";
+import { Table as ReusableTable } from "../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";

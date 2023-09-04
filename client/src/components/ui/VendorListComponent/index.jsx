@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Avatar from "../Avatar";
-import { getRandomColor } from "../../utils";
+import { getRandomColor } from "../../../utils";
 import { useSelector } from "react-redux";
 const VendorListComponent = ({ firstName, lastName }) => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);

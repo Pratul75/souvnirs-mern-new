@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { fadeInVariants } from "../../animation";
+import { fadeInVariants } from "../../../animation";
 import { useSelector } from "react-redux";
 const Card = ({ children }) => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);

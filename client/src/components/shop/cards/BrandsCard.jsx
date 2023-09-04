@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 
 const BrandsCard = ({ imagesList }) => {
   return (

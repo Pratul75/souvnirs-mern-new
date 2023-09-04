@@ -4,14 +4,14 @@ import { nanoid } from "@reduxjs/toolkit";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
-import SovniersLogo from "../../assets/images/souvnirsLogo.png";
-import SovniersLogoDarkMode from "../../assets/images/souvnirsLogoDarkMode.png";
-import { SmallVIcon } from "../../icons/sidebarIcons";
-import { toggleMobileSidebar } from "../../features/appConfig/appSlice";
+import SovniersLogo from "../../../assets/images/souvnirsLogo.png";
+import SovniersLogoDarkMode from "../../../assets/images/souvnirsLogoDarkMode.png";
+import { SmallVIcon } from "../../../icons/sidebarIcons";
+import { toggleMobileSidebar } from "../../../features/appConfig/appSlice";
 import Card from "../Card";
 import Avatar from "../Avatar";
-import { conditionalSidebarMapping, getRandomColor } from "../../utils";
-import { sidebarVariants, mobileSidebarVariants } from "../../animation";
+import { conditionalSidebarMapping, getRandomColor } from "../../../utils";
+import { sidebarVariants, mobileSidebarVariants } from "../../../animation";
 const Sidebar = () => {
   const dispatch = useDispatch();
   const [sidebarState, setSidebarState] = useState(false);

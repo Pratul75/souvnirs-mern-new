@@ -9,7 +9,6 @@ export const useAuth = () => {
   let admin;
   let role;
   const _user = localStorage.getItem("role");
-
   // console.log("USER IN USE AUTH", _user);
   if (_user) {
     role = JSON.parse(_user);
