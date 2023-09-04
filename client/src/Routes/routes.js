@@ -74,6 +74,7 @@ import {
   OrderSuccess,
   Wishlist,
   Blogs,
+  VendorEditProduct,
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
@@ -440,7 +441,7 @@ export const vendorRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.vendorAddProduct,
+    path: `${PATHS.vendorAddProduct}`,
     Component: vendorAddProduct,
     defaultRole: "vendor",
   },
@@ -448,6 +449,12 @@ export const vendorRoutes = [
     id: nanoid(),
     path: PATHS.vendorAddProductAttributes,
     Component: VendorAddProductAttributes,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.vendorEditProduct}/:id`,
+    Component: VendorEditProduct,
     defaultRole: "vendor",
   },
 ];

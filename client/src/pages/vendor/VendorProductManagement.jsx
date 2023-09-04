@@ -1,5 +1,5 @@
 import { Header, Modal, ReusableTable } from "../../components";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -20,6 +20,7 @@ const ProductManagement = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [bulkData, setBulkData] = useState();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const columns = useMemo(
     () => [
@@ -27,10 +28,31 @@ const ProductManagement = () => {
         Header: "Product Name",
         accessor: "name",
       },
+      {
+        Header: "Variant",
+        Cell: ({ row }) => {
+          if (row?.original?.result?.variant) {
+            const keys = Object.keys(row?.original?.result?.variant);
 
+            return keys.map((key) => (
+              <p>
+                {key}:{row?.original?.result?.variant[key]}
+              </p>
+            ));
+          } else {
+            return <p> </p>;
+          }
+        },
+      },
       {
         Header: "Price",
         accessor: "result.price",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.price
+            : row?.original?.price;
+        },
       },
       {
         Header: "On Sale",
@@ -50,6 +72,12 @@ const ProductManagement = () => {
       {
         Header: "Stock Quantity",
         accessor: "result.quantity",
+        Cell: ({ row }) => {
+          console.log("ProductManagement.jsx", row);
+          return row.original?.result?.price
+            ? row?.original?.result?.quantity
+            : row?.original?.stockQuantity;
+        },
       },
       {
         Header: "Stock Status",
@@ -94,9 +122,17 @@ const ProductManagement = () => {
   };
 
   const handleEdit = (row) => {
-    window.edit_product_modal.showModal();
-    setSelectedRow(row);
-    console.log("ROW TO BE EDITED: ", row);
+    console.log("ROW TO BE DELETED: ", row);
+    if (row?.result?._id) {
+      navigate(
+        `${PATHS.vendorEditProduct}/${row._id}?variantID=${row?.result._id}`
+      );
+    } else {
+      navigate(`${PATHS.vendorEditProduct}/${row._id}/`);
+    }
+    // window.edit_product_modal.showModal();
+    // setSelectedRow(row);
+    // console.log("ROW TO BE EDITED: ", row);
   };
 
   const handleEditChange = (e) => {
@@ -217,68 +253,6 @@ const ProductManagement = () => {
         </div>
       </div>
 
-      {/* edit modal  */}
-      <Modal
-        id="edit_product_modal"
-        title="Are you sure you want to delete the selected value?"
-        onClose={() => {
-          window.edit_product_modal.close();
-        }}
-        onSave={handleSave}
-        defaultValues={{
-          name: selectedRow?.name,
-          description: selectedRow?.description,
-          stockQuantity: selectedRow?.stockQuantity,
-          stockStatus: selectedRow?.stockStatus,
-          price: selectedRow?.price,
-          totalSales: selectedRow?.totalSales,
-          onSale: selectedRow?.onSale,
-          status: selectedRow?.status,
-        }}
-        inputs={[
-          {
-            label: "Product Name",
-            type: "text",
-            name: "name",
-          },
-          {
-            label: "description",
-            type: "text",
-            name: "description",
-          },
-          {
-            label: "Stock Quantity",
-            type: "text",
-            name: "stockQ",
-          },
-          {
-            label: "Stock Status",
-            type: "text",
-            name: "stockStatus",
-          },
-          {
-            label: "price",
-            type: "number",
-            name: "price",
-          },
-          {
-            label: "Total Sales",
-            type: "number",
-            name: "totalSales",
-          },
-          {
-            label: "On Sale",
-            type: "text",
-            name: "onSale",
-          },
-          {
-            label: "Status",
-            type: "text",
-            name: "status",
-          },
-        ]}
-      />
-
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">
         <form method="dialog" className="modal-box">
@@ -287,7 +261,6 @@ const ProductManagement = () => {
             Are you sure you want to delete the selected product?
           </p>
           <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
             <button onClick={deleteSelectedRow} className="btn btn-error">
               Delete
             </button>

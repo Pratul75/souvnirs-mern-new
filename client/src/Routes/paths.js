@@ -70,6 +70,7 @@ export const PATHS = {
   vendorMedia: "/vendor/media",
   vendorAddProduct: "/vendor/addProducts",
   vendorAddProductAttributes: "/vendor/addProducts/add-product-attributes",
+  vendorEditProduct: "/vendor/edit-product",
 
   // customer routes
   customerDashboard: "/customer/dashboard",

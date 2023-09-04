@@ -43,35 +43,12 @@ body {
 }
 */
 
-/* this styles is of no use as its not reflected in the select component */
-
-.rmsc {
-  --rmsc-main: #4285f4 !important;
-  --rmsc-hover: #f1f3f5 !important;
-  --rmsc-selected: #e2e6ea !important;
-  --rmsc-border: #ccc !important;
-  --rmsc-gray: #aaa !important;
-  --rmsc-bg: #fff !important;
-  --rmsc-p: 10px !important; /* Spacing */
-  --rmsc-radius: 4px !important; /* Radius */
-  --rmsc-h: 38px !important; /* Height */
-}
-
-.rmsc.dark {
-  --rmsc-main: #4285f4 !important;
-  --rmsc-hover: #0e0c0a;
-  --rmsc-selected: #1d1915;
-  --rmsc-border: #333333;
-  --rmsc-gray: #555555;
-  --rmsc-bg: #000000;
-  color: #fff;
-}
 /* Styles for dropdown container */
 .dropdown-container {
   background: transparent !important;
   border-radius: 10px !important;
   padding: 4.5px !important;
-  border: 1px solid rgb(98, 238, 238) !important;
+  border: 1px solid rgb(35, 94, 197) !important;
 }
 
 /* Styles for dropdown content */

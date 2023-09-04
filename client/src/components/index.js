@@ -14,6 +14,7 @@ export { default as FormInput } from "./ui/FormInput";
 export { default as AvatarGroup } from "./ui/AvatarGroup";
 export { default as Card } from "./ui/Card";
 export { default as SearchableDropdown } from "./ui/SearchableDropdown";
+export { default as MediaCard } from "./ui/mediaCard";
 export { default as Footer } from "./ui/Footer";
 export { default as TextEditor } from "./ui/TextEditor";
 export { default as Dropzone } from "./ui/Dropzone";
@@ -21,7 +22,6 @@ export { default as MultiSelect } from "./ui/MultiSelect";
 export { default as RouteNavigator } from "./ui/RouterNavigator";
 export { default as DoughnutChart } from "./ui/Charts/DoughnutChart";
 export { default as Breadcrumb } from "./ui/Breadcrumb";
-export { default as MediaCard } from "./ui/mediaCard";
 export { default as Navbar } from "./ui/Navbar";
 export { default as Sidebar } from "./ui/Sidebar";
 // shop components
