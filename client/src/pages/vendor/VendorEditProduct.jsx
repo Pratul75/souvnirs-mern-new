@@ -95,8 +95,6 @@ const EditProduct = () => {
     e.preventDefault();
     const addProdData = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
-      console.log("EditProduct.jsx", key, value);
-      console.log("EditProduct.jsx", key);
       if (key === "attributes" || key === "img") {
         if (key == "img") {
           addProdData.append(key, value[0]);
@@ -110,8 +108,13 @@ const EditProduct = () => {
       }
     });
     try {
-      await API_WRAPPER.put(`/products/edit-product/${id}`, addProdData);
-      navigate(`${PATHS.EditVariants}/${id}`);
+      const res = await API_WRAPPER.put(
+        `/products/edit-product/${id}`,
+        addProdData
+      );
+      if (res.status === 200) {
+        navigate(`${PATHS.vendorEditVariants}/${id}`);
+      }
     } catch (e) {}
     // postProduct();
 
@@ -412,7 +415,7 @@ const EditProduct = () => {
             <button onClick={handleSubmit} className="btn btn-primary mt-4">
               Next
             </button>
-            <Link to={PATHS.adminProductManagement} className="btn  mt-4 ml-4">
+            <Link to={PATHS.vendorProductManagement} className="btn  mt-4 ml-4">
               Cancel
             </Link>
           </motion.div>
