@@ -53,7 +53,7 @@ export const PATHS = {
   adminAddChildMenus:
     "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
   EditCollection: "/admin/edit-collection",
-  adminAddCommission: "/admin/add-commission",
+  adminAddCommission: "/admin/commissions/add-commission",
   adminCommissions: "/admin/commissions",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",

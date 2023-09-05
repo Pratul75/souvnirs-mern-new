@@ -10,6 +10,7 @@ import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
 import { Slider } from "antd";
+import { sortProductsByName } from "../../utils";
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
   const [shippingStates, setShippingStates] = useState({
@@ -26,6 +27,8 @@ const CategoryProducts = () => {
   const params = useParams();
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
+
+  const [selctedFilter, setSelctedFilter] = useState("ascending");
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
@@ -75,7 +78,7 @@ const CategoryProducts = () => {
   useEffect(() => {
     debounce(() => {
       getProducts();
-    }, 100)();
+    }, 500)();
   }, [filters, page, inputRangeValue, slug]);
   return (
     <div className="mx-16 mt-4">
@@ -134,6 +137,7 @@ const CategoryProducts = () => {
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>
               <select
+                onChange={(e) => setSelctedFilter(e.target.value)}
                 className="select select-primary"
                 name="defaultSorting"
                 id="defaultSorting"
@@ -141,9 +145,8 @@ const CategoryProducts = () => {
                 <option selected disabled>
                   Default Sorting
                 </option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
+                <option value="ascending">ascending</option>
+                <option value="descending">descending</option>
               </select>
             </div>
             <div className="flex gap-4">
@@ -192,7 +195,7 @@ const CategoryProducts = () => {
           <div className="flex flex-wrap mt-4">
             {filterType ? (
               products &&
-              products.map((product) => (
+              sortProductsByName(products, selctedFilter).map((product) => (
                 <div className="w-1/2 p-2 cursor-pointer" key={nanoid()}>
                   <ProductCardMini
                     key={nanoid()}
@@ -213,7 +216,7 @@ const CategoryProducts = () => {
               <div className="flex flex-wrap gap-4 justify-center">
                 {products && products.length == 0 && <div>No products</div>}
                 {products &&
-                  products.map((product) => {
+                  sortProductsByName(products, selctedFilter).map((product) => {
                     return (
                       <ProductCard
                         key={nanoid()}

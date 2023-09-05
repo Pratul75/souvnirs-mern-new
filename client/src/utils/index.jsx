@@ -90,3 +90,22 @@ export const conditionalSidebarMapping = () => {
     return [];
   }
 };
+
+export const sortProductsByName = (products, sortOrder) => {
+  const sortedProducts = [...products];
+  sortedProducts.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (sortOrder === "ascending") {
+      return nameA.localeCompare(nameB);
+    } else if (sortOrder === "descending") {
+      return nameB.localeCompare(nameA);
+    } else {
+      throw new Error(
+        "Invalid sortOrder parameter. Use 'ascending' or 'descending'."
+      );
+    }
+  });
+
+  return sortedProducts;
+};
