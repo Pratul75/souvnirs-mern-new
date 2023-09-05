@@ -172,10 +172,7 @@ const Vendor = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">
-          <Link
-            to={PATHS.adminCreateVendor}
-            className="btn bg-themeColor font-thin text-white w-48"
-          >
+          <Link to={PATHS.adminCreateVendor} className="btn btn-primary">
             Create new
           </Link>
         </div>

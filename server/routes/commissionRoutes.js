@@ -37,3 +37,5 @@ router.delete(
   authMiddleware(["vendor", "admin", "customer"]),
   deleteCommissionById
 );
+
+module.exports = router;

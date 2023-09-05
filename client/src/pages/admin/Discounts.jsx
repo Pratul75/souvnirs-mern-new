@@ -155,10 +155,7 @@ const Discounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">
-          <Link
-            to={PATHS.adminAddDiscount}
-            className="btn bg-themeColor font-thin text-white w-48"
-          >
+          <Link to={PATHS.adminAddDiscount} className="btn btn-primary">
             Add Discounts
           </Link>
         </div>

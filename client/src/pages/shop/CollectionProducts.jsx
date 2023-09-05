@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
+import { sortProductsByName } from "../../utils";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -22,7 +23,7 @@ const CollectionProducts = () => {
 
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-
+  const [selctedFilter, setSelctedFilter] = useState("ascending");
   const location = useParams();
   const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
 
@@ -126,6 +127,7 @@ const CollectionProducts = () => {
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>
               <select
+                onChange={(e) => setSelctedFilter(e.target.value)}
                 className="select select-primary"
                 name="defaultSorting"
                 id="defaultSorting"
@@ -133,9 +135,8 @@ const CollectionProducts = () => {
                 <option selected disabled>
                   Default Sorting
                 </option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
+                <option value="ascending">ascending</option>
+                <option value="descending">descending</option>
               </select>
             </div>
             <div className="flex gap-4">
@@ -184,7 +185,7 @@ const CollectionProducts = () => {
           <div className="flex justify-between gap-4 mt-4 flex-wrap">
             {filterType ? (
               products &&
-              products.map((product) => (
+              sortProductsByName(products, selctedFilter).map((product) => (
                 <ProductCardMini
                   key={nanoid()}
                   id={nanoid()}
@@ -205,7 +206,7 @@ const CollectionProducts = () => {
                 {products && products.length == 0 && <div>No product</div>}
 
                 {products &&
-                  products.map((product) => {
+                  sortProductsByName(products, selctedFilter).map((product) => {
                     return (
                       <ProductCard
                         key={nanoid()}

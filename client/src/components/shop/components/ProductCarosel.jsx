@@ -18,22 +18,24 @@ const Carousel = ({ items }) => {
   };
 
   return (
-    <div className="col-span-5 md:col-span-2 border">
-      <div className="flex justify-between items-center px-4 py-2  bg-primary">
-        <h4 className="text-2xl text-white">Daily Deals</h4>
-        <div className="flex gap-4">
-          <BsFillArrowLeftCircleFill
-            onClick={() => prevSlide()}
-            className="text-white text-2xl cursor-pointer"
-          />
-          <BsFillArrowRightCircleFill
-            onClick={() => nextSlide()}
-            className="text-white text-2xl cursor-pointer"
-          />
+    <ScrollAnimationWrapper>
+      <div className="col-span-5 md:col-span-2 border mt-8">
+        <div className="flex justify-between items-center px-4 py-2  bg-primary">
+          <h4 className="text-2xl text-white">Daily Deals</h4>
+          <div className="flex gap-4">
+            <BsFillArrowLeftCircleFill
+              onClick={() => prevSlide()}
+              className="text-white text-2xl cursor-pointer"
+            />
+            <BsFillArrowRightCircleFill
+              onClick={() => nextSlide()}
+              className="text-white text-2xl cursor-pointer"
+            />
+          </div>
         </div>
+        <div className="flex justify-center w-full">{items[currentIndex]}</div>
       </div>
-      <div className=" h-full flex items-center">{items[currentIndex]}</div>
-    </div>
+    </ScrollAnimationWrapper>
   );
 };
 

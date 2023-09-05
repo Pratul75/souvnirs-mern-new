@@ -116,10 +116,7 @@ const Attributes = () => {
       <div className="w-full flex justify-end gap-4 mt-8"></div>
       <div className="mt-5">
         <div className="flex justify-end">
-          <Link
-            to={PATHS.adminAddAttributes}
-            className="btn bg-themeColor text-white font-thin w-48 mb-4"
-          >
+          <Link to={PATHS.adminAddAttributes} className="btn btn-primary">
             <GoPlus stroke="1px" size={20} />
             Add Attribute
           </Link>

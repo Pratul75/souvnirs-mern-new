@@ -9,7 +9,6 @@ import {
   BrandsCard,
   Tabs,
   Ratings,
-  ScrollAnimationWrapper,
 } from "../../components";
 import {
   BrandsCardImageList,
@@ -30,7 +29,6 @@ import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import BudsImage from "../../assets/shop/productImages/buds.png";
 import WatchImage from "../../assets/shop/productImages/watch.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
-import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
@@ -56,6 +54,7 @@ const LandingPage = () => {
   useEffect(() => {
     getAllProducts();
   }, []);
+
   return (
     <div>
       <HeaderCards
@@ -91,6 +90,8 @@ const LandingPage = () => {
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
+      <ProductCarosel items={caroselMapppingDailyDeals} />
+
       <ProductsListWithFilters
         heading="Top Seasonal Gifts"
         filters={productListFiltersAndProducts.filters}
@@ -99,60 +100,51 @@ const LandingPage = () => {
 
       <GradiantCardList cardData={gradiantCardListCardData} />
 
-      <ScrollAnimationWrapper>
-        <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
-          <ProductCarosel items={caroselMapppingDailyDeals} />
-          <div className="col-span-3">
-            <Tabs
-              alignCenter
-              tabs={[
-                {
-                  content: (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Item 1 */}
-                      {productsList.slice(0, 4).map((product) => (
-                        <div
-                          key={product._id}
-                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
-                        >
-                          <div className="flex items-center space-x-4">
-                            <img
-                              className="w-24 h-24"
-                              src={product.coverImage}
-                              alt="Product"
-                            />
-                            <div className="flex-grow">
-                              <h2 className="text-lg font-medium text-neutral-700">
-                                {product.name}
-                              </h2>
-                              <div className="text-xl font-medium text-violet-900"></div>
-                              <div className="flex items-center space-x-4 mt-2">
-                                <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
-                                  <ShopIcon />
-                                </div>
+      <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
+        <div className="col-span-5">
+          <Tabs
+            alignCenter
+            tabs={[
+              {
+                content: (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Item 1 */}
+                    {productsList.slice(0, 4).map((product) => (
+                      <div
+                        key={product._id}
+                        className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <img
+                            className="w-24 h-24"
+                            src={product.coverImage}
+                            alt="Product"
+                          />
+                          <div className="flex-grow">
+                            <h2 className="text-lg font-medium text-neutral-700">
+                              {product.name}
+                            </h2>
+                            <div className="text-xl font-medium text-violet-900"></div>
+                            <div className="flex items-center space-x-4 mt-2">
+                              <Ratings rating={4} />
+                              <div className="border rounded-full p-2">
+                                <ShopIcon />
                               </div>
                             </div>
                           </div>
                         </div>
-                      ))}
-
-                      {/* Item 2 */}
-
-                      {/* Item 3 */}
-
-                      {/* Item 4 */}
-                    </div>
-                  ),
-                  label: "CONTENT 1",
-                },
-                { content: "I AM CONTENT 2", label: "CONTENT 2" },
-                { content: "I AM CONTENT 3", label: "CONTENT 3" },
-              ]}
-            />
-          </div>
+                      </div>
+                    ))}
+                  </div>
+                ),
+                label: "CONTENT 1",
+              },
+              { content: "I AM CONTENT 2", label: "CONTENT 2" },
+              { content: "I AM CONTENT 3", label: "CONTENT 3" },
+            ]}
+          />
         </div>
-      </ScrollAnimationWrapper>
+      </div>
 
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"

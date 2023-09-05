@@ -158,10 +158,7 @@ const Categories = () => {
 
       <div className="w-full  gap-4 mt-14">
         <div className="flex justify-end">
-          <Link
-            to={PATHS.adminAddCategory}
-            className="btn bg-themeColor text-white font-thin w-48"
-          >
+          <Link to={PATHS.adminAddCategory} className="btn btn-primary">
             <GoPlus size={20} />
             Add Category
           </Link>
