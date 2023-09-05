@@ -10,7 +10,10 @@ const Commissions = () => {
   const [commissionList, setCommissionList] = useState([]);
   const [commissionToBeDeleted, setCommissionToBeDeleted] = useState({});
   const [commissionToBeEdited, setCommissionToBeEdited] = useState({});
-  const [editedObject, setEditedObject] = useState({});
+  const [editedObject, setEditedObject] = useState({
+    commissionType: "",
+    commissionTypeValue: "",
+  });
   const [apiTrigger, setApiTrigger] = useState(false);
 
   const getCommissionList = async () => {
@@ -53,13 +56,28 @@ const Commissions = () => {
     }
   };
 
-  const handleEdit = (row) => {
-    console.log("ROW TO EDIT: ", row);
+  const handleEdit = async () => {
+    try {
+      const response = await API_WRAPPER.put(
+        `/commission/commission-by-id/${commissionToBeEdited._id}`,
+        editedObject
+      );
+      if (response.status === 200) {
+        setApiTrigger((prevState) => !prevState);
+        window.commission_delete_modal.close();
+      }
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
   };
 
   useEffect(() => {
     getCommissionList();
   }, [apiTrigger]);
+
+  useEffect(() => {
+    console.log("EDITED OBJECT: ", editedObject);
+  }, [editedObject]);
 
   const columns = [
     {
@@ -141,6 +159,11 @@ const Commissions = () => {
               <span className="label-text">Commission Type</span>
             </label>
             <input
+              onChange={(e) =>
+                setEditedObject((prevState) => {
+                  return { ...prevState, commissionType: e.target.value };
+                })
+              }
               defaultValue={commissionToBeEdited?.commissionType}
               type="text"
               className="input input-primary"
@@ -151,6 +174,11 @@ const Commissions = () => {
               <span className="label-text">Commission Type Value</span>
             </label>
             <input
+              onChange={(e) =>
+                setEditedObject((prevState) => {
+                  return { ...prevState, commissionTypeValue: e.target.value };
+                })
+              }
               defaultValue={commissionToBeEdited?.commissionTypeValue}
               type="number"
               className="input input-primary"
@@ -158,7 +186,12 @@ const Commissions = () => {
           </div>
           <div className="modal-action">
             <div>
-              <button className="btn btn-primary mr-4">Submit</button>
+              <button
+                onClick={() => handleEdit()}
+                className="btn btn-primary mr-4"
+              >
+                Submit
+              </button>
               <button
                 onClick={() => window.commission_edit_modal.close()}
                 className="btn"
