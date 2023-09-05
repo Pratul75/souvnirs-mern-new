@@ -26,8 +26,22 @@ const ProductManagement = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "Product Name",
+        Header: "Product Image",
         accessor: "name",
+        Cell: ({ row }) => {
+          return (
+            <Link
+              to={`/productInfo/${row?.original?.slug}`}
+              className="cursor-pointer "
+            >
+              <img
+                className="w-12 h-12 text-center rounded-full hover:scale-105"
+                src={row?.original?.coverImage}
+                alt=""
+              />
+            </Link>
+          );
+        },
       },
       {
         Header: "Variant",
