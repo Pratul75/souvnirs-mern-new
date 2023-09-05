@@ -5,10 +5,12 @@ const AttributeTypeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
   },
-  attributeIds: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Attribute",
-  }],
+  attributeIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Attribute",
+    },
+  ],
   variant: {
     type: mongoose.Schema.Types.Mixed,
   },
@@ -21,7 +23,7 @@ const AttributeTypeSchema = new mongoose.Schema({
   quantity: { type: Number },
   images: [{ type: String }],
   variantRequiresShipping: {
-    type: Boolean
+    type: Boolean,
   },
   trackInventory: { type: Boolean },
   weight: { type: Number },

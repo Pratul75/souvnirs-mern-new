@@ -26,6 +26,7 @@ const authRoutes = require("./auth/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const menuRoutes = require("./routes/menuRoutes");
+const commissionRoutes = require("./routes/commissionRoutes");
 const morgan = require("morgan");
 
 // app initialization
@@ -87,9 +88,10 @@ app.use(menuRoutes);
 
 // admin routes should only be exposed when its required to create a new admin, else it should be commented out
 app.use(adminRoutes);
-
+// dashboard routes
 app.use(dashboardRoutes);
-
+// commissions routes
+app.use(commissionRoutes);
 // start the server
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
