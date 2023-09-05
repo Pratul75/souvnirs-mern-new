@@ -37,6 +37,7 @@ import {
   AddMainMenus,
   AddChildMenu,
   Commissions,
+  AddCommission,
 
   // vendor routes
   VendorDashboard,
@@ -363,11 +364,16 @@ export const adminRoutes = [
     Component: AddChildMenu,
     defaultRole: "admin",
   },
-
   {
     id: nanoid(),
     path: PATHS.adminCommissions,
     Component: Commissions,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddCommission,
+    Component: AddCommission,
     defaultRole: "admin",
   },
 ];

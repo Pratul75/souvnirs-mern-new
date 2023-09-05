@@ -39,6 +39,9 @@ export { default as AddMenus } from "./admin/AddMenus";
 export { default as Menus } from "./admin/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
 export { default as AddChildMenu } from "./admin/AddChildMenu";
+export { default as Commissions } from "./admin/Commissions";
+export { default as AddCommission } from "./admin/AddCommission";
+
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
 export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
@@ -79,4 +82,3 @@ export { default as Wishlist } from "./shop/Wishlist";
 export { default as Blogs } from "./shop/Blog";
 export { default as SingleTab } from "./shop/SingleTab";
 export { default as SghopAboutUs } from "./shop/ShopAboutUs";
-export { default as Commissions } from "./admin/Commissions";

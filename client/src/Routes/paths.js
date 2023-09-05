@@ -44,17 +44,17 @@ export const PATHS = {
   adminMedia: "/admin/media",
   adminMenus: "/admin/menus",
   adminAddMenus: "/admin/menus/add-menus",
-  adminCommissions: "/admin/commissions",
   EditProduct: "/admin/edit-product",
   EditVariants: "/admin/edit-variants",
   EditCategory: "/admin/edit-category",
-
   EditCustomer: "/admin/edit-Customer",
   adminAddMainMenus: "/admin/menus/add-menus/add-main-menu",
   adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
   adminAddChildMenus:
     "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
   EditCollection: "/admin/edit-collection",
+  adminAddCommission: "/admin/add-commission",
+  adminCommissions: "/admin/commissions",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",
