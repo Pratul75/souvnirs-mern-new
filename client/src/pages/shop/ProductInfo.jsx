@@ -18,10 +18,11 @@ import { nanoid } from "nanoid";
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
+  const [imagesList, setImagesList] = useState();
   const [product, setProduct] = useState();
   const [slug, setSlug] = useState();
   const params = useParams();
-  const [quantity, setQuantity] = useState(15);
+  const [quantity, setQuantity] = useState(50);
   const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
   const [selectedVariants, setSelectedVariants] = useState({});
@@ -169,6 +170,7 @@ const ProductInfo = () => {
   const setSelectedVariant = (variants) => {
     setSelectedVariants(variants);
     const newSelectedVariant = findSelectedVariant(variants);
+    setImagesList(newSelectedVariant.images);
     setSelectedImage(newSelectedVariant.images[0]);
     setPrice(newSelectedVariant.price);
   };
@@ -233,7 +235,19 @@ const ProductInfo = () => {
           <InnerImageZoom src={selectedImage} />
           <div className="flex flex-wrap gap-2 md:gap-4">
             {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
-            {product?.images && product.images.length > 0
+            {imagesList?.map((img) => (
+              <Card key={nanoid()} className="">
+                <img
+                  onClick={() => {
+                    setSelectedImage(img);
+                  }}
+                  src={img}
+                  className="w-16 cursor-pointer hover:scale-110"
+                  alt=""
+                />
+              </Card>
+            ))}
+            {!imagesList && product?.images && product.images.length > 0
               ? product.images.map((image) => (
                   <Card key={nanoid()} className="">
                     <img
@@ -301,7 +315,7 @@ const ProductInfo = () => {
                   type="number"
                   name=""
                   id=""
-                  min={15}
+                  min={50}
                   onChange={(e) => setQuantity(e.target.value)}
                   value={quantity}
                 />

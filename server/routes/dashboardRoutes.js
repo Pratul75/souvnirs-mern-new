@@ -16,9 +16,10 @@ router.get(
 
 router.get(
   "/dashboard/barchart",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getBarChartData
 );
+
 router.get(
   "/dashboard/products",
   authMiddleware(["vendor", "admin", "customer"]),

@@ -107,18 +107,22 @@ const OrderManagement = () => {
         image={OrderManagementBanner}
       />
       <div className="mt-10">
-        <ReusableTable
-          tableTitle="Orders List"
-          columns={columns}
-          data={data}
-          showButtons
-          enableDelete
-          enableEdit
-          enablePagination
-          pageSize={10}
-          onDelete={handleDeleteModal}
-          onEdit={handleEditModal}
-        />
+        {data && data.length > 0 ? (
+          <ReusableTable
+            tableTitle="Orders List"
+            columns={columns}
+            data={data}
+            showButtons
+            enableDelete
+            enableEdit
+            enablePagination
+            pageSize={10}
+            onDelete={handleDeleteModal}
+            onEdit={handleEditModal}
+          />
+        ) : (
+          <div className="flex justify-center font-semibold">No orders</div>
+        )}
 
         {/* edit modal */}
         <dialog id="order_management_edit_modal" className="modal">

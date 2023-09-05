@@ -17,6 +17,7 @@ const {
   getSearchProducts,
   getProductVariants,
   editProductVariant,
+  getVendorProducts,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -51,6 +52,12 @@ router.get(
   "/products/get-all-products",
   // authMiddleware(["vendor", "admin", "customer"]),
   getProducts
+);
+
+router.get(
+  "/products/get-vendor-products",
+  authMiddleware(["vendor"]),
+  getVendorProducts
 );
 router.get(
   "/products/get-search-products",

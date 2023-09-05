@@ -334,6 +334,7 @@ const AddProductAttributes = () => {
                           files,
                           ...variantName
                         } = a;
+                        console.log(files);
                         if (!price) {
                           return null;
                         }
@@ -349,16 +350,20 @@ const AddProductAttributes = () => {
                               <label> {productQuantity}</label>
                             </td>
                             <td className="w-72 md:flex gap-2 overflow-auto">
-                              {Array.from(files).map((file) => {
-                                console.log("AddProductAttributes.jsx", file);
-                                return (
-                                  <img
-                                    key={nanoid()}
-                                    className="w-20 rounded-md"
-                                    src={URL.createObjectURL(file)}
-                                  />
-                                );
-                              })}
+                              {files !== null ? (
+                                Array.from(files).map((file) => {
+                                  console.log("AddProductAttributes.jsx", file);
+                                  return (
+                                    <img
+                                      key={nanoid()}
+                                      className="w-20 rounded-md"
+                                      src={URL.createObjectURL(file)}
+                                    />
+                                  );
+                                })
+                              ) : (
+                                <h2>No images selected</h2>
+                              )}
                             </td>
                           </tr>
                         );

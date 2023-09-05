@@ -161,7 +161,7 @@ const VendorEditProductAttributes = () => {
           variantFormData
         );
       }
-      navigate(PATHS.adminProductManagement);
+      navigate(PATHS.vendorProductManagement);
     } catch (error) {
       debouncedShowToast(error.message, "error");
     }
@@ -290,10 +290,22 @@ const VendorEditProductAttributes = () => {
 
   const handleTableFileChange = (e, index) => {
     const files = e.target.files;
+    let newFiles = [];
+    const maxSizeInBytes = 10 * 1024 * 1024;
+    for (let file of files) {
+      if (file.size > maxSizeInBytes) {
+        debouncedShowToast(
+          "reselect Images size should not be greater than 10 mb of any image"
+        );
+      } else {
+        newFiles.push(file);
+      }
+    }
+    // console.log(files);
 
     setVariantData((prevData) => {
       const updatedData = [...prevData];
-      updatedData[index].files = files;
+      updatedData[index].files = newFiles;
       return updatedData;
     });
   };

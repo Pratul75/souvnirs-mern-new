@@ -56,12 +56,12 @@ const AddCollection = () => {
         Header: "Slug",
         accessor: "slug",
       },
-      {
-        Header: "Description",
-        Cell: ({ row }) => {
-          return parse(row?.original?.description);
-        },
-      },
+      // {
+      //   Header: "Description",
+      //   Cell: ({ row }) => {
+      //     return parse(row?.original?.description);
+      //   },
+      // },
       {
         Header: "tags",
         accessor: "'tags",
@@ -595,7 +595,7 @@ const AddCollection = () => {
 
             <div className="mt-4 relative">
               <button
-                className="btn btn-primary absolute right-60 top-5"
+                className="btn btn-primary absolute right-40  mb-10 top-0"
                 onClick={removeDeactivatedProducts}
               >
                 Deactivate

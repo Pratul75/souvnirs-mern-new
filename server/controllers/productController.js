@@ -73,8 +73,9 @@ const getAllMedia = async (req, res) => {
 };
 const createProduct = async (req, res) => {
   try {
+    console.log(req.role);
     // Extract the product details from the request body
-    const {
+    let {
       name,
       vendorId,
       slug,
@@ -89,6 +90,9 @@ const createProduct = async (req, res) => {
     // if (!name || !vendorId || !slug || !description || !price) {
 
     // }
+    if (req.role == "vendor") {
+      vendorId = req.userId;
+    }
     let imageUrl;
     let parseAtt = JSON.parse(attributes);
     try {
@@ -678,11 +682,16 @@ const getSearchProducts = async (req, res) => {
 };
 
 // get all products
+const getVendorProducts = async (req, res) => {
+  let productsList = await Product.find({ vendorId: req.userId });
+  res.status(200).json(productsList);
+};
+
 const getProducts = async (req, res) => {
   try {
     // Get all products
     let productsList;
-    if (req.role === "vendor") {
+    if (req.role && req.role === "vendor") {
       productsList = await Product.find({ vendorId: req.userId });
     } else {
       productsList = await Product.aggregate([
@@ -1063,4 +1072,5 @@ module.exports = {
   getProductBySlug,
   getProductVariants,
   editProductVariant,
+  getVendorProducts,
 };
