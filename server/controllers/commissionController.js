@@ -58,7 +58,7 @@ const deleteCommissionById = async (req, res) => {
     if (!commission) {
       return res.status(404).json({ error: "Commission not found" });
     }
-    res.json({ message: "Commission deleted" });
+    res.status(200).json({ message: "Commission deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

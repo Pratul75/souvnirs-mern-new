@@ -21,19 +21,19 @@ router.get(
 );
 
 router.get(
-  "commission/get-commission-by-id/:id",
+  "/commission/get-commission-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),
   getCommissionById
 );
 
 router.put(
-  "commission/commission-by-id/:id",
+  "/commission/commission-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),
   updateCommissionById
 );
 
 router.delete(
-  "commission/delete-commission-by-id/:id",
+  "/commission/delete-commission-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),
   deleteCommissionById
 );
