@@ -25,7 +25,6 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
     if (array.length <= 5) {
       return array.slice();
     }
-
     const values = [];
     const usedIndices = new Set();
 
@@ -84,6 +83,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
             ))}
           </div>
         </div>
+
         <hr />
         <div className=" md:flex justify-center md:justify-between gap-4 py-4 flex-wrap md:flex-nowrap">
           {loading

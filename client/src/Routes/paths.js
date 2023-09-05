@@ -57,6 +57,7 @@ export const PATHS = {
   EditCollection: "/admin/edit-collection",
   adminAddCommission: "/admin/commissions/add-commission",
   adminCommissions: "/admin/commissions",
+  adminAdvertisements: "/admin/advertisements",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",

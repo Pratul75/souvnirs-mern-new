@@ -10,14 +10,14 @@ const Dropzone = ({ onFilesChange, accept }) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-      onFilesChange([...files, ...acceptedFiles]); // Calling the onFilesChange callback with the updated files array
+      onFilesChange([...files, ...acceptedFiles]); 
     },
     [files, onFilesChange]
   );
 
   const removeFile = (fileName) => {
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
-    onFilesChange(files.filter((file) => file.name !== fileName)); // Calling the onFilesChange callback with the updated files array
+    onFilesChange(files.filter((file) => file.name !== fileName));
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
