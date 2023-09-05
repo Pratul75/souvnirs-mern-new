@@ -44,6 +44,13 @@ const EdiDiscount = () => {
   const [customers, setCustomers] = useState();
   const params = useParams();
 
+  const getDiscountData = async (id) => {
+    const response = await API_WRAPPER.get(
+      `/discount/get-discount-by-id/${id}`
+    );
+    setDiscountData(response.data);
+  };
+
   const getCustomers = async () => {
     const response = await API_WRAPPER.get("/customers/get-customers");
     setCustomers(response.data.customers);
@@ -86,8 +93,8 @@ const EdiDiscount = () => {
   const navigate = useNavigate();
 
   const postDiscount = async () => {
-    const response = await API_WRAPPER.post(
-      "/discount/create-discount",
+    const response = await API_WRAPPER.put(
+      `/discount/update-discount/${params.id}`,
       discountData
     );
     if (response.status === 201) {
@@ -194,6 +201,8 @@ const EdiDiscount = () => {
     getAllCategories();
     getAllProducts();
     getCustomers();
+
+    getDiscountData(params.id);
     getAllCollections();
   }, []);
 
@@ -227,6 +236,7 @@ const EdiDiscount = () => {
                   onChange={handleInputChange}
                   name="title"
                   type="text"
+                  defaultValue={discountData.title}
                   className="input input-bordered input-primary bg-transparent t w-full"
                 />
               </div>
@@ -253,6 +263,7 @@ const EdiDiscount = () => {
                 className="radio radio-primary"
                 type="radio"
                 value="all_customers"
+                checked={discountData.eligiblityTitle == "all_customer"}
               />
               <label className="label">
                 <span className="label-text">All Customers</span>
@@ -267,6 +278,9 @@ const EdiDiscount = () => {
                   setSpecificCustomerInputToggle(false);
                   handleInputChange(e);
                 }}
+                checked={
+                  discountData.eligiblityTitle == "specific_customer_segment"
+                }
                 name="eligibilityTitle"
                 value={"specific_customer_segment"}
                 className="radio radio-primary"
@@ -285,6 +299,7 @@ const EdiDiscount = () => {
                   name="eligibilityValue"
                   id="eligibility-value"
                   placeholder="enter SCG value"
+                  //   checked = {}
                 />
               </div>
             )}
@@ -299,6 +314,7 @@ const EdiDiscount = () => {
                 value="specific_customer"
                 className="radio radio-primary"
                 type="radio"
+                checked={discountData.eligiblityTitle == "specific_customer"}
               />
               <label className="label">
                 <span className="label-text">Specific customers</span>
@@ -339,6 +355,7 @@ const EdiDiscount = () => {
                 name="typeTitle"
                 value="fixed_value"
                 aria-label="Fixed Amount"
+                checked={discountData.typeTitle == "fixed_value"}
               />
               <input
                 onChange={(e) => handleInputChange(e)}
@@ -347,6 +364,7 @@ const EdiDiscount = () => {
                 name="typeTitle"
                 value="percentage"
                 aria-label="Percentage"
+                checked={discountData.typeTitle == "percentage"}
               />
             </div>
             <div className="form-control col-span-1 w-full">
@@ -356,6 +374,7 @@ const EdiDiscount = () => {
                   name="typeValue"
                   type="number"
                   placeholder="0.01"
+                  value={discountData.typeValue}
                   className="input input-bordered w-full" // Added w-full class here
                 />
                 <span>%</span>
@@ -384,6 +403,9 @@ const EdiDiscount = () => {
                 className="radio radio-primary"
                 type="radio"
                 value="no_minimum_requirement"
+                checked={
+                  discountData.requirementTitle === "no_minimum_requirement"
+                }
               />
               <label className="label">
                 <span className="label-text">No minimum requirements</span>
@@ -402,6 +424,9 @@ const EdiDiscount = () => {
                 className="radio radio-primary"
                 type="radio"
                 value="minimum_purchase_amount"
+                checked={
+                  discountData.requirementTitle === "minimum_purchase_amount"
+                }
               />
               <label className="label">
                 <span className="label-text">Minimum purchase amount(Rs)</span>
@@ -433,6 +458,9 @@ const EdiDiscount = () => {
                 className="radio radio-primary"
                 type="radio"
                 value="minimum_quantity_of_items"
+                checked={
+                  discountData.requirementTitle === "minimum_quantity_of_items"
+                }
               />
               <label className="label">
                 <span className="label-text">Minimum quantity of items</span>
@@ -469,6 +497,8 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-collections"
                 id="specify-collections"
+                checked={discountData.collectionId}
+                // defaultChecked= { }
               />
               <label className="label">
                 <span className="label-text">Specify Collections</span>
@@ -482,6 +512,7 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-products"
                 id="specify-products"
+                checked={discountData.productId}
               />
               <label className="label">
                 <span className="label-text">Specify Products</span>
@@ -495,6 +526,7 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-categories"
                 id="specify-categories"
+                checked={discountData.categoryId}
               />
               <label className="label">
                 <span className="label-text">Specify Categories</span>
@@ -606,6 +638,7 @@ const EdiDiscount = () => {
                 onChange={handleInputChange}
                 className="input input-primary"
                 type="date"
+                defaultValue={discountData.activeDate?.split("T")[0]}
                 name="activeDate"
               />
             </div>
@@ -618,6 +651,7 @@ const EdiDiscount = () => {
                 className="input input-primary"
                 type="time"
                 name="activeTime"
+                defaultValue={discountData.activeTime}
               />
             </div>
           </div>

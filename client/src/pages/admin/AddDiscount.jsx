@@ -88,10 +88,11 @@ const AddDiscount = () => {
       "/discount/create-discount",
       discountData
     );
-    if (response.status === 201) {
-      console.log("DISCOUNT DATA POSTED: ", response.data);
-      navigate(PATHS.adminDiscounts);
-    }
+    console.log(discountData);
+    // if (response.status === 201) {
+    //   console.log("DISCOUNT DATA POSTED: ", response.data);
+    //   navigate(PATHS.adminDiscounts);
+    // }
   };
 
   const appliedToSeachAndFilter = (inputValue, searchParameter) => {
