@@ -15,6 +15,8 @@ export const PATHS = {
   adminCollectionConditions: "/admin/collection-conditions",
   adminDiscounts: "/admin/discounts",
   adminCoupons: "/admin/coupons",
+  editCoupon: "/admin/coupon",
+  editDiscount: "/admin/discount",
   adminCouriers: "/admin/couriers",
   adminCustomer: "/admin/customer",
   adminEmailMarketing: "/admin/email-marketing",

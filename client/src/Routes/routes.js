@@ -92,6 +92,8 @@ import EditCollection from "../pages/admin/EditCollection";
 import Products from "../pages/shop/Products";
 import EditProductAttributes from "../pages/admin/Dashboard/EditProductAttributes";
 import ShopAboutUs from "../pages/shop/ShopAboutUs";
+import EditCoupon from "../pages/admin/EditCoupon";
+import EdiDiscount from "../pages/admin/EditDiscount";
 // admin routes
 export const adminRoutes = [
   {
@@ -142,6 +144,19 @@ export const adminRoutes = [
     defaultRole: "admin",
     Component: EditCustomer,
   },
+  {
+    id: nanoid(),
+    path: `${PATHS.editCoupon}/:id`,
+    defaultRole: "admin",
+    Component: EditCoupon,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.editDiscount}/:id`,
+    defaultRole: "admin",
+    Component: EdiDiscount,
+  },
+
   {
     id: nanoid(),
     path: `${PATHS.EditProduct}/:id`,

@@ -14,7 +14,7 @@ const createModal = async (req, res) => {
 // Controller to get all coupons
 const getAllCoupons = async (req, res) => {
   try {
-    const coupons = await CouponModal.find().sort({ updatedA: -1 })
+    const coupons = await CouponModal.find().sort({ updatedA: -1 });
     res.status(200).json(coupons);
   } catch (err) {
     res.status(400).json({ error: "somthing went wrong" });
@@ -38,7 +38,7 @@ const getCouponById = async (req, res) => {
 const updateCouponById = async (req, res) => {
   try {
     const updatedCoupon = await CouponModal.findByIdAndUpdate(
-      req.params.id.substring(1),
+      req.params.id,
       req.body,
       { new: true }
     );
@@ -54,8 +54,10 @@ const updateCouponById = async (req, res) => {
 // Controller to delete a specific coupon by ID
 const deleteCouponById = async (req, res) => {
   try {
-    console.log('couponController.js', req.params.id);
-    const deletedCoupon = await CouponModal.findByIdAndDelete(req.params.id.substring(1));
+    console.log("couponController.js", req.params.id);
+    const deletedCoupon = await CouponModal.findByIdAndDelete(
+      req.params.id.substring(1)
+    );
     if (!deletedCoupon) {
       return res.status(404).json({ error: "Coupon not found" });
     }

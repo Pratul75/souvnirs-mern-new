@@ -1,7 +1,7 @@
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import { Modal } from "../../components";
@@ -10,6 +10,8 @@ const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchDiscounts = async () => {
     try {
@@ -166,6 +168,10 @@ const Discounts = () => {
           showButtons
           enableDelete
           enablePagination
+          enableEdit
+          onEdit={(row) => {
+            navigate(`${PATHS.editDiscount}/${row._id}`);
+          }}
           pageSize={10}
           onDelete={handleDelete}
         />
