@@ -108,6 +108,11 @@ export const adminSidebarMapping = [
     Icon: MdReviews,
   },
   {
+    title: "Advertisements",
+    navLink: PATHS.adminAdvertisements,
+    Icon: MdReviews,
+  },
+  {
     title: "Collection",
     navLink: PATHS.adminCollection,
     Icon: BiSolidCollection,

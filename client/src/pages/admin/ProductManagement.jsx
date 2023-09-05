@@ -1,5 +1,5 @@
-import { Header, Modal, ReusableTable } from "../../components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Header, ReusableTable } from "../../components";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import {
@@ -90,6 +90,19 @@ const ProductManagement = () => {
       {
         Header: "Total Sales",
         accessor: "totalSales",
+      },
+      {
+        Header: "Approval",
+        Cell: ({ row }) => {
+          return (
+            <button
+              onClick={() => debouncedShowToast("Product Approved", "success")}
+              className="btn btn-sm btn-primary"
+            >
+              Approve
+            </button>
+          );
+        },
       },
       {
         Header: "Status",

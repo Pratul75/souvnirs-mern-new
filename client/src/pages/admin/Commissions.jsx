@@ -15,7 +15,6 @@ const Commissions = () => {
     commissionTypeValue: "",
   });
   const [apiTrigger, setApiTrigger] = useState(false);
-
   const getCommissionList = async () => {
     try {
       const response = await API_WRAPPER.get("/commission/get-all-commissions");
