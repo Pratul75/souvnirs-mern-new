@@ -385,12 +385,14 @@ const getBarChartData = async (req, res) => {
 };
 
 const getProductDataForAdmin = async (req, res) => {
+  console.log(req.userId);
   let data = await Product.aggregate([
     {
       $match: {
         updatedAt: {
-          $gte: new Date(new Date().setMonth(new Date().getMonth() - 6)), // Filter products updated in the last 6 months
+          $gte: new Date(new Date().setMonth(new Date().getMonth() - 6)),
         },
+        vendorId: req.userId, // Filter products updated in the last 6 months
       },
     },
     {

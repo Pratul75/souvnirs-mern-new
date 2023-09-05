@@ -5,12 +5,14 @@ import API_WRAPPER from "../../api";
 import { MediaCard } from "../../components";
 import { decodeToken } from "react-jwt";
 import { nanoid } from "nanoid";
+import Loading from "../common/Loading";
 
 const AdminMedia = () => {
   const [media, setMedia] = useState();
   const [medias, setMedias] = useState();
   const [ref, setRef] = useState(false);
   const [userRole, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const token = localStorage.getItem("token");
 
@@ -24,11 +26,14 @@ const AdminMedia = () => {
 
   const addFiles = async () => {
     const mediaData = new FormData();
+    setLoading(true);
+
     for (let elem of media) {
       mediaData.append("media", elem);
     }
     const response = await API_WRAPPER.post("/media", mediaData);
     if (response.status === 200) {
+      setLoading(false);
       window.add_media_modal.close();
       setRef((a) => !a);
     }
@@ -73,7 +78,41 @@ const AdminMedia = () => {
           </div>
         </div>
       </Card>
-      <dialog id="add_media_modal">
+      {/* Open the modal using ID.showModal() method */}
+
+      <dialog id="add_media_modal" className="modal">
+        <div className="modal-box">
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Pick media Files</span>
+            </label>
+            <input
+              type="file"
+              className="file-input file-input-bordered w-full max-w-xs"
+              multiple
+              onChange={(e) => {
+                setMedia(e.target.files);
+              }}
+              accept=".jpeg,.png,.jpg"
+            />
+          </div>
+          <div className=" flex justify-end gap-5">
+            <button className="btn btn-primary" onClick={addFiles}>
+              Add
+            </button>
+            <button
+              className="btn"
+              onClick={() => {
+                window.add_media_modal.close();
+              }}
+            >
+              close
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop"></form>
+      </dialog>
+      {/* <dialog id="add_media_modal">
         <div
           className={` ${
             darkMode ? "bg-cardDarker" : "bg-cardLight"
@@ -107,7 +146,8 @@ const AdminMedia = () => {
             </button>
           </div>
         </div>
-      </dialog>
+      </dialog> */}
+      {loading && <Loading />}
     </div>
   );
 };

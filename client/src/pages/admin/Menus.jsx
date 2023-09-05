@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-import { Header, ReusableTable } from "../../components";
+import { Card, Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { getStatusStyles } from "../../utils";
@@ -12,6 +12,7 @@ const Menus = () => {
   const [childMenuData, setChildMenuData] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [editedMenu, setEditedMenu] = useState({});
+  const [selectedRow, setSelectedRow] = useState();
   const fetchMenuData = async () => {
     const response = await API_WRAPPER.get("/main-menu");
     if (response && response.data) {
@@ -55,11 +56,12 @@ const Menus = () => {
     }));
   }, [menuData]);
 
-  const handleDelete = async (rowToBeDeleted) => {
-    console.log("MENU ROW: ", rowToBeDeleted);
-    const response = await API_WRAPPER.delete(`/menu/${rowToBeDeleted.id}`);
+  const handleDelete = async () => {
+    console.log("MENU ROW: ", selectedRow);
+    const response = await API_WRAPPER.delete(`/menu/${selectedRow.id}`);
     setApiTrigger((prevState) => !prevState);
     console.log("DELETE RESPONSE: ", response);
+    window.delete_menu_modal.close();
   };
 
   const handleEditModal = (rowToBeEdited) => {
@@ -92,7 +94,7 @@ const Menus = () => {
 
     fetchData();
   }, [apiTrigger]);
-
+  console.log(selectedRow);
   return (
     <div>
       <Header
@@ -115,11 +117,38 @@ const Menus = () => {
             enableEdit
             enablePagination
             pageSize={10}
-            onDelete={handleDelete}
+            onDelete={(row) => {
+              setSelectedRow(row);
+              window.delete_menu_modal.showModal();
+            }}
             onEdit={handleEditModal}
           />
         )}
       </div>
+      <dialog id="delete_menu_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Edit Menu</h3>
+          <p>Do you want to delete this main menu?</p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              onClick={() => handleDelete()}
+              type="submit"
+              className="btn btn-primary"
+            >
+              Delete
+            </button>
+            <button
+              className="btn"
+              onClick={() => {
+                window.delete_menu_modal.close();
+              }}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
       <dialog id="edit_menu_modal" className="modal">
         <form onSubmit={handleEditMenu} method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Edit Menu</h3>

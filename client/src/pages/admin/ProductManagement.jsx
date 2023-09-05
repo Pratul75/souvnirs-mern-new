@@ -1,7 +1,7 @@
 import { Header, Modal, ReusableTable } from "../../components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   debouncedShowToast,
   getStatusStyles,
@@ -13,6 +13,7 @@ import { ToastContainer } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { Dropzone } from "../../components";
+import Loading from "../common/Loading";
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -237,17 +238,19 @@ const ProductManagement = () => {
         </div>
 
         <div className="mt-4">
-          <ReusableTable
-            columns={columns}
-            data={data}
-            showButtons
-            enableEdit
-            enableDelete
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            pageSize={10}
-            enablePagination
-          />
+          <Suspense fallback={<Loading />}>
+            <ReusableTable
+              columns={columns}
+              data={data}
+              showButtons
+              enableEdit
+              enableDelete
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              pageSize={10}
+              enablePagination
+            />
+          </Suspense>
         </div>
       </div>
 

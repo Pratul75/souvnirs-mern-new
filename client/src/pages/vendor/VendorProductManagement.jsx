@@ -105,7 +105,7 @@ const ProductManagement = () => {
 
   const fetchProductsList = async () => {
     try {
-      const response = await API_WRAPPER.get("/products/get-all-products");
+      const response = await API_WRAPPER.get("/products/get-vendor-products");
       if (response.status === 200) {
         setProductsList(response?.data);
         console.log("RESPONSE: ", response?.data);

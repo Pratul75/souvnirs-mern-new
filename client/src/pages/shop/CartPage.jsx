@@ -98,8 +98,8 @@ const CartPage = () => {
         const decreaseQuantity = () => {
           if (product_quantity > 1) {
             const newQuantity = product_quantity - 1;
-            if (newQuantity < 15) {
-              return debouncedShowToast("minimumQuantity is 15", "info");
+            if (newQuantity < 50) {
+              return debouncedShowToast("minimumQuantity is 50", "info");
             }
             cartItemUpdate(_id, newQuantity); // Update on the server
             updateQuantity(_id, newQuantity); // Update in local state

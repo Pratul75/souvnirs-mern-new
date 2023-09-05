@@ -98,6 +98,11 @@ const registerCustomer = async (req, res) => {
       "New Customer Registered",
       `Customer with following email address registered: ${customer.email}`
     );
+    await sendEmail(
+      email,
+      "Welcome to Souvnirs",
+      "Sign in to see exciting deals"
+    );
     res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -137,7 +142,9 @@ const loginUser = async (req, res) => {
     // }
 
     // Generate a JWT token with the role and a 7-hour expiry
-    const token = jwt.sign({ email, role }, secretKey, { expiresIn: "7h" });
+    const token = jwt.sign({ email, role, id: user._id }, secretKey, {
+      expiresIn: "7h",
+    });
 
     // Send the token as a response
     res.status(200).json({ token });

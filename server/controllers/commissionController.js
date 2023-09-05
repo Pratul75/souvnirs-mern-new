@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Commission = require("./commissionModel"); // Import your Commission model
+const Commission = require("../schema/commissionModal"); // Import your Commission model
 
 // Create a new commission
 const createCommission = async (req, res) => {

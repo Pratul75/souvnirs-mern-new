@@ -99,6 +99,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
                     title={name}
                     price={price}
                     rating={4.3}
+                    id={_id}
                     image={coverImage}
                     slug={slug}
                   />
