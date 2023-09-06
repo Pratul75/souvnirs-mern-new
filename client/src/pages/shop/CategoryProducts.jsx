@@ -20,7 +20,7 @@ const CategoryProducts = () => {
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [inputRangeValue, setInputRangeValue] = useState([0, 1000]); // Add this line
+  const [inputRangeValue, setInputRangeValue] = useState([0, 100000]); // Add this line
   const [max, setMax] = useState(0); // Add this line
   const [slug, setSlug] = useState();
   const [loading, setLoading] = useState(false);
@@ -35,6 +35,7 @@ const CategoryProducts = () => {
     setLoading(true);
     const response = await API_WRAPPER.post(`/products/category/${slug}`, {
       data: filters,
+      priceMin: inputRangeValue[0],
       priceMax: inputRangeValue[1],
       page: page,
     });
@@ -75,6 +76,7 @@ const CategoryProducts = () => {
     setSlug(params.slug);
   }, [params.slug]);
 
+  console.log(inputRangeValue);
   useEffect(() => {
     debounce(() => {
       getProducts();
@@ -93,7 +95,7 @@ const CategoryProducts = () => {
                 <Slider
                   range
                   min={0}
-                  max={1000}
+                  max={100000}
                   step={50} // Set the step value to 50
                   onChange={(value) => setInputRangeValue(value)} // Update the state when the slider value changes
                   value={inputRangeValue}

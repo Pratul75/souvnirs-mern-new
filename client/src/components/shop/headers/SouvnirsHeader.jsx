@@ -206,7 +206,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 <Link className="link" to={PATHS.login}>
                   Login
                 </Link>
-                <Link className="link" to={PATHS.register}>
+                <Link className="link" to={`${PATHS.register}?sell=true`}>
                   Sell on Souvnirs
                 </Link>
               </>

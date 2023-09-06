@@ -49,6 +49,13 @@ const EdiDiscount = () => {
       `/discount/get-discount-by-id/${id}`
     );
     setDiscountData(response.data);
+    setAppliedToSpecifiedInput(
+      response.data.collectionId.length > 0
+        ? "specify-collections"
+        : response.data.categoryId.length > 0
+        ? "specify-categories"
+        : "specify-products"
+    );
   };
 
   const getCustomers = async () => {
@@ -497,7 +504,7 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-collections"
                 id="specify-collections"
-                checked={discountData.collectionId}
+                checked={appliedToSpecifiedInput == "specify-collections"}
                 // defaultChecked= { }
               />
               <label className="label">
@@ -512,11 +519,20 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-products"
                 id="specify-products"
-                checked={discountData.productId}
+                checked={appliedToSpecifiedInput == "specify-products"}
               />
               <label className="label">
                 <span className="label-text">Specify Products</span>
               </label>
+              {discountData?.productId?.map((id) => {
+                const matched = productsList.find((pr) => pr._id == id);
+                return <span>{matched && matched.name}, </span>;
+              })}
+              {appliedToSpecifiedInput == "specify-products" &&
+                appliedToFilteredItemsObjects.map((id) => {
+                  const matched = productsList.find((pr) => pr._id == id);
+                  return <span>{matched && matched.name}, </span>;
+                })}
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
@@ -526,7 +542,7 @@ const EdiDiscount = () => {
                 name="specifyCollection"
                 value="specify-categories"
                 id="specify-categories"
-                checked={discountData.categoryId}
+                checked={appliedToSpecifiedInput == "specify-categories"}
               />
               <label className="label">
                 <span className="label-text">Specify Categories</span>
@@ -536,7 +552,7 @@ const EdiDiscount = () => {
             <div className="form-control flex mt-4">
               <div className="input-group ">
                 <input
-                  onChange={(e) => handleAppliedToSearch(e)}
+                  onChange={(ae) => handleAppliedToSearch(e)}
                   type="text"
                   placeholder="Search…"
                   className="input input-bordered flex-grow"

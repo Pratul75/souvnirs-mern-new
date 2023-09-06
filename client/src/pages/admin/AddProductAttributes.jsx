@@ -247,6 +247,7 @@ const AddProductAttributes = () => {
     // For simplicity, I'm assuming each variant is an object with properties
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
+  console.log("AddProductAttributes.jsx", combinations);
   useEffect(() => {
     setVariantData(
       combinations.map((combination) => ({
@@ -348,15 +349,19 @@ const AddProductAttributes = () => {
                               <label> {productQuantity}</label>
                             </td>
                             <td className="w-72 md:flex gap-2 overflow-auto">
-                              {Array.from(files).map((file) => {
-                                console.log("AddProductAttributes.jsx", file);
-                                return (
-                                  <img
-                                    className="w-20 rounded-md"
-                                    src={URL.createObjectURL(file)}
-                                  />
-                                );
-                              })}
+                              {files !== null ? (
+                                Array.from(files).map((file) => {
+                                  console.log("AddProductAttributes.jsx", file);
+                                  return (
+                                    <img
+                                      className="w-20 rounded-md"
+                                      src={URL.createObjectURL(file)}
+                                    />
+                                  );
+                                })
+                              ) : (
+                                <h2>No images selected</h2>
+                              )}
                             </td>
                           </tr>
                         );

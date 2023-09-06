@@ -5,7 +5,7 @@ import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import { Link, useNavigate } from "react-router-dom";
-import API_WRAPPER from "../../../api";
+import API_WRAPPER, { baseUrl } from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../../features/appConfig/appSlice";
@@ -103,7 +103,12 @@ const ProductCard = ({
                 style={{
                   mixBlendMode: "multiply",
                 }}
-                src={image}
+                src={
+                  !image?.includes("res.cloudinary") &&
+                  !image?.includes("cdn.shopify")
+                    ? `${baseUrl}/${image}`
+                    : image
+                }
                 alt={title}
               />
             </div>

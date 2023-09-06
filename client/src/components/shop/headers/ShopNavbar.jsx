@@ -52,10 +52,11 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex justify-between gap-5">
       <Menu
-        className="bg-shopPrimaryColor text-white"
+        className="bg-shopPrimaryColor border-b-white border-b-0 w-40  text-white"
         mode="horizontal"
+        style={{ activeBarBorderWidth: 0 }}
         items={[
           {
             label: "All Categories",
@@ -64,7 +65,11 @@ const ShopNavbar = () => {
           },
         ]}
       />
-      <Menu mode="horizontal">
+      <Menu
+        mode="horizontal"
+        style={{ borderBottom: "none" }}
+        className="w-full"
+      >
         {navbarData.map((menu) => (
           <Menu.SubMenu
             key={menu._id}

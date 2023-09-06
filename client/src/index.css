@@ -143,3 +143,12 @@ body {
   border-color: blue;
   background-color: blue;
 }
+
+/* styles.css */
+.ant-menu-horizontal > .ant-menu-item:last-child {
+  border-bottom: none !important;
+}
+
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: none !important;
+}

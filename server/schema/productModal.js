@@ -46,6 +46,10 @@ const productSchema = new mongoose.Schema(
       type: Number,
       // required: true,
     },
+    mrp: {
+      type: Number,
+      // required: true,
+    },
     compareAtPrice: {
       type: Number,
     },

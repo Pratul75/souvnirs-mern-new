@@ -1,16 +1,20 @@
 import axios from "axios";
 
 let API_WRAPPER;
+let baseUrl;
 // Create an instance of Axios
 if (process.env.NODE_ENV === "development") {
   API_WRAPPER = axios.create({
     baseURL: "http://localhost:8080/",
   });
+  baseUrl = "http://localhost:8080/uploads";
 } else {
   API_WRAPPER = axios.create({
     baseURL: "https://souvnirs-main.onrender.com/",
   });
+  baseUrl = "https://souvnirs-main.onrender.com/uploads/";
 }
+export { baseUrl };
 
 const handleLogout = () => {
   // Clear the token from localStorage

@@ -94,8 +94,8 @@ export const conditionalSidebarMapping = () => {
 export const sortProductsByName = (products, sortOrder) => {
   const sortedProducts = [...products];
   sortedProducts.sort((a, b) => {
-    const nameA = a.name.toUpperCase();
-    const nameB = b.name.toUpperCase();
+    const nameA = a?.name;
+    const nameB = b?.name;
     if (sortOrder === "ascending") {
       return nameA.localeCompare(nameB);
     } else if (sortOrder === "descending") {

@@ -6,6 +6,7 @@ import { BiShoppingBag } from "react-icons/bi";
 import { AiOutlineHeart } from "react-icons/ai";
 import Ratings from "../components/Ratings";
 import { fadeInVariants } from "../../../animation";
+import { baseUrl } from "../../../api";
 
 const ProductCardMini = ({
   id,
@@ -30,7 +31,16 @@ const ProductCardMini = ({
     >
       <div className="flex items-center p-4">
         <div className="w-20">
-          <img className="object-cover w-full h-full" src={image} alt={title} />
+          <img
+            className="object-cover w-full h-full"
+            src={
+              !image?.includes("res.cloudinary") &&
+              !image?.includes("cdn.shopify")
+                ? `${baseUrl}/${image}`
+                : image
+            }
+            alt={title}
+          />
         </div>
         <div className="flex flex-col justify-between ml-4">
           <div>

@@ -143,6 +143,7 @@ const AddDiscount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(appliedToSpecifiedInput);
     switch (appliedToSpecifiedInput) {
       case "specify-collections":
         setDiscountData((prevState) => {

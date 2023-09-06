@@ -93,18 +93,18 @@ const createProduct = async (req, res) => {
     if (req.role == "vendor") {
       vendorId = req.userId;
     }
-    let imageUrl;
+    let imageUrl = req.files[0].filename;
     let parseAtt = JSON.parse(attributes);
-    try {
-      imageUrl = await v2.uploader.upload(req.files[0].path, {
-        timeout: 60000, // Set a longer timeout value if needed
-        folder: "product_images",
-      });
-      // Rest of the code
-    } catch (error) {
-      res.status(400).json({ error: "Failed to create product" });
-      // Handle the error, send an appropriate response to the client
-    }
+    // try {
+    //   imageUrl = await v2.uploader.upload(req.files[0].path, {
+    //     timeout: 60000, // Set a longer timeout value if needed
+    //     folder: "product_images",
+    //   });
+    //   // Rest of the code
+    // } catch (error) {
+    //   res.status(400).json({ error: "Failed to create product" });
+    //   // Handle the error, send an appropriate response to the client
+    // }
 
     let attArr;
     if (parseAtt.length > 0) {
@@ -121,7 +121,7 @@ const createProduct = async (req, res) => {
       totalSales,
       tags,
       attributes: attArr,
-      coverImage: imageUrl.url,
+      coverImage: imageUrl,
       categoryId,
     });
 
@@ -143,153 +143,85 @@ const createProduct = async (req, res) => {
 
 const getProductsByCategorySlug = async (req, res) => {
   const { data, page } = req.body;
-  const { priceMax } = req.body;
-  function convertFiltersArrayToObject(filtersArray) {
-    const filtersObject = {};
-
-    filtersArray.forEach((filter) => {
-      const lowerCaseKey = filter.key.toLowerCase().trim();
-      filtersObject[lowerCaseKey] = filter.values.map((value) => value.trim());
-    });
-
-    return filtersObject;
-  }
+  const { priceMax, priceMin } = req.body;
   const { slug } = req.params;
-  console.log("productController.js", slug);
-
-  let aggregationPipeline;
 
   const attributesArray = data;
+  const aggregationPipeline = [
+    {
+      $lookup: {
+        from: "categories",
+        localField: "categoryId",
+        foreignField: "_id",
+        as: "category",
+      },
+    },
+    {
+      $unwind: "$category",
+    },
+    {
+      $match: {
+        "category.name": slug,
+      },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "_id",
+        foreignField: "productId",
+        as: "variants",
+      },
+    },
+  ];
 
   if (attributesArray.some((attribute) => attribute.values.length > 0)) {
-    aggregationPipeline = [
-      {
-        $lookup: {
-          from: "categories",
-          localField: "categoryId",
-          foreignField: "_id",
-          as: "category",
-        },
-      },
-      {
-        $unwind: "$category",
-      },
-      {
-        $match: {
-          "category.name": slug,
-        },
-      },
-      {
-        $lookup: {
-          from: "attributetypes",
-          localField: "_id",
-          foreignField: "productId",
-          as: "variants",
-        },
-      },
-      {
-        $addFields: {
-          filteredVariants: {
-            $filter: {
-              input: "$variants",
-              as: "variant",
-              cond: {
-                $or: attributesArray.map((attribute) => {
-                  const key = attribute.key;
-                  const values = attribute.values;
-                  return {
-                    $or: values.map((value) => ({
-                      $eq: ["$$variant.variant." + key, value],
-                    })),
-                  };
-                }),
-              },
-            },
+    const orConditions = attributesArray.map((attribute) => {
+      const key = attribute.key;
+      const values = attribute.values;
+      return {
+        $or: values.map((value) => ({
+          $eq: ["$$variant.variant." + key, value.trim()],
+        })),
+      };
+    });
+
+    aggregationPipeline.push({
+      $addFields: {
+        filteredVariants: {
+          $filter: {
+            input: "$variants",
+            as: "variant",
+            cond: { $or: orConditions },
           },
         },
       },
-      {
-        $match: {
-          "filteredVariants.0": { $exists: true },
-          // price: {
-          //   $lt: +priceMax,
-          // },
-        },
-      },
-      // {
-      //   $sort: { price: -1 },
-      // },
-    ];
-  } else {
-    aggregationPipeline = aggregationPipeline = [
-      {
-        $lookup: {
-          from: "categories",
-          localField: "categoryId",
-          foreignField: "_id",
-          as: "category",
-        },
-      },
-      {
-        $unwind: "$category",
-      },
-      {
-        $match: {
-          "category.name": slug,
-        },
-      },
-      {
-        $lookup: {
-          from: "attributetypes",
-          localField: "_id",
-          foreignField: "productId",
-          as: "variants",
-        },
-      },
-      // {
-      //   $match: {
-      //     price: {
-      //       $lt: +priceMax,
-      //     },
-      //   },
-      // },
+    });
 
-      // {
-      //   $sort: { price: -1 },
-      // },
-    ];
+    aggregationPipeline.push({
+      $match: {
+        "filteredVariants.0": { $exists: true },
+      },
+    });
   }
 
   const products = await Product.aggregate(aggregationPipeline);
+
   const filteredProducts = products.filter((product) => {
     if (product.variants && product.variants.length > 0) {
-      return product.variants.some((variant) => variant.price <= priceMax);
+      return product.variants.some(
+        (variant) => variant.price >= priceMin && variant.price <= priceMax
+      );
     } else {
-      return product.price <= priceMax;
+      return product.price >= priceMin && product.price <= priceMax;
     }
   });
 
-  // Gather unique attributes and their values
   const uniqueAttributes = {};
-  const allPrices = products.flatMap((product) => {
-    const productPrices = [product.price]; // Assuming the top-level product price is stored in "price" field
-    const variantPrices = product.variants.map(
-      (variant) => variant.variant.price
-    ); // Modify this based on your data structure
-    return [...productPrices, ...variantPrices];
-  });
-
-  // Calculate min and max prices using reduce
-  const minPrice = allPrices.reduce(
-    (min, price) => Math.min(min, price),
-    Number.MAX_SAFE_INTEGER
-  );
-  const maxPrice = allPrices.reduce((max, price) => Math.max(max, price), 0);
 
   products.forEach((product) => {
     if (product.variants.length > 0) {
       product.variants.forEach((variant) => {
-        Object.entries(variant).forEach(([attribute, value]) => {
+        Object.entries(variant.variant).forEach(([attribute, value]) => {
           if (attribute !== "productId") {
             if (!uniqueAttributes[attribute]) {
               uniqueAttributes[attribute] = new Set();
@@ -297,10 +229,10 @@ const getProductsByCategorySlug = async (req, res) => {
 
             if (Array.isArray(value)) {
               value.forEach((subValue) =>
-                uniqueAttributes[attribute].add(subValue)
+                uniqueAttributes[attribute].add(subValue.trim())
               );
             } else {
-              uniqueAttributes[attribute].add(value);
+              uniqueAttributes[attribute].add(value.trim());
             }
           }
         });
@@ -308,39 +240,27 @@ const getProductsByCategorySlug = async (req, res) => {
     }
   });
 
-  // Convert uniqueAttributes into arrays
-  Object.keys(uniqueAttributes).forEach((attribute) => {
-    uniqueAttributes[attribute] = Array.from(uniqueAttributes[attribute]);
-  });
-  const variantComb =
-    uniqueAttributes.variant &&
-    uniqueAttributes.variant.reduce((attributes, item) => {
-      if (typeof item === "object" && !Array.isArray(item)) {
-        for (const key in item) {
-          if (!attributes[key]) {
-            attributes[key] = [];
-          }
-          if (!attributes[key].includes(item[key])) {
-            attributes[key].push(item[key]);
-          }
-        }
-      }
+  const variantComb = Object.entries(uniqueAttributes).reduce(
+    (attributes, [attribute, values]) => {
+      attributes[attribute] = Array.from(values);
       return attributes;
-    }, {});
-  const lastPage = Math.ceil(filteredProducts.length / 10);
+    },
+    {}
+  );
 
+  const lastPage = Math.ceil(filteredProducts.length / 10);
   const finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
 
   res.status(200).json({
     products: finalProducts,
     filters: variantComb,
-    max: maxPrice,
+    max: Math.max(...products.map((product) => product.price), 0),
     lastPage,
   });
 };
 
 const getProductsByCollectionSlug = async (req, res) => {
-  const { data, priceMax, page } = req.body;
+  const { data, priceMax, priceMin, page } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -435,14 +355,10 @@ const getProductsByCollectionSlug = async (req, res) => {
       {
         $lookup: {
           from: "attributetypes",
-          localField: "_id",
+          localField: "products._id",
           foreignField: "productId",
           as: "variants",
         },
-      },
-
-      {
-        $sort: { createdAt: -1 },
       },
     ];
   }
@@ -451,9 +367,13 @@ const getProductsByCollectionSlug = async (req, res) => {
   // console.log(products);
   const filteredProducts = products.filter((product) => {
     if (product.variants && product.variants.length > 0) {
-      return product.variants.some((variant) => variant.price <= priceMax);
+      return product.variants.some(
+        (variant) => variant.price >= priceMin && variant.price <= priceMax
+      );
     } else {
-      return product.products.price <= priceMax;
+      return (
+        product.products.price >= priceMin && product.products.price <= priceMax
+      );
     }
   });
 
@@ -656,8 +576,8 @@ const createProductVariant = async (req, res) => {
   let urlArray = [];
   for (let file of req.files) {
     {
-      const imageUrl = await v2.uploader.upload(req.files[0].path);
-      urlArray.push(imageUrl.url);
+      // const imageUrl = await v2.uploader.upload(req.files[0].path);
+      urlArray.push(file.filename);
     }
   }
   if (price.length < 1 || quantity.length < 1) {
@@ -838,8 +758,8 @@ const editProduct = async (req, res) => {
     let resp;
     let updateData;
     if (req.file) {
-      resp = await v2.uploader.upload(req.file.path);
-      updateData = { ...updatedProductData, coverImage: resp.url };
+      // resp = await v2.uploader.upload(req.file.path);
+      updateData = { ...updatedProductData, coverImage: req.file.filename };
     } else {
       updateData = updatedProductData;
     }

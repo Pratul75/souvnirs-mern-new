@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import SouvnirsLogoImg from "../../../assets/images/souvnirsLogo.png";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -17,6 +17,7 @@ const RegisterForm = () => {
   const [levelOneRegisterData, setLevelOneRegisterData] = useState({});
   const [levelTwoRegisterData, setLevelTwoRegisterData] = useState({});
   const [selectedRole, setSelectedRole] = useState({});
+  const [query] = useSearchParams();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -28,6 +29,9 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(registerLevelOneSchema()),
+    defaultValues: {
+      option: query.get("sell") == "true" ? "vendor" : "customer",
+    },
   });
 
   const onSubmitFirstLevel = async (data) => {
@@ -71,7 +75,7 @@ const RegisterForm = () => {
         if (levelOneResponse?.status === 200) {
           // console.log("LEVEL ONE RESPONSE: ", levelOneResponse?.data);
           token = levelOneResponse?.data?.token;
-          // console.log("TOKEN: ", token);
+          console.log("TOKEN: ", token);
           const { id, role } = decodeToken(token);
           // console.log("ROLE AND ID: ", id, role);
           const levelTwoResponse = await API_WRAPPER.post(
@@ -108,7 +112,7 @@ const RegisterForm = () => {
       }
     } catch (error) {
       console.log("RegisterForm.jsx", error);
-      debouncedShowToast(error.response.data, "error");
+      // debouncedShowToast(error, "error");
     }
   };
 
@@ -148,7 +152,7 @@ const RegisterForm = () => {
                   name="option"
                   id="buy"
                   value="customer"
-                  defaultChecked
+                  defaultChecked={!query.get("sell")}
                   {...register("option")}
                 />
 
@@ -165,6 +169,7 @@ const RegisterForm = () => {
                   name="option"
                   id="sell"
                   value="vendor"
+                  defaultChecked={query.get("sell")}
                   {...register("option")}
                 />
                 <label className="label" htmlFor="sell">
@@ -437,7 +442,7 @@ const RegisterForm = () => {
                 onChange={(e) => handleSecondLevelHandleChange(e)}
                 className="input input-primary"
                 type="text"
-                name="pincode"
+                name="pinCode"
                 placeholder="Minimum 2 characters"
               />
             </div>

@@ -20,11 +20,22 @@ const AttributeTypeSchema = new mongoose.Schema({
     default: "PENDING",
   },
   price: { type: Number },
+  mrp: {
+    type: Number,
+  },
   quantity: { type: Number },
   images: [{ type: String }],
   variantRequiresShipping: {
     type: Boolean,
   },
+  dynamic_price: [
+    {
+      price: Number,
+      currency: string,
+      minQuantity: Number,
+    },
+  ],
+  currency: { type: string },
   trackInventory: { type: Boolean },
   weight: { type: Number },
   published: { type: Boolean },

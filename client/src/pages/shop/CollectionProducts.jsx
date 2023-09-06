@@ -10,9 +10,12 @@ import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
 import { sortProductsByName } from "../../utils";
+import { Slider } from "antd";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
+
+  const [inputRangeValue, setInputRangeValue] = useState([0, 100000]);
   const [shippingStates, setShippingStates] = useState({
     freeShipping: false,
     readyToShip: false,
@@ -25,7 +28,6 @@ const CollectionProducts = () => {
   const [page, setPage] = useState(1);
   const [selctedFilter, setSelctedFilter] = useState("ascending");
   const location = useParams();
-  const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
 
   const getProducts = async () => {
     setLoading(true);
@@ -33,7 +35,8 @@ const CollectionProducts = () => {
       `/products/collection/${location.slug}`,
       {
         data: filters,
-        priceMax: inputRangeValue,
+        priceMin: inputRangeValue[0],
+        priceMax: inputRangeValue[1],
         page: page,
       }
     );
@@ -82,16 +85,19 @@ const CollectionProducts = () => {
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold">Price</h6>
                 </div>
-                <input
-                  type="range"
+                <Slider
+                  range
                   min={0}
                   max={100000}
-                  onChange={(e) => setInputRangeValue(e.target.value)}
+                  step={50} // Set the step value to 50
+                  onChange={(value) => setInputRangeValue(value)} // Update the state when the slider value changes
                   value={inputRangeValue}
                   className="range"
                 />
                 <div>
-                  <span>0 - {inputRangeValue}</span>
+                  <span>
+                    {inputRangeValue[0]} - {inputRangeValue[1]}
+                  </span>
                 </div>
               </div>
             </Card>
@@ -206,7 +212,7 @@ const CollectionProducts = () => {
                 {products && products.length == 0 && <div>No product</div>}
 
                 {products &&
-                  sortProductsByName(products, selctedFilter).map((product) => {
+                  products?.map((product) => {
                     return (
                       <ProductCard
                         key={nanoid()}

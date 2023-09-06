@@ -7,7 +7,7 @@ import {
   getStatusStyles,
   getStockStatusStyles,
 } from "../../utils";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
@@ -36,7 +36,7 @@ const ProductManagement = () => {
             >
               <img
                 className="w-12 h-12 text-center rounded-full hover:scale-105"
-                src={row?.original?.coverImage}
+                src={`${baseUrl}/${row?.original?.coverImage}`}
                 alt=""
               />
             </Link>

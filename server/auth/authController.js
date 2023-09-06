@@ -65,7 +65,7 @@ const registerVendor = async (req, res) => {
       expiresIn: "7h", // Token expiration time
     });
 
-    res.status(200).json(success("vendor registered successfully"));
+    res.status(200).json({ message: "vendor registered successfully", token });
   } catch (error) {
     console.error("Error registering vendor:", error);
     res.status(400).json({ error: "somthing went wrong" });

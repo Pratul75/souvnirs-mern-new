@@ -5,8 +5,8 @@ import { CiLogin } from "react-icons/ci";
 import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { productListFiltersAndProducts } from "../../mappings";
-import API_WRAPPER from "../../api";
-import { useEffect, useState } from "react";
+import API_WRAPPER, { baseUrl } from "../../api";
+import { Suspense, useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
@@ -15,6 +15,7 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
 import { nanoid } from "nanoid";
+import Loading from "../../pages/common/Loading";
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
@@ -98,8 +99,9 @@ const ProductInfo = () => {
       return;
     }
     const token = localStorage.getItem("token");
-    if (quantity < 1) {
-      return debouncedShowToast("quantity must be greater than 0");
+    if (quantity < 50) {
+      debouncedShowToast("minimum quantity to buy is 50");
+      return;
     }
     if (token) {
       console.log("triggered");
@@ -147,6 +149,9 @@ const ProductInfo = () => {
       // cheanged to cover image instead of first index of images arr
       setSelectedImage(response.data.coverImage);
       extractVariantsData(response.data?.variants);
+      if (response?.data?.variants?.length < 1) {
+        setImagesList(response.data.images);
+      }
       setPrice(
         response?.data?.variants.length > 0
           ? response.data?.variants[0].price
@@ -171,7 +176,12 @@ const ProductInfo = () => {
     setSelectedVariants(variants);
     const newSelectedVariant = findSelectedVariant(variants);
     setImagesList(newSelectedVariant.images);
-    setSelectedImage(newSelectedVariant.images[0]);
+    console.log(newSelectedVariant);
+    if (newSelectedVariant.images.length < 1) {
+      setSelectedImage(product.coverImage);
+    } else {
+      setSelectedImage(newSelectedVariant.images[0]);
+    }
     setPrice(newSelectedVariant.price);
   };
 
@@ -224,147 +234,162 @@ const ProductInfo = () => {
   console.log("ProductInfo.jsx", variantFilters);
 
   return (
-    <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
-      <Link onClick={() => navigate(-1)} className="btn">
-        <IoMdArrowBack className="text-2xl" />
-        Back
-      </Link>
+    <Suspense fallback={<Loading />}>
+      <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
+        <Link onClick={() => navigate(-1)} className="btn">
+          <IoMdArrowBack className="text-2xl" />
+          Back
+        </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-8">
-        <div className="col-span-1">
-          <InnerImageZoom src={selectedImage} />
-          <div className="flex flex-wrap gap-2 md:gap-4">
-            {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
-            {imagesList?.map((img) => (
-              <Card key={nanoid()} className="">
-                <img
-                  onClick={() => {
-                    setSelectedImage(img);
-                  }}
-                  src={img}
-                  className="w-16 cursor-pointer hover:scale-110"
-                  alt=""
-                />
-              </Card>
-            ))}
-            {!imagesList && product?.images && product.images.length > 0
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-8">
+          <div className="col-span-1">
+            <InnerImageZoom
+              src={
+                !selectedImage?.includes("res.cloudinary") &&
+                !selectedImage?.includes("cdn.shopify")
+                  ? `${baseUrl}/${selectedImage}`
+                  : selectedImage
+              }
+            />
+            <div className="flex flex-wrap gap-2 md:gap-4">
+              {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
+              {imagesList?.map((img) => (
+                <Card key={nanoid()} className="">
+                  <img
+                    onClick={() => {
+                      setSelectedImage(img);
+                    }}
+                    src={
+                      !img?.includes("res.cloudinary") &&
+                      !img?.includes("cdn.shopify")
+                        ? `${baseUrl}/${img}`
+                        : img
+                    }
+                    className="w-16 cursor-pointer hover:scale-110"
+                    alt=""
+                  />
+                </Card>
+              ))}
+              {/* {!imagesList && product?.images && product.images.length > 0
               ? product.images.map((image) => (
                   <Card key={nanoid()} className="">
                     <img
                       onClick={() => {
                         setSelectedImage(image);
                       }}
-                      src={image}
+                      src={`${baseUrl}/${image}`}
                       className="w-16 cursor-pointer hover:scale-110"
                       alt=""
                     />
                   </Card>
                 ))
               : product?.variants.map((variantObj) => {
-                  return (
-                    <img
+                return (
+                  <img
                       className="w-16 cursor-pointer hover:scale-110"
                       key={nanoid()}
-                      src={variantObj.images[0]}
+                      src={`${baseUrl}/${variantObj.images[0]}`}
                       alt=""
                       onClick={() => {
                         setSelectedImage(variantObj.images[0]);
                       }}
                     />
                   );
-                })}
-          </div>
-        </div>
-
-        <div className="col-span-1  flex flex-col items-center justify-center px-4 ">
-          <div className="flex flex-col">
-            <h1 className="font-bold text-2xl">{product?.name}</h1>
-            <div className={"gap-2 md:gap-4 flex flex-col"}>
-              <div className="flex gap-4">
-                <span className="text-4xl font-thin">USD</span>
-                {isLogged ? (
-                  <span className="text-4xl">{price}</span>
-                ) : (
-                  <Link to={PATHS.login} className="join cursor-pointer">
-                    <div className="bg-base-200 join-item flex items-center px-2">
-                      <span className="text-sm">
-                        To revel price please signin/sign up
-                      </span>
-                    </div>
-                    <div className="p-4 join-item bg-primary">
-                      <CiLogin className="text-2xl text-white" />
-                    </div>
-                  </Link>
-                )}
-              </div>
+                })} */}
             </div>
           </div>
-          <div className="flex gap-4 my-2">
-            <Ratings rating={3} />
-            <p>(1 Review)</p>
-          </div>
 
-          <form className="grid grid-cols-2 gap-2">
-            <div className="col-span-1">
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Quantity</span>
-                </label>
-                <input
-                  className="input input-bordered"
-                  type="number"
-                  name=""
-                  id=""
-                  min={50}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  value={quantity}
-                />
+          <div className="col-span-1  flex flex-col items-center justify-center px-4 ">
+            <div className="flex flex-col">
+              <h1 className="font-bold text-2xl">{product?.name}</h1>
+              <div className={"gap-2 md:gap-4 flex flex-col"}>
+                <div className="flex gap-4">
+                  <span className="text-4xl font-thin">USD</span>
+                  {isLogged ? (
+                    <span className="text-4xl">{price}</span>
+                  ) : (
+                    <Link to={PATHS.login} className="join cursor-pointer">
+                      <div className="bg-base-200 join-item flex items-center px-2">
+                        <span className="text-sm">
+                          To revel price please signin/sign up
+                        </span>
+                      </div>
+                      <div className="p-4 join-item bg-primary">
+                        <CiLogin className="text-2xl text-white" />
+                      </div>
+                    </Link>
+                  )}
+                </div>
               </div>
-              {variantFilters?.map((attribute) => {
-                const key = Object.keys(attribute)[0];
-                return (
-                  <div key={nanoid()} className="form-control">
-                    <label className="label">
-                      <span className="label-text">{key}</span>
-                    </label>
-                    <select
-                      className="select select-bordered"
-                      onChange={(e) =>
-                        updateSelectedVariants(key, e.target.value)
-                      }
-                      value={
-                        selectedVariants ? selectedVariants[key] || "" : ""
-                      }
-                    >
-                      <option value="" disabled selected>
-                        select value
-                      </option>
-                      {attribute[key].map((value) => (
-                        <option key={nanoid()} value={value}>
-                          {value}
+            </div>
+            <div className="flex gap-4 my-2">
+              <Ratings rating={3} />
+              <p>(1 Review)</p>
+            </div>
+
+            <form className="grid grid-cols-2 gap-2">
+              <div className="col-span-1">
+                <div className="form-control">
+                  <label className="label">
+                    <span className="label-text">Quantity</span>
+                  </label>
+                  <input
+                    className="input input-bordered"
+                    type="number"
+                    name=""
+                    id=""
+                    min={50}
+                    onChange={(e) => {
+                      setQuantity(e.target.value);
+                    }}
+                    value={quantity}
+                  />
+                </div>
+                {variantFilters?.map((attribute) => {
+                  const key = Object.keys(attribute)[0];
+                  return (
+                    <div key={nanoid()} className="form-control">
+                      <label className="label">
+                        <span className="label-text">{key}</span>
+                      </label>
+                      <select
+                        className="select select-bordered"
+                        onChange={(e) =>
+                          updateSelectedVariants(key, e.target.value)
+                        }
+                        value={
+                          selectedVariants ? selectedVariants[key] || "" : ""
+                        }
+                      >
+                        <option value="" disabled selected>
+                          select value
                         </option>
-                      ))}
-                    </select>
-                  </div>
-                );
-              })}
+                        {attribute[key].map((value) => (
+                          <option key={nanoid()} value={value}>
+                            {value}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  );
+                })}
 
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  request_quote_modal.showModal();
-                }}
-                className="btn cursor-pointer  mt-4 w-full"
-              >
-                Get Quote
-              </button>
-            </div>
-            <div className="col-span-1">
-              <h1 className="text-sm">Description</h1>
-              <div className="text-xs mt-4 bg-base-200 rounded-xl px-2">
-                {product?.description.split(" ").slice(0, 10).join(" ")}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    request_quote_modal.showModal();
+                  }}
+                  className="btn cursor-pointer  mt-4 w-full"
+                >
+                  Get Quote
+                </button>
               </div>
-              <div className="form-control">
+              <div className="col-span-1">
+                {/* <h1 className="text-sm">Description</h1> */}
+                {/* <div className="text-xs mt-4 bg-base-200 rounded-xl px-2">
+                {product?.description.split(" ").slice(0, 10).join(" ")}
+              </div> */}
+                {/* <div className="form-control">
                 <label className="label">
                   <span className="label-text">Size (inch)</span>
                 </label>
@@ -373,67 +398,68 @@ const ProductInfo = () => {
                   type="text"
                   placeholder="4*3*7"
                 />
+              </div> */}
+                <button
+                  className="btn btn-primary mt-4 w-full p-2"
+                  onClick={(e) => {
+                    addToCart(e);
+                  }}
+                >
+                  <AiOutlineShoppingCart className="text-2xl text-white" />
+                  Add To Cart
+                </button>
               </div>
-              <button
-                className="btn btn-primary mt-4 w-full"
-                onClick={(e) => {
-                  addToCart(e);
-                }}
-              >
-                <AiOutlineShoppingCart className="text-2xl text-white" />
-                Add To Cart
-              </button>
+            </form>
+          </div>
+          <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
+            <p className="text-start py-4">Ongoing Offers!</p>
+            <div className="gap-4 flex flex-col">
+              <div className="join">
+                <div className="flex pl-2 justify-center items-center bg-primary  text-white font-semibold join-item w-full">
+                  FLAT $250 OFF
+                </div>
+                <div className="text-center bg-base-200 p-4 join-item">
+                  <span>
+                    Flat $250 off on minimum merchendise value $999! Use code
+                    <span className="text-primary font-bold">FEST250</span>
+                  </span>
+                </div>
+              </div>
+              <div className="join">
+                <div className="flex pl-2 justify-center items-center bg-primary  text-white font-semibold join-item w-full">
+                  FLAT $250 OFF
+                </div>
+                <div className="text-center bg-base-200 p-4 join-item">
+                  <span>
+                    Flat $250 off on minimum merchendise value $999! Use code
+                    <span className="text-primary font-bold">FEST250</span>
+                  </span>
+                </div>
+              </div>
             </div>
-          </form>
+            <div className="my-2 border-b w-full">
+              <span className="text-xs font-bold text-primary">
+                Get to know how to reduce fright cost
+              </span>
+            </div>
+            <div className="py-4">
+              <p className="font-thin text-primary text-xs underline">
+                Check Sample Availablity
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
-          <p className="text-start py-4">Ongoing Offers!</p>
-          <div className="gap-4 flex flex-col">
-            <div className="join">
-              <div className="flex justify-center items-center bg-primary text-white font-bold join-item w-full">
-                FLAT $250 OFF
-              </div>
-              <div className="text-center bg-base-200 p-4 join-item">
-                <span>
-                  Flat $250 off on minimum merchendise value $999! Use code
-                  <span className="text-primary font-bold">FEST250</span>
-                </span>
-              </div>
-            </div>
-            <div className="join">
-              <div className="flex justify-center items-center bg-primary text-white font-bold join-item w-full">
-                FLAT $250 OFF
-              </div>
-              <div className="text-center bg-base-200 p-4 join-item">
-                <span>
-                  Flat $250 off on minimum merchendise value $999! Use code
-                  <span className="text-primary font-bold">FEST250</span>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="my-2 border-b w-full">
-            <span className="text-xs font-bold text-primary">
-              Get to know how to reduce fright cost
-            </span>
-          </div>
-          <div className="py-4">
-            <p className="font-thin text-primary text-xs underline">
-              Check Sample Availablity
-            </p>
-          </div>
-        </div>
+
+        <Tabs tabs={tabs} alignCenter />
+
+        <ProductsListWithFilters
+          heading="Top Seasonal Gifts"
+          filters={productListFiltersAndProducts.filters}
+          products={productListFiltersAndProducts.products}
+        />
+        <ToastContainer />
       </div>
-
-      <Tabs tabs={tabs} alignCenter />
-
-      <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
-        filters={productListFiltersAndProducts.filters}
-        products={productListFiltersAndProducts.products}
-      />
-      <ToastContainer />
-    </div>
+    </Suspense>
   );
 };
 

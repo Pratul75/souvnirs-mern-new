@@ -96,7 +96,7 @@ const AdminMedia = () => {
               accept=".jpeg,.png,.jpg"
             />
           </div>
-          <div className=" flex justify-end gap-5">
+          <div className=" flex justify-end gap-5 mt-8">
             <button className="btn btn-primary" onClick={addFiles}>
               Add
             </button>

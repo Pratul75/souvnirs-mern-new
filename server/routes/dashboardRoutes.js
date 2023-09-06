@@ -10,7 +10,7 @@ const router = require("express").Router();
 
 router.get(
   "/dashboard/cards",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   fetchDashboardCardsData
 );
 
@@ -22,12 +22,12 @@ router.get(
 
 router.get(
   "/dashboard/products",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getProductDataForAdmin
 );
 router.get(
   "/dashboard/doughnutchart",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   getDoughNutChartData
 );
 module.exports = router;

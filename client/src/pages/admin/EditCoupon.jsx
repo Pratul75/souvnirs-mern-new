@@ -49,6 +49,12 @@ const EditCoupon = () => {
   const navigate = useNavigate();
 
   // get all categories
+  console.log(
+    appliedToSpecifiedInput,
+    appliedToFilteredState,
+    appliedToFilteredItemsObjects
+  );
+
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -65,6 +71,9 @@ const EditCoupon = () => {
     typeValue: Yup.number().required("Value is required"),
     typeTitle: Yup.string().required("Type Title is required"),
     couponCode: Yup.string().required("coupon code is required"),
+    productId: Yup.array(),
+    collectionId: Yup.array(),
+    categoryId: Yup.array(),
 
     // ... continue with other fields
   });
@@ -72,6 +81,13 @@ const EditCoupon = () => {
     const response = await API_WRAPPER.get(`/coupon/get-coupon-by-id/${id}`);
     setCouponData(response.data);
     setCouponCode(response.data.couponCode);
+    setAppliedToSpecifiedInput(
+      response.data.collectionId.length > 0
+        ? "specify-collections"
+        : response.data.categoryId.length > 0
+        ? "specify-categories"
+        : "specify-products"
+    );
   };
 
   // get all products
@@ -165,12 +181,14 @@ const EditCoupon = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    e.preventDefault();
     setCouponData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
     console.log("DISCOUNT INPUT STATE: ", couponData);
   };
+  console.log(appliedToFilteredItemsObjects);
   const getCustomers = async () => {
     const response = await API_WRAPPER.get("/customers/get-customers");
     setCustomers(response.data.customers);
@@ -180,36 +198,51 @@ const EditCoupon = () => {
     e.preventDefault();
     switch (appliedToSpecifiedInput) {
       case "specify-collections":
+        console.log(appliedToSpecifiedInput);
         setCouponData((prevState) => {
-          return { ...prevState, collectionId: appliedToFilteredItemsObjects };
+          return {
+            ...prevState,
+            collectionId: [...appliedToFilteredItemsObjects],
+          };
         });
         break;
 
       case "specify-products":
+        console.log(appliedToFilteredItemsObjects);
         setCouponData((prevState) => {
-          return { ...prevState, productId: appliedToFilteredItemsObjects };
+          return {
+            ...prevState,
+            productId: [...appliedToFilteredItemsObjects],
+          };
         });
         break;
 
       case "specify-categories":
+        console.log(appliedToSpecifiedInput);
         setCouponData((prevState) => {
-          return { ...prevState, categoryId: appliedToFilteredItemsObjects };
+          return {
+            ...prevState,
+            categoryId: [...appliedToFilteredItemsObjects],
+          };
         });
         break;
 
       default:
+        console.log(appliedToSpecifiedInput);
         break;
     }
-    await postCoupon();
     console.log("COUPON OBJECT: ", couponData);
+    await postCoupon();
   };
 
   const handleAppliedToSelectInputs = (e) => {
+    e.preventDefault();
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
 
   const handleAppliedToSearch = (e) => {
+    e.preventDefault();
     setAppliedToSearchInput(e.target.value);
     appliedToSeachAndFilter(e.target.value, appliedToSpecifiedInput);
   };
@@ -251,7 +284,7 @@ const EditCoupon = () => {
         heading="Add Coupon"
         subheading="This is a sub heading for the add coupon section which reminds us to put a brief description about the Add Coupons page"
       />
-      <form onSubmit={handleSubmit} className="mt-4 grid grid-cols-4 gap-4">
+      <form className="mt-4 grid grid-cols-4 gap-4">
         {/* amount of products -> Method */}
         <motion.div
           initial="initial"
@@ -564,6 +597,23 @@ const EditCoupon = () => {
               <label className="label">
                 <span className="label-text">Specify Collections</span>
               </label>
+              <span>
+                {appliedToSpecifiedInput === "specify-collections"
+                  ? couponData.collectionId.map((prod) => {
+                      const matched = collectionsList.find(
+                        (p) => p._id == prod
+                      );
+                      console.log(matched);
+                      return <span>{matched && matched.name}, </span>;
+                    })
+                  : ""}
+                {appliedToSpecifiedInput === "specify-collections" &&
+                  appliedToFilteredItemsObjects.map((prod) => {
+                    const matched = collectionsList.find((p) => p._id == prod);
+                    console.log(matched);
+                    return <span>{matched && matched.name}, </span>;
+                  })}
+              </span>
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
@@ -578,6 +628,21 @@ const EditCoupon = () => {
               <label className="label">
                 <span className="label-text">Specify Products</span>
               </label>
+              <span>
+                {appliedToSpecifiedInput === "specify-products"
+                  ? couponData.productId.map((prod) => {
+                      const matched = productsList.find((p) => p._id == prod);
+                      console.log(matched);
+                      return <span>{matched && matched.name}, </span>;
+                    })
+                  : ""}
+                {appliedToSpecifiedInput === "specify-products" &&
+                  appliedToFilteredItemsObjects.map((prod) => {
+                    const matched = productsList.find((p) => p._id == prod);
+                    console.log(matched);
+                    return <span>{matched && matched.name}, </span>;
+                  })}
+              </span>
             </div>
             <div className="form-control flex flex-row gap-4 items-center">
               <input
@@ -592,6 +657,21 @@ const EditCoupon = () => {
               <label className="label">
                 <span className="label-text">Specify Categories</span>
               </label>
+              <span>
+                {appliedToSpecifiedInput === "specify-categories"
+                  ? couponData.categoryId.map((prod) => {
+                      const matched = categoriesList.find((p) => p._id == prod);
+                      console.log(matched);
+                      return <span>{matched && matched.name}, </span>;
+                    })
+                  : ""}
+                {appliedToSpecifiedInput === "specify-categories" &&
+                  appliedToFilteredItemsObjects.map((prod) => {
+                    const matched = categoriesList.find((p) => p._id == prod);
+                    console.log(matched);
+                    return <span>{matched && matched.name}, </span>;
+                  })}
+              </span>
             </div>
 
             <div className="form-control flex mt-4">
@@ -603,6 +683,7 @@ const EditCoupon = () => {
                   className="input input-bordered flex-grow"
                 />
                 <button
+                  type="button"
                   onClick={() => window.applied_to_search_modal.showModal()}
                   className="btn btn-square btn-primary"
                 >
@@ -811,8 +892,8 @@ const EditCoupon = () => {
       </form>
 
       {/* applied to search modal */}
-      <dialog id="applied_to_search_modal" className="modal ">
-        <form method="dialog" className="modal-box w-11/12 max-w-5xl">
+      <dialog id="applied_to_search_modal" className="modal">
+        <div method="dialog" className="modal-box w-11/12 max-w-5xl">
           <h3 className="font-bold text-lg mb-4">
             Searching by:{" "}
             <span className="text-accent-focus">{appliedToSpecifiedInput}</span>
@@ -872,9 +953,16 @@ const EditCoupon = () => {
 
           <div className="modal-action">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn">Close</button>
+            <button
+              onClick={() => {
+                window.applied_to_search_modal.close();
+              }}
+              className="btn"
+            >
+              Close
+            </button>
           </div>
-        </form>
+        </div>
       </dialog>
     </div>
   );
