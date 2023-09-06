@@ -35,7 +35,7 @@ const AttributeTypeSchema = new mongoose.Schema({
       minQuantity: Number,
     },
   ],
-  currency: { type: string },
+  currency: { type: String },
   trackInventory: { type: Boolean },
   weight: { type: Number },
   published: { type: Boolean },
