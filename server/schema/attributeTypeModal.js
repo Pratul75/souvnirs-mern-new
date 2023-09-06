@@ -31,7 +31,7 @@ const AttributeTypeSchema = new mongoose.Schema({
   dynamic_price: [
     {
       price: Number,
-      currency: string,
+      currency: String,
       minQuantity: Number,
     },
   ],
