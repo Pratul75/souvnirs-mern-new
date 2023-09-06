@@ -558,7 +558,7 @@ const AddProductAttributes = () => {
                   <thead>
                     <tr>
                       <th>Variant Name</th>
-                      <th>Price</th>
+                      {/* <th>Price</th> */}
                       <th>Quantity</th>
                       <th>Images</th>
                     </tr>
@@ -569,20 +569,23 @@ const AddProductAttributes = () => {
                         (variant) => isEqualVariants(variant, x)
                       );
                       return (
-                        <tr key={index}>
-                          <td>
-                            <div className="label">
-                              {Object.entries(x).map(([key, value]) => (
-                                <div key={key}>
-                                  <span className="font-semibold ">{key}:</span>{" "}
-                                  <span className="text-primary ml-2">
-                                    {value}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="px-4 py-2">
+                        <>
+                          <tr key={index}>
+                            <td>
+                              <div className="label">
+                                {Object.entries(x).map(([key, value]) => (
+                                  <div key={key}>
+                                    <span className="font-semibold ">
+                                      {key}:
+                                    </span>{" "}
+                                    <span className="text-primary ml-2">
+                                      {value}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                            {/* <td className="px-4 py-2">
                             <div className="flex justify-center items-center">
                               <input
                                 placeholder="enter price"
@@ -600,46 +603,66 @@ const AddProductAttributes = () => {
                                 }
                               />
                             </div>
-                          </td>
-                          <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                type="number"
-                                name={`productQuantity-${index}`}
-                                placeholder="enter quantity"
-                                className="input input-primary input-sm"
-                                onChange={(e) =>
-                                  handleTableInputChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index,
-                                    "productQuantity"
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                          <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                type="file"
-                                name={`file-${index}`}
-                                accept="image/*"
-                                multiple
-                                className="file-input file-input-sm"
-                                onChange={(e) =>
-                                  handleTableFileChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                          </td> */}
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  type="number"
+                                  name={`productQuantity-${index}`}
+                                  placeholder="enter quantity"
+                                  className="input input-primary input-sm"
+                                  onChange={(e) =>
+                                    handleTableInputChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index,
+                                      "productQuantity"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  type="file"
+                                  name={`file-${index}`}
+                                  accept="image/*"
+                                  multiple
+                                  className="file-input file-input-sm"
+                                  onChange={(e) =>
+                                    handleTableFileChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                          <h2>Dynamic Pricing</h2>
+                          <tr>
+                            <td>
+                              <div className="">
+                                <label htmlFor="" className="label">
+                                  price
+                                </label>
+                                <input className="input input-primary input-sm" />
+                              </div>
+                            </td>
+                            <td>
+                              <div className="">
+                                <label htmlFor="" className="label">
+                                  Minimum Quantity
+                                </label>
+                                <input className="input input-primary input-sm" />
+                              </div>
+                            </td>
+                          </tr>
+                        </>
                       );
                     })}
                   </tbody>

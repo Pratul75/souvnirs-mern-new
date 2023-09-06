@@ -700,7 +700,7 @@ const editProductVariant = async (req, res) => {
     if (req.files.length > 0) {
       for (let file of req.files) {
         const uploaded = await v2.uploader.upload(file.path);
-        urls.push(uploaded.url);
+        urls.push(file.filename);
         console.log("productController.js", uploaded);
       }
     }
