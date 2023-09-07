@@ -10,7 +10,7 @@ import { PATHS } from "../../Routes/paths";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { GrFormClose } from "react-icons/gr";
 import Draggable from "react-draggable";
@@ -25,18 +25,26 @@ const AddProduct = () => {
   const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
   const [preview, setPreview] = useState();
-  const [foregroundWidth, setForegroundWidth] = useState(100); // Default width
-  const [foregroundHeight, setForegroundHeight] = useState(100); // Default height
-  const [selectedShape, setSelectedShape] = useState("square"); // Default shape is "Square"
+  const [foregroundWidth, setForegroundWidth] = useState(100); // default width
+  const [foregroundHeight, setForegroundHeight] = useState(100); // default height
+  const [selectedShape, setSelectedShape] = useState("square"); // default shape is "Square"
   const [foregroundX, setForegroundX] = useState(0);
   const [foregroundY, setForegroundY] = useState(0);
 
   const handleDrag = (e, data) => {
-    const newX = data.x;
-    const newY = data.y;
+    const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
+    const newX = Math.floor((data.x / parentElement.clientWidth) * 100);
+    const newY = Math.floor((data.y / parentElement.clientHeight) * 100);
+
     setForegroundX(newX);
     setForegroundY(newY);
-    console.log(`X: ${newX}, Y: ${newY}`);
+
+    // Update the formData object with the new values
+    setFormData((prevData) => ({
+      ...prevData,
+      foregroundX: newX,
+      foregroundY: newY,
+    }));
   };
 
   const dispatch = useDispatch();
@@ -72,13 +80,12 @@ const AddProduct = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // postProduct();
-
     if (
       !formData.name ||
       !description ||
       tagsArray.length < 1 ||
-      !formData.vendorId
+      !formData.vendorId ||
+      !preview
     ) {
       debouncedShowToast("Fill all required fields", "info");
       return;
@@ -111,24 +118,26 @@ const AddProduct = () => {
 
   const handleForegroundWidthChange = (e) => {
     const newWidth = parseInt(e.target.value);
-
-    // Create an Image object
     const img = new Image();
+    img.src = preview;
 
-    // Set the source URL of the background image
-    img.src = preview; // Assuming 'preview' contains the URL of the background image
-
-    // When the image is loaded, you can access its natural width
     img.onload = () => {
       const maxWidth = img.naturalWidth;
 
       if (newWidth <= maxWidth) {
         setForegroundWidth(newWidth);
+
+        // Update the formData object with the new width
+        setFormData((prevData) => ({
+          ...prevData,
+          foregroundWidth: newWidth,
+        }));
       } else {
-        // Handle the case where the width exceeds the maximum.
-        // You can show an error message or take appropriate action.
-        // For example, you can set it to the maximum allowed width.
         setForegroundWidth(maxWidth);
+        setFormData((prevData) => ({
+          ...prevData,
+          foregroundWidth: maxWidth,
+        }));
       }
     };
   };
@@ -400,14 +409,17 @@ const AddProduct = () => {
         </div>
       </div>
 
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-
       <dialog id="coverImage_Modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Select Position</h3>
           <div>
             <div style={{ position: "relative" }}>
-              <img src={preview} alt="Cover Image" style={{ width: "100%" }} />
+              <img
+                id="parentElement"
+                src={preview}
+                alt="Cover Image"
+                style={{ width: "100%" }}
+              />
               <Draggable bounds="parent" onDrag={handleDrag}>
                 <div
                   style={{
@@ -459,12 +471,12 @@ const AddProduct = () => {
                 </select>
               </div>
               <div>
-                <label htmlFor="xPosition">X Position:</label>
-                <span id="xPosition">{foregroundX}</span>
+                <label htmlFor="xPosition">X Position :</label>
+                <span id="xPosition">{foregroundX}%</span>
               </div>
               <div>
                 <label htmlFor="yPosition">Y Position:</label>
-                <span id="yPosition">{foregroundY}</span>
+                <span id="yPosition">{foregroundY}%</span>
               </div>
             </div>
           </div>
