@@ -84,7 +84,7 @@ const ShopNavbar = () => {
       </Menu>
       <button
         onClick={() => window.request_quote_modal.showModal()}
-        className="btn"
+        className="btn btn-primary"
       >
         Request Quote
       </button>

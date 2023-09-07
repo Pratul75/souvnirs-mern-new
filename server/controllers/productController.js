@@ -140,9 +140,44 @@ const createProduct = async (req, res) => {
     res.status(400).json({ error: "Failed to create product" });
   }
 };
+const alterApproval = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { approved, comment } = req.body;
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { approved: approved, comment: comment },
+      { new: true }
+    );
+    console.log(id);
+    const vendor = await Vendor.findById(updatedProduct.vendorId);
+    if (approved === false) {
+      await sendEmail(
+        vendor.email,
+        "product disapproved",
+        "product with the following name " +
+          updatedProduct.name +
+          " is disapproved. with comment - " +
+          comment
+      );
+      console.log("hj");
+    } else {
+      sendEmail(
+        vendor.email,
+        "product disapproved",
+        "product with the following name " +
+          updatedProduct.name +
+          " is approved."
+      );
+    }
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json("something went wrong");
+  }
+};
 
 const getProductsByCategorySlug = async (req, res) => {
-  const { data, page } = req.body;
+  const { data, page, sort } = req.body;
   const { priceMax, priceMin } = req.body;
   const { slug } = req.params;
 
@@ -204,9 +239,15 @@ const getProductsByCategorySlug = async (req, res) => {
     });
   }
 
+  if (sort && sort == "new") {
+    aggregationPipeline.push({
+      $sort: { _id: -1 },
+    });
+  }
+
   const products = await Product.aggregate(aggregationPipeline);
 
-  const filteredProducts = products.filter((product) => {
+  let filteredProducts = products.filter((product) => {
     if (product.variants && product.variants.length > 0) {
       return product.variants.some(
         (variant) => variant.price >= priceMin && variant.price <= priceMax
@@ -215,6 +256,31 @@ const getProductsByCategorySlug = async (req, res) => {
       return product.price >= priceMin && product.price <= priceMax;
     }
   });
+  if (sort && sort == "htl") {
+    filteredProducts = filteredProducts.sort((a, b) => {
+      if (a.variants.length > 0 && b.variants.length > 0) {
+        return b.variants[0].price - a.variants[0].price;
+      } else if (a.variants.length > 0 && b.variants.length == 0) {
+        return b.price - a.variants[0].price;
+      } else if (a.variants.length == 0 && b.variants.length > 0) {
+        return b.variants[0].price - a.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+  } else if (sort && sort == "lth") {
+    filteredProducts = filteredProducts.sort((a, b) => {
+      if (a.variants.length > 0 && b.variants.length > 0) {
+        return a.variants[0].price - b.variants[0].price;
+      } else if (a.variants.length > 0 && b.variants.length == 0) {
+        return a.variants[0].price - b.price;
+      } else if (a.variants.length == 0 && b.variants.length > 0) {
+        return a.price - b.variants[0].price;
+      } else {
+        return a.price - b.price;
+      }
+    });
+  }
 
   const uniqueAttributes = {};
 
@@ -993,4 +1059,5 @@ module.exports = {
   getProductVariants,
   editProductVariant,
   getVendorProducts,
+  alterApproval,
 };

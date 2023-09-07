@@ -97,7 +97,10 @@ const productSchema = new mongoose.Schema(
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
+    approved: { type: Boolean, default: false },
+    comment: String,
   },
+
   {
     timestamps: true, // Adds createdAt and updatedAt fields
   }

@@ -496,7 +496,7 @@ const EditProduct = () => {
 
             <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
-                accept={".jpeg,.png"}
+                accept={",.png"}
                 onFilesChange={(data) => {
                   setFormData({ ...formData, img: data });
                 }}

@@ -21,7 +21,16 @@ const ProductManagement = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [bulkData, setBulkData] = useState();
   const [loading, setLoading] = useState(false);
+  const [disapprovalComment, setDisapprovalComment] = useState("");
+  const [error, seterror] = useState("");
   const navigate = useNavigate();
+  console.log(selectedRow);
+
+  const alterApproval = async (id, approved, comment = "") => {
+    await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
+    setApiTrigger((prev) => !prev);
+    window.disapproval_modal.close();
+  };
 
   const columns = useMemo(
     () => [
@@ -108,13 +117,30 @@ const ProductManagement = () => {
       {
         Header: "Approval",
         Cell: ({ row }) => {
+          // console.log("ProductManagement.jsx", row);
           return (
-            <button
-              onClick={() => debouncedShowToast("Product Approved", "success")}
-              className="btn btn-sm btn-primary"
-            >
-              Approve
-            </button>
+            <div>
+              {row?.original?.approved ? (
+                <button
+                  onClick={() => {
+                    setSelectedRow(row?.original);
+                    window.disapproval_modal.showModal();
+                  }}
+                  className="btn btn-sm btn-primary"
+                >
+                  Disapprove
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    alterApproval(row?.original?._id, true);
+                  }}
+                  className="btn btn-sm btn-primary"
+                >
+                  Approve
+                </button>
+              )}
+            </div>
           );
         },
       },
@@ -280,6 +306,48 @@ const ProductManagement = () => {
           </Suspense>
         </div>
       </div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+      <dialog id="disapproval_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">
+            Do you want to disapprove {selectedRow.name}
+          </h3>
+          <label htmlFor="" className="label">
+            comment
+          </label>
+          <input
+            onChange={(e) => setDisapprovalComment(e.target.value)}
+            className="input input-primary"
+          />{" "}
+          <span className="text-red-600">{error && error}</span>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                if (!disapprovalComment) {
+                  seterror("please enter a comment");
+                  return;
+                }
+                alterApproval(selectedRow._id, false, disapprovalComment);
+              }}
+            >
+              Disapprove
+            </button>
+            <button
+              onClick={() => {
+                window.disapproval_modal.close();
+                seterror("");
+                setDisapprovalComment("");
+              }}
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
 
       {/* edit modal  */}
       {/* <Modal

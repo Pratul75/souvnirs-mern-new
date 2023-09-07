@@ -10,7 +10,7 @@ const Dropzone = ({ onFilesChange, accept }) => {
   const onDrop = useCallback(
     (acceptedFiles) => {
       setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-      onFilesChange([...files, ...acceptedFiles]); 
+      onFilesChange([...files, ...acceptedFiles]);
     },
     [files, onFilesChange]
   );
@@ -22,9 +22,10 @@ const Dropzone = ({ onFilesChange, accept }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  console.log("index.jsx", accept);
   return (
     <div className="h-[30vh]" {...getRootProps()}>
-      <input accept={accept} {...getInputProps()} />
+      <input multiple={"false"} accept={accept} {...getInputProps()} />
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
@@ -47,10 +48,13 @@ const Dropzone = ({ onFilesChange, accept }) => {
           >
             <p>{file.name}</p>
             <button
-              className="ml-2 text-red-600 hover:text-red-800"
-              onClick={() => removeFile(file.name)}
+              className="ml-2 text-red-600 hover:text-red-800 "
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFile(file.name);
+              }}
             >
-              <AiOutlineCloseCircle />
+              <AiOutlineCloseCircle className="h-10" />
             </button>
           </div>
         ))}
