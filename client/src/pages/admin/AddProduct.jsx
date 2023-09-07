@@ -28,6 +28,17 @@ const AddProduct = () => {
   const [foregroundWidth, setForegroundWidth] = useState(100); // Default width
   const [foregroundHeight, setForegroundHeight] = useState(100); // Default height
   const [selectedShape, setSelectedShape] = useState("square"); // Default shape is "Square"
+  const [foregroundX, setForegroundX] = useState(0);
+  const [foregroundY, setForegroundY] = useState(0);
+
+  const handleDrag = (e, data) => {
+    const newX = data.x;
+    const newY = data.y;
+    setForegroundX(newX);
+    setForegroundY(newY);
+    console.log(`X: ${newX}, Y: ${newY}`);
+  };
+
   const dispatch = useDispatch();
 
   // get all categories
@@ -401,7 +412,7 @@ const AddProduct = () => {
           <div>
             <div style={{ position: "relative" }}>
               <img src={preview} alt="Cover Image" style={{ width: "100%" }} />
-              <Draggable bounds="parent">
+              <Draggable bounds="parent" onDrag={handleDrag}>
                 <div
                   style={{
                     position: "absolute",
@@ -415,6 +426,7 @@ const AddProduct = () => {
                 ></div>
               </Draggable>
             </div>
+
             <div className="flex flex-col gap-4 mt-4">
               <div className="flex justify-between">
                 <label htmlFor="foregroundWidth">Foreground Width:</label>
@@ -452,11 +464,11 @@ const AddProduct = () => {
               </div>
               <div>
                 <label htmlFor="xPosition">X Position:</label>
-                <span id="xPosition">{foregroundWidth}</span>
+                <span id="xPosition">{foregroundX}</span>
               </div>
               <div>
                 <label htmlFor="yPosition">Y Position:</label>
-                <span id="yPosition">{foregroundHeight}</span>
+                <span id="yPosition">{foregroundY}</span>
               </div>
             </div>
           </div>
