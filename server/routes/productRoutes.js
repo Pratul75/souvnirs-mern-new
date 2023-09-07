@@ -18,6 +18,7 @@ const {
   getProductVariants,
   editProductVariant,
   getVendorProducts,
+  alterApproval,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -102,5 +103,6 @@ router.get("/product/:slug", getProductBySlug);
 router.post("/products/category/:slug", getProductsByCategorySlug);
 router.post("/products/collection/:slug", getProductsByCollectionSlug);
 router.post("/products", getProductsByFilter);
+router.post("/product/approval/:id", alterApproval);
 router.post("/products/bulk-upload", upload.single("file"), bulkProductUpload);
 module.exports = router;

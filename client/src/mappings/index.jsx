@@ -434,53 +434,7 @@ export const gradiantCardListCardData = [
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex  gap-4 p-8" key={nanoid()}>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-10-05"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
-    </div>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-10-09"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
-    </div>
-  </div>,
-  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-09-01"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
-    </div>
-  </div>,
-  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+  <div className="flex  gap-4 p-8 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-09-01"} />
@@ -494,7 +448,7 @@ export const caroselMapppingDailyDeals = [
         <Ratings rating={3.5} />
       </div>
       <div>
-        <img src={GiftOnePng} alt="" />
+        <img className=" aspect-square" src={GiftOnePng} alt="" />
       </div>
     </div>
   </div>,

@@ -23,28 +23,34 @@ const CategoryProducts = () => {
   const [inputRangeValue, setInputRangeValue] = useState([0, 100000]); // Add this line
   const [max, setMax] = useState(0); // Add this line
   const [slug, setSlug] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const params = useParams();
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
 
-  const [selctedFilter, setSelctedFilter] = useState("ascending");
+  const [selctedFilter, setSelctedFilter] = useState("new");
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
     setLoading(true);
-    const response = await API_WRAPPER.post(`/products/category/${slug}`, {
-      data: filters,
-      priceMin: inputRangeValue[0],
-      priceMax: inputRangeValue[1],
-      page: page,
-    });
-    console.log("CategoryProducts.jsx", response);
-    setProducts(response?.data?.products);
-    setFilterList(response?.data?.filters);
-    setMax(response?.data?.max);
-    setLastPage(response?.data?.lastPage);
-    setLoading(false);
+    try {
+      const response = await API_WRAPPER.post(`/products/category/${slug}`, {
+        data: filters,
+        priceMin: inputRangeValue[0],
+        priceMax: inputRangeValue[1],
+        page: page,
+        sort: selctedFilter,
+      });
+      console.log("CategoryProducts.jsx", response);
+      setProducts(response?.data?.products);
+      setFilterList(response?.data?.filters);
+      setMax(response?.data?.max);
+      setLastPage(response?.data?.lastPage);
+    } catch (e) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFilterSelection = (filterData) => {
@@ -78,10 +84,16 @@ const CategoryProducts = () => {
 
   console.log(inputRangeValue);
   useEffect(() => {
-    debounce(() => {
-      getProducts();
-    }, 500)();
-  }, [filters, page, inputRangeValue, slug]);
+    const debouncedGetProducts = debounce(getProducts, 900);
+
+    // Call the debounced function when any of the dependencies change
+    debouncedGetProducts();
+
+    // Cleanup the debounce timer when the component unmounts
+    return () => {
+      debouncedGetProducts.cancel();
+    };
+  }, [filters, page, inputRangeValue, selctedFilter, slug]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">
@@ -144,11 +156,14 @@ const CategoryProducts = () => {
                 name="defaultSorting"
                 id="defaultSorting"
               >
-                <option selected disabled>
-                  Default Sorting
+                <option value="recommended">Recommended</option>
+                <option value="new" selected>
+                  What's new
                 </option>
-                <option value="ascending">ascending</option>
-                <option value="descending">descending</option>
+                <option value="discount">Better Discount</option>
+                <option value="htl">price:high to low</option>
+                <option value="lth">price:low to high</option>
+                <option value="rating">Customer Rating</option>
               </select>
             </div>
             <div className="flex gap-4">
@@ -218,7 +233,7 @@ const CategoryProducts = () => {
               <div className="flex flex-wrap gap-4 justify-center">
                 {products && products.length == 0 && <div>No products</div>}
                 {products &&
-                  sortProductsByName(products, selctedFilter).map((product) => {
+                  products.map((product) => {
                     return (
                       <ProductCard
                         key={nanoid()}

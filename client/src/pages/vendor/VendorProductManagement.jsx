@@ -87,8 +87,13 @@ const ProductManagement = () => {
         },
       },
       {
-        Header: "Total Sales",
-        accessor: "totalSales",
+        Header: "Approved",
+        accessor: "approved",
+        Cell: ({ row }) => {
+          return (
+            <span>{row?.original?.approved ? "approved" : "disapproved"}</span>
+          );
+        },
       },
       {
         Header: "Status",

@@ -379,7 +379,7 @@ const ProductInfo = () => {
                     e.preventDefault();
                     request_quote_modal.showModal();
                   }}
-                  className="btn cursor-pointer  mt-4 w-full"
+                  className="btn btn-primary cursor-pointer  mt-4 w-full"
                 >
                   Get Quote
                 </button>
