@@ -19,7 +19,7 @@ const DashboardCard = ({
       } else {
         clearInterval(interval);
       }
-    }, 20);
+    }, 1);
 
     return () => {
       clearInterval(interval);
