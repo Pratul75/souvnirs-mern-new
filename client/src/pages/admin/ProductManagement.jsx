@@ -36,8 +36,9 @@ const ProductManagement = () => {
     () => [
       {
         Header: "Product Image",
-        accessor: "name",
+
         Cell: ({ row }) => {
+          const img = row?.original?.coverImage;
           return (
             <Link
               to={`/productInfo/${row?.original?.slug}`}
@@ -45,12 +46,21 @@ const ProductManagement = () => {
             >
               <img
                 className="w-12 h-12 text-center rounded-full hover:scale-105"
-                src={`${baseUrl}/${row?.original?.coverImage}`}
+                src={
+                  !img?.includes("res.cloudinary") &&
+                  !img?.includes("cdn.shopify")
+                    ? `${baseUrl}/${img}`
+                    : img
+                }
                 alt=""
               />
             </Link>
           );
         },
+      },
+      {
+        Header: "Product Name",
+        accessor: "name",
       },
       {
         Header: "Variant",
