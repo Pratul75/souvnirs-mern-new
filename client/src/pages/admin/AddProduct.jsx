@@ -370,37 +370,33 @@ const AddProduct = () => {
               />
             </div>
           </motion.div>
-          <div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
-            {preview ? (
-              <button
-                onClick={() =>
-                  document.getElementById("coverImage_Modal").showModal()
-                }
-                className="btn btn-primary"
-              >
-                Show Preview
+          <div className="col-span-6 md:col-span-2">
+            <motion.div
+              variants={fadeInFromRightVariant}
+              animate="animate"
+              initial="initial"
+              className="flex gap-4 p-4 bg-base-100 rounded-xl border-[1px] border-base-300 "
+            >
+              {preview ? (
+                <button
+                  onClick={() =>
+                    document.getElementById("coverImage_Modal").showModal()
+                  }
+                  className="btn btn-primary"
+                >
+                  Show Preview
+                </button>
+              ) : (
+                <p>select image</p>
+              )}
+              <button onClick={handleSubmit} className="btn btn-primary">
+                Next
               </button>
-            ) : (
-              <p>select image</p>
-            )}
+              <Link to={PATHS.adminDashboard} className="btn">
+                Cancel
+              </Link>
+            </motion.div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="col-span-6 md:col-span-4"></div>
-          <motion.div
-            variants={fadeInFromRightVariant}
-            animate="animate"
-            initial="initial"
-            className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
-          >
-            <button onClick={handleSubmit} className="btn btn-primary mt-4">
-              Next
-            </button>
-            <Link to={PATHS.adminDashboard} className="btn  mt-4 ml-4">
-              Cancel
-            </Link>
-          </motion.div>
         </div>
       </div>
 
