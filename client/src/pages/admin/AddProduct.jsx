@@ -13,6 +13,7 @@ import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
 import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { GrFormClose } from "react-icons/gr";
+import Draggable from "react-draggable";
 // add products
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const AddProduct = () => {
   const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
   const [preview, setPreview] = useState();
-
+  const [foregroundWidth, setForegroundWidth] = useState(100); // Default width
+  const [foregroundHeight, setForegroundHeight] = useState(100); // Default height
+  const [selectedShape, setSelectedShape] = useState("square"); // Default shape is "Square"
   const dispatch = useDispatch();
 
   // get all categories
@@ -73,7 +76,6 @@ const AddProduct = () => {
     navigate(PATHS.adminAddProductAttributes);
     // postProduct();
   };
-  const p = useSelector((state) => state.product);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -94,6 +96,30 @@ const AddProduct = () => {
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
     setTagsArray(filteredTags);
+  };
+
+  const handleForegroundWidthChange = (e) => {
+    const newWidth = parseInt(e.target.value);
+
+    // Create an Image object
+    const img = new Image();
+
+    // Set the source URL of the background image
+    img.src = preview; // Assuming 'preview' contains the URL of the background image
+
+    // When the image is loaded, you can access its natural width
+    img.onload = () => {
+      const maxWidth = img.naturalWidth;
+
+      if (newWidth <= maxWidth) {
+        setForegroundWidth(newWidth);
+      } else {
+        // Handle the case where the width exceeds the maximum.
+        // You can show an error message or take appropriate action.
+        // For example, you can set it to the maximum allowed width.
+        setForegroundWidth(maxWidth);
+      }
+    };
   };
 
   useEffect(() => {
@@ -333,14 +359,22 @@ const AddProduct = () => {
               />
             </div>
           </motion.div>
-          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
+          <div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
             {preview ? (
-              <img src={preview} alt="" />
+              <button
+                onClick={() =>
+                  document.getElementById("coverImage_Modal").showModal()
+                }
+                className="btn btn-primary"
+              >
+                Show Preview
+              </button>
             ) : (
-              <p className="flex justify-center w-full">Cover Image</p>
+              <p>select image</p>
             )}
-          </motion.div>
+          </div>
         </div>
+
         <div className="grid grid-cols-6 gap-4 mt-4">
           <div className="col-span-6 md:col-span-4"></div>
           <motion.div
@@ -358,6 +392,83 @@ const AddProduct = () => {
           </motion.div>
         </div>
       </div>
+
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+      <dialog id="coverImage_Modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Select Position</h3>
+          <div>
+            <div style={{ position: "relative" }}>
+              <img src={preview} alt="Cover Image" style={{ width: "100%" }} />
+              <Draggable bounds="parent">
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: `${foregroundWidth}px`,
+                    height: `${foregroundHeight}px`,
+                    border: "2px solid red",
+                    borderRadius: selectedShape === "circle" ? "50%" : "0", // Apply border radius based on selected shape
+                  }}
+                ></div>
+              </Draggable>
+            </div>
+            <div className="flex flex-col gap-4 mt-4">
+              <div className="flex justify-between">
+                <label htmlFor="foregroundWidth">Foreground Width:</label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  id="foregroundWidth"
+                  value={foregroundWidth}
+                  onChange={handleForegroundWidthChange}
+                />
+              </div>
+              <div className="flex justify-between">
+                <label htmlFor="foregroundHeight">Foreground Height:</label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  id="foregroundHeight"
+                  value={foregroundHeight}
+                  onChange={(e) =>
+                    setForegroundHeight(parseInt(e.target.value))
+                  }
+                />
+              </div>
+              <div className="flex justify-between">
+                <label htmlFor="shapeSelect">Select Shape:</label>
+                <select
+                  className="select select-primary"
+                  id="shapeSelect"
+                  value={selectedShape}
+                  onChange={(e) => setSelectedShape(e.target.value)}
+                >
+                  <option value="square">Square</option>
+                  <option value="circle">Circle</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="xPosition">X Position:</label>
+                <span id="xPosition">{foregroundWidth}</span>
+              </div>
+              <div>
+                <label htmlFor="yPosition">Y Position:</label>
+                <span id="yPosition">{foregroundHeight}</span>
+              </div>
+            </div>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
       <ToastContainer />
     </div>
   );
