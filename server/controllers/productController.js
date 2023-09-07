@@ -151,24 +151,26 @@ const alterApproval = async (req, res) => {
     );
     console.log(id);
     const vendor = await Vendor.findById(updatedProduct.vendorId);
-    if (approved === false) {
-      await sendEmail(
-        vendor.email,
-        "product disapproved",
-        "product with the following name " +
-          updatedProduct.name +
-          " is disapproved. with comment - " +
-          comment
-      );
-      console.log("hj");
-    } else {
-      sendEmail(
-        vendor.email,
-        "product disapproved",
-        "product with the following name " +
-          updatedProduct.name +
-          " is approved."
-      );
+    if (vendor) {
+      if (approved === false) {
+        await sendEmail(
+          vendor.email,
+          "product disapproved",
+          "product with the following name " +
+            updatedProduct.name +
+            " is disapproved. with comment - " +
+            comment
+        );
+        console.log("hj");
+      } else {
+        sendEmail(
+          vendor.email,
+          "product disapproved",
+          "product with the following name " +
+            updatedProduct.name +
+            " is approved."
+        );
+      }
     }
     res.status(200).json(updatedProduct);
   } catch (error) {
