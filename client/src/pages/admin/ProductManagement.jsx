@@ -76,41 +76,41 @@ const ProductManagement = () => {
           }
         },
       },
-      {
-        Header: "Price",
-        accessor: "result.price",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.price
-            : row?.original?.price;
-        },
-      },
-      {
-        Header: "On Sale",
-        accessor: "onSale",
-        Cell: ({ row }) => {
-          return (
-            <p>
-              {row?.original?.onSale ? (
-                <span className="text-green-600">YES</span>
-              ) : (
-                <span className="text-rose-600">NO</span>
-              )}
-            </p>
-          );
-        },
-      },
-      {
-        Header: "Stock Quantity",
-        accessor: "result.quantity",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.quantity
-            : row?.original?.stockQuantity;
-        },
-      },
+      // {
+      //   Header: "Price",
+      //   // accessor: "result.price",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.price
+      //       : row?.original?.price;
+      //   },
+      // },
+      // {
+      //   Header: "On Sale",
+      //   accessor: "onSale",
+      //   Cell: ({ row }) => {
+      //     return (
+      //       <p>
+      //         {row?.original?.onSale ? (
+      //           <span className="text-green-600">YES</span>
+      //         ) : (
+      //           <span className="text-rose-600">NO</span>
+      //         )}
+      //       </p>
+      //     );
+      //   },
+      // },
+      // {
+      //   Header: "Stock Quantity",
+      //   accessor: "result.quantity",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.quantity
+      //       : row?.original?.stockQuantity;
+      //   },
+      // },
       {
         Header: "Stock Status",
         accessor: "stockStatus",
