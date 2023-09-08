@@ -16,7 +16,13 @@ import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
-
+import { SouvnirsMobileLogo } from "../../../icons";
+import { Menu } from "antd";
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -30,6 +36,70 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const collectionList = useCollections();
   const refresh = useSelector((state) => state.appConfig.refresh);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [navbarData, setNavbarData] = useState([]);
+
+  const items = [
+    {
+      label: "Navigation One",
+      key: "mail",
+      icon: <MailOutlined />,
+    },
+    {
+      label: "Navigation Two",
+      key: "app",
+      icon: <AppstoreOutlined />,
+      disabled: true,
+    },
+    {
+      label: "Navigation Three - Submenu",
+      key: "SubMenu",
+      icon: <SettingOutlined />,
+      children: [
+        {
+          type: "group",
+          label: "Item 1",
+          children: [
+            {
+              label: "Option 1",
+              key: "setting:1",
+            },
+            {
+              label: "Option 2",
+              key: "setting:2",
+            },
+          ],
+        },
+        {
+          type: "group",
+          label: "Item 2",
+          children: [
+            {
+              label: "Option 3",
+              key: "setting:3",
+            },
+            {
+              label: "Option 4",
+              key: "setting:4",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      label: (
+        <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+          Navigation Four - Link
+        </a>
+      ),
+      key: "alipay",
+    },
+  ];
+
+  const [current, setCurrent] = useState("mail");
+  const onClick = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -91,6 +161,37 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     collectionList,
     categoriesList,
   ]);
+
+  const getNavbarData = async () => {
+    try {
+      const response = await API_WRAPPER.get("/getNavbarMenu");
+      if (response.status === 200) {
+        setNavbarData(response.data);
+        console.log("NAVBAR DATA: ", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching navbar data: ", error);
+    }
+  };
+
+  const renderSubmenus = (submenus) => {
+    return submenus.map((submenu) => (
+      <Link to={`${window.location.origin}/${submenu.link}`} key={submenu._id}>
+        <Menu.SubMenu
+          title={submenu.title}
+          icon={submenu.child && submenu.child.length > 0 ? submenu.icon : null}
+        >
+          {submenu.child && submenu.child.length > 0
+            ? renderSubmenus(submenu.child)
+            : null}
+        </Menu.SubMenu>
+      </Link>
+    ));
+  };
+
+  useEffect(() => {
+    getNavbarData();
+  }, []);
 
   useEffect(() => {
     if (token) {
@@ -246,6 +347,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         <div>
           <RxHamburgerMenu id="open-sidebar" onClick={toggleSidebar} />
         </div>
+        <div className="w-28">
+          <img src={SouvnirsLogoImage} />
+        </div>
         <div className="flex gap-1">
           <AiOutlineShoppingCart className="text-2xl" />
           <AiOutlineHeart className="text-2xl text-rose-600" />
@@ -264,9 +368,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           />
         )}
       </AnimatePresence>
-
-      {/* Sidebar */}
-      {/* Sidebar */}
+      {/* sidebar state for ui  */}
       <AnimatePresence>
         {isSidebarOpen && (
           <motion.div
@@ -276,95 +378,34 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             transition={{ duration: 0.3 }}
             className="fixed top-0 left-0 h-screen w-60 bg-white shadow-lg overflow-y-auto z-50"
           >
-            {/* Sidebar content */}
-            {/* Sidebar content */}
-            <div className="p-4">
-              {/* Search input with filtering options */}
-              <div className="mb-4">
-                <input
-                  value={searchInput}
-                  onChange={handleInputChange}
-                  name="searchInput"
-                  className="input w-full input-bordered rounded-none"
-                  placeholder="Search products"
-                />
-                <select
-                  onChange={handleInputChange}
-                  name="selectedFilter"
-                  className="select select-bordered mt-2 w-full"
-                  value={selectedFilter}
-                >
-                  <option value="">Filter</option>
-                  <option value="productInfo">Products</option>
-                  <option value="category">Category</option>
-                  <option value="collection">Collection</option>
-                  <option value="vendor">Vendor</option>
-                </select>
-                <button
-                  className={`btn ${buttonColor} mt-2 w-full`}
-                  onClick={() => {
-                    // Perform search with selected filter
-                    // You can add your search logic here
-                  }}
-                >
-                  Search
-                </button>
-              </div>
-
-              {/* User authentication and wishlist/cart indicators */}
-              {token && token.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  <Link
-                    to={PATHS.adminDashboard}
-                    className="btn btn-primary btn-sm"
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    onClick={() => {
-                      localStorage.clear();
-                      navigate(PATHS.login);
-                    }}
-                    className="btn w-full"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <Link to={PATHS.login} className="btn w-full">
-                    Login
-                  </Link>
-                  <Link to={PATHS.register} className="btn w-full">
-                    Sell on Souvnirs
-                  </Link>
-                </div>
-              )}
-
-              <Link to={PATHS.shopWishlist} className="btn btn-circle mt-4">
-                <AiOutlineHeart className="text-2xl cursor-pointer" />
-                <div
-                  className={`badge ${badgeColor} badge-sm absolute top-0 -right-2`}
-                >
-                  {wishlistItems && wishlistItems?.length}
-                </div>
-              </Link>
-              <Link to={PATHS.cartPage} className="btn btn-circle mt-2">
-                <FiShoppingBag className="text-2xl cursor-pointer" />
-                <div
-                  className={`badge ${badgeColor} badge-sm absolute top-0 -right-2`}
-                >
-                  {cartItems && cartItems.length}
-                </div>
-              </Link>
-            </div>
             {/* Close sidebar button */}
-            <div className="flex w-full justify-end p-4">
-              <GrFormClose
-                className="text-2xl cursor-pointer"
-                onClick={() => setIsSidebarOpen(false)}
-              />
+            <div className="flex justify-start p-4">
+              <button className="btn btn-circle  ">
+                <GrFormClose
+                  className="text-2xl cursor-pointer"
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              </button>
             </div>
+            <Menu
+              mode="inline"
+              style={{ borderBottom: "none" }}
+              className="w-full"
+            >
+              {navbarData.map((menu) => (
+                <Menu.SubMenu
+                  key={menu._id}
+                  title={menu.title}
+                  icon={
+                    menu.submenus && menu.submenus.length > 0 ? menu.icon : null
+                  }
+                >
+                  {menu.submenus && menu.submenus.length > 0
+                    ? renderSubmenus(menu.submenus)
+                    : null}
+                </Menu.SubMenu>
+              ))}
+            </Menu>
           </motion.div>
         )}
       </AnimatePresence>
