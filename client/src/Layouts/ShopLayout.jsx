@@ -5,8 +5,6 @@ import {
   ShopFooter,
   ShopNavbar,
 } from "../components";
-import { Suspense } from "react";
-import Loading from "../pages/common/Loading";
 
 const ShopLayout = ({ children }) => {
   return (

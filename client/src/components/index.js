@@ -25,7 +25,6 @@ export { default as Breadcrumb } from "./ui/Breadcrumb";
 export { default as Navbar } from "./ui/Navbar";
 export { default as Sidebar } from "./ui/Sidebar";
 export { default as ImageOverlay } from "./ui/ImageOverlay";
-
 // shop components
 export { default as FeaturesCard } from "./shop/cards/FeaturesCard";
 export { default as HeaderCards } from "./shop/cards/HeaderCards";
