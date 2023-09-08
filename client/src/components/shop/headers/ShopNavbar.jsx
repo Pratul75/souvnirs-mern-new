@@ -25,39 +25,30 @@ const ShopNavbar = () => {
   });
 
   const onSubmit = (data) => console.log(data);
-
   // navbar data stored here in navbarData state
   const [navbarData, setNavbarData] = useState([]);
   const [categories, setCategories] = useState([]);
-
   const getNavbarData = async () => {
-    try {
-      const response = await API_WRAPPER.get("/getNavbarMenu");
-      if (response.status === 200) {
-        setNavbarData(response.data);
-        console.log("NAVBAR DATA: ", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching navbar data: ", error);
+    const response = await API_WRAPPER.get("/getNavbarMenu");
+    if (response.status === 200) {
+      setNavbarData(response.data);
+      console.log("NAVBAR DATA: ", response.data);
     }
   };
 
   const getAllCategories = async () => {
-    try {
-      const response = await API_WRAPPER.get("/category/get-all-categories");
-      if (response.status === 200) {
-        setCategories(response.data);
-        console.log("CATEGORIES DATA: ", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching categories data: ", error);
+    const response = await API_WRAPPER.get("/category/get-all-categories");
+    if (response.status === 200) {
+      setCategories(response.data);
+      console.log("CATEGORIES DATA: ", response.data);
     }
   };
 
   const categoriesItems = (categoryList) => {
-    return categoryList.map((category) => {
+    const items = categoryList.map((category) => {
       return { label: category.name, key: category.name };
     });
+    return items;
   };
 
   useEffect(() => {
@@ -81,9 +72,9 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="hidden md:flex justify-between gap-5">
+    <div className="flex justify-between gap-5">
       <Menu
-        className="bg-shopPrimaryColor border-b-white border-b-0 w-40 text-white"
+        className="bg-shopPrimaryColor border-b-white border-b-0 w-40  text-white"
         mode="horizontal"
         style={{ activeBarBorderWidth: 0 }}
         items={[
@@ -120,21 +111,18 @@ const ShopNavbar = () => {
 
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <dialog id="freeConsultation" className="modal">
-        <form className="modal-box" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex justify-between items-center">
+        <form className="modal-box">
+          <div className="flex justify-between">
             <div>
-              <h3 className="font-bold text-3xl">Contact us</h3>
+              <h3 className="font-bold">Contact us</h3>
               <br />
             </div>
             <div className="flex gap-4">
               <div
                 className="tooltip tooltip-primary tooltip-bottom"
-                data-tip="Whatsapp"
+                data-tip="Whatsaap"
               >
-                <button
-                  type="button"
-                  className="btn bg-green-500 text-white btn-circle hover:bg-green-600 hover:scale-105 hover:btn-square transition"
-                >
+                <button className="btn bg-green-500 text-white btn-circle hover:bg-green-600 hover:scale-105 hover:btn-square transition">
                   <FaWhatsapp size={30} />
                 </button>
               </div>
@@ -142,10 +130,7 @@ const ShopNavbar = () => {
                 className="tooltip tooltip-primary tooltip-bottom"
                 data-tip="Call"
               >
-                <button
-                  type="button"
-                  className="btn bg-blue-500 text-white btn-circle hover:bg-blue-600 hover:scale-105 hover:btn-square transition"
-                >
+                <button className="btn bg-blue-500 text-white btn-circle hover:bg-blue-600 hover:scale-105 hover:btn-square transition">
                   <MdOutlineCall size={30} />
                 </button>
               </div>
@@ -161,7 +146,7 @@ const ShopNavbar = () => {
               placeholder="Enter your name"
               type="text"
               name="name"
-              id="name"
+              id=""
             />
             <p className="text-red-500">{errors.name?.message}</p>
           </div>
@@ -175,9 +160,9 @@ const ShopNavbar = () => {
               placeholder="Enter your contact details"
               type="tel"
               name="contact"
-              id="contact"
+              id=""
             />
-            <p className="text-red-500">{errors.contact?.message}</p>
+            <p className="text-red-500">{errors.name?.contact}</p>
           </div>
           <div className="form-control">
             <label className="label">
@@ -189,9 +174,9 @@ const ShopNavbar = () => {
               placeholder="Enter your company details"
               type="text"
               name="company"
-              id="company"
+              id=""
             />
-            <p className="text-red-500">{errors.company?.message}</p>
+            <p className="text-red-500"></p>
           </div>
           <div className="form-control">
             <label className="label">
@@ -203,25 +188,14 @@ const ShopNavbar = () => {
               placeholder="Enter your City"
               type="text"
               name="city"
-              id="city"
+              id=""
             />
-            <p className="text-red-500">{errors.city?.message}</p>
           </div>
           <div className="modal-action">
             <div>
               {/* if there is a button in form, it will close the modal */}
-              <button type="submit" className="btn btn-primary mr-4">
-                Request Meeting
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  document.getElementById("freeConsultation").close()
-                }
-                className="btn"
-              >
-                Close
-              </button>
+              <button className="btn btn-primary mr-4">Requesty Meeting</button>
+              <button className="btn">Close</button>
             </div>
           </div>
         </form>
