@@ -94,28 +94,37 @@ const Checkout = () => {
                 Add New
               </button>{" "}
             </h1>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               {addresses && addresses.length > 0 ? (
                 addresses.map((a) => (
                   <div
-                    key={a._id}
-                    className="bg-base-100 rounded-xl w-full p-4 flex justify-between"
+                    className="flex flex-col  w-96 bg-base-100 p-4 rounded-xl"
+                    key={nanoid()}
                   >
-                    <div className="flex gap-4">
+                    <div className="flex justify-between">
                       <input
-                        className="radio radio-primary "
+                        className="radio radio-primary mr-2"
                         type="radio"
-                        name=""
-                        id=""
+                        name="address"
+                        id={a._id}
                       />
-                      <div>
-                        <p className="">{a.name}</p>
-                        <p>{a.address}</p>
-                        <p>{a.city}</p>
-                        <p>{a.pin_code}</p>
-                      </div>
+                      <div className="badge badge-primary">{a.type}</div>
                     </div>
-                    <p className="badge badge-primary">{a.type}</p>
+                    <hr className="my-4" />
+                    <div className="flex flex-col">
+                      <p className="font-bold">
+                        <span>Name</span> {a.name}
+                      </p>
+                      <p>
+                        <span>Address:</span> {a.address}
+                      </p>
+                      <p>
+                        <span>City:</span> {a.city}
+                      </p>
+                      <p>
+                        <span>Pin Code:</span> {a.pin_code}
+                      </p>
+                    </div>
                   </div>
                 ))
               ) : (

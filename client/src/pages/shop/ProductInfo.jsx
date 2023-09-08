@@ -270,32 +270,6 @@ const ProductInfo = () => {
                   />
                 </Card>
               ))}
-              {/* {!imagesList && product?.images && product.images.length > 0
-              ? product.images.map((image) => (
-                  <Card key={nanoid()} className="">
-                    <img
-                      onClick={() => {
-                        setSelectedImage(image);
-                      }}
-                      src={`${baseUrl}/${image}`}
-                      className="w-16 cursor-pointer hover:scale-110"
-                      alt=""
-                    />
-                  </Card>
-                ))
-              : product?.variants.map((variantObj) => {
-                return (
-                  <img
-                      className="w-16 cursor-pointer hover:scale-110"
-                      key={nanoid()}
-                      src={`${baseUrl}/${variantObj.images[0]}`}
-                      alt=""
-                      onClick={() => {
-                        setSelectedImage(variantObj.images[0]);
-                      }}
-                    />
-                  );
-                })} */}
             </div>
           </div>
 
@@ -393,6 +367,18 @@ const ProductInfo = () => {
                 >
                   Get Quote
                 </button>
+                {product?.customization && (
+                  <>
+                    <button
+                      onClick={() =>
+                        document.getElementById("my_modal_1").showModal()
+                      }
+                      className="btn btn-primary mt-4"
+                    >
+                      Customize
+                    </button>
+                  </>
+                )}
               </div>
             </form>
           </div>
@@ -444,6 +430,20 @@ const ProductInfo = () => {
         />
         <ToastContainer />
       </div>
+
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="modal-action">
+            <div>
+              <button className="btn">Close</button>
+            </div>
+          </div>
+        </div>
+      </dialog>
     </Suspense>
   );
 };

@@ -368,6 +368,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           />
         )}
       </AnimatePresence>
+
       {/* sidebar state for ui  */}
       <AnimatePresence>
         {isSidebarOpen && (
@@ -376,7 +377,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-screen w-60 bg-white shadow-lg overflow-y-auto z-50"
+            className="fixed top-0 left-0 h-auto w-60 bg-white shadow-lg overflow-y-auto z-50"
           >
             {/* Close sidebar button */}
             <div className="flex justify-start p-4">
@@ -387,23 +388,18 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 />
               </button>
             </div>
+            <br />
             <Menu
               mode="inline"
               style={{ borderBottom: "none" }}
               className="w-full"
             >
               {navbarData.map((menu) => (
-                <Menu.SubMenu
-                  key={menu._id}
-                  title={menu.title}
-                  icon={
-                    menu.submenus && menu.submenus.length > 0 ? menu.icon : null
-                  }
-                >
+                <Menu key={menu._id} title={menu.title}>
                   {menu.submenus && menu.submenus.length > 0
                     ? renderSubmenus(menu.submenus)
                     : null}
-                </Menu.SubMenu>
+                </Menu>
               ))}
             </Menu>
           </motion.div>
