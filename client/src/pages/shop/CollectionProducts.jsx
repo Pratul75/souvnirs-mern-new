@@ -14,16 +14,10 @@ import { Slider } from "antd";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
-
   const [inputRangeValue, setInputRangeValue] = useState([0, 100000]);
-  const [shippingStates, setShippingStates] = useState({
-    freeShipping: false,
-    readyToShip: false,
-  });
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [selctedFilter, setSelctedFilter] = useState("ascending");
@@ -144,48 +138,6 @@ const CollectionProducts = () => {
                 <option value="ascending">ascending</option>
                 <option value="descending">descending</option>
               </select>
-            </div>
-            <div className="flex gap-4">
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Ready To Ship</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        readyToShip: !shippingStates.readyToShip,
-                      };
-                    })
-                  }
-                  checked={shippingStates.readyToShip}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Free Shipping</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        freeShipping: !shippingStates.freeShipping,
-                      };
-                    })
-                  }
-                  checked={shippingStates.freeShipping}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
             </div>
           </div>
           <div className="flex justify-between gap-4 mt-4 flex-wrap">
