@@ -35,7 +35,7 @@ import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 import SingleTab from "./SingleTab";
 import { ShopIcon } from "../../icons";
 import { useEffect, useState } from "react";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { debouncedShowToast } from "../../utils";
 
 const LandingPage = () => {
@@ -117,7 +117,7 @@ const LandingPage = () => {
                         <div className="flex items-center space-x-4">
                           <img
                             className="w-24 h-24"
-                            src={product.coverImage}
+                            src={`${baseUrl}/${product.coverImage}`}
                             alt="Product"
                           />
                           <div className="flex-grow">

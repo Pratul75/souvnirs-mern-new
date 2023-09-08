@@ -253,8 +253,9 @@ const AddProductAttributes = () => {
     setVariantData(
       combinations.map((combination) => ({
         ...combination,
-        price: "",
+        MRP: "",
         productQuantity: "",
+        data: [{ price: "", minQuantity: "", currency: "" }],
         files: null,
       }))
     );
@@ -333,6 +334,8 @@ const AddProductAttributes = () => {
                           price,
                           productQuantity,
                           files,
+                          MRP,
+                          data,
                           ...variantName
                         } = a;
                         if (!price) {
@@ -591,7 +594,7 @@ const AddProductAttributes = () => {
                                 <input
                                   placeholder="enter price"
                                   type="number"
-                                  name={`price-${index}`}
+                                  name={`mrp-${index}`}
                                   className="input input-primary input-sm"
                                   onChange={(e) =>
                                     handleTableInputChange(
@@ -641,25 +644,6 @@ const AddProductAttributes = () => {
                                     )
                                   }
                                 />
-                              </div>
-                            </td>
-                          </tr>
-                          <h2>Dynamic Pricing</h2>
-                          <tr>
-                            <td>
-                              <div className="">
-                                <label htmlFor="" className="label">
-                                  price
-                                </label>
-                                <input className="input input-primary input-sm" />
-                              </div>
-                            </td>
-                            <td>
-                              <div className="">
-                                <label htmlFor="" className="label">
-                                  Minimum Quantity
-                                </label>
-                                <input className="input input-primary input-sm" />
                               </div>
                             </td>
                           </tr>
