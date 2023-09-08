@@ -327,7 +327,7 @@ const ProductInfo = () => {
               <p>(1 Review)</p>
             </div>
 
-            <form className="grid grid-cols-2 gap-2">
+            <form className="grid grid-cols-2 gap-2 items-center">
               <div className="col-span-1">
                 <div className="form-control">
                   <label className="label">
@@ -373,32 +373,8 @@ const ProductInfo = () => {
                     </div>
                   );
                 })}
-
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    request_quote_modal.showModal();
-                  }}
-                  className="btn btn-primary cursor-pointer  mt-4 w-full"
-                >
-                  Get Quote
-                </button>
               </div>
-              <div className="col-span-1">
-                {/* <h1 className="text-sm">Description</h1> */}
-                {/* <div className="text-xs mt-4 bg-base-200 rounded-xl px-2">
-                {product?.description.split(" ").slice(0, 10).join(" ")}
-              </div> */}
-                {/* <div className="form-control">
-                <label className="label">
-                  <span className="label-text">Size (inch)</span>
-                </label>
-                <input
-                  className="input input-bordered"
-                  type="text"
-                  placeholder="4*3*7"
-                />
-              </div> */}
+              <div className="col-span-1 ">
                 <button
                   className="btn btn-primary mt-4 w-full p-2"
                   onClick={(e) => {
@@ -407,6 +383,15 @@ const ProductInfo = () => {
                 >
                   <AiOutlineShoppingCart className="text-2xl text-white" />
                   Add To Cart
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.request_quote_modal.showModal();
+                  }}
+                  className="btn btn-primary cursor-pointer  mt-4 w-full"
+                >
+                  Get Quote
                 </button>
               </div>
             </form>

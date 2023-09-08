@@ -81,7 +81,7 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="flex justify-between gap-5">
+    <div className="hidden md:flex justify-between gap-5">
       <Menu
         className="bg-shopPrimaryColor border-b-white border-b-0 w-40 text-white"
         mode="horizontal"
