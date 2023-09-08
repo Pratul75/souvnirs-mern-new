@@ -32,6 +32,7 @@ const AddProductAttributes = () => {
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(p);
 
   const categories = useCategories();
 
@@ -76,7 +77,7 @@ const AddProductAttributes = () => {
       productFormData.append("vendorId", p.vendorId);
       productFormData.append("description", p.desc);
       productFormData.append("tags", p.tags);
-      productFormData.append("img", p.coverImg[0]);
+      productFormData.append("img", p.coverImg);
       productFormData.append("attributes", JSON.stringify(p.attributes));
       productFormData.append("slug", randomSlug());
       productFormData.append("price", price);
@@ -84,6 +85,7 @@ const AddProductAttributes = () => {
       productFormData.append("freeShipping", p.freeShipping);
       productFormData.append("readyToShip", p.readyToShip);
       productFormData.append("categoryId", categoryId);
+      productFormData.append("customization", JSON.stringify(p.customization));
 
       const prodResponse = await API_WRAPPER.post(
         "/products/add-product",

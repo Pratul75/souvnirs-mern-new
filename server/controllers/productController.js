@@ -86,6 +86,7 @@ const createProduct = async (req, res) => {
       tags,
       attributes,
       categoryId,
+      customization,
     } = req.body;
     // if (!name || !vendorId || !slug || !description || !price) {
 
@@ -93,8 +94,9 @@ const createProduct = async (req, res) => {
     if (req.role == "vendor") {
       vendorId = req.userId;
     }
-    let imageUrl = req.files[0].filename;
+    let imageUrl = req.file.filename;
     let parseAtt = JSON.parse(attributes);
+    customization = JSON.parse(customization);
     // try {
     //   imageUrl = await v2.uploader.upload(req.files[0].path, {
     //     timeout: 60000, // Set a longer timeout value if needed
@@ -123,6 +125,7 @@ const createProduct = async (req, res) => {
       attributes: attArr,
       coverImage: imageUrl,
       categoryId,
+      customization,
     });
 
     // Save the product to the database

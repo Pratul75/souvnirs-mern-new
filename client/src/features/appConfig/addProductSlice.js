@@ -10,7 +10,7 @@ const initialState = {
   sku: "",
   attributes: [],
   variants: [],
-  coverImg: "",
+  coverImg: null,
   readyToShip: null,
   freeShipping: null,
   customization: {},

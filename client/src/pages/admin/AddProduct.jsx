@@ -167,7 +167,7 @@ const AddProduct = () => {
   useEffect(() => {}, [selectedCategory]);
   useEffect(() => {
     if (formData.img) {
-      const imageUrl = URL.createObjectURL(formData.img[0]);
+      const imageUrl = URL.createObjectURL(formData.img);
       setPreview(imageUrl);
     }
   }, [formData.img]);
@@ -392,7 +392,8 @@ const AddProduct = () => {
               <Dropzone
                 accept={".png"}
                 onFilesChange={(data) => {
-                  setFormData({ ...formData, img: data });
+                  console.log(data);
+                  setFormData({ ...formData, img: data[0] });
                 }}
               />
             </div>

@@ -40,7 +40,7 @@ router.get(
 router.post(
   "/products/add-product",
   authMiddleware(["vendor", "admin", "customer"]),
-  upload.any("img"),
+  upload.single("img"),
   createProduct
 );
 router.post(

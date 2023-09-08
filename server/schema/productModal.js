@@ -93,10 +93,7 @@ const productSchema = new mongoose.Schema(
       },
     ],
     customization: {
-      xAxis: String,
-      yAxis: String,
-      height: Number,
-      width: Number,
+      type: mongoose.Schema.Types.Mixed,
     },
     status: {
       type: String,
