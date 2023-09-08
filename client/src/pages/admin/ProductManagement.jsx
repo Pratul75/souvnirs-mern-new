@@ -24,7 +24,6 @@ const ProductManagement = () => {
   const [disapprovalComment, setDisapprovalComment] = useState("");
   const [error, seterror] = useState("");
   const navigate = useNavigate();
-  console.log(selectedRow);
 
   const alterApproval = async (id, approved, comment = "") => {
     await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
@@ -34,30 +33,28 @@ const ProductManagement = () => {
 
   const columns = useMemo(
     () => [
-      // {
-      //   Header: "Product Image",
-
-      //   Cell: ({ row }) => {
-      //     // const img = row?.original?.coverImage;
-      //     return (
-      //       <Link
-      //         to={`/productInfo/${row?.original?.slug}`}
-      //         className="cursor-pointer "
-      //       >
-      //         {/* <img
-      //           className="w-12 h-12 text-center rounded-full hover:scale-105"
-      //           src={
-      //             !img?.includes("res.cloudinary") &&
-      //             !img?.includes("cdn.shopify")
-      //               ? `${baseUrl}/${img}`
-      //               : img
-      //           }
-      //           alt=""
-      //         /> */}
-      //       </Link>
-      //     );
-      //   },
-      // },
+      {
+        Header: "Product Image",
+        Cell: ({ row }) => {
+          const img = row?.original?.coverImage;
+          return (
+            <Link
+              to={`/productInfo/${row?.original?.slug}`}
+              className="cursor-pointer"
+            >
+              <img
+                className="w-12 h-12 text-center rounded-lg hover:scale-105"
+                src={
+                  !img?.includes("res.cloudinary") &&
+                  !img?.includes("cdn.shopify")
+                    ? `${baseUrl}/${img}`
+                    : img
+                }
+              />
+            </Link>
+          );
+        },
+      },
       {
         Header: "Product Name",
         accessor: "name",
@@ -65,6 +62,7 @@ const ProductManagement = () => {
       {
         Header: "Variant",
         Cell: ({ row }) => {
+          console.log("ROW FOR VARIANT: ", row);
           if (row?.original?.result?.variant) {
             const keys = Object.keys(row?.original?.result?.variant);
 
@@ -164,6 +162,9 @@ const ProductManagement = () => {
     ],
     []
   );
+  useEffect(() => {
+    fetchProductsList();
+  }, [apiTrigger]);
 
   const data = useMemo(() => productsList, [productsList]);
 

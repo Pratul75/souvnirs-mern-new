@@ -17,7 +17,7 @@ const ScrollAnimationWrapper = (props) => {
       transition: {
         delay: index * 0.1,
         ease: [0.6, -0.05, 0.01, 0.99],
-        duration: 0.6,
+        duration: 0.3,
       },
     }),
   };

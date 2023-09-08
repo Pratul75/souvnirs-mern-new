@@ -125,7 +125,7 @@ const ProductCard = ({
             ) : (
               <h5 className="text-center  text-lg font-medium leading-[18px]">
                 {token ? (
-                  `$${price}`
+                  `₹ ${price}`
                 ) : (
                   <Link to={PATHS.register} className="flex gap-4">
                     <span>

@@ -301,8 +301,8 @@ const ProductInfo = () => {
               <p>(1 Review)</p>
             </div>
 
-            <form className="grid grid-cols-2 gap-2 items-center">
-              <div className="col-span-1">
+            <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="flex flex-col">
                 <div className="form-control">
                   <label className="label">
                     <span className="label-text">Quantity</span>
@@ -327,7 +327,7 @@ const ProductInfo = () => {
                         <span className="label-text">{key}</span>
                       </label>
                       <select
-                        className="select select-bordered"
+                        className="select select-bordered min-w-full"
                         onChange={(e) =>
                           updateSelectedVariants(key, e.target.value)
                         }
@@ -336,7 +336,7 @@ const ProductInfo = () => {
                         }
                       >
                         <option value="" disabled selected>
-                          select value
+                          Select value
                         </option>
                         {attribute[key].map((value) => (
                           <option key={nanoid()} value={value}>
@@ -348,30 +348,35 @@ const ProductInfo = () => {
                   );
                 })}
               </div>
-              <div className="col-span-1 ">
+              <div className="col-span-1">
                 <button
-                  className="btn btn-primary mt-4 w-full p-2"
+                  className="btn btn-primary first-letter:w-full p-2 "
                   onClick={(e) => {
                     addToCart(e);
                   }}
                 >
-                  <AiOutlineShoppingCart className="text-2xl text-white" />
-                  Add To Cart
+                  <button className="flex gap-4">
+                    <AiOutlineShoppingCart className="text-xl text-white min-w-full" />
+                    <span>Add To Cart</span>
+                  </button>
                 </button>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
                     window.request_quote_modal.showModal();
                   }}
-                  className="btn btn-primary cursor-pointer  mt-4 w-full"
+                  className="btn btn-primary cursor-pointer mt-4 w-full"
                 >
                   Get Quote
                 </button>
+
                 {product?.customization && (
                   <>
                     <button
                       onClick={() =>
-                        document.getElementById("my_modal_1").showModal()
+                        document
+                          .getElementById("customization_modal")
+                          .showModal()
                       }
                       className="btn btn-primary mt-4"
                     >
@@ -431,7 +436,7 @@ const ProductInfo = () => {
         <ToastContainer />
       </div>
 
-      <dialog id="my_modal_1" className="modal">
+      <dialog id="customization_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">
