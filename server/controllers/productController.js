@@ -641,27 +641,34 @@ const getProductsByFilter = async (req, res) => {
 };
 // creating a api for creating product variant separetely because its not doable with product creation.
 const createProductVariant = async (req, res) => {
-  const { variant, productId, price, quantity } = req.body;
+  try {
+    let { variant, productId, price, quantity, mrp } = req.body;
+    variant = JSON.parse(variant);
+    let { data, ...variantName } = variant;
 
-  console.log("productController.js", req.body);
-  let urlArray = [];
-  for (let file of req.files) {
-    {
-      // const imageUrl = await v2.uploader.upload(req.files[0].path);
-      urlArray.push(file.filename);
+    console.log("productController.js", req.body);
+    let urlArray = [];
+    for (let file of req.files) {
+      {
+        // const imageUrl = await v2.uploader.upload(req.files[0].path);
+        urlArray.push(file.filename);
+      }
     }
+    if (mrp.length < 1 || quantity.length < 1) {
+      return res.status(200).json("success");
+    }
+    await AttributeType.create({
+      mrp,
+      images: urlArray,
+      quantity,
+      productId,
+      variant: variantName,
+      dynamic_price: data,
+    });
+    res.status(200).json("success");
+  } catch (err) {
+    console.log("productController.js", err);
   }
-  if (price.length < 1 || quantity.length < 1) {
-    return res.status(200).json("success");
-  }
-  await AttributeType.create({
-    price,
-    images: urlArray,
-    quantity,
-    productId,
-    variant: JSON.parse(variant),
-  });
-  res.status(200).json("success");
 };
 const getSearchProducts = async (req, res) => {
   try {

@@ -95,11 +95,12 @@ const AddProductAttributes = () => {
       console.log("AddProductAttributes.jsx", productId);
       if (prodResponse.status == 201) {
         for (let variant of variantData) {
-          const { price, productQuantity, files, ...variantName } = variant;
+          console.log(variant);
+          const { mrp, productQuantity, files, ...variantName } = variant;
           console.log("AddProductAttributes.jsx", files);
           const variantFormData = new FormData();
           variantFormData.append("variant", JSON.stringify(variantName));
-          variantFormData.append("price", price);
+          variantFormData.append("mrp", mrp);
           variantFormData.append("quantity", productQuantity);
 
           variantFormData.append("productId", productId);
@@ -220,6 +221,11 @@ const AddProductAttributes = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+  const handleDataChange = async (index, dataIndex, e) => {
+    const { name, value } = e.target;
+    variantData[index].data[dataIndex][name] = value;
+    console.log(variantData);
+  };
 
   const handleTableInputChange = (e, index, field) => {
     const value = e.target.value;
@@ -248,12 +254,20 @@ const AddProductAttributes = () => {
     // For simplicity, I'm assuming each variant is an object with properties
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
+
+  const addRow = (index) => {
+    setVariantData((prevData) => {
+      const newData = [...prevData];
+      newData[index].data.push({ price: "", minQuantity: "", currency: "" });
+      return newData;
+    });
+  };
   console.log("AddProductAttributes.jsx", combinations);
   useEffect(() => {
     setVariantData(
       combinations.map((combination) => ({
         ...combination,
-        MRP: "",
+        mrp: "",
         productQuantity: "",
         data: [{ price: "", minQuantity: "", currency: "" }],
         files: null,
@@ -328,46 +342,100 @@ const AddProductAttributes = () => {
                         <th>images</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {variantData.map((a, index) => {
+                    <tbody id="rowChange">
+                      {variantData.map((variant, index) => {
                         const {
                           price,
                           productQuantity,
                           files,
-                          MRP,
+                          mrp,
                           data,
                           ...variantName
-                        } = a;
-                        if (!price) {
+                        } = variant;
+                        if (!mrp) {
                           return null;
                         }
+
                         return (
-                          <tr key={index}>
-                            <td>
-                              <pre>{JSON.stringify(variantName)}</pre>
-                            </td>
-                            <td>
-                              <label>{price}</label>
-                            </td>
-                            <td>
-                              <label> {productQuantity}</label>
-                            </td>
-                            <td className="w-72 md:flex gap-2 overflow-auto">
-                              {files !== null ? (
-                                Array.from(files).map((file) => {
-                                  console.log("AddProductAttributes.jsx", file);
-                                  return (
-                                    <img
-                                      className="w-20 rounded-md"
-                                      src={URL.createObjectURL(file)}
+                          <>
+                            <tr key={index}>
+                              <td>
+                                <pre>{JSON.stringify(variantName)}</pre>
+                              </td>
+                              <td>
+                                <label>{mrp}</label>
+                              </td>
+                              <td>
+                                <label>{productQuantity}</label>
+                              </td>
+                              <td className="w-72 md:flex gap-2 overflow-auto">
+                                {files !== null ? (
+                                  Array.from(files).map((file, fileIndex) => {
+                                    console.log(
+                                      "AddProductAttributes.jsx",
+                                      file
+                                    );
+                                    return (
+                                      <img
+                                        key={fileIndex}
+                                        className="w-20 rounded-md"
+                                        src={URL.createObjectURL(file)}
+                                      />
+                                    );
+                                  })
+                                ) : (
+                                  <h2>No images selected</h2>
+                                )}
+                              </td>
+                            </tr>
+
+                            {data.map(
+                              ({ price, quantity, currency }, dataIndex) => (
+                                <tr>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="price"
+                                      name="price"
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
                                     />
-                                  );
-                                })
-                              ) : (
-                                <h2>No images selected</h2>
-                              )}
-                            </td>
-                          </tr>
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="minQuantity"
+                                      name="minQuantity"
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="currency"
+                                      name="currency"
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      id="addRow"
+                                      onClick={() => {
+                                        addRow(index);
+                                      }}
+                                    >
+                                      +
+                                    </button>
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                          </>
                         );
                       })}
                     </tbody>
@@ -602,7 +670,7 @@ const AddProductAttributes = () => {
                                       matchingVariantIndex !== -1
                                         ? matchingVariantIndex
                                         : index,
-                                      "price"
+                                      "mrp"
                                     )
                                   }
                                 />

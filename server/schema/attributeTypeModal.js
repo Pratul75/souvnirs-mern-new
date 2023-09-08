@@ -19,7 +19,7 @@ const AttributeTypeSchema = new mongoose.Schema({
     enum: ["ACTIVE", "DEACTIVE", "PENDING"],
     default: "PENDING",
   },
-  price: { type: Number },
+  // price: { type: Number },
   mrp: {
     type: Number,
   },
@@ -30,9 +30,7 @@ const AttributeTypeSchema = new mongoose.Schema({
   },
   dynamic_price: [
     {
-      price: Number,
-      currency: String,
-      minQuantity: Number,
+      type: mongoose.Schema.Types.Mixed,
     },
   ],
   currency: { type: String },

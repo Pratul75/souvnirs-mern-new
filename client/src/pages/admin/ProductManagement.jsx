@@ -34,30 +34,30 @@ const ProductManagement = () => {
 
   const columns = useMemo(
     () => [
-      {
-        Header: "Product Image",
+      // {
+      //   Header: "Product Image",
 
-        Cell: ({ row }) => {
-          const img = row?.original?.coverImage;
-          return (
-            <Link
-              to={`/productInfo/${row?.original?.slug}`}
-              className="cursor-pointer "
-            >
-              <img
-                className="w-12 h-12 text-center rounded-full hover:scale-105"
-                src={
-                  !img?.includes("res.cloudinary") &&
-                  !img?.includes("cdn.shopify")
-                    ? `${baseUrl}/${img}`
-                    : img
-                }
-                alt=""
-              />
-            </Link>
-          );
-        },
-      },
+      //   Cell: ({ row }) => {
+      //     // const img = row?.original?.coverImage;
+      //     return (
+      //       <Link
+      //         to={`/productInfo/${row?.original?.slug}`}
+      //         className="cursor-pointer "
+      //       >
+      //         {/* <img
+      //           className="w-12 h-12 text-center rounded-full hover:scale-105"
+      //           src={
+      //             !img?.includes("res.cloudinary") &&
+      //             !img?.includes("cdn.shopify")
+      //               ? `${baseUrl}/${img}`
+      //               : img
+      //           }
+      //           alt=""
+      //         /> */}
+      //       </Link>
+      //     );
+      //   },
+      // },
       {
         Header: "Product Name",
         accessor: "name",
@@ -78,41 +78,41 @@ const ProductManagement = () => {
           }
         },
       },
-      {
-        Header: "Price",
-        accessor: "result.price",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.price
-            : row?.original?.price;
-        },
-      },
-      {
-        Header: "On Sale",
-        accessor: "onSale",
-        Cell: ({ row }) => {
-          return (
-            <p>
-              {row?.original?.onSale ? (
-                <span className="text-green-600">YES</span>
-              ) : (
-                <span className="text-rose-600">NO</span>
-              )}
-            </p>
-          );
-        },
-      },
-      {
-        Header: "Stock Quantity",
-        accessor: "result.quantity",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.quantity
-            : row?.original?.stockQuantity;
-        },
-      },
+      // {
+      //   Header: "Price",
+      //   // accessor: "result.price",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.price
+      //       : row?.original?.price;
+      //   },
+      // },
+      // {
+      //   Header: "On Sale",
+      //   accessor: "onSale",
+      //   Cell: ({ row }) => {
+      //     return (
+      //       <p>
+      //         {row?.original?.onSale ? (
+      //           <span className="text-green-600">YES</span>
+      //         ) : (
+      //           <span className="text-rose-600">NO</span>
+      //         )}
+      //       </p>
+      //     );
+      //   },
+      // },
+      // {
+      //   Header: "Stock Quantity",
+      //   accessor: "result.quantity",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.quantity
+      //       : row?.original?.stockQuantity;
+      //   },
+      // },
       {
         Header: "Stock Status",
         accessor: "stockStatus",
