@@ -2,33 +2,62 @@ import { Menu } from "antd";
 import API_WRAPPER from "../../../api";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import RequestQuoteForm from "../components/RequestQuoteForm";
+import { FaWhatsapp } from "react-icons/fa";
+import { MdOutlineCall } from "react-icons/md";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+
+const schema = yup.object().shape({
+  name: yup.string().required("Name is required"),
+  contact: yup.string().required("Contact details are required"),
+  company: yup.string().required("Company details are required"),
+  city: yup.string().required("City is required"),
+});
 
 const ShopNavbar = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = (data) => console.log(data);
+
   // navbar data stored here in navbarData state
   const [navbarData, setNavbarData] = useState([]);
   const [categories, setCategories] = useState([]);
+
   const getNavbarData = async () => {
-    const response = await API_WRAPPER.get("/getNavbarMenu");
-    if (response.status === 200) {
-      setNavbarData(response.data);
-      console.log("NAVBAR DATA: ", response.data);
+    try {
+      const response = await API_WRAPPER.get("/getNavbarMenu");
+      if (response.status === 200) {
+        setNavbarData(response.data);
+        console.log("NAVBAR DATA: ", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching navbar data: ", error);
     }
   };
 
   const getAllCategories = async () => {
-    const response = await API_WRAPPER.get("/category/get-all-categories");
-    if (response.status === 200) {
-      setCategories(response.data);
-      console.log("CATEGORIES DATA: ", response.data);
+    try {
+      const response = await API_WRAPPER.get("/category/get-all-categories");
+      if (response.status === 200) {
+        setCategories(response.data);
+        console.log("CATEGORIES DATA: ", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories data: ", error);
     }
   };
 
   const categoriesItems = (categoryList) => {
-    const items = categoryList.map((category) => {
+    return categoryList.map((category) => {
       return { label: category.name, key: category.name };
     });
-    return items;
   };
 
   useEffect(() => {
@@ -54,7 +83,7 @@ const ShopNavbar = () => {
   return (
     <div className="flex justify-between gap-5">
       <Menu
-        className="bg-shopPrimaryColor border-b-white border-b-0 w-40  text-white"
+        className="bg-shopPrimaryColor border-b-white border-b-0 w-40 text-white"
         mode="horizontal"
         style={{ activeBarBorderWidth: 0 }}
         items={[
@@ -83,12 +112,120 @@ const ShopNavbar = () => {
         ))}
       </Menu>
       <button
-        onClick={() => window.request_quote_modal.showModal()}
-        className="btn btn-primary"
+        onClick={() => document.getElementById("freeConsultation").showModal()}
+        className="btn bg-shopPrimaryColor rounded-none text-white hover:bg-purple-900"
       >
-        Request Quote
+        Free gift consultation
       </button>
-      <RequestQuoteForm />
+
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog id="freeConsultation" className="modal">
+        <form className="modal-box" onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex justify-between items-center">
+            <div>
+              <h3 className="font-bold text-3xl">Contact us</h3>
+              <br />
+            </div>
+            <div className="flex gap-4">
+              <div
+                className="tooltip tooltip-primary tooltip-bottom"
+                data-tip="Whatsapp"
+              >
+                <button
+                  type="button"
+                  className="btn bg-green-500 text-white btn-circle hover:bg-green-600 hover:scale-105 hover:btn-square transition"
+                >
+                  <FaWhatsapp size={30} />
+                </button>
+              </div>
+              <div
+                className="tooltip tooltip-primary tooltip-bottom"
+                data-tip="Call"
+              >
+                <button
+                  type="button"
+                  className="btn bg-blue-500 text-white btn-circle hover:bg-blue-600 hover:scale-105 hover:btn-square transition"
+                >
+                  <MdOutlineCall size={30} />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Name</span>
+            </label>
+            <input
+              {...register("name")}
+              className="input input-primary"
+              placeholder="Enter your name"
+              type="text"
+              name="name"
+              id="name"
+            />
+            <p className="text-red-500">{errors.name?.message}</p>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Contact</span>
+            </label>
+            <input
+              {...register("contact")}
+              className="input input-primary"
+              placeholder="Enter your contact details"
+              type="tel"
+              name="contact"
+              id="contact"
+            />
+            <p className="text-red-500">{errors.contact?.message}</p>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Company Details</span>
+            </label>
+            <input
+              {...register("company")}
+              className="input input-primary"
+              placeholder="Enter your company details"
+              type="text"
+              name="company"
+              id="company"
+            />
+            <p className="text-red-500">{errors.company?.message}</p>
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">City</span>
+            </label>
+            <input
+              {...register("city")}
+              className="input input-primary"
+              placeholder="Enter your City"
+              type="text"
+              name="city"
+              id="city"
+            />
+            <p className="text-red-500">{errors.city?.message}</p>
+          </div>
+          <div className="modal-action">
+            <div>
+              {/* if there is a button in form, it will close the modal */}
+              <button type="submit" className="btn btn-primary mr-4">
+                Request Meeting
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  document.getElementById("freeConsultation").close()
+                }
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };
