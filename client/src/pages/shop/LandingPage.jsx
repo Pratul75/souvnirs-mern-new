@@ -35,7 +35,7 @@ import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 import SingleTab from "./SingleTab";
 import { ShopIcon } from "../../icons";
 import { useEffect, useState } from "react";
-import API_WRAPPER, { baseUrl } from "../../api";
+import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 
 const LandingPage = () => {
