@@ -47,7 +47,7 @@ const ProductCardMini = ({
             <h1 className="text-lg font-semibold">{title}</h1>
             <Ratings rating={rating} />
             <p className="text-lg text-primary font-semibold">
-              {token ? `$${price}` : "Login to reveal price"}
+              {token ? `₹${price}` : "Login to reveal price"}
             </p>
           </div>
           <div className="flex gap-2 mt-2">

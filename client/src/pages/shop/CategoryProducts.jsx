@@ -170,7 +170,7 @@ const CategoryProducts = () => {
           <div className="flex flex-wrap mt-4">
             {filterType ? (
               products &&
-              sortProductsByName(products, selctedFilter).map((product) => (
+              products.map((product) => (
                 <div className="w-1/2 p-2 cursor-pointer" key={nanoid()}>
                   <ProductCardMini
                     key={nanoid()}
