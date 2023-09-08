@@ -39,16 +39,23 @@ const AddProduct = () => {
     setForegroundX(newX);
     setForegroundY(newY);
 
-    // Update the formData object with the new values
+    // TODO: Update the formData object with the new values and store in db
     setFormData((prevData) => ({
       ...prevData,
-      foregroundX: newX,
-      foregroundY: newY,
+      customization: {
+        xAxis: newX,
+        yAxis: newY,
+        height: foregroundHeight,
+        width: foregroundWidth,
+      },
     }));
   };
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log("PRODUCT FORM DATA: ", formData);
+  }, [formData]);
   // get all categories
   const getAllCategories = async () => {
     try {
@@ -90,9 +97,20 @@ const AddProduct = () => {
       debouncedShowToast("Fill all required fields", "info");
       return;
     }
-    dispatch(setProduct({ ...formData, description, tags: tagsArray }));
+    dispatch(
+      setProduct({
+        ...formData,
+        description,
+        tags: tagsArray,
+        customization: {
+          xAxis: foregroundX,
+          yAxis: foregroundY,
+          height: foregroundHeight,
+          width: foregroundWidth,
+        },
+      })
+    );
     navigate(PATHS.adminAddProductAttributes);
-    // postProduct();
   };
 
   const handleInputChange = (e) => {

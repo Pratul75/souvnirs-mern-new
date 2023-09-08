@@ -60,7 +60,7 @@ const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
 SidebarItem.propTypes = {
   title: PropTypes.string.isRequired,
   navLink: PropTypes.string.isRequired,
-  Icon: PropTypes.node,
+  Icon: PropTypes.string,
   sidebarState: PropTypes.bool.isRequired,
 };
 

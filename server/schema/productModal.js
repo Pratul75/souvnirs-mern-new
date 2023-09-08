@@ -92,6 +92,12 @@ const productSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    customization: {
+      xAxis: String,
+      yAxis: String,
+      height: Number,
+      width: Number,
+    },
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
@@ -100,12 +106,12 @@ const productSchema = new mongoose.Schema(
     approved: { type: Boolean, default: false },
     comment: String,
   },
-
   {
     timestamps: true, // Adds createdAt and updatedAt fields
   }
 );
 
+// product schema
 productSchema.plugin(aggregatePaginate);
 
 const Product = mongoose.model("Product", productSchema);

@@ -32,7 +32,6 @@ const AddProductAttributes = () => {
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("AddProductAttributes.jsx", p);
 
   const categories = useCategories();
 
@@ -558,7 +557,7 @@ const AddProductAttributes = () => {
                   <thead>
                     <tr>
                       <th>Variant Name</th>
-                      {/* <th>Price</th> */}
+                      <th>Price</th>
                       <th>Quantity</th>
                       <th>Images</th>
                     </tr>
@@ -585,25 +584,25 @@ const AddProductAttributes = () => {
                                 ))}
                               </div>
                             </td>
-                            {/* <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                placeholder="enter price"
-                                type="number"
-                                name={`price-${index}`}
-                                className="input input-primary input-sm"
-                                onChange={(e) =>
-                                  handleTableInputChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index,
-                                    "price"
-                                  )
-                                }
-                              />
-                            </div>
-                          </td> */}
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  placeholder="enter price"
+                                  type="number"
+                                  name={`price-${index}`}
+                                  className="input input-primary input-sm"
+                                  onChange={(e) =>
+                                    handleTableInputChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index,
+                                      "price"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
                             <td className="px-4 py-2">
                               <div className="flex justify-center items-center">
                                 <input

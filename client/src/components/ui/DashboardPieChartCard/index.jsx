@@ -1,19 +1,14 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-const DashboardPieChartCard = ({
-  label,
-  labelColor,
-  amount,
-  addAmount,
-  icon,
-}) => {
+const DashboardPieChartCard = ({ label, labelColor, amount, icon }) => {
   const darkMode = useSelector((x) => x.appConfig.darkMode);
 
   return (
     <div
-      className={`w-full flex flex-col md:flex-row justify-between p-2 ${darkMode ? "bg-cardDarker" : "bg-carsLighter"
-        } shadow-xl border-[1px] border-base-200 rounded-xl`}
+      className={`w-full flex flex-col md:flex-row justify-between p-2 ${
+        darkMode ? "bg-cardDarker" : "bg-carsLighter"
+      } shadow-xl border-[1px] border-base-200 rounded-xl`}
     >
       {/* left side */}
       <div className="flex flex-col md:flex-row items-center md:items-start">
@@ -37,7 +32,7 @@ DashboardPieChartCard.propTypes = {
   label: PropTypes.string.isRequired,
   labelColor: PropTypes.string.isRequired,
   amount: PropTypes.string.isRequired,
-  addAmount: PropTypes.string.isRequired,
+  addAmount: PropTypes.string,
   icon: PropTypes.element.isRequired,
 };
 

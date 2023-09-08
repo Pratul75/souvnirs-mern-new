@@ -13,6 +13,7 @@ const initialState = {
   coverImg: "",
   readyToShip: null,
   freeShipping: null,
+  customization: {},
 };
 
 export const productSlice = createSlice({
@@ -33,6 +34,7 @@ export const productSlice = createSlice({
         img,
         readyToShip,
         freeShipping,
+        customization,
       } = action.payload;
       if (name) {
         state.name = name;
@@ -66,6 +68,9 @@ export const productSlice = createSlice({
       }
       if (readyToShip) {
         state.readyToShip = readyToShip;
+      }
+      if (customization) {
+        state.customization = customization;
       }
     },
     removeProduct: (state, action) => {
