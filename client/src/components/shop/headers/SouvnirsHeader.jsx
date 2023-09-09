@@ -204,7 +204,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     <>
       {/* // desktop header */}
       <header className="py-4 hidden md:block">
-        <div className="flex flex-col md:flex-row justify-between items-center px-16">
+        <div className="flex flex-col md:flex-row justify-between items-center px-5">
           <Link to={PATHS.landingPage} className="cursor-pointer">
             <img src={SouvnirsLogoImage} alt="souvnirs logo" />
           </Link>
@@ -301,6 +301,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 >
                   Logout
                 </button>
+                <div className="divider-horizontal divide-teal-500"></div>
               </div>
             ) : (
               <>

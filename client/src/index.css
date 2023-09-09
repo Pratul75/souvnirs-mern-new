@@ -152,3 +152,10 @@ body {
 .ant-menu-horizontal > .ant-menu-item:hover {
   border-bottom: none !important;
 }
+
+.ant-menu-submenu-arrow::before {
+  display: none;
+}
+.ant-menu-submenu-arrow::after {
+  display: none;
+}

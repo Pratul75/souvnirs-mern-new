@@ -1,232 +1,152 @@
-import { Menu } from "antd";
-import API_WRAPPER from "../../../api";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Menu, Dropdown, Select } from "antd";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { FaWhatsapp } from "react-icons/fa";
-import { MdOutlineCall } from "react-icons/md";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-
-const schema = yup.object().shape({
-  name: yup.string().required("Name is required"),
-  contact: yup.string().required("Contact details are required"),
-  company: yup.string().required("Company details are required"),
-  city: yup.string().required("City is required"),
-});
+import API_WRAPPER from "../../../api";
+import { TfiMenuAlt } from "react-icons/tfi";
 
 const ShopNavbar = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const onSubmit = (data) => console.log(data);
-
-  // navbar data stored here in navbarData state
+  const [current, setCurrent] = useState("mail");
   const [navbarData, setNavbarData] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const { Option } = Select;
+  const onClick = (e) => {
+    setCurrent(e.key);
+  };
 
   const getNavbarData = async () => {
-    try {
-      const response = await API_WRAPPER.get("/getNavbarMenu");
-      if (response.status === 200) {
-        setNavbarData(response.data);
-        console.log("NAVBAR DATA: ", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching navbar data: ", error);
+    const response = await API_WRAPPER.get("/getNavbarMenu");
+    if (response.status === 200) {
+      setNavbarData(response.data);
     }
   };
 
-  const getAllCategories = async () => {
-    try {
-      const response = await API_WRAPPER.get("/category/get-all-categories");
-      if (response.status === 200) {
-        setCategories(response.data);
-        console.log("CATEGORIES DATA: ", response.data);
-      }
-    } catch (error) {
-      console.error("Error fetching categories data: ", error);
+  const fetchCategoryData = async () => {
+    const response = await API_WRAPPER.get("/category/get-all-categories");
+    if (response.status === 200) {
+      setCategoriesData(response.data);
     }
   };
 
-  const categoriesItems = (categoryList) => {
-    return categoryList.map((category) => {
-      return { label: category.name, key: category.name };
-    });
+  const handleSearch = (value) => {
+    // Update the search value state when the user types in the search input
+    setSearchValue(value);
   };
 
   useEffect(() => {
     getNavbarData();
-    getAllCategories();
+    fetchCategoryData();
   }, []);
 
-  const renderSubmenus = (submenus) => {
-    return submenus.map((submenu) => (
-      <Link to={`${window.location.origin}/${submenu.link}`} key={submenu._id}>
-        <Menu.SubMenu
-          title={submenu.title}
-          icon={submenu.child && submenu.child.length > 0 ? submenu.icon : null}
-        >
-          {submenu.child && submenu.child.length > 0
-            ? renderSubmenus(submenu.child)
-            : null}
-        </Menu.SubMenu>
-      </Link>
-    ));
+  const renderSubMenuItems = (menuData) => {
+    return menuData.map((menuItem) => {
+      if (menuItem.submenus && menuItem.submenus.length > 0) {
+        return (
+          <Menu.SubMenu
+            className="font-normal"
+            key={menuItem._id}
+            title={menuItem.title.toUpperCase()}
+          >
+            {menuItem.submenus.map((submenuItem) => (
+              <React.Fragment key={submenuItem._id}>
+                {submenuItem.child && submenuItem.child.length > 0 ? (
+                  // Render child submenu if children exist
+                  <Menu.SubMenu
+                    className="flex"
+                    key={submenuItem._id}
+                    title={submenuItem.title}
+                    icon={
+                      submenuItem.child.length > 0 ? <span>&rarr;</span> : null
+                    }
+                  >
+                    {submenuItem.child.map((childItem) => (
+                      <Menu.Item key={childItem._id}>
+                        <Link
+                          to={`${window.location.origin}/${childItem.link}`}
+                        >
+                          {childItem.title}
+                        </Link>
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
+                ) : (
+                  // Render a plain menu item with a link if no children exist
+                  <Menu.Item key={submenuItem._id}>
+                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                      {submenuItem.title}
+                    </Link>
+                  </Menu.Item>
+                )}
+              </React.Fragment>
+            ))}
+          </Menu.SubMenu>
+        );
+      } else if (menuItem.link) {
+        // Check if there's a link for the main menu item
+        return (
+          <Menu.Item key={menuItem._id}>
+            <Link to={`${window.location.origin}/${menuItem.link}`}>
+              {menuItem.title}
+            </Link>
+          </Menu.Item>
+        );
+      } else {
+        return (
+          <Menu.Item
+            onClick={() => console.log("CLICKED ON SUB MENU")}
+            key={menuItem._id}
+          >
+            {menuItem.title}
+          </Menu.Item>
+        );
+      }
+    });
   };
 
-  return (
-    <div className="hidden md:flex justify-between gap-5">
-      <Menu
-        className="bg-shopPrimaryColor border-b-white border-b-0 w-40 text-white"
-        mode="horizontal"
-        style={{ activeBarBorderWidth: 0 }}
-        items={[
-          {
-            label: "All Categories",
-            key: "all_categories",
-            children: categoriesItems(categories),
-          },
-        ]}
-      />
-      <Menu
-        mode="horizontal"
-        style={{ borderBottom: "none" }}
-        className="w-full"
-      >
-        {navbarData.map((menu) => (
-          <Menu.SubMenu
-            key={menu._id}
-            title={menu.title}
-            icon={menu.submenus && menu.submenus.length > 0 ? menu.icon : null}
-          >
-            {menu.submenus && menu.submenus.length > 0
-              ? renderSubmenus(menu.submenus)
-              : null}
-          </Menu.SubMenu>
-        ))}
-      </Menu>
-      <button
-        onClick={() => document.getElementById("freeConsultation").showModal()}
-        className="btn bg-shopPrimaryColor rounded-none text-white hover:bg-purple-900"
-      >
-        Free gift consultation
-      </button>
+  const categoryMenu = (
+    <Select
+      showSearch
+      style={{ width: "100%" }}
+      placeholder="Select a category"
+      optionFilterProp="value" // Use "value" instead of "children"
+      filterOption={(input, option) =>
+        option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      onSearch={handleSearch}
+      value={searchValue}
+    >
+      {categoriesData.map((category) => (
+        <Option
+          onClick={() => console.log("CLICKED ON CATEGORY OPTION")}
+          key={category._id}
+          value={category.name}
+        >
+          <Link to={`${window.location.origin}/category/${category?.name}`}>
+            {category.name}
+          </Link>
+        </Option>
+      ))}
+    </Select>
+  );
 
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <dialog id="freeConsultation" className="modal">
-        <form className="modal-box" onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex justify-between items-center">
-            <div>
-              <h3 className="font-bold text-3xl">Contact us</h3>
-              <br />
-            </div>
-            <div className="flex gap-4">
-              <div
-                className="tooltip tooltip-primary tooltip-bottom"
-                data-tip="Whatsapp"
-              >
-                <button
-                  type="button"
-                  className="btn bg-green-500 text-white btn-circle hover:bg-green-600 hover:scale-105 hover:btn-square transition"
-                >
-                  <FaWhatsapp size={30} />
-                </button>
-              </div>
-              <div
-                className="tooltip tooltip-primary tooltip-bottom"
-                data-tip="Call"
-              >
-                <button
-                  type="button"
-                  className="btn bg-blue-500 text-white btn-circle hover:bg-blue-600 hover:scale-105 hover:btn-square transition"
-                >
-                  <MdOutlineCall size={30} />
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Name</span>
-            </label>
-            <input
-              {...register("name")}
-              className="input input-primary"
-              placeholder="Enter your name"
-              type="text"
-              name="name"
-              id="name"
-            />
-            <p className="text-red-500">{errors.name?.message}</p>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Contact</span>
-            </label>
-            <input
-              {...register("contact")}
-              className="input input-primary"
-              placeholder="Enter your contact details"
-              type="tel"
-              name="contact"
-              id="contact"
-            />
-            <p className="text-red-500">{errors.contact?.message}</p>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Company Details</span>
-            </label>
-            <input
-              {...register("company")}
-              className="input input-primary"
-              placeholder="Enter your company details"
-              type="text"
-              name="company"
-              id="company"
-            />
-            <p className="text-red-500">{errors.company?.message}</p>
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">City</span>
-            </label>
-            <input
-              {...register("city")}
-              className="input input-primary"
-              placeholder="Enter your City"
-              type="text"
-              name="city"
-              id="city"
-            />
-            <p className="text-red-500">{errors.city?.message}</p>
-          </div>
-          <div className="modal-action">
-            <div>
-              {/* if there is a button in form, it will close the modal */}
-              <button type="submit" className="btn btn-primary mr-4">
-                Request Meeting
-              </button>
-              <button
-                type="button"
-                onClick={() =>
-                  document.getElementById("freeConsultation").close()
-                }
-                className="btn"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </form>
-      </dialog>
-    </div>
+  return (
+    <Menu
+      className="bg-gray-100 join w-full rounded-none"
+      onClick={onClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+    >
+      <Dropdown overlay={categoryMenu} trigger={["hover"]}>
+        <button className="join-item dropdown flex items-center justify-between rounded-none h-full bg-shopPrimaryColor text-white px-4 w-52">
+          <TfiMenuAlt />
+          All Categories
+          <RiArrowDropDownLine size={24} />
+        </button>
+      </Dropdown>
+
+      {renderSubMenuItems(navbarData)}
+    </Menu>
   );
 };
 

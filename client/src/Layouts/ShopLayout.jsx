@@ -15,10 +15,10 @@ const ShopLayout = ({ children }) => {
         currency="USD"
       />
       <SouvnirsHeader badgeColor="badge-primary" buttonColor="bg-primary" />
-      <div className="px-16">
+      <div className="px-5">
         <ShopNavbar />
       </div>
-      <div className="mx-5 md:mx-16 flex flex-col">{children}</div>
+      <div className="mx-5 flex flex-col">{children}</div>
       <ShopFooter />
     </div>
   );

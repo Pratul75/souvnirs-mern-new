@@ -319,8 +319,6 @@ const ProductManagement = () => {
         </div>
       </div>
 
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-
       <dialog id="disapproval_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">
