@@ -301,6 +301,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 >
                   Logout
                 </button>
+                <div className="divider-horizontal divide-teal-500"></div>
               </div>
             ) : (
               <>

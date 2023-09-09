@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Menu, Dropdown, Select } from "antd";
-import API_WRAPPER from "../../../api";
+import { Menu, Dropdown, Select, Input } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { TfiMenuAlt } from "react-icons/tfi";
 import { Link } from "react-router-dom";
+import API_WRAPPER from "../../../api";
+import { TfiMenuAlt } from "react-icons/tfi";
 
 const ShopNavbar = () => {
   const [current, setCurrent] = useState("mail");
   const [navbarData, setNavbarData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [searchValue, setSearchValue] = useState(""); // State to hold the search value
 
   const { Option } = Select;
   const onClick = (e) => {
@@ -34,6 +35,11 @@ const ShopNavbar = () => {
     fetchCategoryData();
   }, []);
 
+  const handleSearch = (value) => {
+    // Update the search value state when the user types in the search input
+    setSearchValue(value);
+  };
+
   const renderSubMenuItems = (menuData) => {
     return menuData.map((menuItem) => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
@@ -52,17 +58,32 @@ const ShopNavbar = () => {
               >
                 {submenuItem.child.map((childItem) => (
                   <Menu.Item key={childItem._id}>
-                    <a href={childItem.link}>{childItem.title}</a>
+                    <Link to={`${window.location.origin}/${childItem.link}`}>
+                      {childItem.title}
+                    </Link>
                   </Menu.Item>
                 ))}
               </Menu.SubMenu>
             ))}
           </Menu.SubMenu>
         );
+      } else if (menuItem.link) {
+        // Check if there's a link for the submenu item
+        return (
+          <Link
+            key={menuItem._id}
+            to={`${window.location.origin}/${menuItem.link}`}
+          >
+            <Menu.Item>{menuItem.title}</Menu.Item>
+          </Link>
+        );
       } else {
         return (
-          <Menu.Item key={menuItem._id}>
-            <a href={menuItem.link}>{menuItem.title}</a>
+          <Menu.Item
+            onClick={() => console.log("CLICKED ON SUB MENU")}
+            key={menuItem._id}
+          >
+            {menuItem.title}
           </Menu.Item>
         );
       }
@@ -74,7 +95,12 @@ const ShopNavbar = () => {
       showSearch
       style={{ width: "100%" }}
       placeholder="Select a category"
-      optionFilterProp="children"
+      optionFilterProp="value" // Use "value" instead of "children"
+      filterOption={(input, option) =>
+        option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      onSearch={handleSearch}
+      value={searchValue}
     >
       {categoriesData.map((category) => (
         <Option key={category._id} value={category.name}>

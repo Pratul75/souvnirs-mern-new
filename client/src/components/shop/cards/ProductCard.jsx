@@ -23,6 +23,7 @@ const ProductCard = ({
   slug,
   isDiscounted,
   isLoading,
+  clasName,
 }) => {
   const [heartColor, setHeartColor] = useState("black");
   const dispatch = useDispatch();
@@ -70,7 +71,7 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card  border  px-3 py-4 cursor-pointer w-96  shadow-lg"
+      className={`card  border  px-3 py-4 cursor-pointer w-96  shadow-lg ${clasName}`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       {isLoading ? (

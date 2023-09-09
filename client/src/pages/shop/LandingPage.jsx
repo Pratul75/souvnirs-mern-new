@@ -67,10 +67,10 @@ const LandingPage = () => {
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
-        secondaryHeadingOne="Spring Sales Coming"
+        secondaryHeadingOne="Diwali Sale Coming"
         secondaryHeadingTwo="Smartphone"
         secondarySubHeadingOne="with touch"
-        tertioryHeadingOne="Spring Sales Coming"
+        tertioryHeadingOne="Diwali Sale Coming"
         tertioryHeadingTwo="Smart 4K TV"
         tertiorySubHeading="Watch Now"
       />
