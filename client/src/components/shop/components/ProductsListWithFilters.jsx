@@ -60,7 +60,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
 
   return (
     <ScrollAnimationWrapper>
-      <div className="mt-16">
+      <div className="mt-5">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <h1 className="font-semibold text-2xl">{heading}</h1>
           <div className="hidden md:flex flex-col md:flex-row  gap-2">

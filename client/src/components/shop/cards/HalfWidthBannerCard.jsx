@@ -14,7 +14,7 @@ const HalfWidthBannerCard = ({
   buttonHandlerTwo,
 }) => {
   return (
-    <div className="flex flex-col md:flex-row md:justify-around gap-4 my-16">
+    <div className="flex flex-col md:flex-row md:justify-around gap-4 mt-5">
       <ScrollAnimationWrapper>
         <div className="flex-1 md:col-span-1 relative">
           <img className="rounded-xl w-full" src={backgroundImageOne} alt="" />

@@ -19,7 +19,7 @@ const FeaturesCard = ({
 }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="bg-[#F0F2F5]  rounded-xl mt-16 px-16 shadow-lg ">
+      <div className="bg-[#F0F2F5]  rounded-xl mt-5 px-16 shadow-lg ">
         <div className="flex-col md:flex-row flex  justify-center md:justify-between p-16 px-20">
           <div className="flex items-center gap-5 justify-center md:justify-start ">
             <div className="mr-2">{iconOne}</div>
