@@ -47,7 +47,7 @@ const CategoryProducts = () => {
       setMax(response?.data?.max);
       setLastPage(response?.data?.lastPage);
     } catch (e) {
-      console.log(error);
+      console.log(e);
     } finally {
       setLoading(false);
     }

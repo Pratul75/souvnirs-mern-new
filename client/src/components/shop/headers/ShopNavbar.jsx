@@ -101,7 +101,11 @@ const ShopNavbar = () => {
       value={searchValue}
     >
       {categoriesData.map((category) => (
-        <Option key={category._id} value={category.name}>
+        <Option
+          onClick={() => console.log("CLICKED ON CATEGORY OPTION")}
+          key={category._id}
+          value={category.name}
+        >
           <Link to={`${window.location.origin}/category/${category?.name}`}>
             {category.name}
           </Link>
