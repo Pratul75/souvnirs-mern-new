@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, Dropdown, Select } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -44,30 +44,46 @@ const ShopNavbar = () => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         return (
           <Menu.SubMenu
-            className="join-item font-normal"
+            className="font-normal"
             key={menuItem._id}
             title={menuItem.title.toUpperCase()}
           >
             {menuItem.submenus.map((submenuItem) => (
-              <Menu.SubMenu
-                className="flex justify-center items-center"
-                key={submenuItem._id}
-                title={submenuItem.title}
-                icon={submenuItem.child.length > 0 ? <span>&rarr;</span> : null}
-              >
-                {submenuItem.child.map((childItem) => (
-                  <Menu.Item key={childItem._id}>
-                    <Link to={`${window.location.origin}/${childItem.link}`}>
-                      {childItem.title}
+              <React.Fragment key={submenuItem._id}>
+                {submenuItem.child && submenuItem.child.length > 0 ? (
+                  // Render child submenu if children exist
+                  <Menu.SubMenu
+                    className="flex"
+                    key={submenuItem._id}
+                    title={submenuItem.title}
+                    icon={
+                      submenuItem.child.length > 0 ? <span>&rarr;</span> : null
+                    }
+                  >
+                    {submenuItem.child.map((childItem) => (
+                      <Menu.Item key={childItem._id}>
+                        <Link
+                          to={`${window.location.origin}/${childItem.link}`}
+                        >
+                          {childItem.title}
+                        </Link>
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
+                ) : (
+                  // Render a plain menu item with a link if no children exist
+                  <Menu.Item key={submenuItem._id}>
+                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                      {submenuItem.title}
                     </Link>
                   </Menu.Item>
-                ))}
-              </Menu.SubMenu>
+                )}
+              </React.Fragment>
             ))}
           </Menu.SubMenu>
         );
       } else if (menuItem.link) {
-        // Check if there's a link for the submenu item
+        // Check if there's a link for the main menu item
         return (
           <Menu.Item key={menuItem._id}>
             <Link to={`${window.location.origin}/${menuItem.link}`}>

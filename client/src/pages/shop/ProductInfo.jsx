@@ -356,7 +356,7 @@ const ProductInfo = () => {
                   }}
                 >
                   <button className="flex gap-4">
-                    <AiOutlineShoppingCart className="text-xl text-white min-w-full" />
+                    <AiOutlineShoppingCart className="text-xl text-white " />
                     <span>Add To Cart</span>
                   </button>
                 </button>
@@ -369,7 +369,6 @@ const ProductInfo = () => {
                 >
                   Get Quote
                 </button>
-
                 {product?.customization && (
                   <>
                     <button
