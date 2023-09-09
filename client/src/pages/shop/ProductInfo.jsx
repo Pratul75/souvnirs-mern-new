@@ -243,150 +243,163 @@ const ProductInfo = () => {
           Back
         </Link>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-8">
-          <div className="col-span-1">
-            <InnerImageZoom
-              src={
-                !selectedImage?.includes("res.cloudinary") &&
-                !selectedImage?.includes("cdn.shopify")
-                  ? `${baseUrl}/${selectedImage}`
-                  : selectedImage
-              }
-            />
-            <div className="flex flex-wrap gap-2 md:gap-4">
-              {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
-              {imagesList?.map((img) => (
-                <Card key={nanoid()} className="">
-                  <img
-                    onClick={() => {
-                      setSelectedImage(img);
-                    }}
-                    src={
-                      !img?.includes("res.cloudinary") &&
-                      !img?.includes("cdn.shopify")
-                        ? `${baseUrl}/${img}`
-                        : img
-                    }
-                    className="w-16 cursor-pointer hover:scale-110"
-                    alt=""
-                  />
-                </Card>
-              ))}
-            </div>
-          </div>
-
-          <div className="col-span-1  flex flex-col items-center justify-center px-4 ">
-            <div className="flex flex-col">
-              <h1 className="font-bold text-2xl">{product?.name}</h1>
-              <div className={"gap-2 md:gap-4 flex flex-col"}>
-                <div className="flex gap-4">
-                  <span className="text-4xl font-thin">USD</span>
-                  {isLogged ? (
-                    <span className="text-4xl">{price}</span>
-                  ) : (
-                    <Link to={PATHS.login} className="join cursor-pointer">
-                      <div className="bg-base-200 join-item flex items-center px-2">
-                        <span className="text-sm">
-                          To revel price please signin/sign up
-                        </span>
-                      </div>
-                      <div className="p-4 join-item bg-primary">
-                        <CiLogin className="text-2xl text-white" />
-                      </div>
-                    </Link>
-                  )}
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-4 my-2">
-              <Ratings rating={3} />
-              <p>(1 Review)</p>
-            </div>
-
-            <form className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
+          <div className="col-span-2 flex flex-row bg-base-200 gap-8 rounded-xl p-4">
+            <div className="flex gap-4">
               <div className="flex flex-col">
-                <div className="form-control">
-                  <label className="label">
-                    <span className="label-text">Quantity</span>
-                  </label>
-                  <input
-                    className="input input-bordered"
-                    type="number"
-                    name=""
-                    id=""
-                    min={50}
-                    onChange={(e) => {
-                      setQuantity(e.target.value);
-                    }}
-                    value={quantity}
-                  />
+                <InnerImageZoom
+                  className="rounded-xl w-96 h-[30rem] hover:shadow-xl transition-all ease-in-out duration-300"
+                  src={
+                    !selectedImage?.includes("res.cloudinary") &&
+                    !selectedImage?.includes("cdn.shopify")
+                      ? `${baseUrl}/${selectedImage}`
+                      : selectedImage
+                  }
+                />
+                <div className="flex flex-wrap gap-2 md:gap-4">
+                  {/* chjanges to conditional rendering because uploaded objects have different schema than created objects */}
+                  {imagesList?.map((img) => (
+                    <Card key={nanoid()}>
+                      <img
+                        onClick={() => {
+                          setSelectedImage(img);
+                        }}
+                        src={
+                          !img?.includes("res.cloudinary") &&
+                          !img?.includes("cdn.shopify")
+                            ? `${baseUrl}/${img}`
+                            : img
+                        }
+                        className="w-16 cursor-pointer hover:scale-110"
+                        alt=""
+                      />
+                    </Card>
+                  ))}
                 </div>
-                {variantFilters?.map((attribute) => {
-                  const key = Object.keys(attribute)[0];
-                  return (
-                    <div key={nanoid()} className="form-control">
-                      <label className="label">
-                        <span className="label-text">{key}</span>
-                      </label>
-                      <select
-                        className="select select-bordered min-w-full"
-                        onChange={(e) =>
-                          updateSelectedVariants(key, e.target.value)
-                        }
-                        value={
-                          selectedVariants ? selectedVariants[key] || "" : ""
-                        }
-                      >
-                        <option value="" disabled selected>
-                          Select value
-                        </option>
-                        {attribute[key].map((value) => (
-                          <option key={nanoid()} value={value}>
-                            {value}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  );
-                })}
               </div>
-              <div className="col-span-1">
-                <button
-                  className="btn btn-primary first-letter:w-full p-2 "
-                  onClick={(e) => {
-                    addToCart(e);
-                  }}
-                >
-                  <button className="flex gap-4">
-                    <AiOutlineShoppingCart className="text-xl text-white " />
-                    <span>Add To Cart</span>
-                  </button>
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.request_quote_modal.showModal();
-                  }}
-                  className="btn btn-primary cursor-pointer mt-4 w-full"
-                >
-                  Get Quote
-                </button>
-                {product?.customization && (
-                  <>
+              <div>
+                <div className="flex flex-col">
+                  <div className="flex flex-col">
+                    <h1 className="font-bold text-2xl">{product?.name}</h1>
+                    <br />
+                    <div className="gap-2 md:gap-4 flex flex-col">
+                      <div className="flex gap-4 items-center">
+                        <span className="text-4xl font-thin">USD</span>
+                        {isLogged ? (
+                          <span className="text-4xl">{price}</span>
+                        ) : (
+                          <Link
+                            to={PATHS.login}
+                            className="join cursor-pointer"
+                          >
+                            <div className="bg-base-200 join-item flex items-center px-2">
+                              <span className="text-sm">
+                                To reveal the price, please sign in or sign up
+                              </span>
+                            </div>
+                            <div className="p-4 join-item bg-primary">
+                              <CiLogin className="text-2xl text-white" />
+                            </div>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-4 my-2">
+                    <Ratings rating={3} />
+                    <p>(1 Review)</p>
+                  </div>
+                </div>
+
+                <form className="max-h-96 overflow-y-scroll">
+                  <div className="flex flex-col">
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Quantity</span>
+                      </label>
+                      <input
+                        className="input input-bordered mb-1"
+                        type="number"
+                        name=""
+                        id=""
+                        min={50}
+                        onChange={(e) => {
+                          setQuantity(e.target.value);
+                        }}
+                        value={quantity}
+                      />
+                    </div>
+                    {variantFilters?.map((attribute) => {
+                      const key = Object.keys(attribute)[0];
+                      return (
+                        <div key={nanoid()} className="form-control mb-1">
+                          <label className="label">
+                            <span className="label-text">{key}</span>
+                          </label>
+                          <select
+                            className="select select-bordered min-w-full"
+                            onChange={(e) =>
+                              updateSelectedVariants(key, e.target.value)
+                            }
+                            value={
+                              selectedVariants
+                                ? selectedVariants[key] || ""
+                                : ""
+                            }
+                          >
+                            <option value="" disabled selected>
+                              Select value
+                            </option>
+                            {attribute[key].map((value) => (
+                              <option key={nanoid()} value={value}>
+                                {value}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className=" mt-4">
                     <button
-                      type="button"
+                      className="btn btn-primary w-full p-2 "
+                      onClick={(e) => {
+                        addToCart(e);
+                      }}
+                    >
+                      <button className="flex gap-4">
+                        <AiOutlineShoppingCart className="text-xl text-white " />
+                        <span>Add To Cart</span>
+                      </button>
+                    </button>
+                    <button
                       onClick={(e) => {
                         e.preventDefault();
-                        window.customization_modal.showModal();
+                        window.request_quote_modal.showModal();
                       }}
-                      className="btn btn-primary mt-4"
+                      className="btn btn-primary cursor-pointer mt-4 w-full"
                     >
-                      Customize
+                      Get Quote
                     </button>
-                  </>
-                )}
+                    {product?.customization && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            window.customization_modal.showModal();
+                          }}
+                          className="btn btn-primary mt-4"
+                        >
+                          Customize
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
           </div>
           <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
             <p className="text-start py-4">Ongoing Offers!</p>

@@ -44,7 +44,7 @@ const ShopNavbar = () => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         return (
           <Menu.SubMenu
-            className="font-normal"
+            className="font-normal "
             key={menuItem._id}
             title={menuItem.title.toUpperCase()}
           >
@@ -72,7 +72,7 @@ const ShopNavbar = () => {
                   </Menu.SubMenu>
                 ) : (
                   // Render a plain menu item with a link if no children exist
-                  <Menu.Item key={submenuItem._id}>
+                  <Menu.Item className="cursor-pointer" key={submenuItem._id}>
                     <Link to={`${window.location.origin}/${submenuItem.link}`}>
                       {submenuItem.title}
                     </Link>
@@ -132,7 +132,7 @@ const ShopNavbar = () => {
 
   return (
     <Menu
-      className="bg-gray-100 join w-full rounded-none"
+      className="bg-gray-50 join w-full rounded-none"
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"
