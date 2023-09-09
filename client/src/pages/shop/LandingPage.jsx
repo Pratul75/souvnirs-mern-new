@@ -91,7 +91,7 @@ const LandingPage = () => {
         subHeadingFour="Capped at $50 per order"
       />
 
-      <div className="flex justify-between">
+      <div className="flex justify-between mt-5">
         <ProductCarosel items={caroselMapppingDailyDeals} />
         <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
           <div className="col-span-5">
@@ -180,7 +180,7 @@ const LandingPage = () => {
       {/* For Phase 2 */}
       {/* <TestimonialsCarosel /> */}
 
-      <div className="flex justify-between  mt-32">
+      <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab
             productsList={productsList.filter((product) => {
