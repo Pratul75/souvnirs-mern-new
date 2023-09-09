@@ -22,7 +22,7 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
 
   return (
     <Card>
-      <div className="p-4">
+      <div className="p-4 ">
         <div className="flex justify-between items-center ">
           <h4 className="text-primary text-sm font-bold ">
             {heading && `Filter By ${heading}`}
@@ -38,7 +38,7 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
         </div>
         <div className="text-md mt-4"></div>
 
-        <div className="mt-4">
+        <div className="mt-4 h-80 overflow-scroll">
           {filters.map((filter) => {
             return (
               <div

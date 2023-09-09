@@ -28,6 +28,7 @@ const AttributeTypeSchema = new mongoose.Schema({
   variantRequiresShipping: {
     type: Boolean,
   },
+  price: { type: Number },
   dynamic_price: [
     {
       type: mongoose.Schema.Types.Mixed,
