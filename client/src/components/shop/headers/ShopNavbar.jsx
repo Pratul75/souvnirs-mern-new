@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Menu, Dropdown, Select, Input } from "antd";
+import { Menu, Dropdown, Select } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import API_WRAPPER from "../../../api";
@@ -9,8 +9,7 @@ const ShopNavbar = () => {
   const [current, setCurrent] = useState("mail");
   const [navbarData, setNavbarData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
-  const [searchValue, setSearchValue] = useState(""); // State to hold the search value
-
+  const [searchValue, setSearchValue] = useState("");
   const { Option } = Select;
   const onClick = (e) => {
     setCurrent(e.key);
@@ -30,15 +29,15 @@ const ShopNavbar = () => {
     }
   };
 
-  useEffect(() => {
-    getNavbarData();
-    fetchCategoryData();
-  }, []);
-
   const handleSearch = (value) => {
     // Update the search value state when the user types in the search input
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    getNavbarData();
+    fetchCategoryData();
+  }, []);
 
   const renderSubMenuItems = (menuData) => {
     return menuData.map((menuItem) => {
@@ -70,12 +69,11 @@ const ShopNavbar = () => {
       } else if (menuItem.link) {
         // Check if there's a link for the submenu item
         return (
-          <Link
-            key={menuItem._id}
-            to={`${window.location.origin}/${menuItem.link}`}
-          >
-            <Menu.Item>{menuItem.title}</Menu.Item>
-          </Link>
+          <Menu.Item key={menuItem._id}>
+            <Link to={`${window.location.origin}/${menuItem.link}`}>
+              {menuItem.title}
+            </Link>
+          </Menu.Item>
         );
       } else {
         return (
