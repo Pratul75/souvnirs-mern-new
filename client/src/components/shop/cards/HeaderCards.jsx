@@ -8,21 +8,17 @@ const HeaderCards = ({
   mainHeadingTwo,
   mainSubHeading,
   mainImage,
-  secondaryHeadingOne,
-  secondaryHeadingTwo,
-  secondarySubHeadingOne,
   tertioryHeadingOne,
   tertioryHeadingTwo,
   tertiorySubHeading,
   secondaryImageOne,
-  secondaryImageTwo,
   productImgOne,
   productImageTwo,
   productImageThree,
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-16 h-[650px]">
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-4 h-[650px]">
         <motion.div
           animate="animate"
           initial="initial"
