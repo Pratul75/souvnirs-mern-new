@@ -15,6 +15,15 @@ const CategorySchema = new Schema(
     Description: {
       type: String,
     },
+    commissionType: {
+      type: String,
+      enum: ["PERCENTAGE", "NUMBER"],
+      default: "PERCENTAGE",
+    },
+    commissionTypeValue: {
+      type: Number,
+      required: true,
+    },
     hsn_code: {
       type: String,
     },
