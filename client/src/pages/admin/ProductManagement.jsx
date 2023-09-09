@@ -241,10 +241,11 @@ const ProductManagement = () => {
   };
   const bulkUpload = async () => {
     try {
+      console.log(bulkData);
       setLoading(true);
       console.log("ProductManagement.jsx", bulkData);
       const buFormData = new FormData();
-      buFormData.append("file", bulkData[0]);
+      buFormData.append("file", bulkData);
       const response = await API_WRAPPER.post(
         "/products/bulk-upload",
         buFormData
@@ -285,7 +286,7 @@ const ProductManagement = () => {
               <li>
                 <p
                   onClick={() => window.my_modal_1.showModal()}
-                  onChange={(e) => bulkUpload(e.target.files[0])}
+                  // onChange={(e) => bulkUpload(e.target.files[0])}
                 >
                   <BsUpload size={20} />
                   Bulk Upload
@@ -452,7 +453,13 @@ const ProductManagement = () => {
             </h4>
             <hr className="mt-4" />
             <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
-              <Dropzone onFilesChange={(data) => setBulkData(data)} />
+              {/* <Dropzone onFilesChange={(data) => setBulkData(data)} /> */}
+              <input
+                type="file"
+                onChange={(e) => {
+                  setBulkData(e.target.files[0]);
+                }}
+              />
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}

@@ -8,7 +8,7 @@ const vendorSchema = new mongoose.Schema(
     },
     lastName: {
       type: String,
-      required: true,
+      // required: true,
     },
     email: {
       type: String,
@@ -17,11 +17,11 @@ const vendorSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
     },
     mobile: {
       type: String,
-      required: true,
+      // required: true,
     },
     otp: {
       type: String,

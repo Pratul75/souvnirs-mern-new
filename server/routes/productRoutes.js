@@ -19,6 +19,7 @@ const {
   editProductVariant,
   getVendorProducts,
   alterApproval,
+  deleteFakeProducts,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -105,4 +106,5 @@ router.post("/products/collection/:slug", getProductsByCollectionSlug);
 router.post("/products", getProductsByFilter);
 router.post("/product/approval/:id", alterApproval);
 router.post("/products/bulk-upload", upload.single("file"), bulkProductUpload);
+router.get("/deleteFake", deleteFakeProducts);
 module.exports = router;

@@ -930,17 +930,19 @@ const bulkProductUpload = async (req, res) => {
 
   // Read the Excel file using xlsx library
   const workbook = xlsx.readFile(filePath);
-  const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  const worksheet = workbook.Sheets[workbook.SheetNames[3]];
   const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
   console.log(jsonData);
+
   const groupedData = jsonData.reduce((acc, item) => {
     const {
-      Id,
+      ID,
       Title,
       Description,
       FeatureImage,
       Category,
+      Mrp,
       VendorEmail,
       tags,
       Color,
@@ -972,15 +974,16 @@ const bulkProductUpload = async (req, res) => {
 
     const combinedData = { ...rest, variant: variantData };
 
-    if (!acc[Id]) {
-      acc[Id] = {
-        Id,
+    if (!acc[ID]) {
+      acc[ID] = {
+        ID,
         Title,
         Description,
         FeatureImage,
         VendorEmail,
         tags,
         Category,
+        Mrp,
         coverImage,
         attributes: [
           { Color },
@@ -997,7 +1000,7 @@ const bulkProductUpload = async (req, res) => {
         data: [combinedData],
       };
     } else {
-      acc[Id].data.push(combinedData);
+      acc[ID].data.push(combinedData);
     }
 
     return acc;
@@ -1007,7 +1010,13 @@ const bulkProductUpload = async (req, res) => {
     let thisdata = groupedData[id];
     let slug = uuidv4(10);
     slug = slug.slice(0, 8);
-    const vendor = await Vendor.findOne({ email: thisdata.VendorEmail });
+    let vendor = await Vendor.findOne({ email: thisdata.VendorEmail });
+    if (!vendor) {
+      vendor = await Vendor.create({
+        firstName: thisdata.VendorEmail,
+        email: thisdata.VendorEmail,
+      });
+    }
     let attributes = thisdata.attributes.flatMap((obj) =>
       Object.keys(obj).filter((key) => obj[key] !== undefined)
     );
@@ -1016,12 +1025,19 @@ const bulkProductUpload = async (req, res) => {
       let att = await Attribute.findOne({ name: attribute });
       attributeIds.push(att._id);
     }
-    const category = await Category.findOne({ name: thisdata.Category });
+    let category = await Category.findOne({ name: thisdata.Category });
 
+    if (!category) {
+      category = await Category.create({
+        name: thisdata.Category,
+        attributes: attributeIds,
+      });
+    }
     const productCreated = await Product.create({
-      description: thisdata.Description,
+      description: thisdata.Description ?? " ",
       name: thisdata.Title,
       slug,
+      mrp: thisdata.Mrp,
       vendorId: vendor._id,
       tags: thisdata.tags.split("/"),
       attributes: attributeIds,
@@ -1040,15 +1056,28 @@ const bulkProductUpload = async (req, res) => {
         productId: productCreated._id,
         attributeIds,
         variant: variant.variant,
-        quantity: variant.Quantity,
+        quantity: variant.ProductQuantity,
         price: variant.Price,
-        images: variant.VariantsImages.split("~"),
+        images:
+          variant.VariantsImages && variant.VariantsImages.length > 0
+            ? variant.VariantsImages.split("~")
+            : [],
       });
       console.log("productController.js");
     }
   }
   console.log("productController.js", workbook);
   res.status(200).json("bulk upload successfull");
+};
+const deleteFakeProducts = async (req, res) => {
+  // const products = await Product.aggregate([])
+  //
+  const variants = await AttributeType.find({ variant: { $exists: false } });
+
+  for (let variant of variants) {
+    await Product.findByIdAndDelete(variant.productId);
+  }
+  res.status(200).json("bulk delete successfull");
 };
 
 module.exports = {
@@ -1067,6 +1096,7 @@ module.exports = {
   getProductsByCollectionSlug,
   getProductsByFilter,
   getSearchProducts,
+  deleteFakeProducts,
   getProductBySlug,
   getProductVariants,
   editProductVariant,

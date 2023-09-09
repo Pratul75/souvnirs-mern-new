@@ -27,6 +27,8 @@ const ProductInfo = () => {
   const [price, setPrice] = useState(0);
   const [variantFilters, setVariantFilters] = useState();
   const [selectedVariants, setSelectedVariants] = useState({});
+  const [overImage, setOverImage] = useState();
+  const [customizedImage, setCustomizedImage] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -373,11 +375,11 @@ const ProductInfo = () => {
                 {product?.customization && (
                   <>
                     <button
-                      onClick={() =>
-                        document
-                          .getElementById("customization_modal")
-                          .showModal()
-                      }
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        window.customization_modal.showModal();
+                      }}
                       className="btn btn-primary mt-4"
                     >
                       Customize
@@ -438,13 +440,36 @@ const ProductInfo = () => {
 
       <dialog id="customization_modal" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <div>
+            <img
+              src={
+                !product?.coverImage?.includes("res.cloudinary") &&
+                !product?.coverImage?.includes("cdn.shopify")
+                  ? `${baseUrl}/${product?.coverImage}`
+                  : product?.coverImage
+              }
+            />
+          </div>
+          <div>
+            <input
+              type="file"
+              accept="img"
+              onChange={(e) => {
+                setOverImage(e.target.files[0]);
+              }}
+            />
+          </div>
+
           <div className="modal-action">
             <div>
-              <button className="btn">Close</button>
+              <button
+                className="btn"
+                onClick={() => {
+                  window.customization_modal.close();
+                }}
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
