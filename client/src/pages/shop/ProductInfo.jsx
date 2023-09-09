@@ -35,6 +35,19 @@ const ProductInfo = () => {
   console.log("ProductInfo.jsx", selectedVariants);
   console.log("ProductInfo.jsx", variantFilters);
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setOverImage(e.target.result);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   const updateSelectedVariants = (key, value) => {
     setSelectedVariants((prevVariants) => ({
       ...prevVariants,
@@ -439,27 +452,44 @@ const ProductInfo = () => {
 
       <dialog id="customization_modal" className="modal">
         <div className="modal-box">
-          <div>
-            <img
-              src={
-                !product?.coverImage?.includes("res.cloudinary") &&
-                !product?.coverImage?.includes("cdn.shopify")
-                  ? `${baseUrl}/${product?.coverImage}`
-                  : product?.coverImage
-              }
-            />
-          </div>
-          <div>
-            <input
-              type="file"
-              accept="img"
-              onChange={(e) => {
-                setOverImage(e.target.files[0]);
-              }}
-            />
+          <div className="modal-content">
+            <div className="relative">
+              <img
+                className="block w-full"
+                src={
+                  !product?.coverImage?.includes("res.cloudinary") &&
+                  !product?.coverImage?.includes("cdn.shopify")
+                    ? `${baseUrl}/${product?.coverImage}`
+                    : product?.coverImage
+                }
+                alt="Cover Image"
+              />
+              {overImage && (
+                <img
+                  className="absolute"
+                  style={{
+                    top: `${product?.customization?.yAxis}%`,
+                    left: `${product?.customization?.xAxis}%`,
+                    height: `${product?.customization?.height}px`,
+                    width: `${product?.customization?.width}px`,
+                  }}
+                  src={overImage}
+                  alt="Overlay Image"
+                />
+              )}
+            </div>
+
+            <div className="mt-0">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="border p-2"
+              />
+            </div>
           </div>
 
-          <div className="modal-action">
+          <div className="modal-action mt-6">
             <div>
               <button
                 className="btn"
