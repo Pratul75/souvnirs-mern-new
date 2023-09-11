@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { fadeInFromRightVariant, fadeInVariants } from "../../../animation";
+import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
 // header card component is uesd to show the main headers of the landing page of shop
@@ -67,10 +67,10 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h2 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
@@ -102,10 +102,10 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h2 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
