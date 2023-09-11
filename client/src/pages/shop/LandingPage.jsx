@@ -206,11 +206,11 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <ProductsListWithFilters
+      {/* <ProductsListWithFilters
         heading="Top Seasonal Gifts"
         filters={productListFiltersAndProducts.filters}
         products={productListFiltersAndProducts.products}
-      />
+      /> */}
 
       <GradiantCardList cardData={gradiantCardListCardData} />
 

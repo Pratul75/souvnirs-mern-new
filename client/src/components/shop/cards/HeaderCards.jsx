@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
-// header card component is uesd to show the main headers of the landing page of shop
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,
@@ -31,10 +30,7 @@ const HeaderCards = ({
             alt=""
           />
           <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
-            <div className="">
-              <img src={productImgOne} alt="" />
-            </div>
-            <div>
+            <div className="flex flex-col items-center justify-center">
               <h2 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
                 {mainHeading}
               </h2>
@@ -45,12 +41,13 @@ const HeaderCards = ({
                 {mainSubHeading}
               </h6>
 
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-0 md:mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
+              <div className="btn mt-4 ">
+                <span className="font-semibold">Shop Now</span>{" "}
+                <BsArrowRight className="text-lg font-bold" />
               </div>
+            </div>
+            <div className="">
+              <img src={productImgOne} alt="" />
             </div>
           </div>
         </motion.div>
@@ -67,22 +64,20 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
+              <h2 className="text-white text-lg md:text-6xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-lg md:text-6xl font-bold">
                 {mainHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
+              <h6 className="text-white marker:text-lg font-normal my-2">
                 {mainSubHeading}
               </h6>
 
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-0 md:mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
-              </div>
+              <button className="btn">
+                <span className="font-semibold text-black">Shop Now</span>{" "}
+                <BsArrowRight className="text-xl text-black" />
+              </button>
             </div>
             <div>
               <img src={productImageTwo} alt="" />
@@ -102,22 +97,19 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
+              <h2 className="text-white text-lg md:text-6xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-lg md:text-6xl font-bold">
                 {mainHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
+              <h6 className="text-white marker:text-lg font-normal my-2">
                 {mainSubHeading}
               </h6>
-
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-0 md:mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
-              </div>
+              <button className="btn">
+                <span className="font-semibold text-black">Shop Now</span>{" "}
+                <BsArrowRight className="text-xl text-black" />
+              </button>
             </div>
             <div>
               <img src={productImageTwo} alt="" />
