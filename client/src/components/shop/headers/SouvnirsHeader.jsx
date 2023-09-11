@@ -3,7 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
-import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineLogin,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
@@ -351,6 +355,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         <div className="flex gap-1">
           <AiOutlineShoppingCart className="text-2xl" />
           <AiOutlineHeart className="text-2xl text-rose-600" />
+          <Link to={PATHS.login}>
+            <AiOutlineLogin className="text-2xl text-shopPrimaryColor" />
+          </Link>
         </div>
       </header>
       {/* Overlay */}
