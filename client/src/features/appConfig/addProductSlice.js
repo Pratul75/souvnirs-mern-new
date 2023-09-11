@@ -14,6 +14,7 @@ const initialState = {
   readyToShip: null,
   freeShipping: null,
   customization: {},
+  commission: {},
 };
 
 export const productSlice = createSlice({
@@ -35,6 +36,7 @@ export const productSlice = createSlice({
         readyToShip,
         freeShipping,
         customization,
+        commission,
       } = action.payload;
       if (name) {
         state.name = name;
@@ -71,6 +73,9 @@ export const productSlice = createSlice({
       }
       if (customization) {
         state.customization = customization;
+      }
+      if (commission) {
+        state.commission = commission;
       }
     },
     removeProduct: (state, action) => {

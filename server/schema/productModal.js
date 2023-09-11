@@ -46,6 +46,9 @@ const productSchema = new mongoose.Schema(
       type: Number,
       // required: true,
     },
+    minQuantityToBuy: {
+      type: Number,
+    },
     mrp: {
       type: Number,
       // required: true,

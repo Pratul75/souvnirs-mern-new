@@ -1072,11 +1072,8 @@ const bulkProductUpload = async (req, res) => {
 const deleteFakeProducts = async (req, res) => {
   // const products = await Product.aggregate([])
   //
-  const variants = await AttributeType.find({ variant: { $exists: false } });
+  variants = await AttributeType.find({ variant: { $exists: false } });
 
-  for (let variant of variants) {
-    await Product.findByIdAndDelete(variant.productId);
-  }
   res.status(200).json("bulk delete successfull");
 };
 

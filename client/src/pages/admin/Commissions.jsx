@@ -80,8 +80,8 @@ const Commissions = () => {
 
   const columns = [
     {
-      Header: "Category ID",
-      accessor: "categoryId",
+      Header: "Category ",
+      accessor: "name",
     },
     {
       Header: "Commission Type",

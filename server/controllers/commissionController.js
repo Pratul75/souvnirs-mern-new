@@ -1,10 +1,15 @@
+const Category = require("../schema/categoryModal");
 const Commission = require("../schema/commissionModal"); // Import your Commission model
 
 // Create a new commission
 const createCommission = async (req, res) => {
   try {
     const commission = new Commission(req.body);
-    await commission.save();
+    const { categoryId, commissionType, commissionTypeValue } = req.body;
+    await Category.findByIdAndUpdate(categoryId, {
+      commissionType,
+      commissionTypeValue,
+    });
     res.status(201).json(commission);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -14,7 +19,9 @@ const createCommission = async (req, res) => {
 // Read all commissions
 const getAllCommissions = async (req, res) => {
   try {
-    const commissions = await Commission.find();
+    const commissions = await Category.find({
+      commissionTypeValue: { $exists: true },
+    });
     res.json(commissions);
   } catch (err) {
     res.status(500).json({ error: err.message });

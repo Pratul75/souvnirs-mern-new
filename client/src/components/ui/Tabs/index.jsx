@@ -21,7 +21,7 @@ const Tabs = ({ tabs, enableBorder, hasCard, alignCenter }) => {
           {tabs.map((tab, index) => (
             <button
               key={index}
-              className={`px-4 py-2 text-lg hover:text-gray-700 cursor-pointer  ${
+              className={`px-4 py-2 border-2 border-grey text-lg font-bold hover:text-gray-700 cursor-pointer  ${
                 activeTab === index
                   ? "text-blue-500 text-lg  border-b-2 border-blue-500 py-4"
                   : ""
