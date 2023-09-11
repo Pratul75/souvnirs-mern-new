@@ -70,10 +70,12 @@ const CollectionProducts = () => {
   }, [filters, inputRangeValue, page]);
 
   return (
-    <div className="mx-16 mt-4">
-      <div className="grid grid-cols-4">
-        <div className="col-span-1">
-          <div className="flex gap-4 flex-col">
+    <div className="mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Sidebar */}
+        <div className="md:col-span-1 hidden md:block">
+          <div className="hidden md:flex flex-col gap-4">
+            {/* Price Filter */}
             <Card>
               <div className="p-4">
                 <div className="flex items-center justify-between">
@@ -83,12 +85,12 @@ const CollectionProducts = () => {
                   range
                   min={0}
                   max={100000}
-                  step={50} // Set the step value to 50
-                  onChange={(value) => setInputRangeValue(value)} // Update the state when the slider value changes
+                  step={50}
+                  onChange={(value) => setInputRangeValue(value)}
                   value={inputRangeValue}
                   className="range"
                 />
-                <div>
+                <div className="text-sm">
                   <span>
                     {inputRangeValue[0]} - {inputRangeValue[1]}
                   </span>
@@ -96,33 +98,37 @@ const CollectionProducts = () => {
               </div>
             </Card>
 
-            {filterList &&
-              Object.keys(filterList).map((filter) => {
-                console.log("CategoryProducts.jsx", filter);
-                return (
+            {/* Filter Cards */}
+            <div className="hidden md:flex flex-col">
+              {filterList &&
+                Object.keys(filterList).map((filter) => (
                   <FilterCard
-                    key={filter} // You should add a unique key for each item in the list
+                    key={filter}
                     title="Product Filter"
                     onSelect={handleFilterSelection}
                     heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
+                    filters={filterList[filter].map((a) => ({
+                      filterName: a,
+                    }))}
                   />
-                );
-              })}
+                ))}
+            </div>
           </div>
         </div>
-        <div className="col-span-3 container px-8">
-          <div className="flex justify-between">
+
+        {/* Main Content */}
+        <div className="md:col-span-3">
+          <div className="flex justify-between items-center">
             <div className="flex gap-4">
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${filterType && "btn-primary"} btn-square`}
+                className={`btn ${filterType ? "btn-primary" : ""} btn-square`}
               >
                 <MdOutlineDashboard className="text-2xl" />
               </button>
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${!filterType && "btn-primary"} btn-square`}
+                className={`btn ${!filterType ? "btn-primary" : ""} btn-square`}
               >
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>
@@ -135,18 +141,19 @@ const CollectionProducts = () => {
                 <option selected disabled>
                   Default Sorting
                 </option>
-                <option value="ascending">ascending</option>
-                <option value="descending">descending</option>
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
               </select>
             </div>
           </div>
+
           <div className="flex justify-between gap-4 mt-4 flex-wrap">
             {filterType ? (
               products &&
               sortProductsByName(products, selctedFilter).map((product) => (
                 <ProductCardMini
-                  key={nanoid()}
-                  id={nanoid()}
+                  key={product.products._id}
+                  id={product.products._id}
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
@@ -155,40 +162,37 @@ const CollectionProducts = () => {
                   slug={product.products.slug}
                   rating={4.5}
                   title={product.products.name}
-                  // discountPrice="300"
                   image={product.products.coverImage}
                 />
               ))
             ) : (
               <div className="flex flex-wrap gap-4 justify-center">
-                {products && products.length == 0 && <div>No product</div>}
+                {products && products.length === 0 && <div>No product</div>}
 
                 {products &&
-                  products?.map((product) => {
-                    return (
-                      <ProductCard
-                        key={nanoid()}
-                        badgeColor="badge-accent"
-                        badgeText="NEW"
-                        slug={product.products.slug}
-                        id={product.products._id}
-                        price={
-                          product.variants.length > 0
-                            ? product.variants[0].price
-                            : product.products.price
-                        }
-                        rating={4.2}
-                        title={product.products.name}
-                        // discountPrice="300"
-                        image={product.products.coverImage}
-                        onClick={() => {}}
-                      />
-                    );
-                  })}
+                  products.map((product) => (
+                    <ProductCard
+                      key={product.products._id}
+                      badgeColor="badge-accent"
+                      badgeText="NEW"
+                      slug={product.products.slug}
+                      id={product.products._id}
+                      price={
+                        product.variants.length > 0
+                          ? product.variants[0].price
+                          : product.products.price
+                      }
+                      rating={4.2}
+                      title={product.products.name}
+                      image={product.products.coverImage}
+                      onClick={() => {}}
+                    />
+                  ))}
               </div>
             )}
           </div>
-          <div className="flex  w-full justify-center my-4">
+
+          <div className="flex w-full justify-center my-4">
             <div className="flex justify-center items-center gap-5 w-1/3">
               <button
                 onClick={() => {
@@ -202,10 +206,10 @@ const CollectionProducts = () => {
               >
                 -
               </button>
-              <span className="text-3xl ">{page}</span>
+              <span className="text-3xl">{page}</span>
               <button
                 onClick={() => {
-                  if (page == lastPage) {
+                  if (page === lastPage) {
                     return;
                   }
                   setPage((prev) => prev + 1);
