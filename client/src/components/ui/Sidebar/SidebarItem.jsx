@@ -5,6 +5,7 @@ import { sidebarVariants } from "../../../animation";
 import { useDispatch, useSelector } from "react-redux";
 import { setActiveLink } from "../../../features/appConfig/appSlice";
 import { Tooltip } from "react-tooltip";
+
 const SidebarItem = ({ title, navLink, Icon, sidebarState }) => {
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.appConfig.darkMode);

@@ -15,6 +15,7 @@ import { BsCaretDown } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import { Tooltip } from "react-tooltip";
 import { AiFillInfoCircle } from "react-icons/ai";
+
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -282,6 +283,7 @@ const AddProductAttributes = () => {
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
         />
+
         <div>
           {selectedAttributes.length < 1 ? (
             <div>
@@ -391,7 +393,7 @@ const AddProductAttributes = () => {
 
                             {data.map(
                               ({ price, quantity, currency }, dataIndex) => (
-                                <tr>
+                                <tr key={nanoid()}>
                                   <td>
                                     <input
                                       type="text"

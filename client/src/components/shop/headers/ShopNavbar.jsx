@@ -11,6 +11,7 @@ const ShopNavbar = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const { Option } = Select;
+
   const onClick = (e) => {
     setCurrent(e.key);
   };
@@ -44,14 +45,14 @@ const ShopNavbar = () => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         return (
           <Menu.SubMenu
-            className="font-normal "
+            className="font-normal"
             key={menuItem._id}
             title={menuItem.title.toUpperCase()}
           >
             {menuItem.submenus.map((submenuItem) => (
               <React.Fragment key={submenuItem._id}>
                 {submenuItem.child && submenuItem.child.length > 0 ? (
-                  // Render child submenu if children exist
+                  // render child submenu if children exist
                   <Menu.SubMenu
                     className="flex"
                     key={submenuItem._id}
@@ -132,7 +133,7 @@ const ShopNavbar = () => {
 
   return (
     <Menu
-      className="bg-gray-50 join w-full rounded-none"
+      className="bg-gray-50 join w-full rounded-none hidden md:flex"
       onClick={onClick}
       selectedKeys={[current]}
       mode="horizontal"

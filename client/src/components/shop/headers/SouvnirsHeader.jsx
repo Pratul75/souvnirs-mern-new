@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import PropTypes from "prop-types";
@@ -20,6 +20,8 @@ import { SouvnirsMobileLogo } from "../../../icons";
 import { Menu } from "antd";
 import {
   AppstoreOutlined,
+  CaretDownOutlined,
+  CaretRightOutlined,
   MailOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
@@ -174,21 +176,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     }
   };
 
-  const renderSubmenus = (submenus) => {
-    return submenus.map((submenu) => (
-      <Link to={`${window.location.origin}/${submenu.link}`} key={submenu._id}>
-        <Menu.SubMenu
-          title={submenu.title}
-          icon={submenu.child && submenu.child.length > 0 ? submenu.icon : null}
-        >
-          {submenu.child && submenu.child.length > 0
-            ? renderSubmenus(submenu.child)
-            : null}
-        </Menu.SubMenu>
-      </Link>
-    ));
-  };
-
   useEffect(() => {
     getNavbarData();
   }, []);
@@ -199,6 +186,92 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       getCartItems();
     }
   }, [refresh]);
+  const [openSubmenus, setOpenSubmenus] = useState({});
+
+  const renderSubMenuItems = (menuData) => {
+    const handleSubmenuClick = (key) => {
+      setOpenSubmenus((prevState) => ({
+        ...prevState,
+        [key]: !prevState[key], // Toggle the submenu state
+      }));
+    };
+
+    return menuData.map((menuItem) => {
+      if (menuItem.submenus && menuItem.submenus.length > 0) {
+        const isSubmenuOpen = openSubmenus[menuItem._id];
+
+        return (
+          <Menu.SubMenu
+            className="font-normal"
+            key={menuItem._id}
+            title={menuItem.title.toUpperCase()}
+            icon={
+              isSubmenuOpen ? (
+                <CaretDownOutlined /> // Change to your open icon
+              ) : (
+                <CaretRightOutlined /> // Change to your closed icon
+              )
+            }
+            onTitleClick={() => handleSubmenuClick(menuItem._id)}
+          >
+            {menuItem.submenus.map((submenuItem) => (
+              <React.Fragment key={submenuItem._id}>
+                {submenuItem.child && submenuItem.child.length > 0 ? (
+                  // render child submenu if children exist
+                  <Menu.SubMenu
+                    className="flex"
+                    key={submenuItem._id}
+                    title={submenuItem.title}
+                    icon={
+                      submenuItem.child.length > 0 ? (
+                        <CaretDownOutlined /> // Change to your open icon
+                      ) : null
+                    }
+                    onTitleClick={() => handleSubmenuClick(submenuItem._id)}
+                  >
+                    {submenuItem.child.map((childItem) => (
+                      <Menu.Item key={childItem._id}>
+                        <Link
+                          to={`${window.location.origin}/${childItem.link}`}
+                        >
+                          {childItem.title}
+                        </Link>
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
+                ) : (
+                  // Render a plain menu item with a link if no children exist
+                  <Menu.Item className="cursor-pointer" key={submenuItem._id}>
+                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                      {submenuItem.title}
+                    </Link>
+                  </Menu.Item>
+                )}
+              </React.Fragment>
+            ))}
+          </Menu.SubMenu>
+        );
+      } else if (menuItem.link) {
+        // Check if there's a link for the main menu item
+        return (
+          <Menu.Item key={menuItem._id}>
+            <Link to={`${window.location.origin}/${menuItem.link}`}>
+              {menuItem.title}
+            </Link>
+          </Menu.Item>
+        );
+      } else {
+        return (
+          <Menu.Item
+            onClick={() => console.log("CLICKED ON SUB MENU")}
+            key={menuItem._id}
+          >
+            {menuItem.title}
+          </Menu.Item>
+        );
+      }
+    });
+  };
 
   return (
     <>
@@ -378,7 +451,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0 h-auto w-60 bg-white shadow-lg overflow-y-auto z-50"
+            className="fixed top-0 left-0  w-60 bg-white shadow-lg overflow-y-auto z-50 h-screen"
           >
             {/* Close sidebar button */}
             <div className="flex justify-start p-4">
@@ -393,15 +466,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             <Menu
               mode="inline"
               style={{ borderBottom: "none" }}
-              className="w-full"
+              className="w-full overflow-y-auto"
             >
-              {navbarData.map((menu) => (
-                <Menu key={menu._id} title={menu.title}>
-                  {menu.submenus && menu.submenus.length > 0
-                    ? renderSubmenus(menu.submenus)
-                    : null}
-                </Menu>
-              ))}
+              {renderSubMenuItems(navbarData)}
             </Menu>
           </motion.div>
         )}
