@@ -18,6 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 import { SouvnirsMobileLogo } from "../../../icons";
 import { Menu } from "antd";
+
 import {
   AppstoreOutlined,
   CaretDownOutlined,
@@ -105,10 +106,17 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    // Disable scrolling when the sidebar is open
+    if (!isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
   };
-
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+    // Enable scrolling when the sidebar is closed
+    document.body.style.overflow = "auto";
   };
 
   const getWishlistData = async () => {
@@ -129,6 +137,11 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     }
   };
 
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "auto"; // Reset overflow when the component unmounts
+    };
+  }, []);
   useEffect(() => {
     const applyFilters = () => {
       if (selectedFilter === "productInfo") {
@@ -206,11 +219,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             key={menuItem._id}
             title={menuItem.title.toUpperCase()}
             icon={
-              isSubmenuOpen ? (
-                <CaretDownOutlined /> // Change to your open icon
-              ) : (
-                <CaretRightOutlined /> // Change to your closed icon
-              )
+              isSubmenuOpen ? <CaretDownOutlined /> : <CaretRightOutlined />
             }
             onTitleClick={() => handleSubmenuClick(menuItem._id)}
           >
@@ -454,14 +463,17 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             className="fixed top-0 left-0  w-60 bg-white shadow-lg overflow-y-auto z-50 h-screen"
           >
             {/* Close sidebar button */}
-            <div className="flex justify-start p-4">
-              <button className="btn btn-circle  ">
-                <GrFormClose
-                  className="text-2xl cursor-pointer"
-                  onClick={() => setIsSidebarOpen(false)}
-                />
-              </button>
+            <div className="flex justify-center p-4">
+              <Link to={PATHS.landingPage}>
+                <img src={SouvnirsLogoImage} />
+              </Link>
             </div>
+            <button className="btn btn-circle float-right mr-4">
+              <GrFormClose
+                className="text-2xl cursor-pointer"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+            </button>
             <br />
             <Menu
               mode="inline"
