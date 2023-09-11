@@ -16,7 +16,6 @@ import API_WRAPPER from "../../../api";
 import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
-import { SouvnirsMobileLogo } from "../../../icons";
 import { Menu } from "antd";
 
 import {
@@ -139,9 +138,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
 
   useEffect(() => {
     return () => {
-      document.body.style.overflow = "auto"; // Reset overflow when the component unmounts
+      document.body.style.overflow = "auto";
     };
   }, []);
+
   useEffect(() => {
     const applyFilters = () => {
       if (selectedFilter === "productInfo") {
@@ -208,8 +208,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         [key]: !prevState[key], // Toggle the submenu state
       }));
     };
-
     return menuData.map((menuItem) => {
+      const hasChild = menuItem.submenus && menuItem.submenus.length > 0;
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         const isSubmenuOpen = openSubmenus[menuItem._id];
 
@@ -228,7 +228,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 {submenuItem.child && submenuItem.child.length > 0 ? (
                   // render child submenu if children exist
                   <Menu.SubMenu
-                    className="flex"
                     key={submenuItem._id}
                     title={submenuItem.title}
                     icon={
@@ -263,20 +262,20 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       } else if (menuItem.link) {
         // Check if there's a link for the main menu item
         return (
-          <Menu.Item key={menuItem._id}>
+          <Menu.SubMenu key={menuItem._id}>
             <Link to={`${window.location.origin}/${menuItem.link}`}>
               {menuItem.title}
             </Link>
-          </Menu.Item>
+          </Menu.SubMenu>
         );
       } else {
         return (
-          <Menu.Item
+          <Menu.SubMenu
             onClick={() => console.log("CLICKED ON SUB MENU")}
             key={menuItem._id}
           >
             {menuItem.title}
-          </Menu.Item>
+          </Menu.SubMenu>
         );
       }
     });
@@ -460,7 +459,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0  w-60 bg-white shadow-lg overflow-y-auto z-50 h-screen"
+            className="fixed top-0 left-0   bg-white shadow-lg overflow-y-auto z-50 h-screen"
           >
             {/* Close sidebar button */}
             <div className="flex justify-center p-4">
@@ -475,11 +474,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               />
             </button>
             <br />
-            <Menu
-              mode="inline"
-              style={{ borderBottom: "none" }}
-              className="w-full overflow-y-auto"
-            >
+            <Menu mode="inline" className="w-full overflow-y-auto">
               {renderSubMenuItems(navbarData)}
             </Menu>
           </motion.div>

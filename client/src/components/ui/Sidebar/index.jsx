@@ -93,7 +93,7 @@ const Sidebar = () => {
                   Icon={(props) => (
                     <Icon
                       {...props}
-                      className={props.isActive ? "text-themeColor" : ""}
+                      className={props.isActive ? "text-shopPrimaryColor" : ""}
                     />
                   )}
                   sidebarState={sidebarState}
