@@ -395,20 +395,21 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0   bg-white shadow-lg overflow-y-auto z-50 h-screen"
+            className="fixed w-screen top-0 left-0 bg-white shadow-lg overflow-y-auto z-50 h-screen  backdrop-blur-md opacity-80"
           >
             {/* Close sidebar button */}
-            <div className="flex justify-center p-4">
+            <div className="flex justify-between p-4">
               <Link to={PATHS.landingPage}>
                 <img src={SouvnirsLogoImage} />
               </Link>
+              <button className="btn btn-circle float-right mr-4">
+                <GrFormClose
+                  className="text-2xl cursor-pointer"
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              </button>
             </div>
-            <button className="btn btn-circle float-right mr-4">
-              <GrFormClose
-                className="text-2xl cursor-pointer"
-                onClick={() => setIsSidebarOpen(false)}
-              />
-            </button>
+
             <br />
             <Menu mode="inline" className="w-full overflow-y-auto">
               {renderSubMenuItems(navbarData)}
