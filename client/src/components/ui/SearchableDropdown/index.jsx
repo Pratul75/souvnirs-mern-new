@@ -44,7 +44,18 @@ const SearchableDropdown = ({ items, handleSelect, categoryName }) => {
             <ul tabIndex={0} className="max-h-48 overflow-y-auto">
               {filteredItems.map((item, index) => (
                 <li key={index}>
-                  <a onClick={() => selectItem(item)}>{item.name}</a>
+                  <a
+                    onClick={() =>
+                      selectItem({
+                        id: item._id,
+                        name: item.name,
+                        commissionType: item.commissionType,
+                        commissionTypeValue: item.commissionTypeValue,
+                      })
+                    }
+                  >
+                    {item.name}
+                  </a>
                 </li>
               ))}
             </ul>
