@@ -159,3 +159,13 @@ body {
 .ant-menu-submenu-arrow::after {
   display: none;
 }
+
+/* CSS for disabling scrolling when the sidebar is open */
+body.sidebar-open {
+  overflow: hidden;
+}
+
+/* CSS for enabling scrolling when the sidebar is closed */
+body.sidebar-closed {
+  overflow: auto;
+}

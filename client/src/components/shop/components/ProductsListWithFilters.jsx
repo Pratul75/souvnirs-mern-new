@@ -60,10 +60,10 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
 
   return (
     <ScrollAnimationWrapper>
-      <div className="mt-5">
+      <div className="mt-5 hidden md:block">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <h1 className="font-semibold text-2xl">{heading}</h1>
-          <div className="hidden md:flex flex-col md:flex-row  gap-2">
+          <div className="flex md:flex flex-col md:flex-row  gap-2">
             {filters.map((filter) => (
               <button
                 className={`text-lg mr-12 p-4 border-b-[1px] ${
@@ -98,7 +98,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
                     key={_id}
                     title={name}
                     price={price}
-                    rating={4.3}
+                    rating={rating}
                     id={_id}
                     image={coverImage}
                     slug={slug}

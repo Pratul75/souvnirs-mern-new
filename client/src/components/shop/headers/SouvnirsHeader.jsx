@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 import { Menu } from "antd";
-
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
@@ -34,25 +33,12 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [navbarData, setNavbarData] = useState([]);
 
-  const [current, setCurrent] = useState("mail");
-  const onClick = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-  };
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-    // Disable scrolling when the sidebar is open
-    if (!isSidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
   };
+
   const closeSidebar = () => {
     setIsSidebarOpen(false);
-    // Enable scrolling when the sidebar is closed
-    document.body.style.overflow = "auto";
   };
 
   const getWishlistData = async () => {
@@ -72,12 +58,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       setSelectedFilter(value);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -142,7 +122,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     const handleSubmenuClick = (key) => {
       setOpenSubmenus((prevState) => ({
         ...prevState,
-        [key]: !prevState[key], // Toggle the submenu state
+        [key]: !prevState[key],
       }));
     };
     return menuData.map((menuItem) => {
@@ -365,9 +345,9 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         <div>
           <RxHamburgerMenu id="open-sidebar" onClick={toggleSidebar} />
         </div>
-        <div className="w-28">
+        <Link to={PATHS.landingPage} className="w-32">
           <img src={SouvnirsLogoImage} />
-        </div>
+        </Link>
         <div className="flex gap-1">
           <AiOutlineShoppingCart className="text-2xl" />
           <AiOutlineHeart className="text-2xl text-rose-600" />

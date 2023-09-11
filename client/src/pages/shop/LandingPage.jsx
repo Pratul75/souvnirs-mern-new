@@ -91,9 +91,9 @@ const LandingPage = () => {
         subHeadingFour="Capped at $50 per order"
       />
 
-      <div className="flex justify-between mt-5">
+      <div className="flex flex-col md:flex-row md:justify-between mt-5">
         <ProductCarosel className="flex-1" items={caroselMapppingDailyDeals} />
-        <div className="grid bg-white grid-cols-5 gap-4 mt-16 w-full shadow-xl border-2 ">
+        <div className="grid bg-white grid-cols-5 gap-4 mt-5 w-full shadow-xl border-2 ">
           <div className="col-span-5">
             <Tabs
               alignCenter
@@ -105,7 +105,7 @@ const LandingPage = () => {
                       {productsList.slice(0, 4).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
                         >
                           <div className="flex items-center space-x-4">
                             <img
@@ -173,7 +173,7 @@ const LandingPage = () => {
                       {productsList.slice(5, 8).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
                         >
                           <div className="flex items-center space-x-4">
                             <img
@@ -205,6 +205,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
       <ProductsListWithFilters
         heading="Top Seasonal Gifts"
         filters={productListFiltersAndProducts.filters}

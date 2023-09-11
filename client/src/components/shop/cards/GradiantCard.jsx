@@ -22,7 +22,7 @@ const GradiantCard = ({
         src={background}
         alt="gradiant-background-image"
       />
-      <div className="inset-0 absolute flex flex-col md:flex-row items-center justify-center px-16">
+      <div className="inset-0 absolute flex flex-row md:flex-row items-center justify-center px-4">
         <div className="flex flex-col">
           <div className="">
             <h5 className="text-white md:text-base font-medium md:leading-tight">
@@ -35,7 +35,7 @@ const GradiantCard = ({
               {subheading}
             </h1>
           </div>
-          <div className="w-full flex justify-start md:mt-4">
+          <div className="w-full flex justify-start mt-4">
             <Link
               to={link}
               className={`md:mt-4 text-white btn outline-none border-none hover:shadow-lg hover:shadow-[#${btnColorCode}]`}
@@ -46,7 +46,7 @@ const GradiantCard = ({
           </div>
         </div>
         <div>
-          <img className="hidden  top-4 md:flex" src={image} alt="image" />
+          <img className="md:flex" src={image} alt="image" />
         </div>
       </div>
     </div>
