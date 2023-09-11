@@ -20,7 +20,9 @@ const CollectionProducts = () => {
   const [filters, setFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [selctedFilter, setSelctedFilter] = useState("ascending");
+  const [lastPage, setLastPage] = useState(2);
+
+  const [selctedFilter, setSelctedFilter] = useState("new");
   const location = useParams();
 
   const getProducts = async () => {
@@ -32,11 +34,13 @@ const CollectionProducts = () => {
         priceMin: inputRangeValue[0],
         priceMax: inputRangeValue[1],
         page: page,
+        sort: selctedFilter,
       }
     );
     console.log("COLLECTION RESPONSE: ", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
+    setLastPage(response?.data?.lastPage);
     setLoading(false);
   };
 
@@ -67,7 +71,7 @@ const CollectionProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue, page]);
+  }, [filters, inputRangeValue, selctedFilter, page]);
 
   return (
     <div className="mt-4">
@@ -138,11 +142,14 @@ const CollectionProducts = () => {
                 name="defaultSorting"
                 id="defaultSorting"
               >
-                <option selected disabled>
-                  Default Sorting
+                <option value="recommended">Recommended</option>
+                <option value="new" selected>
+                  What's new
                 </option>
-                <option value="ascending">Ascending</option>
-                <option value="descending">Descending</option>
+                <option value="discount">Better Discount</option>
+                <option value="htl">price:high to low</option>
+                <option value="lth">price:low to high</option>
+                <option value="rating">Customer Rating</option>
               </select>
             </div>
           </div>

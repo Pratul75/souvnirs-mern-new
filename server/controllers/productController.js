@@ -331,7 +331,7 @@ const getProductsByCategorySlug = async (req, res) => {
 };
 
 const getProductsByCollectionSlug = async (req, res) => {
-  const { data, priceMax, priceMin, page } = req.body;
+  const { data, priceMax, priceMin, page, sort } = req.body;
   function convertFiltersArrayToObject(filtersArray) {
     const filtersObject = {};
 
@@ -436,7 +436,7 @@ const getProductsByCollectionSlug = async (req, res) => {
 
   const products = await Collection.aggregate(aggregationPipeline);
   // console.log(products);
-  const filteredProducts = products.filter((product) => {
+  let filteredProducts = products.filter((product) => {
     if (product.variants && product.variants.length > 0) {
       return product.variants.some(
         (variant) => variant.price >= priceMin && variant.price <= priceMax
@@ -447,6 +447,32 @@ const getProductsByCollectionSlug = async (req, res) => {
       );
     }
   });
+
+  if (sort && sort == "htl") {
+    filteredProducts = filteredProducts.sort((a, b) => {
+      if (a.variants.length > 0 && b.variants.length > 0) {
+        return b.variants[0].price - a.variants[0].price;
+      } else if (a.variants.length > 0 && b.variants.length == 0) {
+        return b.price - a.variants[0].price;
+      } else if (a.variants.length == 0 && b.variants.length > 0) {
+        return b.variants[0].price - a.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+  } else if (sort && sort == "lth") {
+    filteredProducts = filteredProducts.sort((a, b) => {
+      if (a.variants.length > 0 && b.variants.length > 0) {
+        return a.variants[0].price - b.variants[0].price;
+      } else if (a.variants.length > 0 && b.variants.length == 0) {
+        return a.variants[0].price - b.price;
+      } else if (a.variants.length == 0 && b.variants.length > 0) {
+        return a.price - b.variants[0].price;
+      } else {
+        return a.price - b.price;
+      }
+    });
+  }
 
   // Gather unique attributes and their values
   const uniqueAttributes = {};
@@ -493,11 +519,13 @@ const getProductsByCollectionSlug = async (req, res) => {
       return attributes;
     }, {});
 
-  const lastPage = Math.ceil(filteredProducts / 10);
+  const lastPage = Math.ceil(filteredProducts.length / 10);
 
   const finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
 
-  res.status(200).json({ products: finalProducts, filters: variantComb });
+  res
+    .status(200)
+    .json({ products: finalProducts, filters: variantComb, lastPage });
 };
 
 const getProductsByFilter = async (req, res) => {

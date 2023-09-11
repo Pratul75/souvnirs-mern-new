@@ -29,6 +29,7 @@ const AddProductAttributes = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [catDropdown, setCatDropdown] = useState(false);
+  const [commission, setcommission] = useState(null);
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const AddProductAttributes = () => {
   const createProduct = async () => {
     try {
       console.log("AddProductAttributes.jsx", p);
+      console.log(variantData);
       const productFormData = new FormData();
       productFormData.append("name", p.name);
       productFormData.append("vendorId", p.vendorId);
@@ -120,6 +122,11 @@ const AddProductAttributes = () => {
   };
 
   const handleSelectedValue = (category) => {
+    console.log(category);
+    setcommission({
+      commissionType: category.commissionType,
+      commissionTypeValue: category.commissionTypeValue,
+    });
     setCategoryId(category?.id);
     setCategoryName(category?.name);
     setSelectedAttributes([]);
@@ -131,6 +138,7 @@ const AddProductAttributes = () => {
       targetElement.scrollIntoView({ behavior: "smooth" }); // You can use 'auto' for instant scrolling
     }
   };
+  console.log(commission);
 
   const convertAttributesList = (arr) => {
     return arr.map(({ _id, name }) => ({
@@ -339,7 +347,7 @@ const AddProductAttributes = () => {
                     <thead>
                       <tr>
                         <th>Variant</th>
-                        <th>Price</th>
+                        <th>price</th>
                         <th>Quantity</th>
                         <th>images</th>
                       </tr>
@@ -403,6 +411,11 @@ const AddProductAttributes = () => {
                                         handleDataChange(index, dataIndex, e)
                                       }
                                     />
+                                  </td>
+                                  <td>
+                                    {console.log(
+                                      variantData[index].data[dataIndex]
+                                    )}
                                   </td>
                                   <td>
                                     <input
@@ -632,7 +645,7 @@ const AddProductAttributes = () => {
                   <thead>
                     <tr>
                       <th>Variant Name</th>
-                      <th>Price</th>
+                      <th>MRP</th>
                       <th>Quantity</th>
                       <th>Images</th>
                     </tr>
