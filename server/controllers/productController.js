@@ -958,7 +958,7 @@ const bulkProductUpload = async (req, res) => {
 
   // Read the Excel file using xlsx library
   const workbook = xlsx.readFile(filePath);
-  const worksheet = workbook.Sheets[workbook.SheetNames[3]];
+  const worksheet = workbook.Sheets[workbook.SheetNames[1]];
   const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
   console.log(jsonData);
@@ -972,6 +972,7 @@ const bulkProductUpload = async (req, res) => {
       Category,
       Mrp,
       VendorEmail,
+      Price,
       tags,
       Color,
       Size,
@@ -984,6 +985,7 @@ const bulkProductUpload = async (req, res) => {
       Type,
       Flavour,
       coverImage,
+      ProductQuantity,
       ...rest
     } = item;
 
@@ -1007,7 +1009,7 @@ const bulkProductUpload = async (req, res) => {
         ID,
         Title,
         Description,
-        FeatureImage,
+        FeatureImage: [FeatureImage],
         VendorEmail,
         tags,
         Category,
@@ -1027,7 +1029,20 @@ const bulkProductUpload = async (req, res) => {
         ],
         data: [combinedData],
       };
+      const variantKeys = Object.keys(variantData);
+      const allNull = variantKeys.every(
+        (key) => variantData[key] === undefined
+      );
+
+      if (allNull) {
+        acc[ID].price = Price;
+        acc[ID].stockQuantity = ProductQuantity;
+        acc[ID].mrp = Mrp;
+      }
     } else {
+      if (FeatureImage) {
+        acc[ID].FeatureImage.push(FeatureImage);
+      }
       acc[ID].data.push(combinedData);
     }
 
@@ -1065,12 +1080,15 @@ const bulkProductUpload = async (req, res) => {
       description: thisdata.Description ?? " ",
       name: thisdata.Title,
       slug,
-      mrp: thisdata.Mrp,
+      price: thisdata.price,
+      stockQuantity: thisdata.stockQuantity,
+      mrp: thisdata.mrp,
       vendorId: vendor._id,
       tags: thisdata.tags.split(","),
       attributes: attributeIds,
       categoryId: category._id,
-      coverImage: thisdata.FeatureImage,
+      coverImage: thisdata.FeatureImage[0],
+      images: thisdata.FeatureImage,
     });
     console.log(productCreated);
     for (let variant of thisdata.data) {
@@ -1079,6 +1097,9 @@ const bulkProductUpload = async (req, res) => {
         if (variant.variant[key] === undefined) {
           delete variant.variant[key];
         }
+      }
+      if (Object.keys(variant.variant).length == 0) {
+        continue;
       }
       const created = await AttributeType.create({
         productId: productCreated._id,

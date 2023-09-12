@@ -22,7 +22,7 @@ const CategorySchema = new Schema(
     },
     commissionTypeValue: {
       type: Number,
-      required: true,
+      // required: true,
     },
     hsn_code: {
       type: String,
