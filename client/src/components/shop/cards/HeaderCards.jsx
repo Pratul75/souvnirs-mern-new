@@ -22,7 +22,7 @@ const HeaderCards = ({
           animate="animate"
           initial="initial"
           variants={fadeInVariants}
-          className="col-span-3 md:col-span-2 row-span-2 h-auto relative"
+          className="col-span-3 md:col-span-2 row-span-2 h-[80vh] md:h-auto relative"
         >
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -30,11 +30,11 @@ const HeaderCards = ({
             alt=""
           />
           <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
-            <div className="flex flex-col items-center justify-center">
-              <h2 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+            <div className="flex flex-col items-center md:items-start justify-center">
+              <h2 className="text-white text-2xl md:text-5xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-2xl md:text-4xl font-bold">
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
