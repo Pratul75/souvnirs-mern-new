@@ -29,6 +29,8 @@ const ProductInfo = () => {
   const [selectedVariants, setSelectedVariants] = useState({});
   const [overImage, setOverImage] = useState();
   const [customizedImage, setCustomizedImage] = useState();
+  const [currency, setCurrency] = useState("ruppee");
+  const [mrp, setMrp] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -167,11 +169,27 @@ const ProductInfo = () => {
       if (response?.data?.variants?.length < 1) {
         setImagesList(response.data.images);
       }
-      setPrice(
-        response?.data?.variants.length > 0
-          ? response.data?.variants[0].price
-          : response?.data?.price
+      setMrp(
+        response?.data?.variants.length > 0 && response.data?.variants[0].mrp
       );
+
+      if (response?.data?.variants.length > 0) {
+        if (response?.data?.variants[0]?.dynamic_price?.length > 0) {
+          // Handle the case when dynamic_price has length > 0
+          // You can access the dynamic_price[0]["price"] here
+          setPrice(response?.data?.variants[0]?.dynamic_price[0]["price"]);
+        } else {
+          // Handle the case when dynamic_price has length 0
+          // You can access response.data?.variants[0].price here
+          setPrice(response.data?.variants[0].price);
+        }
+      } else {
+        // Handle the case when variants has length 0
+        // You can access response?.data?.price here
+        setPrice(response?.data?.price);
+      }
+
+      updatePriceBasedOnQuantity(50);
     }
   };
 
@@ -186,6 +204,7 @@ const ProductInfo = () => {
       });
     });
   };
+  console.log(selectedVariants);
 
   const setSelectedVariant = (variants) => {
     setSelectedVariants(variants);
@@ -197,8 +216,43 @@ const ProductInfo = () => {
     } else {
       setSelectedImage(newSelectedVariant.images[0]);
     }
+    if (newSelectedVariant.dynamic_price) {
+      updatePriceBasedOnQuantity(quantity, currency);
+    }
+    setMrp(newSelectedVariant.mrp);
     setPrice(newSelectedVariant.price);
   };
+  function updatePriceBasedOnQuantity(quantity) {
+    const newSelectedVariant = findSelectedVariant(selectedVariants);
+
+    if (newSelectedVariant.dynamic_price) {
+      let updatedArray = [...newSelectedVariant.dynamic_price];
+      let selectedPriceObj = null;
+
+      for (let i = 0; i < updatedArray.length; i++) {
+        const obj = updatedArray[i];
+        const minQuantity = parseInt(obj.minQuantity);
+
+        if (quantity >= minQuantity) {
+          if (
+            !selectedPriceObj ||
+            minQuantity > parseInt(selectedPriceObj.minQuantity)
+          ) {
+            selectedPriceObj = { ...obj };
+          }
+        }
+      }
+
+      if (selectedPriceObj !== null) {
+        // Set the currency to "ruppee"
+        selectedPriceObj.currency = "ruppee";
+        setPrice(selectedPriceObj.price);
+      } else {
+        // Handle the case where no matching quantity range is found.
+        return null;
+      }
+    }
+  }
 
   const extractVariantsData = async (variants) => {
     let result = [];
@@ -297,9 +351,14 @@ const ProductInfo = () => {
                     <br />
                     <div className="gap-2 md:gap-4 flex flex-col">
                       <div className="flex gap-4 items-center">
-                        <span className="text-4xl font-thin">USD</span>
+                        <span className="text-4xl font-thin">
+                          {currency == "ruppee" ? "₹‎" : "USD"}
+                        </span>
                         {isLogged ? (
-                          <span className="text-4xl">{price}</span>
+                          <>
+                            <span className="line-through">{mrp}</span>
+                            <span className="text-4xl">{price}</span>
+                          </>
                         ) : (
                           <Link
                             to={PATHS.login}
@@ -339,9 +398,24 @@ const ProductInfo = () => {
                         min={50}
                         onChange={(e) => {
                           setQuantity(e.target.value);
+                          updatePriceBasedOnQuantity(e.target.value);
                         }}
                         value={quantity}
                       />
+                    </div>
+                    <div className="form-control">
+                      <label className="label">
+                        <span className="label-text">Currency</span>
+                      </label>
+                      <select
+                        onChange={(e) => setCurrency(e.target.value)}
+                        className="select select-bordered min-w-full"
+                      >
+                        <option value="ruppee" selected>
+                          ruppee
+                        </option>
+                        <option value="usd">usd</option>
+                      </select>
                     </div>
                     {variantFilters?.map((attribute) => {
                       const key = Object.keys(attribute)[0];

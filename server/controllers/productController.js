@@ -1067,7 +1067,7 @@ const bulkProductUpload = async (req, res) => {
       slug,
       mrp: thisdata.Mrp,
       vendorId: vendor._id,
-      tags: thisdata.tags.split("/"),
+      tags: thisdata.tags.split(","),
       attributes: attributeIds,
       categoryId: category._id,
       coverImage: thisdata.FeatureImage,

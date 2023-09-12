@@ -230,10 +230,14 @@ const AddProductAttributes = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
-  const handleDataChange = async (index, dataIndex, e) => {
+  const handleDataChange = (index, dataIndex, e) => {
     const { name, value } = e.target;
-    variantData[index].data[dataIndex][name] = value;
-    console.log(variantData);
+    setVariantData((prevVariantData) => {
+      const updatedVariantData = [...prevVariantData];
+      updatedVariantData[index].data[dataIndex][name] = value;
+      return updatedVariantData;
+    });
+    // e.target.focus();
   };
 
   const handleTableInputChange = (e, index, field) => {
@@ -400,13 +404,14 @@ const AddProductAttributes = () => {
                             </tr>
 
                             {data.map(
-                              ({ price, quantity, currency }, dataIndex) => (
+                              ({ price, minQuantity, currency }, dataIndex) => (
                                 <tr key={nanoid()}>
                                   <td>
                                     <input
                                       type="text"
                                       placeholder="price"
                                       name="price"
+                                      value={price}
                                       onChange={(e) =>
                                         handleDataChange(index, dataIndex, e)
                                       }
@@ -422,6 +427,7 @@ const AddProductAttributes = () => {
                                       type="text"
                                       placeholder="minQuantity"
                                       name="minQuantity"
+                                      value={minQuantity}
                                       onChange={(e) =>
                                         handleDataChange(index, dataIndex, e)
                                       }
@@ -432,6 +438,7 @@ const AddProductAttributes = () => {
                                       type="text"
                                       placeholder="currency"
                                       name="currency"
+                                      value={currency}
                                       onChange={(e) =>
                                         handleDataChange(index, dataIndex, e)
                                       }

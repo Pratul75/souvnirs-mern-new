@@ -166,48 +166,6 @@ const CategoryProducts = () => {
                 <option value="rating">Customer Rating</option>
               </select>
             </div>
-            <div className="flex gap-4">
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Ready To Ship</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        readyToShip: !shippingStates.readyToShip,
-                      };
-                    })
-                  }
-                  checked={shippingStates.readyToShip}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Free Shipping</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        freeShipping: !shippingStates.freeShipping,
-                      };
-                    })
-                  }
-                  checked={shippingStates.freeShipping}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
-            </div>
           </div>
           <div className="flex flex-wrap mt-4">
             {filterType ? (
