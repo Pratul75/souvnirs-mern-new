@@ -250,13 +250,7 @@ const LandingPage = () => {
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab
-            productsList={productsList.filter((product) => {
-              if (product.result) {
-                product.result.price < 150;
-              } else {
-                return product.price < 150;
-              }
-            })}
+            productsList={productsList.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />

@@ -41,7 +41,7 @@ const SingleTab = ({ productsList, heading }) => {
             <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
               <div className="justify-center items-center inline-flex mt-5 ">
                 <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                  {product.name}
+                  {product.name.slice(0, 40)}...
                   <br />
                   XP
                 </div>
