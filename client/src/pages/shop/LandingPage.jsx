@@ -9,7 +9,6 @@ import {
   BrandsCard,
   Tabs,
   Ratings,
-  ScrollAnimationWrapper,
 } from "../../components";
 import {
   BrandsCardImageList,
@@ -30,7 +29,6 @@ import GiftOnePngImage from "../../assets/shop/cardImages/giftOne.png";
 import BudsImage from "../../assets/shop/productImages/buds.png";
 import WatchImage from "../../assets/shop/productImages/watch.png";
 import BannerImageTwo from "../../assets/shop/bannerImages/bannerImageTwo.png";
-import TestimonialsCarosel from "../../components/shop/components/TestimonialsCarosel";
 import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
@@ -56,6 +54,7 @@ const LandingPage = () => {
   useEffect(() => {
     getAllProducts();
   }, []);
+
   return (
     <div>
       <HeaderCards
@@ -68,10 +67,10 @@ const LandingPage = () => {
         mainHeading="Band & Olufson"
         mainHeadingTwo="Staycation"
         mainSubHeading="Cozy and comforting stay-at-home set"
-        secondaryHeadingOne="Spring Sales Coming"
+        secondaryHeadingOne="Diwali Sale Coming"
         secondaryHeadingTwo="Smartphone"
         secondarySubHeadingOne="with touch"
-        tertioryHeadingOne="Spring Sales Coming"
+        tertioryHeadingOne="Diwali Sale Coming"
         tertioryHeadingTwo="Smart 4K TV"
         tertiorySubHeading="Watch Now"
       />
@@ -91,18 +90,11 @@ const LandingPage = () => {
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
-      <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
-        filters={productListFiltersAndProducts.filters}
-        products={productListFiltersAndProducts.products}
-      />
 
-      <GradiantCardList cardData={gradiantCardListCardData} />
-
-      <ScrollAnimationWrapper>
-        <div className="grid grid-cols-5 gap-4 mt-16 w-full ">
-          <ProductCarosel items={caroselMapppingDailyDeals} />
-          <div className="col-span-3">
+      <div className="flex flex-col md:flex-row md:justify-between mt-5">
+        <ProductCarosel className="flex-1" items={caroselMapppingDailyDeals} />
+        <div className="grid bg-white grid-cols-5 gap-4 mt-5 w-full shadow-xl border-2 ">
+          <div className="col-span-5">
             <Tabs
               alignCenter
               tabs={[
@@ -110,14 +102,14 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(0, 4).map((product) => (
+                      {productsList.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
                         >
                           <div className="flex items-center space-x-4">
                             <img
-                              className="w-24 h-24"
+                              className="w-24 h-24 rounded-md"
                               src={product.coverImage}
                               alt="Product"
                             />
@@ -136,23 +128,91 @@ const LandingPage = () => {
                           </div>
                         </div>
                       ))}
-
-                      {/* Item 2 */}
-
-                      {/* Item 3 */}
-
-                      {/* Item 4 */}
                     </div>
                   ),
                   label: "CONTENT 1",
                 },
-                { content: "I AM CONTENT 2", label: "CONTENT 2" },
-                { content: "I AM CONTENT 3", label: "CONTENT 3" },
+                {
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Item 1 */}
+                      {productsList.slice(8, 16).map((product) => (
+                        <div
+                          key={product._id}
+                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                        >
+                          <div className="flex items-center space-x-4">
+                            <img
+                              className="w-24 h-24 rounded-md"
+                              src={product.coverImage}
+                              alt="Product"
+                            />
+                            <div className="flex-grow">
+                              <h2 className="text-lg font-medium text-neutral-700">
+                                {product.name}
+                              </h2>
+                              <div className="text-xl font-medium text-violet-900"></div>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <Ratings rating={4} />
+                                <div className="border rounded-full p-2">
+                                  <ShopIcon />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ),
+                  label: "CONTENT 2",
+                },
+                {
+                  content: (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {/* Item 1 */}
+                      {productsList.slice(16, 24).map((product) => (
+                        <div
+                          key={product._id}
+                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
+                        >
+                          <div className="flex items-center space-x-4">
+                            <img
+                              className="w-24 h-24 rounded-md"
+                              src={product.coverImage}
+                              alt="Product"
+                            />
+                            <div className="flex-grow">
+                              <h2 className="text-lg font-medium text-neutral-700">
+                                {product.name}
+                              </h2>
+                              <div className="text-xl font-medium text-violet-900"></div>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <Ratings rating={4} />
+                                <div className="border rounded-full p-2">
+                                  <ShopIcon />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ),
+                  label: "CONTENT 3",
+                },
               ]}
             />
           </div>
         </div>
-      </ScrollAnimationWrapper>
+      </div>
+
+      {/* <ProductsListWithFilters
+        heading="Top Seasonal Gifts"
+        filters={productListFiltersAndProducts.filters}
+        products={productListFiltersAndProducts.products}
+      /> */}
+
+      <GradiantCardList cardData={gradiantCardListCardData} />
 
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"
@@ -187,16 +247,10 @@ const LandingPage = () => {
       {/* For Phase 2 */}
       {/* <TestimonialsCarosel /> */}
 
-      <div className="flex justify-between  mt-32">
+      <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab
-            productsList={productsList.filter((product) => {
-              if (product.result) {
-                product.result.price < 150;
-              } else {
-                return product.price < 150;
-              }
-            })}
+            productsList={productsList.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />

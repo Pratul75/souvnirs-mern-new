@@ -5,10 +5,12 @@ const AttributeTypeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
   },
-  attributeIds: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Attribute",
-  }],
+  attributeIds: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Attribute",
+    },
+  ],
   variant: {
     type: mongoose.Schema.Types.Mixed,
   },
@@ -17,12 +19,22 @@ const AttributeTypeSchema = new mongoose.Schema({
     enum: ["ACTIVE", "DEACTIVE", "PENDING"],
     default: "PENDING",
   },
-  price: { type: Number },
+  // price: { type: Number },
+  mrp: {
+    type: Number,
+  },
   quantity: { type: Number },
   images: [{ type: String }],
   variantRequiresShipping: {
-    type: Boolean
+    type: Boolean,
   },
+  price: { type: Number },
+  dynamic_price: [
+    {
+      type: mongoose.Schema.Types.Mixed,
+    },
+  ],
+  currency: { type: String },
   trackInventory: { type: Boolean },
   weight: { type: Number },
   published: { type: Boolean },

@@ -6,9 +6,9 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import { ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import ShopBanner from "../../assets/shop/bannerImages/cartBanner.png";
-import { PATHS } from "../../Routes/paths";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
+import { BsPlus } from "react-icons/bs";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);
@@ -45,7 +45,6 @@ const CartPage = () => {
     setCartItems(updatedCartItems);
     cartItemUpdate(id, newQuantity);
   };
-
   const checkoutHandler = async () => {
     const response = await API_WRAPPER.post(`/checkout`);
     if (response.status == 200) {
@@ -99,8 +98,8 @@ const CartPage = () => {
         const decreaseQuantity = () => {
           if (product_quantity > 1) {
             const newQuantity = product_quantity - 1;
-            if (newQuantity < 15) {
-              return debouncedShowToast("minimumQuantity is 15", "info");
+            if (newQuantity < 50) {
+              return debouncedShowToast("minimumQuantity is 50", "info");
             }
             cartItemUpdate(_id, newQuantity); // Update on the server
             updateQuantity(_id, newQuantity); // Update in local state
@@ -140,7 +139,7 @@ const CartPage = () => {
               onClick={increaseQuantity}
               className="w-10 h-10 leading-10 text-gray-600 transition hover:opacity-75"
             >
-              +
+              <BsPlus />
             </button>
           </div>
         );

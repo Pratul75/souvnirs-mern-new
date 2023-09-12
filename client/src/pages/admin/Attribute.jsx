@@ -2,8 +2,8 @@ import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 // import CategoryBnnerImng from "../../assets/images/categoryManagement.png";
-import ReusableTable from "../../components/Table";
-import { Link, useNavigate } from "react-router-dom";
+import { Table as ReusableTable } from "../../components";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
 import { useEffect, useState } from "react";
@@ -15,7 +15,6 @@ const Attributes = () => {
   const [getApiTrigger, setGetApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRowObject, setEditedRowObject] = useState({});
-  const navigate = useNavigate();
 
   // Modify the API call functions to show toasts on success or error
   const fetchAllAttributes = async () => {
@@ -49,6 +48,8 @@ const Attributes = () => {
       },
     },
   ];
+
+  console.log("SELECTED ROW: ", selectedRow);
 
   const handleEdit = (row) => {
     console.log("ROW TO EDIT: ", row);
@@ -84,7 +85,6 @@ const Attributes = () => {
       debouncedShowToast("Error editing attribute!", "error");
     }
   };
-
   const handleDeleteSubmit = async () => {
     try {
       const response = await API_WRAPPER.delete(
@@ -116,10 +116,7 @@ const Attributes = () => {
       <div className="w-full flex justify-end gap-4 mt-8"></div>
       <div className="mt-5">
         <div className="flex justify-end">
-          <Link
-            to={PATHS.adminAddAttributes}
-            className="btn bg-themeColor text-white font-thin w-48 mb-4"
-          >
+          <Link to={PATHS.adminAddAttributes} className="btn btn-primary">
             <GoPlus stroke="1px" size={20} />
             Add Attribute
           </Link>
@@ -218,4 +215,5 @@ const Attributes = () => {
     </>
   );
 };
+
 export default Attributes;

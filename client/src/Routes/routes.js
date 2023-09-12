@@ -36,6 +36,9 @@ import {
   Menus,
   AddMainMenus,
   AddChildMenu,
+  Commissions,
+  AddCommission,
+  Advertisement,
 
   // vendor routes
   VendorDashboard,
@@ -49,6 +52,7 @@ import {
   VendorShipments,
   VendorProductInventory,
   vendorAddProduct,
+  VendorAddProductAttributes,
 
   // customer routes
   CustomerCartList,
@@ -72,6 +76,8 @@ import {
   OrderSuccess,
   Wishlist,
   Blogs,
+  VendorEditProduct,
+  VendorEditProductAttributes,
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
@@ -86,6 +92,9 @@ import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";
 import Products from "../pages/shop/Products";
 import EditProductAttributes from "../pages/admin/Dashboard/EditProductAttributes";
+import ShopAboutUs from "../pages/shop/ShopAboutUs";
+import EditCoupon from "../pages/admin/EditCoupon";
+import EdiDiscount from "../pages/admin/EditDiscount";
 // admin routes
 export const adminRoutes = [
   {
@@ -93,6 +102,12 @@ export const adminRoutes = [
     path: PATHS.adminCart,
     defaultRole: "admin",
     Component: Cart,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAdvertisements,
+    defaultRole: "admin",
+    Component: Advertisement,
   },
   {
     id: nanoid(),
@@ -136,6 +151,19 @@ export const adminRoutes = [
     defaultRole: "admin",
     Component: EditCustomer,
   },
+  {
+    id: nanoid(),
+    path: `${PATHS.editCoupon}/:id`,
+    defaultRole: "admin",
+    Component: EditCoupon,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.editDiscount}/:id`,
+    defaultRole: "admin",
+    Component: EdiDiscount,
+  },
+
   {
     id: nanoid(),
     path: `${PATHS.EditProduct}/:id`,
@@ -358,6 +386,18 @@ export const adminRoutes = [
     Component: AddChildMenu,
     defaultRole: "admin",
   },
+  {
+    id: nanoid(),
+    path: PATHS.adminCommissions,
+    Component: Commissions,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddCommission,
+    Component: AddCommission,
+    defaultRole: "admin",
+  },
 ];
 
 // vendor routes
@@ -430,8 +470,26 @@ export const vendorRoutes = [
   },
   {
     id: nanoid(),
-    path: PATHS.vendorAddProducts,
+    path: `${PATHS.vendorAddProduct}`,
     Component: vendorAddProduct,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorAddProductAttributes,
+    Component: VendorAddProductAttributes,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.vendorEditVariants}/:id`,
+    Component: VendorEditProductAttributes,
+    defaultRole: "vendor",
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.vendorEditProduct}/:id`,
+    Component: VendorEditProduct,
     defaultRole: "vendor",
   },
 ];
@@ -551,5 +609,10 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.blogs,
     Component: Blogs,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.shopAboutUs,
+    Component: ShopAboutUs,
   },
 ];

@@ -81,14 +81,14 @@ const Wishlist = () => {
         navigation={"Home/Wishlist"}
       />
 
-      <section>
+      <section className="mt-16">
         <Table
           columns={columns}
           data={wishlistItems}
           enableDelete
           showButtons
           onDelete={(row) => removeFromWishlist(row?.productId?._id)}
-          tableTitle="Wishlist"
+         
           enablePagination
           pageSize={"10"}
         />

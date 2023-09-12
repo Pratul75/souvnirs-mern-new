@@ -1,33 +1,65 @@
 import { motion } from "framer-motion";
-import { fadeInFromRightVariant, fadeInVariants } from "../../../animation";
+import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
-// header card component is uesd to show the main headers of the landing page of shop
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,
   mainSubHeading,
   mainImage,
-  secondaryHeadingOne,
-  secondaryHeadingTwo,
-  secondarySubHeadingOne,
   tertioryHeadingOne,
   tertioryHeadingTwo,
   tertiorySubHeading,
   secondaryImageOne,
-  secondaryImageTwo,
   productImgOne,
   productImageTwo,
   productImageThree,
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-16 h-[650px]">
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-4 h-full md:h-auto">
         <motion.div
           animate="animate"
           initial="initial"
           variants={fadeInVariants}
-          className="col-span-3 md:col-span-2 row-span-2 relative"
+          className="col-span-3 md:col-span-2 row-span-2 h-[80vh] md:h-auto relative"
+        >
+          <img
+            className="object-cover w-full h-full rounded-xl"
+            src={mainImage}
+            alt=""
+          />
+          <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
+            <div className="flex flex-col items-center md:items-start justify-center">
+              <h2 className="text-white text-2xl md:text-5xl font-bold">
+                {mainHeading}
+              </h2>
+              <h3 className="text-white text-2xl md:text-4xl font-bold">
+                {mainHeadingTwo}
+              </h3>
+              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
+                {mainSubHeading}
+              </h6>
+
+              <div className="btn mt-4 ">
+                <span className="font-semibold">Shop Now</span>{" "}
+                <BsArrowRight className="text-lg font-bold" />
+              </div>
+            </div>
+            <div className="">
+              <img
+                src={productImgOne}
+                className=" absolute right-10 top-10 h-3/4"
+                alt=""
+              />
+            </div>
+          </div>
+        </motion.div>
+        <motion.div
+          animate="animate"
+          initial="initial"
+          variants={fadeInVariants}
+          className="col-span-3 md:col-span-1 row-span-1 relative h-[30vh]"
         >
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -36,95 +68,55 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h2 className="text-white text-lg md:text-xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-2xl md:text-6xl font-bold md:leading-[72px]">
+              <h3 className="text-white text-lg md:text-xl font-bold">
                 {mainHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
+              <h6 className="text-white marker:text-lg font-normal my-2">
                 {mainSubHeading}
               </h6>
 
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-0 md:mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
-              </div>
+              <button className="btn">
+                <span className="font-semibold text-black">Shop Now</span>{" "}
+                <BsArrowRight className="text-xl text-black" />
+              </button>
             </div>
+            <div>
+              <img src={productImageTwo} alt="" />
+            </div>
+          </div>
+        </motion.div>
+        <motion.div
+          animate="animate"
+          initial="initial"
+          variants={fadeInVariants}
+          className="col-span-3 md:col-span-1 row-span-2 relative h-[30vh]"
+        >
+          <img
+            className="object-cover w-full h-full rounded-xl"
+            src={mainImage}
+            alt=""
+          />
+          <div className="inset-0 absolute w-full flex items-center justify-around px-4">
+            <div>
+              <h2 className="text-white text-lg md:text-xl font-bold">
+                {tertioryHeadingOne}
+              </h2>
+              <h3 className="text-white text-lg md:text-xl font-bold">
+                {tertioryHeadingTwo}
+              </h3>
+              <h6 className="text-white marker:text-lg font-normal my-2">
+                {mainSubHeading}
+              </h6>
 
-            <div className="hidden md:block">
-              <img src={productImgOne} alt="" />
+              <button className="btn">
+                <span className="font-semibold text-black">Shop Now</span>
+                <BsArrowRight className="text-xl text-black" />
+              </button>
             </div>
-          </div>
-        </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.02 }} // Add this line for hover animation
-          animate="animate"
-          initial="initial"
-          variants={fadeInFromRightVariant}
-          className="col-span-3 md:col-span-1 row-span-1 relative"
-        >
-          <img
-            className="object-cover w-full h-full rounded-xl"
-            src={secondaryImageOne}
-            alt=""
-          />
-          <div className="inset-0 absolute flex justify-center items-center gap-8 md:px-6">
             <div>
-              <h3 className="text-white text-base font-medium leading-tight">
-                {tertioryHeadingOne}
-              </h3>
-              <div className="text-white text-3xl font-semibold leading-[39px]">
-                {tertioryHeadingTwo}
-              </div>
-              <div className="text-white text-3xl font-semibold leading-[39px]">
-                {tertiorySubHeading}
-              </div>
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
-              </div>
-            </div>
-            <div className="hidden md:block md:w-80">
-              <img src={productImageThree} alt="" />
-            </div>
-          </div>
-        </motion.div>
-        <motion.div
-          whileHover={{ scale: 1.02 }} // Add this line for hover animation
-          animate="animate"
-          initial="initial"
-          variants={fadeInFromRightVariant}
-          className="col-span-3 md:col-span-1 row-span-1 relative"
-        >
-          <img
-            className="object-cover w-full h-full rounded-xl"
-            src={secondaryImageOne}
-            alt=""
-          />
-          <div className="inset-0 absolute flex justify-center items-center gap-8 md:px-6">
-            <div>
-              <h3 className="text-white text-base font-medium leading-tight">
-                {tertioryHeadingOne}
-              </h3>
-              <div className="text-white text-3xl font-semibold leading-[39px]">
-                {tertioryHeadingTwo}
-              </div>
-              <div className="text-white text-3xl font-semibold leading-[39px]">
-                {tertiorySubHeading}
-              </div>
-              <div className="w-40 h-[50px] px-5 py-px bg-white rounded-[5px] border border-white justify-center items-center gap-[6.18px] inline-flex mt-10">
-                <div className="text-center text-neutral-950 text-sm font-semibold uppercase leading-[48px] flex items-center gap-4">
-                  <span className="font-semibold">Shop Now</span>{" "}
-                  <BsArrowRight className="text-2xl" />
-                </div>
-              </div>
-            </div>
-            <div className="hidden md:block md:w-80">
               <img src={productImageTwo} alt="" />
             </div>
           </div>

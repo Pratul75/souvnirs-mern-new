@@ -17,6 +17,7 @@ const getMenu = async (req, res) => {
   const menus = await Menu.find().sort({ _id: -1 });
   res.status(200).json(menus);
 };
+
 const createMainMenu = async (req, res) => {
   const { menuId, title, link, type } = req.body;
   if (!menuId) {
@@ -34,11 +35,41 @@ const createMainMenu = async (req, res) => {
   });
   res.status(200).json("main menu created successfully");
 };
+
 const getMainMenus = async (req, res) => {
   const mainmenus = await MainMenu.find().sort({ _id: -1 }).populate("menuId");
 
   res.status(200).json(mainmenus);
 };
+// Update a main menu item by ID
+const editMainMenu = async (req, res) => {
+  try {
+    const menuItemId = req.params.id;
+    const { title, status } = req.body;
+
+    const updatedMenuItem = await MainMenu.findByIdAndUpdate(
+      menuItemId,
+      {
+        $set: {
+          title,
+          status,
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedMenuItem) {
+      return res.status(404).json({ error: "Main menu item not found." });
+    }
+
+    res.json(updatedMenuItem);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while updating the main menu item." });
+  }
+};
+
 const createSubMenu = async (req, res) => {
   for (let elem of req.body) {
     const { heading: title, link, type, typeValue, mainMenuId } = elem;
@@ -59,10 +90,12 @@ const createSubMenu = async (req, res) => {
   }
   res.status(200).json("Sub-menu created successfully");
 };
+
 const getSubMenus = async (req, res) => {
   const subMenus = await SubMenu.find().sort({ _id: -1 }).populate();
   res.status(200).json(subMenus);
 };
+
 const getChildMenus = async (req, res) => {
   const subMenus = await SubMenuChild.find()
     .sort({ _id: -1 })
@@ -89,13 +122,13 @@ const createChildMenu = async (req, res) => {
   }
   res.status(200).json("Sub-menu created successfully");
 };
+
 const getNavbarData = async (req, res) => {
   try {
     const menu = await Menu.findOne({ title: "navbar" }).lean();
-    const mainMenuIds = await MainMenu.find(
-      { menuId: menu._id },
-      "_id title"
-    ).lean();
+    const mainMenuIds = await MainMenu.find({ menuId: menu._id }, "_id title")
+      .sort({ _id: -1 })
+      .lean();
 
     const mainMenuPromises = mainMenuIds.map(async (mainMenu) => {
       const mainMenuObj = { ...mainMenu };
@@ -121,19 +154,15 @@ const getNavbarData = async (req, res) => {
   }
 };
 
-const deleteMenu = async () => {
+const deleteMenu = async (req, res) => {
   const { id } = req.params;
-  const deleted = await Menu.findByIdAndDelete(id);
-  if (deleted.deleteCount > 0) {
-    return res.status(200).json("Menu deleted successfully");
+  const deleted = await MainMenu.findByIdAndDelete(id);
+  if (deleted) {
+    return res
+      .status(200)
+      .json({ message: "Menu deleted successfully", response: deleted });
   }
 };
-
-// Assuming you have your models and database connections set up properly
-// const Menu = require('./models/Menu');
-// const MainMenu = require('./models/MainMenu');
-// const SubMenu = require('./models/SubMenu');
-// const ChildMenu = require('./models/ChildMenu');
 
 module.exports = {
   getSubMenus,
@@ -146,4 +175,5 @@ module.exports = {
   getNavbarData,
   deleteMenu,
   getChildMenus,
+  editMainMenu,
 };

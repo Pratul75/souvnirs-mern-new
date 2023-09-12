@@ -1,18 +1,19 @@
-import { Header, Modal, ReusableTable } from "../../components";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Header, ReusableTable } from "../../components";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   debouncedShowToast,
   getStatusStyles,
   getStockStatusStyles,
 } from "../../utils";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { Dropzone } from "../../components";
+import Loading from "../common/Loading";
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -20,10 +21,40 @@ const ProductManagement = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [bulkData, setBulkData] = useState();
   const [loading, setLoading] = useState(false);
+  const [disapprovalComment, setDisapprovalComment] = useState("");
+  const [error, seterror] = useState("");
   const navigate = useNavigate();
+
+  const alterApproval = async (id, approved, comment = "") => {
+    await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
+    setApiTrigger((prev) => !prev);
+    window.disapproval_modal.close();
+  };
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Product Image",
+        Cell: ({ row }) => {
+          const img = row?.original?.coverImage;
+          return (
+            <Link
+              to={`/productInfo/${row?.original?.slug}`}
+              className="cursor-pointer"
+            >
+              <img
+                className="w-12 h-12 text-center rounded-lg hover:scale-105"
+                src={
+                  !img?.includes("res.cloudinary") &&
+                  !img?.includes("cdn.shopify")
+                    ? `${baseUrl}/${img}`
+                    : img
+                }
+              />
+            </Link>
+          );
+        },
+      },
       {
         Header: "Product Name",
         accessor: "name",
@@ -31,6 +62,7 @@ const ProductManagement = () => {
       {
         Header: "Variant",
         Cell: ({ row }) => {
+          console.log("ROW FOR VARIANT: ", row);
           if (row?.original?.result?.variant) {
             const keys = Object.keys(row?.original?.result?.variant);
 
@@ -44,41 +76,41 @@ const ProductManagement = () => {
           }
         },
       },
-      {
-        Header: "Price",
-        accessor: "result.price",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.price
-            : row?.original?.price;
-        },
-      },
-      {
-        Header: "On Sale",
-        accessor: "onSale",
-        Cell: ({ row }) => {
-          return (
-            <p>
-              {row?.original?.onSale ? (
-                <span className="text-green-600">YES</span>
-              ) : (
-                <span className="text-rose-600">NO</span>
-              )}
-            </p>
-          );
-        },
-      },
-      {
-        Header: "Stock Quantity",
-        accessor: "result.quantity",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.quantity
-            : row?.original?.stockQuantity;
-        },
-      },
+      // {
+      //   Header: "Price",
+      //   // accessor: "result.price",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.price
+      //       : row?.original?.price;
+      //   },
+      // },
+      // {
+      //   Header: "On Sale",
+      //   accessor: "onSale",
+      //   Cell: ({ row }) => {
+      //     return (
+      //       <p>
+      //         {row?.original?.onSale ? (
+      //           <span className="text-green-600">YES</span>
+      //         ) : (
+      //           <span className="text-rose-600">NO</span>
+      //         )}
+      //       </p>
+      //     );
+      //   },
+      // },
+      // {
+      //   Header: "Stock Quantity",
+      //   accessor: "result.quantity",
+      //   Cell: ({ row }) => {
+      //     console.log("ProductManagement.jsx", row);
+      //     return row.original?.result?.price
+      //       ? row?.original?.result?.quantity
+      //       : row?.original?.stockQuantity;
+      //   },
+      // },
       {
         Header: "Stock Status",
         accessor: "stockStatus",
@@ -91,6 +123,36 @@ const ProductManagement = () => {
         accessor: "totalSales",
       },
       {
+        Header: "Approval",
+        Cell: ({ row }) => {
+          // console.log("ProductManagement.jsx", row);
+          return (
+            <div>
+              {row?.original?.approved ? (
+                <button
+                  onClick={() => {
+                    setSelectedRow(row?.original);
+                    window.disapproval_modal.showModal();
+                  }}
+                  className="btn btn-sm btn-primary"
+                >
+                  Disapprove
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    alterApproval(row?.original?._id, true);
+                  }}
+                  className="btn btn-sm btn-primary"
+                >
+                  Approve
+                </button>
+              )}
+            </div>
+          );
+        },
+      },
+      {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
@@ -100,6 +162,9 @@ const ProductManagement = () => {
     ],
     []
   );
+  useEffect(() => {
+    fetchProductsList();
+  }, [apiTrigger]);
 
   const data = useMemo(() => productsList, [productsList]);
 
@@ -176,10 +241,11 @@ const ProductManagement = () => {
   };
   const bulkUpload = async () => {
     try {
+      console.log(bulkData);
       setLoading(true);
       console.log("ProductManagement.jsx", bulkData);
       const buFormData = new FormData();
-      buFormData.append("file", bulkData[0]);
+      buFormData.append("file", bulkData);
       const response = await API_WRAPPER.post(
         "/products/bulk-upload",
         buFormData
@@ -220,7 +286,7 @@ const ProductManagement = () => {
               <li>
                 <p
                   onClick={() => window.my_modal_1.showModal()}
-                  onChange={(e) => bulkUpload(e.target.files[0])}
+                  // onChange={(e) => bulkUpload(e.target.files[0])}
                 >
                   <BsUpload size={20} />
                   Bulk Upload
@@ -237,19 +303,62 @@ const ProductManagement = () => {
         </div>
 
         <div className="mt-4">
-          <ReusableTable
-            columns={columns}
-            data={data}
-            showButtons
-            enableEdit
-            enableDelete
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            pageSize={10}
-            enablePagination
-          />
+          <Suspense fallback={<Loading />}>
+            <ReusableTable
+              columns={columns}
+              data={data}
+              showButtons
+              enableEdit
+              enableDelete
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+              pageSize={10}
+              enablePagination
+            />
+          </Suspense>
         </div>
       </div>
+
+      <dialog id="disapproval_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">
+            Do you want to disapprove {selectedRow.name}
+          </h3>
+          <label htmlFor="" className="label">
+            comment
+          </label>
+          <input
+            onChange={(e) => setDisapprovalComment(e.target.value)}
+            className="input input-primary"
+          />{" "}
+          <span className="text-red-600">{error && error}</span>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                if (!disapprovalComment) {
+                  seterror("please enter a comment");
+                  return;
+                }
+                alterApproval(selectedRow._id, false, disapprovalComment);
+              }}
+            >
+              Disapprove
+            </button>
+            <button
+              onClick={() => {
+                window.disapproval_modal.close();
+                seterror("");
+                setDisapprovalComment("");
+              }}
+              className="btn"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </dialog>
 
       {/* edit modal  */}
       {/* <Modal
@@ -342,7 +451,13 @@ const ProductManagement = () => {
             </h4>
             <hr className="mt-4" />
             <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
-              <Dropzone onFilesChange={(data) => setBulkData(data)} />
+              {/* <Dropzone onFilesChange={(data) => setBulkData(data)} /> */}
+              <input
+                type="file"
+                onChange={(e) => {
+                  setBulkData(e.target.files[0]);
+                }}
+              />
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}

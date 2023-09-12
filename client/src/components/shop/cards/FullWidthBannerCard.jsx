@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 const FullWidthBannerCard = ({
   imageOne,
   imageTwo,
@@ -8,31 +8,29 @@ const FullWidthBannerCard = ({
 }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="flex flex-col w-full justify-center mt-8">
-        <div className=" py-10 bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white rounded-xl px-16 mt-16">
-          <div className="hidden md:block w-96 h-full">
+      <div className="flex flex-col w-full justify-start md:justify-center mt-5  ">
+        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 md:flex md:flex-col">
+          <div className="hidden md:block   flex-1 w-96 h-1/2">
             <img
-              className="mr-12 w-full h-full object-contain"
+              className="mr-12 w-full h-1/2 object-contain"
               src={imageOne}
               alt=""
             />
           </div>
-          <div className="flex flex-col gap-4 items-center justify-center">
-            <h3 className="font-medium text-xl md:text-6xl text-black text-center">
-              {mainHeading}
-            </h3>
-            <h3 className="text-xl md:text-6xl font-medium text-black text-center">
-              {subHeading}
-            </h3>
-            <div>
-              <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none mt-4 ">
+          <div className=" flex-1">
+            <div className="flex flex-col justify-center md:justify-between items-center">
+              <h3 className=" text-lg md:text-3xl text-black">{mainHeading}</h3>
+              <h3 className="text-lg md:text-3xl  text-black">{subHeading}</h3>
+            </div>
+            <div className="flex gap-2 flex-1  justify-center">
+              <button className="btn btn-sm md:btn-md bg-shopPrimaryColor text-white border-none outline-none ">
                 Shop Now
               </button>
             </div>
           </div>
-          <div className="hidden md:block w-80 h-full">
+          <div className="hidden md:block w-80 h-1/2">
             <img
-              className="w-full h-full object-contain"
+              className="w-full h-1/2 object-contain"
               src={imageTwo}
               alt=""
             />

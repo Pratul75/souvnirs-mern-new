@@ -25,7 +25,6 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
     if (array.length <= 5) {
       return array.slice();
     }
-
     const values = [];
     const usedIndices = new Set();
 
@@ -61,10 +60,10 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
 
   return (
     <ScrollAnimationWrapper>
-      <div className="mt-16">
+      <div className="mt-5 hidden md:block">
         <div className="flex flex-col md:flex-row items-center justify-between">
           <h1 className="font-semibold text-2xl">{heading}</h1>
-          <div className="hidden md:flex flex-col md:flex-row  gap-2">
+          <div className="flex md:flex flex-col md:flex-row  gap-2">
             {filters.map((filter) => (
               <button
                 className={`text-lg mr-12 p-4 border-b-[1px] ${
@@ -84,6 +83,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
             ))}
           </div>
         </div>
+
         <hr />
         <div className=" md:flex justify-center md:justify-between gap-4 py-4 flex-wrap md:flex-nowrap">
           {loading
@@ -93,16 +93,19 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
               ))
             : // Render actual product cards when data is available
               productsList.map(
-                ({ _id, name, price, rating, coverImage, slug }) => (
-                  <ProductCard
-                    key={_id}
-                    title={name}
-                    price={price}
-                    rating={4.3}
-                    image={coverImage}
-                    slug={slug}
-                  />
-                )
+                ({ _id, name, price, rating, coverImage, slug, result }) => {
+                  return (
+                    <ProductCard
+                      key={_id}
+                      title={name}
+                      price={result ? result.price : price}
+                      rating={rating}
+                      id={_id}
+                      image={coverImage}
+                      slug={slug}
+                    />
+                  );
+                }
               )}
         </div>
       </div>

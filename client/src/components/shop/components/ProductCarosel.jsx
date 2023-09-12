@@ -1,10 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 import {
-  BsFillArrowLeftCircleFill,
   BsFillArrowRightCircleFill,
+  BsFillArrowLeftCircleFill,
 } from "react-icons/bs";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
 
 const Carousel = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,22 +19,24 @@ const Carousel = ({ items }) => {
   };
 
   return (
-    <div className="col-span-5 md:col-span-2 border">
-      <div className="flex justify-between items-center px-4 py-2  bg-primary">
-        <h4 className="text-2xl text-white">Daily Deals</h4>
-        <div className="flex gap-4">
-          <BsFillArrowLeftCircleFill
-            onClick={() => prevSlide()}
-            className="text-white text-2xl cursor-pointer"
-          />
-          <BsFillArrowRightCircleFill
-            onClick={() => nextSlide()}
-            className="text-white text-2xl cursor-pointer"
-          />
+    <ScrollAnimationWrapper>
+      <div className="flex flex-col justify-between h-full border-2 border-shopPrimaryColor">
+        <div className="bg-shopPrimaryColor text-white py-4  px-2 border-2 border-shopPrimaryColor flex justify-between">
+          <h1>Daily Deals</h1>
+          <div className="flex gap-4">
+            <button onClick={() => nextSlide()}>
+              <BsFillArrowLeftCircleFill className="text-2xl" />
+            </button>
+            <button onClick={() => prevSlide()}>
+              <BsFillArrowRightCircleFill className="text-2xl" />
+            </button>
+          </div>
+        </div>
+        <div className="col-span-5 md:col-span-2 border mt-8">
+          <div className="flex justify w-full">{items[currentIndex]}</div>
         </div>
       </div>
-      <div className=" h-full flex items-center">{items[currentIndex]}</div>
-    </div>
+    </ScrollAnimationWrapper>
   );
 };
 

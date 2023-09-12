@@ -5,7 +5,7 @@ import Ratings from "../components/Ratings";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import { Link, useNavigate } from "react-router-dom";
-import API_WRAPPER from "../../../api";
+import API_WRAPPER, { baseUrl } from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../../features/appConfig/appSlice";
@@ -23,12 +23,15 @@ const ProductCard = ({
   slug,
   isDiscounted,
   isLoading,
+  clasName,
 }) => {
   const [heartColor, setHeartColor] = useState("black");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(price);
 
   const token = localStorage.getItem("token");
+
   const addToWishlist = async () => {
     if (token) {
       const response = await API_WRAPPER.post("/wishlist/create", {
@@ -69,7 +72,7 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className="card  border  px-3 py-4 cursor-pointer w-96  shadow-lg"
+      className={`card  border  px-3 py-4 cursor-pointer w-96  shadow-lg ${clasName}`}
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       {isLoading ? (
@@ -102,7 +105,12 @@ const ProductCard = ({
                 style={{
                   mixBlendMode: "multiply",
                 }}
-                src={image}
+                src={
+                  !image?.includes("res.cloudinary") &&
+                  !image?.includes("cdn.shopify")
+                    ? `${baseUrl}/${image}`
+                    : image
+                }
                 alt={title}
               />
             </div>
@@ -119,14 +127,18 @@ const ProductCard = ({
             ) : (
               <h5 className="text-center  text-lg font-medium leading-[18px]">
                 {token ? (
-                  `$${price}`
+                  `₹ ${price}`
                 ) : (
                   <Link to={PATHS.register} className="flex gap-4">
-                    <span>signup to view price</span>{" "}
-                    <AiOutlineLogin
+                    <span>
+                      ${Math.floor(price / 100) * 100}-
+                      {Math.ceil(price / 100) * 100}
+                    </span>{" "}
+                    {/* Not needed if showing range */}
+                    {/* <AiOutlineLogin
                       onClick={(e) => e.stopPropagation()}
                       className="cursor-pointer"
-                    />
+                    /> */}
                   </Link>
                 )}
               </h5>

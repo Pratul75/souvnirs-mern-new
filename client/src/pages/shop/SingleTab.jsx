@@ -5,6 +5,7 @@ import ShopPng from "../../assets/shop/cardImages/shopPng.png";
 import { Ratings, ScrollAnimationWrapper } from "../../components";
 import { ShopIcon } from "../../icons";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../../api";
 const SingleTab = ({ productsList, heading }) => {
   console.log("SingleTab.jsx", productsList);
   const navigate = useNavigate();
@@ -29,13 +30,18 @@ const SingleTab = ({ productsList, heading }) => {
             <div className="justify-start items-start flex">
               <img
                 className="w-[122.01px] h-[122.01px]"
-                src={product.coverImage}
+                src={
+                  !product.coverImage?.includes("res.cloudinary") &&
+                  !product.coverImage?.includes("cdn.shopify")
+                    ? `${baseUrl}/${product.coverImage}`
+                    : product.coverImage
+                }
               />
             </div>
             <div className="grow shrink basis-0 pl-[23.95px] pr-[31.93px] flex-col justify-start items-start  inline-flex">
               <div className="justify-center items-center inline-flex mt-5 ">
                 <div className="text-neutral-700 text-lg font-medium leading-7 ">
-                  {product.name}
+                  {product.name.slice(0, 40)}...
                   <br />
                   XP
                 </div>

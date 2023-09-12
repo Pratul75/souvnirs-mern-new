@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import AttributeBannerImage from "../../assets/bannerImages/attributesImage.png";
 import useCategories from "../../hooks/useCategories";
-import SearchableDropdown from "../../components/SearchableDropdown";
+import { SearchableDropdown } from "../../components";
 import { ToastContainer } from "react-toastify";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
@@ -15,6 +15,7 @@ import { BsCaretDown } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import { Tooltip } from "react-tooltip";
 import { AiFillInfoCircle } from "react-icons/ai";
+
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -28,11 +29,12 @@ const AddProductAttributes = () => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [catDropdown, setCatDropdown] = useState(false);
+  const [commission, setcommission] = useState(null);
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log("AddProductAttributes.jsx", p);
+  console.log(p);
 
   const categories = useCategories();
 
@@ -72,12 +74,13 @@ const AddProductAttributes = () => {
   const createProduct = async () => {
     try {
       console.log("AddProductAttributes.jsx", p);
+      console.log(variantData);
       const productFormData = new FormData();
       productFormData.append("name", p.name);
       productFormData.append("vendorId", p.vendorId);
       productFormData.append("description", p.desc);
       productFormData.append("tags", p.tags);
-      productFormData.append("img", p.coverImg[0]);
+      productFormData.append("img", p.coverImg);
       productFormData.append("attributes", JSON.stringify(p.attributes));
       productFormData.append("slug", randomSlug());
       productFormData.append("price", price);
@@ -85,6 +88,7 @@ const AddProductAttributes = () => {
       productFormData.append("freeShipping", p.freeShipping);
       productFormData.append("readyToShip", p.readyToShip);
       productFormData.append("categoryId", categoryId);
+      productFormData.append("customization", JSON.stringify(p.customization));
 
       const prodResponse = await API_WRAPPER.post(
         "/products/add-product",
@@ -94,11 +98,12 @@ const AddProductAttributes = () => {
       console.log("AddProductAttributes.jsx", productId);
       if (prodResponse.status == 201) {
         for (let variant of variantData) {
-          const { price, productQuantity, files, ...variantName } = variant;
+          console.log(variant);
+          const { mrp, productQuantity, files, ...variantName } = variant;
           console.log("AddProductAttributes.jsx", files);
           const variantFormData = new FormData();
           variantFormData.append("variant", JSON.stringify(variantName));
-          variantFormData.append("price", price);
+          variantFormData.append("mrp", mrp);
           variantFormData.append("quantity", productQuantity);
 
           variantFormData.append("productId", productId);
@@ -117,6 +122,11 @@ const AddProductAttributes = () => {
   };
 
   const handleSelectedValue = (category) => {
+    console.log(category);
+    setcommission({
+      commissionType: category.commissionType,
+      commissionTypeValue: category.commissionTypeValue,
+    });
     setCategoryId(category?.id);
     setCategoryName(category?.name);
     setSelectedAttributes([]);
@@ -128,6 +138,7 @@ const AddProductAttributes = () => {
       targetElement.scrollIntoView({ behavior: "smooth" }); // You can use 'auto' for instant scrolling
     }
   };
+  console.log(commission);
 
   const convertAttributesList = (arr) => {
     return arr.map(({ _id, name }) => ({
@@ -219,6 +230,15 @@ const AddProductAttributes = () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, []);
+  const handleDataChange = (index, dataIndex, e) => {
+    const { name, value } = e.target;
+    setVariantData((prevVariantData) => {
+      const updatedVariantData = [...prevVariantData];
+      updatedVariantData[index].data[dataIndex][name] = value;
+      return updatedVariantData;
+    });
+    // e.target.focus();
+  };
 
   const handleTableInputChange = (e, index, field) => {
     const value = e.target.value;
@@ -229,8 +249,8 @@ const AddProductAttributes = () => {
       return updatedData;
     });
   };
-  console.log("AddProductAttributes.jsx", selectedAttributes);
 
+  console.log("AddProductAttributes.jsx", selectedAttributes);
   const handleTableFileChange = (e, index) => {
     const files = e.target.files;
 
@@ -247,12 +267,22 @@ const AddProductAttributes = () => {
     // For simplicity, I'm assuming each variant is an object with properties
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
+
+  const addRow = (index) => {
+    setVariantData((prevData) => {
+      const newData = [...prevData];
+      newData[index].data.push({ price: "", minQuantity: "", currency: "" });
+      return newData;
+    });
+  };
+  console.log("AddProductAttributes.jsx", combinations);
   useEffect(() => {
     setVariantData(
       combinations.map((combination) => ({
         ...combination,
-        price: "",
+        mrp: "",
         productQuantity: "",
+        data: [{ price: "", minQuantity: "", currency: "" }],
         files: null,
       }))
     );
@@ -265,6 +295,7 @@ const AddProductAttributes = () => {
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
         />
+
         <div>
           {selectedAttributes.length < 1 ? (
             <div>
@@ -320,45 +351,113 @@ const AddProductAttributes = () => {
                     <thead>
                       <tr>
                         <th>Variant</th>
-                        <th>Price</th>
+                        <th>price</th>
                         <th>Quantity</th>
                         <th>images</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      {variantData.map((a, index) => {
+                    <tbody id="rowChange">
+                      {variantData.map((variant, index) => {
                         const {
                           price,
                           productQuantity,
                           files,
+                          mrp,
+                          data,
                           ...variantName
-                        } = a;
-                        if (!price) {
+                        } = variant;
+                        if (!mrp) {
                           return null;
                         }
+
                         return (
-                          <tr key={index}>
-                            <td>
-                              <pre>{JSON.stringify(variantName)}</pre>
-                            </td>
-                            <td>
-                              <label>{price}</label>
-                            </td>
-                            <td>
-                              <label> {productQuantity}</label>
-                            </td>
-                            <td className="w-72 md:flex gap-2 overflow-auto">
-                              {Array.from(files).map((file) => {
-                                console.log("AddProductAttributes.jsx", file);
-                                return (
-                                  <img
-                                    className="w-20 rounded-md"
-                                    src={URL.createObjectURL(file)}
-                                  />
-                                );
-                              })}
-                            </td>
-                          </tr>
+                          <>
+                            <tr key={index}>
+                              <td>
+                                <pre>{JSON.stringify(variantName)}</pre>
+                              </td>
+                              <td>
+                                <label>{mrp}</label>
+                              </td>
+                              <td>
+                                <label>{productQuantity}</label>
+                              </td>
+                              <td className="w-72 md:flex gap-2 overflow-auto">
+                                {files !== null ? (
+                                  Array.from(files).map((file, fileIndex) => {
+                                    console.log(
+                                      "AddProductAttributes.jsx",
+                                      file
+                                    );
+                                    return (
+                                      <img
+                                        key={fileIndex}
+                                        className="w-20 rounded-md"
+                                        src={URL.createObjectURL(file)}
+                                      />
+                                    );
+                                  })
+                                ) : (
+                                  <h2>No images selected</h2>
+                                )}
+                              </td>
+                            </tr>
+
+                            {data.map(
+                              ({ price, minQuantity, currency }, dataIndex) => (
+                                <tr key={nanoid()}>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="price"
+                                      name="price"
+                                      value={price}
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    {console.log(
+                                      variantData[index].data[dataIndex]
+                                    )}
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="minQuantity"
+                                      name="minQuantity"
+                                      value={minQuantity}
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    <input
+                                      type="text"
+                                      placeholder="currency"
+                                      name="currency"
+                                      value={currency}
+                                      onChange={(e) =>
+                                        handleDataChange(index, dataIndex, e)
+                                      }
+                                    />
+                                  </td>
+                                  <td>
+                                    <button
+                                      id="addRow"
+                                      onClick={() => {
+                                        addRow(index);
+                                      }}
+                                    >
+                                      +
+                                    </button>
+                                  </td>
+                                </tr>
+                              )
+                            )}
+                          </>
                         );
                       })}
                     </tbody>
@@ -553,7 +652,7 @@ const AddProductAttributes = () => {
                   <thead>
                     <tr>
                       <th>Variant Name</th>
-                      <th>Price</th>
+                      <th>MRP</th>
                       <th>Quantity</th>
                       <th>Images</th>
                     </tr>
@@ -564,77 +663,81 @@ const AddProductAttributes = () => {
                         (variant) => isEqualVariants(variant, x)
                       );
                       return (
-                        <tr key={index}>
-                          <td>
-                            <div className="label">
-                              {Object.entries(x).map(([key, value]) => (
-                                <div key={key}>
-                                  <span className="font-semibold ">{key}:</span>{" "}
-                                  <span className="text-primary ml-2">
-                                    {value}
-                                  </span>
-                                </div>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                placeholder="enter price"
-                                type="number"
-                                name={`price-${index}`}
-                                className="input input-primary input-sm"
-                                onChange={(e) =>
-                                  handleTableInputChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index,
-                                    "price"
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                          <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                type="number"
-                                name={`productQuantity-${index}`}
-                                placeholder="enter quantity"
-                                className="input input-primary input-sm"
-                                onChange={(e) =>
-                                  handleTableInputChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index,
-                                    "productQuantity"
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                          <td className="px-4 py-2">
-                            <div className="flex justify-center items-center">
-                              <input
-                                type="file"
-                                name={`file-${index}`}
-                                accept="image/*"
-                                multiple
-                                className="file-input file-input-sm"
-                                onChange={(e) =>
-                                  handleTableFileChange(
-                                    e,
-                                    matchingVariantIndex !== -1
-                                      ? matchingVariantIndex
-                                      : index
-                                  )
-                                }
-                              />
-                            </div>
-                          </td>
-                        </tr>
+                        <>
+                          <tr key={index}>
+                            <td>
+                              <div className="label">
+                                {Object.entries(x).map(([key, value]) => (
+                                  <div key={key}>
+                                    <span className="font-semibold ">
+                                      {key}:
+                                    </span>{" "}
+                                    <span className="text-primary ml-2">
+                                      {value}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  placeholder="enter price"
+                                  type="number"
+                                  name={`mrp-${index}`}
+                                  className="input input-primary input-sm"
+                                  onChange={(e) =>
+                                    handleTableInputChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index,
+                                      "mrp"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  type="number"
+                                  name={`productQuantity-${index}`}
+                                  placeholder="enter quantity"
+                                  className="input input-primary input-sm"
+                                  onChange={(e) =>
+                                    handleTableInputChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index,
+                                      "productQuantity"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  type="file"
+                                  name={`file-${index}`}
+                                  accept="image/*"
+                                  multiple
+                                  className="file-input file-input-sm"
+                                  onChange={(e) =>
+                                    handleTableFileChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        </>
                       );
                     })}
                   </tbody>

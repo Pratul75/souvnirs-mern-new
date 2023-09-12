@@ -101,7 +101,7 @@ const AddCoupon = () => {
         couponCode: couponCode,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("DISCOUNT DATA POSTED: ", response.data);
         navigate(PATHS.adminCoupons);
       }
@@ -198,7 +198,6 @@ const AddCoupon = () => {
     setAppliedToSpecifiedInput(e.target.value);
     console.log("APPLIED TO SELECT: ", e.target.value);
   };
-  const fetchUsers = () => {};
 
   const handleAppliedToSearch = (e) => {
     setAppliedToSearchInput(e.target.value);
@@ -377,7 +376,7 @@ const AddCoupon = () => {
                   className="input input-primary w-full"
                 >
                   {customers.map((customer) => (
-                    <option>
+                    <option key={nanoid()}>
                       {" "}
                       {`${customer.firstName}(${customer.email})`}
                     </option>
@@ -422,11 +421,12 @@ const AddCoupon = () => {
                 <input
                   onChange={(e) => handleInputChange(e)}
                   name="typeValue"
-                  type="number"
                   placeholder="0.01"
                   className="input input-bordered w-full" // Added w-full class here
                 />
-                <span>{couponData.typeTitle === "percentage" ? "%" : ""}</span>
+                <span>
+                  {couponData.typeTitle === "percentage" ? "%" : "num"}
+                </span>
               </label>
               <span className="text-red-500">{error?.typeValue}</span>
             </div>

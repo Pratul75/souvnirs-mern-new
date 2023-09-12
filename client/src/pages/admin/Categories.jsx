@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Header } from "../../components";
 import { GoPlus } from "react-icons/go";
-import ReusableTable from "../../components/Table";
+import { Table as ReusableTable } from "../../components";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import API_WRAPPER from "../../api";
@@ -68,6 +68,7 @@ const Categories = () => {
 
   const handleEditChange = (e) => {
     setEditedRow({ ...editedRow, [e.target.name]: e.target.value });
+    console.log("EDITED ROW: ", editedRow);
   };
 
   const submitEditedRow = async (e) => {
@@ -157,10 +158,7 @@ const Categories = () => {
 
       <div className="w-full  gap-4 mt-14">
         <div className="flex justify-end">
-          <Link
-            to={PATHS.adminAddCategory}
-            className="btn bg-themeColor text-white font-thin w-48"
-          >
+          <Link to={PATHS.adminAddCategory} className="btn btn-primary">
             <GoPlus size={20} />
             Add Category
           </Link>

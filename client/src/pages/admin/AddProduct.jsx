@@ -5,17 +5,16 @@ import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
-import { MultiSelect } from "react-multi-select-component";
 import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
 import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setProduct } from "../../features/appConfig/addProductSlice";
 import { GrFormClose } from "react-icons/gr";
+import Draggable from "react-draggable";
 // add products
-
 const AddProduct = () => {
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
@@ -25,18 +24,39 @@ const AddProduct = () => {
   const [formData, setFormData] = useState({});
   const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
-  const [selectedAttributes, setSelectedAttributes] = useState([]);
-  const [attrValue, setAttrValue] = useState([]);
-  const [img, setImg] = useState();
   const [preview, setPreview] = useState();
-  const product = useSelector((state) => state);
-  const uploadToCloud = async (file) => {
-    const uploaded = await cloudinary.v2.uploader.upload(file);
+  const [foregroundWidth, setForegroundWidth] = useState(100); // default width
+  const [foregroundHeight, setForegroundHeight] = useState(100); // default height
+  const [selectedShape, setSelectedShape] = useState("square"); // default shape is "Square"
+  const [foregroundX, setForegroundX] = useState(0);
+  const [foregroundY, setForegroundY] = useState(0);
+
+  const handleDrag = (e, data) => {
+    const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
+    const newX = Math.floor((data.x / parentElement.clientWidth) * 100);
+    const newY = Math.floor((data.y / parentElement.clientHeight) * 100);
+
+    setForegroundX(newX);
+    setForegroundY(newY);
+
+    // TODO: Update the formData object with the new values and store in db
+    setFormData((prevData) => ({
+      ...prevData,
+      customization: {
+        xAxis: newX,
+        yAxis: newY,
+        height: foregroundHeight,
+        width: foregroundWidth,
+      },
+    }));
   };
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    console.log("PRODUCT FORM DATA: ", formData);
+  }, [formData]);
   // get all categories
-  console.log("AddProduct.jsx", selectedAttributes);
   const getAllCategories = async () => {
     try {
       const response = await API_WRAPPER.get("/category/get-all-categories");
@@ -63,139 +83,35 @@ const AddProduct = () => {
       console.error("Error occured while getting all vendors", error);
     }
   };
-  // const fetchAllAttributes = async () => {
-  //   const response = await API_WRAPPER.get(
-  //     `/attribute/get-all-attributes/${selectedCategory}`
-  //   );
-  //   setAttArr(response.data);
-  // };
-  const randomSlug = () => {
-    return nanoid(10);
-  };
-  // add product
-
-  // const postProduct = async () => {
-  //   let data = {
-  //     ...formData,
-  //     description,
-  //     slug: randomSlug(),
-  //     tags: tagsArray,
-  //     attributes: attrValue,
-  //     // attributeValues: fAttValue,
-  //   };
-  //   const addProdData = new FormData();
-  //   Object.entries(data).forEach(([key, value]) => {
-  //     if (key === "attributes" || key === "attributeValues") {
-  //       // Stringify the arrays before appending them to the FormData
-  //       value.forEach((item, index) => {
-  //         addProdData.append(`${key}[${index}]`, JSON.stringify(item));
-  //       });
-  //     } else {
-  //       addProdData.append(key, value);
-  //     }
-  //   });
-
-  //   // Append the variant images
-  //   // fAttValue.forEach((variant) => {
-  //   //   if (variant.images && variant.images[0]) {
-  //   //     addProdData.append(`images[${variant.name}]`, variant.images[0]);
-  //   //   }
-  //   // });
-
-  //   // Append the file data to the FormData
-  //   img.forEach((file) => {
-  //     addProdData.append("img", file);
-  //   });
-
-  //   const response = await API_WRAPPER.post(
-  //     "/products/add-product",
-  //     addProdData,
-  //     {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     }
-  //   );
-  //   const productId = response.data.data._id;
-  //   console.log("AddProduct.jsx", productId);
-  //   if (response) {
-  //     let doneUpload = false;
-  //     try {
-  //       for (let value of fAttValue) {
-  //         console.log("AddProduct.jsx", value);
-  //         const variantData = {
-  //           variant: value.name,
-  //           productId: productId,
-  //           attributes: attrValue,
-  //           price: value.price,
-  //           quantity: value.quantity,
-  //         };
-  //         const variantFormData = new FormData();
-
-  //         Object.entries(variantData).forEach(([key, value]) => {
-  //           if (key === "attributes" || key === "attributeValues") {
-  //             // Stringify the arrays before appending them to the FormData
-  //             value.forEach((item, index) => {
-  //               variantFormData.append(
-  //                 `${key}[${index}]`,
-  //                 JSON.stringify(item)
-  //               );
-  //             });
-  //           } else {
-  //             variantFormData.append(key, value);
-  //           }
-  //         });
-
-  //         for (let i = 0; i < value.images.length; i++) {
-  //           variantFormData.append("images", value.images[i]);
-  //         }
-  //         const res = await API_WRAPPER.post(
-  //           "/products/create-variant",
-  //           variantFormData,
-  //           {
-  //             headers: {
-  //               "Content-Type": "multipart/form-data",
-  //             },
-  //           }
-  //         );
-  //         if (res) {
-  //           continue;
-  //         }
-  //       }
-  //       doneUpload = true;
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //     if (doneUpload) {
-  //       debouncedShowToast("uploaded Successfully", "success");
-  //       Navigate(PATHS.adminProductManagement);
-  //     }
-  //     console.log("RESPONSE RECEIVED: ", response?.data?.data);
-  //     navigate(PATHS.adminProductManagement);
-  //     const data = response.data.data;
-  //     debouncedShowToast(data, "success");
-  //   }
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // postProduct();
 
     if (
       !formData.name ||
       !description ||
       tagsArray.length < 1 ||
-      !formData.vendorId
+      !formData.vendorId ||
+      !preview
     ) {
       debouncedShowToast("Fill all required fields", "info");
       return;
     }
-    dispatch(setProduct({ ...formData, description, tags: tagsArray }));
+    dispatch(
+      setProduct({
+        ...formData,
+        description,
+        tags: tagsArray,
+        customization: {
+          xAxis: foregroundX,
+          yAxis: foregroundY,
+          height: foregroundHeight,
+          width: foregroundWidth,
+        },
+      })
+    );
     navigate(PATHS.adminAddProductAttributes);
-    // postProduct();
   };
-  const p = useSelector((state) => state.product);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -206,29 +122,42 @@ const AddProduct = () => {
     setTagValue(event.target.value);
   };
 
-  const handleKeyPress = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === "Enter" && tagValue.trim() !== "") {
       setTagsArray([...tagsArray, tagValue.trim()]);
       setTagValue("");
     }
   };
 
-  // Example usage:
-  const dataArray = [];
-
-  // Function to handle attribute values input changes
-  const handleAttriibuteValues = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    // Check if the attribute value already exists in the array
-    setAtName(name);
-    setAtValue(value);
-  };
-
   const removeTag = (tagToRemove) => {
     const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
     setTagsArray(filteredTags);
+  };
+
+  const handleForegroundWidthChange = (e) => {
+    const newWidth = parseInt(e.target.value);
+    const img = new Image();
+    img.src = preview;
+
+    img.onload = () => {
+      const maxWidth = img.naturalWidth;
+
+      if (newWidth <= maxWidth) {
+        setForegroundWidth(newWidth);
+
+        // Update the formData object with the new width
+        setFormData((prevData) => ({
+          ...prevData,
+          foregroundWidth: newWidth,
+        }));
+      } else {
+        setForegroundWidth(maxWidth);
+        setFormData((prevData) => ({
+          ...prevData,
+          foregroundWidth: maxWidth,
+        }));
+      }
+    };
   };
 
   useEffect(() => {
@@ -238,7 +167,7 @@ const AddProduct = () => {
   useEffect(() => {}, [selectedCategory]);
   useEffect(() => {
     if (formData.img) {
-      const imageUrl = URL.createObjectURL(formData.img[0]);
+      const imageUrl = URL.createObjectURL(formData.img);
       setPreview(imageUrl);
     }
   }, [formData.img]);
@@ -405,10 +334,11 @@ const AddProduct = () => {
                 type="text"
                 value={tagValue}
                 onChange={handleTagInputChange}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
                 placeholder="Enter a tag and press Enter"
                 className="input input-primary"
               />
+
               <div className="mt-4 flex gap-4 flex-wrap">
                 {tagsArray.map((tag, index) => (
                   <div
@@ -460,32 +390,124 @@ const AddProduct = () => {
 
             <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
-                accept={".jpeg,.png"}
+                accept={".png"}
                 onFilesChange={(data) => {
-                  setFormData({ ...formData, img: data });
+                  console.log(data);
+                  setFormData({ ...formData, img: data[0] });
                 }}
               />
             </div>
           </motion.div>
-          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
-            {preview && <img src={preview} alt="" />}
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-6 gap-4 mt-4">
-          <div className="col-span-6 md:col-span-4"></div>
-          <motion.div
-            variants={fadeInFromRightVariant}
-            animate="animate"
-            initial="initial"
-            className="col-span-6 flex justify-end float-right md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
-          >
-            <button onClick={handleSubmit} className="btn btn-primary mt-4">
-              Next
-            </button>
-            <button className="btn  mt-4 ml-4">Cancel</button>
-          </motion.div>
+          <div className="col-span-6 md:col-span-2">
+            <motion.div
+              variants={fadeInFromRightVariant}
+              animate="animate"
+              initial="initial"
+              className="flex gap-4 p-4 bg-base-100 rounded-xl border-[1px] border-base-300 "
+            >
+              {preview ? (
+                <button
+                  onClick={() =>
+                    document.getElementById("coverImage_Modal").showModal()
+                  }
+                  className="btn btn-primary"
+                >
+                  Show Preview
+                </button>
+              ) : (
+                <p>select image</p>
+              )}
+              <button onClick={handleSubmit} className="btn btn-primary">
+                Next
+              </button>
+              <Link to={PATHS.adminDashboard} className="btn">
+                Cancel
+              </Link>
+            </motion.div>
+          </div>
         </div>
       </div>
+
+      <dialog id="coverImage_Modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Select Position</h3>
+          <div>
+            <div style={{ position: "relative" }}>
+              <img
+                id="parentElement"
+                src={preview}
+                alt="Cover Image"
+                style={{ width: "100%" }}
+              />
+              <Draggable bounds="parent" onDrag={handleDrag}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: `${foregroundWidth}px`,
+                    height: `${foregroundHeight}px`,
+                    border: "2px solid red",
+                    borderRadius: selectedShape === "circle" ? "50%" : "0", // Apply border radius based on selected shape
+                  }}
+                ></div>
+              </Draggable>
+            </div>
+
+            <div className="flex flex-col gap-4 mt-4">
+              <div className="flex justify-between">
+                <label htmlFor="foregroundWidth">Foreground Width:</label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  id="foregroundWidth"
+                  value={foregroundWidth}
+                  onChange={handleForegroundWidthChange}
+                />
+              </div>
+              <div className="flex justify-between">
+                <label htmlFor="foregroundHeight">Foreground Height:</label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  id="foregroundHeight"
+                  value={foregroundHeight}
+                  onChange={(e) =>
+                    setForegroundHeight(parseInt(e.target.value))
+                  }
+                />
+              </div>
+              <div className="flex justify-between">
+                <label htmlFor="shapeSelect">Select Shape:</label>
+                <select
+                  className="select select-primary"
+                  id="shapeSelect"
+                  value={selectedShape}
+                  onChange={(e) => setSelectedShape(e.target.value)}
+                >
+                  <option value="square">Square</option>
+                  <option value="circle">Circle</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="xPosition">X Position :</label>
+                <span id="xPosition">{foregroundX}%</span>
+              </div>
+              <div>
+                <label htmlFor="yPosition">Y Position:</label>
+                <span id="yPosition">{foregroundY}%</span>
+              </div>
+            </div>
+          </div>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
+
       <ToastContainer />
     </div>
   );

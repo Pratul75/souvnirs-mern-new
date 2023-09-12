@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import Dropzone from "../../Dropzone";
+import Dropzone from "../../ui/Dropzone";
 
 const RequestQuoteForm = () => {
   const {
@@ -340,7 +340,12 @@ const RequestQuoteForm = () => {
             <button type="submit" className="btn btn-primary rounded-md">
               Submit
             </button>
-            <button className="btn">Close</button>
+            <button
+              className="btn"
+              onClick={() => window.request_quote_modal.close()}
+            >
+              Close
+            </button>
           </div>
         </form>
       </dialog>

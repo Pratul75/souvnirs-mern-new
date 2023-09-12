@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 
 const BrandsCard = ({ imagesList }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="grid grid-cols-8 my-16">
+      <div className="grid grid-cols-8 mt-5">
         {imagesList?.map(({ image, alt }) => {
           return (
             <div

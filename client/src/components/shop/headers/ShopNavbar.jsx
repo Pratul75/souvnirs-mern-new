@@ -1,89 +1,153 @@
-import { Menu } from "antd";
-import API_WRAPPER from "../../../api";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Menu, Dropdown, Select } from "antd";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import RequestQuoteForm from "../components/RequestQuoteForm";
+import API_WRAPPER from "../../../api";
+import { TfiMenuAlt } from "react-icons/tfi";
+
 const ShopNavbar = () => {
-  // navbar data stored here in navbarData state
+  const [current, setCurrent] = useState("mail");
   const [navbarData, setNavbarData] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const { Option } = Select;
+
+  const onClick = (e) => {
+    setCurrent(e.key);
+  };
+
   const getNavbarData = async () => {
     const response = await API_WRAPPER.get("/getNavbarMenu");
     if (response.status === 200) {
       setNavbarData(response.data);
-      console.log("NAVBAR DATA: ", response.data);
     }
   };
 
-  const getAllCategories = async () => {
+  const fetchCategoryData = async () => {
     const response = await API_WRAPPER.get("/category/get-all-categories");
     if (response.status === 200) {
-      setCategories(response.data);
-      console.log("CATEGORIES DATA: ", response.data);
+      setCategoriesData(response.data);
     }
   };
 
-  const categoriesItems = (categoryList) => {
-    const items = categoryList.map((category) => {
-      return { label: category.name, key: category.name };
-    });
-    return items;
+  const handleSearch = (value) => {
+    // Update the search value state when the user types in the search input
+    setSearchValue(value);
   };
 
   useEffect(() => {
     getNavbarData();
-    getAllCategories();
+    fetchCategoryData();
   }, []);
 
-  // recursive function to render nested submenus
-  const renderSubmenus = (submenus) => {
-    return submenus.map((submenu) => (
-      <Link to={`${window.location.origin}/${submenu.link}`} key={submenu._id}>
-        <Menu.SubMenu
-          title={submenu.title}
-          // icon={submenu.child && submenu.child.length > 0 ? submenu.icon : null}
-        >
-          {submenu.child && submenu.child.length > 0
-            ? renderSubmenus(submenu.child) // Render nested child menus
-            : null}
-        </Menu.SubMenu>
-      </Link>
-    ));
-  };
-  return (
-    <div className="flex">
-      <Menu
-        className="bg-shopPrimaryColor text-white"
-        mode="horizontal"
-        items={[
-          {
-            label: "All Categories",
-            key: "all_categories",
-            children: categoriesItems(categories),
-          },
-        ]}
-      />
-      <Menu mode="horizontal">
-        {navbarData.map((menu) => (
+  const renderSubMenuItems = (menuData) => {
+    return menuData.map((menuItem) => {
+      if (menuItem.submenus && menuItem.submenus.length > 0) {
+        return (
           <Menu.SubMenu
-            key={menu._id}
-            title={menu.title}
-            // icon={menu.submenus && menu.submenus.length > 0 ? menu.icon : null}
+            className="font-normal"
+            key={menuItem._id}
+            title={menuItem.title.toUpperCase()}
           >
-            {menu.submenus && menu.submenus.length > 0
-              ? renderSubmenus(menu.submenus) // Render submenus with nested children
-              : null}
+            {menuItem.submenus.map((submenuItem) => (
+              <React.Fragment key={submenuItem._id}>
+                {submenuItem.child && submenuItem.child.length > 0 ? (
+                  // render child submenu if children exist
+                  <Menu.SubMenu
+                    className="flex"
+                    key={submenuItem._id}
+                    title={submenuItem.title}
+                    icon={
+                      submenuItem.child.length > 0 ? <span>&rarr;</span> : null
+                    }
+                  >
+                    {submenuItem.child.map((childItem) => (
+                      <Menu.Item key={childItem._id}>
+                        <Link
+                          to={`${window.location.origin}/${childItem.link}`}
+                        >
+                          {childItem.title}
+                        </Link>
+                      </Menu.Item>
+                    ))}
+                  </Menu.SubMenu>
+                ) : (
+                  // Render a plain menu item with a link if no children exist
+                  <Menu.Item className="cursor-pointer" key={submenuItem._id}>
+                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                      {submenuItem.title}
+                    </Link>
+                  </Menu.Item>
+                )}
+              </React.Fragment>
+            ))}
           </Menu.SubMenu>
-        ))}
-      </Menu>
-      <button
-        onClick={() => window.request_quote_modal.showModal()}
-        className="btn"
-      >
-        Request Quote
-      </button>
-      <RequestQuoteForm />
-    </div>
+        );
+      } else if (menuItem.link) {
+        // Check if there's a link for the main menu item
+        return (
+          <Menu.Item key={menuItem._id}>
+            <Link to={`${window.location.origin}/${menuItem.link}`}>
+              {menuItem.title}
+            </Link>
+          </Menu.Item>
+        );
+      } else {
+        return (
+          <Menu.Item
+            onClick={() => console.log("CLICKED ON SUB MENU")}
+            key={menuItem._id}
+          >
+            {menuItem.title}
+          </Menu.Item>
+        );
+      }
+    });
+  };
+
+  const categoryMenu = (
+    <Select
+      showSearch
+      style={{ width: "100%" }}
+      placeholder="Select a category"
+      optionFilterProp="value" // Use "value" instead of "children"
+      filterOption={(input, option) =>
+        option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      }
+      onSearch={handleSearch}
+      value={searchValue}
+    >
+      {categoriesData.map((category) => (
+        <Option
+          onClick={() => console.log("CLICKED ON CATEGORY OPTION")}
+          key={category._id}
+          value={category.name}
+        >
+          <Link to={`${window.location.origin}/category/${category?.name}`}>
+            {category.name}
+          </Link>
+        </Option>
+      ))}
+    </Select>
+  );
+
+  return (
+    <Menu
+      className="bg-gray-50 join w-full rounded-none hidden md:flex"
+      onClick={onClick}
+      selectedKeys={[current]}
+      mode="horizontal"
+    >
+      <Dropdown overlay={categoryMenu} trigger={["hover"]}>
+        <button className="join-item dropdown flex items-center justify-between rounded-none h-full bg-shopPrimaryColor text-white px-4 w-52">
+          <TfiMenuAlt />
+          All Categories
+          <RiArrowDropDownLine size={24} />
+        </button>
+      </Dropdown>
+
+      {renderSubMenuItems(navbarData)}
+    </Menu>
   );
 };
 

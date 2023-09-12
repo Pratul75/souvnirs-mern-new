@@ -46,6 +46,13 @@ const productSchema = new mongoose.Schema(
       type: Number,
       // required: true,
     },
+    minQuantityToBuy: {
+      type: Number,
+    },
+    mrp: {
+      type: Number,
+      // required: true,
+    },
     compareAtPrice: {
       type: Number,
     },
@@ -88,17 +95,23 @@ const productSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    customization: {
+      type: mongoose.Schema.Types.Mixed,
+    },
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
+    approved: { type: Boolean, default: false },
+    comment: String,
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields
   }
 );
 
+// product schema
 productSchema.plugin(aggregatePaginate);
 
 const Product = mongoose.model("Product", productSchema);

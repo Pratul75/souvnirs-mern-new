@@ -9,7 +9,6 @@ export const useAuth = () => {
   let admin;
   let role;
   const _user = localStorage.getItem("role");
-
   // console.log("USER IN USE AUTH", _user);
   if (_user) {
     role = JSON.parse(_user);
@@ -48,6 +47,7 @@ export const ProtectedRoute = ({ roleRequired, children, defaultRole }) => {
   if (defaultRole !== role) {
     return <Navigate to={PATHS.permissionDenied} />;
   }
+
   if (!auth) {
     // If not authenticated, redirect to login
     return <Navigate to={PATHS.login} />;

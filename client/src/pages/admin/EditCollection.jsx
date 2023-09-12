@@ -60,10 +60,10 @@ const EditCollection = () => {
         Header: "Slug",
         accessor: "slug",
       },
-      {
-        Header: "Description",
-        accessor: "description",
-      },
+      // {
+      //   Header: "Description",
+      //   accessor: "description",
+      // },
       {
         Header: "tags",
         accessor: "'tags",
@@ -412,10 +412,13 @@ const EditCollection = () => {
       updatedFormDataWithoutFilterDivStates;
 
     console.log("FORM DATA ON SUBMIT: ", abstractedFormData);
-    API_WRAPPER.put(
+    const response = await API_WRAPPER.put(
       `/collection/update-collection-by-id/:${params.id}`,
       abstractedFormData
     );
+    if (response.status == 200) {
+      navigate(PATHS.adminCollection);
+    }
   };
 
   useEffect(() => {

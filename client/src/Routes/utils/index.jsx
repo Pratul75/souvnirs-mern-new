@@ -47,7 +47,6 @@ export const getStatusStyles = (status) => {
       );
   }
 };
-
 export const getStockStatusStyles = (stockStatus) => {
   switch (stockStatus) {
     case "IN_STOCK":

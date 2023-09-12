@@ -4,9 +4,10 @@ import API_WRAPPER from "../../api";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import Loading from "../common/Loading";
+
 const AddSubMenus = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
   const [subMenuType, setSubMenuType] = useState("");
@@ -25,7 +26,6 @@ const AddSubMenus = () => {
     console.log("AddSubMenus.jsx", response);
     setMainMenus(response.data);
   };
-  console.log("AddSubMenus.jsx", createdCards);
 
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {

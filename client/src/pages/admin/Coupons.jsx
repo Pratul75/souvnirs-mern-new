@@ -1,7 +1,7 @@
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
@@ -10,6 +10,8 @@ const Coupons = () => {
   const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState();
+
+  const navigate = useNavigate();
 
   const fetchCoupons = async () => {
     try {
@@ -39,9 +41,7 @@ const Coupons = () => {
   };
 
   const editHandler = async (row) => {
-    console.log("Coupons.jsx", row);
-    window.edit_coupon_modal.showModal();
-    setSelectedRow(row);
+    navigate(`${PATHS.editCoupon}/${row._id}`);
   };
 
   const deleteCoupons = async (e) => {
@@ -141,10 +141,7 @@ const Coupons = () => {
       <div className="mt-4 overflow-x-auto">
         <h1 className="text-2xl">Coupons List</h1>
         <div className="flex justify-end mb-4">
-          <Link
-            to={PATHS.adminAddCoupon}
-            className="btn bg-themeColor font-thin text-white w-48"
-          >
+          <Link to={PATHS.adminAddCoupon} className="btn btn-primary">
             Add Coupons
           </Link>
         </div>

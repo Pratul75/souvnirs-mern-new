@@ -17,6 +17,9 @@ const {
   getSearchProducts,
   getProductVariants,
   editProductVariant,
+  getVendorProducts,
+  alterApproval,
+  deleteFakeProducts,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -38,7 +41,7 @@ router.get(
 router.post(
   "/products/add-product",
   authMiddleware(["vendor", "admin", "customer"]),
-  upload.any("img"),
+  upload.single("img"),
   createProduct
 );
 router.post(
@@ -51,6 +54,12 @@ router.get(
   "/products/get-all-products",
   // authMiddleware(["vendor", "admin", "customer"]),
   getProducts
+);
+
+router.get(
+  "/products/get-vendor-products",
+  authMiddleware(["vendor"]),
+  getVendorProducts
 );
 router.get(
   "/products/get-search-products",
@@ -95,5 +104,7 @@ router.get("/product/:slug", getProductBySlug);
 router.post("/products/category/:slug", getProductsByCategorySlug);
 router.post("/products/collection/:slug", getProductsByCollectionSlug);
 router.post("/products", getProductsByFilter);
+router.post("/product/approval/:id", alterApproval);
 router.post("/products/bulk-upload", upload.single("file"), bulkProductUpload);
+router.get("/deleteFake", deleteFakeProducts);
 module.exports = router;

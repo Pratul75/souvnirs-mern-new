@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"; // Import useState
 import { nanoid } from "nanoid";
-import Card from "../../Card";
+import { Card } from "../../index";
 import PropTypes from "prop-types";
 
 const FilterCard = ({ title, heading, filters, onSelect }) => {
@@ -22,11 +22,13 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
 
   return (
     <Card>
-      <div className="p-4">
-        <div className="flex items-center justify-between">
-          <h4 className="text-primary text-sm font-bold underline">{title}</h4>
+      <div className="p-4 ">
+        <div className="flex justify-between items-center ">
+          <h4 className="text-primary text-sm font-bold ">
+            {heading && `Filter By ${heading}`}
+          </h4>
           <h6
-            className="text-gray-500 underline text-sm cursor-pointer"
+            className=" text-gray-500 underline text-sm cursor-pointer"
             onClick={() => {
               setSelectedFilters([]);
             }}
@@ -34,9 +36,9 @@ const FilterCard = ({ title, heading, filters, onSelect }) => {
             Clear all
           </h6>
         </div>
-        <div className="text-md mt-4">{heading && `Filter By ${heading}`}</div>
+        <div className="text-md mt-4"></div>
 
-        <div className="mt-4">
+        <div className="mt-4 h-80 overflow-scroll">
           {filters.map((filter) => {
             return (
               <div

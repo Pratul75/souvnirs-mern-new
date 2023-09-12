@@ -45,7 +45,15 @@ const createDiscount = async (req, res) => {
     categoryId,
     status,
   } = req.body;
-
+  if (
+    !activeDate ||
+    !activeTime ||
+    !requirementTitle ||
+    !typeTitle ||
+    !totalLimit
+  ) {
+    return res.status(400).json("Enter all required fields");
+  }
   try {
     const discount = await Discount.create({
       title,

@@ -1,7 +1,8 @@
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/.env" });
 const express = require("express");
 const cors = require("cors");
 const { connect } = require("./db/db");
+const path = require("path");
 // route imports
 const productRoutes = require("./routes/productRoutes");
 const vendorRoutes = require("./routes/vendorRoutes");
@@ -26,6 +27,7 @@ const authRoutes = require("./auth/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const menuRoutes = require("./routes/menuRoutes");
+const commissionRoutes = require("./routes/commissionRoutes");
 const morgan = require("morgan");
 
 // app initialization
@@ -34,6 +36,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "middlewares", "uploads"))
+);
 // connect to db
 connect();
 
@@ -87,9 +93,10 @@ app.use(menuRoutes);
 
 // admin routes should only be exposed when its required to create a new admin, else it should be commented out
 app.use(adminRoutes);
-
+// dashboard routes
 app.use(dashboardRoutes);
-
+// commissions routes
+app.use(commissionRoutes);
 // start the server
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

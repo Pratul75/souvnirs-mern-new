@@ -61,6 +61,7 @@ const EditCustomer = () => {
     setFormData(response.data.customer);
   };
   console.log("editCustomer.jsx", formData);
+
   const onSubmit = async (data) => {
     const { confirmPassword, ...formData } = data;
     formData.password = confirmPassword;

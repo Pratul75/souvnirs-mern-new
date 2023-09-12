@@ -36,7 +36,7 @@ const DiscountSchema = new mongoose.Schema({
   eligiblityValue: [
     {
       type: String,
-      required: true,
+      // required: true,
     },
   ],
   totalLimit: {

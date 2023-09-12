@@ -31,9 +31,6 @@ import One from "../assets/shop/cardImages/1.jpg";
 import Two from "../assets/shop/cardImages/2.jpg";
 import Three from "../assets/shop/cardImages/3.jpg";
 import Four from "../assets/shop/cardImages/4.jpg";
-import GradiantCardOneBackground from "../assets/gradiantImages/gradiantCardOne.png";
-import GradiantCardTwoBackground from "../assets/gradiantImages/gradiantCardTwo.png";
-import GradiantCardThreeBackground from "../assets/gradiantImages/gradiantCardThree.png";
 import LenovoImage from "../assets/shop/brandImages/lenovo.png";
 import PrestigeLogo from "../assets/shop/brandImages/prestigeLogo.png";
 import VeromodaLogo from "../assets/shop/brandImages/veromodaLogo.png";
@@ -56,21 +53,10 @@ import ImageGridImageThree from "../assets/shop/cardImages/imageGridImageThree.p
 import ImageGridImageFour from "../assets/shop/cardImages/imagGridImageFour.png";
 import GradiantCardImgOne from "../assets/shop/productImages/gradiantCardImgOne.png";
 import GradiantCardImgTwo from "../assets/shop/productImages/gradiantCardImgTwo.png";
-import GradiantCardImgThree from "../assets/shop/productImages/GradiantCardImgThree.png";
 import { BsMenuApp } from "react-icons/bs";
-import ProductCardMini from "../components/shop/cards/ProductCardMini";
-import TextureOne from "../assets/shop/bannerImages/texture1.jpg";
-import TextureTwo from "../assets/shop/bannerImages/texture2.jpg";
-import TextureThree from "../assets/shop/bannerImages/texture3.jpg";
-import TextureFour from "../assets/shop/bannerImages/texture4.jpg";
-import TextureFive from "../assets/shop/bannerImages/texture5.jpg";
-import TextureSIx from "../assets/shop/bannerImages/texture6.jpg";
-import TextureBrown from "../assets/shop/bannerImages/textureBrown.jpg";
 import TexturePink from "../assets/shop/bannerImages/texturePink.jpg";
-import TextureYellow from "../assets/shop/bannerImages/textureYellow.png";
 import TexturePurple from "../assets/shop/bannerImages/texturePurple.jpg.png";
 import TexturePaleYellow from "../assets/shop/bannerImages/texturePaleYellow.png";
-import GradiantImageThree from "../assets/shop/productImages/plant.png";
 import { Ratings, TimerComponent } from "../components";
 import { ShopIcon } from "../icons";
 
@@ -107,6 +93,11 @@ export const adminSidebarMapping = [
     Icon: BiCategory,
   },
   {
+    title: "Commissions",
+    navLink: PATHS.adminCommissions,
+    Icon: BiSupport,
+  },
+  {
     title: "Attributes",
     navLink: PATHS.adminAttribute,
     Icon: MdFeaturedPlayList,
@@ -114,6 +105,11 @@ export const adminSidebarMapping = [
   {
     title: "Reviews",
     navLink: PATHS.adminReviews,
+    Icon: MdReviews,
+  },
+  {
+    title: "Advertisements",
+    navLink: PATHS.adminAdvertisements,
     Icon: MdReviews,
   },
   {
@@ -438,42 +434,10 @@ export const gradiantCardListCardData = [
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
+  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
-        <TimerComponent date={"2023-09-01"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
-    </div>
-  </div>,
-  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-09-01"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
-          <ShopIcon />
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
-    </div>
-  </div>,
-  <div className="flex flex-col gap-4 p-8" key={nanoid()}>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-09-01"} />
+        <TimerComponent date={"2023-10-01"} />
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
           <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
@@ -483,10 +447,43 @@ export const caroselMapppingDailyDeals = [
         </div>
         <Ratings rating={3.5} />
       </div>
-      <div>
-        <img src={GiftOnePng} alt="" />
-      </div>
+      <div></div>
     </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
+  </div>,
+  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-10-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div></div>
+    </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
+  </div>,
+  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-10-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div></div>
+    </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
 ];
 

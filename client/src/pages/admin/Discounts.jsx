@@ -1,7 +1,7 @@
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import { Modal } from "../../components";
@@ -10,6 +10,8 @@ const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchDiscounts = async () => {
     try {
@@ -50,26 +52,7 @@ const Discounts = () => {
         Header: "Title",
         accessor: "title",
       },
-      // {
-      //   Header: "Type Title",
-      //   accessor: "typeTitle",
-      // },
-      // {
-      //   Header: "Requirement Title",
-      //   accessor: "requirementTitle",
-      // },
-      // {
-      //   Header: "Requirement Value",
-      //   accessor: "requirementValue",
-      // },
-      // {
-      //   Header: "Eligiblity Title",
-      //   accessor: "eligiblityTitle",
-      // },
-      // {
-      //   Header: "Eligiblity Value",
-      //   accessor: "eligiblityValue",
-      // },
+
       {
         Header: "Total Limit",
         accessor: "totalLimit",
@@ -174,10 +157,7 @@ const Discounts = () => {
       />
       <div className="mt-4 overflow-x-auto">
         <div className="flex justify-end mb-4">
-          <Link
-            to={PATHS.adminAddDiscount}
-            className="btn bg-themeColor font-thin text-white w-48"
-          >
+          <Link to={PATHS.adminAddDiscount} className="btn btn-primary">
             Add Discounts
           </Link>
         </div>
@@ -188,6 +168,10 @@ const Discounts = () => {
           showButtons
           enableDelete
           enablePagination
+          enableEdit
+          onEdit={(row) => {
+            navigate(`${PATHS.editDiscount}/${row._id}`);
+          }}
           pageSize={10}
           onDelete={handleDelete}
         />

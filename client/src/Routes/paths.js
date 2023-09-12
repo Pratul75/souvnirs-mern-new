@@ -15,6 +15,8 @@ export const PATHS = {
   adminCollectionConditions: "/admin/collection-conditions",
   adminDiscounts: "/admin/discounts",
   adminCoupons: "/admin/coupons",
+  editCoupon: "/admin/coupon",
+  editDiscount: "/admin/discount",
   adminCouriers: "/admin/couriers",
   adminCustomer: "/admin/customer",
   adminEmailMarketing: "/admin/email-marketing",
@@ -47,13 +49,15 @@ export const PATHS = {
   EditProduct: "/admin/edit-product",
   EditVariants: "/admin/edit-variants",
   EditCategory: "/admin/edit-category",
-
   EditCustomer: "/admin/edit-Customer",
   adminAddMainMenus: "/admin/menus/add-menus/add-main-menu",
   adminAddSubMenus: "/admin/menus/add-menus/add-main-menu/add-sub-menu",
   adminAddChildMenus:
     "/admin/menus/add-menus/add-main-menu/add-sub-menu/add-child-menu",
   EditCollection: "/admin/edit-collection",
+  adminAddCommission: "/admin/commissions/add-commission",
+  adminCommissions: "/admin/commissions",
+  adminAdvertisements: "/admin/advertisements",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",
@@ -67,6 +71,10 @@ export const PATHS = {
   vendorCart: "/vendor/cart",
   vendorAddProducts: "/vendor/add-products",
   vendorMedia: "/vendor/media",
+  vendorAddProduct: "/vendor/addProducts",
+  vendorAddProductAttributes: "/vendor/addProducts/add-product-attributes",
+  vendorEditProduct: "/vendor/edit-product",
+  vendorEditVariants: "/vendor/edit-variants",
 
   // customer routes
   customerDashboard: "/customer/dashboard",
@@ -95,4 +103,5 @@ export const PATHS = {
   checkout: "/checkout",
   shopWishlist: "/shop/wishlist",
   blogs: "/blogs",
+  shopAboutUs: "/shop/about_us",
 };

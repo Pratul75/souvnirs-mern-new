@@ -21,7 +21,7 @@ router.get(
 );
 router.post(
   "/store/create-store",
-  authMiddleware(["vendor", "admin", "customer"]),
+  // authMiddleware(["vendor", "admin", "customer"]),
   createStore
 );
 router.put(

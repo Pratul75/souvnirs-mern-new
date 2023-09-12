@@ -3,11 +3,10 @@ import { fadeInFromLeftVariant } from "../../../animation";
 import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
-import { Card } from "../../../components";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
-import { options } from "../../../components/Charts/LineChart";
+import { options } from "../../../components/ui/Charts/LineChart";
 import { getRandomColor } from "../../../utils";
 
 const ProductOverviewAndAddProduct = () => {

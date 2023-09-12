@@ -3,6 +3,7 @@ const Product = require("../schema/productModal");
 const ConditionValue = require("../schema/conditionValueModal");
 const { getOperator } = require("../utils");
 const Vendor = require("../schema/vendorModal");
+const Category = require("../schema/categoryModal");
 
 // Create a new collection
 const createCollection = async (req, res) => {
@@ -107,6 +108,16 @@ const getRawDataForFilter = async (req, res) => {
         console.log("CONDITION OPERATOR STRING: ", condition.conditionValue);
 
         // Build the query object for the current condition
+        let categories;
+        if (selectedTitle == "category") {
+          categories = await Category.find({
+            name: { $regex: inputValue, $options: "i" },
+          });
+          const categoryIds = categories.map((c) => c._id);
+          filteredProducts = await Product.find({
+            categoryId: { $in: categoryIds },
+          });
+        }
         let vendors;
         if (selectedTitle === "vendor") {
           vendors = await Vendor.find({
@@ -125,9 +136,10 @@ const getRawDataForFilter = async (req, res) => {
               vendorId: { $nin: vendorIds },
             });
           }
-          res.json(filteredProducts);
-          return;
+          // res.json(filteredProducts);
+          // return;
         }
+
         if (condition.conditionValue == "start with") {
           inputValue = new RegExp(`^${inputValue}`, "i");
         } else if (condition.conditionValue === "end with") {
@@ -149,7 +161,8 @@ const getRawDataForFilter = async (req, res) => {
     // Make a request to the "Products" collection using the constructed query
     // filteredProducts = await Product.find({ name: { $regex: /^o/i } });
 
-    filteredProducts = await Product.find(query);
+    const someMoreProducts = await Product.find(query);
+    filteredProducts = [...someMoreProducts, ...filteredProducts];
 
     // Return the filtered products or send a response to the client
     console.log("PRODUCTS FILTERED ARRAY: ", filteredProducts);

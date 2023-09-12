@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/Sidebar";
+import { Sidebar, Navbar } from "../components";
 import { Breadcrumb, Footer } from "../components";
 
 const AppLayout = ({ children }) => {
@@ -16,7 +15,7 @@ const AppLayout = ({ children }) => {
         {/* breadcrumbs */}
 
         {/* app content */}
-        <div className="md:p-4 md:mx-6 overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
+        <div className="md:p-4 md: overflow-y-scroll flex-grow max-h-[calc(100vh-85px)]">
           <Breadcrumb />
           {children}
           <Footer />

@@ -9,22 +9,21 @@ import { nanoid } from "nanoid";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
+import { sortProductsByName } from "../../utils";
+import { Slider } from "antd";
 
 const CollectionProducts = () => {
   const [filterType, setFilterType] = useState(false);
-  const [shippingStates, setShippingStates] = useState({
-    freeShipping: false,
-    readyToShip: false,
-  });
+  const [inputRangeValue, setInputRangeValue] = useState([0, 100000]);
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
-
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(2);
 
+  const [selctedFilter, setSelctedFilter] = useState("new");
   const location = useParams();
-  const [inputRangeValue, setInputRangeValue] = useState(100000); // Add this line
 
   const getProducts = async () => {
     setLoading(true);
@@ -32,13 +31,16 @@ const CollectionProducts = () => {
       `/products/collection/${location.slug}`,
       {
         data: filters,
-        priceMax: inputRangeValue,
+        priceMin: inputRangeValue[0],
+        priceMax: inputRangeValue[1],
         page: page,
+        sort: selctedFilter,
       }
     );
     console.log("COLLECTION RESPONSE: ", response);
     setProducts(response?.data?.products);
     setFilterList(response?.data?.filters);
+    setLastPage(response?.data?.lastPage);
     setLoading(false);
   };
 
@@ -69,125 +71,96 @@ const CollectionProducts = () => {
     debounce(() => {
       getProducts();
     }, 100)();
-  }, [filters, inputRangeValue, page]);
+  }, [filters, inputRangeValue, selctedFilter, page]);
 
   return (
-    <div className="mx-16 mt-4">
-      <div className="grid grid-cols-4">
-        <div className="col-span-1">
-          <div className="flex gap-4 flex-col">
+    <div className="mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Sidebar */}
+        <div className="md:col-span-1 hidden md:block">
+          <div className="hidden md:flex flex-col gap-4">
+            {/* Price Filter */}
             <Card>
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold">Price</h6>
                 </div>
-                <input
-                  type="range"
+                <Slider
+                  range
                   min={0}
                   max={100000}
-                  onChange={(e) => setInputRangeValue(e.target.value)}
+                  step={50}
+                  onChange={(value) => setInputRangeValue(value)}
                   value={inputRangeValue}
                   className="range"
                 />
-                <div>
-                  <span>0 - {inputRangeValue}</span>
+                <div className="text-sm">
+                  <span>
+                    {inputRangeValue[0]} - {inputRangeValue[1]}
+                  </span>
                 </div>
               </div>
             </Card>
 
-            {filterList &&
-              Object.keys(filterList).map((filter) => {
-                console.log("CategoryProducts.jsx", filter);
-                return (
+            {/* Filter Cards */}
+            <div className="hidden md:flex flex-col">
+              {filterList &&
+                Object.keys(filterList).map((filter) => (
                   <FilterCard
-                    key={filter} // You should add a unique key for each item in the list
+                    key={filter}
                     title="Product Filter"
                     onSelect={handleFilterSelection}
                     heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
+                    filters={filterList[filter].map((a) => ({
+                      filterName: a,
+                    }))}
                   />
-                );
-              })}
+                ))}
+            </div>
           </div>
         </div>
-        <div className="col-span-3 container px-8">
-          <div className="flex justify-between">
+
+        {/* Main Content */}
+        <div className="md:col-span-3">
+          <div className="flex justify-between items-center">
             <div className="flex gap-4">
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${filterType && "btn-primary"} btn-square`}
+                className={`btn ${filterType ? "btn-primary" : ""} btn-square`}
               >
                 <MdOutlineDashboard className="text-2xl" />
               </button>
               <button
                 onClick={() => setFilterType((prevState) => !prevState)}
-                className={`btn ${!filterType && "btn-primary"} btn-square`}
+                className={`btn ${!filterType ? "btn-primary" : ""} btn-square`}
               >
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>
               <select
+                onChange={(e) => setSelctedFilter(e.target.value)}
                 className="select select-primary"
                 name="defaultSorting"
                 id="defaultSorting"
               >
-                <option selected disabled>
-                  Default Sorting
+                <option value="recommended">Recommended</option>
+                <option value="new" selected>
+                  What's new
                 </option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
+                <option value="discount">Better Discount</option>
+                <option value="htl">price:high to low</option>
+                <option value="lth">price:low to high</option>
+                <option value="rating">Customer Rating</option>
               </select>
             </div>
-            <div className="flex gap-4">
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Ready To Ship</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        readyToShip: !shippingStates.readyToShip,
-                      };
-                    })
-                  }
-                  checked={shippingStates.readyToShip}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
-              <div className="form-control flex flex-row items-center gap-2">
-                <label className="label">
-                  <span className="label-text">Free Shipping</span>
-                </label>
-                <input
-                  onChange={() =>
-                    setShippingStates((prevState) => {
-                      return {
-                        ...prevState,
-                        freeShipping: !shippingStates.freeShipping,
-                      };
-                    })
-                  }
-                  checked={shippingStates.freeShipping}
-                  className="toggle toggle-primary"
-                  type="checkbox"
-                  name="readyToShip"
-                  id="readyToShip"
-                />
-              </div>
-            </div>
           </div>
+
           <div className="flex justify-between gap-4 mt-4 flex-wrap">
             {filterType ? (
               products &&
-              products.map((product) => (
+              sortProductsByName(products, selctedFilter).map((product) => (
                 <ProductCardMini
-                  key={nanoid()}
-                  id={nanoid()}
+                  key={product.products._id}
+                  id={product.products._id}
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
@@ -196,40 +169,37 @@ const CollectionProducts = () => {
                   slug={product.products.slug}
                   rating={4.5}
                   title={product.products.name}
-                  // discountPrice="300"
                   image={product.products.coverImage}
                 />
               ))
             ) : (
               <div className="flex flex-wrap gap-4 justify-center">
-                {products && products.length == 0 && <div>No product</div>}
+                {products && products.length === 0 && <div>No product</div>}
 
                 {products &&
-                  products.map((product) => {
-                    return (
-                      <ProductCard
-                        key={nanoid()}
-                        badgeColor="badge-accent"
-                        badgeText="NEW"
-                        slug={product.products.slug}
-                        id={product.products._id}
-                        price={
-                          product.variants.length > 0
-                            ? product.variants[0].price
-                            : product.products.price
-                        }
-                        rating={4.2}
-                        title={product.products.name}
-                        // discountPrice="300"
-                        image={product.products.coverImage}
-                        onClick={() => {}}
-                      />
-                    );
-                  })}
+                  products.map((product) => (
+                    <ProductCard
+                      key={product.products._id}
+                      badgeColor="badge-accent"
+                      badgeText="NEW"
+                      slug={product.products.slug}
+                      id={product.products._id}
+                      price={
+                        product.variants.length > 0
+                          ? product.variants[0].price
+                          : product.products.price
+                      }
+                      rating={4.2}
+                      title={product.products.name}
+                      image={product.products.coverImage}
+                      onClick={() => {}}
+                    />
+                  ))}
               </div>
             )}
           </div>
-          <div className="flex  w-full justify-center my-4">
+
+          <div className="flex w-full justify-center my-4">
             <div className="flex justify-center items-center gap-5 w-1/3">
               <button
                 onClick={() => {
@@ -243,10 +213,10 @@ const CollectionProducts = () => {
               >
                 -
               </button>
-              <span className="text-3xl ">{page}</span>
+              <span className="text-3xl">{page}</span>
               <button
                 onClick={() => {
-                  if (page == lastPage) {
+                  if (page === lastPage) {
                     return;
                   }
                   setPage((prev) => prev + 1);

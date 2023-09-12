@@ -4,6 +4,7 @@ import {
   LoginPage,
   PermissionDenied,
   PageNotFound,
+  AddCommission,
 } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
 import {

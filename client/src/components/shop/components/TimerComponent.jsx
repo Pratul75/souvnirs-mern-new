@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
-const TimerComponent = () => {
+const TimerComponent = ({date}) => {
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    const targetDate = new Date("2023-09-01"); // Replace with your target date
+    const targetDate = new Date(date); // Replace with your target date
     const interval = setInterval(() => {
       const now = new Date();
       const timeDifference = targetDate - now;

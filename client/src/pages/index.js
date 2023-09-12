@@ -39,6 +39,9 @@ export { default as AddMenus } from "./admin/AddMenus";
 export { default as Menus } from "./admin/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
 export { default as AddChildMenu } from "./admin/AddChildMenu";
+export { default as Commissions } from "./admin/Commissions";
+export { default as AddCommission } from "./admin/AddCommission";
+export { default as Advertisement } from "./admin/Advertisement";
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
 export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
@@ -51,6 +54,10 @@ export { default as VendorShipments } from "./vendor/VendorShipments";
 export { default as VendorRefund } from "./vendor/VendorRefund";
 export { default as VendorProductInventory } from "./vendor/VendorProductInventory";
 export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
+export { default as VendorAddProductAttributes } from "./vendor/VendorAddProductAttributes";
+export { default as VendorEditProduct } from "./vendor/VendorEditProduct";
+export { default as VendorEditProductAttributes } from "./vendor/VendorEditProductAttributes";
+
 // customer routes
 export { default as CustomerDashboard } from "./customer/CustomerDashboard";
 export { default as CustomerCartList } from "./customer/CustomerCartList";
@@ -74,3 +81,4 @@ export { default as OrderSuccess } from "./shop/OrderSuccess";
 export { default as Wishlist } from "./shop/Wishlist";
 export { default as Blogs } from "./shop/Blog";
 export { default as SingleTab } from "./shop/SingleTab";
+export { default as SghopAboutUs } from "./shop/ShopAboutUs";

@@ -1,11 +1,11 @@
-import ScrollAnimationWrapper from "../../ScrollAnimationWrapper";
+import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 import GradiantCard from "../cards/GradiantCard";
 import PropTypes from "prop-types";
 
 const GradiantCardList = ({ cardData }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="grid grid-cols-3 gap-4 mt-16">
+      <div className="grid grid-cols-3 gap-4 mt-5">
         {cardData?.map(
           ({
             id,
