@@ -160,6 +160,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                     {submenuItem.child.map((childItem) => (
                       <Menu.Item key={childItem._id}>
                         <Link
+                          onClick={() => setIsSidebarOpen(false)}
                           to={`${window.location.origin}/${childItem.link}`}
                         >
                           {childItem.title}
@@ -170,7 +171,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 ) : (
                   // Render a plain menu item with a link if no children exist
                   <Menu.Item className="cursor-pointer" key={submenuItem._id}>
-                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                    <Link
+                      onClick={() => setIsSidebarOpen(false)}
+                      to={`${window.location.origin}/${submenuItem.link}`}
+                    >
                       {submenuItem.title}
                     </Link>
                   </Menu.Item>
@@ -386,7 +390,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
           >
             {/* Close sidebar button */}
             <div className="flex justify-between p-4">
-              <Link to={PATHS.landingPage}>
+              <Link
+                to={PATHS.landingPage}
+                onClick={() => setIsSidebarOpen(false)}
+              >
                 <img src={SouvnirsLogoImage} />
               </Link>
               <button className="btn btn-circle float-right mr-4">
