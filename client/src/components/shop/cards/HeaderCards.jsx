@@ -47,7 +47,11 @@ const HeaderCards = ({
               </div>
             </div>
             <div className="">
-              <img src={productImgOne} alt="" />
+              <img
+                src={productImgOne}
+                className=" absolute right-10 top-10 h-3/4"
+                alt=""
+              />
             </div>
           </div>
         </motion.div>
