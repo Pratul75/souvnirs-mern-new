@@ -17,12 +17,12 @@ const HeaderCards = ({
 }) => {
   return (
     <div>
-      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-4 h-full md:h-[650px]">
+      <div className="grid grid-cols-3 grid-rows-2 gap-4 mt-4 h-full md:h-auto">
         <motion.div
           animate="animate"
           initial="initial"
           variants={fadeInVariants}
-          className="col-span-3 md:col-span-2 row-span-2 h-[80vh] relative"
+          className="col-span-3 md:col-span-2 row-span-2 h-auto relative"
         >
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -55,7 +55,7 @@ const HeaderCards = ({
           animate="animate"
           initial="initial"
           variants={fadeInVariants}
-          className="col-span-3 md:col-span-2 row-span-2 relative h-[30vh]"
+          className="col-span-3 md:col-span-1 row-span-1 relative h-[30vh]"
         >
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -64,10 +64,10 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-lg md:text-6xl font-bold">
+              <h2 className="text-white text-lg md:text-xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-lg md:text-6xl font-bold">
+              <h3 className="text-white text-lg md:text-xl font-bold">
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal my-2">
@@ -88,7 +88,7 @@ const HeaderCards = ({
           animate="animate"
           initial="initial"
           variants={fadeInVariants}
-          className="col-span-3 md:col-span-2 row-span-2 relative h-[30vh]"
+          className="col-span-3 md:col-span-1 row-span-2 relative h-[30vh]"
         >
           <img
             className="object-cover w-full h-full rounded-xl"
@@ -97,17 +97,18 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-lg md:text-6xl font-bold">
+              <h2 className="text-white text-lg md:text-xl font-bold">
                 {mainHeading}
               </h2>
-              <h3 className="text-white text-lg md:text-6xl font-bold">
+              <h3 className="text-white text-lg md:text-xl font-bold">
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal my-2">
                 {mainSubHeading}
               </h6>
+
               <button className="btn">
-                <span className="font-semibold text-black">Shop Now</span>{" "}
+                <span className="font-semibold text-black">Shop Now</span>
                 <BsArrowRight className="text-xl text-black" />
               </button>
             </div>
