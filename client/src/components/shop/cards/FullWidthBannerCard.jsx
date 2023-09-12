@@ -8,8 +8,8 @@ const FullWidthBannerCard = ({
 }) => {
   return (
     <ScrollAnimationWrapper>
-      <div className="flex flex-col w-full justify-center">
-        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD] p-6 flex justify-between items-center text-white rounded-xl px-16 mt-16">
+      <div className="flex flex-col w-full justify-start md:justify-center mt-5 ">
+        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl py-4">
           <div className="hidden md:block w-96 h-full">
             <img
               className="mr-12 w-full h-full object-contain"
@@ -17,15 +17,13 @@ const FullWidthBannerCard = ({
               alt=""
             />
           </div>
-          <div className="flex flex-col gap-4 items-center justify-center">
-            <h3 className="font-medium text-xl md:text-6xl text-black text-center">
-              {mainHeading}
-            </h3>
-            <h3 className="text-xl md:text-6xl font-medium text-black text-center">
-              {subHeading}
-            </h3>
-            <div>
-              <button className="btn btn-lg bg-shopPrimaryColor text-white border-none outline-none mt-4 ">
+          <div className="">
+            <div className="flex flex-col justify-center items-center">
+              <h3 className=" text-lg md:text-6xl text-black">{mainHeading}</h3>
+              <h3 className="text-lg md:text-6xl  text-black">{subHeading}</h3>
+            </div>
+            <div className="flex gap-2  justify-center">
+              <button className="btn btn-sm md:btn-lg bg-shopPrimaryColor text-white border-none outline-none ">
                 Shop Now
               </button>
             </div>

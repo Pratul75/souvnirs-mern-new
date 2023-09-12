@@ -3,7 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import PropTypes from "prop-types";
 import { nanoid } from "nanoid";
-import { AiOutlineHeart, AiOutlineShoppingCart } from "react-icons/ai";
+import {
+  AiOutlineHeart,
+  AiOutlineLogin,
+  AiOutlineShoppingCart,
+} from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingBag } from "react-icons/fi";
 import { RiDashboardLine } from "react-icons/ri";
@@ -17,14 +21,7 @@ import { useSelector } from "react-redux";
 import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 import { Menu } from "antd";
-
-import {
-  AppstoreOutlined,
-  CaretDownOutlined,
-  CaretRightOutlined,
-  MailOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
@@ -40,82 +37,12 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [navbarData, setNavbarData] = useState([]);
 
-  const items = [
-    {
-      label: "Navigation One",
-      key: "mail",
-      icon: <MailOutlined />,
-    },
-    {
-      label: "Navigation Two",
-      key: "app",
-      icon: <AppstoreOutlined />,
-      disabled: true,
-    },
-    {
-      label: "Navigation Three - Submenu",
-      key: "SubMenu",
-      icon: <SettingOutlined />,
-      children: [
-        {
-          type: "group",
-          label: "Item 1",
-          children: [
-            {
-              label: "Option 1",
-              key: "setting:1",
-            },
-            {
-              label: "Option 2",
-              key: "setting:2",
-            },
-          ],
-        },
-        {
-          type: "group",
-          label: "Item 2",
-          children: [
-            {
-              label: "Option 3",
-              key: "setting:3",
-            },
-            {
-              label: "Option 4",
-              key: "setting:4",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      label: (
-        <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-          Navigation Four - Link
-        </a>
-      ),
-      key: "alipay",
-    },
-  ];
-
-  const [current, setCurrent] = useState("mail");
-  const onClick = (e) => {
-    console.log("click ", e);
-    setCurrent(e.key);
-  };
-
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-    // Disable scrolling when the sidebar is open
-    if (!isSidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
   };
+
   const closeSidebar = () => {
     setIsSidebarOpen(false);
-    // Enable scrolling when the sidebar is closed
-    document.body.style.overflow = "auto";
   };
 
   const getWishlistData = async () => {
@@ -135,12 +62,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
       setSelectedFilter(value);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      document.body.style.overflow = "auto";
-    };
-  }, []);
 
   useEffect(() => {
     const applyFilters = () => {
@@ -205,11 +126,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     const handleSubmenuClick = (key) => {
       setOpenSubmenus((prevState) => ({
         ...prevState,
-        [key]: !prevState[key], // Toggle the submenu state
+        [key]: !prevState[key],
       }));
     };
     return menuData.map((menuItem) => {
-      const hasChild = menuItem.submenus && menuItem.submenus.length > 0;
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         const isSubmenuOpen = openSubmenus[menuItem._id];
 
@@ -240,6 +160,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                     {submenuItem.child.map((childItem) => (
                       <Menu.Item key={childItem._id}>
                         <Link
+                          onClick={() => setIsSidebarOpen(false)}
                           to={`${window.location.origin}/${childItem.link}`}
                         >
                           {childItem.title}
@@ -250,7 +171,10 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
                 ) : (
                   // Render a plain menu item with a link if no children exist
                   <Menu.Item className="cursor-pointer" key={submenuItem._id}>
-                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                    <Link
+                      onClick={() => setIsSidebarOpen(false)}
+                      to={`${window.location.origin}/${submenuItem.link}`}
+                    >
                       {submenuItem.title}
                     </Link>
                   </Menu.Item>
@@ -429,12 +353,15 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
         <div>
           <RxHamburgerMenu id="open-sidebar" onClick={toggleSidebar} />
         </div>
-        <div className="w-28">
+        <Link to={PATHS.landingPage} className="w-32">
           <img src={SouvnirsLogoImage} />
-        </div>
+        </Link>
         <div className="flex gap-1">
           <AiOutlineShoppingCart className="text-2xl" />
           <AiOutlineHeart className="text-2xl text-rose-600" />
+          <Link to={PATHS.login}>
+            <AiOutlineLogin className="text-2xl text-shopPrimaryColor" />
+          </Link>
         </div>
       </header>
       {/* Overlay */}
@@ -459,20 +386,24 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ duration: 0.3 }}
-            className="fixed top-0 left-0   bg-white shadow-lg overflow-y-auto z-50 h-screen"
+            className="fixed w-screen top-0 left-0 bg-white shadow-lg overflow-y-auto z-50 h-screen  backdrop-blur-md opacity-80"
           >
             {/* Close sidebar button */}
-            <div className="flex justify-center p-4">
-              <Link to={PATHS.landingPage}>
+            <div className="flex justify-between p-4">
+              <Link
+                to={PATHS.landingPage}
+                onClick={() => setIsSidebarOpen(false)}
+              >
                 <img src={SouvnirsLogoImage} />
               </Link>
+              <button className="btn btn-circle float-right mr-4">
+                <GrFormClose
+                  className="text-2xl cursor-pointer"
+                  onClick={() => setIsSidebarOpen(false)}
+                />
+              </button>
             </div>
-            <button className="btn btn-circle float-right mr-4">
-              <GrFormClose
-                className="text-2xl cursor-pointer"
-                onClick={() => setIsSidebarOpen(false)}
-              />
-            </button>
+
             <br />
             <Menu mode="inline" className="w-full overflow-y-auto">
               {renderSubMenuItems(navbarData)}
