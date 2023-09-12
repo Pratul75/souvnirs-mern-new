@@ -93,17 +93,19 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
               ))
             : // Render actual product cards when data is available
               productsList.map(
-                ({ _id, name, price, rating, coverImage, slug }) => (
-                  <ProductCard
-                    key={_id}
-                    title={name}
-                    price={price}
-                    rating={rating}
-                    id={_id}
-                    image={coverImage}
-                    slug={slug}
-                  />
-                )
+                ({ _id, name, price, rating, coverImage, slug, result }) => {
+                  return (
+                    <ProductCard
+                      key={_id}
+                      title={name}
+                      price={result ? result.price : price}
+                      rating={rating}
+                      id={_id}
+                      image={coverImage}
+                      slug={slug}
+                    />
+                  );
+                }
               )}
         </div>
       </div>

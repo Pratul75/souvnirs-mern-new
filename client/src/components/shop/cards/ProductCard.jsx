@@ -28,6 +28,7 @@ const ProductCard = ({
   const [heartColor, setHeartColor] = useState("black");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log(price);
 
   const token = localStorage.getItem("token");
 

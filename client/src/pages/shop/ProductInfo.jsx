@@ -3,10 +3,11 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
 import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
+
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { productListFiltersAndProducts } from "../../mappings";
 import API_WRAPPER, { baseUrl } from "../../api";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
@@ -303,7 +304,7 @@ const ProductInfo = () => {
   console.log("ProductInfo.jsx", variantFilters);
 
   return (
-    <Suspense fallback={<Loading />}>
+    <>
       <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
         <Link onClick={() => navigate(-1)} className="btn">
           <IoMdArrowBack className="text-2xl" />
@@ -534,6 +535,7 @@ const ProductInfo = () => {
           filters={productListFiltersAndProducts.filters}
           products={productListFiltersAndProducts.products}
         />
+
         <ToastContainer />
       </div>
 
@@ -590,7 +592,7 @@ const ProductInfo = () => {
           </div>
         </div>
       </dialog>
-    </Suspense>
+    </>
   );
 };
 

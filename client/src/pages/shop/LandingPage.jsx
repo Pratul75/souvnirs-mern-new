@@ -102,7 +102,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(0, 4).map((product) => (
+                      {productsList.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
                           className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
@@ -136,7 +136,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(9, 12).map((product) => (
+                      {productsList.slice(8, 16).map((product) => (
                         <div
                           key={product._id}
                           className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
@@ -170,7 +170,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(5, 8).map((product) => (
+                      {productsList.slice(16, 24).map((product) => (
                         <div
                           key={product._id}
                           className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"

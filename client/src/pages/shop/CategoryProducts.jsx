@@ -192,6 +192,7 @@ const CategoryProducts = () => {
                 {products && products.length == 0 && <div>No products</div>}
                 {products &&
                   products.map((product) => {
+                    console.log(product);
                     return (
                       <ProductCard
                         key={nanoid()}
