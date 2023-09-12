@@ -437,7 +437,41 @@ export const caroselMapppingDailyDeals = [
   <div className="flex flex-col gap-4 p-8 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
-        <TimerComponent date={"2023-09-01"} />
+        <TimerComponent date={"2023-10-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div></div>
+    </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
+  </div>,
+  <div className="flex flex-col gap-4 p-8 bg-base-100 " key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-10-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+      <div></div>
+    </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
+  </div>,
+  <div className="flex flex-col gap-4 p-8 bg-base-100 " key={nanoid()}>
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-10-01"} />
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
           <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
