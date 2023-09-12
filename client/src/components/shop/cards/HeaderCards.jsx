@@ -98,10 +98,10 @@ const HeaderCards = ({
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
               <h2 className="text-white text-lg md:text-xl font-bold">
-                {mainHeading}
+                {tertioryHeadingOne}
               </h2>
               <h3 className="text-white text-lg md:text-xl font-bold">
-                {mainHeadingTwo}
+                {tertioryHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal my-2">
                 {mainSubHeading}
