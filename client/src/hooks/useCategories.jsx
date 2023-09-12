@@ -13,6 +13,7 @@ const useCategories = () => {
       console.error("Error occured while getting all categories", error);
     }
   };
+
   useEffect(() => {
     getAllCategories();
   }, []);
