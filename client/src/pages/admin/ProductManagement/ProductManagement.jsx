@@ -9,6 +9,7 @@ import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../../assets/bannerImages/productManagementImage.png";
 import Loading from "../../common/Loading";
 import useProductManagement from "./useProductManagement";
+import { baseUrl } from "../../../api";
 const ProductManagement = () => {
   const {
     alterApproval,
