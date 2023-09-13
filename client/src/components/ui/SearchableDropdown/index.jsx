@@ -33,12 +33,15 @@ const SearchableDropdown = ({ items, handleSelect, categoryName }) => {
           <BsCaretDown className="text-2xl text-primary" />
         </label>
         {isOpen && (
-          <div className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52"
+          >
             <input
               type="text"
               className="input input-sm input-primary"
               placeholder="Search..."
-              value={searchTerm}
+              // value={searchTerm}
               onChange={handleSearch}
             />
             <ul tabIndex={0} className="max-h-48 overflow-y-auto">
