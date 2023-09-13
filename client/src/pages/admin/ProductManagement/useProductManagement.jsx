@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../../api";
-
+import { debouncedShowToast } from "../../../utils";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 const useProductManagement = () => {
+  const navigate = useNavigate();
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
@@ -117,7 +120,23 @@ const useProductManagement = () => {
   useEffect(() => {
     fetchProductsList();
   }, [apiTrigger]);
-  return <div>useProductManagement</div>;
+  return {
+    alterApproval,
+    bulkUpload,
+    deleteSelectedRow,
+    handleSave,
+    handleEditChange,
+    data,
+    setBulkData,
+    selectedRow,
+    setDisapprovalComment,
+    disapprovalComment,
+    loading,
+    handleDelete,
+    handleEdit,
+    seterror,
+    error,
+  };
 };
 
 export default useProductManagement;

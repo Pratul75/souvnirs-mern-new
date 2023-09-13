@@ -1,35 +1,30 @@
 import { Header, ReusableTable } from "../../../components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
-import { Suspense, useEffect, useMemo, useState } from "react";
-import {
-  debouncedShowToast,
-  getStatusStyles,
-  getStockStatusStyles,
-} from "../../../utils";
-import API_WRAPPER, { baseUrl } from "../../../api";
+import { Suspense, useMemo } from "react";
+import { getStatusStyles, getStockStatusStyles } from "../../../utils";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../../assets/bannerImages/productManagementImage.png";
 import Loading from "../../common/Loading";
+import useProductManagement from "./useProductManagement";
 const ProductManagement = () => {
-  const [productsList, setProductsList] = useState([]);
-  const [selectedRow, setSelectedRow] = useState({});
-  const [editedRow, setEditedRow] = useState({});
-  const [apiTrigger, setApiTrigger] = useState(false);
-  const [bulkData, setBulkData] = useState();
-  const [loading, setLoading] = useState(false);
-  const [disapprovalComment, setDisapprovalComment] = useState("");
-  const [error, seterror] = useState("");
-  const navigate = useNavigate();
-
-  const alterApproval = async (id, approved, comment = "") => {
-    await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
-    setApiTrigger((prev) => !prev);
-    window.disapproval_modal.close();
-  };
-
+  const {
+    alterApproval,
+    bulkUpload,
+    data,
+    deleteSelectedRow,
+    disapprovalComment,
+    error,
+    handleDelete,
+    handleEdit,
+    loading,
+    selectedRow,
+    setBulkData,
+    setDisapprovalComment,
+    seterror,
+  } = useProductManagement();
   const columns = useMemo(
     () => [
       {
@@ -126,8 +121,6 @@ const ProductManagement = () => {
     ],
     []
   );
-
-  
 
   return (
     <div>
