@@ -1,10 +1,9 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import {
   RegisterPage,
   LoginPage,
   PermissionDenied,
   PageNotFound,
-  AddCommission,
 } from "./pages";
 import AppLayout from "./Layouts/AppLayout";
 import {
