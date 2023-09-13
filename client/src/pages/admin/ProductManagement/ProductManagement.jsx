@@ -10,6 +10,7 @@ import ProductManagementBannerImage from "../../../assets/bannerImages/productMa
 import Loading from "../../common/Loading";
 import useProductManagement from "./useProductManagement";
 import { baseUrl } from "../../../api";
+
 const ProductManagement = () => {
   const {
     alterApproval,
@@ -26,6 +27,7 @@ const ProductManagement = () => {
     setDisapprovalComment,
     seterror,
   } = useProductManagement();
+
   const columns = useMemo(
     () => [
       {
