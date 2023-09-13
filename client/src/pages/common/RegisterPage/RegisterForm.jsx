@@ -407,10 +407,16 @@ const RegisterForm = () => {
                 <option defaultChecked value="Organization Type">
                   Organization Type
                 </option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
+                <option>Digital/Online Retailer</option>
+                <option>Indipendent Ownner</option>
+                <option>Multi Channel Retailer</option>
+                <option>Lifestyle Brand</option>
+                <option>Wholesellter/Importer</option>
+                <option>Hotel, Restaurent, Cafe</option>
+                <option>Architect/Interior Designer</option>
+                <option>Buying Agent</option>
+                <option>Individual</option>
+                <option>Others</option>
               </select>
             </div>
           </div>
@@ -428,10 +434,12 @@ const RegisterForm = () => {
                 <option defaultChecked value="select type">
                   Select type
                 </option>
-                <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
+                <option>Read to ship small quantity</option>
+                <option>Ready to ship large quantity</option>
+                <option>Made to order medium quantity</option>
+                <option>Made to order large quantity</option>
+                <option>Commissioned pieces/projects</option>
+                <option>Others</option>
               </select>
             </div>
             <div className="form-control w-1/2">
