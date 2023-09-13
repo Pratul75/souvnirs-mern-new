@@ -6,7 +6,7 @@ export { default as PageNotFound } from "./common/PageNotFound";
 // admin routes
 export { default as AdminDashboard } from "./admin/Dashboard/AdminDashboard";
 export { default as Cart } from "./admin/Cart/Cart";
-export { default as Categories } from "./admin/Categories";
+export { default as Categories } from "./admin/Categories/Categories";
 export { default as Checkouts } from "./admin/Checkout";
 export { default as CmsAndSeo } from "./admin/CmsAndSeo";
 export { default as Collection } from "./admin/Collection";
