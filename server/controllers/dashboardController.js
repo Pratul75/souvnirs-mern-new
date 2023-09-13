@@ -215,7 +215,7 @@ const getBarChartData = async (req, res) => {
       dateData: mixeddateData,
       monthData: mixedMonthData,
       yearData: mixedYearData,
-      totalSales: totalSales.length > 0 ? totalSales[0].totalSales : 0,
+      totalSales: totalSales.length > 0 ? totalSales.length : 0,
     });
   }
   const sevenDaysAgo = new Date();

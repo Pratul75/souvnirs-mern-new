@@ -17,9 +17,9 @@ const sendEmail = require("../services/mailing");
 const addMedias = async (req, res) => {
   let urls = [];
   for (let file of req.files) {
-    const uploaded = await v2.uploader.upload(file.path);
-    urls.push(uploaded.url);
-    console.log("productController.js", uploaded);
+    // const uploaded = await v2.uploader.upload(file.path);
+    urls.push(file.filename);
+    // console.log("productController.js", uploaded);
   }
   if (req.role === "admin") {
     const media = await Media.findOneAndUpdate(
@@ -742,10 +742,10 @@ const getProducts = async (req, res) => {
         },
       ]);
     }
-    console.log("productController.js", req.userId);
+    // console.log("productController.js", req.userId);
 
-    // Send the productsList to the frontend
-    console.log("PRODUCT LIST: ", productsList);
+    // // Send the productsList to the frontend
+    // console.log("PRODUCT LIST: ", productsList);
     res.status(200).json(productsList);
   } catch (error) {
     console.error(error);

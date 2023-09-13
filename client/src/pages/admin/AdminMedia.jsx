@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, Header } from "../../components";
 import { useSelector } from "react-redux";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { MediaCard } from "../../components";
 import { decodeToken } from "react-jwt";
 import { nanoid } from "nanoid";
@@ -61,7 +61,17 @@ const AdminMedia = () => {
             {userRole === "vendor" &&
               medias?.links?.map((a) => {
                 console.log(a);
-                return <MediaCard key={nanoid()} link={a} />;
+                return (
+                  <MediaCard
+                    key={nanoid()}
+                    link={
+                      !a?.includes("res.cloudinary") &&
+                      !a?.includes("cdn.shopify")
+                        ? `${baseUrl}/${a}`
+                        : a
+                    }
+                  />
+                );
               })}
             {userRole == "admin" &&
               medias?.map((a) => (

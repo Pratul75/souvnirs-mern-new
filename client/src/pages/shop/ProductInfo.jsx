@@ -347,8 +347,24 @@ const ProductInfo = () => {
               </div>
               <div>
                 <div className="flex flex-col">
-                  <div className="flex flex-col">
-                    <h1 className="font-bold text-2xl">{product?.name}</h1>
+                  <div className="flex flex-col w-full relative">
+                    <div className="flex   items-center">
+                      <h1 className="font-bold text-2xl">{product?.name}</h1>
+                      {product?.customization && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              window.customization_modal.showModal();
+                            }}
+                            className="btn btn-primary absolute -right-36 top-2 "
+                          >
+                            Customize
+                          </button>
+                        </>
+                      )}
+                    </div>
                     <br />
                     <div className="gap-2 md:gap-4 flex flex-col">
                       <div className="flex gap-4 items-center">
@@ -385,6 +401,28 @@ const ProductInfo = () => {
                   </div>
                 </div>
 
+                <div className="my-5">
+                  <button
+                    className="btn btn-primary w-full p-2 "
+                    onClick={(e) => {
+                      addToCart(e);
+                    }}
+                  >
+                    <button className="flex gap-4">
+                      <AiOutlineShoppingCart className="text-xl text-white " />
+                      <span>Add To Cart</span>
+                    </button>
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.request_quote_modal.showModal();
+                    }}
+                    className="btn btn-primary cursor-pointer mt-4 w-full"
+                  >
+                    Get Quote
+                  </button>
+                </div>
                 <form className="max-h-96 overflow-y-scroll">
                   <div className="flex flex-col">
                     <div className="form-control">
@@ -448,42 +486,6 @@ const ProductInfo = () => {
                         </div>
                       );
                     })}
-                  </div>
-                  <div className=" mt-4">
-                    <button
-                      className="btn btn-primary w-full p-2 "
-                      onClick={(e) => {
-                        addToCart(e);
-                      }}
-                    >
-                      <button className="flex gap-4">
-                        <AiOutlineShoppingCart className="text-xl text-white " />
-                        <span>Add To Cart</span>
-                      </button>
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        window.request_quote_modal.showModal();
-                      }}
-                      className="btn btn-primary cursor-pointer mt-4 w-full"
-                    >
-                      Get Quote
-                    </button>
-                    {product?.customization && (
-                      <>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            window.customization_modal.showModal();
-                          }}
-                          className="btn btn-primary mt-4"
-                        >
-                          Customize
-                        </button>
-                      </>
-                    )}
                   </div>
                 </form>
               </div>

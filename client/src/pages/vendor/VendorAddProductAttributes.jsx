@@ -454,6 +454,20 @@ const AddProductAttributes = () => {
                                       +
                                     </button>
                                   </td>
+                                  {commission &&
+                                    commission?.commissionTypeValue && (
+                                      <td>
+                                        You get{" "}
+                                        {commission?.commissionType ===
+                                        "PERCENTAGE"
+                                          ? ((100 -
+                                              commission?.commissionTypeValue) /
+                                              100) *
+                                            price
+                                          : price -
+                                            commission?.commissionTypeValue}
+                                      </td>
+                                    )}
                                 </tr>
                               )
                             )}

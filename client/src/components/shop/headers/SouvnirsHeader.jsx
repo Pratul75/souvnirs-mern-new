@@ -24,6 +24,8 @@ import { Menu } from "antd";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
+
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -205,6 +207,7 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     });
   };
 
+  console.log(role);
   return (
     <>
       {/* // desktop header */}
@@ -292,7 +295,11 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               <div className="flex gap-4">
                 <div className="tooltip tooltip-bottom" data-tip="dashboard">
                   <Link
-                    to={PATHS.adminDashboard}
+                    to={
+                      role == "vendor"
+                        ? PATHS.vendorDashboard
+                        : PATHS.adminDashboard
+                    }
                     className="btn btn-primary btn-square btn-sm"
                   >
                     <RiDashboardLine className="text-2xl" />
