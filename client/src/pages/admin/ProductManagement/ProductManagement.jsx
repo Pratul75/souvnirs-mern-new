@@ -1,19 +1,18 @@
-import { Header, ReusableTable } from "../../components";
+import { Header, ReusableTable } from "../../../components";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../../Routes/paths";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import {
   debouncedShowToast,
   getStatusStyles,
   getStockStatusStyles,
-} from "../../utils";
-import API_WRAPPER, { baseUrl } from "../../api";
+} from "../../../utils";
+import API_WRAPPER, { baseUrl } from "../../../api";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
-import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
-import { Dropzone } from "../../components";
-import Loading from "../common/Loading";
+import ProductManagementBannerImage from "../../../assets/bannerImages/productManagementImage.png";
+import Loading from "../../common/Loading";
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
@@ -76,41 +75,6 @@ const ProductManagement = () => {
           }
         },
       },
-      // {
-      //   Header: "Price",
-      //   // accessor: "result.price",
-      //   Cell: ({ row }) => {
-      //     console.log("ProductManagement.jsx", row);
-      //     return row.original?.result?.price
-      //       ? row?.original?.result?.price
-      //       : row?.original?.price;
-      //   },
-      // },
-      // {
-      //   Header: "On Sale",
-      //   accessor: "onSale",
-      //   Cell: ({ row }) => {
-      //     return (
-      //       <p>
-      //         {row?.original?.onSale ? (
-      //           <span className="text-green-600">YES</span>
-      //         ) : (
-      //           <span className="text-rose-600">NO</span>
-      //         )}
-      //       </p>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Stock Quantity",
-      //   accessor: "result.quantity",
-      //   Cell: ({ row }) => {
-      //     console.log("ProductManagement.jsx", row);
-      //     return row.original?.result?.price
-      //       ? row?.original?.result?.quantity
-      //       : row?.original?.stockQuantity;
-      //   },
-      // },
       {
         Header: "Stock Status",
         accessor: "stockStatus",
@@ -162,6 +126,7 @@ const ProductManagement = () => {
     ],
     []
   );
+
   useEffect(() => {
     fetchProductsList();
   }, [apiTrigger]);
@@ -359,68 +324,6 @@ const ProductManagement = () => {
           </div>
         </div>
       </dialog>
-
-      {/* edit modal  */}
-      {/* <Modal
-        id="edit_product_modal"
-        title="Are you sure you want to delete the selected value?"
-        onClose={() => {
-          window.edit_product_modal.close();
-        }}
-        onSave={handleSave}
-        defaultValues={{
-          name: selectedRow?.name,
-          description: selectedRow?.description,
-          stockQuantity: selectedRow?.stockQuantity,
-          stockStatus: selectedRow?.stockStatus,
-          price: selectedRow?.price,
-          totalSales: selectedRow?.totalSales,
-          onSale: selectedRow?.onSale,
-          status: selectedRow?.status,
-        }}
-        inputs={[
-          {
-            label: "Product Name",
-            type: "text",
-            name: "name",
-          },
-          {
-            label: "description",
-            type: "text",
-            name: "description",
-          },
-          {
-            label: "Stock Quantity",
-            type: "text",
-            name: "stockQ",
-          },
-          {
-            label: "Stock Status",
-            type: "text",
-            name: "stockStatus",
-          },
-          {
-            label: "price",
-            type: "number",
-            name: "price",
-          },
-          {
-            label: "Total Sales",
-            type: "number",
-            name: "totalSales",
-          },
-          {
-            label: "On Sale",
-            type: "text",
-            name: "onSale",
-          },
-          {
-            label: "Status",
-            type: "text",
-            name: "status",
-          },
-        ]}
-      /> */}
 
       {/* delete modal */}
       <dialog id="product_management_delete_modal" className="modal">
