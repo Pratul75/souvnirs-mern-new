@@ -2,7 +2,7 @@ import { useState } from "react";
 import API_WRAPPER from "../../../api";
 import { PATHS } from "../../../Routes/paths";
 import { useNavigate } from "react-router-dom";
-// add attribute hooks
+// add attribute hook
 const useAddAttributes = () => {
   const navigate = useNavigate();
   const [attributeName, setAttributeName] = useState("");
