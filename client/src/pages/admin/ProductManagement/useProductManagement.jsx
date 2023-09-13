@@ -50,9 +50,6 @@ const useProductManagement = () => {
     } else {
       navigate(`${PATHS.EditProduct}/${row._id}/`);
     }
-    // window.edit_product_modal.showModal();
-    // setSelectedRow(row);
-    // console.log("ROW TO BE EDITED: ", row);
   };
 
   const handleEditChange = (e) => {
