@@ -77,7 +77,12 @@ const AdminMedia = () => {
               medias?.map((a) => (
                 <MediaCard
                   key={nanoid()}
-                  link={a.links}
+                  link={
+                    !a?.links?.includes("res.cloudinary") &&
+                    !a?.links?.includes("cdn.shopify")
+                      ? `${baseUrl}/${a?.links}`
+                      : a?.links
+                  }
                   vendorName={
                     a.vendorId
                       ? `${a.vendorId.firstName} ${a.vendorId.lastName}`

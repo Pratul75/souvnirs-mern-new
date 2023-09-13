@@ -404,19 +404,29 @@ const RegisterForm = () => {
                 name="organizationType"
                 id="organization-type"
               >
-                <option defaultChecked value="Organization Type">
-                  Organization Type
+                <option value="" disabled selected>
+                  select type
                 </option>
-                <option>Digital/Online Retailer</option>
-                <option>Indipendent Ownner</option>
-                <option>Multi Channel Retailer</option>
-                <option>Lifestyle Brand</option>
-                <option>Wholesellter/Importer</option>
-                <option>Hotel, Restaurent, Cafe</option>
-                <option>Architect/Interior Designer</option>
-                <option>Buying Agent</option>
-                <option>Individual</option>
-                <option>Others</option>
+                <option value="Digital/Online Retailer">
+                  Digital/Online Retailer
+                </option>
+                <option value="Indipendent Ownner">Indipendent Ownner</option>
+                <option value="Multi Channel Retailer">
+                  Multi Channel Retailer
+                </option>
+                <option value="Lifestyle Brand">Lifestyle Brand</option>
+                <option value="Wholesellter/Importer">
+                  Wholesellter/Importer
+                </option>
+                <option value="Hotel, Restaurant, Cafe">
+                  Hotel, Restaurant, Cafe
+                </option>
+                <option value="Architect/Interior Designer">
+                  Architect/Interior Designer
+                </option>
+                <option value="Buying Agent">Buying Agent</option>
+                <option value="Individual">Individual</option>
+                <option value="Others">Others</option>
               </select>
             </div>
           </div>
@@ -431,15 +441,25 @@ const RegisterForm = () => {
                 name="orderTypeInterested"
                 id="order-type"
               >
-                <option defaultChecked value="select type">
+                <option disabled selected>
                   Select type
                 </option>
-                <option>Read to ship small quantity</option>
-                <option>Ready to ship large quantity</option>
-                <option>Made to order medium quantity</option>
-                <option>Made to order large quantity</option>
-                <option>Commissioned pieces/projects</option>
-                <option>Others</option>
+                <option value="Read to ship small quantity">
+                  Read to ship small quantity
+                </option>
+                <option value="Ready to ship large quantity">
+                  Ready to ship large quantity
+                </option>
+                <option value="Made to order medium quantity">
+                  Made to order medium quantity
+                </option>
+                <option value="Made to order large quantity">
+                  Made to order large quantity
+                </option>
+                <option value="Commissioned pieces/projects">
+                  Commissioned pieces/projects
+                </option>
+                <option value="Others">Others</option>
               </select>
             </div>
             <div className="form-control w-1/2">
