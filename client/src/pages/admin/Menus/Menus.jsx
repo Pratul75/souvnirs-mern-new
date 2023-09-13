@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
-import { Header, ReusableTable } from "../../components";
+import { PATHS } from "../../../Routes/paths";
+import { Header, ReusableTable } from "../../../components";
 import { useMemo } from "react";
-import { getStatusStyles } from "../../utils";
+import { getStatusStyles } from "../../../utils";
 import useMenus from "./useMenus";
 
 const Menus = () => {
@@ -35,7 +35,6 @@ const Menus = () => {
     []
   );
 
-  console.log(selectedRow);
   return (
     <div>
       <Header

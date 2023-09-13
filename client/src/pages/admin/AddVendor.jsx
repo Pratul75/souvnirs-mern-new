@@ -4,8 +4,8 @@ import * as yup from "yup";
 import { FormInput, Header } from "../../components";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
-import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
@@ -24,7 +24,6 @@ const schema = yup.object().shape({
 });
 
 const AddVendor = () => {
-  const navigate = useNavigate();
   const {
     control,
     handleSubmit,

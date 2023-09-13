@@ -62,7 +62,7 @@ const useCategories = () => {
     console.log("EDITED ROW: ", editedRow);
   };
 
-  const submitEditedRow = async (e) => {
+  const submitEditedRow = async () => {
     // e.preventDefault();
     const response = await API_WRAPPER.put(
       `/category/update-category/:${selectedRow._id}`,
