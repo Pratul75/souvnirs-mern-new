@@ -3,6 +3,7 @@ const Menu = require("../schema/menuItem");
 const MainMenu = require("../schema/mainMenuModal");
 const SubMenu = require("../schema/subMenuModal");
 const SubMenuChild = require("../schema/subMenuChild");
+const mongoose = require("mongoose");
 
 const createMenu = async (req, res) => {
   const { title } = req.body;
@@ -42,6 +43,50 @@ const getMainMenus = async (req, res) => {
   res.status(200).json(mainmenus);
 };
 // Update a main menu item by ID
+
+const getMainMenuData = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const mainMenuData = await MainMenu.aggregate([
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: "sub menus",
+          let: {
+            mainMenuId: "$_id",
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ["$mainMenuId", "$$mainMenuId"],
+                },
+              },
+            },
+            {
+              $lookup: {
+                from: "child menus",
+                localField: "_id",
+                foreignField: "subMenuId",
+                as: "childmenus",
+              },
+            },
+          ],
+          as: "submenus",
+        },
+      },
+    ]);
+
+    console.log(id);
+    res.status(200).json(mainMenuData);
+  } catch (e) {
+    res.status(400).json("something went wrong");
+  }
+};
 const editMainMenu = async (req, res) => {
   try {
     const menuItemId = req.params.id;
@@ -176,4 +221,5 @@ module.exports = {
   deleteMenu,
   getChildMenus,
   editMainMenu,
+  getMainMenuData,
 };
