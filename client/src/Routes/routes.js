@@ -81,8 +81,8 @@ import {
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
-import AddCustomer from "../pages/admin/AddCustomer";
-import AddVendor from "../pages/admin/AddVendor";
+import AddCustomer from "../pages/admin/AddCustomer/AddCustomer";
+import AddVendor from "../pages/admin/AddVendor/AddVendor";
 import AdminWishlist from "../pages/admin/Wishlist";
 import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
