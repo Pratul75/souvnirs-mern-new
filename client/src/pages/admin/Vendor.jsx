@@ -14,7 +14,6 @@ const Vendor = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
 
   console.log("Vendor.jsx", selectedStore);
-
   const handleDeleteModalClose = () => {
     return window.vendor_edit_modal.close();
   };
@@ -192,7 +191,7 @@ const Vendor = () => {
       </div>
       <Modal
         id="vendor_edit_modal"
-        title="Edit Vendor Detaill"
+        title="Edit Vendor Detail"
         onClose={handleDeleteModalClose}
         onSave={handleSave}
         defaultValues={{
@@ -260,6 +259,7 @@ const Vendor = () => {
           },
         ]}
       />
+
       {selectedStore && (
         <dialog id="storeFilterModal" className="modal ">
           <form method="dialog" className="modal-box">

@@ -1,10 +1,10 @@
-import { Card, Header } from "../../components";
-import API_WRAPPER from "../../api";
+import { Card, Header } from "../../../components";
+import API_WRAPPER from "../../../api";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
+import { PATHS } from "../../../Routes/paths";
 // route -> /menu to get all menus
 const AddMenus = () => {
   const navigate = useNavigate();
@@ -18,6 +18,7 @@ const AddMenus = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+
   const onSubmit = async (data) => {
     const response = await API_WRAPPER.post("/menu/create", {
       title: data.headerTitle,

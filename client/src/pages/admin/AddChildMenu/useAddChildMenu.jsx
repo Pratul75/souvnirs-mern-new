@@ -15,7 +15,6 @@ const useAddChildMenu = () => {
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/sub-menu");
-    console.log("AddChildMenu.jsx", response);
     setSubmenus(response.data);
   };
 
@@ -53,7 +52,6 @@ const useAddChildMenu = () => {
     setCreatedCards(updatedCards);
     debouncedShowToast("Submenu deleted successfully", "success");
   };
-  console.log("AddChildMenu.jsx", createdCards);
 
   const handleCardSubmit = (e) => {
     e.preventDefault();

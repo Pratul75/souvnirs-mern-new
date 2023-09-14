@@ -35,7 +35,7 @@ export { default as AddDiscount } from "./admin/AddDiscount";
 export { default as AddCoupon } from "./admin/AddCoupon";
 export { default as AddCollection } from "./admin/AddCollection";
 export { default as AddProductAttributes } from "./admin/AddProductAttributes/AddProductAttributes";
-export { default as AddMenus } from "./admin/AddMenus";
+export { default as AddMenus } from "./admin/AddMenus/AddMenus";
 export { default as Menus } from "./admin/Menus/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
 export { default as AddChildMenu } from "./admin/AddChildMenu/AddChildMenu";
