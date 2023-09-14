@@ -526,12 +526,14 @@ const EdiDiscount = () => {
               </label>
               {discountData?.productId?.map((id) => {
                 const matched = productsList.find((pr) => pr._id == id);
-                return <span>{matched && matched.name}, </span>;
+                return <span key={nanoid()}>{matched && matched.name}, </span>;
               })}
               {appliedToSpecifiedInput == "specify-products" &&
                 appliedToFilteredItemsObjects.map((id) => {
                   const matched = productsList.find((pr) => pr._id == id);
-                  return <span>{matched && matched.name}, </span>;
+                  return (
+                    <span key={nanoid()}>{matched && matched.name}, </span>
+                  );
                 })}
             </div>
             <div className="form-control flex flex-row gap-4 items-center">

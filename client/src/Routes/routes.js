@@ -39,6 +39,7 @@ import {
   Commissions,
   AddCommission,
   Advertisement,
+  AdminMedia,
 
   // vendor routes
   VendorDashboard,
@@ -84,7 +85,6 @@ import Replacement from "../pages/admin/Replacement";
 import AddCustomer from "../pages/admin/AddCustomer/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor/AddVendor";
 import AdminWishlist from "../pages/admin/Wishlist";
-import AdminMedia from "../pages/admin/AdminMedia";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
 import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";

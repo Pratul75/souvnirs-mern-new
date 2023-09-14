@@ -1,49 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Card, Header } from "../../components";
-import { useSelector } from "react-redux";
-import API_WRAPPER, { baseUrl } from "../../api";
-import { MediaCard } from "../../components";
-import { decodeToken } from "react-jwt";
+import { Card, Header } from "../../../components";
+import { MediaCard } from "../../../components";
 import { nanoid } from "nanoid";
-import Loading from "../common/Loading";
-
+import Loading from "../../common/loading";
+import useAdminMedia from "./useAdminMedia";
 const AdminMedia = () => {
-  const [media, setMedia] = useState();
-  const [medias, setMedias] = useState();
-  const [ref, setRef] = useState(false);
-  const [userRole, setRole] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { addFiles, baseUrl, loading, medias, setMedia, userRole } =
+    useAdminMedia();
 
-  const token = localStorage.getItem("token");
-
-  const darkMode = useSelector((x) => x.appConfig.darkMode);
-  const fetchMedias = async (req, res) => {
-    const resp = await API_WRAPPER.get("/media");
-    console.log("AdminMedia.jsx", resp);
-    setMedias(resp.data);
-  };
-  console.log("AdminMedia.jsx", userRole);
-
-  const addFiles = async () => {
-    const mediaData = new FormData();
-    setLoading(true);
-
-    for (let elem of media) {
-      mediaData.append("media", elem);
-    }
-    const response = await API_WRAPPER.post("/media", mediaData);
-    if (response.status === 200) {
-      setLoading(false);
-      window.add_media_modal.close();
-      setRef((a) => !a);
-    }
-  };
-  useEffect(() => {
-    const { role } = decodeToken(token);
-    setRole(role); // Set the userRole here
-
-    fetchMedias();
-  }, [token, ref]);
   return (
     <div className="m-5">
       <Header heading="Media route to upload media files" />
