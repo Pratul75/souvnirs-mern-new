@@ -38,7 +38,7 @@ export { default as AddProductAttributes } from "./admin/AddProductAttributes/Ad
 export { default as AddMenus } from "./admin/AddMenus";
 export { default as Menus } from "./admin/Menus/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
-export { default as AddChildMenu } from "./admin/AddChildMenu";
+export { default as AddChildMenu } from "./admin/AddChildMenu/AddChildMenu";
 export { default as Commissions } from "./admin/Commissions";
 export { default as AddCommission } from "./admin/AddCommission";
 export { default as Advertisement } from "./admin/Advertisement";

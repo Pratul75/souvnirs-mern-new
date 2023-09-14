@@ -24,6 +24,7 @@ const Discounts = () => {
       console.error("ERROR occured whule fetching discounts list", error);
     }
   };
+
   const deleteDiscount = async (e) => {
     console.log("Coupons.jsx", selectedRow);
     const response = await API_WRAPPER.delete(
@@ -98,39 +99,7 @@ const Discounts = () => {
           return <p>{formattedDate}</p>;
         },
       },
-      // {
-      //   Header: "Collection ID",
-      //   accessor: "collectionId",
-      //   Cell: (props) => {
-      //     return (
-      //       <>
-      //         {props.row.original.collectionId.map((id) => {
-      //           const shortenedId = id.slice(-4);
-      //           return <p key={nanoid()}>{shortenedId}</p>;
-      //         })}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Product ID",
-      //   accessor: "productId",
-      //   Cell: ({ row }) => {
-      //     return (
-      //       <>
-      //         {row?.original?.productId?.map((id) => (
-      //           <p className="" key={id}>
-      //             {id}
-      //           </p>
-      //         ))}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Category ID",
-      //   accessor: "categoryId",
-      // },
+
       {
         Header: "Status",
         accessor: "status",

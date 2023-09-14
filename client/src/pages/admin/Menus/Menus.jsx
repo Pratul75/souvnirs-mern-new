@@ -14,7 +14,6 @@ const Menus = () => {
     setEditedMenu,
     setSelectedRow,
     menuData,
-    selectedRow,
     menuToBeEdited,
   } = useMenus();
 

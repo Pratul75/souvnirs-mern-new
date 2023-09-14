@@ -194,7 +194,6 @@ const ProductManagement = () => {
           />{" "}
           <span className="text-red-600">{error && error}</span>
           <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
             <button
               className="btn btn-primary"
               onClick={() => {
