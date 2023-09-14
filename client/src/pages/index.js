@@ -40,7 +40,7 @@ export { default as Menus } from "./admin/Menus/Menus";
 export { default as AddMainMenus } from "./admin/AddMainMenus";
 export { default as AddChildMenu } from "./admin/AddChildMenu/AddChildMenu";
 export { default as Commissions } from "./admin/Commissions";
-export { default as AddCommission } from "./admin/AddCommission";
+export { default as AddCommission } from "./admin/AddCommissions/AddCommission";
 export { default as Advertisement } from "./admin/Advertisement";
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
