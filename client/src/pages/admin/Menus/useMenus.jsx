@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 
 const useMenus = () => {
   const [menuData, setMenuData] = useState([]);
@@ -9,6 +11,8 @@ const useMenus = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [editedMenu, setEditedMenu] = useState({});
   const [selectedRow, setSelectedRow] = useState();
+
+  const navigate = useNavigate();
 
   const fetchMenuData = async () => {
     const response = await API_WRAPPER.get("/main-menu");
@@ -45,9 +49,8 @@ const useMenus = () => {
   };
 
   const handleEditModal = (rowToBeEdited) => {
-    console.log("ROW TO BE DELETED: ", rowToBeEdited);
-    setmenuToBeEdited(rowToBeEdited);
-    window.edit_menu_modal.showModal();
+    const { id } = rowToBeEdited;
+    navigate(`${PATHS.adminEditMenus}/${id}`);
   };
 
   const handleEditMenu = async (e) => {

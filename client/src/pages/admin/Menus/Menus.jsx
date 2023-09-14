@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { Header, ReusableTable } from "../../../components";
 import { useMemo } from "react";

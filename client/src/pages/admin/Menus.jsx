@@ -67,10 +67,10 @@ const Menus = () => {
     window.delete_menu_modal.close();
   };
 
-  const handleEditModal = (rowToBeEdited) => {
-    const { id } = rowToBeEdited;
-    navigate(`${PATHS.adminEditMenus}/${id}`);
-  };
+  // const handleEditModal = (rowToBeEdited) => {
+  //   const { id } = rowToBeEdited;
+  //   return navigate(`${PATHS.adminEditMenus}/${id}`);
+  // };
 
   const handleEditMenu = async (e) => {
     e.preventDefault();
@@ -110,21 +110,23 @@ const Menus = () => {
       </div>
       <div className="mt-5">
         {menuData.length > 0 && (
-          <ReusableTable
-            tableTitle="Main menu List"
-            data={extractedMenuData}
-            columns={columns}
-            showButtons
-            enableDelete
-            enableEdit
-            enablePagination
-            pageSize={10}
-            onDelete={(row) => {
-              setSelectedRow(row);
-              window.delete_menu_modal.showModal();
-            }}
-            onEdit={handleEditModal}
-          />
+          // <ReusableTable
+          //   tableTitle="Main menu List"
+          //   data={extractedMenuData}
+          //   columns={columns}
+          //   showButtons
+          //   enableDelete
+          //   enableEdit
+          //   enablePagination
+          //   pageSize={10}
+          //   onDelete={(row) => {
+          //     setSelectedRow(row);
+          //     window.delete_menu_modal.showModal();
+          //   }}
+          //   onEdit={(data) => {
+          //     console.log(data);
+          //   }}
+          // />
         )}
       </div>
       <dialog id="delete_menu_modal" className="modal">
@@ -151,7 +153,7 @@ const Menus = () => {
           </div>
         </div>
       </dialog>
-      <dialog id="edit_menu_modal" className="modal">
+      {/* <dialog id="edit_menu_modal" className="modal">
         <form onSubmit={handleEditMenu} method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Edit Menu</h3>
           <div className="form-control py-4">
@@ -192,7 +194,7 @@ const Menus = () => {
             <button className="btn">Close</button>
           </div>
         </form>
-      </dialog>
+      </dialog> */}
     </div>
   );
 };
