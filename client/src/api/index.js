@@ -5,16 +5,16 @@ let baseUrl;
 // Create an instance of Axios
 if (process.env.NODE_ENV === "development") {
   API_WRAPPER = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "https://souvnirs-be.el.r.appspot.com/",
   });
   baseUrl = "http://localhost:8080/uploads";
 } else {
   API_WRAPPER = axios.create({
-    baseURL: "https://souvnirs-main.onrender.com/",
+    baseURL: "https://souvnirs-be.el.r.appspot.com/",
   });
-  baseUrl = "https://souvnirs-main.onrender.com/uploads/";
+  baseUrl = "https://souvnirs-be.el.r.appspot.com/uploads/";
 }
-export { baseUrl };
+export { baseUrl };5
 
 const handleLogout = () => {
   // Clear the token from localStorage
