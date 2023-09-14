@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Menu, Dropdown, Select } from "antd";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API_WRAPPER from "../../../api";
 import { TfiMenuAlt } from "react-icons/tfi";
 
@@ -11,6 +11,7 @@ const ShopNavbar = () => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const { Option } = Select;
+  const navigate = useNavigate();
 
   const onClick = (e) => {
     setCurrent(e.key);
@@ -123,9 +124,14 @@ const ShopNavbar = () => {
           key={category._id}
           value={category.name}
         >
-          <Link to={`${window.location.origin}/category/${category?.name}`}>
+          <button
+            // className="w-full h-full"
+            className="hover:text-blue-500 w-full h-full"
+            onClick={() => navigate(`/category/${category?.name}`)}
+            // to={}
+          >
             {category.name}
-          </Link>
+          </button>
         </Option>
       ))}
     </Select>
