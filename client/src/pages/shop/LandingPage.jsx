@@ -263,12 +263,12 @@ const LandingPage = () => {
 
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
-          {/* <SingleTab
+          <SingleTab
             productsList={productsList.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />
-          <SingleTab productsList={productsList} heading="Trending Products" /> */}
+          <SingleTab productsList={productsList} heading="Trending Products" />
         </div>
       </div>
       <BlogList blogItemsData={blogCardData} />
