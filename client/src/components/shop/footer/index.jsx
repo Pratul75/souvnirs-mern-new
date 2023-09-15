@@ -36,7 +36,6 @@ const Footer = () => {
                 </svg>
               </a>
             </li>
-
             <li>
               <a
                 href="/"
