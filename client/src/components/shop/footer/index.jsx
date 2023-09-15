@@ -3,8 +3,15 @@ import SouvnirsLogo from "../../../assets/images/souvnirsLogoDarkMode.png";
 const Footer = () => {
   return (
     <footer className="bg-black mt-4">
-      <div className="w-full">
-        <img src={NewsLetterBanner} alt="" />
+      <div className="w-full h-[150px] bg-shopPrimaryColor text-white flex flex-col justify-center items-center">
+        <h2 className="text-4xl my-4 ">Subscribe to our Newsletter</h2>
+        <div className="join rounded-full ">
+          <input
+            className="input input-primary  text-black join-item"
+            type="text"
+          />
+          <button className="btn btn-info join-item">Subscribe</button>
+        </div>
       </div>
       <div className="mx-auto max-w-screen-xl space-y-8 px-4 py-16 sm:px-6 lg:space-y-16 lg:px-8">
         <div className="sm:flex sm:items-center sm:justify-between">

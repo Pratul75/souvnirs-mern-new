@@ -33,12 +33,12 @@ import BlogList from "../../components/shop/components/BlogList";
 import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 import SingleTab from "./SingleTab";
-import { ShopIcon } from "../../icons";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 
+// landing page
 const LandingPage = () => {
   const navigate = useNavigate();
   const getAllProducts = async () => {
@@ -54,7 +54,6 @@ const LandingPage = () => {
       throw error; // Rethrow the error to be captured by React Query
     }
   };
-
   const {
     data: productsList,
     isLoading,
@@ -138,9 +137,6 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                {/* <div className="border rounded-full p-2">
-                                  <ShopIcon />
-                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -175,9 +171,6 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                {/* <div className="border rounded-full p-2">
-                                  <ShopIcon />
-                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -212,9 +205,6 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                {/* <div className="border rounded-full p-2">
-                                  <ShopIcon />
-                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -230,21 +220,13 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* <ProductsListWithFilters
-        heading="Top Seasonal Gifts"
-        filters={productListFiltersAndProducts.filters}
-        products={productListFiltersAndProducts.products}
-      /> */}
-
       <GradiantCardList cardData={gradiantCardListCardData} />
-
       <FullWidthBannerCard
         mainHeading="Score An Extra 30% Off"
         subHeading="On Your Entire Order"
         imageOne={BudsImage}
         imageTwo={WatchImage}
       />
-
       <ProductsListWithFilters
         heading="Best Products at price"
         filters={productListFiltersAndProducts.filters}
@@ -267,10 +249,6 @@ const LandingPage = () => {
         }
       />
       <BrandsCard imagesList={BrandsCardImageList} />
-
-      {/* For Phase 2 */}
-      {/* <TestimonialsCarosel /> */}
-
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
+
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,
@@ -36,7 +37,6 @@ const HeaderCards = ({
               <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
                 {mainSubHeading}
               </h6>
-
               <div className="btn mt-4 ">
                 <span className="font-semibold">Shop Now</span>{" "}
                 <BsArrowRight className="text-lg font-bold" />
@@ -45,7 +45,7 @@ const HeaderCards = ({
             <div className="">
               <img
                 src={productImgOne}
-                className=" md:absolute md:right-10 md:top-10 md:h-3/4"
+                className=" md:absolute md:right-10 top-10 h-3/4"
                 alt=""
               />
             </div>

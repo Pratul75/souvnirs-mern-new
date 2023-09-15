@@ -106,54 +106,53 @@ const ShopNavbar = () => {
     });
   };
 
-  const categoryMenu = (
-    <Select
-      showSearch
-      style={{ width: "100%" }}
-      placeholder="Select a category"
-      optionFilterProp="value" // Use "value" instead of "children"
-      filterOption={(input, option) =>
-        option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
-      }
-      onSearch={handleSearch}
-      value={searchValue}
-    >
-      {categoriesData.map((category) => (
-        <Option
-          onClick={() => console.log("CLICKED ON CATEGORY OPTION")}
-          key={category._id}
-          value={category.name}
-        >
-          <button
-            // className="w-full h-full"
-            className="hover:text-blue-500 w-full h-full"
-            onClick={() => navigate(`/category/${category?.name}`)}
-            // to={}
-          >
-            {category.name}
-          </button>
-        </Option>
-      ))}
-    </Select>
-  );
+  const categoryMenu = () => {
+    return (
+      <Select
+        className="w-[20vw]"
+        showSearch
+        placeholder="Select a category"
+        optionFilterProp="value"
+        filterOption={(input, option) =>
+          option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+        }
+        onSearch={handleSearch}
+        value={searchValue}
+      >
+        {categoriesData.map((category) => (
+          <Option key={category._id} value={category.name}>
+            <button
+              className="hover:text-blue-500 w-full h-full"
+              onClick={() => navigate(`/category/${category?.name}`)}
+            >
+              {category.name}
+            </button>
+          </Option>
+        ))}
+      </Select>
+    );
+  };
 
   return (
-    <Menu
-      className="bg-gray-50 join w-full rounded-none hidden md:flex"
-      onClick={onClick}
-      selectedKeys={[current]}
-      mode="horizontal"
-    >
-      <Dropdown overlay={categoryMenu} trigger={["hover"]}>
+    <div className="flex">
+      <Menu
+        className="bg-gray-50 join w-full rounded-none hidden md:flex items-center"
+        onClick={onClick}
+        selectedKeys={[current]}
+        mode="horizontal"
+      >
+        {/* <Dropdown overlay={categoryMenu} trigger={["hover"]}>
         <button className="join-item dropdown flex items-center justify-between rounded-none h-full bg-shopPrimaryColor text-white px-4 w-52">
           <TfiMenuAlt />
           All Categories
           <RiArrowDropDownLine size={24} />
         </button>
-      </Dropdown>
-
-      {renderSubMenuItems(navbarData)}
-    </Menu>
+      </Dropdown> */}
+        {categoryMenu()}
+        {renderSubMenuItems(navbarData)}
+      </Menu>
+      <button className="btn btn-primary">Contact Us</button>
+    </div>
   );
 };
 
