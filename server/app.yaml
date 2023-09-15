@@ -12,6 +12,6 @@
 # limitations under the License.
 
 # [START app_yaml]
-runtime: nodejs14
-entrypoint: server.js
+runtime: nodejs16
+entrypoint: ./server.js
 # [END app_yaml]
