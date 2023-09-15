@@ -38,7 +38,9 @@ import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+
 const LandingPage = () => {
+  const navigate = useNavigate();
   const getAllProducts = async () => {
     try {
       const response = await API_WRAPPER.get("products/get-all-products");
@@ -56,9 +58,16 @@ const LandingPage = () => {
   const {
     data: productsList,
     isLoading,
-    errors,
+    error,
   } = useQuery("get-all-products", getAllProducts);
-  const navigate = useNavigate();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
@@ -107,6 +116,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
+
                       {productsList?.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
@@ -144,7 +154,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(8, 16).map((product) => (
+                      {productsList?.slice(8, 16)?.map((product) => (
                         <div
                           key={product._id}
                           className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
@@ -181,7 +191,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(16, 24).map((product) => (
+                      {productsList?.slice(16, 24)?.map((product) => (
                         <div
                           key={product._id}
                           className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
@@ -264,7 +274,7 @@ const LandingPage = () => {
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab
-            productsList={productsList.slice(10, 20)}
+            productsList={productsList?.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />
