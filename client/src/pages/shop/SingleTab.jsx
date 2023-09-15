@@ -49,7 +49,28 @@ const SingleTab = ({ productsList, heading }) => {
 
               <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
                 <div className="text-violet-900 text-xl font-medium leading-tight">
-                  ${product.price}
+                  ₹{" "}
+                  {Math.ceil(
+                    product.variant && product.variant.length > 0
+                      ? product.variant[0].price
+                      : product.price / 100
+                  ) *
+                    100 <=
+                  100
+                    ? "less than ₹100"
+                    : `₹${
+                        Math.floor(
+                          product.variant && product.variant.length > 0
+                            ? product.variant[0].price
+                            : product.price / 100
+                        ) * 100
+                      }-${
+                        Math.ceil(
+                          product.variant && product.variant.length > 0
+                            ? product.variant[0].price
+                            : product.price / 100
+                        ) * 100
+                      }`}
                 </div>
                 <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
                   <Ratings rating={4} />

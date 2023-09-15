@@ -156,6 +156,7 @@ const ProductInfo = () => {
         );
       }
       debouncedShowToast("Login to view cart", "success");
+      window.my_modal_2.showModal();
     }
   };
 
@@ -593,6 +594,27 @@ const ProductInfo = () => {
             </div>
           </div>
         </div>
+      </dialog>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box flex flex-col gap-2">
+          <h3 className="font-bold text-lg">Adding Items to cart!</h3>
+          <p className="py-4 flex flex-col gap-2">
+            login to view cart -
+            <button
+              className="btn block w-40 btn-primary"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login
+            </button>
+          </p>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </>
   );

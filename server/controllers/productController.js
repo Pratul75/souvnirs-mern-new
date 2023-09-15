@@ -729,7 +729,7 @@ const getProducts = async (req, res) => {
             as: "variant",
           },
         },
-      ]);
+      ]).exec();
     }
     // console.log("productController.js", req.userId);
 
