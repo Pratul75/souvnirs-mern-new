@@ -38,8 +38,9 @@ import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { useDispatch } from "react-redux";
+
 const LandingPage = () => {
+  const navigate = useNavigate();
   const getAllProducts = async () => {
     try {
       const response = await API_WRAPPER.get("products/get-all-products");
@@ -57,9 +58,16 @@ const LandingPage = () => {
   const {
     data: productsList,
     isLoading,
-    errors,
+    error,
   } = useQuery("get-all-products", getAllProducts);
-  const navigate = useNavigate();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
@@ -108,6 +116,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
+
                       {productsList?.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
@@ -145,36 +154,35 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList &&
-                        productsList?.slice(8, 16).map((product) => (
-                          <div
-                            key={product._id}
-                            className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
-                            onClick={() =>
-                              navigate(`productInfo/${product.slug}`)
-                            }
-                          >
-                            <div className="flex items-center space-x-4">
-                              <img
-                                className="w-24 h-24 rounded-md"
-                                src={product.coverImage}
-                                alt="Product"
-                              />
-                              <div className="flex-grow">
-                                <h2 className="text-lg font-medium text-neutral-700">
-                                  {product.name}
-                                </h2>
-                                <div className="text-xl font-medium text-violet-900"></div>
-                                <div className="flex items-center space-x-4 mt-2">
-                                  <Ratings rating={4} />
-                                  <div className="border rounded-full p-2">
-                                    <ShopIcon />
-                                  </div>
-                                </div>
+                      {productsList?.slice(8, 16)?.map((product) => (
+                        <div
+                          key={product._id}
+                          className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                          onClick={() =>
+                            navigate(`productInfo/${product.slug}`)
+                          }
+                        >
+                          <div className="flex items-center space-x-4">
+                            <img
+                              className="w-24 h-24 rounded-md"
+                              src={product.coverImage}
+                              alt="Product"
+                            />
+                            <div className="flex-grow">
+                              <h2 className="text-lg font-medium text-neutral-700">
+                                {product.name}
+                              </h2>
+                              <div className="text-xl font-medium text-violet-900"></div>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <Ratings rating={4} />
+                                {/* <div className="border rounded-full p-2">
+                                  <ShopIcon />
+                                </div> */}
                               </div>
                             </div>
                           </div>
-                        ))}
+                        </div>
+                      ))}
                     </div>
                   ),
                   label: "CONTENT 2",
@@ -183,36 +191,35 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList &&
-                        productsList.slice(16, 24).map((product) => (
-                          <div
-                            key={product._id}
-                            className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
-                            onClick={() =>
-                              navigate(`productInfo/${product.slug}`)
-                            }
-                          >
-                            <div className="flex items-center space-x-4">
-                              <img
-                                className="w-24 h-24 rounded-md"
-                                src={product.coverImage}
-                                alt="Product"
-                              />
-                              <div className="flex-grow">
-                                <h2 className="text-lg font-medium text-neutral-700">
-                                  {product.name}
-                                </h2>
-                                <div className="text-xl font-medium text-violet-900"></div>
-                                <div className="flex items-center space-x-4 mt-2">
-                                  <Ratings rating={4} />
-                                  <div className="border rounded-full p-2">
-                                    <ShopIcon />
-                                  </div>
-                                </div>
+                      {productsList?.slice(16, 24)?.map((product) => (
+                        <div
+                          key={product._id}
+                          className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                          onClick={() =>
+                            navigate(`productInfo/${product.slug}`)
+                          }
+                        >
+                          <div className="flex items-center space-x-4">
+                            <img
+                              className="w-24 h-24 rounded-md"
+                              src={product.coverImage}
+                              alt="Product"
+                            />
+                            <div className="flex-grow">
+                              <h2 className="text-lg font-medium text-neutral-700">
+                                {product.name}
+                              </h2>
+                              <div className="text-xl font-medium text-violet-900"></div>
+                              <div className="flex items-center space-x-4 mt-2">
+                                <Ratings rating={4} />
+                                {/* <div className="border rounded-full p-2">
+                                  <ShopIcon />
+                                </div> */}
                               </div>
                             </div>
                           </div>
-                        ))}
+                        </div>
+                      ))}
                     </div>
                   ),
                   label: "CONTENT 3",
@@ -266,12 +273,12 @@ const LandingPage = () => {
 
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
-          {/* <SingleTab
-            productsList={productsList.slice(10, 20)}
+          <SingleTab
+            productsList={productsList?.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />
-          <SingleTab productsList={productsList} heading="Trending Products" /> */}
+          <SingleTab productsList={productsList} heading="Trending Products" />
         </div>
       </div>
       <BlogList blogItemsData={blogCardData} />
