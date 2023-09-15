@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
+
 const FullWidthBannerCard = ({
   imageOne,
   imageTwo,
@@ -9,15 +10,11 @@ const FullWidthBannerCard = ({
   return (
     <ScrollAnimationWrapper>
       <div className="flex flex-col w-full justify-start md:justify-center mt-5  ">
-        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 md:flex md:flex-col">
-          <div className="hidden md:block   flex-1 w-96 h-1/2">
-            <img
-              className="mr-12 w-full h-1/2 object-contain"
-              src={imageOne}
-              alt=""
-            />
+        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 flex flex-row items-center justify-between">
+          <div className="hidden md:flex">
+            <img className="object-contain" src={imageOne} alt="" />
           </div>
-          <div className=" flex-1">
+          <div className="">
             <div className="flex flex-col justify-center md:justify-between items-center">
               <h3 className=" text-lg md:text-3xl text-black">{mainHeading}</h3>
               <h3 className="text-lg md:text-3xl  text-black">{subHeading}</h3>
@@ -28,7 +25,7 @@ const FullWidthBannerCard = ({
               </button>
             </div>
           </div>
-          <div className="hidden md:block w-80 h-1/2">
+          <div className="hidden md:flex">
             <img
               className="w-full h-1/2 object-contain"
               src={imageTwo}

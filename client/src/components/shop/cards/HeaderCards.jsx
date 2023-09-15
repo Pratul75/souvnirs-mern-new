@@ -24,11 +24,7 @@ const HeaderCards = ({
           variants={fadeInVariants}
           className="col-span-3 md:col-span-2 row-span-2 h-[80vh] md:h-auto relative"
         >
-          <img
-            className="object-cover w-full h-full rounded-xl"
-            src={mainImage}
-            alt=""
-          />
+          <img className="w-full h-full rounded-xl " src={mainImage} alt="" />
           <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
             <div className="flex flex-col items-center md:items-start justify-center">
               <h2 className="text-white text-2xl md:text-5xl font-bold">
@@ -49,7 +45,7 @@ const HeaderCards = ({
             <div className="">
               <img
                 src={productImgOne}
-                className=" absolute right-10 top-10 h-3/4"
+                className=" md:absolute md:right-10 md:top-10 md:h-3/4"
                 alt=""
               />
             </div>
