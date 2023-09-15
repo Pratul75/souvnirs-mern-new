@@ -131,8 +131,12 @@ const ProductCard = ({
                 ) : (
                   <Link to={PATHS.register} className="flex gap-4">
                     <span>
-                      ${Math.floor(price / 100) * 100}-
-                      {Math.ceil(price / 100) * 100}
+                      {Math.ceil(price / 100) * 100 <= 100
+                        ? "less than ₹100"
+                        : `₹${Math.floor(price / 100) * 100}-${
+                            Math.ceil(price / 100) * 100
+                          }`}
+                      {}
                     </span>{" "}
                     {/* Not needed if showing range */}
                     {/* <AiOutlineLogin

@@ -138,9 +138,9 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
+                                {/* <div className="border rounded-full p-2">
                                   <ShopIcon />
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -175,9 +175,9 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
+                                {/* <div className="border rounded-full p-2">
                                   <ShopIcon />
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -212,9 +212,9 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
+                                {/* <div className="border rounded-full p-2">
                                   <ShopIcon />
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>

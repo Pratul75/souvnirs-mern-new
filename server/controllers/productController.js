@@ -726,15 +726,9 @@ const getProducts = async (req, res) => {
             from: "attributetypes",
             localField: "_id",
             foreignField: "productId",
-            as: "result",
+            as: "variant",
           },
         },
-        // {
-        //   $unwind: {
-        //     path: "$result",
-        //     preserveNullAndEmptyArrays: true,
-        //   },
-        // },
       ]);
     }
     // console.log("productController.js", req.userId);
