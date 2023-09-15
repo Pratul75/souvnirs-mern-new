@@ -720,7 +720,22 @@ const getProducts = async (req, res) => {
     if (req.role && req.role === "vendor") {
       productsList = await Product.find({ vendorId: req.userId });
     } else {
-      productsList = await Product.find().sort({ _id: -1 });
+      productsList = await Product.aggregate([
+        {
+          $lookup: {
+            from: "attributetypes",
+            localField: "_id",
+            foreignField: "productId",
+            as: "result",
+          },
+        },
+        // {
+        //   $unwind: {
+        //     path: "$result",
+        //     preserveNullAndEmptyArrays: true,
+        //   },
+        // },
+      ]);
     }
     // console.log("productController.js", req.userId);
 

@@ -442,7 +442,7 @@ const ProductInfo = () => {
                         value={quantity}
                       />
                     </div>
-                    <div className="form-control">
+                    {/* <div className="form-control">
                       <label className="label">
                         <span className="label-text">Currency</span>
                       </label>
@@ -455,7 +455,7 @@ const ProductInfo = () => {
                         </option>
                         <option value="usd">usd</option>
                       </select>
-                    </div>
+                    </div> */}
                     {variantFilters?.map((attribute) => {
                       const key = Object.keys(attribute)[0];
                       return (

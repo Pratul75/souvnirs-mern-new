@@ -37,9 +37,13 @@ import { ShopIcon } from "../../icons";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage = () => {
   const [productsList, setProductList] = useState([]);
+
+  const navigate = useNavigate();
+
   const getAllProducts = async () => {
     try {
       const response = await API_WRAPPER.get("products/get-all-products");
@@ -105,7 +109,10 @@ const LandingPage = () => {
                       {productsList.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full cursor-pointer col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          onClick={() =>
+                            navigate(`productInfo/${product.slug}`)
+                          }
                         >
                           <div className="flex items-center space-x-4">
                             <img
@@ -139,7 +146,10 @@ const LandingPage = () => {
                       {productsList.slice(8, 16).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full md:col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                          onClick={() =>
+                            navigate(`productInfo/${product.slug}`)
+                          }
                         >
                           <div className="flex items-center space-x-4">
                             <img
@@ -173,7 +183,10 @@ const LandingPage = () => {
                       {productsList.slice(16, 24).map((product) => (
                         <div
                           key={product._id}
-                          className="w-full col-span-1 bg-white p-4 rounded-lg shadow-md"
+                          className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                          onClick={() =>
+                            navigate(`productInfo/${product.slug}`)
+                          }
                         >
                           <div className="flex items-center space-x-4">
                             <img

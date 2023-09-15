@@ -53,6 +53,7 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
       setLoading(false); // Set loading to false in case of error
     }
   };
+  console.log(productsList);
 
   useEffect(() => {
     getAllProducts();
@@ -93,12 +94,18 @@ const ProductsListWithFilters = ({ heading, filters, products }) => {
               ))
             : // Render actual product cards when data is available
               productsList.map(
-                ({ _id, name, price, rating, coverImage, slug, result }) => {
+                (
+                  { _id, name, price, rating, coverImage, slug, result },
+                  product
+                ) => {
+                  console.log(result);
                   return (
                     <ProductCard
                       key={_id}
                       title={name}
-                      price={result ? result.price : price}
+                      price={
+                        result && result.length > 0 ? result[0].price : price
+                      }
                       rating={rating}
                       id={_id}
                       image={coverImage}
