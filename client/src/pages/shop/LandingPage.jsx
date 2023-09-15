@@ -38,6 +38,7 @@ import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
+import { useDispatch } from "react-redux";
 const LandingPage = () => {
   const getAllProducts = async () => {
     try {
@@ -128,9 +129,9 @@ const LandingPage = () => {
                               <div className="text-xl font-medium text-violet-900"></div>
                               <div className="flex items-center space-x-4 mt-2">
                                 <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
+                                {/* <div className="border rounded-full p-2">
                                   <ShopIcon />
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
@@ -144,35 +145,36 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(8, 16).map((product) => (
-                        <div
-                          key={product._id}
-                          className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
-                          onClick={() =>
-                            navigate(`productInfo/${product.slug}`)
-                          }
-                        >
-                          <div className="flex items-center space-x-4">
-                            <img
-                              className="w-24 h-24 rounded-md"
-                              src={product.coverImage}
-                              alt="Product"
-                            />
-                            <div className="flex-grow">
-                              <h2 className="text-lg font-medium text-neutral-700">
-                                {product.name}
-                              </h2>
-                              <div className="text-xl font-medium text-violet-900"></div>
-                              <div className="flex items-center space-x-4 mt-2">
-                                <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
-                                  <ShopIcon />
+                      {productsList &&
+                        productsList?.slice(8, 16).map((product) => (
+                          <div
+                            key={product._id}
+                            className="w-full md:col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                            onClick={() =>
+                              navigate(`productInfo/${product.slug}`)
+                            }
+                          >
+                            <div className="flex items-center space-x-4">
+                              <img
+                                className="w-24 h-24 rounded-md"
+                                src={product.coverImage}
+                                alt="Product"
+                              />
+                              <div className="flex-grow">
+                                <h2 className="text-lg font-medium text-neutral-700">
+                                  {product.name}
+                                </h2>
+                                <div className="text-xl font-medium text-violet-900"></div>
+                                <div className="flex items-center space-x-4 mt-2">
+                                  <Ratings rating={4} />
+                                  <div className="border rounded-full p-2">
+                                    <ShopIcon />
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   ),
                   label: "CONTENT 2",
@@ -181,35 +183,36 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(16, 24).map((product) => (
-                        <div
-                          key={product._id}
-                          className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
-                          onClick={() =>
-                            navigate(`productInfo/${product.slug}`)
-                          }
-                        >
-                          <div className="flex items-center space-x-4">
-                            <img
-                              className="w-24 h-24 rounded-md"
-                              src={product.coverImage}
-                              alt="Product"
-                            />
-                            <div className="flex-grow">
-                              <h2 className="text-lg font-medium text-neutral-700">
-                                {product.name}
-                              </h2>
-                              <div className="text-xl font-medium text-violet-900"></div>
-                              <div className="flex items-center space-x-4 mt-2">
-                                <Ratings rating={4} />
-                                <div className="border rounded-full p-2">
-                                  <ShopIcon />
+                      {productsList &&
+                        productsList.slice(16, 24).map((product) => (
+                          <div
+                            key={product._id}
+                            className="w-full col-span-1 cursor-pointer bg-white p-4 rounded-lg shadow-md"
+                            onClick={() =>
+                              navigate(`productInfo/${product.slug}`)
+                            }
+                          >
+                            <div className="flex items-center space-x-4">
+                              <img
+                                className="w-24 h-24 rounded-md"
+                                src={product.coverImage}
+                                alt="Product"
+                              />
+                              <div className="flex-grow">
+                                <h2 className="text-lg font-medium text-neutral-700">
+                                  {product.name}
+                                </h2>
+                                <div className="text-xl font-medium text-violet-900"></div>
+                                <div className="flex items-center space-x-4 mt-2">
+                                  <Ratings rating={4} />
+                                  <div className="border rounded-full p-2">
+                                    <ShopIcon />
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   ),
                   label: "CONTENT 3",
