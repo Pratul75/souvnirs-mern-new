@@ -34,30 +34,31 @@ import MainBannerPng from "../../assets/shop/bannerImages/mainBannerImg.png";
 import TvImagePng from "../../assets/shop/productImages/tvImage.png";
 import SingleTab from "./SingleTab";
 import { ShopIcon } from "../../icons";
-import { useEffect, useState } from "react";
 import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { useNavigate } from "react-router-dom";
-
+import { useQuery } from "react-query";
 const LandingPage = () => {
-  const [productsList, setProductList] = useState([]);
-
-  const navigate = useNavigate();
-
   const getAllProducts = async () => {
     try {
       const response = await API_WRAPPER.get("products/get-all-products");
       if (response.status === 200) {
-        setProductList(response.data);
-        console.log("PRODUCTS DATA: ", response.data);
+        return response.data; // Return the entire data object
+      } else {
+        throw new Error("Failed to fetch products");
       }
     } catch (error) {
       debouncedShowToast(error.message, "error");
+      throw error; // Rethrow the error to be captured by React Query
     }
   };
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+
+  const {
+    data: productsList,
+    isLoading,
+    errors,
+  } = useQuery("get-all-products", getAllProducts);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -106,7 +107,7 @@ const LandingPage = () => {
                   content: (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Item 1 */}
-                      {productsList.slice(0, 8).map((product) => (
+                      {productsList?.slice(0, 8).map((product) => (
                         <div
                           key={product._id}
                           className="w-full cursor-pointer col-span-1 bg-white p-4 rounded-lg shadow-md"
@@ -262,12 +263,12 @@ const LandingPage = () => {
 
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
-          <SingleTab
+          {/* <SingleTab
             productsList={productsList.slice(10, 20)}
             heading="Budget Buy"
           />
           <SingleTab productsList={productsList} heading="Recently Added" />
-          <SingleTab productsList={productsList} heading="Trending Products" />
+          <SingleTab productsList={productsList} heading="Trending Products" /> */}
         </div>
       </div>
       <BlogList blogItemsData={blogCardData} />
