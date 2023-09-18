@@ -2,12 +2,16 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import PropTypes from "prop-types";
 import { BsArrowRight } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 const HeaderCards = ({
   mainHeading,
   mainHeadingTwo,
   mainSubHeading,
   mainImage,
+  secondaryHeadingOne,
+  secondaryHeadingTwo,
+  secondarySubHeadingOne,
   tertioryHeadingOne,
   tertioryHeadingTwo,
   tertiorySubHeading,
@@ -27,7 +31,7 @@ const HeaderCards = ({
         >
           <img className="w-full h-full rounded-xl " src={mainImage} alt="" />
           <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
-            <div className="flex flex-col items-center md:items-start justify-center">
+            <div className="flex flex-col items-center md:items-start justify-center w-96">
               <h2 className="text-white text-2xl md:text-5xl font-bold">
                 {mainHeading}
               </h2>
@@ -59,25 +63,28 @@ const HeaderCards = ({
         >
           <img
             className="object-cover w-full h-full rounded-xl"
-            src={mainImage}
+            src={secondaryImageOne}
             alt=""
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
               <h2 className="text-white text-lg md:text-xl font-bold">
-                {mainHeading}
+                {secondaryHeadingOne}
               </h2>
               <h3 className="text-white text-lg md:text-xl font-bold">
-                {mainHeadingTwo}
+                {secondaryHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal my-2">
-                {mainSubHeading}
+                {secondarySubHeadingOne}
               </h6>
 
-              <button className="btn">
+              <Link
+                to={`/collection/Electronics%20Accessories`}
+                className="btn"
+              >
                 <span className="font-semibold text-black">Shop Now</span>{" "}
                 <BsArrowRight className="text-xl text-black" />
-              </button>
+              </Link>
             </div>
             <div>
               <img src={productImageTwo} alt="" />
@@ -104,7 +111,7 @@ const HeaderCards = ({
                 {tertioryHeadingTwo}
               </h3>
               <h6 className="text-white marker:text-lg font-normal my-2">
-                {mainSubHeading}
+                {tertiorySubHeading}
               </h6>
 
               <button className="btn">
@@ -113,7 +120,7 @@ const HeaderCards = ({
               </button>
             </div>
             <div>
-              <img src={productImageTwo} alt="" />
+              <img src={productImageThree} alt="" />
             </div>
           </div>
         </motion.div>

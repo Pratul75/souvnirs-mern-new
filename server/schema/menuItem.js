@@ -11,7 +11,6 @@ const menuSchema = new mongoose.Schema(
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "PENDING",
     },
-    
   },
   {
     timestamps: true,

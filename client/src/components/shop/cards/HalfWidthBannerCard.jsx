@@ -24,13 +24,6 @@ const HalfWidthBannerCard = ({
               <h2 className=" text-sm md:text-[60px]  font-bold  md:leading-[60px]">
                 {cardTitleOne.toUpperCase()}
               </h2>
-              <button
-                className="btn btn-sm md:btn-neutral bg-orange-500 text-white flex w-full"
-                onClick={buttonHandlerOne}
-              >
-                <span>Shop Now</span>
-                <BsArrowRightShort className="text-2xl md:inline hidden" />
-              </button>
             </div>
             <img
               className=" object-contain w-32 md:w-[70%]"
@@ -49,17 +42,10 @@ const HalfWidthBannerCard = ({
           <img className="rounded-xl w-full" src={backgroundImageOne} alt="" />
           <div className="inset-0 absolute flex justify-between items-center px-4 md:px-16">
             <div className="flex flex-col  justify-center">
-              <h1 className="text-sm md:text-2xl">{headingOne}</h1>
+              <h1 className="text-sm md:text-2xl">{headingTwo}</h1>
               <h2 className=" text-sm md:text-[60px]  font-bold  md:leading-[60px]">
                 {cardTitleOne.toUpperCase()}
               </h2>
-              <button
-                className="btn btn-sm md:btn-neutral bg-orange-500 text-white flex w-full"
-                onClick={buttonHandlerOne}
-              >
-                <span>Shop Now</span>
-                <BsArrowRightShort className="text-2xl md:inline hidden" />
-              </button>
             </div>
             <img
               className=" object-contain w-32 md:w-[70%]"

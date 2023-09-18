@@ -30,9 +30,7 @@ const AddCollection = () => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
   const { title, status, radioSelection, filterDivStates } = formData;
-
   const [collectionConditionList, setCollectionConditionList] = useState([]);
   const [conditionValueList, setConditionValueList] = useState([]);
   const [filteredConditionValues, setFilteredConditionValues] = useState([]);
@@ -348,6 +346,7 @@ const AddCollection = () => {
       deactiveProducts: deactivatedProducts.map((product) => product._id) || [],
       activeProducts: activeProducts.map((product) => product._id) || [],
     };
+
     const { filterDivStates, ...updatedFormDataWithoutFilterDivStates } =
       updatedFormData;
 

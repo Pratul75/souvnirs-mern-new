@@ -492,7 +492,7 @@ const ProductInfo = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
+          {/* <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
             <p className="text-start py-4">Ongoing Offers!</p>
             <div className="gap-4 flex flex-col">
               <div className="join">
@@ -528,6 +528,9 @@ const ProductInfo = () => {
                 Check Sample Availablity
               </p>
             </div>
+          </div> */}
+          <div>
+            <Card>I am Similar Product</Card>
           </div>
         </div>
 

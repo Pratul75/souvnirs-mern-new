@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Menu, Dropdown, Select } from "antd";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import React, { useState } from "react";
+import { Menu, Select } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import API_WRAPPER from "../../../api";
-import { TfiMenuAlt } from "react-icons/tfi";
-
+import { useQuery } from "react-query";
+import { fetchNavbarData, fetchCategoryData } from "../../../api/apiCalls";
 const ShopNavbar = () => {
   const [current, setCurrent] = useState("mail");
-  const [navbarData, setNavbarData] = useState([]);
-  const [categoriesData, setCategoriesData] = useState([]);
   const [searchValue, setSearchValue] = useState("");
-  const { Option } = Select;
   const navigate = useNavigate();
+  // get navbar data
+  const { data: navbarData } = useQuery("get-navbar-data", fetchNavbarData);
+  // get category data
+  const { data: categoryData } = useQuery(
+    "get-category-data",
+    fetchCategoryData
+  );
 
   const onClick = (e) => {
     setCurrent(e.key);
-  };
-
-  const getNavbarData = async () => {
-    const response = await API_WRAPPER.get("/getNavbarMenu");
-    if (response.status === 200) {
-      setNavbarData(response.data);
-    }
-  };
-
-  const fetchCategoryData = async () => {
-    const response = await API_WRAPPER.get("/category/get-all-categories");
-    if (response.status === 200) {
-      setCategoriesData(response.data);
-    }
   };
 
   const handleSearch = (value) => {
@@ -36,13 +24,8 @@ const ShopNavbar = () => {
     setSearchValue(value);
   };
 
-  useEffect(() => {
-    getNavbarData();
-    fetchCategoryData();
-  }, []);
-
   const renderSubMenuItems = (menuData) => {
-    return menuData.map((menuItem) => {
+    return menuData?.map((menuItem) => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         return (
           <Menu.SubMenu
@@ -64,20 +47,30 @@ const ShopNavbar = () => {
                   >
                     {submenuItem.child.map((childItem) => (
                       <Menu.Item key={childItem._id}>
-                        <Link
-                          to={`${window.location.origin}/${childItem.link}`}
+                        <button
+                          onClick={() => {
+                            navigate(`/${childItem.link} `);
+                            window.location.reload();
+                          }}
+                          // to={`${window.location.origin}/${childItem.link}`}
                         >
                           {childItem.title}
-                        </Link>
+                        </button>
                       </Menu.Item>
                     ))}
                   </Menu.SubMenu>
                 ) : (
                   // Render a plain menu item with a link if no children exist
                   <Menu.Item className="cursor-pointer" key={submenuItem._id}>
-                    <Link to={`${window.location.origin}/${submenuItem.link}`}>
+                    <button
+                      onClick={() => {
+                        navigate(`/${submenuItem.link} `);
+                        window.location.reload();
+                      }}
+                      // to={`${window.location.origin}/${childItem.link}`}
+                    >
                       {submenuItem.title}
-                    </Link>
+                    </button>
                   </Menu.Item>
                 )}
               </React.Fragment>
@@ -118,16 +111,22 @@ const ShopNavbar = () => {
         }
         onSearch={handleSearch}
         value={searchValue}
+        labelInValue // Enable labelInValue to include labels for options
+        optionLabelProp="All Categories" // Specify which prop to use as the label
       >
-        {categoriesData.map((category) => (
-          <Option key={category._id} value={category.name}>
+        {categoryData?.data?.map((category) => (
+          <Select.Option
+            key={category._id}
+            value={category.name}
+            label={category.label}
+          >
             <button
               className="hover:text-blue-500 w-full h-full"
               onClick={() => navigate(`/category/${category?.name}`)}
             >
               {category.name}
             </button>
-          </Option>
+          </Select.Option>
         ))}
       </Select>
     );
@@ -141,15 +140,8 @@ const ShopNavbar = () => {
         selectedKeys={[current]}
         mode="horizontal"
       >
-        {/* <Dropdown overlay={categoryMenu} trigger={["hover"]}>
-        <button className="join-item dropdown flex items-center justify-between rounded-none h-full bg-shopPrimaryColor text-white px-4 w-52">
-          <TfiMenuAlt />
-          All Categories
-          <RiArrowDropDownLine size={24} />
-        </button>
-      </Dropdown> */}
         {categoryMenu()}
-        {renderSubMenuItems(navbarData)}
+        {renderSubMenuItems(navbarData?.data)}
       </Menu>
       <button className="btn btn-primary">Contact Us</button>
     </div>

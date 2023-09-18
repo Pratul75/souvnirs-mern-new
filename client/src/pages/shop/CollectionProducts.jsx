@@ -1,64 +1,60 @@
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import FilterCard from "../../components/shop/components/FilterCard";
-import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
-import ProductCardMini from "../../components/shop/cards/ProductCardMini";
-import { Card, ProductCard } from "../../components";
-import { nanoid } from "nanoid";
+import { Slider } from "antd";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
+import FilterCard from "../../components/shop/components/FilterCard";
+import { Card, ProductCard } from "../../components";
 import Loading from "../common/Loading";
-import { sortProductsByName } from "../../utils";
-import { Slider } from "antd";
+import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 
 const CollectionProducts = () => {
+  const { slug } = useParams();
   const [filterType, setFilterType] = useState(false);
-  const [inputRangeValue, setInputRangeValue] = useState([0, 100000]);
+  const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
-
-  const [selctedFilter, setSelctedFilter] = useState("new");
-  const location = useParams();
+  const [selectedFilter, setSelectedFilter] = useState("new");
 
   const getProducts = async () => {
     setLoading(true);
-    const response = await API_WRAPPER.post(
-      `/products/collection/${location.slug}`,
-      {
+    try {
+      const response = await API_WRAPPER.post(`/products/collection/${slug}`, {
         data: filters,
         priceMin: inputRangeValue[0],
         priceMax: inputRangeValue[1],
-        page: page,
-        sort: selctedFilter,
-      }
-    );
-    console.log("COLLECTION RESPONSE: ", response);
-    setProducts(response?.data?.products);
-    setFilterList(response?.data?.filters);
-    setLastPage(response?.data?.lastPage);
-    setLoading(false);
+        page,
+        sort: selectedFilter,
+      });
+      setProducts(response?.data?.products);
+      setFilterList(response?.data?.filters);
+      setLastPage(response?.data?.lastPage);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFilterSelection = (filterData) => {
     const filterKey = filterData.key;
     const filterValues = filterData.values;
-    // Check if the filter with the same key already exists in the filters array
+
     const existingFilterIndex = filters.findIndex(
       (filter) => filter.key === filterKey
     );
 
     if (existingFilterIndex !== -1) {
-      // Update the values of the existing filter
       const updatedFilters = [...filters];
       updatedFilters[existingFilterIndex].values = filterValues;
       setFilters(updatedFilters);
     } else {
-      // Add a new filter object to the filters array
       const newFilter = {
         key: filterKey,
         values: filterValues,
@@ -68,10 +64,8 @@ const CollectionProducts = () => {
   };
 
   useEffect(() => {
-    debounce(() => {
-      getProducts();
-    }, 100)();
-  }, [filters, inputRangeValue, selctedFilter, page]);
+    debounce(getProducts, 100)();
+  }, [filters, inputRangeValue, selectedFilter, page, slug]);
 
   return (
     <div className="mt-4">
@@ -88,7 +82,7 @@ const CollectionProducts = () => {
                 <Slider
                   range
                   min={0}
-                  max={100000}
+                  max={1000}
                   step={50}
                   onChange={(value) => setInputRangeValue(value)}
                   value={inputRangeValue}
@@ -137,15 +131,13 @@ const CollectionProducts = () => {
                 <AiOutlineUnorderedList className="text-2xl" />
               </button>
               <select
-                onChange={(e) => setSelctedFilter(e.target.value)}
+                onChange={(e) => setSelectedFilter(e.target.value)}
                 className="select select-primary"
                 name="defaultSorting"
                 id="defaultSorting"
               >
                 <option value="recommended">Recommended</option>
-                <option value="new" selected>
-                  What's new
-                </option>
+                <option value="new">What's new</option>
                 <option value="discount">Better Discount</option>
                 <option value="htl">price:high to low</option>
                 <option value="lth">price:low to high</option>
@@ -157,7 +149,7 @@ const CollectionProducts = () => {
           <div className="flex justify-between gap-4 mt-4 flex-wrap">
             {filterType ? (
               products &&
-              sortProductsByName(products, selctedFilter).map((product) => (
+              products.map((product) => (
                 <ProductCardMini
                   key={product.products._id}
                   id={product.products._id}
@@ -200,7 +192,7 @@ const CollectionProducts = () => {
           </div>
 
           <div className="flex w-full justify-center my-4">
-            <div className="flex justify-center items-center gap-5 w-1/3">
+            <div className="flex justify-center items-center gap-5 bg-base-200 p-4 rounded-xl">
               <button
                 onClick={() => {
                   if (page === 1) {
@@ -209,7 +201,7 @@ const CollectionProducts = () => {
                   setPage((prev) => prev - 1);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="btn btn-circle btn-primary"
+                className="btn btn-square btn-primary"
               >
                 -
               </button>
@@ -222,7 +214,7 @@ const CollectionProducts = () => {
                   setPage((prev) => prev + 1);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="btn btn-circle btn-primary text-white"
+                className="btn btn-square btn-primary text-white"
               >
                 +
               </button>

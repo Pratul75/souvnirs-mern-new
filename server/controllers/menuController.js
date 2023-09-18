@@ -42,8 +42,8 @@ const getMainMenus = async (req, res) => {
 
   res.status(200).json(mainmenus);
 };
-// Update a main menu item by ID
 
+// Update a main menu item by ID
 const getMainMenuData = async (req, res) => {
   try {
     const { id } = req.params;
@@ -87,6 +87,7 @@ const getMainMenuData = async (req, res) => {
     res.status(400).json("something went wrong");
   }
 };
+
 const editMainMenu = async (req, res) => {
   try {
     const menuItemId = req.params.id;

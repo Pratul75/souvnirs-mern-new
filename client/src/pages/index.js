@@ -9,7 +9,7 @@ export { default as Cart } from "./admin/Cart/Cart";
 export { default as Categories } from "./admin/Categories/Categories";
 export { default as Checkouts } from "./admin/Checkout";
 export { default as CmsAndSeo } from "./admin/CmsAndSeo";
-export { default as Collection } from "./admin/Collection";
+export { default as Collection } from "./admin/Collection/Collection";
 export { default as CollectionConditions } from "./admin/CollectionConditions";
 export { default as Discounts } from "./admin/Discounts";
 export { default as Coupons } from "./admin/Coupons";

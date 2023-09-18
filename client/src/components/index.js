@@ -47,3 +47,4 @@ export { default as ProductTabs } from "./shop/components/ProductTabs";
 export { default as AddToCartCard } from "./shop/cards/AddToCartACard";
 export { default as TimerComponent } from "./shop/components/TimerComponent";
 export { default as ScrollAnimationWrapper } from "./ui/ScrollAnimationWrapper";
+export { default as Carosal } from "./shop/components/Carosal";

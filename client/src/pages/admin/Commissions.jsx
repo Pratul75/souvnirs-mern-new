@@ -27,7 +27,7 @@ const Commissions = () => {
       debouncedShowToast(error.messasge, "error");
     }
   };
-
+  
   const toggleDelete = (row) => {
     console.log("ROW TO DELETE: ", row);
     setCommissionToBeDeleted(row);

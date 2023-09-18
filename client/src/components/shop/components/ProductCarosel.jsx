@@ -33,7 +33,7 @@ const Carousel = ({ items }) => {
           </div>
         </div>
         <div className="col-span-5 md:col-span-2 border mt-8">
-          <div className="flex justify w-full">{items[currentIndex]}</div>
+          <div className="flex w-full">{items[currentIndex]}</div>
         </div>
       </div>
     </ScrollAnimationWrapper>

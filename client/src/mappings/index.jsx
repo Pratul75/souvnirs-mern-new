@@ -59,7 +59,9 @@ import TexturePurple from "../assets/shop/bannerImages/texturePurple.jpg.png";
 import TexturePaleYellow from "../assets/shop/bannerImages/texturePaleYellow.png";
 import { Ratings, TimerComponent } from "../components";
 import { ShopIcon } from "../icons";
-
+import GiftFour from "../assets/shop/productImages/giftFour.png";
+import GiftFive from "../assets/shop/productImages/giftFive.png";
+import GiftSix from "../assets/shop/productImages/giftSix.png";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -399,42 +401,43 @@ export const productListFiltersAndProducts = {
 export const gradiantCardListCardData = [
   {
     id: nanoid(),
-    title: "Spring Sale Coming",
-    heading: "Smart Phone",
-    subheading: "With Pen",
+    title: "",
+    heading: "Diary and Pen combo",
+    subheading: "",
     background: TexturePurple,
-    image: GradiantCardImgOne,
+    image: GiftFour,
     // Link will be changed in future to desired page
     link: PATHS.landingPage,
     btnColorCode: "653A4F",
   },
   {
     id: nanoid(),
-    title: "Spring Sale Coming",
-    heading: "New Smart Phone",
-    subheading: "With Touch",
+    title: "",
+    heading: "Gift Hampers",
+    subheading: "",
     background: TexturePink,
-    image: GradiantCardImgTwo,
+    // add spartwatch image
+    image: GiftFive,
     // Link will be changed in future to desired page
-    link: PATHS.landingPage,
+    link: "/collection/Gift%20Hamper",
     btnColorCode: "8d473f",
   },
   {
     id: nanoid(),
-    title: "Spring Sale Coming",
-    heading: "Smart Phone",
-    subheading: "With Pen",
+    title: "",
+    heading: "Electronics",
+    subheading: "",
     background: TexturePaleYellow,
-    image: GradiantCardImgOne,
+    image: GiftSix,
     // Link will be changed in future to desired page
-    link: PATHS.landingPage,
+    link: "/collection/smartwatch",
     btnColorCode: "83541e",
   },
 ];
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
+  <div className="flex gap-4 p-6 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-10-01"} />
@@ -451,7 +454,7 @@ export const caroselMapppingDailyDeals = [
     </div>
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
-  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
+  <div className="flex  gap-4 p-6 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-10-01"} />
@@ -468,7 +471,7 @@ export const caroselMapppingDailyDeals = [
     </div>
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
-  <div className="flex flex-col gap-4 p-6 bg-base-100 " key={nanoid()}>
+  <div className="flex gap-4 p-6 bg-base-100 " key={nanoid()}>
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-10-01"} />

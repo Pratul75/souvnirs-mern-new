@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import Loading from "../common/Loading";
+import { AiOutlineEdit } from "react-icons/ai";
 
 const EditMenu = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
@@ -66,7 +67,6 @@ const EditMenu = () => {
     await API_WRAPPER.post("/sub-menu/create", createdCards);
     setLoading(false);
   };
-
   const handleCardSubmit = (e) => {
     e.preventDefault();
     const newCard = {
@@ -314,6 +314,10 @@ const EditMenu = () => {
                   className="tooltip tooltip-left"
                   data-tip={"Delete sub menu"}
                 >
+                  {/* TODO: nedd to edit thhe sub menus */}
+                  <button className="btn btn-circle btn-info mx-4">
+                    <AiOutlineEdit className="text-xl" />
+                  </button>
                   <button
                     onClick={() => handleCardDelete(index)}
                     className="btn btn-circle btn-error mx-4"
@@ -326,6 +330,7 @@ const EditMenu = () => {
           </div>
         </Card>
       ))}
+
       <div className="flex justify-end mt-4 p-4">
         <button className="btn btn-primary" onClick={createSubMenus}>
           {" "}
