@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
+import { Link } from "react-router-dom";
 
 const FullWidthBannerCard = ({
   imageOne,
@@ -24,9 +25,12 @@ const FullWidthBannerCard = ({
               </h3>
             </div>
             <div className="flex gap-2 flex-1  justify-center">
-              <button className="btn btn-sm md:btn-md bg-shopPrimaryColor text-white border-none outline-none md:mt-4  ">
+              <Link
+                to={"/collection/Rainwear"}
+                className="btn btn-sm md:btn-md bg-shopPrimaryColor text-white border-none outline-none md:mt-4  "
+              >
                 Shop Now
-              </button>
+              </Link>
             </div>
           </div>
           <div className="hidden md:flex">

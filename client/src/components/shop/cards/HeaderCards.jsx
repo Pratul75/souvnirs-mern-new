@@ -41,10 +41,10 @@ const HeaderCards = ({
               <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
                 {mainSubHeading}
               </h6>
-              <div className="btn mt-4 ">
+              <Link to={"/productInfo/5e76ef16"} className="btn mt-4 ">
                 <span className="font-semibold">Shop Now</span>{" "}
                 <BsArrowRight className="text-lg font-bold" />
-              </div>
+              </Link>
             </div>
             <div className="">
               <img
@@ -114,10 +114,10 @@ const HeaderCards = ({
                 {tertiorySubHeading}
               </h6>
 
-              <button className="btn">
+              <Link to={"/productInfo/15b3dae3"} className="btn">
                 <span className="font-semibold text-black">Shop Now</span>
                 <BsArrowRight className="text-xl text-black" />
-              </button>
+              </Link>
             </div>
             <div>
               <img src={productImageThree} alt="" />

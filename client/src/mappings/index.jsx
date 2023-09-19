@@ -407,7 +407,7 @@ export const gradiantCardListCardData = [
     background: TexturePurple,
     image: GiftFour,
     // Link will be changed in future to desired page
-    link: PATHS.landingPage,
+    link: "/productInfo/98d635a6",
     btnColorCode: "653A4F",
   },
   {
@@ -443,7 +443,7 @@ export const caroselMapppingDailyDeals = [
         <TimerComponent date={"2023-10-01"} />
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">₹249</h4>
           <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
             <ShopIcon />
           </div>
@@ -460,7 +460,7 @@ export const caroselMapppingDailyDeals = [
         <TimerComponent date={"2023-10-01"} />
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">₹249</h4>
           <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
             <ShopIcon />
           </div>
@@ -477,7 +477,7 @@ export const caroselMapppingDailyDeals = [
         <TimerComponent date={"2023-10-01"} />
         <h3>Headphones Supersonic New Adi</h3>
         <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">$256</h4>
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">₹249</h4>
           <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
             <ShopIcon />
           </div>
