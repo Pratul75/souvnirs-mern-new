@@ -130,7 +130,6 @@ const EditMenu = () => {
                 value={mainMenuId}
                 onChange={(e) => setMainMenuId(e.target.value)}
               >
-                {/* <option selected>Select Main Menu</option> */}
                 {mainMenus &&
                   mainMenus.map((item) => (
                     <option
