@@ -17,6 +17,7 @@ const CategoryProducts = () => {
     freeShipping: false,
     readyToShip: false,
   });
+
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
@@ -27,12 +28,11 @@ const CategoryProducts = () => {
   const params = useParams();
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
-
   const [selctedFilter, setSelctedFilter] = useState("new");
   console.log("LOCATION OBJECT: ", location);
-
   const getProducts = async () => {
     setLoading(true);
+
     try {
       const response = await API_WRAPPER.post(`/products/category/${slug}`, {
         data: filters,

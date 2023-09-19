@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUnorderedList } from "react-icons/ai";
@@ -9,11 +9,11 @@ import FilterCard from "../../components/shop/components/FilterCard";
 import { Card, ProductCard } from "../../components";
 import Loading from "../common/Loading";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
+import { findMinMaxPrice } from "../../utils";
 
 const CollectionProducts = () => {
   const { slug } = useParams();
   const [filterType, setFilterType] = useState(false);
-  const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
@@ -21,6 +21,7 @@ const CollectionProducts = () => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
   const [selectedFilter, setSelectedFilter] = useState("new");
+  const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
 
   const getProducts = async () => {
     setLoading(true);
@@ -78,19 +79,20 @@ const CollectionProducts = () => {
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold">Price</h6>
+                  <span className="underline cursor-pointer">Reset</span>
                 </div>
                 <Slider
                   range
-                  min={0}
-                  max={1000}
-                  step={50}
+                  min={findMinMaxPrice(products)[0]}
+                  max={findMinMaxPrice(products)[1]}
                   onChange={(value) => setInputRangeValue(value)}
                   value={inputRangeValue}
                   className="range"
                 />
                 <div className="text-sm">
                   <span>
-                    {inputRangeValue[0]} - {inputRangeValue[1]}
+                    {findMinMaxPrice(products)[0]} -{" "}
+                    {findMinMaxPrice(products)[1]}
                   </span>
                 </div>
               </div>

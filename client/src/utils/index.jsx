@@ -109,3 +109,41 @@ export const sortProductsByName = (products, sortOrder) => {
 
   return sortedProducts;
 };
+
+export const findMinMaxPrice = (data) => {
+  // Parse the JSON object
+  const parsedData = data;
+
+  function findMinMax(arr) {
+    if (arr.length === 0) {
+      // Handle the case of an empty array
+      return { min: undefined, max: undefined };
+    }
+
+    let min = arr[0];
+    let max = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+      if (arr[i] < min) {
+        min = arr[i];
+      }
+      if (arr[i] > max) {
+        max = arr[i];
+      }
+    }
+
+    return [min, max];
+  }
+
+  // Iterate through the "products" array
+  const priceArr = parsedData.map((product) => {
+    const price =
+      product.variants.length > 0
+        ? product.variants[0].price
+        : product.products.price;
+    return price;
+  });
+  const result = findMinMax(priceArr);
+  console.log("PRICE MIN MAX VALUE: ", result);
+  return result;
+};

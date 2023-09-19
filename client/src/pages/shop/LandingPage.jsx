@@ -15,6 +15,7 @@ import {
   caroselMapppingDailyDeals,
   gradiantCardListCardData,
 } from "../../mappings";
+
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
 import SmallCardBackgroundTwo from "../../assets/shop/cardImages/smallCardBackgroundTwo.png";
 import HalfWidthBannerImgOne from "../../assets/shop/cardImages/halfWidthcardImgOne.png";
