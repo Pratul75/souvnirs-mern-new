@@ -110,6 +110,7 @@ export const sortProductsByName = (products, sortOrder) => {
   return sortedProducts;
 };
 
+// Modify the findMinMaxPrice function to return an object with min and max properties
 export const findMinMaxPrice = (data) => {
   // Parse the JSON object
   const parsedData = data;
@@ -132,10 +133,10 @@ export const findMinMaxPrice = (data) => {
       }
     }
 
-    return [min, max];
+    return { min, max }; // Return an object with min and max properties
   }
 
-  // Iterate through the "products" array
+  // Iterate through the "products" array and extract price values
   const priceArr = parsedData.map((product) => {
     const price =
       product.variants.length > 0

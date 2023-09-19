@@ -65,7 +65,7 @@ const CollectionProducts = () => {
   };
 
   useEffect(() => {
-    debounce(getProducts, 100)();
+    debounce(getProducts, 300)();
   }, [filters, inputRangeValue, selectedFilter, page, slug]);
 
   return (
@@ -79,20 +79,28 @@ const CollectionProducts = () => {
               <div className="p-4">
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold">Price</h6>
-                  <span className="underline cursor-pointer">Reset</span>
+                  <span
+                    onClick={() => setInputRangeValue([0,1000])}
+                    className="underline cursor-pointer"
+                  >
+                    Reset
+                  </span>
                 </div>
                 <Slider
                   range
-                  min={findMinMaxPrice(products)[0]}
-                  max={findMinMaxPrice(products)[1]}
-                  onChange={(value) => setInputRangeValue(value)}
+                  min={findMinMaxPrice(products).min} // Set the minimum value
+                  max={findMinMaxPrice(products).max} // Set the maximum value
+                  onChange={(value) => {
+                    setInputRangeValue(value);
+                    console.log("RANGE VALUE: ", value);
+                  }}
                   value={inputRangeValue}
                   className="range"
                 />
                 <div className="text-sm">
                   <span>
-                    {findMinMaxPrice(products)[0]} -{" "}
-                    {findMinMaxPrice(products)[1]}
+                    {findMinMaxPrice(products).min} -{" "}
+                    {findMinMaxPrice(products).max}
                   </span>
                 </div>
               </div>
