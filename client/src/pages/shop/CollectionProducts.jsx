@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
-import { AiOutlineUnorderedList } from "react-icons/ai";
+import {
+  AiOutlineMinus,
+  AiOutlinePlus,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 import { Slider } from "antd";
 import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
@@ -11,6 +15,7 @@ import Loading from "../common/Loading";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { findMinMaxPrice } from "../../utils";
 
+// page to show the collections of products and their filters
 const CollectionProducts = () => {
   const { slug } = useParams();
   const [filterType, setFilterType] = useState(false);
@@ -43,6 +48,7 @@ const CollectionProducts = () => {
     }
   };
 
+  // check if any filters exist and renders out the specific filters
   const handleFilterSelection = (filterData) => {
     const filterKey = filterData.key;
     const filterValues = filterData.values;
@@ -63,7 +69,7 @@ const CollectionProducts = () => {
       setFilters((prevFilters) => [...prevFilters, newFilter]);
     }
   };
-
+  // fetch product data on change
   useEffect(() => {
     debounce(getProducts, 300)();
   }, [filters, inputRangeValue, selectedFilter, page, slug]);
@@ -80,7 +86,7 @@ const CollectionProducts = () => {
                 <div className="flex items-center justify-between">
                   <h6 className="text-primary text-lg font-bold">Price</h6>
                   <span
-                    onClick={() => setInputRangeValue([0,1000])}
+                    onClick={() => setInputRangeValue([0, 1000])}
                     className="underline cursor-pointer"
                   >
                     Reset
@@ -88,8 +94,8 @@ const CollectionProducts = () => {
                 </div>
                 <Slider
                   range
-                  min={findMinMaxPrice(products).min} // Set the minimum value
-                  max={findMinMaxPrice(products).max} // Set the maximum value
+                  min={findMinMaxPrice(products).min}
+                  max={findMinMaxPrice(products).max}
                   onChange={(value) => {
                     setInputRangeValue(value);
                     console.log("RANGE VALUE: ", value);
@@ -200,7 +206,6 @@ const CollectionProducts = () => {
               </div>
             )}
           </div>
-
           <div className="flex w-full justify-center my-4">
             <div className="flex justify-center items-center gap-5 bg-base-200 p-4 rounded-xl">
               <button
@@ -213,7 +218,7 @@ const CollectionProducts = () => {
                 }}
                 className="btn btn-square btn-primary"
               >
-                -
+                <AiOutlineMinus />
               </button>
               <span className="text-3xl">{page}</span>
               <button
@@ -226,7 +231,7 @@ const CollectionProducts = () => {
                 }}
                 className="btn btn-square btn-primary text-white"
               >
-                +
+                <AiOutlinePlus />
               </button>
             </div>
           </div>
@@ -236,5 +241,4 @@ const CollectionProducts = () => {
     </div>
   );
 };
-
 export default CollectionProducts;

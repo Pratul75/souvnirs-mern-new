@@ -143,7 +143,6 @@ const ShopNavbar = () => {
         {categoryMenu()}
         {renderSubMenuItems(navbarData?.data)}
       </Menu>
-      <button className="btn btn-primary">Contact Us</button>
     </div>
   );
 };

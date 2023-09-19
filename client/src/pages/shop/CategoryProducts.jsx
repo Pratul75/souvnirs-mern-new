@@ -10,14 +10,13 @@ import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
 import { Slider } from "antd";
-import { sortProductsByName } from "../../utils";
+
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
   const [shippingStates, setShippingStates] = useState({
     freeShipping: false,
     readyToShip: false,
   });
-
   const [filterList, setFilterList] = useState();
   const [products, setProducts] = useState([]);
   const [filters, setFilters] = useState([]);
@@ -30,9 +29,9 @@ const CategoryProducts = () => {
   const [lastPage, setLastPage] = useState(2);
   const [selctedFilter, setSelctedFilter] = useState("new");
   console.log("LOCATION OBJECT: ", location);
+
   const getProducts = async () => {
     setLoading(true);
-
     try {
       const response = await API_WRAPPER.post(`/products/category/${slug}`, {
         data: filters,
@@ -75,6 +74,7 @@ const CategoryProducts = () => {
       setFilters((prevFilters) => [...prevFilters, newFilter]);
     }
   };
+
   console.log("CategoryProducts.jsx", inputRangeValue);
 
   useEffect(() => {
