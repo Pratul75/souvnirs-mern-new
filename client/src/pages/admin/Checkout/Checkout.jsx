@@ -1,5 +1,5 @@
-import { Header } from "../../components";
-import CheckoutBannerImage from "../../assets/bannerImages/checkoutImage.png";
+import { Header } from "../../../components";
+import CheckoutBannerImage from "../../../assets/bannerImages/checkoutImage.png";
 const Checkout = () => {
   return (
     <div>
