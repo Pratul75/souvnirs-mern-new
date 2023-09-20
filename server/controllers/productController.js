@@ -715,11 +715,21 @@ const getVendorProducts = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    // Get all products
+    // Extract pagination parameters from the request (e.g., page and limit)
+    const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+    const limit = 100; // Number of products per page
+
+    // Calculate the number of documents to skip
+    const skip = (page - 1) * limit;
+
     let productsList;
     if (req.role && req.role === "vendor") {
-      productsList = await Product.find({ vendorId: req.userId });
+      // Fetch products for the vendor with pagination
+      productsList = await Product.find({ vendorId: req.userId })
+        .skip(skip)
+        .limit(limit);
     } else {
+      // Fetch all products with variants using aggregation and pagination
       productsList = await Product.aggregate([
         {
           $lookup: {
@@ -729,16 +739,19 @@ const getProducts = async (req, res) => {
             as: "variant",
           },
         },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: limit,
+        },
       ]).exec();
     }
-    // console.log("productController.js", req.userId);
 
-    // // Send the productsList to the frontend
-    // console.log("PRODUCT LIST: ", productsList);
     res.status(200).json(productsList);
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Failed to get all products" });
+    res.status(400).json({ error: "Failed to get products" });
   }
 };
 

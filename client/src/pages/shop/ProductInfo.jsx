@@ -3,11 +3,10 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
 import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
-
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { productListFiltersAndProducts } from "../../mappings";
 import API_WRAPPER, { baseUrl } from "../../api";
-import { Suspense, lazy, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import parse from "html-react-parser";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
@@ -16,7 +15,7 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
 import { nanoid } from "nanoid";
-import Loading from "../../pages/common/Loading";
+
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
@@ -95,6 +94,7 @@ const ProductInfo = () => {
       ),
     },
   ];
+
   function checkVariantsMatch(variantFilters, selectedVariants) {
     for (const filter of variantFilters) {
       const [key, values] = Object.entries(filter)[0];
@@ -105,7 +105,6 @@ const ProductInfo = () => {
         return false;
       }
     }
-
     return true;
   }
   const addToCart = async (e) => {
@@ -128,6 +127,7 @@ const ProductInfo = () => {
         quantity,
         variant: selectedVariants,
       });
+
       dispatch(toggleRefresh());
       debouncedShowToast("added to cart successfully");
     } else {
@@ -224,6 +224,7 @@ const ProductInfo = () => {
     setMrp(newSelectedVariant.mrp);
     setPrice(newSelectedVariant.price);
   };
+
   function updatePriceBasedOnQuantity(quantity) {
     const newSelectedVariant = findSelectedVariant(selectedVariants);
 
@@ -302,8 +303,7 @@ const ProductInfo = () => {
     }
   }, [slug]); // Add slug as a dependency
 
-  console.log("ProductInfo.jsx", variantFilters);
-
+  console.log("PRODUCTS: ", product);
   return (
     <>
       <div className="mx-4 md:mx-8 lg:mx-16 mt-4">
@@ -529,6 +529,7 @@ const ProductInfo = () => {
               </p>
             </div>
           </div> */}
+
           <div>
             <Card>I am Similar Product</Card>
           </div>
@@ -598,13 +599,12 @@ const ProductInfo = () => {
           </div>
         </div>
       </dialog>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
 
       <dialog id="my_modal_2" className="modal">
         <div className="modal-box flex flex-col gap-2">
           <h3 className="font-bold text-lg">Adding Items to cart!</h3>
           <p className="py-4 flex flex-col gap-2">
-            login to view cart -
+            login to view cart
             <button
               className="btn block w-40 btn-primary"
               onClick={() => {
@@ -618,6 +618,52 @@ const ProductInfo = () => {
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
         </form>
+      </dialog>
+
+      {/* request quote modal */}
+      <dialog id="request_quote_modal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Get Quote for {product?.name}</h3>
+          <p className="py-4">
+            Press ESC key or click the button below to close
+          </p>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Enter your Name</span>
+            </label>
+            <input className="input input-bordered" type="text" />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Enter your Contact</span>
+            </label>
+            <input className="input input-bordered" type="text" />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Enter your Company Details</span>
+            </label>
+            <input className="input input-bordered" type="text" />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">City</span>
+            </label>
+            <input className="input input-bordered" type="text" />
+          </div>
+          <button
+            onClick={() => window.request_quote_modal.close()}
+            className="btn btn-primary mt-4"
+          >
+            Request Meeting
+          </button>
+          <button
+            onClick={() => window.request_quote_modal.close()}
+            className="btn  mt-4 ml-4"
+          >
+            Close
+          </button>
+        </div>
       </dialog>
     </>
   );
