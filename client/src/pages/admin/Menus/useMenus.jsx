@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../../api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 
 const useMenus = () => {

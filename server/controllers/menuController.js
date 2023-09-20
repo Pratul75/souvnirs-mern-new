@@ -14,13 +14,14 @@ const createMenu = async (req, res) => {
   const createdMenu = await Menu.create({ title });
   res.status(200).json(createdMenu);
 };
+
 const getMenu = async (req, res) => {
   const menus = await Menu.find().sort({ _id: -1 });
   res.status(200).json(menus);
 };
 
 const createMainMenu = async (req, res) => {
-  const { menuId, title, link, type } = req.body;
+  const { menuId, title, link, type, position } = req.body;
   if (!menuId) {
     return res.status(400).json("selecting menu is required");
   }
@@ -28,13 +29,18 @@ const createMainMenu = async (req, res) => {
     return res.status(400).json("title is required");
   }
   const menu = await Menu.findById(menuId);
+
   const mainmenu = await MainMenu.create({
     link,
     title,
+    position,
     type: type ?? "collection",
     menuId: menu._id,
   });
-  res.status(200).json("main menu created successfully");
+  res.status(200).json({
+    message: "main menu created successfully",
+    createdMenu: mainmenu,
+  });
 };
 
 const getMainMenus = async (req, res) => {
@@ -172,7 +178,8 @@ const createChildMenu = async (req, res) => {
 const getNavbarData = async (req, res) => {
   try {
     const menu = await Menu.findOne({ title: "navbar" }).lean();
-    const mainMenuIds = await MainMenu.find({ menuId: menu._id }, "_id title")
+    const mainMenuIds = await MainMenu.find({ menuId: menu._id })
+      .select("_id title position")
       .sort({ _id: -1 })
       .lean();
 

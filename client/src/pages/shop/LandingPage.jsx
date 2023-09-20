@@ -49,7 +49,7 @@ const LandingPage = () => {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div className="text-error">Error: {error.message}</div>;
   }
 
   return (

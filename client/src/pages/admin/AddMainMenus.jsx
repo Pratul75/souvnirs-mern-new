@@ -14,6 +14,7 @@ const AddMainMenus = () => {
   const [selectedTypeData, setSelectedTypeData] = useState([]);
   const [selectedTypeDataValue, setSelectedTypeDataValue] = useState("");
 
+  // provide headers to select from
   const getAllMenuHeaderTitles = async () => {
     const response = await API_WRAPPER.get("/menu");
     if (response?.status === 200) {
@@ -41,8 +42,10 @@ const AddMainMenus = () => {
       // TODO: Handle page API call
     }
   };
+
   const navigate = useNavigate();
   console.log("AddMainMenus.jsx", selectedTypeDataValue);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setMainMenuData((prevData) => ({ ...prevData, [name]: value }));
@@ -70,6 +73,10 @@ const AddMainMenus = () => {
   useEffect(() => {
     handleApiCalls();
   }, [mainMenuData.type]);
+
+  useEffect(() => {
+    console.log("MAIN MENU DATA: ", mainMenuData);
+  }, [mainMenuData]);
 
   return (
     <div>
@@ -126,6 +133,19 @@ const AddMainMenus = () => {
                   onChange={(e) => handleInputChange(e)}
                 />
               </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Main Menu Position</span>
+                </label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  name="position"
+                  id=""
+                  onChange={(e) => handleInputChange(e)}
+                />
+              </div>
+
               <div className="mt-4 w-[200px] form-control">
                 <label className="label">
                   <span className="label-text">Link</span>
@@ -165,6 +185,18 @@ const AddMainMenus = () => {
                   type="text"
                   name="title"
                   id="subMenuTitle"
+                />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Main Menu Position</span>
+                </label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  name="position"
+                  id=""
+                  onChange={(e) => handleInputChange(e)}
                 />
               </div>
               <div className="form-control">

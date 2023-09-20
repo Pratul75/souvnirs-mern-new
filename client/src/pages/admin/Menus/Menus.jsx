@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { Header, ReusableTable } from "../../../components";
 import { useMemo } from "react";
@@ -7,12 +7,12 @@ import useMenus from "./useMenus";
 
 const Menus = () => {
   const {
-    extractedMenuData,
     handleDelete,
     handleEditMenu,
     handleEditModal,
     setEditedMenu,
     setSelectedRow,
+    extractedMenuData,
     menuData,
     menuToBeEdited,
   } = useMenus();

@@ -25,6 +25,8 @@ const ShopNavbar = () => {
   };
 
   const renderSubMenuItems = (menuData) => {
+    menuData?.sort((a, b) => (a.position || 0) - (b.position || 0));
+
     return menuData?.map((menuItem) => {
       if (menuItem.submenus && menuItem.submenus.length > 0) {
         return (
