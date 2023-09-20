@@ -40,6 +40,7 @@ import {
   AddCommission,
   Advertisement,
   AdminMedia,
+  AddSubMenus,
 
   // vendor routes
   VendorDashboard,
@@ -86,7 +87,6 @@ import AddCustomer from "../pages/admin/AddCustomer/AddCustomer";
 import AddVendor from "../pages/admin/AddVendor/AddVendor";
 import AdminWishlist from "../pages/admin/Wishlist";
 import EditProduct from "../pages/admin/Dashboard/EditProduct";
-import AddSubMenus from "../pages/admin/AddSubMenus";
 import EditCategory from "../pages/EditCategory";
 import EditCustomer from "../pages/editCustomer";
 import EditCollection from "../pages/admin/EditCollection";

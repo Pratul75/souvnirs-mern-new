@@ -43,6 +43,7 @@ export { default as Commissions } from "./admin/Commissions";
 export { default as AddCommission } from "./admin/AddCommissions/AddCommission";
 export { default as Advertisement } from "./admin/Advertisement";
 export { default as AdminMedia } from "./admin/AdminMedia/AdminMedia";
+export { default as AddSubMenus } from "./admin/AddSubMenus/AddSubMenus";
 // vendor routes
 export { default as VendorDashboard } from "./vendor/VendorDashboard";
 export { default as VendorOrderManagement } from "./vendor/VendorOrderManagement";
