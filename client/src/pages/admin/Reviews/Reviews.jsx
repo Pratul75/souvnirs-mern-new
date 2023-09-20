@@ -1,5 +1,5 @@
-import { Header } from "../../components";
-import ReviewsBannerImage from "../../assets/bannerImages/reviewsImage.png";
+import { Header } from "../../../components";
+import ReviewsBannerImage from "../../../assets/bannerImages/reviewsImage.png";
 const Reviews = () => {
   return (
     <div>
