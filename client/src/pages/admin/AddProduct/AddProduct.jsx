@@ -1,177 +1,44 @@
-import { Dropzone, Header, Tabs } from "../../components";
-import { useEffect, useState } from "react";
-import API_WRAPPER from "../../api";
+import { Dropzone, Header } from "../../../components";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
-import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
-import { PATHS } from "../../Routes/paths";
-import ProductBannerImage from "../../assets/bannerImages/productManagementImage.png";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
+import ProductBannerImage from "../../../assets/bannerImages/productManagementImage.png";
 import { motion } from "framer-motion";
-import { fadeInFromLeftVariant, fadeInFromRightVariant } from "../../animation";
-import { useDispatch } from "react-redux";
-import { setProduct } from "../../features/appConfig/addProductSlice";
+import {
+  fadeInFromLeftVariant,
+  fadeInFromRightVariant,
+} from "../../../animation";
 import { GrFormClose } from "react-icons/gr";
 import Draggable from "react-draggable";
+import useAddProduct from "./useAddProduct";
 // add products
 const AddProduct = () => {
-  const navigate = useNavigate();
-  const [description, setDescription] = useState("");
-  const [categoriesList, setCategoriesList] = useState([]);
-  const [vendorsList, setVendorsList] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [formData, setFormData] = useState({});
-  const [tagValue, setTagValue] = useState("");
-  const [tagsArray, setTagsArray] = useState([]);
-  const [preview, setPreview] = useState();
-  const [foregroundWidth, setForegroundWidth] = useState(100); // default width
-  const [foregroundHeight, setForegroundHeight] = useState(100); // default height
-  const [selectedShape, setSelectedShape] = useState("square"); // default shape is "Square"
-  const [foregroundX, setForegroundX] = useState(0);
-  const [foregroundY, setForegroundY] = useState(0);
-
-  const handleDrag = (e, data) => {
-    const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
-    const newX = Math.floor((data.x / parentElement.clientWidth) * 100);
-    const newY = Math.floor((data.y / parentElement.clientHeight) * 100);
-
-    setForegroundX(newX);
-    setForegroundY(newY);
-
-    // TODO: Update the formData object with the new values and store in db
-    setFormData((prevData) => ({
-      ...prevData,
-      customization: {
-        xAxis: newX,
-        yAxis: newY,
-        height: foregroundHeight,
-        width: foregroundWidth,
-      },
-    }));
-  };
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log("PRODUCT FORM DATA: ", formData);
-  }, [formData]);
-  // get all categories
-  const getAllCategories = async () => {
-    try {
-      const response = await API_WRAPPER.get("/category/get-all-categories");
-      if (response.status === 200) {
-        setCategoriesList(response?.data);
-      }
-    } catch (error) {
-      console.error("Error occured while getting all categories", error);
-    }
-  };
-
-  // get all vendors
-  const getAllVendors = async () => {
-    try {
-      const response = await API_WRAPPER.get("/vendors/get-vendors");
-      if (response.status === 200) {
-        setVendorsList(response?.data?.data);
-        // need to check what to be done here
-        if (vendorsList.length == 1) {
-          debouncedShowToast("vendor list is empty array", "error");
-        }
-      }
-    } catch (error) {
-      console.error("Error occured while getting all vendors", error);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      !formData.name ||
-      !description ||
-      tagsArray.length < 1 ||
-      !formData.vendorId ||
-      !preview
-    ) {
-      debouncedShowToast("Fill all required fields", "info");
-      return;
-    }
-    dispatch(
-      setProduct({
-        ...formData,
-        description,
-        tags: tagsArray,
-        customization: {
-          xAxis: foregroundX,
-          yAxis: foregroundY,
-          height: foregroundHeight,
-          width: foregroundWidth,
-        },
-      })
-    );
-    navigate(PATHS.adminAddProductAttributes);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const handleTagInputChange = (event) => {
-    setTagValue(event.target.value);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === "Enter" && tagValue.trim() !== "") {
-      setTagsArray([...tagsArray, tagValue.trim()]);
-      setTagValue("");
-    }
-  };
-
-  const removeTag = (tagToRemove) => {
-    const filteredTags = tagsArray.filter((tag) => tag !== tagToRemove);
-    setTagsArray(filteredTags);
-  };
-
-  const handleForegroundWidthChange = (e) => {
-    const newWidth = parseInt(e.target.value);
-    const img = new Image();
-    img.src = preview;
-
-    img.onload = () => {
-      const maxWidth = img.naturalWidth;
-
-      if (newWidth <= maxWidth) {
-        setForegroundWidth(newWidth);
-
-        // Update the formData object with the new width
-        setFormData((prevData) => ({
-          ...prevData,
-          foregroundWidth: newWidth,
-        }));
-      } else {
-        setForegroundWidth(maxWidth);
-        setFormData((prevData) => ({
-          ...prevData,
-          foregroundWidth: maxWidth,
-        }));
-      }
-    };
-  };
-
-  useEffect(() => {
-    getAllCategories();
-    getAllVendors();
-  }, []);
-  useEffect(() => {}, [selectedCategory]);
-  useEffect(() => {
-    if (formData.img) {
-      const imageUrl = URL.createObjectURL(formData.img);
-      setPreview(imageUrl);
-    }
-  }, [formData.img]);
-
+  const {
+    description,
+    foregroundHeight,
+    foregroundWidth,
+    foregroundX,
+    foregroundY,
+    formData,
+    preview,
+    selectedShape,
+    tagValue,
+    tagsArray,
+    vendorsList,
+    handleDrag,
+    handleForegroundWidthChange,
+    handleInputChange,
+    handleKeyDown,
+    handleSubmit,
+    handleTagInputChange,
+    removeTag,
+    setDescription,
+    setForegroundHeight,
+    setFormData,
+    setSelectedShape,
+  } = useAddProduct();
   return (
     <div>
       <Header

@@ -27,7 +27,7 @@ export { default as Reviews } from "./admin/Reviews";
 export { default as Shipments } from "./admin/Shipments";
 export { default as Vendor } from "./admin/Vendor";
 export { default as Support } from "./admin/Support";
-export { default as AddProduct } from "./admin/AddProduct";
+export { default as AddProduct } from "./admin/AddProduct/AddProduct";
 export { default as AddCategory } from "./admin/AddCategory/AddCategory";
 export { default as AddAttributes } from "./admin/AddAttributes/AddAttributes";
 export { default as Attribute } from "./admin/AttributesPage/Attribute";
