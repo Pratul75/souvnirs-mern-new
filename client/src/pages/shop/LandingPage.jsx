@@ -43,7 +43,7 @@ const LandingPage = () => {
     isLoading,
     error,
   } = useQuery("get-all-products", fetchAllProducts, {
-    cacheTime: 30000,
+    cacheTime: 120000,
     staleTime: 50000,
     onSuccess: () =>
       debouncedShowToast("Products fetched successfully", "success"),
