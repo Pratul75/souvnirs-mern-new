@@ -34,7 +34,7 @@ import GiftOne from "../../assets/shop/productImages/giftOne.png";
 import GiftTwo from "../../assets/shop/productImages/giftTwo.png";
 import GiftThree from "../../assets/shop/productImages/giftThree.png";
 import TabContent from "../../components/shop/components/TabContent";
-import { selectRandomValues } from "../../utils";
+import { debouncedShowToast, selectRandomValues } from "../../utils";
 
 // landing page
 const LandingPage = () => {
@@ -42,7 +42,12 @@ const LandingPage = () => {
     data: productsList,
     isLoading,
     error,
-  } = useQuery("get-all-products", fetchAllProducts);
+  } = useQuery("get-all-products", fetchAllProducts, {
+    cacheTime: 30000,
+    staleTime: 50000,
+    onSuccess: () =>
+      debouncedShowToast("Products fetched successfully", "success"),
+  });
 
   if (isLoading) {
     return (
