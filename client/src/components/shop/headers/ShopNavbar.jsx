@@ -12,7 +12,11 @@ const ShopNavbar = () => {
   // get category data
   const { data: categoryData } = useQuery(
     "get-category-data",
-    fetchCategoryData
+    fetchCategoryData,
+    {
+      cacheTime: 120000,
+      staleTime: 60000,
+    }
   );
 
   const onClick = (e) => {
