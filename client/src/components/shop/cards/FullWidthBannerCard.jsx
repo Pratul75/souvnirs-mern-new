@@ -11,7 +11,7 @@ const FullWidthBannerCard = ({
   return (
     <ScrollAnimationWrapper>
       <div className="flex flex-col w-full justify-start md:justify-center mt-5  ">
-        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 flex flex-row items-center justify-between">
+        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 flex flex-row items-center justify-center">
           <div className="hidden md:flex">
             <img className="object-contain" src={imageOne} alt="" />
           </div>

@@ -41,6 +41,7 @@ import {
   Advertisement,
   AdminMedia,
   AddSubMenus,
+  AddProductToCollection,
 
   // vendor routes
   VendorDashboard,
@@ -403,6 +404,12 @@ export const adminRoutes = [
     id: nanoid(),
     path: PATHS.adminAddCommission,
     Component: AddCommission,
+    defaultRole: "admin",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.adminAddProductToCollection,
+    Component: AddProductToCollection,
     defaultRole: "admin",
   },
 ];

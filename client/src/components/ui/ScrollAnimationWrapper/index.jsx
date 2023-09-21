@@ -5,7 +5,7 @@ const ScrollAnimationWrapper = (props) => {
   const { children } = props;
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.8, // Adjust this threshold as needed
+    threshold: 0.3, // Adjust this threshold as needed
   });
 
   const variants = {

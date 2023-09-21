@@ -6,6 +6,7 @@ import {
   ShopNavbar,
 } from "../components";
 
+// shop layout
 const ShopLayout = ({ children }) => {
   return (
     <div className="overflow-x-hidden">

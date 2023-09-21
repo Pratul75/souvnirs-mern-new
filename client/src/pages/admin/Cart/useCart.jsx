@@ -11,6 +11,7 @@ function useCart() {
   const handleEditChange = (e) => {
     setEditedCart({ ...editedCart, [e.target.name]: e.target.value });
   };
+
   const onHandleSubmit = async (e) => {
     e.preventDefault();
     try {

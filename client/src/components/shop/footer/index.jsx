@@ -7,11 +7,10 @@ const Footer = () => {
   return (
     <footer className="bg-[#252525] mt-4 ">
       <div className="mx-4 grid grid-cols-4 py-8">
-        <div className=" col=span-4 md:col-span-1 p-4">
+        <div className="col-span-4 md:col-span-1 p-4 flex justify-center md:block ">
           <img className="w-52" src={SouvnirsLogo} alt="" />
         </div>
-
-        <div className=" col=span-4 md:col-span-1 text-gray-400">
+        <div className=" col-span-4 md:col-span-1 text-gray-400">
           <h2 className="text-2xl my-4 text-white">Our Policies</h2>
           <ul className="flex flex-col gap-4">
             <li className="hover:text-white cursor-pointer">
@@ -26,7 +25,7 @@ const Footer = () => {
             <li className="hover:text-white cursor-pointer">Buyer Agreement</li>
           </ul>
         </div>
-        <div className=" col=span-4 md:col-span-1 text-gray-400">
+        <div className=" col-span-4 md:col-span-1 text-gray-400">
           <h2 className="text-2xl my-4 text-white">Quick Links</h2>
           <ul className="flex flex-col gap-4">
             <li className="hover:text-white cursor-pointer">Tracking Order</li>
@@ -35,7 +34,7 @@ const Footer = () => {
             <li className="hover:text-white cursor-pointer">FAQ</li>
           </ul>
         </div>
-        <div className=" col=span-4 md:col-span-1 mt-3">
+        <div className=" col-span-4 md:col-span-1 mt-8 md:mt-3">
           <h2 className="text-2xl text-white">Contact Us</h2>
           <div className="flex items-center gap-2">
             <BsPhone className="text-3xl text-orange-500" />
@@ -44,7 +43,7 @@ const Footer = () => {
               <span className="text-orange-500">contact@souvnirs.com</span>
             </span>
           </div>
-          <div className="my-4">
+          <div className="mt-8">
             <h2 className="text-white text-2xl">Address</h2>
             <div className="flex items-center gap-2">
               <CiLocationOn className="text-6xl text-orange-500" />
@@ -58,7 +57,7 @@ const Footer = () => {
       </div>
       <div className="text-white border-t border-gray-500 py-8">
         <div className="flex flex-col justify-center items-center gap-4">
-          <h2 className="text-gray-400">
+          <h2 className="text-gray-400 text-center">
             Our Stores / Shipping / Payments / Checkout / Discount / Terms &
             Conditions / Policy Shipping / Returns / Refunds
           </h2>

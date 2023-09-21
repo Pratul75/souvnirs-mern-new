@@ -12,10 +12,10 @@ const HeaderCards = ({
   secondaryHeadingOne,
   secondaryHeadingTwo,
   secondarySubHeadingOne,
+  secondaryImageOne,
   tertioryHeadingOne,
   tertioryHeadingTwo,
   tertiorySubHeading,
-  secondaryImageOne,
   productImgOne,
   productImageTwo,
   productImageThree,
@@ -31,16 +31,14 @@ const HeaderCards = ({
         >
           <img className="w-full h-full rounded-xl " src={mainImage} alt="" />
           <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
-            <div className="flex flex-col items-center md:items-start justify-center w-96">
+            <div className="flex flex-col items-center md:items-start justify-center md:w-96">
               <h2 className="text-white text-2xl md:text-5xl font-bold">
                 {mainHeading}
               </h2>
               <h3 className="text-white text-2xl md:text-4xl font-bold">
                 {mainHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal leading-[33.75px]">
-                {mainSubHeading}
-              </h6>
+              <h6 className="text-white font-normal">{mainSubHeading}</h6>
               <Link to={"/productInfo/5e76ef16"} className="btn mt-4 ">
                 <span className="font-semibold">Shop Now</span>{" "}
                 <BsArrowRight className="text-lg font-bold" />
@@ -49,7 +47,7 @@ const HeaderCards = ({
             <div className="">
               <img
                 src={productImgOne}
-                className=" md:absolute md:right-10 top-10 h-3/4"
+                className=" md:absolute md:right-10 top-10 md:h-3/4"
                 alt=""
               />
             </div>
@@ -68,25 +66,25 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-lg md:text-xl font-bold">
+              <h2 className="text-white text-sm md:text-lg font-bold">
                 {secondaryHeadingOne}
               </h2>
               <h3 className="text-white text-lg md:text-xl font-bold">
                 {secondaryHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal my-2">
+              <h6 className="text-white text-xs md:text-md font-normal my-2">
                 {secondarySubHeadingOne}
               </h6>
 
               <Link
                 to={`/collection/Electronics%20Accessories`}
-                className="btn"
+                className="md:btn-md btn btn-xs"
               >
                 <span className="font-semibold text-black">Shop Now</span>{" "}
-                <BsArrowRight className="text-xl text-black" />
+                <BsArrowRight className="text-xl text-black hidden md:block" />
               </Link>
             </div>
-            <div>
+            <div className="w-full lg:w-2/3">
               <img src={productImageTwo} alt="" />
             </div>
           </div>
@@ -104,22 +102,25 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-lg md:text-xl font-bold">
+              <h2 className="text-white text-sm md:text-lg font-bold">
                 {tertioryHeadingOne}
               </h2>
               <h3 className="text-white text-lg md:text-xl font-bold">
                 {tertioryHeadingTwo}
               </h3>
-              <h6 className="text-white marker:text-lg font-normal my-2">
+              <h6 className="text-white text-xs md:text-md font-normal">
                 {tertiorySubHeading}
               </h6>
 
-              <Link to={"/productInfo/15b3dae3"} className="btn">
-                <span className="font-semibold text-black">Shop Now</span>
-                <BsArrowRight className="text-xl text-black" />
+              <Link
+                to={"/productInfo/15b3dae3"}
+                className="btn btn-xs mt-4 md:btn-md md:mt-2"
+              >
+                <span className="font-semibold text-black ">Shop Now</span>
+                <BsArrowRight className="text-xl text-black hidden md:block" />
               </Link>
             </div>
-            <div>
+            <div className="w-full lg:w-2/3">
               <img src={productImageThree} alt="" />
             </div>
           </div>

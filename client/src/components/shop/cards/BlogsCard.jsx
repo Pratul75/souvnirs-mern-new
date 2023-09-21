@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import { IoCalendarOutline } from "react-icons/io5";
 import { AiOutlineCalendar, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
@@ -15,7 +14,7 @@ const BlogsCard = ({
   return (
     <Link
       to={PATHS.blogs}
-      className="overflow-hidden shadow transition hover:shadow-lg md:mt-16 mt-8 cursor-pointer col-span-3 md:col-span-1 p-4 border rounded-xl"
+      className="overflow-hidden shadow transition hover:shadow-lg md:mt-16 mt-8 cursor-pointer col-span-4 md:col-span-1 p-4 border rounded-xl"
     >
       <img
         alt="Office"

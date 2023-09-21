@@ -36,6 +36,7 @@ const addMedias = async (req, res) => {
 
   res.status(200).json(urls.length);
 };
+
 const getAllMedia = async (req, res) => {
   let medias;
   if (req.role === "admin") {
@@ -521,7 +522,13 @@ const getProductsByCollectionSlug = async (req, res) => {
 
   const lastPage = Math.ceil(filteredProducts.length / 10);
 
-  const finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
+  let finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
+  console.log("++++", req?.body?.data?.values);
+  if (req?.body?.data.length == 0) {
+    finalProducts = products;
+  } else {
+    finalProducts = finalProducts;
+  }
 
   res
     .status(200)
@@ -717,7 +724,7 @@ const getProducts = async (req, res) => {
   try {
     // Extract pagination parameters from the request (e.g., page and limit)
     const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
-    const limit = 100; // Number of products per page
+    const limit = 30; // Number of products per page
 
     // Calculate the number of documents to skip
     const skip = (page - 1) * limit;

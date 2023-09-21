@@ -59,7 +59,7 @@ export { default as vendorAddProduct } from "./vendor/VendorAddProduct";
 export { default as VendorAddProductAttributes } from "./vendor/VendorAddProductAttributes";
 export { default as VendorEditProduct } from "./vendor/VendorEditProduct";
 export { default as VendorEditProductAttributes } from "./vendor/VendorEditProductAttributes";
-
+export { default as AddProductToCollection } from "./admin/AddProductToCollection/AddProductToCollection";
 // customer routes
 export { default as CustomerDashboard } from "./customer/CustomerDashboard";
 export { default as CustomerCartList } from "./customer/CustomerCartList";

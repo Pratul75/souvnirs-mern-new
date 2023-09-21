@@ -7,12 +7,13 @@ import {
 } from "../../../animation";
 import useAddCommissions from "./useAddCommissions";
 import { ToastContainer } from "react-toastify";
+
 const AddCommissions = () => {
   const {
     categories,
+    selectedCategory,
     handleCategorySelect,
     handleSubmit,
-    selectedCategory,
     setCommissionType,
     setCommissionTypeValue,
   } = useAddCommissions();

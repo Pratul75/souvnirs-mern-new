@@ -59,6 +59,7 @@ export const PATHS = {
   adminAddCommission: "/admin/commissions/add-commission",
   adminCommissions: "/admin/commissions",
   adminAdvertisements: "/admin/advertisements",
+  adminAddProductToCollection: "/admin/collection/add_product_to_collection",
   // vendor routes
   vendorDashboard: "/vendor/dashboard",
   vendorProductManagement: "/vendor/product-management",

@@ -5,16 +5,18 @@ import { ToastContainer } from "react-toastify";
 
 import CollectionBannerImage from "../../../assets/bannerImages/collectionImage.png";
 import { useCollection } from "./useCollection";
+import DeleteCollectionModal from "./DeleteCollectionModal";
+
 const Collection = () => {
   const {
     columns,
     data,
+    selectedRow,
     getFlatRowsData,
     handleDelete,
     handleDeleteSubmit,
     handleEdit,
     handleEditChange,
-    selectedRow,
     submitEditedRow,
   } = useCollection();
 
@@ -29,6 +31,12 @@ const Collection = () => {
         <div className="flex justify-end my-4">
           <Link to={PATHS.adminAddCollection} className="btn btn-primary w-48">
             Add Collections
+          </Link>
+          <Link
+            to={PATHS.adminAddProductToCollection}
+            className="btn btn-primary ml-4"
+          >
+            Add Product to collection
           </Link>
         </div>
         <ReusableTable
@@ -118,26 +126,9 @@ const Collection = () => {
           </div>
         </form>
       </dialog>
+      {/* delete collection modal */}
+      <DeleteCollectionModal deleteHandler={handleDeleteSubmit} />
 
-      {/* delete modal */}
-      <dialog id="collection_delete_modal" className="modal">
-        <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Are you sure you want to delete the selected collection?
-          </p>
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            <button
-              onClick={() => handleDeleteSubmit()}
-              className="btn btn-error"
-            >
-              Delete
-            </button>
-            <button className="btn">Close</button>
-          </div>
-        </form>
-      </dialog>
       <ToastContainer />
     </div>
   );

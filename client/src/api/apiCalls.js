@@ -23,3 +23,7 @@ export const fetchCategoryData = () => {
 export const fetchAllProducts = () => {
   return API_WRAPPER.get("products/get-all-products");
 };
+
+export const fetchAllCollections = () => {
+  return API_WRAPPER.get("/collection/get-all-collections");
+};

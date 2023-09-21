@@ -178,7 +178,8 @@ const Checkout = () => {
                   {items && items.length > 0
                     ? items.reduce((total, item) => {
                         return (
-                          total + item.product_quantity * +item.product_id.price
+                          total +
+                          item?.product_quantity * +item?.product_id?.price
                         );
                       }, 0)
                     : 0}
@@ -327,7 +328,7 @@ const Checkout = () => {
           <div className="col-span-3 p-4 bg-base-200 rounded-xl">
             <h1 className="font-semibold my-4">Payment Options</h1>
             <div className="collapse bg-base-100 mt-4">
-              <input type="checkbox" />
+              <input className="checkbox-primary" type="checkbox" />
               <div className="collapse-title text-xl font-medium gap-4 flex items-center">
                 <input
                   className="radio radio-primary"

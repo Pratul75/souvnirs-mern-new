@@ -148,3 +148,20 @@ export const findMinMaxPrice = (data) => {
   console.log("PRICE MIN MAX VALUE: ", result);
   return result;
 };
+
+export function selectRandomValues(arr, numValues = 4) {
+  if (numValues >= arr.length) {
+    return arr.slice(); // Return a copy of the entire array if numValues is greater or equal to the array length.
+  }
+
+  const selectedValues = [];
+  const arrCopy = arr.slice(); // Create a copy of the input array to avoid modifying the original.
+
+  for (let i = 0; i < numValues; i++) {
+    const randomIndex = Math.floor(Math.random() * arrCopy.length);
+    const randomValue = arrCopy.splice(randomIndex, 1)[0]; // Remove the selected value from the copy.
+    selectedValues.push(randomValue);
+  }
+
+  return selectedValues;
+}

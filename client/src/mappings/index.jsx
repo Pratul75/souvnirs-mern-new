@@ -437,7 +437,29 @@ export const gradiantCardListCardData = [
 
 // TODO: need to convert all items into components
 export const caroselMapppingDailyDeals = [
-  <div className="flex gap-4 p-6 bg-base-100 " key={nanoid()}>
+  <div
+    className="flex flex-col md:flex-row gap-4 p-6 bg-base-100 "
+    key={nanoid()}
+  >
+    <div className="flex item-center justify-center w-full">
+      <div className="p-4">
+        <TimerComponent date={"2023-10-01"} />
+        <h3>Headphones Supersonic New Adi</h3>
+        <div className="flex justify-between items-center">
+          <h4 className="font-semibold text-2xl text-shopPrimaryColor">₹249</h4>
+          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
+            <ShopIcon />
+          </div>
+        </div>
+        <Ratings rating={3.5} />
+      </div>
+    </div>
+    <img className=" aspect-square" src={GiftOnePng} alt="" />
+  </div>,
+  <div
+    className="flex flex-col md:flex-row  gap-4 p-6 bg-base-100 "
+    key={nanoid()}
+  >
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-10-01"} />
@@ -454,24 +476,10 @@ export const caroselMapppingDailyDeals = [
     </div>
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
-  <div className="flex  gap-4 p-6 bg-base-100 " key={nanoid()}>
-    <div className="flex item-center justify-center w-full">
-      <div className="p-4">
-        <TimerComponent date={"2023-10-01"} />
-        <h3>Headphones Supersonic New Adi</h3>
-        <div className="flex justify-between items-center">
-          <h4 className="font-semibold text-2xl text-shopPrimaryColor">₹249</h4>
-          <div className="cursor-pointer border p-2 rounded-full w-16 flex justify-center items-center ">
-            <ShopIcon />
-          </div>
-        </div>
-        <Ratings rating={3.5} />
-      </div>
-      <div></div>
-    </div>
-    <img className=" aspect-square" src={GiftOnePng} alt="" />
-  </div>,
-  <div className="flex gap-4 p-6 bg-base-100 " key={nanoid()}>
+  <div
+    className="flex flex-col md:flex-row gap-4 p-6 bg-base-100 "
+    key={nanoid()}
+  >
     <div className="flex item-center justify-center w-full">
       <div className="p-4">
         <TimerComponent date={"2023-10-01"} />

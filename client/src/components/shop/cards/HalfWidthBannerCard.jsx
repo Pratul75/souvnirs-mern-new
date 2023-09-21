@@ -1,6 +1,6 @@
-import { BsArrowRightShort } from "react-icons/bs";
 import PropTypes from "prop-types";
 import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
+
 const HalfWidthBannerCard = ({
   backgroundImageOne,
   backgroundImageTwo,
@@ -39,12 +39,12 @@ const HalfWidthBannerCard = ({
 
       <ScrollAnimationWrapper>
         <div className="flex-1 md:col-span-1 relative">
-          <img className="rounded-xl w-full" src={backgroundImageOne} alt="" />
+          <img className="rounded-xl w-full" src={backgroundImageTwo} alt="" />
           <div className="inset-0 absolute flex justify-between items-center px-4 md:px-16">
             <div className="flex flex-col  justify-center">
               <h1 className="text-sm md:text-2xl">{headingTwo}</h1>
               <h2 className=" text-sm md:text-[60px]  font-bold  md:leading-[60px]">
-                {cardTitleOne.toUpperCase()}
+                {cardTitleTwo.toUpperCase()}
               </h2>
             </div>
             <img
@@ -52,7 +52,7 @@ const HalfWidthBannerCard = ({
               style={{
                 mixBlendMode: "multiply",
               }}
-              src={productImageOne}
+              src={productImageTwo}
               alt=""
             />
           </div>

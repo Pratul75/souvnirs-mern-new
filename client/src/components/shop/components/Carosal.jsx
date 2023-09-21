@@ -3,7 +3,7 @@ import ProductCard from "../cards/ProductCard";
 import { nanoid } from "nanoid";
 
 const Carosal = ({ productList }) => (
-  <Carousel autoplay className="my-8">
+  <Carousel autoplay className="my-8 hidden">
     <div>
       <h3 className="flex gap-4">
         {productList?.data?.slice(0, 5)?.map((product) => {
