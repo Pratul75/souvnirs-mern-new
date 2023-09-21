@@ -51,8 +51,7 @@ const ShopNavbar = () => {
                       <Menu.Item key={childItem._id}>
                         <button
                           onClick={() => {
-                            navigate(`/${childItem.link} `);
-                            window.location.reload();
+                            navigate(`/${childItem.link}`);
                           }}
                           // to={`${window.location.origin}/${childItem.link}`}
                         >
@@ -66,8 +65,8 @@ const ShopNavbar = () => {
                   <Menu.Item className="cursor-pointer" key={submenuItem._id}>
                     <button
                       onClick={() => {
-                        navigate(`/${submenuItem.link} `);
-                        window.location.reload();
+                        navigate(`/${submenuItem.link}`);
+                        // window.location.reload();
                       }}
                       // to={`${window.location.origin}/${childItem.link}`}
                     >
