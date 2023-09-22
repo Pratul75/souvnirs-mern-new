@@ -9,6 +9,9 @@ import { nanoid } from "nanoid";
 import Axios from "axios";
 import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { AiOutlineHome } from "react-icons/ai";
+
 const Checkout = () => {
   const [items, setItems] = useState();
   const [address, setAddress] = useState();
@@ -21,11 +24,15 @@ const Checkout = () => {
     console.log(response);
     setItems(response.data);
   };
+
+  // fetch all addresses
   const getAddresses = async () => {
     const response = await API_WRAPPER.get("/getCustomerAddress");
     console.log(response);
     setAddresses(response.data);
   };
+
+  // adding address api call
   const addAddress = async (e) => {
     e.preventDefault();
     const response = await API_WRAPPER.post("/addCustomerAddress", address);
@@ -34,6 +41,7 @@ const Checkout = () => {
     address_modal.close();
   };
 
+  // handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setAddress((prev) => ({ ...prev, [name]: value }));
@@ -46,7 +54,6 @@ const Checkout = () => {
   useEffect(() => {
     getAddresses();
   }, [apiTrigger]);
-  console.log("Checkout.jsx", address);
 
   const paymentHandler = async (e) => {
     e.preventDefault();
@@ -55,7 +62,7 @@ const Checkout = () => {
     const { data } = response;
     const options = {
       key: "rzp_live_80LvVdqLPUaiKR",
-      name: "Souvnirs",
+      name: "Souvnirs Bulk Gifting",
       description: "Some Description",
       order_id: data.id,
       handler: async (response) => {
@@ -85,8 +92,8 @@ const Checkout = () => {
       />
 
       <div className="my-8">
-        <div className="grid grid-cols-4 gap-4 mt-4">
-          <div className="col-span-4 md:col-span-3 bg-base-200 p-4 rounded-xl">
+        <div className="grid grid-cols-4 gap-4 mt-4 ">
+          <div className="col-span-4 md:col-span-3 bg-base-200 p-4 px-8 rounded-xl">
             <h1 className="font-semibold text-2xl my-4">Delivery Address</h1>
             <div>
               <button
@@ -104,6 +111,20 @@ const Checkout = () => {
                 {showAddress ? "Hide Addresses" : "Show Addresses"}
               </button>
             </div>
+            {!showAddress && (
+              <p className="my-4 text-sm">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
+                cupiditate dolores saepe nihil labore, illum quaerat porro
+                magnam aliquam eius at tenetur rem doloremque repudiandae in
+                itaque aspernatur odit quae doloribus dolor perferendis laborum
+                provident laboriosam vero? Harum, repellendus aliquid. Totam sed
+                voluptate quis id cupiditate facere voluptates aliquid quam
+                molestias, nostrum adipisci maiores natus culpa, nisi, deleniti
+                inventore quos. Aperiam totam delectus obcaecati quis est
+                repellendus incidunt fugit voluptate alias nisi accusamus
+                deserunt.
+              </p>
+            )}
             {showAddress && (
               <motion.div
                 initial="initial"
@@ -209,28 +230,36 @@ const Checkout = () => {
             <h1 className=" font-semibold my-4">Delivery Options </h1>
             <div className="flex gap-4">
               <div className="bg-base-100 rounded-xl w-full p-4">
-                <div className="form-control flex flex-row items-center gap-4">
-                  <input
-                    type="radio"
-                    className="radio radio-primary"
-                    name="deliveryOptions"
-                  />
-                  <label className="label">
-                    <span className="label-text">
+                <div className="form-control flex flex-row items-center justify-between gap-4">
+                  <div className="flex justify-between items-center">
+                    <input
+                      type="radio"
+                      className="radio radio-primary"
+                      name="deliveryOptions"
+                    />
+                    <span className="label-text ml-4">
                       Standard Delivery Options
                     </span>
+                  </div>
+                  <label className="label ">
+                    <CiDeliveryTruck color="gray" size={35} />
                   </label>
                 </div>
               </div>
               <div className="bg-base-100 rounded-xl w-full p-4">
-                <div className="form-control flex flex-row items-center gap-4">
-                  <input
-                    type="radio"
-                    className="radio radio-primary"
-                    name="deliveryOptions"
-                  />
-                  <label className="label">
-                    <span className="label-text">Future Delivery Options</span>
+                <div className="form-control flex flex-row items-center justify-between gap-4">
+                  <div className="flex justify-between items-center">
+                    <input
+                      type="radio"
+                      className="radio radio-primary"
+                      name="deliveryOptions"
+                    />
+                    <span className="label-text ml-4">
+                      Future Delivery Options
+                    </span>
+                  </div>
+                  <label className="label ">
+                    <AiOutlineHome color="gray" size={35} />
                   </label>
                 </div>
               </div>
@@ -349,8 +378,8 @@ const Checkout = () => {
               </div>
             </Card>
           </dialog>
-
-          <div className="col-span-4 md:col-span-3 p-4 bg-base-200 rounded-xl">
+          {/* not neeeded as payment is taken care by razor pay */}
+          {/* <div className="col-span-4 md:col-span-3 p-4 bg-base-200 rounded-xl">
             <h1 className="font-semibold my-4">Payment Options</h1>
             <div className="collapse bg-base-100 mt-4">
               <input className="checkbox-primary" type="checkbox" />
@@ -406,7 +435,7 @@ const Checkout = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
