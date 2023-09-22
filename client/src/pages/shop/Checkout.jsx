@@ -15,6 +15,7 @@ const Checkout = () => {
   const [addresses, setAddresses] = useState();
   const [apiTrigger, setApiTrigger] = useState(false);
   const [showAddress, setshowAddress] = useState(false);
+
   const getCheckedOutItems = async () => {
     const response = await API_WRAPPER.get("/checkedout");
     console.log(response);
@@ -85,7 +86,7 @@ const Checkout = () => {
 
       <div className="my-8">
         <div className="grid grid-cols-4 gap-4 mt-4">
-          <div className="col-span-3 bg-base-200 p-4 rounded-xl">
+          <div className="col-span-4 md:col-span-3 bg-base-200 p-4 rounded-xl">
             <h1 className="font-semibold text-2xl my-4">Delivery Address</h1>
             <div>
               <button
@@ -149,7 +150,7 @@ const Checkout = () => {
               </motion.div>
             )}
           </div>
-          <div className="col-span-1 bg-base-200 p-4 rounded-xl">
+          <div className="col-span-4 md:col-span-1 bg-base-200 p-4 rounded-xl">
             <div className="py-4">
               <h4>Order Summary</h4>
               <hr className="my-4" />
@@ -165,7 +166,7 @@ const Checkout = () => {
                       </span>
                       <span className="text-sm">
                         {" "}
-                        ${item.product_quantity * item?.product_id?.price}
+                        ₹{item.product_quantity * item?.product_id?.price}
                       </span>
                     </div>
                   ))}
@@ -188,9 +189,9 @@ const Checkout = () => {
               </div>
               <hr className="my-4" />
               <div className="my-4 flex justify-between">
-                <span className="text-sm font-semibold">Total (USD)</span>
+                <span className="text-sm font-semibold">Total (Rupees)</span>
                 <span className="text-sm font-semibold">
-                  $
+                  ₹
                   {items && items.length > 0
                     ? items.reduce((total, item) => {
                         return (
@@ -204,7 +205,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="col-span-3 p-4 bg-base-200 rounded-xl">
+          <div className="col-span-4 md:col-span-3 p-4 bg-base-200 rounded-xl">
             <h1 className=" font-semibold my-4">Delivery Options </h1>
             <div className="flex gap-4">
               <div className="bg-base-100 rounded-xl w-full p-4">
@@ -236,7 +237,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <div className="col-span-1 p-4 bg-base-200 rounded-xl">
+          <div className="col-span-4 md:col-span-1 p-4 bg-base-200 rounded-xl">
             <h2 className="text-sm flex gap-4">
               <BiSolidOffer className="text-2xl" />
               Available Offers
@@ -349,7 +350,7 @@ const Checkout = () => {
             </Card>
           </dialog>
 
-          <div className="col-span-3 p-4 bg-base-200 rounded-xl">
+          <div className="col-span-4 md:col-span-3 p-4 bg-base-200 rounded-xl">
             <h1 className="font-semibold my-4">Payment Options</h1>
             <div className="collapse bg-base-100 mt-4">
               <input className="checkbox-primary" type="checkbox" />

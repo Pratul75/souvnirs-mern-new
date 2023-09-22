@@ -11,7 +11,7 @@ const ShopLayout = ({ children }) => {
   return (
     <div className="overflow-x-hidden">
       <TopHeader
-        heading="World Wide Completely Free Returns and Free Shipping"
+        heading="We in Souvnirs offer World Wide Completely Free Returns and Free Shipping on bulk orders"
         language="English"
         currency="INR"
       />

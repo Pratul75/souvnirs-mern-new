@@ -291,6 +291,7 @@ const ProductInfo = () => {
       behavior: "smooth", // Optional: Add smooth scrolling animation
     });
   }, []);
+
   useEffect(() => {
     // Set the slug parameter from the URL
     setSlug(params.slug);
@@ -349,17 +350,15 @@ const ProductInfo = () => {
               <div>
                 <div className="flex flex-col">
                   <div className="flex flex-col w-full relative">
-                    <div className="flex justify-between   items-center w-full">
+                    <div className="flex justify-between w-96">
                       <h1 className="font-bold text-2xl">{product?.name}</h1>
                       {product?.customization && (
-                        <>
-                          <label
-                            htmlFor="customize_drawer"
-                            className="btn btn-primary drawer-button"
-                          >
-                            Customize
-                          </label>
-                        </>
+                        <label
+                          htmlFor="customize_drawer"
+                          className="btn btn-primary drawer-button"
+                        >
+                          Customize
+                        </label>
                       )}
                     </div>
                     <br />
@@ -391,13 +390,11 @@ const ProductInfo = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="flex gap-4 my-2">
-                    <Ratings rating={3} />
+                    <Ratings rating={4.5} />
                     <p>(1 Review)</p>
                   </div>
                 </div>
-
                 <div className="my-5">
                   <button
                     className="btn btn-primary w-full p-2 "

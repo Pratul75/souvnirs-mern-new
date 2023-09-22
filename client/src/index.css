@@ -180,3 +180,35 @@ body.sidebar-closed {
   justify-content: center;
   align-items: center;
 }
+
+/* Add this CSS to your stylesheet or component styles */
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  white-space: nowrap;
+  animation: marquee 10s linear infinite;
+  transform: translateX(100%);
+  transition: transform 1s linear;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+  transition: transform 0.3s ease-in-out;
+}
+
+.marquee-container:hover .marquee-content:hover {
+  transform: translateX(100%);
+  animation-play-state: running;
+}
