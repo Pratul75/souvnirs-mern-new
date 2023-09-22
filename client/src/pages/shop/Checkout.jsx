@@ -7,12 +7,14 @@ import { Card } from "../../components";
 import { RxCross2 } from "react-icons/rx";
 import { nanoid } from "nanoid";
 import Axios from "axios";
-
+import { motion } from "framer-motion";
+import { fadeInVariants } from "../../animation";
 const Checkout = () => {
   const [items, setItems] = useState();
   const [address, setAddress] = useState();
   const [addresses, setAddresses] = useState();
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [showAddress, setshowAddress] = useState(false);
   const getCheckedOutItems = async () => {
     const response = await API_WRAPPER.get("/checkedout");
     console.log(response);
@@ -80,58 +82,72 @@ const Checkout = () => {
         navigation={"Home/Checkout"}
         text={"Checkout"}
       />
+
       <div className="my-8">
         <div className="grid grid-cols-4 gap-4 mt-4">
           <div className="col-span-3 bg-base-200 p-4 rounded-xl">
-            <h1 className="font-semibold tect-2xl my-4">
-              Delivery Address
+            <h1 className="font-semibold text-2xl my-4">Delivery Address</h1>
+            <div>
               <button
                 onClick={() => {
                   address_modal.showModal();
                 }}
-                className="mx-5 cursor-pointer bg-gray-300 py-2 px-5 rounded-3xl"
+                className="btn btn-info"
               >
                 Add New
               </button>{" "}
-            </h1>
-            <div className="flex gap-4 flex-wrap">
-              {addresses && addresses.length > 0 ? (
-                addresses.map((a) => (
-                  <div
-                    className="flex flex-col  w-96 bg-base-100 p-4 rounded-xl"
-                    key={nanoid()}
-                  >
-                    <div className="flex justify-between">
-                      <input
-                        className="radio radio-primary mr-2"
-                        type="radio"
-                        name="address"
-                        id={a._id}
-                      />
-                      <div className="badge badge-primary">{a.type}</div>
-                    </div>
-                    <hr className="my-4" />
-                    <div className="flex flex-col">
-                      <p className="font-bold">
-                        <span>Name</span> {a.name}
-                      </p>
-                      <p>
-                        <span>Address:</span> {a.address}
-                      </p>
-                      <p>
-                        <span>City:</span> {a.city}
-                      </p>
-                      <p>
-                        <span>Pin Code:</span> {a.pin_code}
-                      </p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                // Render something else or an empty state here if there are no addresses
-                <p>No addresses available.</p>
-              )}
+              <button
+                className="btn btn-primary"
+                onClick={() => setshowAddress((prevState) => !prevState)}
+              >
+                {showAddress ? "Hide Addresses" : "Show Addresses"}
+              </button>
             </div>
+            {showAddress && (
+              <motion.div
+                initial="initial"
+                animate="animate"
+                variants={fadeInVariants}
+                className="grid gap-4 grid-cols-2 mt-8"
+              >
+                {addresses && addresses.length > 0 ? (
+                  addresses.map((a) => (
+                    <div
+                      className="col-span-1 bg-base-100 p-4 rounded-xl"
+                      key={nanoid()}
+                    >
+                      <div className="flex justify-between">
+                        <input
+                          className="radio radio-primary mr-2"
+                          type="radio"
+                          name="address"
+                          id={a._id}
+                        />
+                        <div className="badge badge-primary">{a.type}</div>
+                      </div>
+                      <hr className="my-4" />
+                      <div className="flex flex-col">
+                        <p className="font-bold">
+                          <span>Name</span> {a.name}
+                        </p>
+                        <p>
+                          <span>Address:</span> {a.address}
+                        </p>
+                        <p>
+                          <span>City:</span> {a.city}
+                        </p>
+                        <p>
+                          <span>Pin Code:</span> {a.pin_code}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  // Render something else or an empty state here if there are no addresses
+                  <p>No addresses available.</p>
+                )}
+              </motion.div>
+            )}
           </div>
           <div className="col-span-1 bg-base-200 p-4 rounded-xl">
             <div className="py-4">
