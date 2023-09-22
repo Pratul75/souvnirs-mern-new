@@ -3,6 +3,7 @@ import { AiOutlineCalendar, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 
+// other props can be filled when necessary
 const BlogsCard = ({
   blogImage,
   date,
