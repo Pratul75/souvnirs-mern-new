@@ -39,8 +39,11 @@ const HeaderCards = ({
                 {mainHeadingTwo}
               </h3>
               <h6 className="text-white font-normal">{mainSubHeading}</h6>
-              <Link to={"/productInfo/5e76ef16"} className="btn mt-4 ">
-                <span className="font-semibold">Shop Now</span>{" "}
+              <Link
+                to={"/productInfo/5e76ef16"}
+                className="btn mt-4 animate animate-bounce "
+              >
+                <span className="font-semibold ">Shop Now</span>{" "}
                 <BsArrowRight className="text-lg font-bold" />
               </Link>
             </div>
@@ -114,7 +117,7 @@ const HeaderCards = ({
 
               <Link
                 to={"/productInfo/15b3dae3"}
-                className="btn btn-xs mt-4 md:btn-md md:mt-2"
+                className="btn btn-xs mt-4 md:btn-md md:mt-2 "
               >
                 <span className="font-semibold text-black ">Shop Now</span>
                 <BsArrowRight className="text-xl text-black hidden md:block" />

@@ -1,36 +1,25 @@
-import ScrollAnimationWrapper from "../../ui/ScrollAnimationWrapper";
 import BlogsCard from "../cards/BlogsCard"; // Make sure the path is correct
 import PropTypes from "prop-types";
 
 const BlogList = ({ blogItemsData }) => {
   return (
-    <ScrollAnimationWrapper>
-      <div className="grid grid-cols-4 gap-4 mt-5">
-        {blogItemsData?.map(
-          ({
-            id,
-            blogImage,
-            date,
-            views,
-            heading,
-            paragraph,
-            buttonHandler,
-          }) => {
-            return (
-              <BlogsCard
-                key={id}
-                blogImage={blogImage}
-                buttonHandler={buttonHandler}
-                date={date}
-                views={views}
-                heading={heading}
-                paragraph={paragraph}
-              />
-            );
-          }
-        )}
-      </div>
-    </ScrollAnimationWrapper>
+    <div className="grid grid-cols-4 gap-4 mt-5">
+      {blogItemsData?.map(
+        ({ id, blogImage, date, views, heading, paragraph, buttonHandler }) => {
+          return (
+            <BlogsCard
+              key={id}
+              blogImage={blogImage}
+              buttonHandler={buttonHandler}
+              date={date}
+              views={views}
+              heading={heading}
+              paragraph={paragraph}
+            />
+          );
+        }
+      )}
+    </div>
   );
 };
 

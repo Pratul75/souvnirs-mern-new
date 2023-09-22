@@ -3,6 +3,7 @@ import { Menu, Select } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchNavbarData, fetchCategoryData } from "../../../api/apiCalls";
+import { FaWhatsapp } from "react-icons/fa";
 const ShopNavbar = () => {
   const [current, setCurrent] = useState("mail");
   const [searchValue, setSearchValue] = useState("");
@@ -138,7 +139,7 @@ const ShopNavbar = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="flex justify-between">
       <Menu
         className="bg-gray-50 join w-full rounded-none hidden md:flex items-center"
         onClick={onClick}
@@ -148,6 +149,14 @@ const ShopNavbar = () => {
         {categoryMenu()}
         {renderSubMenuItems(navbarData?.data)}
       </Menu>
+      <Link
+        to="https://api.whatsapp.com/send?phone=7987852367"
+        target="_blank"
+        rel="noopener noreferrer"
+        className=" bg-green-500 text-white flex items-center justify-between  p-2 shadow-md  hover:bg-green-700 transition duration-300"
+      >
+        <FaWhatsapp className="text-2xl" />
+      </Link>
     </div>
   );
 };

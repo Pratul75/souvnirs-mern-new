@@ -212,3 +212,15 @@ body.sidebar-closed {
   transform: translateX(100%);
   animation-play-state: running;
 }
+
+/* In your CSS file or style block */
+.gradient-text {
+  background-image: linear-gradient(
+    to right,
+    #3a0487,
+    #bc03bf
+  ); /* Define your gradient colors here */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

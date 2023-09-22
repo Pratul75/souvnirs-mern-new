@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 import { Menu } from "antd";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { FaWhatsapp } from "react-icons/fa";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
