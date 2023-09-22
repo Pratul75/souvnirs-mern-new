@@ -722,21 +722,14 @@ const getVendorProducts = async (req, res) => {
 
 const getProducts = async (req, res) => {
   try {
-    // Extract pagination parameters from the request (e.g., page and limit)
-    const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
-    const limit = 30; // Number of products per page
-
-    // Calculate the number of documents to skip
-    const skip = (page - 1) * limit;
-
     let productsList;
     if (req.role && req.role === "vendor") {
-      // Fetch products for the vendor with pagination
+      // Fetch most recently added 30 products for the vendor
       productsList = await Product.find({ vendorId: req.userId })
-        .skip(skip)
-        .limit(limit);
+        .sort({ createdAt: -1 }) // Sort by creation date in descending order
+        .limit(30);
     } else {
-      // Fetch all products with variants using aggregation and pagination
+      // Fetch most recently added 30 products with variants
       productsList = await Product.aggregate([
         {
           $lookup: {
@@ -747,10 +740,10 @@ const getProducts = async (req, res) => {
           },
         },
         {
-          $skip: skip,
+          $sort: { createdAt: -1 }, // Sort by creation date in descending order
         },
         {
-          $limit: limit,
+          $limit: 30,
         },
       ]).exec();
     }

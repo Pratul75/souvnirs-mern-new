@@ -295,7 +295,6 @@ const AddProductAttributes = () => {
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
         />
-
         <div>
           {selectedAttributes.length < 1 ? (
             <div>

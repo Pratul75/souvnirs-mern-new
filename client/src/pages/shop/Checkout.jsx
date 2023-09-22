@@ -192,8 +192,12 @@ const Checkout = () => {
             <h1 className=" font-semibold my-4">Delivery Options </h1>
             <div className="flex gap-4">
               <div className="bg-base-100 rounded-xl w-full p-4">
-                <div className="form-control flex flex-row items-center  gap-4">
-                  <input type="radio" className="radio radio-primary" />
+                <div className="form-control flex flex-row items-center gap-4">
+                  <input
+                    type="radio"
+                    className="radio radio-primary"
+                    name="deliveryOptions"
+                  />
                   <label className="label">
                     <span className="label-text">
                       Standard Delivery Options
@@ -202,8 +206,12 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="bg-base-100 rounded-xl w-full p-4">
-                <div className="form-control flex flex-row items-center  gap-4">
-                  <input type="radio" className="radio radio-primary" />
+                <div className="form-control flex flex-row items-center gap-4">
+                  <input
+                    type="radio"
+                    className="radio radio-primary"
+                    name="deliveryOptions"
+                  />
                   <label className="label">
                     <span className="label-text">Future Delivery Options</span>
                   </label>
@@ -330,12 +338,6 @@ const Checkout = () => {
             <div className="collapse bg-base-100 mt-4">
               <input className="checkbox-primary" type="checkbox" />
               <div className="collapse-title text-xl font-medium gap-4 flex items-center">
-                <input
-                  className="radio radio-primary"
-                  type="radio"
-                  name=""
-                  id=""
-                />
                 <h1 className="text-sm">Cash On Delivery</h1>
               </div>
               <div className="collapse-content">
@@ -348,12 +350,6 @@ const Checkout = () => {
             <div className="collapse bg-base-100 mt-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium gap-4 flex items-center">
-                <input
-                  className="radio radio-primary"
-                  type="radio"
-                  name=""
-                  id=""
-                />
                 <h1 className="text-sm">Credit or Debit Card</h1>
               </div>
               <div className="collapse-content">
@@ -366,12 +362,6 @@ const Checkout = () => {
             <div className="collapse bg-base-100 mt-4">
               <input type="checkbox" />
               <div className="collapse-title text-xl font-medium gap-4 flex items-center">
-                <input
-                  className="radio radio-primary"
-                  type="radio"
-                  name=""
-                  id=""
-                />
                 <h1 className="text-sm">Net Banking</h1>
               </div>
               <div className="collapse-content">
@@ -390,12 +380,6 @@ const Checkout = () => {
                 id=""
               />
               <div className="collapse-title text-xl font-medium gap-4 flex items-center">
-                <input
-                  className="radio radio-primary"
-                  type="radio"
-                  name=""
-                  id=""
-                />
                 <h1 className="text-sm">My Wallet</h1>
               </div>
               <div className="collapse-content">

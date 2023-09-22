@@ -349,20 +349,16 @@ const ProductInfo = () => {
               <div>
                 <div className="flex flex-col">
                   <div className="flex flex-col w-full relative">
-                    <div className="flex   items-center">
+                    <div className="flex justify-between   items-center w-full">
                       <h1 className="font-bold text-2xl">{product?.name}</h1>
                       {product?.customization && (
                         <>
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              window.customization_modal.showModal();
-                            }}
-                            className="btn btn-primary absolute -right-36 top-2 "
+                          <label
+                            htmlFor="customize_drawer"
+                            className="btn btn-primary drawer-button"
                           >
                             Customize
-                          </button>
+                          </label>
                         </>
                       )}
                     </div>
@@ -443,20 +439,7 @@ const ProductInfo = () => {
                         value={quantity}
                       />
                     </div>
-                    {/* <div className="form-control">
-                      <label className="label">
-                        <span className="label-text">Currency</span>
-                      </label>
-                      <select
-                        onChange={(e) => setCurrency(e.target.value)}
-                        className="select select-bordered min-w-full"
-                      >
-                        <option value="ruppee" selected>
-                          ruppee
-                        </option>
-                        <option value="usd">usd</option>
-                      </select>
-                    </div> */}
+
                     {variantFilters?.map((attribute) => {
                       const key = Object.keys(attribute)[0];
                       return (
@@ -492,7 +475,7 @@ const ProductInfo = () => {
               </div>
             </div>
           </div>
-          {/* <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
+          <div className="col-span-1 border-l flex flex-col items-center justify-center px-4">
             <p className="text-start py-4">Ongoing Offers!</p>
             <div className="gap-4 flex flex-col">
               <div className="join">
@@ -528,10 +511,6 @@ const ProductInfo = () => {
                 Check Sample Availablity
               </p>
             </div>
-          </div> */}
-
-          <div>
-            <Card>I am Similar Product</Card>
           </div>
         </div>
 
@@ -584,7 +563,6 @@ const ProductInfo = () => {
               />
             </div>
           </div>
-
           <div className="modal-action mt-6">
             <div>
               <button
@@ -665,6 +643,59 @@ const ProductInfo = () => {
           </button>
         </div>
       </dialog>
+
+      <div className="drawer">
+        <input
+          id="customize_drawer"
+          type="checkbox"
+          className="drawer-toggle"
+        />
+        <div className="drawer-content">{/* Page content here */}</div>
+        <div className="drawer-side">
+          <label htmlFor="customize_drawer" className="drawer-overlay"></label>
+          <ul className="menu p-4 w-[50vw] min-h-full bg-base-200 text-base-content">
+            <div className="modal-content">
+              <h1 className="text-4xl my-8 text-shopPrimaryColor">
+                Customize Product
+              </h1>
+              <div className="relative">
+                <img
+                  className="rounded-xl"
+                  src={
+                    !product?.coverImage?.includes("res.cloudinary") &&
+                    !product?.coverImage?.includes("cdn.shopify")
+                      ? `${baseUrl}/${product?.coverImage}`
+                      : product?.coverImage
+                  }
+                  alt="Cover Image"
+                />
+                {overImage && (
+                  <img
+                    className="absolute"
+                    style={{
+                      top: `${product?.customization?.yAxis}%`,
+                      left: `${product?.customization?.xAxis}%`,
+                      height: `${product?.customization?.height}px`,
+                      width: `${product?.customization?.width}px`,
+                    }}
+                    src={overImage}
+                    alt="Overlay Image"
+                  />
+                )}
+              </div>
+
+              <div className="flex justify-between mt-4">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="file-input"
+                />
+              </div>
+            </div>
+          </ul>
+        </div>
+      </div>
     </>
   );
 };

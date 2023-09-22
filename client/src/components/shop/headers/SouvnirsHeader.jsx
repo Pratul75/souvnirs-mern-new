@@ -207,8 +207,6 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
     });
   };
 
-  console.log(role);
-  // const
   return (
     <>
       {/* // desktop header */}
