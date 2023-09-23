@@ -11,6 +11,8 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../animation";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { AiOutlineHome } from "react-icons/ai";
+import { useQuery } from "react-query";
+import { fetchAddresses } from "../../api/apiCalls";
 
 const Checkout = () => {
   const [items, setItems] = useState();
@@ -19,19 +21,15 @@ const Checkout = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [showAddress, setshowAddress] = useState(false);
   const [selectedAddress, setselectedAddress] = useState({});
-
   const getCheckedOutItems = async () => {
     const response = await API_WRAPPER.get("/checkedout");
     console.log(response);
     setItems(response.data);
   };
 
-  // fetch all addresses
-  const getAddresses = async () => {
-    const response = await API_WRAPPER.get("/getCustomerAddress");
-    console.log(response);
-    setAddresses(response.data);
-  };
+  const { data, isLoading, error } = useQuery("get_addresses", fetchAddresses, {
+    onSuccess: () => setAddresses(data?.data),
+  });
 
   // adding address api call
   const addAddress = async (e) => {
@@ -53,9 +51,10 @@ const Checkout = () => {
   }, []);
 
   useEffect(() => {
-    getAddresses();
+    // getAddresses();
   }, [apiTrigger]);
 
+  // payment handler
   const paymentHandler = async (e) => {
     e.preventDefault();
     const orderUrl = `http://localhost:8080/order/create`;

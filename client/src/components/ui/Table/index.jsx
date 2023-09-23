@@ -184,7 +184,7 @@ const ReusableTable = ({
                 return (
                   <tr
                     className={`${
-                      row.isSelected ? "bg-accent" : "bg-base-100"
+                      row.isSelected ? "bg-primary" : "bg-base-100"
                     }`}
                     key={nanoid()}
                     {...row.getRowProps()}

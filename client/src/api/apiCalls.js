@@ -27,3 +27,7 @@ export const fetchAllProducts = () => {
 export const fetchAllCollections = () => {
   return API_WRAPPER.get("/collection/get-all-collections");
 };
+
+export const fetchAddresses = () => {
+  return API_WRAPPER.get("/getCustomerAddress");
+};
