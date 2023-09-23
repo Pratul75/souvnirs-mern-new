@@ -3,72 +3,25 @@ import ProductCard from "../cards/ProductCard";
 import { nanoid } from "nanoid";
 
 const Carosal = ({ productList }) => (
-  <Carousel autoplay className="my-8 hidden">
-    <div>
-      <h3 className="flex gap-4">
-        {productList?.data?.slice(0, 5)?.map((product) => {
-          return (
-            <ProductCard
-              image={product.coverImage}
-              key={nanoid()}
-              title={product.name}
-              price={product.mrp}
-              slug={product.slug}
-              rating={4.0}
-            />
-          );
-        })}
-      </h3>
+  // * carosal not needed as the functionality of scroll is sufficient for the component
+  // <Carousel autoplay className="my-8 hidden">
+  <div className="flex flex-col h-[50vh] overflow-y-scroll md:h-full md:flex-row md:overflow-x-scroll mt-8">
+    <div className="md:flex gap-4">
+      {productList?.data?.slice(0, 25)?.map((product) => {
+        return (
+          <ProductCard
+            image={product.coverImage}
+            key={nanoid()}
+            title={product.name}
+            price={product.mrp}
+            slug={product.slug}
+            rating={4.0}
+          />
+        );
+      })}
     </div>
-    <div>
-      <h3 className="flex gap-4">
-        {productList?.data?.slice(6, 11)?.map((product) => {
-          return (
-            <ProductCard
-              image={product.coverImage}
-              key={nanoid()}
-              title={product.name}
-              price={product.mrp}
-              slug={product.slug}
-              rating={3.5}
-            />
-          );
-        })}
-      </h3>
-    </div>
-    <div>
-      <h3 className="flex gap-4">
-        {productList?.data?.slice(12, 17)?.map((product) => {
-          return (
-            <ProductCard
-              image={product.coverImage}
-              key={nanoid()}
-              title={product.name}
-              price={product.mrp}
-              slug={product.slug}
-              rating={4.0}
-            />
-          );
-        })}
-      </h3>
-    </div>
-    <div>
-      <h3 className="flex gap-4">
-        {productList?.data?.slice(18, 23)?.map((product) => {
-          return (
-            <ProductCard
-              image={product.coverImage}
-              key={nanoid()}
-              title={product.name}
-              price={product.mrp}
-              slug={product.slug}
-              rating={4.5}
-            />
-          );
-        })}
-      </h3>
-    </div>
-  </Carousel>
+  </div>
+  // </Carousel>
 );
 
 export default Carosal;

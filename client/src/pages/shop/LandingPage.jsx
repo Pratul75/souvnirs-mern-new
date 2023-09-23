@@ -8,6 +8,7 @@ import {
   BrandsCard,
   Tabs,
   Carosal,
+  ScrollAnimationWrapper,
 } from "../../components";
 import {
   BrandsCardImageList,
@@ -35,6 +36,7 @@ import GiftTwo from "../../assets/shop/productImages/giftTwo.png";
 import GiftThree from "../../assets/shop/productImages/giftThree.png";
 import TabContent from "../../components/shop/components/TabContent";
 import { debouncedShowToast, selectRandomValues } from "../../utils";
+
 // landing page
 const LandingPage = () => {
   const {
@@ -95,42 +97,43 @@ const LandingPage = () => {
         headingFour="FREE SHIPPING"
         subHeadingFour="Capped at $50 per order"
       />
-
       <div className="grid grid-cols-5 mt-5 gap-4">
         <div className="col-span-5 md:col-span-2">
           <ProductCarosel className="" items={caroselMapppingDailyDeals} />
         </div>
         <div className="col-span-5 md:col-span-3 bg-white">
-          <Tabs
-            tabBackground
-            alignCenter
-            tabs={[
-              {
-                content: (
-                  <TabContent
-                    productsList={selectRandomValues(productsList?.data)}
-                  />
-                ),
-                label: "Trending",
-              },
-              {
-                content: (
-                  <TabContent
-                    productsList={selectRandomValues(productsList?.data)}
-                  />
-                ),
-                label: "Recently Added",
-              },
-              {
-                content: (
-                  <TabContent
-                    productsList={selectRandomValues(productsList?.data)}
-                  />
-                ),
-                label: "Best in Price",
-              },
-            ]}
-          />
+          <ScrollAnimationWrapper>
+            <Tabs
+              tabBackground
+              alignCenter
+              tabs={[
+                {
+                  content: (
+                    <TabContent
+                      productsList={selectRandomValues(productsList?.data)}
+                    />
+                  ),
+                  label: "Trending",
+                },
+                {
+                  content: (
+                    <TabContent
+                      productsList={selectRandomValues(productsList?.data)}
+                    />
+                  ),
+                  label: "Recently Added",
+                },
+                {
+                  content: (
+                    <TabContent
+                      productsList={selectRandomValues(productsList?.data)}
+                    />
+                  ),
+                  label: "Best in Price",
+                },
+              ]}
+            />
+          </ScrollAnimationWrapper>
         </div>
       </div>
 
@@ -142,9 +145,7 @@ const LandingPage = () => {
         imageTwo={WatchImage}
       />
 
-      <div className="hidden md:block">
-        <Carosal productList={productsList} />
-      </div>
+      <Carosal productList={productsList} />
       <HalfWidthBannerCard
         backgroundImageOne={HalfWidthBannerImgOne}
         backgroundImageTwo={HalfWidthBannerImgTwo}

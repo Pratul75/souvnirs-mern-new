@@ -457,7 +457,7 @@ export const caroselMapppingDailyDeals = [
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
   <div
-    className="flex flex-col md:flex-row  gap-4 p-6 bg-base-100 "
+    className="flex flex-col md:flex-row  gap-1 p-6 bg-base-100 "
     key={nanoid()}
   >
     <div className="flex item-center justify-center w-full">
@@ -477,7 +477,7 @@ export const caroselMapppingDailyDeals = [
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
   <div
-    className="flex flex-col md:flex-row gap-4 p-6 bg-base-100 "
+    className="flex flex-col md:flex-row gap-1 p-6 bg-base-100 "
     key={nanoid()}
   >
     <div className="flex item-center justify-center w-full">

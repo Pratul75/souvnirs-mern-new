@@ -66,9 +66,6 @@ const ProductCard = ({
   return (
     <motion.div
       variants={fadeInVariants}
-      whileHover={{
-        scale: 1.05,
-      }}
       animate="animate"
       initial="initial"
       key={id}
