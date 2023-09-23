@@ -32,7 +32,7 @@ const FeaturesCard = ({
               </div>
             </div>
           </div>
-          <div className="divider hidden md:block divide-[#ededed] lg:divider-horizontal "></div>
+
           <div className="flex items-center justify-center md:justify-start gap-5 my-4">
             <div className="mr-2">{iconTwo}</div>
             <div>
@@ -44,7 +44,7 @@ const FeaturesCard = ({
               </div>
             </div>
           </div>
-          <div className="divider hidden mde:block lg:divider-horizontal"></div>
+
           <div className="flex items-center gap-5 justify-center md:justify-start my-4">
             <div className="mr-2">{iconThree}</div>
             <div>
@@ -56,7 +56,7 @@ const FeaturesCard = ({
               </div>
             </div>
           </div>
-          <div className="divider hidden md:block lg:divider-horizontal"></div>
+
           <div className="flex items-center gap-5 justify-center md:justify-start my-4">
             <div className="mr-2">{iconFour}</div>
             <div>
