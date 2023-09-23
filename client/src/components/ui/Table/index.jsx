@@ -146,7 +146,7 @@ const ReusableTable = ({
       </div>
       <div className="overflow-x-auto width-full max-w-full">
         <Card>
-          <table className="table " {...getTableProps()}>
+          <table className="table" {...getTableProps()}>
             <thead>
               {headerGroups.map((headerGroup) => (
                 <tr key={nanoid()} {...headerGroup.getHeaderGroupProps()}>

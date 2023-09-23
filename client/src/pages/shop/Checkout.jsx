@@ -97,7 +97,6 @@ const Checkout = () => {
         navigation={"Home/Checkout"}
         text={"Checkout"}
       />
-
       <div className="my-8">
         <div className="grid grid-cols-4 gap-4 mt-4 ">
           <div className="col-span-4 md:col-span-3 bg-base-200 p-4 px-8 rounded-xl">
@@ -167,6 +166,7 @@ const Checkout = () => {
                 </div>
               </p>
             )}
+
             {showAddress && (
               <motion.div
                 initial="initial"

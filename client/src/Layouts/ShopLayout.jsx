@@ -5,7 +5,6 @@ import {
   ShopFooter,
   ShopNavbar,
 } from "../components";
-import { FaWhatsapp } from "react-icons/fa";
 
 // shop layout
 const ShopLayout = ({ children }) => {
@@ -19,7 +18,6 @@ const ShopLayout = ({ children }) => {
       <SouvnirsHeader badgeColor="badge-primary" buttonColor="bg-primary" />
       <div className="px-5">
         <ShopNavbar />
-       
       </div>
       <div className="mx-5 flex flex-col">{children}</div>
       <ShopFooter />
