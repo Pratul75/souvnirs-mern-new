@@ -18,6 +18,7 @@ const Checkout = () => {
   const [addresses, setAddresses] = useState();
   const [apiTrigger, setApiTrigger] = useState(false);
   const [showAddress, setshowAddress] = useState(false);
+  const [selectedAddress, setselectedAddress] = useState({});
 
   const getCheckedOutItems = async () => {
     const response = await API_WRAPPER.get("/checkedout");
@@ -83,6 +84,12 @@ const Checkout = () => {
     rzp1.open();
   };
 
+  const handleAddressChange = (address) => {
+    console.log("SELECTED ADDRESS: ", address);
+    setselectedAddress(address);
+    setshowAddress(false);
+  };
+
   return (
     <div>
       <Banner
@@ -111,7 +118,7 @@ const Checkout = () => {
                 {showAddress ? "Hide Addresses" : "Show Addresses"}
               </button>
             </div>
-            {!showAddress && (
+            {!showAddress && !selectedAddress ? (
               <p className="my-4 text-sm">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
                 cupiditate dolores saepe nihil labore, illum quaerat porro
@@ -123,6 +130,41 @@ const Checkout = () => {
                 inventore quos. Aperiam totam delectus obcaecati quis est
                 repellendus incidunt fugit voluptate alias nisi accusamus
                 deserunt.
+              </p>
+            ) : (
+              <p>
+                <div
+                  className="col-span-1 bg-base-100 p-4 rounded-xl mt-4"
+                  key={nanoid()}
+                >
+                  <div className="flex justify-between">
+                    <input
+                      className="radio radio-primary mr-2"
+                      type="radio"
+                      name="address"
+                      id={selectedAddress._id}
+                      checked={selectedAddress._id === selectedAddress._id}
+                    />
+                    <div className="badge badge-primary">
+                      {selectedAddress.type}
+                    </div>
+                  </div>
+                  <hr className="my-4" />
+                  <div className="flex flex-col">
+                    <p className="font-bold">
+                      <span>Name</span> {selectedAddress.name}
+                    </p>
+                    <p>
+                      <span>Address:</span> {selectedAddress.address}
+                    </p>
+                    <p>
+                      <span>City:</span> {selectedAddress.city}
+                    </p>
+                    <p>
+                      <span>Pin Code:</span> {selectedAddress.pin_code}
+                    </p>
+                  </div>
+                </div>
               </p>
             )}
             {showAddress && (
@@ -140,10 +182,12 @@ const Checkout = () => {
                     >
                       <div className="flex justify-between">
                         <input
+                          onChange={() => handleAddressChange(a)}
                           className="radio radio-primary mr-2"
                           type="radio"
                           name="address"
                           id={a._id}
+                          checked={a._id === selectedAddress._id}
                         />
                         <div className="badge badge-primary">{a.type}</div>
                       </div>
