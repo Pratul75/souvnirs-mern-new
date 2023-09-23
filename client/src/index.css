@@ -46,12 +46,6 @@ body {
   border: 1px solid rgb(35, 94, 197) !important;
 }
 
-/* Styles for dropdown content */
-/* .dropdown-content {
-  border-radius: 10px !important;
-  background: #000 !important;
-} */
-
 /* Styles for checkbox inputs inside dropdown content */
 .dropdown-content input[type="checkbox"] {
   /* Your styles for checkboxes inside .dropdown-content go here */
