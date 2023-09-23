@@ -21,7 +21,6 @@ const ShopLayout = ({ children }) => {
       </div>
       <div className="mx-5 flex flex-col">{children}</div>
       <ShopFooter />
-      {/* WhatsApp icon */}
     </div>
   );
 };

@@ -149,14 +149,19 @@ const ShopNavbar = () => {
         {categoryMenu()}
         {renderSubMenuItems(navbarData?.data)}
       </Menu>
-      <Link
-        to="https://api.whatsapp.com/send?phone=7987852367"
-        target="_blank"
-        rel="noopener noreferrer"
-        className=" bg-green-500 text-white flex items-center justify-between  p-2 shadow-md  hover:bg-green-700 transition duration-300"
+      <div
+        className="tooltip tooltip-primary tooltip-bottom"
+        data-tip="contact"
       >
-        <FaWhatsapp className="text-2xl" />
-      </Link>
+        <Link
+          to="https://api.whatsapp.com/send?phone=7987852367"
+          target="_blank"
+          rel="noopener noreferrer"
+          className=" bg-green-500 text-white flex items-center justify-between  p-2 shadow-md  hover:bg-green-700 transition duration-300"
+        >
+          <FaWhatsapp className="text-2xl" />
+        </Link>
+      </div>
     </div>
   );
 };
