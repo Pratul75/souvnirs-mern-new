@@ -13,7 +13,7 @@ const Tabs = ({ tabs, enableBorder, hasCard, alignCenter, tabBackground }) => {
         initial="initial"
         animate="animate"
         variants={fadeInVariants}
-        className={`mt-4 rounded-xl ${
+        className={` rounded-xl ${
           enableBorder ? "border-[1px] border-base-300" : ""
         } bg-base-100`}
       >
@@ -33,7 +33,7 @@ const Tabs = ({ tabs, enableBorder, hasCard, alignCenter, tabBackground }) => {
           ))}
         </div>
 
-        <div className="border-[1px] border-t-base-300">
+        <div className=" border-t-base-300">
           {tabs.map((tab, index) => (
             <div
               key={index}
@@ -58,7 +58,7 @@ const Tabs = ({ tabs, enableBorder, hasCard, alignCenter, tabBackground }) => {
       initial="initial"
       animate="animate"
       variants={fadeInVariants}
-      className={`mt-4 rounded-xl ${
+      className={` rounded-xl ${
         enableBorder ? "border-[1px] border-base-300" : ""
       } bg-base-100`}
     >

@@ -263,6 +263,7 @@ const getProductsByCategorySlug = async (req, res) => {
     }
   });
   if (sort && sort == "htl") {
+    // dilter high to low
     filteredProducts = filteredProducts.sort((a, b) => {
       if (a.variants.length > 0 && b.variants.length > 0) {
         return b.variants[0].price - a.variants[0].price;
@@ -275,6 +276,7 @@ const getProductsByCategorySlug = async (req, res) => {
       }
     });
   } else if (sort && sort == "lth") {
+    // filter low to high
     filteredProducts = filteredProducts.sort((a, b) => {
       if (a.variants.length > 0 && b.variants.length > 0) {
         return a.variants[0].price - b.variants[0].price;

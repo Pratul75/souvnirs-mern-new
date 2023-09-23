@@ -35,7 +35,6 @@ import GiftTwo from "../../assets/shop/productImages/giftTwo.png";
 import GiftThree from "../../assets/shop/productImages/giftThree.png";
 import TabContent from "../../components/shop/components/TabContent";
 import { debouncedShowToast, selectRandomValues } from "../../utils";
-import { FaWhatsapp } from "react-icons/fa";
 // landing page
 const LandingPage = () => {
   const {
