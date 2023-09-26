@@ -3,6 +3,13 @@ export { default as RegisterPage } from "./common/RegisterPage";
 export { default as LoginPage } from "./common/LoginPage";
 export { default as PermissionDenied } from "./common/PermissionDenied";
 export { default as PageNotFound } from "./common/PageNotFound";
+export { default as AboutUs } from "./common/FooterPages/AboutUs";
+export { default as BuyerAgreement } from "./common/FooterPages/BuyerAgreement";
+export { default as ContactUs } from "./common/FooterPages/ContactUs";
+export { default as Faq } from "./common/FooterPages/FAQ";
+export { default as PoliciesAndShippingRates } from "./common/FooterPages/PoliciesAndShippingRates";
+export { default as SellerAgreement } from "./common/FooterPages/SellerAgreement";
+export { default as SellerRegistration } from "./common/FooterPages/SellerRegistration";
 // admin routes
 export { default as AdminDashboard } from "./admin/Dashboard/AdminDashboard";
 export { default as Cart } from "./admin/Cart/Cart";

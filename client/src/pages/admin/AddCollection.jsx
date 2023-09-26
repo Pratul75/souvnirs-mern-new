@@ -251,8 +251,6 @@ const AddCollection = () => {
   };
 
   // handle title change
-
-  // handle title change
   const handleTitleChange = (index, e) => {
     const { value } = e.target;
 

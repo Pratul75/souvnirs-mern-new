@@ -22,7 +22,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { GrFormClose } from "react-icons/gr";
 import { Menu } from "antd";
 import { CaretDownOutlined, CaretRightOutlined } from "@ant-design/icons";
-import { FaWhatsapp } from "react-icons/fa";
 const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
@@ -280,8 +279,8 @@ const SouvnirsHeader = ({ badgeColor, buttonColor }) => {
               <option value="productInfo">Products</option>
               <option value="category">Category</option>
               <option value="collection">Collection</option>
-              <option value="vendor">Vendor</option>
             </select>
+
             <div className="indicator">
               <button
                 className={`btn ${buttonColor} join-item rounded-none hover:bg-shopPrimaryColor`}

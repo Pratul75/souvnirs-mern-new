@@ -2,7 +2,8 @@ import PaymentsImage from "../../../assets/shop/cardImages/payment.png";
 import SouvnirsLogo from "../../../assets/images/souvnirsLogoDarkMode.png";
 import { CiLocationOn } from "react-icons/ci";
 import { BsPhone } from "react-icons/bs";
-
+import { Link } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 const Footer = () => {
   return (
     <footer className="bg-[#252525] mt-4 ">
@@ -14,24 +15,36 @@ const Footer = () => {
           <h2 className="text-2xl my-4 text-white">Our Policies</h2>
           <ul className="flex flex-col gap-4">
             <li className="hover:text-white cursor-pointer">
-              Policies and shipping rates
+              <Link to={PATHS.footerPoliciesAndShippingRates}>
+                Policies and shipping rates
+              </Link>
             </li>
             <li className="hover:text-white cursor-pointer">
-              Seller Agreement
+              <Link to={PATHS.footerSellerAgreement}>Seller Agreement</Link>
             </li>
             <li className="hover:text-white cursor-pointer">
-              Seller registration
+              <Link to={PATHS.footerSellerRegistration}>
+                Seller registration
+              </Link>
             </li>
-            <li className="hover:text-white cursor-pointer">Buyer Agreement</li>
+            <li className="hover:text-white cursor-pointer">
+              <Link to={PATHS.footerBuyerAgreement}>Buyer Agreement</Link>
+            </li>
           </ul>
         </div>
         <div className=" col-span-4 md:col-span-1 text-gray-400">
           <h2 className="text-2xl my-4 text-white">Quick Links</h2>
           <ul className="flex flex-col gap-4">
             <li className="hover:text-white cursor-pointer">Tracking Order</li>
-            <li className="hover:text-white cursor-pointer">About Us</li>
-            <li className="hover:text-white cursor-pointer"> Contact Us</li>
-            <li className="hover:text-white cursor-pointer">FAQ</li>
+            <li className="hover:text-white cursor-pointer">
+              <Link to={PATHS.footerAboutUs}>About Us</Link>
+            </li>
+            <li className="hover:text-white cursor-pointer">
+              <Link to={PATHS.footerContactUs}>Contact Us</Link>
+            </li>
+            <li className="hover:text-white cursor-pointer">
+              <Link to={PATHS.footerFaq}>FAQ</Link>
+            </li>
           </ul>
         </div>
         <div className=" col-span-4 md:col-span-1 mt-8 md:mt-3">
@@ -40,7 +53,7 @@ const Footer = () => {
             <BsPhone className="text-3xl text-orange-500" />
             <span className="text-gray-400">
               If you have any questions, please contact us at{" "}
-              <span className="text-orange-500">contact@souvnirs.com</span>
+              <span className="text-orange-500">sales@contact.com</span>
             </span>
           </div>
           <div className="mt-8">
@@ -49,7 +62,7 @@ const Footer = () => {
               <CiLocationOn className="text-6xl text-orange-500" />
               <span className="text-gray-400">
                 304 Vikram Urbane, 25-A, Mechanic Nagar Extn.Sch# 54, Indore
-                (MP) 452010 contact@souvnirs.com +91 7879154157
+                (MP) 452010 sales@contact.com +91 7879154157
               </span>
             </div>
           </div>

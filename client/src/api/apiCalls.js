@@ -31,3 +31,7 @@ export const fetchAllCollections = () => {
 export const fetchAddresses = () => {
   return API_WRAPPER.get("/getCustomerAddress");
 };
+
+export const fetchCheckouts = () => {
+  return API_WRAPPER.get("/checkout/get-all-checkouts");
+};

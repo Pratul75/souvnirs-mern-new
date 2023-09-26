@@ -20,6 +20,7 @@ const TabContent = ({ productsList }) => {
                 src={product.coverImage}
                 alt="Product"
               />
+
               <div className="flex-grow">
                 <h2 className="text-lg font-medium text-neutral-700">
                   {product.name}

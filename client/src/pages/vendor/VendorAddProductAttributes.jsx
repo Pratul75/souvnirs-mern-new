@@ -15,6 +15,9 @@ import { BsCaretDown } from "react-icons/bs";
 import { GrFormClose } from "react-icons/gr";
 import { Tooltip } from "react-tooltip";
 import { AiFillInfoCircle } from "react-icons/ai";
+import { Select } from "antd";
+import { useQuery } from "react-query";
+import { fetchAllCollections } from "../../api/apiCalls";
 
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
@@ -97,6 +100,25 @@ const AddProductAttributes = () => {
       const productId = prodResponse.data.data._id;
       console.log("AddProductAttributes.jsx", productId);
       if (prodResponse.status == 201) {
+        setActiveCollection((prevState) => [
+          {
+            ...prevState,
+            activeProducts: prevState?.activeProducts.push(productId),
+          },
+        ]);
+
+        console.log(
+          "SELECTED COLLECTION: ",
+          activeCollection,
+          "ID: ",
+          productId
+        );
+        const collectionResponse = await API_WRAPPER.put(
+          `/collection/update-collection-by-id/:${activeCollection._id}`,
+          activeCollection
+        );
+
+        console.log("COLLECTION RESPONSE: ", collectionResponse);
         for (let variant of variantData) {
           console.log(variant);
           const { mrp, productQuantity, files, ...variantName } = variant;
@@ -275,6 +297,31 @@ const AddProductAttributes = () => {
       return newData;
     });
   };
+
+  // COLLECTION LOGIC
+
+  const [activeCollection, setActiveCollection] = useState({});
+  const { data: collections } = useQuery(
+    "get_collections",
+    fetchAllCollections
+  );
+  const collectionOptions = () => {
+    return collections?.data?.map((collection) => {
+      return { value: collection._id, label: collection?.title };
+    });
+  };
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onChange = (value) => {
+    setActiveCollection(
+      collections?.data?.filter((collection) => {
+        return collection._id === value;
+      })[0]
+    );
+  };
+
+  // COLLECTION LOGIC END
   console.log("AddProductAttributes.jsx", combinations);
   useEffect(() => {
     setVariantData(
@@ -294,6 +341,15 @@ const AddProductAttributes = () => {
           heading={"Data to Publish"}
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
+        />
+        <Select
+          showSearch
+          placeholder="Select a collection"
+          optionFilterProp="children"
+          onChange={onChange}
+          // onSearch={onSearch}
+          filterOption={filterOption}
+          options={collectionOptions()}
         />
 
         <div>

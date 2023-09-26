@@ -11,16 +11,16 @@ const FullWidthBannerCard = ({
   return (
     <ScrollAnimationWrapper>
       <div className="flex flex-col w-full justify-start md:justify-center mt-5  ">
-        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[450px] py-4 flex flex-row items-center justify-center">
+        <div className="  bg-gradient-to-r from-[#7398FF] to-[#B3FEDD]  text-white rounded-xl md:h-[300px] py-4 flex flex-row items-center justify-around">
           <div className="hidden md:flex">
-            <img className="object-contain" src={imageOne} alt="" />
+            <img className="h-[300px]" src={imageOne} alt="" />
           </div>
           <div className="">
             <div className="flex flex-col justify-center md:justify-between items-center">
               <h3 className=" text-lg md:text-4xl font-bold text-black">
                 {mainHeading}
               </h3>
-              <h3 className="text-lg md:text-4xl text-center text-black">
+              <h3 className="text-lg md:text-3xl text-center text-black">
                 {subHeading}
               </h3>
             </div>
@@ -34,11 +34,7 @@ const FullWidthBannerCard = ({
             </div>
           </div>
           <div className="hidden md:flex">
-            <img
-              className="w-full h-1/2 object-contain"
-              src={imageTwo}
-              alt=""
-            />
+            <img className="h-[300px]" src={imageTwo} alt="" />
           </div>
         </div>
       </div>

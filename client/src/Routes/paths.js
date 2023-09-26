@@ -106,4 +106,13 @@ export const PATHS = {
   shopWishlist: "/shop/wishlist",
   blogs: "/blogs",
   shopAboutUs: "/shop/about_us",
+
+  // footer routes
+  footerAboutUs: "/footer/aboutus",
+  footerBuyerAgreement: "/footer/buyerAgreement",
+  footerContactUs: "/footer/contactUs",
+  footerFaq: "/footer/FAQ",
+  footerPoliciesAndShippingRates: "/footer/policiesAndShippingRates",
+  footerSellerAgreement: "/footer/sellerAgreement",
+  footerSellerRegistration: "/footer/sellerRegistration",
 };

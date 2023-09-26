@@ -107,6 +107,7 @@ const ProductInfo = () => {
     }
     return true;
   }
+
   const addToCart = async (e) => {
     e.preventDefault();
     const isTrue = checkVariantsMatch(variantFilters, selectedVariants);
@@ -313,12 +314,12 @@ const ProductInfo = () => {
           Back
         </Link>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4 gap-4">
-          <div className="col-span-2 flex flex-row bg-base-200 gap-8 rounded-xl p-4">
-            <div className="flex gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-4 gap-4">
+          <div className="col-span-3 flex flex-row bg-base-200 gap-8 rounded-xl p-4">
+            <div className="flex w-full justify-between gap-4">
               <div className="flex flex-col">
                 <InnerImageZoom
-                  className="rounded-xl w-96 h-[30rem] hover:shadow-xl transition-all ease-in-out duration-300"
+                  className="rounded-xl h-[400px] hover:shadow-xl transition-all ease-in-out duration-300 mb-4"
                   src={
                     !selectedImage?.includes("res.cloudinary") &&
                     !selectedImage?.includes("cdn.shopify")
@@ -340,7 +341,7 @@ const ProductInfo = () => {
                             ? `${baseUrl}/${img}`
                             : img
                         }
-                        className="w-16 cursor-pointer hover:scale-110"
+                        className="w-16 cursor-pointer rounded-xl hover:scale-110"
                         alt=""
                       />
                     </Card>
@@ -395,28 +396,7 @@ const ProductInfo = () => {
                     <p>(1 Review)</p>
                   </div>
                 </div>
-                <div className="my-5">
-                  <button
-                    className="btn btn-primary w-full p-2 "
-                    onClick={(e) => {
-                      addToCart(e);
-                    }}
-                  >
-                    <button className="flex gap-4">
-                      <AiOutlineShoppingCart className="text-xl text-white " />
-                      <span>Add To Cart</span>
-                    </button>
-                  </button>
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      window.request_quote_modal.showModal();
-                    }}
-                    className="btn btn-primary cursor-pointer mt-4 w-full"
-                  >
-                    Get Quote
-                  </button>
-                </div>
+
                 <form className="max-h-96 overflow-y-scroll">
                   <div className="flex flex-col">
                     <div className="form-control">
@@ -467,6 +447,28 @@ const ProductInfo = () => {
                         </div>
                       );
                     })}
+                    <div className="my-5">
+                      <button
+                        className="btn btn-primary w-full p-2 "
+                        onClick={(e) => {
+                          addToCart(e);
+                        }}
+                      >
+                        <button className="flex gap-4">
+                          <AiOutlineShoppingCart className="text-xl text-white " />
+                          <span>Add To Cart</span>
+                        </button>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          window.request_quote_modal.showModal();
+                        }}
+                        className="btn btn-primary cursor-pointer mt-4 w-full"
+                      >
+                        Get Quote
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

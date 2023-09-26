@@ -13,6 +13,7 @@ import {
 import { GrFormClose } from "react-icons/gr";
 import Draggable from "react-draggable";
 import useAddProduct from "./useAddProduct";
+import { Select } from "antd";
 // add products
 const AddProduct = () => {
   const {
@@ -38,8 +39,15 @@ const AddProduct = () => {
     setForegroundHeight,
     setFormData,
     setSelectedShape,
+    collectionOptions,
+    filterOption,
+    onChange,
   } = useAddProduct();
-  
+
+  // add collection api
+  // select collection to be associated with the newly  created product
+  // add newly created product to the selected collection
+
   return (
     <div>
       <Header
@@ -47,6 +55,7 @@ const AddProduct = () => {
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
         image={ProductBannerImage}
       />
+
       <div className="w-full mt-8">
         <div className="grid grid-cols-6 gap-4">
           <motion.div
@@ -266,6 +275,7 @@ const AddProduct = () => {
               />
             </div>
           </motion.div>
+
           <div className="col-span-6 md:col-span-2">
             <motion.div
               variants={fadeInFromRightVariant}

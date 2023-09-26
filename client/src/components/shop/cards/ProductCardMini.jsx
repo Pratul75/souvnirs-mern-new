@@ -30,7 +30,7 @@ const ProductCardMini = ({
       onClick={() => navigate(`/productInfo/${slug}`)}
     >
       <div className="flex items-center p-4">
-        <div className="w-20">
+        <div className="w-auto">
           <img
             className="object-cover w-full h-full"
             src={
@@ -42,6 +42,7 @@ const ProductCardMini = ({
             alt={title}
           />
         </div>
+
         <div className="flex flex-col justify-between ml-4">
           <div>
             <h1 className="text-lg font-semibold">{title}</h1>

@@ -1,6 +1,22 @@
 import { Header } from "../../../components";
 import CheckoutBannerImage from "../../../assets/bannerImages/checkoutImage.png";
+import { useQuery } from "react-query";
+import { fetchCheckouts } from "../../../api/apiCalls";
+import { useEffect } from "react";
 const Checkout = () => {
+  const {
+    data: checkouts,
+    isLoading,
+    error,
+  } = useQuery("get_all_checkouts", fetchCheckouts);
+  useEffect(() => {
+    console.log("CHECKOUTS DATA: ", checkouts);
+  }, []);
+
+  if (isLoading) {
+    return <p>Loading Checkouts</p>;
+  }
+
   return (
     <div>
       <Header

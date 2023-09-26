@@ -197,6 +197,7 @@ const checkout = async (req, res) => {
   );
   res.status(200).json("cart updated successfully");
 };
+
 const getCheckedOutItems = async (req, res) => {
   const checkedOutItems = await Cart.find({
     customer_id: req.userId,

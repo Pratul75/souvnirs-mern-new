@@ -28,6 +28,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const wishlistRoutes = require("./routes/wishlistRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const commissionRoutes = require("./routes/commissionRoutes");
+const checkoutRoutes = require("./routes/checkoutRoutes");
 const morgan = require("morgan");
 
 // app initialization
@@ -97,6 +98,8 @@ app.use(adminRoutes);
 app.use(dashboardRoutes);
 // commissions routes
 app.use(commissionRoutes);
+// checkout routes
+app.use(checkoutRoutes);
 // start the server
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

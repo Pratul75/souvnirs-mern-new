@@ -11,6 +11,7 @@ import {
   vendorRoutes,
   customerRoutes,
   shopRoutes,
+  footerRoutes,
 } from "./Routes/routes";
 import { PATHS } from "./Routes/paths";
 import { AnimatePresence } from "framer-motion";
@@ -132,7 +133,6 @@ const App = () => {
                   />
                 );
               })}
-
               {/* shop routes  */}
               {shopRoutes.map(({ id, path, Component }) => {
                 return (
@@ -147,6 +147,21 @@ const App = () => {
                   />
                 );
               })}
+              {/* footer routes */}
+              {footerRoutes.map(({ id, path, Component }) => {
+                return (
+                  <Route
+                    key={id}
+                    path={path}
+                    element={
+                      <ShopLayout>
+                        <Component />
+                      </ShopLayout>
+                    }
+                  />
+                );
+              })}
+
               <Route
                 path={PATHS.permissionDenied}
                 element={<PermissionDenied />}

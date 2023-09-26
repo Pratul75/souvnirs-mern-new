@@ -30,8 +30,8 @@ const HeaderCards = ({
           className="col-span-3 md:col-span-2 row-span-2 h-[80vh] md:h-auto relative"
         >
           <img className="w-full h-full rounded-xl " src={mainImage} alt="" />
-          <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-around px-4">
-            <div className="flex flex-col items-center md:items-start justify-center md:w-96">
+          <div className="inset-0 absolute w-full flex flex-col md:flex-row items-center justify-between px-4">
+            <div className="flex flex-col items-center md:items-start justify-center md:w-[340px] ml-16">
               <h2 className="text-white text-2xl md:text-5xl font-bold">
                 {mainHeading}
               </h2>
@@ -47,7 +47,7 @@ const HeaderCards = ({
                 <BsArrowRight className="text-lg font-bold" />
               </Link>
             </div>
-            <div className="">
+            <div className="w-1/2">
               <img
                 src={productImgOne}
                 className=" md:absolute md:right-10 top-10 md:h-3/4"
@@ -69,7 +69,7 @@ const HeaderCards = ({
           />
           <div className="inset-0 absolute w-full flex items-center justify-around px-4">
             <div>
-              <h2 className="text-white text-sm md:text-lg font-bold">
+              <h2 className="text-white text-sm md:text-xl font-bold">
                 {secondaryHeadingOne}
               </h2>
               <h3 className="text-white text-lg md:text-xl font-bold">
@@ -87,7 +87,7 @@ const HeaderCards = ({
                 <BsArrowRight className="text-xl text-black hidden md:block" />
               </Link>
             </div>
-            <div className="w-full lg:w-2/3">
+            <div className="w-full lg:w-[200px]">
               <img src={productImageTwo} alt="" />
             </div>
           </div>
@@ -123,7 +123,7 @@ const HeaderCards = ({
                 <BsArrowRight className="text-xl text-black hidden md:block" />
               </Link>
             </div>
-            <div className="w-full lg:w-2/3">
+            <div className="w-full lg:w-[200px]">
               <img src={productImageThree} alt="" />
             </div>
           </div>

@@ -81,6 +81,15 @@ import {
   Blogs,
   VendorEditProduct,
   VendorEditProductAttributes,
+
+  // Footer routes
+  AboutUs,
+  BuyerAgreement,
+  ContactUs,
+  Faq,
+  PoliciesAndShippingRates,
+  SellerAgreement,
+  SellerRegistration,
 } from "../pages";
 
 import Replacement from "../pages/admin/Replacement";
@@ -628,5 +637,45 @@ export const shopRoutes = [
     id: nanoid(),
     path: PATHS.shopAboutUs,
     Component: ShopAboutUs,
+  },
+];
+
+// footer routes
+
+export const footerRoutes = [
+  {
+    id: nanoid(),
+    path: PATHS.footerAboutUs,
+    Component: AboutUs,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerBuyerAgreement,
+    Component: BuyerAgreement,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerContactUs,
+    Component: ContactUs,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerFaq,
+    Component: Faq,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerPoliciesAndShippingRates,
+    Component: PoliciesAndShippingRates,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerSellerAgreement,
+    Component: SellerAgreement,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.footerSellerRegistration,
+    Component: SellerRegistration,
   },
 ];

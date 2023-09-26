@@ -5,6 +5,9 @@ import { useDispatch } from "react-redux";
 import { debouncedShowToast } from "../../../utils";
 import { setProduct } from "../../../features/appConfig/addProductSlice";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { fetchAllCollections } from "../../../api/apiCalls";
+import { setActiveCollection } from "../../../features/appConfig/appSlice";
 
 const useAddProduct = () => {
   const navigate = useNavigate();
@@ -22,6 +25,17 @@ const useAddProduct = () => {
   const [foregroundX, setForegroundX] = useState(0);
   const [foregroundY, setForegroundY] = useState(0);
 
+  const { data: collections } = useQuery(
+    "get_collections",
+    fetchAllCollections
+  );
+
+  const collectionOptions = () => {
+    return collections?.data?.map((collection) => {
+      return { value: collection._id, label: collection?.title };
+    });
+  };
+w
   const handleDrag = (e, data) => {
     const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
     const newX = Math.floor((data.x / parentElement.clientWidth) * 100);
@@ -151,6 +165,19 @@ const useAddProduct = () => {
     };
   };
 
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onChange = (value) => {
+    dispatch(
+      setActiveCollection(
+        collections?.data?.filter((collection) => {
+          return collection._id === value;
+        })[0]
+      )
+    );
+  };
+
   useEffect(() => {
     getAllCategories();
     getAllVendors();
@@ -185,6 +212,9 @@ const useAddProduct = () => {
     setSelectedShape,
     foregroundX,
     foregroundY,
+    collectionOptions,
+    filterOption,
+    onChange,
   };
 };
 

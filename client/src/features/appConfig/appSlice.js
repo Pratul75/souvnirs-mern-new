@@ -8,6 +8,7 @@ const initialState = {
   refresh: false,
   login: "",
   loading: false,
+  activeCollection: {},
 };
 
 export const appConfigSlice = createSlice({
@@ -39,6 +40,9 @@ export const appConfigSlice = createSlice({
     stopLoading: (state, action) => {
       state.loading = false;
     },
+    setActiveCollection: (state, action) => {
+      state.activeCollection = action.payload;
+    },
   },
 });
 
@@ -52,5 +56,6 @@ export const {
   toggleRefresh,
   startLoading,
   stopLoading,
+  setActiveCollection,
 } = appConfigSlice.actions;
 export default appConfigSlice.reducer;

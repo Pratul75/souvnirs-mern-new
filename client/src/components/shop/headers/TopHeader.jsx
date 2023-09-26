@@ -5,12 +5,12 @@ const TopHeader = ({ heading, language, currency }) => {
   return (
     <div className="bg-[#F0F0F0] px-4 md:px-16 py-2 md:py-4 flex justify-between items-center">
       <div className="marquee-container flex flex-1">
-        <h5 className="hidden md:flex md:w-full marquee-content gradient-text">
+        <h5 className="hidden md:flex md:w-full marquee-content gradient-text mx-8">
           {heading}
         </h5>
       </div>
       <div className="flex justify-end gap-4">
-        <h6 className="flex justify-end items-center gap-4 text-sm font-medium">
+        <h6 className="flex mx-8 justify-end items-center gap-4 text-sm font-medium">
           {language}
           <span className="cursor-pointer">
             <IoIosArrowDown />

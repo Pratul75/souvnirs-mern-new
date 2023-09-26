@@ -16,6 +16,9 @@ import { GrFormClose } from "react-icons/gr";
 import { Tooltip } from "react-tooltip";
 import { AiFillInfoCircle } from "react-icons/ai";
 
+import { Select } from "antd";
+import { useQuery } from "react-query";
+import { fetchAllCollections } from "../../../api/apiCalls";
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
@@ -32,6 +35,12 @@ const AddProductAttributes = () => {
   const [commission, setcommission] = useState(null);
 
   const p = useSelector((state) => state.product);
+  const selectedCollection = useSelector(
+    (state) => state.appConfig.activeCollection
+  );
+
+  console.log("ACTIVE COLLECTION: ", selectedCollection);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   console.log(p);
@@ -69,56 +78,6 @@ const AddProductAttributes = () => {
   };
   const randomSlug = () => {
     return nanoid(10);
-  };
-
-  const createProduct = async () => {
-    try {
-      console.log("AddProductAttributes.jsx", p);
-      console.log(variantData);
-      const productFormData = new FormData();
-      productFormData.append("name", p.name);
-      productFormData.append("vendorId", p.vendorId);
-      productFormData.append("description", p.desc);
-      productFormData.append("tags", p.tags);
-      productFormData.append("img", p.coverImg);
-      productFormData.append("attributes", JSON.stringify(p.attributes));
-      productFormData.append("slug", randomSlug());
-      productFormData.append("price", price);
-      productFormData.append("quantity", quantity);
-      productFormData.append("freeShipping", p.freeShipping);
-      productFormData.append("readyToShip", p.readyToShip);
-      productFormData.append("categoryId", categoryId);
-      productFormData.append("customization", JSON.stringify(p.customization));
-
-      const prodResponse = await API_WRAPPER.post(
-        "/products/add-product",
-        productFormData
-      );
-      const productId = prodResponse.data.data._id;
-      console.log("AddProductAttributes.jsx", productId);
-      if (prodResponse.status == 201) {
-        for (let variant of variantData) {
-          console.log(variant);
-          const { mrp, productQuantity, files, ...variantName } = variant;
-          console.log("AddProductAttributes.jsx", files);
-          const variantFormData = new FormData();
-          variantFormData.append("variant", JSON.stringify(variantName));
-          variantFormData.append("mrp", mrp);
-          variantFormData.append("quantity", productQuantity);
-
-          variantFormData.append("productId", productId);
-          if (files) {
-            for (let file of files) {
-              variantFormData.append("images", file);
-            }
-          }
-          await API_WRAPPER.post("/products/create-variant", variantFormData);
-        }
-      }
-      navigate(PATHS.adminProductManagement);
-    } catch (error) {
-      debouncedShowToast(error.message, "error");
-    }
   };
 
   const handleSelectedValue = (category) => {
@@ -268,6 +227,101 @@ const AddProductAttributes = () => {
     return JSON.stringify(variant1) === JSON.stringify(variant2);
   };
 
+  // COLLECTION LOGIC
+
+  const [activeCollection, setActiveCollection] = useState({});
+  const { data: collections } = useQuery(
+    "get_collections",
+    fetchAllCollections
+  );
+  const collectionOptions = () => {
+    return collections?.data?.map((collection) => {
+      return { value: collection._id, label: collection?.title };
+    });
+  };
+  const filterOption = (input, option) =>
+    (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
+
+  const onChange = (value) => {
+    setActiveCollection(
+      collections?.data?.filter((collection) => {
+        return collection._id === value;
+      })[0]
+    );
+  };
+
+  // COLLECTION LOGIC END
+
+  const createProduct = async () => {
+    try {
+      console.log("AddProductAttributes.jsx", p);
+      console.log(variantData);
+      const productFormData = new FormData();
+      productFormData.append("name", p.name);
+      productFormData.append("vendorId", p.vendorId);
+      productFormData.append("description", p.desc);
+      productFormData.append("tags", p.tags);
+      productFormData.append("img", p.coverImg);
+      productFormData.append("attributes", JSON.stringify(p.attributes));
+      productFormData.append("slug", randomSlug());
+      productFormData.append("price", price);
+      productFormData.append("quantity", quantity);
+      productFormData.append("freeShipping", p.freeShipping);
+      productFormData.append("readyToShip", p.readyToShip);
+      productFormData.append("categoryId", categoryId);
+      productFormData.append("customization", JSON.stringify(p.customization));
+
+      const prodResponse = await API_WRAPPER.post(
+        "/products/add-product",
+        productFormData
+      );
+      const productId = prodResponse.data.data._id;
+      console.log("AddProductAttributes.jsx", productId);
+      if (prodResponse.status == 201) {
+        setActiveCollection((prevState) => [
+          {
+            ...prevState,
+            activeProducts: prevState?.activeProducts.push(productId),
+          },
+        ]);
+
+        console.log(
+          "SELECTED COLLECTION: ",
+          activeCollection,
+          "ID: ",
+          productId
+        );
+        const collectionResponse = await API_WRAPPER.put(
+          `/collection/update-collection-by-id/:${activeCollection._id}`,
+          activeCollection
+        );
+
+        console.log("COLLECTION RESPONSE: ", collectionResponse);
+
+        for (let variant of variantData) {
+          console.log(variant);
+          const { mrp, productQuantity, files, ...variantName } = variant;
+          console.log("AddProductAttributes.jsx", files);
+          const variantFormData = new FormData();
+          variantFormData.append("variant", JSON.stringify(variantName));
+          variantFormData.append("mrp", mrp);
+          variantFormData.append("quantity", productQuantity);
+
+          variantFormData.append("productId", productId);
+          if (files) {
+            for (let file of files) {
+              variantFormData.append("images", file);
+            }
+          }
+          await API_WRAPPER.post("/products/create-variant", variantFormData);
+        }
+      }
+      navigate(PATHS.adminProductManagement);
+    } catch (error) {
+      debouncedShowToast(error.message, "error");
+    }
+  };
+
   const addRow = (index) => {
     setVariantData((prevData) => {
       const newData = [...prevData];
@@ -294,6 +348,16 @@ const AddProductAttributes = () => {
           heading={"Data to Publish"}
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
+        />
+
+        <Select
+          showSearch
+          placeholder="Select a collection"
+          optionFilterProp="children"
+          onChange={onChange}
+          // onSearch={onSearch}
+          filterOption={filterOption}
+          options={collectionOptions()}
         />
         <div>
           {selectedAttributes.length < 1 ? (

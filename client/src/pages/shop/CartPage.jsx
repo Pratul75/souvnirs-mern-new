@@ -45,8 +45,12 @@ const CartPage = () => {
     setCartItems(updatedCartItems);
     cartItemUpdate(id, newQuantity);
   };
+
   const checkoutHandler = async () => {
-    const response = await API_WRAPPER.post(`/checkout`);
+    const response = await API_WRAPPER.post(
+      `/checkout-add-checkout`,
+      extractCartData(cartItems)
+    );
     if (response.status == 200) {
       navigate("/checkout");
     }
@@ -55,7 +59,21 @@ const CartPage = () => {
   useEffect(() => {
     getCartItems();
   }, [apitrigger]);
+
   console.log("CART ITEMS: ", cartItems);
+
+  function extractCartData(cartItems) {
+    return cartItems.map((item) => ({
+      productQuantity: item.product_quantity,
+      customer_id: item.customer_id,
+      variant_id: item.variant_id,
+      productName: item.product_id.name,
+      productPrice: item.product_id.price,
+      productImage: item.product_id.images[0],
+    }));
+  }
+
+  console.log(extractCartData(cartItems));
 
   const columns = [
     {
