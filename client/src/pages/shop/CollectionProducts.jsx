@@ -16,6 +16,7 @@ import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { findMinMaxPrice } from "../../utils";
 
 // page to show the collections of products and their filters
+
 const CollectionProducts = () => {
   const { slug } = useParams();
   const [filterType, setFilterType] = useState(false);
