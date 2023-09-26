@@ -15,7 +15,7 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
 import { nanoid } from "nanoid";
-
+import Cropper from "react-easy-crop";
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
@@ -30,7 +30,73 @@ const ProductInfo = () => {
   const [overImage, setOverImage] = useState();
   const [customizedImage, setCustomizedImage] = useState();
   const [currency, setCurrency] = useState("ruppee");
+  const [croppedImage, setCroppedImage] = useState(null);
+
+  const onCropComplete = async (croppedArea, croppedAreaPixels) => {
+    try {
+      const croppedImg = await getCroppedImg(selectedImage, croppedAreaPixels);
+      setCroppedImage(croppedImg);
+    } catch (e) {
+      console.error("Error cropping image:", e);
+    }
+  };
+
+  const saveCroppedImage = () => {
+    if (croppedImage) {
+      // Here you can implement logic to save the cropped image
+      // For example, send it to the server or save it locally.
+      // You can also display a success message to the user.
+      console.log("Cropped image saved:", croppedImage);
+    } else {
+      console.warn("No cropped image to save.");
+    }
+  };
+
+  const getCroppedImg = async (imageSrc, crop) => {
+    const image = new Image();
+    image.src = imageSrc;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+
+    ctx.drawImage(
+      image,
+      crop.x,
+      crop.y,
+      crop.width,
+      crop.height,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error("Failed to crop image."));
+            return;
+          }
+          resolve(URL.createObjectURL(blob));
+        },
+        "image/jpeg", // Adjust the format as needed (e.g., "image/png")
+        1 // Adjust the quality (0 to 1)
+      );
+    });
+  };
+
   const [mrp, setMrp] = useState();
+  // crop image states
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  // const onCropComplete = (croppedArea, croppedAreaPixels) => {
+  //   console.log(croppedArea, croppedAreaPixels);
+  // };
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -657,8 +723,38 @@ const ProductInfo = () => {
               <h1 className="text-4xl my-8 text-shopPrimaryColor">
                 Customize Product
               </h1>
+
+              {overImage && (
+                <div className="crop-container">
+                  <Cropper
+                    image={selectedImage} // The image you want to crop
+                    crop={crop}
+                    zoom={zoom}
+                    aspect={4 / 3} // You can adjust the aspect ratio as needed
+                    onCropChange={setCrop}
+                    onZoomChange={setZoom}
+                    onCropComplete={onCropComplete}
+                    cropSize={{ width: 400, height: 300 }} // Set your desired crop size
+                  />
+                  <button onClick={saveCroppedImage}>Save Cropped Image</button>
+                </div>
+              )}
+              <div className="controls">
+                <input
+                  type="range"
+                  value={zoom}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  aria-labelledby="Zoom"
+                  onChange={(e) => {
+                    setZoom(e.target.value);
+                  }}
+                  className="zoom-range"
+                />
+              </div>
               <div className="relative">
-                <img
+                {/* <img
                   className="rounded-xl"
                   src={
                     !product?.coverImage?.includes("res.cloudinary") &&
@@ -667,7 +763,7 @@ const ProductInfo = () => {
                       : product?.coverImage
                   }
                   alt="Cover Image"
-                />
+                /> */}
                 {overImage && (
                   <img
                     className="absolute"

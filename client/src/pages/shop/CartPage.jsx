@@ -64,6 +64,7 @@ const CartPage = () => {
 
   function extractCartData(cartItems) {
     return cartItems.map((item) => ({
+      product_id: item?.product_id._id,
       productQuantity: item.product_quantity,
       customer_id: item.customer_id,
       variant_id: item.variant_id,

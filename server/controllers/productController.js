@@ -352,104 +352,118 @@ const getProductsByCollectionSlug = async (req, res) => {
 
   const attributesArray = data;
 
-  if (attributesArray.some((attribute) => attribute.values.length > 0)) {
-    aggregationPipeline = [
-      {
-        $match: {
-          title: slug,
-        },
-      },
-      {
-        $lookup: {
-          from: "products",
-          localField: "activeProducts",
-          foreignField: "_id",
-          as: "products",
-        },
-      },
-      {
-        $unwind: {
-          path: "$products",
-        },
-      },
-      {
-        $lookup: {
-          from: "attributetypes",
-          localField: "_id",
-          foreignField: "productId",
-          as: "variants",
-        },
-      },
-      {
-        $addFields: {
-          filteredVariants: {
-            $filter: {
-              input: "$variants",
-              as: "variant",
-              cond: {
-                $or: attributesArray.map((attribute) => {
-                  const key = attribute.key;
-                  const values = attribute.values;
-                  return {
-                    $or: values.map((value) => ({
-                      $eq: ["$$variant.variant." + key, value],
-                    })),
-                  };
-                }),
-              },
-            },
-          },
-        },
-      },
+  // if (attributesArray.some((attribute) => attribute.values.length > 0)) {
+  //   aggregationPipeline = [
+  //     {
+  //       $match: {
+  //         title: slug,
+  //       },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: "products",
+  //         localField: "activeProducts",
+  //         foreignField: "_id",
+  //         as: "products",
+  //       },
+  //     },
+  //     {
+  //       $unwind: {
+  //         path: "$products",
+  //       },
+  //     },
+  //     {
+  //       $lookup: {
+  //         from: "attributetypes",
+  //         localField: "_id",
+  //         foreignField: "productId",
+  //         as: "variants",
+  //       },
+  //     },
+  //     {
+  //       $addFields: {
+  //         filteredVariants: {
+  //           $filter: {
+  //             input: "$variants",
+  //             as: "variant",
+  //             cond: {
+  //               $or: attributesArray.map((attribute) => {
+  //                 const key = attribute.key;
+  //                 const values = attribute.values;
+  //                 return {
+  //                   $or: values.map((value) => ({
+  //                     $eq: ["$$variant.variant." + key, value],
+  //                   })),
+  //                 };
+  //               }),
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
 
-      {
-        $sort: { createdAt: -1 },
+  //     {
+  //       $sort: { createdAt: -1 },
+  //     },
+  //   ];
+  // } else {
+  aggregationPipeline = [
+    {
+      $match: {
+        title: slug,
       },
-    ];
-  } else {
-    aggregationPipeline = [
-      {
-        $match: {
-          title: slug,
-        },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "activeProducts",
+        foreignField: "_id",
+        as: "products",
       },
-      {
-        $lookup: {
-          from: "products",
-          localField: "activeProducts",
-          foreignField: "_id",
-          as: "products",
-        },
+    },
+    {
+      $unwind: {
+        path: "$products",
       },
-      {
-        $unwind: {
-          path: "$products",
-        },
+    },
+    {
+      $lookup: {
+        from: "attributetypes",
+        localField: "products._id",
+        foreignField: "productId",
+        as: "variants",
       },
-      {
-        $lookup: {
-          from: "attributetypes",
-          localField: "products._id",
-          foreignField: "productId",
-          as: "variants",
-        },
-      },
-    ];
-  }
+    },
+  ];
+  // }
 
   const products = await Collection.aggregate(aggregationPipeline);
   // console.log(products);
-  let filteredProducts = products.filter((product) => {
-    if (product.variants && product.variants.length > 0) {
-      return product.variants.some(
-        (variant) => variant.price >= priceMin && variant.price <= priceMax
-      );
-    } else {
-      return (
-        product.products.price >= priceMin && product.products.price <= priceMax
-      );
-    }
-  });
+  let filteredProducts = [];
+  if (data?.length > 0 && data[0]?.values.length > 0) {
+    data[0]?.values?.forEach((element, index) => {
+      let filteredData = products.filter((product) => {
+        return product?.variants.some((item) => {
+          return item?.variant["Color"] == data[0]?.values[index];
+        });
+      });
+      filteredProducts = [...filteredProducts, ...filteredData];
+    });
+  } else {
+    filteredProducts = products;
+  }
+
+  // filteredProducts = products.filter((product) => {
+  //   if (product.variants && product.variants.length > 0) {
+  //     return product.variants.some(
+  //       (variant) => variant.price >= priceMin && variant.price <= priceMax
+  //     );
+  //   } else {
+  //     return (
+  //       product.products.price >= priceMin && product.products.price <= priceMax
+  //     );
+  //   }
+  // });
 
   if (sort && sort == "htl") {
     filteredProducts = filteredProducts.sort((a, b) => {
@@ -525,13 +539,6 @@ const getProductsByCollectionSlug = async (req, res) => {
   const lastPage = Math.ceil(filteredProducts.length / 10);
 
   let finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
-  console.log("++++", req?.body?.data?.values);
-  if (req?.body?.data.length == 0) {
-    finalProducts = products;
-  } else {
-    finalProducts = finalProducts;
-  }
-
   res
     .status(200)
     .json({ products: finalProducts, filters: variantComb, lastPage });

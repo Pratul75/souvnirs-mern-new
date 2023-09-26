@@ -28,28 +28,9 @@ const CollectionProducts = () => {
   const [selectedFilter, setSelectedFilter] = useState("new");
   const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
 
-  const changeFilter = (filter) => {
-    console.log("=>=>", filter);
-    let data = {
-      data: [],
-      priceMin: 0,
-      priceMax: 1000,
-      page: 1,
-      sort: "new",
-    };
-    if (filter.lenth == 0) {
-      setFilters(data);
-    } else if (filter.length > 0) {
-      setFilters(data);
-    } else {
-      setFilters(filter);
-    }
-  };
-
   const getProducts = async () => {
     setLoading(true);
     try {
-      changeFilter(filters);
       const response = await API_WRAPPER.post(`/products/collection/${slug}`, {
         data: filters,
         priceMin: inputRangeValue[0],

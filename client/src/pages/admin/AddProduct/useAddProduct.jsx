@@ -35,7 +35,7 @@ const useAddProduct = () => {
       return { value: collection._id, label: collection?.title };
     });
   };
-w
+
   const handleDrag = (e, data) => {
     const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
     const newX = Math.floor((data.x / parentElement.clientWidth) * 100);

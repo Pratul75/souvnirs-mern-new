@@ -261,7 +261,7 @@ const AddProduct = () => {
             className="col-span-6  md:col-span-4 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
           >
             <h3 className="font-semibold">
-              Add Cover Image<span className=" text-red-600">*</span>
+              Add Cover Image(Only PNG)<span className=" text-red-600">*</span>
             </h3>
             <hr className="mt-4" />
 
@@ -293,7 +293,7 @@ const AddProduct = () => {
                   Show Preview
                 </button>
               ) : (
-                <p>select image</p>
+                <p>select image (only PNG)</p>
               )}
               <button onClick={handleSubmit} className="btn btn-primary">
                 Next

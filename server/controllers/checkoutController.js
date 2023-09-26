@@ -4,15 +4,16 @@ const createCheckout = async (req, res) => {
   try {
     // Assuming the request body is an array of products to be checked out, and each object has a 'customerId'
     const productsToCheckout = req.body;
-
+    console.log("PRODUCTS: ", productsToCheckout);
     // Extract the customerId from the first object (assuming it's the same for all items)
-    const customerId = productsToCheckout[0].customerId;
-
+    const customerId = productsToCheckout[0].customer_id;
+    console.log("PRODUCTS TO CHECKOUT: ", productsToCheckout);
     // Create a new checkout object
+
     const newCheckout = new Checkout({
       customerId, // Use the extracted customerId for all items
       items: productsToCheckout.map((productData) => ({
-        productId: productData.productId,
+        productId: productData.product_id,
         product_name: productData.productName,
         product_price: productData.productPrice,
         product_quantity: productData.productQuantity,
@@ -28,7 +29,7 @@ const createCheckout = async (req, res) => {
     res.status(201).json(newCheckout);
   } catch (error) {
     // Handle errors
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: error.message });
   }
 };
 
