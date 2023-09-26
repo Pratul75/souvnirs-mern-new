@@ -453,19 +453,59 @@ const getProductsByCollectionSlug = async (req, res) => {
     filteredProducts = products;
   }
 
-  // filteredProducts = products.filter((product) => {
-  //   if (product.variants && product.variants.length > 0) {
-  //     return product.variants.some(
-  //       (variant) => variant.price >= priceMin && variant.price <= priceMax
-  //     );
-  //   } else {
-  //     return (
-  //       product.products.price >= priceMin && product.products.price <= priceMax
-  //     );
-  //   }
-  // });
+  let maxPrice = 0;
+  let minPrice = Number.MAX_VALUE;
 
+  // Loop through the data to find the max and min prices
+  products.forEach((item) => {
+    if (item?.products?.price) {
+      if (item?.products?.price > maxPrice) {
+        maxPrice = item?.products.price;
+      }
+      if (item?.products?.price < minPrice) {
+        minPrice = item?.products.price;
+      }
+    } else {
+      item.variants.forEach((variant) => {
+        if (variant.price > maxPrice) {
+          maxPrice = variant.price;
+        }
+        if (variant.price < minPrice) {
+          minPrice = variant.price;
+        }
+      });
+    }
+  });
+
+  // Create an object to store the max and min prices
+
+  if (priceMin && priceMax) {
+    filteredProducts = filteredProducts.filter((product) => {
+      if (product?.products?.price) {
+        return (
+          product?.products?.price >= priceMin &&
+          product?.products?.price <= priceMax
+        );
+      } else {
+        return product?.variants.some((item) => {
+          return item?.price >= priceMin && item?.price <= priceMax;
+        });
+      }
+    });
+  }
   if (sort && sort == "htl") {
+    // filteredProducts = products.filter((product) => {
+    //   if (product.variants && product.variants.length > 0) {
+    //     return product.variants.some(
+    //       (variant) => variant.price >= priceMin && variant.price <= priceMax
+    //     );
+    //   } else {
+    //     return (
+    //       product.products.price >= priceMin && product.products.price <= priceMax
+    //     );
+    //   }
+    // });
+
     filteredProducts = filteredProducts.sort((a, b) => {
       if (a.variants.length > 0 && b.variants.length > 0) {
         return b.variants[0].price - a.variants[0].price;
@@ -502,7 +542,6 @@ const getProductsByCollectionSlug = async (req, res) => {
             if (!uniqueAttributes[attribute]) {
               uniqueAttributes[attribute] = new Set();
             }
-
             if (Array.isArray(value)) {
               value.forEach((subValue) =>
                 uniqueAttributes[attribute].add(subValue)
@@ -539,9 +578,13 @@ const getProductsByCollectionSlug = async (req, res) => {
   const lastPage = Math.ceil(filteredProducts.length / 10);
 
   let finalProducts = filteredProducts.slice(10 * (page - 1), 10 * page);
-  res
-    .status(200)
-    .json({ products: finalProducts, filters: variantComb, lastPage });
+  res.status(200).json({
+    products: finalProducts,
+    filters: variantComb,
+    lastPage,
+    maxPrice: maxPrice,
+    minPrice: minPrice,
+  });
 };
 
 const getProductsByFilter = async (req, res) => {

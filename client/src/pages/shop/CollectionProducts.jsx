@@ -28,6 +28,7 @@ const CollectionProducts = () => {
   const [lastPage, setLastPage] = useState(2);
   const [selectedFilter, setSelectedFilter] = useState("new");
   const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
+  const [selectedPrice, setSelectedPrice] = useState({});
 
   const getProducts = async () => {
     setLoading(true);
@@ -42,6 +43,10 @@ const CollectionProducts = () => {
       setProducts(response?.data?.products);
       setFilterList(response?.data?.filters);
       setLastPage(response?.data?.lastPage);
+      setSelectedPrice({
+        min: response?.data?.minPrice,
+        max: response?.data?.maxPrice,
+      });
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -95,8 +100,8 @@ const CollectionProducts = () => {
                 </div>
                 <Slider
                   range
-                  min={findMinMaxPrice(products).min}
-                  max={findMinMaxPrice(products).max}
+                  min={selectedPrice?.min}
+                  max={selectedPrice?.max}
                   onChange={(value) => {
                     setInputRangeValue(value);
                     console.log("RANGE VALUE: ", value);
