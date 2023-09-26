@@ -760,6 +760,66 @@ const ProductInfo = () => {
                   className="file-input"
                 />
               </div>
+              <button className="btn" onClick={openCropDrawer}>
+                Crop Image
+              </button>
+
+              {/* Add the crop drawer */}
+              {isCropDrawerOpen && (
+                <div className="drawer">
+                  <input
+                    id="crop_drawer"
+                    type="checkbox"
+                    className="drawer-toggle"
+                  />
+                  <div className="drawer-content">
+                    <div className="modal-content">
+                      <h1 className="text-4xl my-8 text-shopPrimaryColor">
+                        Crop Image
+                      </h1>
+                      <div className="relative">
+                        <div className="cropper">
+                          <Cropper
+                            image={overImage}
+                            aspect={CROP_AREA_ASPECT}
+                            crop={crop}
+                            zoom={zoom}
+                            onCropChange={setCrop}
+                            onZoomChange={setZoom}
+                            onCropAreaChange={setCroppedArea}
+                          />
+                        </div>
+                        <div className="viewer">
+                          <div>
+                            {croppedArea && (
+                              <Output croppedArea={croppedArea} />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex justify-between mt-4">
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => {
+                            closeCropDrawer();
+                          }}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="drawer-side">
+                    <label
+                      htmlFor="crop_drawer"
+                      className="drawer-overlay"
+                    ></label>
+                    <ul className="menu p-4 w-[50vw] min-h-full bg-base-200 text-base-content">
+                      {/* Add any additional content for the crop drawer if needed */}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           </ul>
         </div>
