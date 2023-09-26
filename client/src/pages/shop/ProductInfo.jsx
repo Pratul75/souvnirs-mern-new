@@ -15,7 +15,9 @@ import { toggleRefresh } from "../../features/appConfig/appSlice";
 import "react-inner-image-zoom/lib/InnerImageZoom/styles.min.css";
 import InnerImageZoom from "react-inner-image-zoom";
 import { nanoid } from "nanoid";
+
 import Cropper from "react-easy-crop";
+
 const ProductInfo = () => {
   const isLogged = localStorage.getItem("token");
   const [selectedImage, setSelectedImage] = useState();
@@ -31,24 +33,23 @@ const ProductInfo = () => {
   const [customizedImage, setCustomizedImage] = useState();
   const [currency, setCurrency] = useState("ruppee");
   const [mrp, setMrp] = useState();
-  /// Add state to track the cropped image
-  const [croppedImage, setCroppedImage] = useState(null);
-  // Add a state to toggle the display of the cropped image section
-  const [showCroppedImage, setShowCroppedImage] = useState(false);
-
-  // Add a function to handle cropping
-  const handleCropImage = () => {
-    // Perform the crop operation here using the crop and zoom values
-    // You can use the react-easy-crop library to crop the image
-    // After cropping, update the cropped image state
-    // Example: setCroppedImage(croppedImageData);
-    setShowCroppedImage(true); // Show the cropped image section
-  };
-  // crop image states
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
+  const [croppedArea, setCroppedArea] = useState(null);
+
+  // Add a state variable to track if the crop drawer is open
+  const [isCropDrawerOpen, setIsCropDrawerOpen] = useState(false);
+
+  // ... Existing code ...
+
+  // Function to open the crop drawer
+  const openCropDrawer = () => {
+    setIsCropDrawerOpen(true);
+  };
+
+  // Function to close the crop drawer
+  const closeCropDrawer = () => {
+    setIsCropDrawerOpen(false);
   };
 
   const dispatch = useDispatch();
@@ -324,7 +325,33 @@ const ProductInfo = () => {
       fetchProductData();
     }
   }, [slug]); // Add slug as a dependency
+  const CROP_AREA_ASPECT = 3 / 2;
 
+  const Output = ({ croppedArea }) => {
+    const scale = 100 / croppedArea.width;
+    const transform = {
+      x: `${-croppedArea.x * scale}%`,
+      y: `${-croppedArea.y * scale}%`,
+      scale,
+      width: "calc(100% + 0.5px)",
+      height: "auto",
+    };
+
+    const imageStyle = {
+      transform: `translate3d(${transform.x}, ${transform.y}, 0) scale3d(${transform.scale},${transform.scale},1)`,
+      width: transform.width,
+      height: transform.height,
+    };
+
+    return (
+      <div
+        className="output"
+        style={{ paddingBottom: `${100 / CROP_AREA_ASPECT}%` }}
+      >
+        <img src="/assets/dog.jpeg" alt="" style={imageStyle} />
+      </div>
+    );
+  };
   console.log("PRODUCTS: ", product);
   return (
     <>
@@ -678,49 +705,8 @@ const ProductInfo = () => {
                 Customize Product
               </h1>
 
-              {overImage && (
-                <div className="crop-container">
-                  <Cropper
-                    image={overImage}
-                    crop={crop}
-                    zoom={zoom}
-                    aspect={4 / 3}
-                    onCropChange={setCrop}
-                    onCropComplete={onCropComplete}
-                    onZoomChange={setZoom}
-                  />
-                  {/* // Add a button to trigger cropping */}
-
-                  {showCroppedImage && croppedImage && (
-                    <div>
-                      <h2>Cropped Image</h2>
-                      <img src={croppedImage} alt="Cropped" />
-                    </div>
-                  )}
-                </div>
-              )}
-              <div className="controls">
-                <input
-                  type="range"
-                  value={zoom}
-                  min={1}
-                  max={3}
-                  step={0.1}
-                  aria-labelledby="Zoom"
-                  onChange={(e) => {
-                    setZoom(e.target.value);
-                  }}
-                  className="zoom-range"
-                />
-                <button
-                  onClick={handleCropImage}
-                  className="btn btn-primary z-[9999]"
-                >
-                  Crop Image
-                </button>
-              </div>
               <div className="relative">
-                {/* <img
+                <img
                   className="rounded-xl"
                   src={
                     !product?.coverImage?.includes("res.cloudinary") &&
@@ -729,7 +715,28 @@ const ProductInfo = () => {
                       : product?.coverImage
                   }
                   alt="Cover Image"
-                /> */}
+                />
+                {overImage && (
+                  <>
+                    <div className="cropper">
+                      <Cropper
+                        image={overImage} // Use your selected image here
+                        aspect={CROP_AREA_ASPECT}
+                        crop={crop}
+                        zoom={zoom}
+                        onCropChange={setCrop}
+                        onZoomChange={setZoom}
+                        onCropAreaChange={setCroppedArea}
+                      />
+                    </div>
+                    <div className="viewer">
+                      <div>
+                        {croppedArea && <Output croppedArea={croppedArea} />}
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 {/* {overImage && (
                   <img
                     className="absolute"
