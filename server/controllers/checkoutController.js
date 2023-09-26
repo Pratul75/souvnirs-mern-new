@@ -1,5 +1,5 @@
 const Checkout = require("../schema/checkoutModal");
-``
+
 const createCheckout = async (req, res) => {
   try {
     // Assuming the request body is an array of products to be checked out, and each object has a 'customerId'
