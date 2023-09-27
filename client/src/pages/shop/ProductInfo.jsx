@@ -36,7 +36,7 @@ const ProductInfo = () => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState(null);
-
+  const [croppedImage, setCroppedImage] = useState(null); // State to store the cropped image data
   // Add a state variable to track if the crop drawer is open
   const [isCropDrawerOpen, setIsCropDrawerOpen] = useState(false);
 
@@ -51,7 +51,59 @@ const ProductInfo = () => {
   const closeCropDrawer = () => {
     setIsCropDrawerOpen(false);
   };
+  const getCroppedImg = async (imageSrc, crop, zoom) => {
+    const image = new Image();
+    image.src = imageSrc;
 
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Calculate the scaled width and height based on the zoom factor
+    const scaledWidth = crop.width / zoom;
+    const scaledHeight = crop.height / zoom;
+
+    // Set the canvas size based on the scaled dimensions
+    canvas.width = scaledWidth;
+    canvas.height = scaledHeight;
+
+    // Calculate the source rectangle coordinates based on the zoom and crop values
+    const sourceX = (crop.x / zoom) * (image.width / scaledWidth);
+    const sourceY = (crop.y / zoom) * (image.height / scaledHeight);
+    const sourceWidth = image.width / zoom;
+    const sourceHeight = image.height / zoom;
+
+    // Draw the cropped image on the canvas
+    ctx.drawImage(
+      image,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      0,
+      0,
+      scaledWidth,
+      scaledHeight
+    );
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error("Canvas is empty"));
+          return;
+        }
+        resolve(URL.createObjectURL(blob));
+      }, "image/jpeg");
+    });
+  };
+
+  const handleCrop = async () => {
+    try {
+      const croppedImg = await getCroppedImg(overImage, croppedArea, zoom);
+      setCroppedImage(croppedImg);
+    } catch (error) {
+      console.error("Error cropping image:", error);
+    }
+  };
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -716,40 +768,6 @@ const ProductInfo = () => {
                   }
                   alt="Cover Image"
                 />
-                {overImage && (
-                  <>
-                    <div className="cropper">
-                      <Cropper
-                        image={overImage} // Use your selected image here
-                        aspect={CROP_AREA_ASPECT}
-                        crop={crop}
-                        zoom={zoom}
-                        onCropChange={setCrop}
-                        onZoomChange={setZoom}
-                        onCropAreaChange={setCroppedArea}
-                      />
-                    </div>
-                    <div className="viewer">
-                      <div>
-                        {croppedArea && <Output croppedArea={croppedArea} />}
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {/* {overImage && (
-                  <img
-                    className="absolute"
-                    style={{
-                      top: `${product?.customization?.yAxis}%`,
-                      left: `${product?.customization?.xAxis}%`,
-                      height: `${product?.customization?.height}px`,
-                      width: `${product?.customization?.width}px`,
-                    }}
-                    src={overImage}
-                    alt="Overlay Image"
-                  />
-                )} */}
               </div>
 
               <div className="flex justify-between mt-4">
@@ -797,11 +815,26 @@ const ProductInfo = () => {
                           </div>
                         </div>
                       </div>
+
+                      {/* Display the cropped image */}
+                      {croppedImage && (
+                        <div className="mt-4">
+                          <h2 className="text-xl font-semibold">
+                            Cropped Image
+                          </h2>
+                          <img
+                            src={croppedImage}
+                            alt="Cropped"
+                            className="mt-2 w-full"
+                          />
+                        </div>
+                      )}
+
                       <div className="flex justify-between mt-4">
                         <button
                           className="btn btn-primary"
                           onClick={() => {
-                            closeCropDrawer();
+                            handleCrop();
                           }}
                         >
                           Done
