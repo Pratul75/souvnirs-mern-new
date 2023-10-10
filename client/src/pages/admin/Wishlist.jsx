@@ -2,10 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
+import { ToastContainer, toast } from "react-toastify";
 
 // wishlist
 const Wishlist = () => {
   const [wishlist, setWishlist] = useState([]);
+  const [selectedWishlist, setSelectedWishlist] = useState({});
+
   const fetchWishlist = async () => {
     console.log("Wishlist.jsx", "triggerd api");
     try {
@@ -30,17 +33,21 @@ const Wishlist = () => {
 
       {
         Header: "Product Name",
-        accessor: "productName",
+        accessor: "product.name",
       },
       {
         Header: "product Price",
-        accessor: "productPrice",
+        accessor: "product.price",
       },
       {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            fetchWishlist
+          );
         },
       },
     ],
@@ -50,6 +57,19 @@ const Wishlist = () => {
   useEffect(() => {
     fetchWishlist();
   }, []);
+
+  const handleDelete = (row) => {
+    setSelectedWishlist(row);
+    window.whishlist_delete_modal.showModal();
+  };
+
+  const handleDeleteSubmit = async () => {
+    const response = await API_WRAPPER.delete(
+      `/wishlist/delete/getmywishlist/${selectedWishlist?._id}`
+    );
+    fetchWishlist();
+    toast.success("Wishlist deleted");
+  };
 
   return (
     <div>
@@ -64,12 +84,37 @@ const Wishlist = () => {
             columns={columns}
             data={data}
             pageSize={"10"}
+            showButtons
             enablePagination
-            // enableDelete
-            // onDelete={handleDelete}
+            enableDelete
+            onDelete={handleDelete}
           />
         </div>
       </div>
+      <dialog id="whishlist_delete_modal" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">
+            Are you sure you want to delete the selected refund?
+          </p>
+          <div className="modal-action">
+            {/* if there is a button in form, it will close the modal */}
+            <button
+              onClick={() => handleDeleteSubmit()}
+              className="btn btn-error"
+            >
+              Delete
+            </button>
+            <button
+              className="btn"
+              onClick={() => window.whishlist_delete_modal.close()}
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </dialog>
+      <ToastContainer />
     </div>
   );
 };

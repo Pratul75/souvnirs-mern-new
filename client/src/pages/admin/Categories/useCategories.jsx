@@ -126,6 +126,7 @@ const useCategories = () => {
     submitDeleteCategory,
     selectedAttributes,
     setSelectedAttributes,
+    getAllCategories,
   };
 };
 

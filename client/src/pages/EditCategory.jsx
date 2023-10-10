@@ -1,6 +1,6 @@
 import { Header } from "../components";
 import API_WRAPPER from "../api";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
@@ -52,7 +52,7 @@ const EditCategory = () => {
     }
   };
 
-  useEffect(() => {
+  useMemo(() => {
     getAllAttributes();
     getCategoryData();
     getParentCategories();
@@ -99,9 +99,10 @@ const EditCategory = () => {
         `/category/update-category/${params.id}`,
         {
           ...formData,
-          attributes: selectedAttributes.map((attribute) => attribute._id),
+          attributes: selectedAttributes.map((item) => item._id),
         }
       );
+      setSelectedAttributes((prevAttributes) => prevAttributes);
       navigate(PATHS.adminCategories);
     } catch (e) {
       debouncedShowToast("Something went wrong", "error");

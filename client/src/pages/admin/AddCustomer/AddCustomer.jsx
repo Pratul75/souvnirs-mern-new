@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 import useAddCustomer from "./useAddCustomer";
 
 const AddCustomer = () => {
-  const { control, errors, handleSubmit, onSubmit } = useAddCustomer();
+  const { control, errors, handleSubmit, onSubmit, loading } = useAddCustomer();
   return (
     <div>
       <Header
@@ -92,7 +92,7 @@ const AddCustomer = () => {
           type="text"
         />
         <button type="submit" className="col-span-2 btn btn-primary">
-          Add Customer
+          {loading ? "Loading..." : "Add Customer"}
         </button>
       </form>
       <ToastContainer />

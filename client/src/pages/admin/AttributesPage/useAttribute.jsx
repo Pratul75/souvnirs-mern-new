@@ -41,6 +41,7 @@ const useAttribute = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log(editedRowObject);
     try {
       const response = await API_WRAPPER.put(
         `/attribute/update-attribute/:${selectedRow._id}`,
@@ -85,6 +86,7 @@ const useAttribute = () => {
     handleEdit,
     attributesList,
     selectedRow,
+    setSelectedRow,
   };
 };
 

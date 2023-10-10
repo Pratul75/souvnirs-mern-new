@@ -16,17 +16,20 @@ const getAllCollectionConditions = async (req, res) => {
   try {
     const collectionConditions = await CollectionCondition.aggregate([
       {
-        '$lookup': {
-          'from': 'condition values',
-          'localField': 'conditionValues',
-          'foreignField': '_id',
-          'as': 'result'
-        }
-      }, {
-        '$project': {
-          'result.conditionValue': 1, title: 1, status: 1
-        }
-      }
+        $lookup: {
+          from: "condition values",
+          localField: "conditionValues",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $project: {
+          "result.conditionValue": 1,
+          title: 1,
+          status: 1,
+        },
+      },
     ]);
     res.status(200).json(collectionConditions);
   } catch (error) {

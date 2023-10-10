@@ -124,8 +124,7 @@ const App = () => {
                         <ProtectedRoute
                           roleRequired={role}
                           path={path}
-                          defaultRole={defaultRole}
-                        >
+                          defaultRole={defaultRole}>
                           <Component />
                         </ProtectedRoute>
                       </AppLayout>

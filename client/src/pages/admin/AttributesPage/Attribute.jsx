@@ -10,10 +10,10 @@ import AttributeBannerImage from "../../../assets/bannerImages/attributesImage.p
 import useAttribute from "./useAttribute";
 const Attributes = () => {
   const columns = [
-    {
-      Header: "Attribute Id",
-      accessor: "_id",
-    },
+    // {
+    //   Header: "Attribute Id",
+    //   accessor: "_id",
+    // },
     {
       Header: "Attribute Name",
       accessor: "name",
@@ -35,6 +35,7 @@ const Attributes = () => {
     handleEditChange,
     handleFormSubmit,
     selectedRow,
+    setSelectedRow,
   } = useAttribute();
 
   return (
@@ -76,7 +77,14 @@ const Attributes = () => {
                 </label>
                 <input
                   defaultValue={selectedRow?.name}
-                  onChange={(e) => handleEditChange(e)}
+                  onChange={(e) => {
+                    setSelectedRow({
+                      ...selectedRow,
+                      name: selectedRow?.name,
+                      status: selectedRow?.status,
+                    });
+                    handleEditChange(e);
+                  }}
                   className="input input-primary"
                   type="text"
                   name="name"
@@ -89,7 +97,14 @@ const Attributes = () => {
                 </label>
                 <select
                   defaultValue={selectedRow?.status}
-                  onChange={(e) => handleEditChange(e)}
+                  onChange={(e) => {
+                    setSelectedRow({
+                      ...selectedRow,
+                      name: selectedRow?.name,
+                      status: selectedRow?.status,
+                    });
+                    handleEditChange(e);
+                  }}
                   className="select select-primary"
                   name="status"
                 >

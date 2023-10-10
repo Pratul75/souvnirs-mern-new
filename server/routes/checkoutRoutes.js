@@ -4,6 +4,7 @@ const {
   getSpecificCheckout,
   updateCheckoutById,
   createCheckout,
+  deleteSpecificCustomerCheckout,
 } = require("../controllers/checkoutController");
 const authMiddleware = require("../middlewares");
 
@@ -14,6 +15,12 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getAllCheckouts
 );
+router.post(
+  "/remove/customer/checkout",
+  authMiddleware(["vendor", "admin", "customer"]),
+  deleteSpecificCustomerCheckout
+);
+
 
 router.get(
   "/checkout/get-checkout-by-id/:id",

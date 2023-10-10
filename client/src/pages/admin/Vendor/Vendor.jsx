@@ -18,7 +18,6 @@ const Vendor = () => {
     submitHandleDelete,
     vendorList,
   } = useVendor();
-  console.log("Vendor.jsx", selectedRow);
   return (
     <div className="relative">
       <Header
@@ -35,6 +34,7 @@ const Vendor = () => {
       </div>
       <div className="mt-4">
         <ReusableTable
+          tableTitle="Vendor List"
           columns={columns}
           data={vendorList}
           showButtons

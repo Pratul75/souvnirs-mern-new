@@ -62,7 +62,7 @@ const getAllMedia = async (req, res) => {
       },
       {
         $sort: {
-          createdAt: -1,
+          createdAt: -1, // Sort by createdAt field in descending order (newest first)
         },
       },
     ]);
@@ -148,12 +148,33 @@ const alterApproval = async (req, res) => {
   try {
     const { id } = req.params;
     const { approved, comment } = req.body;
-    const updatedProduct = await Product.findByIdAndUpdate(
-      id,
-      { approved: approved, comment: comment },
-      { new: true }
-    );
-    console.log(id);
+    let updatedProduct;
+    const findProduct = await Product.findById(id);
+    if (findProduct?.status == "PENDING" && approved == true) {
+      updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { approved: approved, comment: comment, status: "ACTIVE" },
+        { new: true }
+      );
+    } else if (findProduct?.status == "ACTIVE" && approved == false) {
+      updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { approved: approved, comment: comment, status: "DEACTIVE" },
+        { new: true }
+      );
+    } else if (findProduct?.status == "DEACTIVE" && approved == true) {
+      updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { approved: approved, comment: comment, status: "ACTIVE" },
+        { new: true }
+      );
+    } else {
+      updatedProduct = await Product.findByIdAndUpdate(
+        id,
+        { approved: approved, comment: comment },
+        { new: true }
+      );
+    }
     const vendor = await Vendor.findById(updatedProduct.vendorId);
     if (vendor) {
       if (approved === false) {
@@ -729,6 +750,7 @@ const getProductsByFilter = async (req, res) => {
 // creating a api for creating product variant separetely because its not doable with product creation.
 const createProductVariant = async (req, res) => {
   try {
+    console.log("++++>", req?.body);
     let { variant, productId, price, quantity, mrp } = req.body;
     variant = JSON.parse(variant);
     let { data, ...variantName } = variant;
@@ -785,9 +807,9 @@ const getProducts = async (req, res) => {
       productsList = await Product.aggregate([
         {
           $lookup: {
-            from: "attributetypes",
-            localField: "_id",
-            foreignField: "productId",
+            from: "attributes",
+            localField: "attributes",
+            foreignField: "_id",
             as: "variant",
           },
         },
@@ -801,6 +823,68 @@ const getProducts = async (req, res) => {
     }
 
     res.status(200).json(productsList);
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Failed to get products" });
+  }
+};
+
+const getProductsAdmin = async (req, res) => {
+  try {
+    // Extract pageNumber and pageSize from req.query or set default values
+    const pageNumber = req.query.pageNumber
+      ? parseInt(req.query.pageNumber)
+      : 1;
+    const pageSize = req.query.pageSize ? parseInt(req.query.pageSize) : 30;
+
+    let productsList;
+    let totalProductsCount;
+
+    if (req.role && req.role === "vendor") {
+      // Fetch products for the vendor with pagination
+      productsList = await Product.find({ vendorId: req.userId })
+        .sort({ createdAt: -1 })
+        .skip((pageNumber - 1) * pageSize)
+        .limit(pageSize);
+
+      // Get the total count of products for the vendor
+      totalProductsCount = await Product.countDocuments({
+        vendorId: req.userId,
+      });
+    } else {
+      // Fetch products with variants and pagination
+      productsList = await Product.aggregate([
+        {
+          $lookup: {
+            from: "attributetypes",
+            localField: "_id",
+            foreignField: "productId",
+            as: "variant",
+          },
+        },
+        {
+          $sort: { createdAt: -1 },
+        },
+        {
+          $skip: (pageNumber - 1) * pageSize,
+        },
+        {
+          $limit: pageSize,
+        },
+      ]).exec();
+
+      // Get the total count of all products
+      totalProductsCount = await Product.countDocuments({});
+    }
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(totalProductsCount / pageSize);
+
+    res.status(200).json({
+      productsList,
+      pageNumber,
+      totalPages,
+    });
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: "Failed to get products" });
@@ -909,7 +993,7 @@ const editProduct = async (req, res) => {
   const { variant } = updatedProductData;
   console.log("productController.js", variant);
   let parseVariant;
-  if (variant) {
+  if (variant.length > 0) {
     parseVariant = JSON.parse(variant);
   }
 
@@ -1202,4 +1286,5 @@ module.exports = {
   editProductVariant,
   getVendorProducts,
   alterApproval,
+  getProductsAdmin,
 };

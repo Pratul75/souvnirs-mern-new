@@ -89,7 +89,11 @@ const Customer = () => {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            getAllCustomers
+          );
         },
       },
     ],

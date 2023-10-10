@@ -1,4 +1,5 @@
 const Checkout = require("../schema/checkoutModal");
+const mongoose = require("mongoose");
 
 const createCheckout = async (req, res) => {
   try {
@@ -36,7 +37,16 @@ const createCheckout = async (req, res) => {
 // Get all checkout records
 const getAllCheckouts = async (req, res) => {
   try {
-    const checkouts = await Checkout.find();
+    const checkouts = await Checkout.aggregate([
+      {
+        $lookup: {
+          from: "customers",
+          localField: "customerId",
+          foreignField: "_id",
+          as: "customer",
+        },
+      },
+    ]);
     res.status(200).json(checkouts);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -86,10 +96,43 @@ const deleteCheckoutById = async (req, res) => {
   }
 };
 
+const deleteSpecificCustomerCheckout = async (req, res) => {
+  try {
+    const { customerId, productId } = req?.body;
+    const cutomerData = await Checkout.findOne({
+      customerId: new mongoose.Types.ObjectId(customerId),
+    });
+    let deleteData;
+    if (cutomerData?.items.length > 1) {
+      deleteData = await Checkout.updateOne(
+        { customerId: new mongoose.Types.ObjectId(customerId) },
+        {
+          $pull: {
+            items: {
+              productId: new mongoose.Types.ObjectId(productId),
+            },
+          },
+        }
+      );
+    } else {
+      deleteData = await Checkout.findOneAndDelete({
+        customerId: new mongoose.Types.ObjectId(customerId),
+      });
+    }
+    if (!deleteData) {
+      return res.status(404).json({ message: "Checkout not found" });
+    }
+    res.status(204).send(deleteData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   deleteCheckoutById,
   getAllCheckouts,
   getSpecificCheckout,
   updateCheckoutById,
   createCheckout,
+  deleteSpecificCustomerCheckout,
 };

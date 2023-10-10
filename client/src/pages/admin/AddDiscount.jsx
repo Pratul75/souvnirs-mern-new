@@ -12,6 +12,8 @@ import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
+import { debouncedShowToast } from "../../utils";
+import { DeleteBtnSvg } from "../../icons/tableIcons";
 
 const AddDiscount = () => {
   const [discountData, setDiscountData] = useState({});
@@ -34,7 +36,8 @@ const AddDiscount = () => {
   const [limitNumberOfTimesInputToggle, setLimitNumberOfTimesInputToggle] =
     useState(false);
   const [appliedToSpecifiedInput, setAppliedToSpecifiedInput] = useState(null);
-  const [appliedToSearchInput, setAppliedToSearchInput] = useState("");
+  const [appliedToSearchInput, setAppliedToSearchInput] = useState(""); ////
+  const [ProductDetails, setProductDetails] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [collectionsList, setCollectionsList] = useState([]);
@@ -88,11 +91,46 @@ const AddDiscount = () => {
       "/discount/create-discount",
       discountData
     );
-    console.log(discountData);
-    // if (response.status === 201) {
-    //   console.log("DISCOUNT DATA POSTED: ", response.data);
-    //   navigate(PATHS.adminDiscounts);
-    // }
+    // /daily/deals/create-coupon
+    if (response.status === 201) {
+      if (discountData?.dailydeal == "on") {
+        const DailyDealData = {
+          ...discountData,
+          total_time: getTotalTime(discountData),
+        };
+        const dailyDealsResponce = await API_WRAPPER.post(
+          "/daily/deals/create-coupon",
+          DailyDealData
+        );
+        // console.log({ DailyDealData });
+      }
+      navigate(PATHS.adminDiscounts);
+    }
+  };
+
+  const getTotalTime = (data) => {
+    if (data.activeDate && data.activeTime && data.endDate && data.endTime) {
+      const activeDateTime = new Date(`${data.activeDate}T${data.activeTime}`);
+      const endDateTime = new Date(`${data.endDate}T${data.endTime}`);
+
+      // Calculate the time difference in milliseconds
+      const timeDifference = endDateTime - activeDateTime;
+
+      // Convert the time difference to days, hours, minutes, and seconds
+      const seconds = Math.floor(timeDifference / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+
+      // Calculate remaining hours, minutes, and seconds after days
+      const remainingHours = hours % 24;
+      const remainingMinutes = minutes % 60;
+      const remainingSeconds = seconds % 60;
+
+      // Format the result as "days:hours:minutes:seconds"
+      const formattedTime = `${days}:${remainingHours}:${remainingMinutes}:${remainingSeconds}`;
+      return formattedTime;
+    }
   };
 
   const appliedToSeachAndFilter = (inputValue, searchParameter) => {
@@ -132,25 +170,13 @@ const AddDiscount = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setDiscountData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-    console.log("DISCOUNT INPUT STATE: ", discountData);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(appliedToSpecifiedInput);
+  useEffect(() => {
     switch (appliedToSpecifiedInput) {
       case "specify-collections":
         setDiscountData((prevState) => {
           return { ...prevState, collectionId: appliedToFilteredItemsObjects };
         });
         break;
-
       case "specify-products":
         setDiscountData((prevState) => {
           return { ...prevState, productId: appliedToFilteredItemsObjects };
@@ -166,7 +192,49 @@ const AddDiscount = () => {
       default:
         break;
     }
-    await postDiscount();
+  }, [appliedToFilteredItemsObjects]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    console.log("+,,,,,,,,,,", name, value);
+    setDiscountData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    console.log("DISCOUNT INPUT STATE: ", discountData);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // switch (appliedToSpecifiedInput) {
+    //   case "specify-collections":
+    //     setDiscountData((prevState) => {
+    //       return { ...prevState, collectionId: appliedToFilteredItemsObjects };
+    //     });
+    //     break;
+
+    //   case "specify-products":
+    //     setDiscountData((prevState) => {
+    //       return { ...prevState, productId: appliedToFilteredItemsObjects };
+    //     });
+    //     break;
+
+    //   case "specify-categories":
+    //     setDiscountData((prevState) => {
+    //       return { ...prevState, categoryId: appliedToFilteredItemsObjects };
+    //     });
+    //     break;
+
+    //   default:
+    //     break;
+    // }
+    let finalData = await postDiscount();
+    if (finalData) {
+      debouncedShowToast("Create Discout Successfully", "success");
+      navigate("/admin/discounts");
+    } else {
+      debouncedShowToast("Please Enter required fields", "warning");
+    }
     console.log("DISCOUNTS OBJECT: ", discountData);
   };
 
@@ -181,6 +249,7 @@ const AddDiscount = () => {
   };
 
   const handleAddFilteredItemToState = (item) => {
+    setProductDetails([...ProductDetails, item]);
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
     window.applied_to_search_modal.close();
   };
@@ -197,6 +266,22 @@ const AddDiscount = () => {
     getAllCollections();
   }, []);
 
+  const handleDeleteSearch = (data, index) => {
+    let dataDiscunt = { ...discountData };
+    const removeItem = data?._id;
+    for (let key in dataDiscunt) {
+      if (dataDiscunt[key].includes(removeItem)) {
+        dataDiscunt[key] = dataDiscunt[key].filter(
+          (item) => item !== removeItem
+        );
+      }
+    }
+    setDiscountData(dataDiscunt);
+    let cloneData = [...ProductDetails];
+    cloneData.splice(index, 1);
+    setProductDetails(cloneData);
+  };
+  console.log("<><><><>><", discountData);
   return (
     <div>
       <Header
@@ -504,7 +589,10 @@ const AddDiscount = () => {
             <div className="form-control flex mt-4">
               <div className="input-group ">
                 <input
-                  onChange={(e) => handleAppliedToSearch(e)}
+                  onChange={(e) => {
+                    window.applied_to_search_modal.showModal();
+                    handleAppliedToSearch(e);
+                  }}
                   type="text"
                   placeholder="Search…"
                   className="input input-bordered flex-grow"
@@ -529,6 +617,26 @@ const AddDiscount = () => {
                   </svg>
                 </button>
               </div>
+            </div>
+            <div style={{ marginTop: "3px" }}>
+              {ProductDetails?.map((item, index) => (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    borderRadius: "3px",
+                    borderTop: "1px solid gray",
+                    margin: "3px",
+                  }}
+                >
+                  <h4>{item?.name ? item?.name : item?.title}</h4>
+                  <div>
+                    <div onClick={() => handleDeleteSearch(item, index)}>
+                      <DeleteBtnSvg />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -693,6 +801,17 @@ const AddDiscount = () => {
               />
               <label className="label">
                 <span className="label-text">Shipping discounts</span>
+              </label>
+            </div>
+            <div className="form-control flex-row items-center gap-4">
+              <input
+                className="checkbox checkbox-primary"
+                type="checkbox"
+                name="dailydeal"
+                onChange={handleInputChange}
+              />
+              <label className="label">
+                <span className="label-text">Daily deal</span>
               </label>
             </div>
           </div>

@@ -15,6 +15,7 @@ const useAddSubMenus = () => {
   const [mainMenuId, setMainMenuId] = useState("");
   const [childMenuToggle, setChildMenuToggle] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/main-menu");
@@ -54,6 +55,7 @@ const useAddSubMenus = () => {
     setLoading(true);
     await API_WRAPPER.post("/sub-menu/create", createdCards);
     setLoading(false);
+    navigate("/admin/menus");
   };
 
   const handleCardSubmit = (e) => {
@@ -71,7 +73,6 @@ const useAddSubMenus = () => {
     setSelectedTypeDataValue("");
     setSubMenuType("");
   };
-  const navigate = useNavigate();
 
   // side effects
   useEffect(() => {

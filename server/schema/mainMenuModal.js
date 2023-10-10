@@ -23,7 +23,7 @@ const mainMenuSchema = new mongoose.Schema(
     position: {
       type: String,
     },
-    
+
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],

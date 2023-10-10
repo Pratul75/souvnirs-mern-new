@@ -24,16 +24,29 @@ const getAllCarts = async (req, res) => {
           },
         },
         {
-          $project: {
-            name: {
-              $concat: ["$customer.firstName", "  ", "$customer.lastName"],
-            },
-            product_name: 1,
-            customer_id: 1,
-            product_quantity: 1,
-            product_price: 1,
+          $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
           },
         },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
+        // {
+        //   $project: {
+        //     name: {
+        //       $concat: ["$customer.firstName", "  ", "$customer.lastName"],
+        //     },
+        //     product_name: 1,
+        //     customer_id: 1,
+        //     product_quantity: 1,
+        //     product_price: 1,
+        //   },
+        // },
       ]);
     }
     if (role === "vendor") {

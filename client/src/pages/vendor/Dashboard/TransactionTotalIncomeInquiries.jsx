@@ -26,46 +26,6 @@ const TransactionTotalIncomeInquiries = () => {
             iconText="AI"
             dynamicAmount="$2,800"
           />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-red-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-red-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
         </div>
       ),
     },

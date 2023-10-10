@@ -1,14 +1,22 @@
 import { nanoid } from "nanoid";
 import { Header } from "../../../components";
 import { useQuery } from "react-query";
-import { fetchAllCollections, fetchAllProducts } from "../../../api/apiCalls";
-import { Select } from "antd";
-import { useState } from "react";
+import {
+  fetchAllAdminProducts,
+  fetchAllCollections,
+  fetchAllProducts,
+} from "../../../api/apiCalls";
+import { Select, Spin } from "antd";
+import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 const AddProductToCollection = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedCollection, setSelectedCollection] = useState("");
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [products, setProducts] = useState({});
+  const [loadingProducts, setLoadingProducts] = useState(false);
   // collections query
   const {
     data: collections,
@@ -17,10 +25,24 @@ const AddProductToCollection = () => {
   } = useQuery("get_collection", fetchAllCollections);
 
   // products query
-  const { data: products, isLoading: loadingProducts } = useQuery(
-    "get_products",
-    fetchAllProducts
-  );
+
+  useEffect(() => {
+    getDataFromAdminProducts();
+  }, [page]);
+
+  const getDataFromAdminProducts = async () => {
+    const ProductData = await fetchAllAdminProducts(page);
+    let finalProductList = [];
+    let finalData = ProductData;
+    if (products?.data) {
+      finalProductList = [
+        ...products?.data?.productsList,
+        ...ProductData?.data?.productsList,
+      ];
+      finalData.data.productsList = finalProductList;
+    }
+    setProducts(finalData);
+  };
 
   // collection options
   const collectionOptions = () => {
@@ -31,7 +53,7 @@ const AddProductToCollection = () => {
 
   // product options
   const productOptions = () => {
-    return products?.data?.map((product) => {
+    return products?.data?.productsList?.map((product) => {
       return { value: product?._id, label: product?.name };
     });
   };
@@ -86,6 +108,18 @@ const AddProductToCollection = () => {
     return <span>Error: {error}</span>;
   }
 
+  const handleMenuScroll = (e) => {
+    if (e.target.scrollTop + e.target.clientHeight === e.target.scrollHeight) {
+      // Call your custom function here
+      if (page != products?.data?.totalPages) {
+        setPage(page + 1);
+      }
+      console.log("====>", e, "================================");
+      // For example, you can load more options when the user scrolls to the bottom
+      // loadMoreOptions();
+    }
+  };
+
   return (
     <div className="my-4">
       <Header
@@ -98,21 +132,27 @@ const AddProductToCollection = () => {
           className="col-span-1"
           size="large"
           showSearch
+          isSearchable
+          isClearable
           optionFilterProp="children"
           placeholder="Select a Collection"
           onChange={onCollectionChange}
           filterOption={filterOption}
           options={collectionOptions()}
         />
+        {/* <Spin spinning={true}/> */}
         <Select
           className="col-span-1"
           size="large"
           showSearch
+          isSearchable
+          isClearable
           optionFilterProp="children"
           placeholder="Select a product"
           onChange={onProductChange}
           filterOption={filterOption}
           options={productOptions()}
+          onPopupScroll={handleMenuScroll}
         />
       </div>
       <div className="mt-4 flex justify-end">

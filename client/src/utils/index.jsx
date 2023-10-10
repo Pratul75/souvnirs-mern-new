@@ -5,6 +5,8 @@ import {
   customerSidebarMapping,
   vendorSidebarMapping,
 } from "../mappings";
+import API_WRAPPER from "../api";
+import { useLocation } from "react-router-dom";
 
 export const getRandomColor = () => {
   const colorArr = [
@@ -17,32 +19,130 @@ export const getRandomColor = () => {
   ];
   // Get a random index from the colorArr
   const randomIndex = Math.floor(Math.random() * colorArr.length);
+  const location = useLocation();
+  // /admin/categories
   // Get the random color using the random index
   const randomColor = colorArr[randomIndex];
 
   return randomColor;
 };
-
-export const getStatusStyles = (status) => {
+const handleStatusChange = async (status, data, refresh) => {
+  if (location.pathname == "/admin/categories") {
+    const response = await API_WRAPPER.put(
+      `/update/status/category/${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+  } else if (location.pathname == "/admin/customer") {
+    // /customers/update-customer/:id
+    const response = await API_WRAPPER.put(
+      `/customers/update-customer/:${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    console.log(">>>", data);
+  } else if (location.pathname == "/admin/discounts") {
+    // /customers/update-customer/:id
+    const response = await API_WRAPPER.put(
+      `/discount/update-discount/${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+  } else if (location.pathname == "/admin/coupons") {
+    console.log("+++++>", data);
+    const response = await API_WRAPPER.put(
+      `/coupon/update-coupon/${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    // /coupon/update-coupon/:id
+  } else if (location.pathname == "/admin/reviews") {
+    console.log("+++++>", data);
+    const response = await API_WRAPPER.put(
+      `/review/update/get-all-reviews/${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    // /coupon/update-coupon/:id
+  } else if (location.pathname == "/admin/wishlist") {
+    const response = await API_WRAPPER.put(
+      `/wishlist/update/getmywishlist/${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    // /coupon/update-coupon/:id
+  } else if (location.pathname == "/admin/replacement") {
+    const response = await API_WRAPPER.put(
+      `/order/update-order/:${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    // /coupon/update-coupon/:id
+  } else if (location.pathname == "/admin/collection") {
+    const response = await API_WRAPPER.put(
+      `/collection/update-collection-by-id/:${data?._id}`,
+      {
+        status: status,
+      }
+    );
+    refresh();
+    // /coupon/update-coupon/:id
+  }
+};
+export const getStatusStyles = (status, data, getAllCategories) => {
   switch (status) {
     case "ACTIVE":
       return (
         <div className="badge badge-accent font-bold">
-          <span className="text-green-300">ACTIVE</span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              handleStatusChange("DEACTIVE", data, getAllCategories)
+            }
+            className="text-green-300"
+          >
+            ACTIVE
+          </span>
         </div>
       );
 
     case "PENDING":
       return (
         <div className="badge badge-secondary font-bold">
-          <span className="text-pink-300">PENDING</span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => handleStatusChange("ACTIVE", data, getAllCategories)}
+            className="text-pink-300"
+          >
+            PENDING
+          </span>
         </div>
       );
 
     default:
       return (
         <div className="badge badge-error font-bold">
-          <span className="text-rose-300">DEACTIVE</span>
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => handleStatusChange("ACTIVE", data, getAllCategories)}
+            className="text-rose-300"
+          >
+            DEACTIVE
+          </span>
         </div>
       );
   }

@@ -2,7 +2,7 @@ import { Dropzone, Header, ReusableTable } from "../../components";
 // import CollectionBannerImg from "../../assets/images/collectionBannerImg.png";
 import ReactQuill from "react-quill";
 import API_WRAPPER from "../../api";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
@@ -44,6 +44,9 @@ const EditCollection = () => {
   const [descriptionValue, setDescriptionValue] = useState("");
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const inputRef = useRef(null);
+
   console.log("AddCollection.jsx", collectionProductTableList);
   console.log("AddCollection.jsx", activeProducts, deactivatedProducts);
   const columns = useMemo(
@@ -118,6 +121,11 @@ const EditCollection = () => {
     }
   };
 
+  const handleBlur = () => {
+    setTimeout(() => {
+      inputRef.current.focus();
+    }, 10);
+  };
   // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
     const changedTitleFilterArr = filterDivStates?.map((filter) => {
@@ -157,13 +165,18 @@ const EditCollection = () => {
     console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
 
     try {
+      setLoading(false);
       const response = await API_WRAPPER.post(
         "/collection/filter-data",
         changedTitleFilterArr
       );
 
       if (response.status === 200) {
-        setCollectionProductTableList(response?.data);
+        if (response?.data.length > 0) {
+          setCollectionProductTableList(response?.data);
+        } else {
+          setLoading(true);
+        }
         console.log("RESPONSE COLLECTION TABLE DATA: ", response?.data);
       }
     } catch (error) {
@@ -348,6 +361,7 @@ const EditCollection = () => {
     const updatedStates = [...filterDivStates];
     updatedStates[index].inputValue = value;
     setFormData({ ...formData, filterDivStates: updatedStates });
+    handleBlur();
   };
 
   const handleSubmit = async (e) => {
@@ -603,6 +617,7 @@ const EditCollection = () => {
                 </div>
                 <div>
                   <input
+                    ref={inputRef}
                     onChange={(e) =>
                       handleInputValueChange(index, e.target.value)
                     }
@@ -654,19 +669,23 @@ const EditCollection = () => {
               >
                 Deactivate
               </button>
-              <ReusableTable
-                tableTitle="Filtered Products"
-                key={"react-table-23-edffk"}
-                showButtons
-                isSelectable={true}
-                data={data}
-                columns={columns}
-                enablePagination
-                pageSize={10}
-                onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
-                  handleSelectedObjectChange(selectedRows, unselectedRows)
-                }
-              />
+              {loading ? (
+                <h4 style={{ textAlign: "center" }}>No data</h4>
+              ) : (
+                <ReusableTable
+                  tableTitle="Filtered Products"
+                  key={"react-table-23-edffk"}
+                  showButtons
+                  isSelectable={true}
+                  data={data}
+                  columns={columns}
+                  enablePagination
+                  pageSize={10}
+                  onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
+                    handleSelectedObjectChange(selectedRows, unselectedRows)
+                  }
+                />
+              )}
             </div>
           </motion.div>
           {/* SEO */}

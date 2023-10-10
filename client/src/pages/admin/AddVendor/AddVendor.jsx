@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 import useAddVendor from "./useAddVendor";
 
 const AddVendor = () => {
-  const { control, errors, handleSubmit, onSubmit } = useAddVendor();
+  const { control, errors, handleSubmit, onSubmit, loading } = useAddVendor();
   return (
     <div>
       <Header
@@ -92,7 +92,7 @@ const AddVendor = () => {
           type="text"
         />
         <button type="submit" className="col-span-2 btn btn-primary">
-          Add Vendor
+          {loading ? "Loading..." : "Add Vendor"}
         </button>
       </form>
       <ToastContainer />

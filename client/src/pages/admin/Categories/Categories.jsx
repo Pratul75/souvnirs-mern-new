@@ -21,6 +21,7 @@ const Categories = () => {
     submitEditedRow,
     selectedAttributes,
     setSelectedAttributes,
+    getAllCategories,
   } = useCategories();
 
   const columns = useMemo(
@@ -41,7 +42,11 @@ const Categories = () => {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            getAllCategories
+          );
         },
       },
     ],

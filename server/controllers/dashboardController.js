@@ -4,6 +4,7 @@ const Product = require("../schema/productModal");
 const Vendor = require("../schema/vendorModal");
 const Wishlist = require("../schema/wishlistModal");
 const excelToJson = require("convert-excel-to-json");
+const { ObjectId } = require("mongoose").Types;
 const fs = require("fs");
 
 const fetchDashboardCardsData = async (req, res) => {
@@ -18,7 +19,21 @@ const fetchDashboardCardsData = async (req, res) => {
     orders = await Order.find({ vendor_id: req.userId }).count();
     products = await Product.find({ vendorId: req.userId }).count();
   } else if (role === "admin") {
-    sales = await Order.find({ order_status: "delivered" }).count();
+    sales = await Order.aggregate([
+      {
+        $match: {
+          order_status: "delivered",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$total_price" },
+        },
+      },
+    ]);
+    sales = sales[0]?.totalSales;
+    console.log("sales==>....>>>", sales);
     orders = await Order.find().count();
     products = await Product.find().count();
     vendors = await Vendor.find().count();
@@ -49,6 +64,17 @@ const fetchDashboardCardsData = async (req, res) => {
 
   res.status(200).json({ sales, orders, products, vendors });
 };
+
+/**
+ * ////////////////////////////////////
+ * @param {
+ *
+ * } req
+ * @param {*} res
+ * @returns
+ * ///////////////////////////////////////////
+ * ///////////////////////////////////
+ */
 
 const getBarChartData = async (req, res) => {
   const { role, userId } = req;
@@ -176,6 +202,7 @@ const getBarChartData = async (req, res) => {
       const mixedArray = [];
       const labels = [];
       const counts = [];
+      let totalsells = 0;
 
       for (const date of dateArray) {
         let count = 0;
@@ -229,7 +256,7 @@ const getBarChartData = async (req, res) => {
         _id: {
           $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }, // Group by the date in YYYY-MM-DD format
         },
-        count: { $sum: 1 }, // Count the number of orders for each date
+        count: { $sum: "$total_price" }, // Count the number of orders for each date
       },
     },
     {
@@ -263,7 +290,7 @@ const getBarChartData = async (req, res) => {
         _id: {
           $dateToString: { format: "%Y-%m", date: "$createdAt" }, // Group by the month in YYYY-MM format
         },
-        count: { $sum: 1 }, // Count the number of orders for each month
+        count: { $sum: "$total_price" }, // Count the number of orders for each month
       },
     },
     {
@@ -304,7 +331,7 @@ const getBarChartData = async (req, res) => {
         _id: {
           $dateToString: { format: "%Y", date: "$createdAt" }, // Group by the year in YYYY format
         },
-        count: { $sum: 1 }, // Count the number of orders for each year
+        count: { $sum: "$total_price" }, // Count the number of orders for each year
       },
     },
     {
@@ -369,6 +396,7 @@ const getBarChartData = async (req, res) => {
   ]);
 
   let totalSalesAmount = 0; // Default value in case totalSales is empty
+  console.log("====>???", totalSales);
   if (totalSales.length > 0) {
     totalSalesAmount = totalSales[0].totalSales;
   }
@@ -376,6 +404,28 @@ const getBarChartData = async (req, res) => {
   const mixeddateData = mixArrays(last7Dates, r);
   const mixedMonthData = mixArrays(last7Months, m);
   const mixedYearData = mixArrays(last7Years, y);
+  let totalDateSells = 0;
+  let totalMothsSells = 0;
+  let totalYearsSells = 0;
+  mixedYearData?.counts?.map((item) => {
+    if (item > 0) {
+      totalYearsSells += item;
+    }
+  });
+  mixedMonthData?.counts?.map((item) => {
+    if (item > 0) {
+      totalMothsSells += item;
+    }
+  });
+  mixeddateData?.counts?.map((item) => {
+    if (item > 0) {
+      totalDateSells += item;
+    }
+  });
+  mixedYearData.totalYearsSells = totalYearsSells;
+  mixedMonthData.totalMothsSells = totalMothsSells;
+  mixeddateData.totalDateSells = totalDateSells;
+
   res.status(200).json({
     dateData: mixeddateData,
     monthData: mixedMonthData,
@@ -407,19 +457,26 @@ const getProductDataForAdmin = async (req, res) => {
       },
     },
   ]);
+  const orders = await Order.find({
+    order_status: { $in: ["ordered", "processing"] },
+  });
+  const totalOrder = await Order.find();
+
   function extractDateAndCount(data) {
     const datesArray = data.map((item) => item._id);
     const countsArray = data.map((item) => item.totalCount);
-    return { dates: datesArray, counts: countsArray };
+    return {
+      dates: datesArray,
+      counts: countsArray,
+      Pendingorders: orders,
+      totalOrder,
+    };
   }
   const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
 
   // Query for orders with status "ordered" or "processing" and createdAt within the last six months
-  const orders = await Order.find({
-    order_status: { $in: ["ordered", "processing"] },
-    createdAt: { $gte: sixMonthsAgo },
-  });
+
   const result = extractDateAndCount(data);
   res.status(200).json(result);
 };
@@ -428,11 +485,258 @@ const getDoughNutChartData = async (req, res) => {
   if (req.role === "admin") {
     const products = await Product.find().count();
     const vendors = await Vendor.find().count();
-    res.status(200).json({ products, vendors, income: 0, sales: 0 });
+    let sales = await Order.aggregate([
+      {
+        $match: {
+          order_status: "delivered",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$total_price" },
+        },
+      },
+    ]);
+    sales = sales[0]?.totalSales;
+    let Totalorders = await Order.aggregate([
+      {
+        $match: {
+          order_status: "delivered",
+          payment_status: "success",
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$total_price" },
+        },
+      },
+    ]);
+    Totalorders = Totalorders[0]?.totalSales;
+    res
+      .status(200)
+      .json({ products, vendors, income: Totalorders, sales: sales });
   } else if (req.role === "vendor") {
     const products = await Product.find({ vendorId: req.userId }).count();
     res.status(200).json({ products, vendors: 1, income: 0, sales: 0 });
   }
+};
+
+const AdminTransactionDetails = async (req, res) => {
+  try {
+    let AllTrasication,
+      AllSuccessTrasication,
+      AllPendingTrasication,
+      AllExchangeTrasication,
+      AllReturnTrasication;
+    if (req.role === "vendor") {
+      AllTrasication = await Order.aggregate([
+        {
+          $match: {
+            vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $sort: { createdAt: -1 },
+        },
+        { $limit: 10 },
+      ]);
+      AllSuccessTrasication = await Order.aggregate([
+        {
+          $match: {
+            payment_status: "success",
+            vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        { $limit: 10 },
+      ]);
+      AllPendingTrasication = await Order.aggregate([
+        {
+          $match: {
+            payment_status: "pending",
+            vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+        { $limit: 10 },
+      ]);
+      AllExchangeTrasication = await Order.aggregate([
+        {
+          $match: {
+            order_status: "replace",
+            vendor_id: ObjectId(req.userId),
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+      AllReturnTrasication = await Order.aggregate([
+        {
+          $match: {
+            order_status: "refund",
+            vendor_id: ObjectId(req.userId),
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+    } else {
+      AllTrasication = await Order.aggregate([
+        {
+          $sort: { createdAt: -1 },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        { $limit: 10 },
+      ]);
+      AllSuccessTrasication = await Order.aggregate([
+        {
+          $match: {
+            payment_status: "success",
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+      AllPendingTrasication = await Order.aggregate([
+        {
+          $match: {
+            payment_status: "pending",
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+      AllExchangeTrasication = await Order.aggregate([
+        {
+          $match: {
+            order_status: "replace",
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+      AllReturnTrasication = await Order.aggregate([
+        {
+          $match: {
+            order_status: "refund",
+          },
+        },
+        // {
+        //   $lookup: {
+        //     from: "products", // The name of the "products" collection
+        //     localField: "product_id",
+        //     foreignField: "_id",
+        //     as: "product",
+        //   },
+        // },
+        // {
+        //   $unwind: "$product", // Deconstruct the "product" array created by $lookup
+        // },
+        {
+          $sort: {
+            createdAt: -1,
+          },
+        },
+      ]);
+    }
+    res.status(200).json({
+      AllTrasication,
+      AllPendingTrasication,
+      AllSuccessTrasication,
+      AllExchangeTrasication,
+      AllReturnTrasication,
+    });
+  } catch (error) {}
 };
 
 module.exports = {
@@ -440,4 +744,5 @@ module.exports = {
   fetchDashboardCardsData,
   getBarChartData,
   getProductDataForAdmin,
+  AdminTransactionDetails,
 };

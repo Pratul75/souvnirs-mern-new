@@ -106,6 +106,7 @@ import ShopAboutUs from "../pages/shop/ShopAboutUs";
 import EditCoupon from "../pages/admin/EditCoupon";
 import EdiDiscount from "../pages/admin/EditDiscount";
 import EditMenus from "../pages/admin/EditMenus";
+import MainMenue from "../pages/admin/Menus/MainMenue";
 // admin routes
 export const adminRoutes = [
   {
@@ -143,6 +144,12 @@ export const adminRoutes = [
     path: `${PATHS.EditCategory}/:id`,
     defaultRole: "admin",
     Component: EditCategory,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.adminChildMenu}/:id`,
+    defaultRole: "admin",
+    Component: MainMenue,
   },
   {
     id: nanoid(),

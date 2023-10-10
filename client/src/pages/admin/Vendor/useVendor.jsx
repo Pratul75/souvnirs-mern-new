@@ -112,7 +112,7 @@ const useVendor = () => {
   const submitHandleDelete = async () => {
     try {
       const response = await API_WRAPPER.delete(
-        `/vendors/delete-vendor/:${selectedRow.id}`
+        `/vendors/delete-vendor/:${selectedRow?._id}`
       );
       if (response.status === 200) {
         debouncedShowToast("Vendor deleted successfully!", "success");
@@ -124,9 +124,9 @@ const useVendor = () => {
   };
 
   const handleDelete = (row) => {
-    console.log("ROW TO BE DELETED: ", row);
-    window.vendor_delete_modal.showModal();
+    console.log("ROW TO BE DELETED: >>>>>>>>>>>>", row);
     setSelectedRow(row);
+    window.vendor_delete_modal.showModal();
   };
 
   const handleEdit = (row) => {

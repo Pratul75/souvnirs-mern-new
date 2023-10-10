@@ -66,10 +66,21 @@ const Coupons = () => {
         Header: "Title",
         accessor: "title",
       },
-
       {
         Header: "Total Limit",
         accessor: "totalLimit",
+      },
+      {
+        Header: "Discount",
+        accessor: "typeValue",
+        Cell: (props) => {
+          return (
+            <div>
+              {props?.row?.original?.typeValue}
+              {props?.row?.original?.typeTitle == "percentage" ? "%" : null}
+            </div>
+          );
+        },
       },
       {
         Header: "Use One Times",
@@ -118,7 +129,11 @@ const Coupons = () => {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row.original,
+            fetchCoupons
+          );
         },
       },
     ],

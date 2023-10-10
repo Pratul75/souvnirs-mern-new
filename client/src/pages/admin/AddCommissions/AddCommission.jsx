@@ -18,6 +18,8 @@ const AddCommissions = () => {
     setCommissionTypeValue,
   } = useAddCommissions();
 
+  const storeCategory = JSON.parse(localStorage.getItem("category_edit"));
+
   return (
     <div>
       <Header
@@ -40,7 +42,15 @@ const AddCommissions = () => {
               >
                 {categories.length > 0 &&
                   categories.map((category) => (
-                    <option key={category._id} value={category._id}>
+                    <option
+                      selected={
+                        storeCategory
+                          ? category._id == storeCategory?._id
+                          : null
+                      }
+                      key={category._id}
+                      value={category._id}
+                    >
                       {category.name}
                     </option>
                   ))}
@@ -91,7 +101,7 @@ const AddCommissions = () => {
         onClick={() => handleSubmit()}
         className="btn btn-primary my-4 float-right"
       >
-        Submit
+        {storeCategory ? "Edit" : "Submit"}
       </button>
       <ToastContainer />
     </div>

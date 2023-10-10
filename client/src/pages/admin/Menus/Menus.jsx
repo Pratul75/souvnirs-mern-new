@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { Header, ReusableTable } from "../../../components";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { getStatusStyles } from "../../../utils";
 import useMenus from "./useMenus";
 
@@ -15,7 +15,14 @@ const Menus = () => {
     extractedMenuData,
     menuData,
     menuToBeEdited,
+    setPrductid,
+    fetchMenuData,
   } = useMenus();
+
+  const { id } = useParams();
+  useEffect(() => {
+    setPrductid(null);
+  }, [id]);
 
   const columns = useMemo(
     () => [
@@ -61,6 +68,7 @@ const Menus = () => {
               window.delete_menu_modal.showModal();
             }}
             onEdit={handleEditModal}
+            refresh={fetchMenuData}
           />
         )}
       </div>

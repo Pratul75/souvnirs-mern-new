@@ -21,7 +21,7 @@ const getAllCommissions = async (req, res) => {
   try {
     const commissions = await Category.find({
       commissionTypeValue: { $exists: true },
-    });
+    }).sort({ updatedAt: -1 });
     res.json(commissions);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -44,15 +44,14 @@ const getCommissionById = async (req, res) => {
 // Update a commission by ID
 const updateCommissionById = async (req, res) => {
   try {
-    const commission = await Commission.findByIdAndUpdate(
+    const commission = await Category.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true }
+      req.body
     );
     if (!commission) {
       return res.status(404).json({ error: "Commission not found" });
     }
-    res.json(commission);
+    res.status(201).json(commission);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

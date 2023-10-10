@@ -17,7 +17,16 @@ const MediaCard = ({ link, vendorName }) => {
       <Card>
         <div className="flex bg-base-200 rounded-xl items-center justify-between w-full p-4">
           <img src={link} className="rounded-xl w-48" alt="" />
-          {vendorName && <div>Vendor:{vendorName}</div>}
+          {vendorName && <div>Vendor:{" " + vendorName}</div>}
+          {vendorName && (
+            <div>
+              Type:
+              {" " +
+                String(
+                  link.match(/\.[0-9a-z]+$/i)[0].substring(1)
+                ).toUpperCase()}
+            </div>
+          )}
           <CopyToClipboard text={link} onCopy={copyHandler}>
             <span className="text-2xl mr-10">
               {copied ? <AiOutlineCheck /> : <AiOutlineLink />}

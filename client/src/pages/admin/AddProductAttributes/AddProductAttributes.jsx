@@ -3,7 +3,7 @@ import { Card, Header } from "../../../components";
 import AttributeBannerImage from "../../../assets/bannerImages/attributesImage.png";
 import useCategories from "../../../hooks/useCategories";
 import { SearchableDropdown } from "../../../components";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import { Select } from "antd";
 import { useQuery } from "react-query";
 import { fetchAllCollections } from "../../../api/apiCalls";
 const AddProductAttributes = () => {
+  let VarientDatasd = JSON.parse(localStorage.getItem("varientData"));
   const [categoryId, setCategoryId] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [attributesList, setAttributesList] = useState([]);
@@ -27,7 +28,7 @@ const AddProductAttributes = () => {
   const [attributeValues, setAttributeValues] = useState([]);
   const [attSelected, setAttSelected] = useState(false);
   const [combinations, setCombinations] = useState([]);
-  const [variantData, setVariantData] = useState([]);
+  const [variantData, setVariantData] = useState();
   const [showData, setShowData] = useState(false);
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -40,6 +41,10 @@ const AddProductAttributes = () => {
   );
 
   console.log("ACTIVE COLLECTION: ", selectedCollection);
+
+  const checkProduct = () => {
+    variantData;
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -72,7 +77,7 @@ const AddProductAttributes = () => {
 
       return result;
     }
-
+    console.log("+++>//////////////", attributeValues);
     combination.push(...generateCombinations(attributeValues));
     setCombinations(combination);
   };
@@ -201,7 +206,6 @@ const AddProductAttributes = () => {
 
   const handleTableInputChange = (e, index, field) => {
     const value = e.target.value;
-
     setVariantData((prevData) => {
       const updatedData = [...prevData];
       updatedData[index][field] = value;
@@ -250,12 +254,27 @@ const AddProductAttributes = () => {
     );
   };
 
+  console.log(
+    "????????????????????????--------------->...__mmm....>",
+    variantData,
+    activeCollection,
+    p
+  );
+  useEffect(() => {
+    if (activeCollection?._id) {
+      const checkdata = checkdataFilter(variantData, activeCollection, p);
+      if (checkdata == "false") {
+        toast.warning("Callection not match acording callection condition");
+      } else {
+        toast.success("Callection match acording callection condition");
+      }
+    }
+  }, [activeCollection]);
+
   // COLLECTION LOGIC END
 
   const createProduct = async () => {
     try {
-      console.log("AddProductAttributes.jsx", p);
-      console.log(variantData);
       const productFormData = new FormData();
       productFormData.append("name", p.name);
       productFormData.append("vendorId", p.vendorId);
@@ -270,7 +289,7 @@ const AddProductAttributes = () => {
       productFormData.append("readyToShip", p.readyToShip);
       productFormData.append("categoryId", categoryId);
       productFormData.append("customization", JSON.stringify(p.customization));
-
+      /////////////
       const prodResponse = await API_WRAPPER.post(
         "/products/add-product",
         productFormData
@@ -278,6 +297,7 @@ const AddProductAttributes = () => {
       const productId = prodResponse.data.data._id;
       console.log("AddProductAttributes.jsx", productId);
       if (prodResponse.status == 201) {
+        navigate("/admin/product-management");
         setActiveCollection((prevState) => [
           {
             ...prevState,
@@ -291,20 +311,29 @@ const AddProductAttributes = () => {
           "ID: ",
           productId
         );
-        const collectionResponse = await API_WRAPPER.put(
-          `/collection/update-collection-by-id/:${activeCollection._id}`,
-          activeCollection
-        );
-
+        let collectionResponse;
+        if (activeCollection?._id) {
+          const checkdata = checkdataFilter(variantData, activeCollection, p);
+          console.log("_____________________--------------->", checkdata);
+          if (checkdata == "true") {
+            collectionResponse = await API_WRAPPER.put(
+              `/collection/update-collection-by-id/:${activeCollection._id}`,
+              activeCollection
+            );
+          } else {
+            toast.warning("Callection not match acording callection condition");
+          }
+        }
         console.log("COLLECTION RESPONSE: ", collectionResponse);
-
         for (let variant of variantData) {
           console.log(variant);
-          const { mrp, productQuantity, files, ...variantName } = variant;
+          const { mrp, price, productQuantity, files, ...variantName } =
+            variant;
           console.log("AddProductAttributes.jsx", files);
           const variantFormData = new FormData();
           variantFormData.append("variant", JSON.stringify(variantName));
           variantFormData.append("mrp", mrp);
+          variantFormData.append("price", price);
           variantFormData.append("quantity", productQuantity);
 
           variantFormData.append("productId", productId);
@@ -316,9 +345,12 @@ const AddProductAttributes = () => {
           await API_WRAPPER.post("/products/create-variant", variantFormData);
         }
       }
-      navigate(PATHS.adminProductManagement);
+
+      console.log("AddProductAttributes.jsx", productId);
+      navigate("/admin/product-management");
+      // navigate(PATHS.adminProductManagement);
     } catch (error) {
-      debouncedShowToast(error.message, "error");
+      // debouncedShowToast(error.message, "error");
     }
   };
 
@@ -351,7 +383,9 @@ const AddProductAttributes = () => {
         />
 
         <Select
+          className="dropdown-container "
           showSearch
+          style={{ width: "30%", padding: "10px", margin: "5px" }}
           placeholder="Select a collection"
           optionFilterProp="children"
           onChange={onChange}
@@ -414,7 +448,8 @@ const AddProductAttributes = () => {
                     <thead>
                       <tr>
                         <th>Variant</th>
-                        <th>price</th>
+                        <th>MRP</th>
+                        <th>Price</th>
                         <th>Quantity</th>
                         <th>images</th>
                       </tr>
@@ -437,10 +472,19 @@ const AddProductAttributes = () => {
                           <>
                             <tr key={index}>
                               <td>
-                                <pre>{JSON.stringify(variantName)}</pre>
+                                <pre>
+                                  {Object.keys(variantName).map((key) => (
+                                    <div key={key}>
+                                      {key}: {variantName[key]}
+                                    </div>
+                                  ))}
+                                </pre>
                               </td>
                               <td>
                                 <label>{mrp}</label>
+                              </td>
+                              <td>
+                                <label>{price}</label>
                               </td>
                               <td>
                                 <label>{productQuantity}</label>
@@ -473,6 +517,11 @@ const AddProductAttributes = () => {
                                     <input
                                       type="text"
                                       placeholder="price"
+                                      style={{
+                                        padding: "5px",
+                                        border: "1px solid gray",
+                                        borderRadius: "3px",
+                                      }}
                                       name="price"
                                       value={price}
                                       onChange={(e) =>
@@ -489,6 +538,11 @@ const AddProductAttributes = () => {
                                     <input
                                       type="text"
                                       placeholder="minQuantity"
+                                      style={{
+                                        padding: "5px",
+                                        border: "1px solid gray",
+                                        borderRadius: "3px",
+                                      }}
                                       name="minQuantity"
                                       value={minQuantity}
                                       onChange={(e) =>
@@ -501,6 +555,11 @@ const AddProductAttributes = () => {
                                       type="text"
                                       placeholder="currency"
                                       name="currency"
+                                      style={{
+                                        padding: "5px",
+                                        border: "1px solid gray",
+                                        borderRadius: "3px",
+                                      }}
                                       value={currency}
                                       onChange={(e) =>
                                         handleDataChange(index, dataIndex, e)
@@ -510,6 +569,11 @@ const AddProductAttributes = () => {
                                   <td>
                                     <button
                                       id="addRow"
+                                      style={{
+                                        padding: "7px",
+                                        border: "1px solid gray",
+                                        borderRadius: "3px",
+                                      }}
                                       onClick={() => {
                                         addRow(index);
                                       }}
@@ -639,6 +703,7 @@ const AddProductAttributes = () => {
                       <div className="flex justify-around w-96">
                         <span className="font-bold">{att.name}:</span>
                         <input
+                          type={att.name == "Quantity" ? "number" : "text"}
                           placeholder="enter attribute values"
                           className="input input-sm input-primary ml-4"
                           name={att._id}
@@ -716,7 +781,8 @@ const AddProductAttributes = () => {
                     <tr>
                       <th>Variant Name</th>
                       <th>MRP</th>
-                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Total Quantity</th>
                       <th>Images</th>
                     </tr>
                   </thead>
@@ -745,7 +811,7 @@ const AddProductAttributes = () => {
                             <td className="px-4 py-2">
                               <div className="flex justify-center items-center">
                                 <input
-                                  placeholder="enter price"
+                                  placeholder="enter mrp"
                                   type="number"
                                   name={`mrp-${index}`}
                                   className="input input-primary input-sm"
@@ -756,6 +822,25 @@ const AddProductAttributes = () => {
                                         ? matchingVariantIndex
                                         : index,
                                       "mrp"
+                                    )
+                                  }
+                                />
+                              </div>
+                            </td>
+                            <td className="px-4 py-2">
+                              <div className="flex justify-center items-center">
+                                <input
+                                  placeholder="enter price"
+                                  type="number"
+                                  name={`price-${index}`}
+                                  className="input input-primary input-sm"
+                                  onChange={(e) =>
+                                    handleTableInputChange(
+                                      e,
+                                      matchingVariantIndex !== -1
+                                        ? matchingVariantIndex
+                                        : index,
+                                      "price"
                                     )
                                   }
                                 />
@@ -788,14 +873,31 @@ const AddProductAttributes = () => {
                                   accept="image/*"
                                   multiple
                                   className="file-input file-input-sm"
-                                  onChange={(e) =>
-                                    handleTableFileChange(
-                                      e,
-                                      matchingVariantIndex !== -1
-                                        ? matchingVariantIndex
-                                        : index
-                                    )
-                                  }
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) {
+                                      if (!file.type.startsWith("image/png")) {
+                                        toast.warning(
+                                          "Only PNG files are allowed."
+                                        );
+                                        e.target.value = ""; // Clear the input field
+                                      } else {
+                                        // Handle the selected file(s) as needed.
+                                        handleTableFileChange(
+                                          e,
+                                          matchingVariantIndex !== -1
+                                            ? matchingVariantIndex
+                                            : index
+                                        );
+                                      }
+                                    }
+                                    // handleTableFileChange(
+                                    //   e,
+                                    //   matchingVariantIndex !== -1
+                                    //     ? matchingVariantIndex
+                                    //     : index
+                                    // );
+                                  }}
                                 />
                               </div>
                             </td>
@@ -820,6 +922,51 @@ const AddProductAttributes = () => {
       <ToastContainer />
     </div>
   );
+};
+
+import React from "react";
+
+export const checkdataFilter = (variateData, category, p) => {
+  let categoryKeys = category?.collectionConditionId || [];
+  categoryKeys = categoryKeys
+    .map((value) => value.trim())
+    .filter((value, index, self) => self.indexOf(value) === index);
+  let methods = category?.conditionValue || []; // Use empty array as default value if category?.conditionValue is undefined
+  let matchvalue = category?.inputValue || []; // Use empty array as default value if category?.inputValue is undefined
+  let checkPresent = categoryKeys.map((item, index) => {
+    if (item == "Price") {
+      return variateData.map((variant, ind) => {
+        let mainPrice = Number(variant?.price);
+        if (matchvalue.length === 2) {
+          // Check if matchvalue has two values
+          let minValue = Number(matchvalue[0]);
+          let maxValue = Number(matchvalue[1]);
+          return mainPrice >= minValue && mainPrice <= maxValue;
+        } else if (matchvalue.length === 1) {
+          let minValue = Number(matchvalue[0]);
+          return mainPrice >= minValue;
+        } else {
+          return false; // Return false for invalid matchvalue
+        }
+      });
+    } else {
+      return methods.map((method, inx) => {
+        let isMatch = false;
+        let isContainsData = p[item] || ""; // Use an empty string as default value if p[item] is undefined
+        matchvalue.forEach((str) => {
+          if (method?.conditionValue == "contains") {
+            isMatch = isMatch || isContainsData.includes(str);
+          } else if (method?.conditionValue == "end with") {
+            isMatch = isMatch || isContainsData.endsWith(str);
+          } else if (method?.conditionValue == "start with") {
+            isMatch = isMatch || isContainsData.startsWith(str);
+          }
+        });
+        return isMatch;
+      });
+    }
+  });
+  return checkPresent.join();
 };
 
 export default AddProductAttributes;

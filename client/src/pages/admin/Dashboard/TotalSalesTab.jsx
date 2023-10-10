@@ -17,7 +17,6 @@ const TotalSalesTab = () => {
 
   const getBarChartData = async () => {
     const response = await API_WRAPPER.get("/dashboard/barchart");
-    console.log("TotalSalesTab.jsx", response.data);
     setChartData(response.data);
     setDateLables(response.data.dateData.labels);
     setDateData(response.data.dateData.counts);
@@ -27,7 +26,7 @@ const TotalSalesTab = () => {
     setYearData(response.data.yearData.counts);
     setTotalSales(response.data.totalSales);
   };
-  console.log("TotalSalesTab.jsx", dateData);
+  console.log("TotalSalesTa..b.jsx===>", monthData, monthLabels);
 
   useEffect(() => {
     getBarChartData();
@@ -52,7 +51,7 @@ const TotalSalesTab = () => {
                   labels: yearLabels,
                   datasets: [
                     {
-                      label: "Dataset 1",
+                      label: "Revenue",
                       data: yearData,
                       backgroundColor: "#697ed9",
                     },
@@ -66,11 +65,11 @@ const TotalSalesTab = () => {
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Income</p>
-                <p>340$</p>
+                <p>{chartData?.yearData?.totalYearsSells}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Sales</p>
-                <p>360$</p>
+                <p>{chartData?.totalSales}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Vendors</p>
@@ -90,8 +89,8 @@ const TotalSalesTab = () => {
       content: (
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
-            {monthData && monthLabels && (
-              // display: block; box-sizing: border-box; height: 276px; width: 552px;
+            {/* // display: block; box-sizing: border-box; height: 276px; width: 552px; */}
+            <div>
               <Bar
                 style={{
                   display: "block",
@@ -103,25 +102,25 @@ const TotalSalesTab = () => {
                   labels: monthLabels,
                   datasets: [
                     {
-                      label: "Dataset 1",
+                      label: "Revenue",
                       data: monthData,
                       backgroundColor: "#697ed9",
                     },
                   ],
                 }}
               />
-            )}
+            </div>
           </div>
 
           <div className="col-span-2 md:col-span-1 flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Income</p>
-                <p>340$</p>
+                <p>{chartData?.monthData?.totalMothsSells}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Sales</p>
-                <p>360$</p>
+                <p>{chartData?.totalSales}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Vendors</p>
@@ -141,8 +140,8 @@ const TotalSalesTab = () => {
       content: (
         <div className="grid grid-cols-2 gap-4">
           <div className="col-span-2 md:col-span-1">
-            {dateData && dateLabels && (
-              // display: block; box-sizing: dborder-box; height: 276px; width: 552px;
+            <div>
+              {/* // display: block; box-sizing: dborder-box; height: 276px; width: 552px; */}
               <Bar
                 style={{
                   display: "block",
@@ -154,25 +153,25 @@ const TotalSalesTab = () => {
                   labels: dateLabels,
                   datasets: [
                     {
-                      label: "Dataset 1",
+                      label: "Revenue",
                       data: dateData,
                       backgroundColor: "#697ed9",
                     },
                   ],
                 }}
               />
-            )}
+            </div>
           </div>
 
           <div className="col-span-2 md:col-span-1 flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Income</p>
-                <p>340$</p>
+                <p>{chartData?.dateData?.totalDateSells}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Sales</p>
-                <p>360$</p>
+                <p>{chartData?.totalSales}$</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
                 <p>Total Vendors</p>

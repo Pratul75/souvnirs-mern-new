@@ -3,6 +3,7 @@ const {
   getBarChartData,
   getProductDataForAdmin,
   getDoughNutChartData,
+  AdminTransactionDetails,
 } = require("../controllers/dashboardController");
 const authMiddleware = require("../middlewares");
 
@@ -25,6 +26,13 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getProductDataForAdmin
 );
+
+router.get(
+  "/dashboard/transactions/reporters",
+  authMiddleware(["vendor", "admin", "customer"]),
+  AdminTransactionDetails
+);
+
 router.get(
   "/dashboard/doughnutchart",
   authMiddleware(["vendor", "admin", "customer"]),

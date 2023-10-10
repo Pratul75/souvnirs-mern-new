@@ -4,7 +4,29 @@ const Product = require("../schema/productModal");
 // Get all refunds
 const getAllRefunds = async (req, res) => {
   try {
-    const refunds = await Refund.find();
+    // req.role , req.userId
+    const refunds = await Refund.aggregate([
+      {
+        $lookup: {
+          from: "orders",
+          localField: "orderId",
+          foreignField: "_id",
+          as: "orders",
+        },
+      },
+      {
+        $lookup: {
+          from: "products",
+          localField: "refundDetails.productId",
+          foreignField: "_id",
+          as: "product",
+        },
+      },
+    ]);
+    // refunds?.map((item, index) => {
+    //   item.orders = item?.orders[0];
+    //   item.product = item?.product[0];
+    // });
     res.status(200).json(refunds);
   } catch (error) {
     console.error("Error fetching refunds:", error);

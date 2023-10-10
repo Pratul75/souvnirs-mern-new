@@ -38,6 +38,19 @@ exports.getwishlistItems = async (req, res) => {
             path: "$customer",
           },
         },
+        {
+          $lookup: {
+            from: "products",
+            localField: "productId",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
       ]);
     } else {
       items = await Wishlist.find({ customerId: req.userId }).populate(
@@ -52,5 +65,35 @@ exports.getwishlistItems = async (req, res) => {
       );
   } catch (e) {
     res.status(400).json(error("failed to fetch wishlist"));
+  }
+};
+
+exports.deleteWishlist = async function (req, res) {
+  try {
+    const { id } = req.params;
+    let checkData = await Wishlist.findById(id);
+    if (checkData) {
+      await Wishlist.findByIdAndDelete(id);
+      res.status(200).send({ message: "Data delete successfully" });
+    } else {
+      res.status(404).send({ message: "Data Not Found" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: error });
+  }
+};
+
+exports.UpdateWishlist = async function (req, res) {
+  try {
+    const { id } = req.params;
+    let checkData = await Wishlist.findById(id);
+    if (checkData) {
+      await Wishlist.findByIdAndUpdate(id, req.body);
+      res.status(200).send({ message: "Data update successfully" });
+    } else {
+      res.status(404).send({ message: "Data Not Found" });
+    }
+  } catch (error) {
+    res.status(500).send({ message: error });
   }
 };

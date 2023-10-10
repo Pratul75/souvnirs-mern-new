@@ -23,8 +23,22 @@ const Payment = () => {
   const columns = useMemo(
     () => [
       {
+        Header: "Name",
+        accessor: "vendor_id.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>
+                {row?.original?.vendor_id?.firstName}{" "}
+                {row?.original?.vendor_id?.lastName}
+              </p>
+            </div>
+          );
+        },
+      },
+      {
         Header: "Order ID",
-        accessor: "_id",
+        accessor: "courier_id",
       },
       {
         Header: "Total Price",

@@ -29,6 +29,10 @@ const wishlistRoutes = require("./routes/wishlistRoutes");
 const menuRoutes = require("./routes/menuRoutes");
 const commissionRoutes = require("./routes/commissionRoutes");
 const checkoutRoutes = require("./routes/checkoutRoutes");
+const ReviewsRoutes = require("./routes/reviewRoutes");
+const InqueryRoutes = require("./routes/inqueryRoutes");
+const DailyDealsRoutes = require("./routes/dailyDealsRoutes");
+
 const morgan = require("morgan");
 
 // app initialization
@@ -100,7 +104,12 @@ app.use(dashboardRoutes);
 app.use(commissionRoutes);
 // checkout routes
 app.use(checkoutRoutes);
+// Review routes
+app.use(ReviewsRoutes);
 // start the server
+app.use(InqueryRoutes);
+// start the server
+app.use(DailyDealsRoutes);
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);

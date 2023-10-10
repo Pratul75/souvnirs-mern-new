@@ -2,6 +2,7 @@ const Order = require("../schema/orderModal");
 const Product = require("../schema/productModal");
 const Customer = require("../schema/customerModal");
 const Vendor = require("../schema/vendorModal");
+const Refund = require("../schema/refundModal");
 const { roles } = require("../utils");
 const axios = require("axios");
 
@@ -28,9 +29,11 @@ const getOrders = async (req, res) => {
   try {
     let orders;
     if (req.role === "admin") {
-      orders = await Order.find();
+      orders = await Order.find().sort({ createdAt: -1 }).populate("vendor_id");
     } else if (req.role === "vendor") {
-      orders = await Order.find({ vendor_id: req.userId });
+      orders = await Order.find({ vendor_id: req.userId }).sort({
+        createdAt: -1,
+      });
     }
     res.json(orders);
   } catch (error) {
@@ -38,6 +41,49 @@ const getOrders = async (req, res) => {
   }
 };
 
+const getShippedOrders = async (req, res) => {
+  try {
+    let orders;
+    if (req.role === "admin") {
+      orders = await Order.find({ order_status: "shipped" })
+        .sort({ createdAt: -1 })
+        .populate("vendor_id");
+    } else if (req.role === "vendor") {
+      orders = await Order.find({
+        vendor_id: req.userId,
+        order_status: "shipped",
+      }).sort({
+        createdAt: -1,
+      });
+    }
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to retrieve orders" });
+  }
+};
+
+const getReplaceOrders = async (req, res) => {
+  try {
+    let orders;
+    if (req.role === "admin") {
+      orders = await Order.find({ order_status: "replace" })
+        .populate("customer_id")
+        .populate("product_id")
+        .sort({ createdAt: -1 })
+        .populate("vendor_id");
+    } else if (req.role === "vendor") {
+      orders = await Order.find({
+        vendor_id: req.userId,
+        order_status: "replace",
+      }).sort({
+        createdAt: -1,
+      });
+    }
+    res.json(orders);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to retrieve orders" });
+  }
+};
 // Get a single order by ID
 const getOrder = async (req, res) => {
   try {
@@ -62,6 +108,7 @@ const updateOrderById = async (req, res) => {
         new: true,
       }
     );
+
     const { customerName, vendorName, productName } = req.body;
     if (customerName) {
       await Customer.findByIdAndUpdate(
@@ -82,14 +129,29 @@ const updateOrderById = async (req, res) => {
         lastName: productName.split(" ")[1],
       });
     }
-
+    if (req.body?.order_status == "refund") {
+      let OrdeDetails = await Order.findById(req.params.id.substring(1));
+      console.log(OrdeDetails);
+      await Refund.create({
+        orderId: OrdeDetails?._id,
+        refundDetails: [
+          {
+            productId: OrdeDetails?.product_id,
+            quantity: OrdeDetails?.quantity,
+            price: OrdeDetails?.price,
+          },
+        ],
+        totalPrice: OrdeDetails?.total_price,
+        status: "PENDING",
+      });
+    }
     if (order) {
       res.json(order);
     } else {
       res.status(404).json({ error: "Order not found" });
     }
   } catch (error) {
-    res.status(400).json({ error: "Failed to update order" });
+    res.status(400).json({ error: "Failed to update order", error });
   }
 };
 
@@ -250,4 +312,6 @@ module.exports = {
   getOrderTableData,
   createOrder,
   captureOrder,
+  getShippedOrders,
+  getReplaceOrders,
 };

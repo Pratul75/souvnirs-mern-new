@@ -25,16 +25,16 @@ const Refund = () => {
   };
   const columns = [
     {
-      Header: "Order ID",
-      accessor: "orderId",
+      Header: "courierId",
+      accessor: "courierId",
     },
     {
-      Header: "Product ID",
+      Header: "product Name",
       accessor: "productId",
       Cell: ({ row }) => {
         return (
           <>
-            {row.original.productId.map((id) => (
+            {row.original.productName.map((id) => (
               <p className="" key={nanoid()}>
                 {id}
               </p>
@@ -130,12 +130,17 @@ const Refund = () => {
       price: refundItem.refundDetails.map(
         (refundDetailItem) => refundDetailItem.price
       ),
+      // courier_id
+      productName: refundItem.product.map((product) => product.name),
+      courierId: refundItem.orders.map((product) => product.courier_id),
       totalPrice: refundItem.totalPrice,
       status: refundItem.status,
     };
   });
 
   const data = useMemo(() => tableData, [tableData]);
+
+  console.log("++++>", tableData);
 
   return (
     <div>
@@ -152,6 +157,7 @@ const Refund = () => {
           showButtons
           enableEdit
           enableDelete
+          pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

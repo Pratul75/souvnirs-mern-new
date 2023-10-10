@@ -22,7 +22,7 @@ const Checkout = () => {
   const [showAddress, setshowAddress] = useState(false);
   const [selectedAddress, setselectedAddress] = useState({});
   const getCheckedOutItems = async () => {
-    const response = await API_WRAPPER.get("/checkedout");
+    const response = await API_WRAPPER.get("/cart/mycart");
     console.log(response);
     setItems(response.data);
   };
@@ -30,6 +30,10 @@ const Checkout = () => {
   const { data, isLoading, error } = useQuery("get_addresses", fetchAddresses, {
     onSuccess: () => setAddresses(data?.data),
   });
+
+  // useEffect(() => {
+  //   setselectedAddress(data?.data[0]);
+  // }, []);
 
   // adding address api call
   const addAddress = async (e) => {
@@ -88,6 +92,12 @@ const Checkout = () => {
     setselectedAddress(address);
     setshowAddress(false);
   };
+
+  console.log(
+    "++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
+    selectedAddress,
+    data?.data[0]
+  );
 
   return (
     <div>

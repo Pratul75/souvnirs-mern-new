@@ -87,6 +87,10 @@ const Discounts = () => {
         accessor: "activeTime",
       },
       {
+        Header: "Discount",
+        accessor: "typeValue",
+      },
+      {
         Header: "End Date",
         accessor: "endDate",
         Cell: (props) => {
@@ -104,7 +108,11 @@ const Discounts = () => {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            fetchDiscounts
+          );
         },
       },
     ],
@@ -204,3 +212,5 @@ const Discounts = () => {
 };
 
 export default Discounts;
+
+// debouncedShowToast("Successfully loaded customer list", "success");

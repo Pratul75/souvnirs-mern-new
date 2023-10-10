@@ -22,7 +22,9 @@ const createCollection = async (req, res) => {
 // Get all collections
 const getAllCollections = async (req, res) => {
   try {
-    const collections = await Collection.find().sort({ createdAt: -1 });
+    const collections = await Collection.find()
+      .populate("conditionValue")
+      .sort({ createdAt: -1 });
     res.status(200).json(collections);
   } catch (error) {
     res.status(400).json({ error: "Failed to retrieve collections" });
@@ -80,8 +82,12 @@ const deleteCollectionById = async (req, res) => {
 
 const getRawDataForFilter = async (req, res) => {
   try {
-    const conditionsArray = req.body; // Assuming you have the array of conditions in req.body
+    let conditionsArray = req.body; // Assuming you have the array of conditions in req.body
     console.log("CONDITIONS ARRAY: ", conditionsArray);
+    conditionsArray[0].selectedTitle =
+      conditionsArray[0]?.selectedTitle == "Price"
+        ? "price"
+        : conditionsArray[0]?.selectedTitle;
 
     // Create an array to store the filtered products
     let filteredProducts = [];
@@ -160,7 +166,7 @@ const getRawDataForFilter = async (req, res) => {
 
     // Make a request to the "Products" collection using the constructed query
     // filteredProducts = await Product.find({ name: { $regex: /^o/i } });
-
+    console.log("++++>+++>>===>", query);
     const someMoreProducts = await Product.find(query);
     filteredProducts = [...someMoreProducts, ...filteredProducts];
 

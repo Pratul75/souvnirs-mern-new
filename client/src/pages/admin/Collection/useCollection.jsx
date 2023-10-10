@@ -17,7 +17,7 @@ export const useCollection = () => {
       const response = await API_WRAPPER.get("/collection/get-all-collections");
       if (response?.status === 200) {
         setCollectionList(response?.data);
-        debouncedShowToast("Collection loaded successfully!", "success");
+        // debouncedShowToast("Collection loaded successfully!", "success");
       }
     } catch (error) {
       debouncedShowToast(error.message, "error");
@@ -32,20 +32,25 @@ export const useCollection = () => {
       },
       {
         Header: "Description",
-        // accessor: "description",
-        cell: ({ row }) => {
-          return (
-            <p>
-              {row?.original?.description && parse(row?.original?.description)}
-            </p>
+        accessor: "description",
+        Cell: ({ row }) => {
+          console.log(">>>>", row?.original);
+          let cleanedData = row?.original?.description.replace(
+            /<p>|<\/p>/g,
+            ""
           );
+          return <p>{cleanedData}</p>;
         },
       },
       {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            fetchAllCollections
+          );
         },
       },
     ],
@@ -61,6 +66,7 @@ export const useCollection = () => {
 
   const handleDelete = (row) => {
     setSelectedRow(row);
+    // /cart/delete-cart/:id
     window.collection_delete_modal.showModal();
     console.log("ROW TO BE DELETED: ", row);
   };

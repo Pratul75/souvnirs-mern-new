@@ -20,6 +20,7 @@ const {
   getVendorProducts,
   alterApproval,
   deleteFakeProducts,
+  getProductsAdmin,
 } = require("../controllers/productController");
 const authMiddleware = require("../middlewares");
 const { upload } = require("../middlewares/ImageUpload");
@@ -54,6 +55,11 @@ router.get(
   "/products/get-all-products",
   // authMiddleware(["vendor", "admin", "customer"]),
   getProducts
+);
+router.get(
+  "/products/admin/get-all-products",
+  // authMiddleware(["vendor", "admin", "customer"]),
+  getProductsAdmin
 );
 
 router.get(

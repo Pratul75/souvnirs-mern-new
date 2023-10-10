@@ -62,6 +62,9 @@ const updateCategory = async (req, res) => {
     }
 
     const { attributes } = req.body;
+    await Category.findByIdAndUpdate(req.params.id, {
+      attributes: [...attributes],
+    });
     const existingAttributeIds = existingCategory.attributes.map((attr) =>
       attr.toString()
     );
@@ -146,6 +149,19 @@ const getParentCategories = async (req, res) => {
   res.status(200).json(categories);
 };
 
+const UpdateStatus = async (req, res) => {
+  const existingCategory = await Category.findById(req.params.id);
+  if (!existingCategory) {
+    return res.status(404).json({ message: "Category not found" });
+  } else {
+    const updateStatus = await Category.findByIdAndUpdate(
+      req.params.id,
+      req?.body
+    );
+    res.status(200).json(updateStatus);
+  }
+};
+
 module.exports = {
   addCategory,
   getAllCategories,
@@ -154,4 +170,5 @@ module.exports = {
   deleteCategory,
   removeAttributeFromCategory,
   getParentCategories,
+  UpdateStatus,
 };

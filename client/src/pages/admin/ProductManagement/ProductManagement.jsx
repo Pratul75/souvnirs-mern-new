@@ -1,7 +1,7 @@
 import { Header, ReusableTable } from "../../../components";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { getStatusStyles, getStockStatusStyles } from "../../../utils";
 import { GoPlus } from "react-icons/go";
 import { ToastContainer } from "react-toastify";
@@ -26,7 +26,10 @@ const ProductManagement = () => {
     setBulkData,
     setDisapprovalComment,
     seterror,
+    setSelectedRow,
+    bulkData,
   } = useProductManagement();
+  const [isValidCSV, setIsValidCSV] = useState();
 
   const columns = useMemo(
     () => [
@@ -59,18 +62,13 @@ const ProductManagement = () => {
       {
         Header: "Variant",
         Cell: ({ row }) => {
-          console.log("ROW FOR VARIANT: ", row);
-          if (row?.original?.result?.variant) {
-            const keys = Object.keys(row?.original?.result?.variant);
-
-            return keys.map((key) => (
-              <p>
-                {key}:{row?.original?.result?.variant[key]}
-              </p>
-            ));
-          } else {
-            return <p> </p>;
-          }
+          return (
+            <ul>
+              {row?.original?.variant?.map((item) => (
+                <li>{item?.name}</li>
+              ))}
+            </ul>
+          );
         },
       },
       {
@@ -90,11 +88,11 @@ const ProductManagement = () => {
           // console.log("ProductManagement.jsx", row);
           return (
             <div>
-              {row?.original?.approved ? (
+              {row?.original?.approved == false ? (
                 <button
                   onClick={() => {
-                    setSelectedRow(row?.original);
-                    window.disapproval_modal.showModal();
+                    // setSelectedRow(row?.original);
+                    alterApproval(row?.original?._id, true);
                   }}
                   className="btn btn-sm btn-primary"
                 >
@@ -103,7 +101,9 @@ const ProductManagement = () => {
               ) : (
                 <button
                   onClick={() => {
-                    alterApproval(row?.original?._id, true);
+                    setSelectedRow(row?.original);
+                    window.disapproval_modal.showModal();
+                    // alterApproval(row?.original?._id, true);
                   }}
                   className="btn btn-sm btn-primary"
                 >
@@ -124,6 +124,49 @@ const ProductManagement = () => {
     ],
     []
   );
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    setBulkData(file);
+
+    Papa.parse(file, {
+      complete: (result) => {
+        if (result.data && result.data.length > 0) {
+          const firstObject = result.data[0];
+          const expectedKeys = [
+            "_id",
+            "name",
+            "vendorId",
+            "categoryId",
+            "slug",
+            "description",
+            "coverImage",
+            "mrp",
+            "onSale",
+            "attributes",
+            "stockStatus",
+            "images",
+            "status",
+            "approved",
+          ];
+
+          // Check if the first object contains all expected keys
+          const keysMatch = expectedKeys.every((key) =>
+            firstObject.hasOwnProperty(key)
+          );
+
+          if (keysMatch) {
+            setIsValidCSV(true);
+          } else {
+            setIsValidCSV(false);
+          }
+        } else {
+          setIsValidCSV(false);
+        }
+      },
+      header: true,
+    });
+  };
 
   return (
     <div>
@@ -201,6 +244,7 @@ const ProductManagement = () => {
                   seterror("please enter a comment");
                   return;
                 }
+                // console.log("{}}{", selectedRow);
                 alterApproval(selectedRow._id, false, disapprovalComment);
               }}
             >
@@ -252,10 +296,13 @@ const ProductManagement = () => {
               {/* <Dropzone onFilesChange={(data) => setBulkData(data)} /> */}
               <input
                 type="file"
+                accept=".csv"
                 onChange={(e) => {
-                  setBulkData(e.target.files[0]);
+                  handleFileUpload(e);
+                  // setBulkData(e.target.files[0]);
                 }}
               />
+              {isValidCSV == false && <p>CSV file is invalid</p>}
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}

@@ -5,6 +5,7 @@ import { getStatusStyles } from "../../../utils";
 import { ToastContainer } from "react-toastify";
 import CartBannerImage from "../../../assets/bannerImages/productManagementImage.png";
 import useCart from "./useCart";
+import API_WRAPPER from "../../../api";
 const Cart = () => {
   const {
     cartList,
@@ -13,22 +14,29 @@ const Cart = () => {
     handleEditChange,
     onHandleSubmit,
     selectedRow,
+    getCartList,
   } = useCart();
+
+  const PopUpDelete = async () => {
+    const response = await API_WRAPPER.delete(
+      `/cart/delete-cart/${selectedRow._id}`
+    );
+    getCartList();
+  };
 
   const columns = useMemo(
     () => [
       {
         Header: "Name",
-        accessor: `name`,
+        accessor: `customer.firstName`,
       },
-
       {
         Header: "Product Name",
-        accessor: "product_name",
+        accessor: "product.name",
       },
       {
         Header: "Product Price",
-        accessor: "product_price",
+        accessor: "product.price",
       },
       {
         Header: "Product Quantity",
@@ -151,7 +159,9 @@ const Cart = () => {
           </p>
           <div className="modal-action flex">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-error">Delete</button>
+            <button className="btn btn-error" onClick={PopUpDelete}>
+              Delete
+            </button>
             <button
               onClick={() => window.cart_delete_modal.close()}
               className="btn"

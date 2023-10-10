@@ -51,7 +51,7 @@ const CartPage = () => {
       `/checkout-add-checkout`,
       extractCartData(cartItems)
     );
-    if (response.status == 200) {
+    if (response.status) {
       navigate("/checkout");
     }
   };

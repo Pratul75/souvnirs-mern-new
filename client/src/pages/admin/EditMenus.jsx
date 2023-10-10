@@ -66,6 +66,7 @@ const EditMenu = () => {
     setLoading(true);
     await API_WRAPPER.post("/sub-menu/create", createdCards);
     setLoading(false);
+    navigate("/admin/menus");
   };
   const handleCardSubmit = (e) => {
     e.preventDefault();

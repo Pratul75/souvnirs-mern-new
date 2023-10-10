@@ -24,6 +24,12 @@ export const fetchAllProducts = () => {
   return API_WRAPPER.get("products/get-all-products");
 };
 
+export const fetchAllAdminProducts = (pageNumber) => {
+  return API_WRAPPER.get(
+    `/products/admin/get-all-products?pageNumber=${pageNumber}`
+  );
+};
+
 export const fetchAllCollections = () => {
   return API_WRAPPER.get("/collection/get-all-collections");
 };

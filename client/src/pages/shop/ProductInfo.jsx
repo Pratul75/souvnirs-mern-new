@@ -1,5 +1,5 @@
 import { IoMdArrowBack } from "react-icons/io";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { CiLogin } from "react-icons/ci";
 import { Card, ProductsListWithFilters, Ratings, Tabs } from "../../components";
@@ -35,6 +35,8 @@ const ProductInfo = () => {
   const [croppedImage, setCroppedImage] = useState(null);
   // Add a state to toggle the display of the cropped image section
   const [showCroppedImage, setShowCroppedImage] = useState(false);
+  const [inqueryData, setInqueryData] = useState({});
+  const location = useLocation();
 
   // Add a function to handle cropping
   const handleCropImage = () => {
@@ -325,6 +327,14 @@ const ProductInfo = () => {
     }
   }, [slug]); // Add slug as a dependency
 
+  const handleSubmitInquery = async () => {
+    console.log("++++++++++++++++++>>>>>________", inqueryData);
+    let finalData = { ...inqueryData };
+    finalData.inquery = [inqueryData.inquery];
+    const response = await API_WRAPPER.post("/create/inquery", finalData);
+    window.request_quote_modal.close();
+  };
+
   console.log("PRODUCTS: ", product);
   return (
     <>
@@ -482,6 +492,13 @@ const ProductInfo = () => {
                       <button
                         onClick={(e) => {
                           e.preventDefault();
+                          setInqueryData({
+                            ...inqueryData,
+                            productId: product._id,
+                            inquery: {
+                              variant: location?.pathname.split("/")[2],
+                            },
+                          });
                           window.request_quote_modal.showModal();
                         }}
                         className="btn btn-primary cursor-pointer mt-4 w-full"
@@ -628,28 +645,114 @@ const ProductInfo = () => {
             <label className="label">
               <span className="label-text">Enter your Name</span>
             </label>
-            <input className="input input-bordered" type="text" />
-          </div>
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text">Enter your Contact</span>
-            </label>
-            <input className="input input-bordered" type="text" />
+            <input
+              className="input input-bordered"
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { name: e?.target?.value }
+                      : { ...inqueryData.inquery, name: e?.target?.value }, // Fix here
+                })
+              }
+              type="text"
+            />
           </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Enter your Company Details</span>
             </label>
-            <input className="input input-bordered" type="text" />
+            <input
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { company: e?.target?.value }
+                      : { ...inqueryData.inquery, company: e?.target?.value }, // Fix here
+                })
+              }
+              className="input input-bordered"
+              type="text"
+            />
           </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Enter your Email</span>
+            </label>
+            <input
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { email: e?.target?.value }
+                      : { ...inqueryData.inquery, email: e?.target?.value }, // Fix here
+                })
+              }
+              className="input input-bordered"
+              type="text"
+            />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Enter your Contact</span>
+            </label>
+            <input
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { contact: e?.target?.value }
+                      : { ...inqueryData.inquery, contact: e?.target?.value }, // Fix here
+                })
+              }
+              className="input input-bordered"
+              type="text"
+            />
+          </div>
+
           <div className="form-control">
             <label className="label">
               <span className="label-text">City</span>
             </label>
-            <input className="input input-bordered" type="text" />
+            <input
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { city: e?.target?.value }
+                      : { ...inqueryData.inquery, city: e?.target?.value }, // Fix here
+                })
+              }
+              className="input input-bordered"
+              type="text"
+            />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Pincode</span>
+            </label>
+            <input
+              onChange={(e) =>
+                setInqueryData({
+                  ...inqueryData,
+                  inquery:
+                    Object.keys(inqueryData?.inquery || {}).length === 0
+                      ? { pincode: e?.target?.value }
+                      : { ...inqueryData.inquery, pincode: e?.target?.value }, // Fix here
+                })
+              }
+              className="input input-bordered"
+              type="number"
+            />
           </div>
           <button
-            onClick={() => window.request_quote_modal.close()}
+            onClick={handleSubmitInquery}
+            style={{ marginTop: "10px" }}
             className="btn btn-primary mt-4"
           >
             Request Meeting

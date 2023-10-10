@@ -69,9 +69,20 @@ const AdminMedia = () => {
               className="file-input file-input-bordered w-full max-w-xs"
               multiple
               onChange={(e) => {
-                setMedia(e.target.files);
+                const selectedFiles = e.target.files;
+                // Check if any selected file is not a PNG
+                const isInvalidFile = Array.from(selectedFiles).some(
+                  (file) => !file.name.toLowerCase().endsWith(".png")
+                );
+                if (isInvalidFile) {
+                  alert("Please select only .png files.");
+                  e.target.value = null; // Clear the file input
+                  setMedia(null); // Reset the media state
+                } else {
+                  setMedia(selectedFiles);
+                }
               }}
-              accept=".jpeg,.png,.jpg"
+              accept=".png,"
             />
           </div>
           <div className=" flex justify-end gap-5 mt-8">

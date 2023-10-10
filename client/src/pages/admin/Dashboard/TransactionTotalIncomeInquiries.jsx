@@ -18,7 +18,22 @@ const TransactionTotalIncomeInquiries = () => {
   const [data, setData] = useState();
   const [labels, setLabels] = useState();
   const [fullData, setFullData] = useState();
+  const [transactions, setTransactions] = useState({});
 
+  useEffect(() => {
+    getProductData();
+  }, []);
+
+  const getProductData = async () => {
+    try {
+      const response = await API_WRAPPER.get(
+        "/dashboard/transactions/reporters"
+      );
+      setTransactions(response?.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   // TODO: need to add success and pending transaction based on the transaction status, map accordingly the DashboardChartCart Component
 
   const transactionTabs = [
@@ -26,56 +41,64 @@ const TransactionTotalIncomeInquiries = () => {
       label: "All Transactions",
       content: (
         <div className="max-h-[400px] overflow-y-scroll">
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-red-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
-          <DashboardChartCart
-            percentage="10.6%"
-            percentageColor="text-green-500"
-            label="Apple Inc"
-            totalAmount="#APLE-PRO-T00232"
-            iconText="AI"
-            dynamicAmount="$2,800"
-          />
+          {transactions?.AllTrasication?.map((item, index) => (
+            <DashboardChartCart
+              percentage={`${item?.discounts}%`}
+              percentageColor={
+                item?.payment_status == "failed"
+                  ? "text-red-500"
+                  : "text-green-500"
+              }
+              label="Apple Inc"
+              totalAmount="#APLE-PRO-T00232"
+              iconText="AI"
+              dynamicAmount={`$${item?.total_price}`}
+            />
+          ))}
         </div>
       ),
     },
     {
       label: "Success",
-      content: "Success Content",
+      content: (
+        <div className="max-h-[400px] overflow-y-scroll">
+          {transactions?.AllSuccessTrasication?.map((item, index) => (
+            <DashboardChartCart
+              percentage={`${item?.discounts}%`}
+              percentageColor={
+                item?.payment_status == "failed"
+                  ? "text-red-500"
+                  : "text-green-500"
+              }
+              label="Apple Inc"
+              totalAmount="#APLE-PRO-T00232"
+              iconText="AI"
+              dynamicAmount={`$${item?.total_price}`}
+            />
+          ))}
+        </div>
+      ),
     },
     {
       label: "Pending",
-      content: "Pending Content",
+      content: (
+        <div className="max-h-[400px] overflow-y-scroll">
+          {transactions?.AllPendingTrasication?.map((item, index) => (
+            <DashboardChartCart
+              percentage={`${item?.discounts}%`}
+              percentageColor={
+                item?.payment_status == "failed"
+                  ? "text-red-500"
+                  : "text-green-500"
+              }
+              label="Apple Inc"
+              totalAmount="#APLE-PRO-T00232"
+              iconText="AI"
+              dynamicAmount={`$${item?.total_price}`}
+            />
+          ))}
+        </div>
+      ),
     },
   ];
   const getDoughnutChartData = async () => {

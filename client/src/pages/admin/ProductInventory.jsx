@@ -16,26 +16,26 @@ const ProductInventory = () => {
       {
         Header: "Variant",
         Cell: ({ row }) => {
-          if (row?.original?.result?.variant) {
-            const keys = Object.keys(row?.original?.result?.variant);
-
-            return keys.map((key) => (
-              <p>
-                {key}:{row?.original?.result?.variant[key]}
-              </p>
-            ));
+          if (row?.original?.variant?.length > 0) {
+            return (
+              <ul>
+                {row.original.variant.map((item) => (
+                  <li key={item._id}>{item.name}</li>
+                ))}
+              </ul>
+            );
           } else {
-            return <p> </p>;
+            return <span>No Variants</span>;
           }
         },
       },
       {
         Header: "Product Price",
-        accessor: "result.price",
+        accessor: "price", // Assuming "price" is directly under the product object
       },
       {
         Header: "Stock Quantity",
-        accessor: "result.quantity",
+        accessor: "stockQuantity", // Assuming "stockQuantity" is directly under the product object
       },
       {
         Header: "Stock Status",
@@ -44,6 +44,7 @@ const ProductInventory = () => {
     ],
     []
   );
+
   const data = useMemo(() => productsList, [productsList]);
 
   const getAllProducts = async () => {
@@ -85,7 +86,7 @@ const ProductInventory = () => {
     if (editedProduct) {
       try {
         const response = await API_WRAPPER.put(
-          `/products/edit-product/:${editedProduct._id}`,
+          `/products/edit-product/${editedProduct._id}`,
           editedProduct
         );
         console.log("EDITED RESPONSE", response.data);
@@ -94,6 +95,7 @@ const ProductInventory = () => {
             product._id === editedProduct._id ? response.data : product
           )
         );
+        getAllProducts();
         window.editProduct_modal.close();
         setEditedProduct(null);
       } catch (error) {

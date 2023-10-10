@@ -5,6 +5,7 @@ const {
   getCategoryById,
   updateCategory,
   getParentCategories,
+  UpdateStatus,
 } = require("../controllers/categoryController");
 const authMiddleware = require("../middlewares");
 
@@ -25,6 +26,11 @@ router.put(
   "/category/update-category/:id",
   authMiddleware(["admin"]),
   updateCategory
+);
+router.put(
+  "/update/status/category/:id",
+  authMiddleware(["admin"]),
+  UpdateStatus
 );
 router.delete(
   "/category/delete-category/:id",

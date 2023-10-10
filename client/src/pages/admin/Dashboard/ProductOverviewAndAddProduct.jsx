@@ -17,8 +17,8 @@ const ProductOverviewAndAddProduct = () => {
     try {
       const response = await API_WRAPPER.get("/dashboard/products");
       const data = response.data;
-      setProductLabel(data.dates);
-      setProductData(data.counts);
+      setProductLabel(data.Pendingorders);
+      setProductData(data.totalOrder);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,7 +43,7 @@ const ProductOverviewAndAddProduct = () => {
               <span>Pending Orders:</span>
               <span className="text-themeColor font-bold">
                 {" "}
-                {productData.reduce((acc, count) => acc + count, 0)}{" "}
+                {productLabel?.length}{" "}
               </span>
               <div>
                 {productData.length > 0 && productLabel.length > 0 && (
@@ -75,10 +75,10 @@ const ProductOverviewAndAddProduct = () => {
             </div>
 
             <div>
-              <span>Total Products:</span>
+              <span>Total Orders:</span>
               <span className="text-themeColor font-bold">
                 {" "}
-                {productData.reduce((acc, count) => acc + count, 0)}{" "}
+                {productData.length}{" "}
               </span>
               <div>
                 {productData.length > 0 && productLabel.length > 0 && (

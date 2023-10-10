@@ -14,7 +14,7 @@ const addConditionValue = async (req, res) => {
 // Get all conditionValues
 const getAllConditionValues = async (req, res) => {
   try {
-    const conditionValues = await ConditionValue.find();
+    const conditionValues = await ConditionValue.find().sort();
     res.json(conditionValues);
   } catch (error) {
     res.status(400).json({ error: error.message });

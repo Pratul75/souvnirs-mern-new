@@ -55,6 +55,7 @@ const useAddMainMenus = () => {
         link: `${mainMenuData.type}/${selectedTypeDataValue}`,
       });
       debouncedShowToast("Main Menu Item Created Successfully", "success");
+      navigate("/admin/menus");
       console.log("AddMainMenus.jsx", response);
     } catch (e) {
       console.log("AddMainMenus.jsx", e);

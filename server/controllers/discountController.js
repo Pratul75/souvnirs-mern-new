@@ -3,7 +3,7 @@ const Discount = require("../schema/discountModal");
 // Get all discounts
 const getAllDiscounts = async (req, res) => {
   try {
-    const discounts = await Discount.find();
+    const discounts = await Discount.find().sort({ createdAt: -1 });
     res.status(200).json(discounts);
   } catch (error) {
     console.error("Error occurred while fetching discounts", error);
@@ -25,6 +25,16 @@ const getDiscountById = async (req, res) => {
     res.status(400).json({ error: "somthing went wrong" });
   }
 };
+const getLatestDiscout = async (req, res) => {
+  try {
+    const discount = await Discount.find({ status : "ACTIVE"})
+      .limit(1)
+      .sort({ createdAt: -1 });
+    res.status(200).json(discount ? discount[0] : {});
+  } catch (error) {
+    res.status(400).json({ error: "somthing went wrong" });
+  }
+};
 
 // Create a discount
 const createDiscount = async (req, res) => {
@@ -42,6 +52,7 @@ const createDiscount = async (req, res) => {
     endDate,
     collectionId,
     productId,
+    typeValue,
     categoryId,
     status,
   } = req.body;
@@ -69,6 +80,7 @@ const createDiscount = async (req, res) => {
       endDate,
       collectionId,
       productId,
+      typeValue,
       categoryId,
       status,
     });
@@ -125,4 +137,5 @@ module.exports = {
   updateDiscount,
   getAllDiscounts,
   getDiscountById,
+  getLatestDiscout,
 };

@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
@@ -29,8 +31,11 @@ const useAddCustomer = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
+    setLoading(true);
     const { confirmPassword, ...formData } = data;
     formData.password = confirmPassword;
     console.log("CUSTOMER FORM DATA: ", formData);
@@ -40,7 +45,9 @@ const useAddCustomer = () => {
         formData
       );
       if (response.status === 200) {
+        setLoading(false);
         debouncedShowToast("Customer added successfully", "success");
+        navigate("/admin/customer");
       }
     } catch (error) {
       debouncedShowToast(error.message, "error");
@@ -51,6 +58,7 @@ const useAddCustomer = () => {
     handleSubmit,
     errors,
     onSubmit,
+    loading
   };
 };
 

@@ -43,10 +43,12 @@ function useCart() {
     }
   };
 
-  const handleDelete = (row) => {
-    console.log("ROW TO BE DELETED: ", row);
+  const handleDelete = async (row) => {
+    console.log("ROW TO BE DELETED:==> ", row);
     window.cart_delete_modal.showModal();
+    // const response = await API_WRAPPER.delete(`/cart/delete-cart/${row._id}`);
     setSelectedRow(row);
+    // getCartList();
   };
 
   const handleEdit = (row) => {
@@ -67,6 +69,7 @@ function useCart() {
     handleEditChange,
     onHandleSubmit,
     selectedRow,
+    getCartList,
   };
 }
 

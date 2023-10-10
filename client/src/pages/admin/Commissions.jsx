@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
@@ -14,6 +14,7 @@ const Commissions = () => {
     commissionType: "",
     commissionTypeValue: "",
   });
+  const navigate = useNavigate();
   const [apiTrigger, setApiTrigger] = useState(false);
   const getCommissionList = async () => {
     try {
@@ -27,7 +28,7 @@ const Commissions = () => {
       debouncedShowToast(error.messasge, "error");
     }
   };
-  
+
   const toggleDelete = (row) => {
     console.log("ROW TO DELETE: ", row);
     setCommissionToBeDeleted(row);
@@ -36,8 +37,10 @@ const Commissions = () => {
 
   const toggleEdit = (row) => {
     console.log("ROW TO EDIT: ", row);
+    localStorage.setItem("category_edit", JSON.stringify(row));
+    navigate("/admin/commissions/add-commission");
     setCommissionToBeEdited(row);
-    window.commission_edit_modal.showModal();
+    // window.commission_edit_modal.showModal();
   };
 
   const handleDelete = async () => {
@@ -103,6 +106,7 @@ const Commissions = () => {
       />
       <Link
         to={PATHS.adminAddCommission}
+        onClick={() => localStorage.removeItem("category_edit")}
         className="btn btn-primary float-right mt-4"
       >
         Add Commissions

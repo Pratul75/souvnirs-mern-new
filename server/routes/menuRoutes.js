@@ -11,6 +11,8 @@ const {
   getChildMenus,
   editMainMenu,
   getMainMenuData,
+  getDataById,
+  UpdateMenue,
 } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
@@ -21,7 +23,13 @@ router.post(
   createMenu
 );
 router.get("/menu", authMiddleware(["vendor", "admin", "customer"]), getMenu);
+router.get(
+  "/menuById/:id",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getDataById
+);
 router.delete("/menu/:id", authMiddleware(["admin"]), deleteMenu);
+router.patch("/update/menu/:id", authMiddleware(["admin"]), UpdateMenue);
 
 router.get(
   "/main-menu",

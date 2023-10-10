@@ -9,6 +9,8 @@ const {
   getOrderTableData,
   createOrder,
   captureOrder,
+  getShippedOrders,
+  getReplaceOrders,
 } = require("../controllers/ordersController");
 const authMiddleware = require("../middlewares");
 
@@ -24,6 +26,17 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getOrders
 );
+router.get(
+  "/order/get/shipped-orders",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getShippedOrders
+);
+router.get(
+  "/order/get/replace-orders",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getReplaceOrders
+);
+getReplaceOrders;
 router.get(
   "/order/get-order/:id",
   authMiddleware(["vendor", "admin", "customer"]),

@@ -20,7 +20,6 @@ const AdminDashboard = () => {
         <DashboardCardsList />
         {/* second row */}
         <TotalSalesTab />
-
         {/* third row  */}
         <ProductOverviewAndAddProduct />
         {/* fourth row */}

@@ -4,6 +4,16 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
 import OrderManagementBanner from "../../assets/bannerImages/orderManagementImage.png";
+
+let orderStatus = [
+  "ordered",
+  "processing",
+  "shipped",
+  "delivered",
+  "decline",
+  "refund",
+  "replace",
+];
 const OrderManagement = () => {
   const [orderTableList, setOrderTableList] = useState([]);
   const [orderToBeEdited, setOrderToBeEdited] = useState({});
@@ -27,6 +37,11 @@ const OrderManagement = () => {
       {
         Header: "Invoice ID",
         accessor: "invoice_id",
+      },
+      // payment_method
+      {
+        Header: "Payment Method",
+        accessor: "payment_method",
       },
       {
         Header: "Billing ID",
@@ -172,7 +187,7 @@ const OrderManagement = () => {
               </div>
               <div className="form-control">
                 <label className="label">
-                  <span className="label-text">Vendor Name</span>
+                  <span className="label-text">Discount</span>
                 </label>
                 <input
                   onChange={(e) =>
@@ -219,6 +234,28 @@ const OrderManagement = () => {
                   type="text"
                   id=""
                 />
+              </div>
+              <div className="form-control col-span-1">
+                <label className="label">
+                  <span className="label-text">Status</span>
+                </label>
+                <select
+                  onChange={(e) =>
+                    setOrderEditedObject((prevState) => {
+                      return { ...prevState, order_status: e.target.value }; ///////////////jjjjjjjjjjjj
+                    })
+                  }
+                  defaultValue={orderToBeEdited.order_status}
+                  className="select select-primary"
+                  name="status"
+                  id=""
+                >
+                  {orderStatus?.map((item, index) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="form-control col-span-1">
                 <label className="label">

@@ -17,7 +17,6 @@ const DashboardCardsList = () => {
 
   const fetchdashboardCardsData = async () => {
     const response = await API_WRAPPER.get("/dashboard/cards");
-    console.log("DashboardCardsList.jsx", response);
     setCardData(response?.data);
     const token = localStorage.getItem("token");
     const { role } = decodeToken(token);

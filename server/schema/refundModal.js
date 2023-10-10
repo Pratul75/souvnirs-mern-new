@@ -5,12 +5,13 @@ const RefundSchema = new mongoose.Schema(
     orderId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
+      ref: "order",
     },
     refundDetails: [
       {
         productId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
+          ref: "product",
           required: true,
         },
 

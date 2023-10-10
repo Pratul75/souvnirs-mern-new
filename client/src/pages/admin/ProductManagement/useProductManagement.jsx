@@ -18,6 +18,7 @@ const useProductManagement = () => {
     await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
     setApiTrigger((prev) => !prev);
     window.disapproval_modal.close();
+    fetchProductsList();
   };
   useEffect(() => {
     fetchProductsList();
@@ -133,6 +134,8 @@ const useProductManagement = () => {
     handleEdit,
     seterror,
     error,
+    setSelectedRow,
+    bulkData,
   };
 };
 

@@ -53,7 +53,7 @@ const createCustomer = async (req, res) => {
 // Get all customers
 const getCustomers = async (req, res) => {
   try {
-    const customers = await Customer.find({});
+    const customers = await Customer.find({}).sort({ createdAt: -1 });
     res.json({ success: true, customers });
   } catch (error) {
     console.error(error);
@@ -107,11 +107,20 @@ const updateCustomerById = async (req, res) => {
     if (req.body.password) {
       hashedPassword = await bcrypt.hash(req.body.password, 10);
     }
-    const customer = await Customer.findByIdAndUpdate(
-      req.params.id.substring(1),
-      { $set: { ...req.body, password: hashedPassword } },
-      { new: true }
-    );
+    let customer;
+    if (req.body.password) {
+      customer = await Customer.findByIdAndUpdate(
+        req.params.id.substring(1),
+        { $set: { ...req.body, password: hashedPassword } },
+        { new: true }
+      );
+    } else {
+      customer = await Customer.findByIdAndUpdate(
+        req.params.id.substring(1),
+        { $set: req.body },
+        { new: true }
+      );
+    }
 
     if (!customer) {
       return res

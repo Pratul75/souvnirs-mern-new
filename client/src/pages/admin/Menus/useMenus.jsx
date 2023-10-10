@@ -11,14 +11,23 @@ const useMenus = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [editedMenu, setEditedMenu] = useState({});
   const [selectedRow, setSelectedRow] = useState();
+  const [Prductid, setPrductid] = useState(null);
 
   const navigate = useNavigate();
 
+  // console.log("===<><><>+++", Prductid);
   const fetchMenuData = async () => {
-    const response = await API_WRAPPER.get("/main-menu");
-    if (response && response.data) {
-      setMenuData(response.data);
-      console.log("MENU DATA", response.data);
+    if (Prductid) {
+      const response = await API_WRAPPER.get(`/menuById/${Prductid}`);
+      if (response && response.data) {
+        setMenuData(response.data);
+      }
+    } else {
+      const response = await API_WRAPPER.get("/menu");
+      if (response && response.data) {
+        setMenuData(response.data);
+        console.log("MENU DATA", response.data);
+      }
     }
   };
 
@@ -56,7 +65,7 @@ const useMenus = () => {
   const handleEditMenu = async (e) => {
     e.preventDefault();
     const response = await API_WRAPPER.put(
-      `/main-menu/${menuToBeEdited.id}`,
+      `/menuById/${menuToBeEdited.id}`,
       editedMenu
     );
     if (response.status === 200) {
@@ -75,7 +84,7 @@ const useMenus = () => {
       ]);
     }
     fetchData();
-  }, [apiTrigger]);
+  }, [apiTrigger, Prductid]);
   return {
     handleDelete,
     handleEditMenu,
@@ -88,6 +97,8 @@ const useMenus = () => {
     selectedRow,
     menuData,
     menuToBeEdited,
+    setPrductid,
+    fetchMenuData
   };
 };
 

@@ -10,6 +10,7 @@ import { fetchAllCollections } from "../../../api/apiCalls";
 import { setActiveCollection } from "../../../features/appConfig/appSlice";
 
 const useAddProduct = () => {
+  let FORMDAtA = JSON.parse(localStorage.getItem("productFormData"));
   const navigate = useNavigate();
   const [description, setDescription] = useState("");
   const [categoriesList, setCategoriesList] = useState([]);
@@ -60,6 +61,9 @@ const useAddProduct = () => {
 
   useEffect(() => {
     console.log("PRODUCT FORM DATA: ", formData);
+    let mainData = { ...formData };
+    mainData.img = "";
+    localStorage.setItem("productFormData", JSON.stringify(mainData));
   }, [formData]);
   // get all categories
   const getAllCategories = async () => {

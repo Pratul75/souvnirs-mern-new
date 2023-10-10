@@ -4,6 +4,7 @@ const MainMenu = require("../schema/mainMenuModal");
 const SubMenu = require("../schema/subMenuModal");
 const SubMenuChild = require("../schema/subMenuChild");
 const mongoose = require("mongoose");
+// const ObjectId = require("mongoose").Types.ObjectId;
 
 const createMenu = async (req, res) => {
   const { title } = req.body;
@@ -217,6 +218,22 @@ const deleteMenu = async (req, res) => {
   }
 };
 
+const getDataById = async (req, res) => {
+  const { id } = req.params;
+  const menus = await MainMenu.find({
+    menuId: new mongoose.Types.ObjectId(id),
+  }).sort({
+    _id: -1,
+  });
+  res.status(200).json(menus);
+};
+
+const UpdateMenue = async (req, res) => {
+  const { id } = req.params;
+  const UpdateData = await Menu.findByIdAndUpdate(id, req.body);
+  res.status(200).json(UpdateData);
+};
+
 module.exports = {
   getSubMenus,
   createChildMenu,
@@ -230,4 +247,6 @@ module.exports = {
   getChildMenus,
   editMainMenu,
   getMainMenuData,
+  getDataById,
+  UpdateMenue,
 };

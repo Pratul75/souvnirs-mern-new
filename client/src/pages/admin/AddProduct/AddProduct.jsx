@@ -269,7 +269,6 @@ const AddProduct = () => {
               <Dropzone
                 accept={".png"}
                 onFilesChange={(data) => {
-                  console.log(data);
                   setFormData({ ...formData, img: data[0] });
                 }}
               />
@@ -302,6 +301,26 @@ const AddProduct = () => {
                 Cancel
               </Link>
             </motion.div>
+            {/* ??? */}
+            <motion.div
+              animate="animate"
+              initial="initial"
+              className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+            >
+              <h3 className="font-semibold">Image Preview</h3>
+              <hr className="mt-4" />
+              {preview && (
+                <img
+                  id="parentElement"
+                  src={preview}
+                  alt="Cover Image"
+                  style={{ width: "100%" }}
+                />
+              )}
+              {/* tags needs to be the specific for the multi select component */}
+            </motion.div>
+
+            {/* ///// */}
           </div>
         </div>
       </div>

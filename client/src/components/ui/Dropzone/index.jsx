@@ -13,9 +13,15 @@ const Dropzone = ({ onFilesChange }) => {
       );
 
       if (nonPngFiles.length > 0) {
+        console.log("+???", nonPngFiles);
+
         // Show the modal when non-PNG files are added
         setShowModal(true);
+        // setTimeout(() => {
+        //   setShowModal(false);
+        // }, 9000);
       } else {
+        setShowModal(false);
         setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
         onFilesChange([...files, ...acceptedFiles]);
       }
@@ -37,7 +43,20 @@ const Dropzone = ({ onFilesChange }) => {
         <div className="flex flex-1 items-center justify-center flex-col h-full">
           <div className="flex justify-center items-center flex-col">
             <p className="p-4 text-center">
-              Drag & drop some image files here, or click to select image files
+              {showModal ? (
+                <span>
+                  <span>
+                    Drag & drop some image files here, or click to select image
+                    files.
+                  </span>
+                  <br />
+                  <span style={{ color: "red", fontSize: "13px" }}>
+                    Only PNG files are allowed. Please remove non-PNG files.
+                  </span>
+                </span>
+              ) : (
+                "Drag & drop some image files here, or click to select image files"
+              )}
             </p>
             <div className="bg-base-200 p-4 rounded-xl">
               <BsUpload size={40} />
@@ -46,14 +65,14 @@ const Dropzone = ({ onFilesChange }) => {
         </div>
       )}
       {/* Modal to inform the user */}
-      {showModal && (
+      {showModal ? (
         <div className="modal">
           <div className="modal-content">
             <p>Only PNG files are allowed. Please remove non-PNG files.</p>
             <button onClick={() => setShowModal(false)}>Close</button>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   );
 };

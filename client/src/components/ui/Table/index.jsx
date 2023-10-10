@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   useTable,
@@ -24,6 +24,9 @@ import {
   BiLeftArrowAlt,
 } from "react-icons/bi";
 import Card from "../../ui/Card";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
+import API_WRAPPER from "../../../api";
 const ReusableTable = ({
   columns,
   data,
@@ -40,6 +43,8 @@ const ReusableTable = ({
   pageSize,
   enablePagination,
   children,
+  refresh,
+  
 }) => {
   // Add the usePagination hook to the table instance
   const {
@@ -88,7 +93,39 @@ const ReusableTable = ({
       ]);
     }
   );
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [menuName, setMenuName] = useState("");
+  const [inputValue, setInputValue] = useState({
+    id: "",
+    title: "",
+  });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { id } = useParams();
 
+  const handleEditClick = (original) => {
+    setMenuName(original.menuName); // You can initialize the input with the current menu name
+    setPopupOpen(true);
+  };
+
+  const handleSave = async (newMenuName) => {
+    // /update/menu/:id
+    // Close the popup
+    const response = await API_WRAPPER.patch(`/update/menu/${newMenuName.id}`, {
+      title: newMenuName.title,
+    });
+    refresh();
+    setPopupOpen(false);
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+  };
+
+  const onViews = (id) => {
+    // console.log("===>", id);
+    navigate(`${PATHS?.adminChildMenu}/${id?.id}`);
+  };
   // to get global filter state
   const { globalFilter, pageIndex } = state; // Destructure the 'pageIndex' from state
 
@@ -206,16 +243,26 @@ const ReusableTable = ({
                             <EyeBtnSvg />
                           </span>
                         )}
-                        {enableEdit && (
+                        {/*  (location?.pathname=="/admin/menus") */}
+                        {(enableEdit && location.pathname != "/admin/cart") && (
                           <span
                             className="cursor-pointer"
-                            onClick={() => onEdit(row.original)}
+                            onClick={() => {
+                              if (location.pathname == "/admin/menus") {
+                                setInputValue({
+                                  id: row.original?.id,
+                                  title: row.original?.title,
+                                });
+                                handleEditClick(row.original);
+                              } else {
+                                onEdit(row.original);
+                              }
+                            }}
                           >
                             <EditBtnSvg />
                           </span>
                         )}
-
-                        {enableDelete && (
+                        {(
                           <span
                             className="cursor-pointer"
                             onClick={() => onDelete(row.original)}
@@ -223,6 +270,15 @@ const ReusableTable = ({
                             <DeleteBtnSvg />
                           </span>
                         )}
+                        {/* EyeBtnSvg */}
+                        {enableEdit && location?.pathname == `/admin/menus` ? (
+                          <span
+                            className="cursor-pointer"
+                            onClick={() => onViews(row.original)}
+                          >
+                            <EyeBtnSvg />
+                          </span>
+                        ) : null}
                       </td>
                     )}
                   </tr>
@@ -288,6 +344,13 @@ const ReusableTable = ({
               {/* Select for page size */}
             </div>
           </div>
+          <EditPopup
+            isOpen={isPopupOpen}
+            onClose={handleClosePopup}
+            onSave={handleSave}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
         </div>
       )}
     </motion.div>
@@ -315,6 +378,47 @@ ReusableTable.propTypes = {
   isSelectable: PropTypes.bool,
   pageSize: PropTypes.string,
   enablePagination: PropTypes.bool,
+};
+
+const EditPopup = ({ isOpen, onClose, onSave, inputValue, setInputValue }) => {
+  const handleInputChange = (e) => {
+    setInputValue({ ...inputValue, title: e.target.value });
+  };
+
+  const handleSaveClick = () => {
+    onSave(inputValue);
+    setInputValue("");
+    onClose();
+  };
+
+  return (
+    <div className={`fixed inset-0 ${isOpen ? "block" : "hidden"}`}>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="bg-white p-4 w-1/3 rounded-lg shadow-lg">
+          <h2 className="text-xl font-bold mb-4">Edit Menu</h2>
+          <input
+            type="text"
+            className="w-full p-2 border rounded mb-4"
+            placeholder="Enter Menu Name"
+            value={inputValue.title}
+            onChange={handleInputChange}
+          />
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={handleSaveClick}
+          >
+            Save
+          </button>
+          <button
+            className="bg-gray-400 text-white px-4 py-2 rounded ml-2 hover:bg-gray-500"
+            onClick={onClose}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ReusableTable;

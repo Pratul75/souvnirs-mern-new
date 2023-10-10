@@ -15,6 +15,7 @@ router.post(
 );
 
 router.get(
+  
   "/commission/get-all-commissions",
   authMiddleware(["vendor", "admin", "customer"]),
   getAllCommissions

@@ -13,8 +13,8 @@ const useAdminMedia = () => {
 
   const fetchMedias = async (req, res) => {
     const resp = await API_WRAPPER.get("/media");
-    console.log("AdminMedia.jsx", resp);
-    setMedias(resp.data);
+    let reverceData = resp?.data?.reverse();
+    setMedias(reverceData);
   };
 
   const addFiles = async () => {
