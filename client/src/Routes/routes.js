@@ -107,6 +107,8 @@ import EditCoupon from "../pages/admin/EditCoupon";
 import EdiDiscount from "../pages/admin/EditDiscount";
 import EditMenus from "../pages/admin/EditMenus";
 import MainMenue from "../pages/admin/Menus/MainMenue";
+import { DailyDeal } from "../pages/admin/DailyDeal/DailyDeal";
+
 // admin routes
 export const adminRoutes = [
   {
@@ -187,7 +189,12 @@ export const adminRoutes = [
     defaultRole: "admin",
     Component: EdiDiscount,
   },
-
+  {
+    id: nanoid(),
+    path: `${PATHS.dailyDeal}`,
+    defaultRole: "admin",
+    Component: DailyDeal,
+  },
   {
     id: nanoid(),
     path: `${PATHS.EditProduct}/:id`,

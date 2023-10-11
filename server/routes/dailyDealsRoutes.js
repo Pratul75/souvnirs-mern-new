@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const {
   createModal,
+  getModalData,
   //   deleteCouponById,
   //   getAllCoupons,
   //   getCouponById,
@@ -18,6 +19,11 @@ const authMiddleware = require("../middlewares");
 //   authMiddleware(["vendor", "admin", "customer"]),
 //   getCouponById
 // );
+router.get(
+  "/daily/deals/getData",
+  //   authMiddleware(["vendor", "admin", "customer"]),
+  getModalData
+);
 router.post(
   "/daily/deals/create-coupon",
   authMiddleware(["vendor", "admin", "customer"]),

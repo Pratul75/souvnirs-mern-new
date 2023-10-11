@@ -116,4 +116,7 @@ export const PATHS = {
   footerPoliciesAndShippingRates: "/footer/policiesAndShippingRates",
   footerSellerAgreement: "/footer/sellerAgreement",
   footerSellerRegistration: "/footer/sellerRegistration",
+
+  //daiy deal
+  dailyDeal: "/admin/daily/deals"
 };

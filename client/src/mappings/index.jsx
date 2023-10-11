@@ -170,6 +170,11 @@ export const adminSidebarMapping = [
     Icon: BiSolidDiscount,
   },
   {
+    title: "Daily Deals",
+    navLink: PATHS.dailyDeal,
+    Icon: BiSolidDiscount,
+  },
+  {
     title: "Coupons",
     navLink: PATHS.adminCoupons,
     Icon: BiSolidCoupon,
