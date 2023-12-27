@@ -1,11 +1,12 @@
 import { Header, ReusableTable } from "../../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 
 import CollectionBannerImage from "../../../assets/bannerImages/collectionImage.png";
 import { useCollection } from "./useCollection";
 import DeleteCollectionModal from "./DeleteCollectionModal";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 
 const Collection = () => {
   const {
@@ -18,7 +19,20 @@ const Collection = () => {
     handleEdit,
     handleEditChange,
     submitEditedRow,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useCollection();
+  const navigate = useNavigate();
+
+  const handleShow = (row) => {
+    navigate(`${PATHS.adminCollectionDetails}/${row?.title}`);
+  };
 
   return (
     <div>
@@ -39,7 +53,7 @@ const Collection = () => {
             Add Product to collection
           </Link>
         </div>
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Collection List"
           columns={columns}
           data={data}
@@ -51,6 +65,28 @@ const Collection = () => {
           pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
+        /> */}
+        <ReuseTable
+          tableTitle="Collection List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableShowDetials
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onShow={handleShow}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
 

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
+  // lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   mobile: yup.string().required("Mobile number is required"),
   password: yup.string().required("Password is required"),
@@ -39,17 +39,15 @@ const useAddVendor = () => {
     formData.password = confirmPassword;
     console.log("CUSTOMER FORM DATA: ", formData);
     try {
-      const response = await API_WRAPPER.post(
-        "/auth/register/vendor",
-        formData
-      );
+      const response = await API_WRAPPER.post("/vendors/add-vendor", formData);
       if (response.status === 200) {
         setLoading(false);
         navigate("/admin/vendor");
         debouncedShowToast("Vendor added successfully", "success");
       }
     } catch (error) {
-      debouncedShowToast(error.message, "error");
+      console.log("--I", error?.response?.data?.error);
+      debouncedShowToast(error?.response?.data?.error, "error");
     }
   };
   return {
@@ -57,7 +55,7 @@ const useAddVendor = () => {
     handleSubmit,
     errors,
     onSubmit,
-    loading
+    loading,
   };
 };
 

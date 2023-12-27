@@ -2,37 +2,185 @@ import { ReusableTable } from "../../../components";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 const VendorAndOrderList = () => {
   const [ordersList, setOrdersList] = useState([]);
 
   const getOrdersList = async () => {
     try {
-      const response = await API_WRAPPER.get("/order/get-orders");
-      if (response.status === 200) {
-        setOrdersList(response?.data);
-        console.log("ORDERS LIST: ", response?.data);
-        debouncedShowToast("Orders list loaded successfully", "success");
-      }
+      const response = await API_WRAPPER.get("/order/recent/list");
+      console.log("----------??????...", response);
+      setOrdersList(response?.data);
+      // debouncedShowToast("Orders list loaded successfully", "success");
     } catch (error) {
-      debouncedShowToast(error?.message, "error");
+      // debouncedShowToast(error?.message, "error");
     }
   };
 
+  // const orderTableColumns = useMemo(
+  //   () => [
+  //     {
+  //       Header: "Order Id",
+  //       accessor: "_id",
+  //     },
+  //     {
+  //       Header: "Courier ID",
+  //       accessor: "courier_id",
+  //     },
+  //     {
+  //       Header: "Vendor Name",
+  //       accessor: "vendor_id",
+  //       Cell: ({ row }) => {
+  //         return (
+  //           <>
+  //             <div>{row?.original?.vendor_id?.firstName}</div>
+  //             <div>{row?.original?.vendor_id?.lastName}</div>
+  //           </>
+  //         );
+  //       },
+  //     },
+  //     {
+  //       Header: "Payment Status",
+  //       accessor: "payment_status",
+  //     },
+  //     {
+  //       Header: "Payment Method",
+  //       accessor: "payment_method",
+  //     },
+  //     {
+  //       Header: "Order Status",
+  //       accessor: "order_status",
+  //     },
+  //     {
+  //       Header: "Address ID",
+  //       accessor: "address_id.address",
+  //       Cell: ({ row }) => {
+  //         return (
+  //           <>
+  //             <div>{row?.original?.address_id.city}</div>
+  //             <div>{row?.original?.address_id.address}</div>
+  //           </>
+  //         );
+  //       },
+  //     },
+  //   ],
+  //   []
+  // );
   const orderTableColumns = useMemo(
     () => [
       {
-        Header: "Payment Status",
+        Header: "Product name",
+        accessor: "product.name",
+        Cell: ({ row }) => {
+          return (
+            <Link
+              style={{ color: "blue" }}
+              to={`/invoice/page/${row?.original?.invoice_id}/${row?.original?._id}`}
+            >
+              {row?.original?.product.name}
+            </Link>
+          );
+        },
+      },
+      {
+        Header: "Order Id",
+        accessor: "_id",
+      },
+      // {
+      //   Header: "Invoice ID",
+      //   accessor: "invoice_id",
+      //   Cell: ({ row }) => {
+      //     return (
+      //       <Link
+      //         style={{ color: "blue" }}
+      //         to={`/invoice/page/${row?.original?.invoice_id}/${row?.original?._id}`}
+      //       >
+      //         {row?.original?.invoice_id}
+      //       </Link>
+      //     );
+      //   },
+      // },
+      {
+        Header: "Vendor Name",
+        accessor: "vendors.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>{row?.original?.vendors?.firstName}</p>
+              <p>{row?.original?.vendors?.lastName}</p>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "User Name",
+        accessor: "customer.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>{row?.original?.customer?.firstName}</p>
+              <p>{row?.original?.customer?.lastName}</p>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "Order qantity",
+        accessor: "quantity",
+      },
+      {
+        Header: "Product Price",
+        accessor: "product.price",
+      },
+      // payment_method
+      {
+        Header: "Total Order",
+        accessor: "total_price",
+        Cell: ({ row }) => {
+          return <div>{row?.original?.total_price}₹</div>;
+        },
+      },
+      {
+        Header: "Payment Method",
+        accessor: "payment_method",
+      },
+      {
+        Header: "Payment status",
         accessor: "payment_status",
       },
+      // {
+      //   Header: "Billing ID",
+      //   accessor: "billing_id",
+      // },
+      // {
+      //   Header: "Coupon Code",
+      //   accessor: "coupon_code",
+      // },
+      // {
+      //   Header: "Payment status",
+      //   accessor: "payment_status",
+      // },
+
+      // {
+      //   Header: "Price",
+      //   accessor: "price",
+      // },
       {
         Header: "Order Status",
         accessor: "order_status",
       },
-      {
-        Header: "Address ID",
-        accessor: "address_id",
-      },
+      // {
+      //   Header: "Tracking ID",
+      //   accessor: "courier_id",
+      // },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(row?.original?.status);
+      //   },
+      // },
     ],
     []
   );
@@ -42,6 +190,7 @@ const VendorAndOrderList = () => {
   useEffect(() => {
     getOrdersList();
   }, []);
+  console.log("ORDERS LIST: ", ordersList);
 
   return (
     <div className="grid grid-cols-5 gap-4 mt-4">

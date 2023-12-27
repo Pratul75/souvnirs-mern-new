@@ -76,7 +76,7 @@ const AddProduct = () => {
         setVendorsList(response?.data?.data);
         // need to check what to be done here
         if (vendorsList.length == 1) {
-          debouncedShowToast("vendor list is empty array", "error");
+          // debouncedShowToast("vendor list is empty array", "error");
         }
       }
     } catch (error) {
@@ -202,6 +202,38 @@ const AddProduct = () => {
                 id=""
               />
             </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Tags<span className=" text-red-600">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                value={tagValue}
+                onChange={handleTagInputChange}
+                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
+                placeholder="Enter a tag and press Enter"
+                className="input input-primary"
+              />
+
+              <div className="mt-4 flex gap-4 flex-wrap">
+                {tagsArray.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
+                  >
+                    <span>{tag}</span>
+                    <button
+                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
+                      onClick={() => removeTag(tag)}
+                    >
+                      <GrFormClose />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
           <motion.div
             variants={fadeInFromRightVariant}
@@ -210,7 +242,7 @@ const AddProduct = () => {
             className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
             <hr className="mt-4" />
-            <div className="form-control mt-4">
+            {/* <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
                   Status<span className=" text-red-600">*</span>
@@ -227,7 +259,7 @@ const AddProduct = () => {
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
-            </div>
+            </div> */}
             <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
@@ -324,38 +356,6 @@ const AddProduct = () => {
             </div> */}
 
             {/* tags needs to be the specific for the multi select component */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">
-                  Tags<span className=" text-red-600">*</span>
-                </span>
-              </label>
-              <input
-                type="text"
-                value={tagValue}
-                onChange={handleTagInputChange}
-                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
-                placeholder="Enter a tag and press Enter"
-                className="input input-primary"
-              />
-
-              <div className="mt-4 flex gap-4 flex-wrap">
-                {tagsArray.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
-                  >
-                    <span>{tag}</span>
-                    <button
-                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
-                      onClick={() => removeTag(tag)}
-                    >
-                      <GrFormClose />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className="form-control mt-4">
               <label className="label">
@@ -370,6 +370,72 @@ const AddProduct = () => {
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Min Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                type="number"
+                name="minquantity"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  MRP
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                defaultValue={formData?.mrp}
+                type="number"
+                name="mrp"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Price
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                defaultValue={formData?.price}
+                type="number"
+                name="price"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Stock Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter stockQuantity"
+                type="number"
+                name="stockQuantity"
                 id=""
               />
             </div>
@@ -423,6 +489,23 @@ const AddProduct = () => {
               <Link to={PATHS.adminDashboard} className="btn">
                 Cancel
               </Link>
+            </motion.div>
+            <motion.div
+              animate="animate"
+              initial="initial"
+              className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+            >
+              <h3 className="font-semibold">Image Preview</h3>
+              <hr className="mt-4" />
+              {preview && (
+                <img
+                  id="parentElement"
+                  src={preview}
+                  alt="Cover Image"
+                  style={{ width: "100%" }}
+                />
+              )}
+              {/* tags needs to be the specific for the multi select component */}
             </motion.div>
           </div>
         </div>

@@ -61,6 +61,58 @@ const getCustomers = async (req, res) => {
   }
 };
 
+const getCustomersList = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      console.log("--->", seacrhText);
+      matchQuery = {
+        $or: [{ firstName: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+    const customers = await Customer.aggregate([
+      {
+        $match: matchQuery,
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
+
+    totalData = await Customer.find(matchQuery).countDocuments();
+    totalPages = Math.ceil(totalData / pageSize);
+    // const customers = await Customer.find({}).sort({ createdAt: -1 });
+    res.json({
+      success: true,
+      message: "get data successfully",
+      totalData,
+      page,
+      totalPages,
+      customers,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ success: false, error: "Failed to get customers" });
+  }
+};
+
 // Get a customer by ID
 const getCustomerById = async (req, res) => {
   try {
@@ -162,4 +214,5 @@ module.exports = {
   getCustomerById,
   updateCustomerById,
   deleteCustomerById,
+  getCustomersList,
 };

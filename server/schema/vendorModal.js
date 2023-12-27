@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const vendorSchema = new mongoose.Schema(
   {
     firstName: {
@@ -19,6 +18,21 @@ const vendorSchema = new mongoose.Schema(
       type: String,
       // required: true,
     },
+    organizationName: {
+      type: String,
+    },
+    organizationType: {
+      type: String,
+    },
+    country: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+    pincode: {
+      type: String,
+    },
     mobile: {
       type: String,
       // required: true,
@@ -32,8 +46,8 @@ const vendorSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["ACTIVE", "INACTIVE", "PENDING"],
-      default: "INACTIVE",
+      enum: ["ACTIVE", "DEACTIVE", "PENDING"],
+      default: "ACTIVE",
     },
     createdAt: {
       type: Date,

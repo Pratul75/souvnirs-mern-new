@@ -13,6 +13,11 @@ const {
   getMainMenuData,
   getDataById,
   UpdateMenue,
+  getFooterMenu,
+  getAllMenu,
+  UpdateMenueOne,
+  getMenuALl,
+  EditSubMenu,
 } = require("../controllers/menuController");
 const authMiddleware = require("../middlewares");
 
@@ -22,7 +27,28 @@ router.post(
   authMiddleware(["vendor", "admin", "customer"]),
   createMenu
 );
+
+router.post(
+  "/menu/edit/menu",
+  authMiddleware(["vendor", "admin", "customer"]),
+  EditSubMenu
+);
+
 router.get("/menu", authMiddleware(["vendor", "admin", "customer"]), getMenu);
+router.get(
+  "/menu/list/show",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getMenuALl
+);
+
+router.get(
+  "/all/menu",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllMenu
+);
+
+router.delete("/menu/delete/:id", authMiddleware(["admin"]), UpdateMenueOne);
+
 router.get(
   "/menuById/:id",
   authMiddleware(["vendor", "admin", "customer"]),
@@ -56,4 +82,5 @@ router.post("/main-menu/create", authMiddleware(["admin"]), createMainMenu);
 router.post("/sub-menu/create", authMiddleware(["admin"]), createSubMenu);
 router.post("/child-menu/create", authMiddleware(["admin"]), createChildMenu);
 router.get("/getNavbarMenu", getNavbarData);
+router.get("/getFooterMenu", getFooterMenu);
 module.exports = router;

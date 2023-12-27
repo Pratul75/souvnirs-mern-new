@@ -33,7 +33,6 @@ const fetchDashboardCardsData = async (req, res) => {
       },
     ]);
     sales = sales[0]?.totalSales;
-    console.log("sales==>....>>>", sales);
     orders = await Order.find().count();
     products = await Product.find().count();
     vendors = await Vendor.find().count();
@@ -61,6 +60,7 @@ const fetchDashboardCardsData = async (req, res) => {
       orderValue: orderValue.length > 0 ? orderValue[0].total_price : 0,
     });
   }
+  console.log("sales==>....>>>", sales, orders, products, vendors);
 
   res.status(200).json({ sales, orders, products, vendors });
 };
@@ -538,6 +538,14 @@ const AdminTransactionDetails = async (req, res) => {
           },
         },
         {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
+          },
+        },
+        {
           $sort: { createdAt: -1 },
         },
         { $limit: 10 },
@@ -547,6 +555,14 @@ const AdminTransactionDetails = async (req, res) => {
           $match: {
             payment_status: "success",
             vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
           },
         },
         {
@@ -564,6 +580,14 @@ const AdminTransactionDetails = async (req, res) => {
           },
         },
         {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
+          },
+        },
+        {
           $sort: {
             createdAt: -1,
           },
@@ -575,6 +599,14 @@ const AdminTransactionDetails = async (req, res) => {
           $match: {
             order_status: "replace",
             vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
           },
         },
         // {
@@ -599,6 +631,14 @@ const AdminTransactionDetails = async (req, res) => {
           $match: {
             order_status: "refund",
             vendor_id: ObjectId(req.userId),
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
           },
         },
         // {
@@ -623,6 +663,14 @@ const AdminTransactionDetails = async (req, res) => {
         {
           $sort: { createdAt: -1 },
         },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
+          },
+        },
         // {
         //   $lookup: {
         //     from: "products", // The name of the "products" collection
@@ -640,6 +688,14 @@ const AdminTransactionDetails = async (req, res) => {
         {
           $match: {
             payment_status: "success",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
           },
         },
         // {
@@ -665,6 +721,14 @@ const AdminTransactionDetails = async (req, res) => {
             payment_status: "pending",
           },
         },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
+          },
+        },
         // {
         //   $lookup: {
         //     from: "products", // The name of the "products" collection
@@ -688,6 +752,14 @@ const AdminTransactionDetails = async (req, res) => {
             order_status: "replace",
           },
         },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
+          },
+        },
         // {
         //   $lookup: {
         //     from: "products", // The name of the "products" collection
@@ -709,6 +781,14 @@ const AdminTransactionDetails = async (req, res) => {
         {
           $match: {
             order_status: "refund",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            foreignField: "_id",
+            localField: "product_id",
+            as: "product",
           },
         },
         // {

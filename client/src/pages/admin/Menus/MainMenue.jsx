@@ -1,33 +1,62 @@
 import { Link, useParams } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { Header, ReusableTable } from "../../../components";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getStatusStyles } from "../../../utils";
 import useMenus from "./useMenus";
+import API_WRAPPER from "../../../api";
 
 const MainMenus = () => {
   const {
-    handleDelete,
+    // handleDelete,
     handleEditMenu,
     handleEditModal,
     setEditedMenu,
-    setSelectedRow,
-    extractedMenuData,
-    menuData,
+    // setSelectedRow,
+    // extractedMenuData,
+    // menuData,
     menuToBeEdited,
     setPrductid,
+    // ChangePosition,
+    // fetchMenuData,
   } = useMenus();
+
+  const [menuData, setMenuData] = useState([]);
+  const [SelectedRow, setSelectedRow] = useState({});
 
   const { id } = useParams();
 
-  useEffect(() => {
-    setPrductid(id);
-  }, []);
-
-  console.log("+++++", id);
+  // useEffect(() => {
+  //   setPrductid(id);
+  // }, [
+  //   handleDelete,
+  //   handleEditMenu,
+  //   handleEditModal,
+  //   setEditedMenu,
+  //   setSelectedRow,
+  // ]);
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Position",
+        accessor: "position",
+        Cell: ({ row }) => {
+          return (
+            <input
+              style={{
+                border: "1px solid",
+                borderRadius: "4px",
+                width: "15%",
+                padding: "3px",
+              }}
+              onChange={(e) => ChangePosition(e?.target?.value, row?.original)}
+              type="number"
+              value={row?.original?.position}
+            />
+          );
+        },
+      },
       {
         Header: "Title",
         accessor: "title",
@@ -43,6 +72,44 @@ const MainMenus = () => {
     []
   );
 
+  const ChangePosition = async (value, dataz) => {
+    try {
+      // /main-menu/:id
+      const UpdateData = await API_WRAPPER?.put(`/main-menu/${dataz?.id}`, {
+        position: String(value),
+      });
+      fetchMenuData();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuData();
+  }, []);
+
+  const fetchMenuData = async () => {
+    const response = await API_WRAPPER.get(`/menuById/${id}`);
+    if (response && response.data) {
+      setMenuData(response.data);
+    }
+  };
+
+  const extractedMenuData = useMemo(() => {
+    return menuData?.map((element) => ({
+      id: element._id,
+      title: element.title,
+      position: element.position,
+      status: element.status,
+    }));
+  }, [menuData]);
+
+  const handleDelete = async () => {
+    const response = await API_WRAPPER.delete(`/menu/${SelectedRow?.id}`);
+    fetchMenuData();
+    window.delete_menu_modal.close();
+  };
+
   return (
     <div>
       <Header
@@ -50,7 +117,10 @@ const MainMenus = () => {
         subheading="This section shows information about all the added menus in the application."
       />
       <div className="flex justify-end mt-4">
-        <Link className="btn btn-primary" to={PATHS.adminAddMenus}>
+        <Link
+          className="btn btn-primary"
+          to={"/admin/menus/add-menus/add-main-menu"}
+        >
           Add Menu
         </Link>
       </div>
@@ -70,6 +140,7 @@ const MainMenus = () => {
               window.delete_menu_modal.showModal();
             }}
             onEdit={handleEditModal}
+            refresh={fetchMenuData}
           />
         )}
       </div>

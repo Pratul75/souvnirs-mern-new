@@ -5,17 +5,27 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import { Modal } from "../../components";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const VendorDiscounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const fetchDiscounts = async () => {
     try {
-      const response = await API_WRAPPER.get("/discount/get-all-discounts");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/discount/get-all-discounts/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        console.log("DISCOUNTS LISTS: ", response.data);
-        setDiscountsList(response?.data);
+        setProductLoading(false);
+        setDiscountsList(response?.data?.discounts);
+        setTotalPagesShow(response?.data?.totalPages);
       }
     } catch (error) {
       console.error("ERROR occured whule fetching discounts list", error);
@@ -38,38 +48,9 @@ const VendorDiscounts = () => {
   const columns = useMemo(
     () => [
       {
-        Header: "#",
-        accessor: "_id",
-        Cell: (props) => {
-          const id = props.row.original._id;
-          const shortenedId = id.slice(-4);
-          return <p>{shortenedId}</p>;
-        },
-      },
-      {
         Header: "Title",
         accessor: "title",
       },
-      // {
-      //   Header: "Type Title",
-      //   accessor: "typeTitle",
-      // },
-      // {
-      //   Header: "Requirement Title",
-      //   accessor: "requirementTitle",
-      // },
-      // {
-      //   Header: "Requirement Value",
-      //   accessor: "requirementValue",
-      // },
-      // {
-      //   Header: "Eligiblity Title",
-      //   accessor: "eligiblityTitle",
-      // },
-      // {
-      //   Header: "Eligiblity Value",
-      //   accessor: "eligiblityValue",
-      // },
       {
         Header: "Total Limit",
         accessor: "totalLimit",
@@ -103,6 +84,10 @@ const VendorDiscounts = () => {
         accessor: "activeTime",
       },
       {
+        Header: "Discount",
+        accessor: "typeValue",
+      },
+      {
         Header: "End Date",
         accessor: "endDate",
         Cell: (props) => {
@@ -115,55 +100,25 @@ const VendorDiscounts = () => {
           return <p>{formattedDate}</p>;
         },
       },
-      // {
-      //   Header: "Collection ID",
-      //   accessor: "collectionId",
-      //   Cell: (props) => {
-      //     return (
-      //       <>
-      //         {props.row.original.collectionId.map((id) => {
-      //           const shortenedId = id.slice(-4);
-      //           return <p key={nanoid()}>{shortenedId}</p>;
-      //         })}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Product ID",
-      //   accessor: "productId",
-      //   Cell: ({ row }) => {
-      //     return (
-      //       <>
-      //         {row?.original?.productId?.map((id) => (
-      //           <p className="" key={id}>
-      //             {id}
-      //           </p>
-      //         ))}
-      //       </>
-      //     );
-      //   },
-      // },
-      // {
-      //   Header: "Category ID",
-      //   accessor: "categoryId",
-      // },
       {
         Header: "Status",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return getStatusStyles(
+            row?.original?.status,
+            row?.original,
+            fetchDiscounts
+          );
         },
       },
     ],
     []
   );
-
   const data = useMemo(() => discountsList, [discountsList]);
 
   useEffect(() => {
     fetchDiscounts();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return (
     <div>
@@ -180,7 +135,7 @@ const VendorDiscounts = () => {
             Add Discounts
           </Link> */}
         </div>
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Discount List"
           columns={columns}
           data={data}
@@ -188,9 +143,23 @@ const VendorDiscounts = () => {
           pageSize={10}
           showButtons
           enableDeleteonDelete={handleDelete}
+        /> */}
+        <ReuseTable
+          tableTitle="Discount List"
+          columns={columns}
+          data={data}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
-
     </div>
   );
 };

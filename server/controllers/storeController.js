@@ -7,7 +7,9 @@ const createStore = async (req, res) => {
     res.status(200).json({ store });
   } catch (error) {
     console.error(error);
-    res.status(400).json({ error: "Failed to create store" });
+    res
+      .status(400)
+      .json({ error: "Failed to create store", message: error.message });
   }
 };
 

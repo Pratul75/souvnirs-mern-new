@@ -10,6 +10,7 @@ import { baseUrl } from "../../api";
 const SingleTab = ({ productsList, heading }) => {
   console.log("SingleTab.jsx", productsList);
   const navigate = useNavigate();
+
   return (
     <div>
       <div className="overflow-y-auto h-[600px] relative mt-4">
@@ -20,7 +21,7 @@ const SingleTab = ({ productsList, heading }) => {
           </h1>
         </div>
         {/* row 1 */}
-        {productsList.slice(0, 10).map((product) => (
+        {productsList?.map((product) => (
           <div
             key={product._id}
             onClick={() => {
@@ -51,9 +52,12 @@ const SingleTab = ({ productsList, heading }) => {
               <div className="h-[57.66px] pt-[4.56px] flex-col justify-start items-start flex w-full">
                 <div className="text-violet-900 text-xl font-medium leading-tight">
                   ₹{" "}
-                  {Math.ceil(
-                    product.variant && product.variant.length > 0
-                      ? product.variant[0].price
+                  {product?.result?.length
+                    ? product?.result[0]?.price
+                    : product?.price || product?.mrp}
+                  {/* {Math.ceil(
+                    product.variant && product.result.length > 0
+                      ? product.result[0].price
                       : product.price / 100
                   ) *
                     100 <=
@@ -71,7 +75,7 @@ const SingleTab = ({ productsList, heading }) => {
                             ? product.variant[0].price
                             : product.price / 100
                         ) * 100
-                      }`}
+                      }`} */}
                 </div>
                 <div className="mt-2 flex items-center justify-between gap-4 cursor-pointer w-full">
                   <Ratings rating={4} />

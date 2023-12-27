@@ -5,6 +5,7 @@ import API_WRAPPER from "../../api";
 import { debouncedShowToast } from "../../utils";
 import { Header, Table } from "../../components";
 import { ToastContainer } from "react-toastify";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 
 const Commissions = () => {
   const [commissionList, setCommissionList] = useState([]);
@@ -14,15 +15,24 @@ const Commissions = () => {
     commissionType: "",
     commissionTypeValue: "",
   });
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
+
   const navigate = useNavigate();
   const [apiTrigger, setApiTrigger] = useState(false);
   const getCommissionList = async () => {
     try {
-      const response = await API_WRAPPER.get("/commission/get-all-commissions");
+      const response = await API_WRAPPER.get(
+        `/commission/get-all-commissions/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
         console.log("COMMISSION LIST: ", response.data);
-        setCommissionList(response.data);
-        debouncedShowToast("Commission List loaded", "success");
+        setCommissionList(response.data?.commissions);
+        setTotalPagesShow(response.data?.totalPages);
+        // debouncedShowToast("Commission List loaded", "success");
       }
     } catch (error) {
       debouncedShowToast(error.messasge, "error");
@@ -75,7 +85,7 @@ const Commissions = () => {
 
   useEffect(() => {
     getCommissionList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   useEffect(() => {
     console.log("EDITED OBJECT: ", editedObject);
@@ -111,7 +121,7 @@ const Commissions = () => {
       >
         Add Commissions
       </Link>
-      <Table
+      {/* <Table
         data={data}
         columns={columns}
         showButtons
@@ -121,6 +131,27 @@ const Commissions = () => {
         pageSize={10}
         onEdit={toggleEdit}
         onDelete={toggleDelete}
+      /> */}
+
+      <ReuseTable
+        tableTitle="Commisions List"
+        columns={columns}
+        data={data}
+        showButtons
+        enableEdit
+        enableDelete
+        onEdit={toggleEdit}
+        onDelete={toggleDelete}
+        enablePagination
+        pageSize={10}
+        setPageSizeshow={setPageSize}
+        setPageNumber={setPage}
+        pageSizeShow={pageSize}
+        pageNumber={page}
+        totalPagesShow={totalPagesShow}
+        productLoading={productLoading}
+        SetSearchTex={SetSearchTex}
+        seacrhText={seacrhText}
       />
 
       {/* delete modal */}

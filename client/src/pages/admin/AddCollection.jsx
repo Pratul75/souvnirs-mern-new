@@ -14,6 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import parse from "html-react-parser";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 
 const AddCollection = () => {
   const initialFormData = {
@@ -43,8 +44,15 @@ const AddCollection = () => {
   const [deactivatedProducts, setDeactivatedProducts] = useState([]);
   const [activeProducts, setActiveProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const inputRef = useRef(null);
+  const [condition, setCondition] = useState("all");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
+  const [storeCondition, setStoreCondition] = useState([]);
+  const [IndexNum, setIndexNum] = useState();
+  const inputRef = useRef([]);
 
   console.log("AddCollection.jsx", collectionProductTableList);
   console.log("AddCollection.jsx", activeProducts, deactivatedProducts);
@@ -65,8 +73,12 @@ const AddCollection = () => {
       //   },
       // },
       {
+        Header: "Price",
+        accessor: "price",
+      },
+      {
         Header: "tags",
-        accessor: "'tags",
+        accessor: "tags",
       },
       {
         Header: "On Sale",
@@ -116,9 +128,11 @@ const AddCollection = () => {
       console.log("CONDITION VALUE LIST: ", response?.data);
     }
   };
+  const navigate = useNavigate();
 
   // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
+    setProductLoading(true);
     const changedTitleFilterArr = filterDivStates.map((filter) => {
       switch (filter.selectedTitle) {
         case "compare at price":
@@ -153,28 +167,46 @@ const AddCollection = () => {
       }
     });
 
-    console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
+    console.log("CHANGED TITLE FILTER ARR: ", formData, changedTitleFilterArr);
 
     try {
       setLoading(false);
       const response = await API_WRAPPER.post(
-        "/collection/filter-data",
-        changedTitleFilterArr
+        `/collection/filter-data?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`,
+        {
+          checkAll: condition,
+          conditionsArray: changedTitleFilterArr,
+        }
+        // changedTitleFilterArr
       );
 
       if (response.status === 200) {
-        if (response?.data.length > 0) {
-          setCollectionProductTableList(response?.data);
+        setProductLoading(false);
+        if (response?.data?.filteredProducts.length > 0) {
+          setCollectionProductTableList(response?.data?.filteredProducts);
+          setTotalPagesShow(response?.data?.totalPages);
         } else {
           setLoading(true);
         }
         console.log("RESPONSE COLLECTION TABLE DATA: ", response?.data);
       }
     } catch (error) {
+      setProductLoading(false);
       console.error("Error occurred while posting raw filter data", error);
     }
   };
-  const navigate = useNavigate();
+  useMemo(() => {
+    postRawFilterData();
+  }, [page, pageSize, seacrhText]);
+
+  console.log(
+    "((((((())))))))==>",
+    filteredConditionValues,
+    "[[]]",
+    filterDivStates,
+    "{{{}}}",
+    conditionValueList
+  );
 
   const postCollection = async (payload) => {
     const response = await API_WRAPPER.post(
@@ -195,6 +227,7 @@ const AddCollection = () => {
 
   // Handlers
   const handleRadioChange = (e) => {
+    setCondition(e.target.value);
     setFormData({ ...formData, radioSelection: e.target.value });
   };
 
@@ -262,6 +295,7 @@ const AddCollection = () => {
   // handle title change
   const handleTitleChange = (index, e) => {
     const { value } = e.target;
+    setIndexNum(index);
 
     setFormData((prevData) => {
       const updatedFilterDivStates = prevData.filterDivStates.map(
@@ -307,7 +341,10 @@ const AddCollection = () => {
             return state;
           });
         console.log("flcv", filteredConditionValues);
-
+        // IndexNum;
+        // let cloneData = [...storeCondition];
+        // cloneData[IndexNum] = filteredConditionValues;
+        // setStoreCondition(cloneData);
         setFilteredConditionValues(filteredConditionValues);
         return {
           ...prevData,
@@ -333,6 +370,9 @@ const AddCollection = () => {
     updatedStates[index].inputValue = value;
     setFormData({ ...formData, filterDivStates: updatedStates });
     handleBlur();
+    setTimeout(() => {
+      inputRef.current[index].focus();
+    }, 20);
   };
 
   const handleSubmit = async (e) => {
@@ -388,11 +428,22 @@ const AddCollection = () => {
       const filteredIds = selectedCondition.conditionValues.filter((value) =>
         conditionValueList.some((condition) => condition._id === value)
       );
+
       setFilteredConditionValues(filteredIds);
     } else {
       setFilteredConditionValues([]);
     }
   }, [formData.selectedTitle, collectionConditionList, conditionValueList]);
+
+  useEffect(() => {
+    if (filteredConditionValues) {
+      let cloneData = [...storeCondition];
+      cloneData[IndexNum] = filteredConditionValues;
+      setStoreCondition(cloneData);
+    }
+  }, [IndexNum, filteredConditionValues]);
+
+  console.log("----++++=====>>>>>", storeCondition);
 
   return (
     <div>
@@ -513,77 +564,85 @@ const AddCollection = () => {
               </div>
             </div>
 
-            {filterDivStates.map((state, index) => (
-              <div
-                id={`filter-div-${index + 1}`}
-                className="grid grid-cols-3 gap-4 mt-4"
-                key={nanoid()}
-              >
-                <div>
-                  <select
-                    onChange={(e) => handleTitleChange(index, e)}
-                    value={state.selectedTitle}
-                    placeholder="Title"
-                    className="select select-primary w-full"
-                  >
-                    <option value="">Select Title</option>
-                    {collectionConditionList?.map((item) => (
-                      <option key={nanoid()} value={item.title}>
-                        {item.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <select
-                    onChange={(e) =>
-                      handleConditionValueChange(index, e.target.value)
-                    }
-                    value={state.conditionValue}
-                    placeholder="Is greater than"
-                    className="select select-primary w-full"
-                  >
-                    <option value="">Select Operator</option>
-                    {filteredConditionValues.map((conditionVal) => {
-                      const conditionValue = conditionValueList.find(
-                        (value) => value._id === conditionVal._id
-                      );
-                      if (conditionValue) {
-                        return (
-                          <option key={nanoid()} value={conditionValue._id}>
-                            {conditionValue.conditionValue}
-                          </option>
-                        );
-                      }
-                      return null;
-                    })}
-                  </select>
-                </div>
-                <div>
-                  <input
-                    ref={inputRef}
-                    onChange={(e) =>
-                      handleInputValueChange(index, e.target.value)
-                    }
-                    value={state.inputValue}
-                    className="input input-primary w-full"
-                    type="text"
-                    placeholder="enter filter parameter"
-                  />
-                </div>
-
-                {filterDivStates.length !== 1 && (
+            {filterDivStates.map((state, index) => {
+              return (
+                <div
+                  id={`filter-div-${index + 1}`}
+                  className="grid grid-cols-3 gap-4 mt-4"
+                  key={nanoid()}
+                >
                   <div>
-                    <button
-                      onClick={() => handleRemoveFilter(index)}
-                      className="bg-rose-500 btn text-white btn-sm"
+                    <select
+                      onChange={(e) => handleTitleChange(index, e)}
+                      value={state.selectedTitle}
+                      placeholder="Title"
+                      className="select select-primary w-full"
                     >
-                      Remove filter
-                    </button>
+                      <option value="">Select Title</option>
+                      {collectionConditionList?.map((item) => (
+                        <option key={nanoid()} value={item.title}>
+                          {item.title}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                )}
-              </div>
-            ))}
+                  <div>
+                    <select
+                      onChange={(e) =>
+                        handleConditionValueChange(index, e.target.value)
+                      }
+                      value={state.conditionValue}
+                      placeholder="Is greater than"
+                      className="select select-primary w-full"
+                    >
+                      <option value="">Select Operator</option>
+                      {storeCondition[index]?.map((conditionVal) => {
+                        const conditionValue = conditionValueList.find(
+                          (value) => value._id === conditionVal._id
+                        );
+                        if (conditionValue) {
+                          return (
+                            <option key={nanoid()} value={conditionValue._id}>
+                              {conditionValue.conditionValue}
+                            </option>
+                          );
+                        }
+                        return null;
+                      })}
+                    </select>
+                  </div>
+                  <div>
+                    <input
+                      ref={(input) => {
+                        if (input) {
+                          inputRef.current[index] =
+                            inputRef.current[index] || [];
+                          inputRef.current[index] = input;
+                        }
+                      }}
+                      onChange={(e) =>
+                        handleInputValueChange(index, e.target.value)
+                      }
+                      value={state.inputValue}
+                      className="input input-primary w-full"
+                      type={state.selectedTitle == "Price" ? "number" : "text"}
+                      placeholder="enter filter parameter"
+                    />
+                  </div>
+
+                  {filterDivStates.length !== 1 && (
+                    <div>
+                      <button
+                        onClick={() => handleRemoveFilter(index)}
+                        className="bg-rose-500 btn text-white btn-sm"
+                      >
+                        Remove filter
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
             <div>
               <p className="text-[#A4A4A4] mt-4">
                 *This collection will include all products with at least one
@@ -606,31 +665,49 @@ const AddCollection = () => {
                 Submit Filters
               </button>
             </div>
-
             <div className="mt-4 relative">
-              <button
-                className="btn btn-primary absolute right-40  mb-10 top-0"
-                onClick={removeDeactivatedProducts}
-              >
-                Deactivate
-              </button>
-              {loading ? (
-                <h4 style={{ textAlign: "center" }}>No data</h4>
-              ) : (
-                <ReusableTable
-                  tableTitle="Filtered Products"
-                  key={"react-table-23-edffk"}
-                  showButtons
-                  isSelectable={true}
-                  data={data}
-                  columns={columns}
-                  enablePagination
-                  pageSize={100}
-                  onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
-                    handleSelectedObjectChange(selectedRows, unselectedRows)
-                  }
-                />
+              {data.length > 0 && (
+                <button
+                  className="btn btn-primary absolute right-40  mb-10 top-0"
+                  onClick={removeDeactivatedProducts}
+                >
+                  Deactivate
+                </button>
               )}
+              {/* <ReusableTable
+                tableTitle="Filtered Products"
+                key={"react-table-23-edffk"}
+                showButtons
+                isSelectable={true}
+                data={data}
+                columns={columns}
+                enablePagination
+                pageSize={10}
+                onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
+                  handleSelectedObjectChange(selectedRows, unselectedRows)
+                }
+              /> */}
+              <ReuseTable
+                tableTitle="Filtered Products"
+                columns={columns}
+                data={data}
+                // onEdit={handleEdit}
+                // onDelete={handleDelete}
+                isSelectable={true}
+                onSelectedRowObjectsChange={(selectedRows, unselectedRows) =>
+                  handleSelectedObjectChange(selectedRows, unselectedRows)
+                }
+                enablePagination
+                pageSize={10}
+                setPageSizeshow={setPageSize}
+                setPageNumber={setPage}
+                pageSizeShow={pageSize}
+                pageNumber={page}
+                totalPagesShow={totalPagesShow}
+                productLoading={productLoading}
+                SetSearchTex={SetSearchTex}
+                seacrhText={seacrhText}
+              />
             </div>
           </motion.div>
           {/* SEO */}

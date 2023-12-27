@@ -3,6 +3,8 @@ import { nanoid } from "nanoid";
 import { PATHS } from "../../../Routes/paths";
 import { ToastContainer } from "react-toastify";
 import useAddMainMenus from "./useAddMainMenus";
+import { Link } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
 
 const AddMainMenus = () => {
   const {
@@ -18,9 +20,11 @@ const AddMainMenus = () => {
     setSubMenuToggle,
     subMenuToggle,
   } = useAddMainMenus();
+
   return (
     <div>
       <Header heading="Add Main Menu" />
+
       <Card>
         <div className="mt-4 p-4">
           <form>
@@ -100,7 +104,13 @@ const AddMainMenus = () => {
                   value={`#`}
                 />
               </div>
-
+              <Link onClick={() => navigate(-1)} className="btn mt-10 mr-4">
+                <IoMdArrowBack
+                  className="text-2xl"
+                  style={{ fontSize: "13px" }}
+                />
+                Back
+              </Link>
               <button
                 to={PATHS.adminAddSubMenus}
                 className="btn btn-primary mt-4"
@@ -208,6 +218,13 @@ const AddMainMenus = () => {
                   value={`${mainMenuData.type}/${selectedTypeDataValue}`}
                 />
               </div>
+              <Link onClick={() => navigate(-1)} className="btn mt-10 mr-4">
+                <IoMdArrowBack
+                  className="text-2xl"
+                  style={{ fontSize: "13px" }}
+                />
+                Back
+              </Link>
               <button
                 className="btn btn-primary mt-4"
                 onClick={(e) => createMainMenu(e)}

@@ -2,24 +2,65 @@ const Vendor = require("../schema/vendorModal");
 const Store = require("../schema/storeModal");
 const { roles } = require("../utils");
 const storeModal = require("../schema/storeModal");
+const { default: mongoose } = require("mongoose");
 // Create a new vendor
+const bcrypt = require("bcrypt");
 const createVendor = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, mobile } = req.body;
+    //   mobile: selectedRow?.mobile,
+    //   organizationName: selectedRow?.store?.organization_name,
+    //   organizationType: selectedRow?.store?.organization_type,
+    //   country: selectedRow?.store?.country,
+    //   city: selectedRow?.store?.city,
+    //   pincode: selectedRow?.store?.pin_code,
+    //   status: selectedRow?.status,
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      mobile,
+      organizationType,
+      organizationName,
+      city,
+      pincode,
+      status,
+      country,
+    } = req.body;
+    const checkVendor = await Vendor.findOne({ email: email });
+    if (checkVendor) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Email already present" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new vendor instance
     const vendor = new Vendor({
       firstName,
       lastName,
       email,
-      password,
+      password: hashedPassword,
       mobile,
     });
 
     // Save the vendor to the database
-    await vendor.save();
+    let vendordata = await vendor.save();
+    console.log("vendordata", vendordata);
+    if (vendordata) {
+      let storeData = await storeModal.create({
+        vendorId: vendordata._id,
+        organization_name: organizationName,
+        organization_type: organizationType,
+        country,
+        pinCode: pincode,
+        city,
+      });
+      console.log("storeData", storeData);
+    }
 
-    res.status(201).json({ success: true, data: vendor });
+    res.status(200).json({ success: true, data: vendor });
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false, error: "Failed to create vendor" });
@@ -29,28 +70,90 @@ const createVendor = async (req, res) => {
 // Get all vendors
 const getVendors = async (req, res) => {
   try {
-    let vendors
+    let vendors;
     if (req.role === "admin") {
       vendors = await Vendor.aggregate([
         {
-          '$lookup': {
-            'from': 'stores',
-            'localField': '_id',
-            'foreignField': 'vendor_id',
-            'as': 'store'
-          }
-        }, {
-          '$unwind': {
-            'path': '$store',
-            'preserveNullAndEmptyArrays': true
-          }
-        }
-      ]).sort({ createdAt: -1 })
-    }
-    else if (req.role === "vendor") {
+          $lookup: {
+            from: "stores",
+            localField: "_id",
+            foreignField: "vendor_id",
+            as: "store",
+          },
+        },
+        {
+          $unwind: {
+            path: "$store",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ]).sort({ createdAt: -1 });
+    } else if (req.role === "vendor") {
       vendors = await Vendor.find({ _id: req.userId });
     }
     res.json({ success: true, data: vendors });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ success: false, error: "Failed to get vendors" });
+  }
+};
+
+const getVendorsList = async (req, res) => {
+  try {
+    let vendors;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      console.log("--->", seacrhText);
+      matchQuery = {
+        $or: [{ firstName: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+    if (req.role === "admin") {
+      vendors = await Vendor.aggregate([
+        {
+          $match: matchQuery,
+        },
+        {
+          $lookup: {
+            from: "stores",
+            localField: "_id",
+            foreignField: "vendorId",
+            as: "store",
+          },
+        },
+        {
+          $unwind: {
+            path: "$store",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: pageSize,
+        },
+      ]);
+      totalData = await Vendor.find(matchQuery).countDocuments();
+      totalPages = Math.ceil(totalData / pageSize);
+    } else if (req.role === "vendor") {
+      vendors = await Vendor.find({ _id: req.userId });
+    }
+    res.json({ success: true, totalData, page, totalPages, data: vendors });
   } catch (error) {
     console.error(error);
     res.status(400).json({ success: false, error: "Failed to get vendors" });
@@ -76,7 +179,19 @@ const getVendorById = async (req, res) => {
 // Update a vendor by ID
 const updateVendor = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, mobile, organization_type, organization_name, city, pincode, status } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      mobile,
+      organizationType,
+      organizationName,
+      city,
+      pincode,
+      status,
+      country,
+    } = req.body;
 
     const vendor = await Vendor.findById(req.params.id.substring(1));
     if (!vendor) {
@@ -84,17 +199,42 @@ const updateVendor = async (req, res) => {
         .status(404)
         .json({ success: false, error: "Vendor not found" });
     }
+    const hashedPassword = await bcrypt.hash(password ?? vendor.password, 10);
 
     vendor.firstName = firstName ?? vendor.firstName;
     vendor.lastName = lastName ?? vendor.lastName;
     vendor.email = email ?? vendor.email;
-    vendor.password = password ?? vendor.password;
+    vendor.password = hashedPassword;
     vendor.mobile = mobile ?? vendor.mobile;
     vendor.status = status ?? vendor.status;
 
-    await vendor.save();
-    const updatedStore = await storeModal.findOneAndUpdate({ vendorId: vendor._id }, { organization_name, organization_type, pin_code: pincode, city }, { upsert: true, new: true })
-
+    let vendorUpdate = await vendor.save();
+    console.log({ vendorUpdate });
+    const present = await storeModal.findOne({
+      vendorId: new mongoose.Types.ObjectId(vendor._id),
+    });
+    if (present) {
+      const updatedStore = await storeModal.findOneAndUpdate(
+        { vendorId: new mongoose.Types.ObjectId(vendor._id) },
+        {
+          organization_name: organizationName,
+          organization_type: organizationType,
+          country,
+          pinCode: pincode,
+          city,
+        },
+        { upsert: true, new: true }
+      );
+    } else {
+      await storeModal.create({
+        vendorId: vendor._id,
+        organization_name: organizationName,
+        organization_type: organizationType,
+        country,
+        pinCode: pincode,
+        city,
+      });
+    }
 
     res.json({ success: true, data: vendor });
   } catch (error) {
@@ -154,4 +294,5 @@ module.exports = {
   getVendorsCount,
   updateVendor,
   deleteVendor,
+  getVendorsList,
 };

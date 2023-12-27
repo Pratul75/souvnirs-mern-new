@@ -5,6 +5,7 @@ const {
   getAllRefunds,
   getRefundById,
   updateRefund,
+  getAllRefundsList,
 } = require("../controllers/refundController");
 const authMiddleware = require("../middlewares");
 
@@ -13,6 +14,13 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getAllRefunds
 );
+
+router.get(
+  "/refund/list/get-refunds",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllRefundsList
+);
+
 router.get(
   "/refund/get-refund-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),

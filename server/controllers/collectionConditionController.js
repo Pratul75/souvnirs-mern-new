@@ -37,6 +37,71 @@ const getAllCollectionConditions = async (req, res) => {
   }
 };
 
+const getAllCollectionConditionsList = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      console.log("--->", seacrhText);
+      matchQuery = {
+        $or: [{ title: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+
+    const collectionConditions = await CollectionCondition.aggregate([
+      {
+        $match: matchQuery,
+      },
+      {
+        $lookup: {
+          from: "condition values",
+          localField: "conditionValues",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $project: {
+          "result.conditionValue": 1,
+          title: 1,
+          status: 1,
+        },
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
+
+    totalData = await CollectionCondition.find(matchQuery).countDocuments();
+    totalPages = Math.ceil(totalData / pageSize);
+    res.status(200).json({
+      message: "get data successfully",
+      totalData,
+      page,
+      totalPages,
+      collectionConditions,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 // Get a single CollectionCondition by ID
 const getCollectionConditionById = async (req, res) => {
   try {
@@ -99,4 +164,5 @@ module.exports = {
   getCollectionConditionById,
   deleteCollectionCondition,
   updateCollectionConditionById,
+  getAllCollectionConditionsList,
 };

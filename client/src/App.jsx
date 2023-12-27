@@ -31,6 +31,7 @@ const App = () => {
   useEffect(() => {
     const wl = localStorage.getItem("wishlist");
     const cart = localStorage.getItem("cart");
+    // localStorage.setItem("token", "s");
 
     if (!wl) {
       localStorage.setItem("wishlist", JSON.stringify([]));
@@ -124,7 +125,8 @@ const App = () => {
                         <ProtectedRoute
                           roleRequired={role}
                           path={path}
-                          defaultRole={defaultRole}>
+                          defaultRole={defaultRole}
+                        >
                           <Component />
                         </ProtectedRoute>
                       </AppLayout>

@@ -31,7 +31,7 @@ const Ratings = ({ rating }) => {
     return stars;
   };
 
-  return <div className="flex gap-2">{renderStars()}</div>;
+  return <div className="flex gap-2 h-6">{renderStars()}</div>;
 };
 Ratings.propTypes = {
   rating: PropTypes.number.isRequired,

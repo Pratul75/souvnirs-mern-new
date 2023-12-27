@@ -7,11 +7,11 @@ const storeSchema = new mongoose.Schema(
       ref: "Vendor",
       required: true,
     },
-    organizationName: {
+    organization_name: {
       type: String,
       required: true,
     },
-    organizationType: {
+    organization_type: {
       type: String,
       required: true,
     },
@@ -41,7 +41,7 @@ const storeSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["ACTIVE", "INACTIVE", "PENDING"],
+      enum: ["ACTIVE", "DEACTIVE", "PENDING"],
       default: "ACTIVE",
     },
   },

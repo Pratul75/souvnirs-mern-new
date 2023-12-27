@@ -12,6 +12,7 @@ import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import { DeleteBtnSvg } from "../../icons/tableIcons";
 const AddCoupon = () => {
   const [couponData, setCouponData] = useState({});
   const [error, setError] = useState();
@@ -39,10 +40,11 @@ const AddCoupon = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [collectionsList, setCollectionsList] = useState([]);
+  const [ProductDetails, setProductDetails] = useState([]);
   const [appliedToFilteredState, setAppliedToFilteredState] = useState([]);
   const [appliedToFilteredItemsObjects, setAppliedToFilteredItemsObjects] =
     useState([]);
-  const [couponCode, setCouponCode] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
   const [customers, setCustomers] = useState();
   const navigate = useNavigate();
 
@@ -92,16 +94,19 @@ const AddCoupon = () => {
 
   const postCoupon = async () => {
     try {
-      await validationSchema.validate(
-        { ...couponData, couponCode },
-        { abortEarly: false }
-      );
+      let cloneData = { ...couponData };
+      cloneData.typeValue = Number(cloneData.typeValue);
+      console.log("couponCode===>", { ...cloneData, couponCode: couponCode });
+      // await validationSchema.validate(
+      //   { ...cloneData, couponCode },
+      //   { abortEarly: false }
+      // );
       const response = await API_WRAPPER.post("/coupon/create-coupon", {
-        ...couponData,
+        ...cloneData,
         couponCode: couponCode,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("DISCOUNT DATA POSTED: ", response.data);
         navigate(PATHS.adminCoupons);
       }
@@ -155,10 +160,18 @@ const AddCoupon = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setCouponData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    if (name == "couponCode") {
+      setCouponCode(value);
+      setCouponData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    } else {
+      setCouponData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
     console.log("DISCOUNT INPUT STATE: ", couponData);
   };
   const getCustomers = async () => {
@@ -205,6 +218,7 @@ const AddCoupon = () => {
   };
 
   const handleAddFilteredItemToState = (item) => {
+    setProductDetails([...ProductDetails, item]);
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
     window.applied_to_search_modal.close();
   };
@@ -233,6 +247,24 @@ const AddCoupon = () => {
     getCustomers();
     getAllCollections();
   }, []);
+
+  const handleDeleteSearch = (data, index) => {
+    let dataDiscunt = { ...couponData };
+    const removeItem = data?._id;
+    for (let key in dataDiscunt) {
+      if (dataDiscunt[key].includes(removeItem)) {
+        dataDiscunt[key] = dataDiscunt[key].filter(
+          (item) => item !== removeItem
+        );
+      }
+    }
+    setCouponData(dataDiscunt);
+    let cloneData = [...ProductDetails];
+    cloneData.splice(index, 1);
+    setProductDetails(cloneData);
+  };
+
+  console.log("====>:::::::", ProductDetails);
 
   return (
     <div>
@@ -263,6 +295,7 @@ const AddCoupon = () => {
                   onChange={(e) => handleInputChange(e)}
                   name="title"
                   type="text"
+                  required
                   className="input input-bordered input-primary bg-transparent t w-full"
                 />
                 <span className="text-red-500">
@@ -281,8 +314,9 @@ const AddCoupon = () => {
                     className="input input-bordered join-item w-full"
                     placeholder="Coupon Code"
                     name="couponCode"
-                    readOnly
-                    value={couponCode || ""} // Make sure to set an empty string as the default value to avoid a controlled/uncontrolled input warning.
+                    // readOnly
+                    required
+                    value={couponCode} // Make sure to set an empty string as the default value to avoid a controlled/uncontrolled input warning.
                   />
                   <button
                     type="button" // Add this line to prevent form submission
@@ -313,6 +347,7 @@ const AddCoupon = () => {
                   setSpecificCustomerSegmentInputToggle(false);
                   handleInputChange(e);
                 }}
+                required
                 name="eligibilityTitle"
                 className="radio radio-primary"
                 type="radio"
@@ -328,6 +363,7 @@ const AddCoupon = () => {
                   setSpecificCustomerSegmentInputToggle(
                     (prevState) => !prevState
                   );
+                  required;
                   setSpecificCustomerInputToggle(false);
                   handleInputChange(e);
                 }}
@@ -378,7 +414,7 @@ const AddCoupon = () => {
                   {customers.map((customer) => (
                     <option key={nanoid()}>
                       {" "}
-                      {`${customer.firstName}(${customer.email})`}
+                      {`${customer?.firstName}(${customer?.email})`}
                     </option>
                   ))}
                 </select>
@@ -412,16 +448,15 @@ const AddCoupon = () => {
                 value="percentage"
                 aria-label="Percentage"
               />
-              <div className="block">
-                <span className="text-red-500">{error?.typeTitle}</span>
-              </div>
             </div>
+
             <div className="form-control col-span-1 w-full">
               <label className="input-group">
                 <input
                   onChange={(e) => handleInputChange(e)}
                   name="typeValue"
                   placeholder="0.01"
+                  type="number"
                   className="input input-bordered w-full" // Added w-full class here
                 />
                 <span>
@@ -429,6 +464,9 @@ const AddCoupon = () => {
                 </span>
               </label>
               <span className="text-red-500">{error?.typeValue}</span>
+            </div>
+            <div className="block">
+              <span className="text-red-500">{error?.typeTitle}</span>
             </div>
           </div>
         </motion.div>
@@ -573,7 +611,10 @@ const AddCoupon = () => {
             <div className="form-control flex mt-4">
               <div className="input-group ">
                 <input
-                  onChange={(e) => handleAppliedToSearch(e)}
+                  onChange={(e) => {
+                    window.applied_to_search_modal.showModal();
+                    handleAppliedToSearch(e);
+                  }}
                   type="text"
                   placeholder="Search…"
                   className="input input-bordered flex-grow"
@@ -598,6 +639,26 @@ const AddCoupon = () => {
                   </svg>
                 </button>
               </div>
+            </div>
+            <div style={{ marginTop: "3px" }}>
+              {ProductDetails?.map((item, index) => (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    borderRadius: "3px",
+                    borderTop: "1px solid gray",
+                    margin: "3px",
+                  }}
+                >
+                  <h4>{item?.name ? item?.name : item?.title}</h4>
+                  <div>
+                    <div onClick={() => handleDeleteSearch(item, index)}>
+                      <DeleteBtnSvg />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </motion.div>
@@ -675,6 +736,7 @@ const AddCoupon = () => {
                 onChange={handleInputChange}
                 className="input input-primary"
                 type="date"
+                required
                 name="activeDate"
               />
             </div>
@@ -686,11 +748,12 @@ const AddCoupon = () => {
                 onChange={handleInputChange}
                 className="input input-primary"
                 type="time"
+                required
                 name="activeTime"
               />
             </div>
           </div>
-          <div className="form-control flex flex-row items-center mt-4 gap-4">
+          {/* <div className="form-control flex flex-row items-center mt-4 gap-4">
             <input
               onChange={() =>
                 setShowEndDateAndTimeToggle((prevState) => !prevState)
@@ -703,33 +766,35 @@ const AddCoupon = () => {
             <label className="label">
               <span className="label-text ">Set End Date</span>
             </label>
-          </div>
-          {showEndDateAndTimeToggle && (
-            <div className="mt-4 flex  justify-between gap-4">
-              <div className="form-control flex-grow">
-                <label className="label">
-                  <span className="label-text">End Date</span>
-                </label>
-                <input
-                  onChange={(e) => handleInputChange(e)}
-                  className="input input-primary"
-                  type="date"
-                  name="endDate"
-                />
-              </div>
-              <div className="form-control flex-grow">
-                <label className="label">
-                  <span className="label-text">End Time (IST)</span>
-                </label>
-                <input
-                  onChange={(e) => handleInputChange(e)}
-                  className="input input-primary"
-                  type="time"
-                  name="endTime"
-                />
-              </div>
+          </div> */}
+          {/* {showEndDateAndTimeToggle && ( */}
+          <div className="mt-4 flex  justify-between gap-4">
+            <div className="form-control flex-grow">
+              <label className="label">
+                <span className="label-text">End Date</span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary"
+                type="date"
+                required
+                name="endDate"
+              />
             </div>
-          )}
+            <div className="form-control flex-grow">
+              <label className="label">
+                <span className="label-text">End Time (IST)</span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary"
+                type="time"
+                required
+                name="endTime"
+              />
+            </div>
+          </div>
+          {/* // )} */}
         </motion.div>
 
         {/* combinations */}
@@ -789,13 +854,15 @@ const AddCoupon = () => {
             <span className="text-accent-focus">{appliedToSpecifiedInput}</span>
           </h3>
           <input
-            onChange={(e) => handleAppliedToSearch(e)}
+            onChange={(e) => {
+              window.applied_to_search_modal.showModal();
+              handleAppliedToSearch(e);
+            }}
             type="text"
             placeholder="Search…"
             className="input input-bordered w-full"
             value={appliedToSearchInput}
           />
-
           <div className="my-4">
             Filtered by:{" "}
             <span className="text-teal-500">{appliedToSearchInput}</span>

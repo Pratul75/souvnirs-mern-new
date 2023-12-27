@@ -12,7 +12,7 @@ const Card = ({ children }) => {
       initial="initial"
       className={` ${
         darkMode ? "bg-cardDarker" : "bg-cardLight"
-      } shadow-xl rounded-xl h-full  `}
+      } shadow-xl rounded-xl`}
     >
       {children}
     </motion.div>

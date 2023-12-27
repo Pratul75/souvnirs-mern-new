@@ -2,13 +2,15 @@ import { useMemo } from "react";
 import { Header } from "../../../components";
 import { GoPlus } from "react-icons/go";
 import { Table as ReusableTable } from "../../../components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import { getStatusStyles } from "../../../utils";
 import { MultiSelect } from "react-multi-select-component";
 import CategoryManagementBanner from "../../../assets/bannerImages/categoryManagementImage.png";
 import useCategories from "./useCategories";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 const Categories = () => {
+  const navigate = useNavigate();
   const {
     attributesList,
     categoriesList,
@@ -22,6 +24,14 @@ const Categories = () => {
     selectedAttributes,
     setSelectedAttributes,
     getAllCategories,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useCategories();
 
   const columns = useMemo(
@@ -53,6 +63,10 @@ const Categories = () => {
     []
   );
 
+  const ShowDetails = (row) => {
+    navigate(`${PATHS.adminCategoryDetails}/${row._id}`);
+  };
+
   return (
     <>
       <Header
@@ -70,7 +84,29 @@ const Categories = () => {
         </div>
       </div>
       <div className="mt-5">
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Categories List"
+          columns={columns}
+          data={categoriesList}
+          showButtons
+          enableEdit
+          enableDelete
+          enableShowDetials
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onShow={ShowDetails}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
           tableTitle="Categories List"
           data={categoriesList}
           columns={columns}
@@ -81,7 +117,7 @@ const Categories = () => {
           pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
-        />
+        /> */}
 
         {/* edit modal */}
         <dialog id="categories_edit_modal" className="modal">

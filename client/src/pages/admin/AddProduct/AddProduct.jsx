@@ -79,6 +79,38 @@ const AddProduct = () => {
                 id=""
               />
             </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Tags<span className=" text-red-600">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                value={tagValue}
+                onChange={handleTagInputChange}
+                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
+                placeholder="Enter a tag and press Enter"
+                className="input input-primary"
+              />
+
+              <div className="mt-4 flex gap-4 flex-wrap">
+                {tagsArray.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
+                  >
+                    <span>{tag}</span>
+                    <button
+                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
+                      onClick={() => removeTag(tag)}
+                    >
+                      <GrFormClose />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
           <motion.div
             variants={fadeInFromRightVariant}
@@ -87,7 +119,7 @@ const AddProduct = () => {
             className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
             <hr className="mt-4" />
-            <div className="form-control mt-4">
+            {/* <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
                   Status<span className=" text-red-600">*</span>
@@ -102,9 +134,9 @@ const AddProduct = () => {
                   select status
                 </option>
                 <option value="ACTIVE">Active</option>
-                <option value="INACTIVE">Inactive</option>
+                <option value="DEACTIVE">DEACTIVE</option>
               </select>
-            </div>
+            </div> */}
             <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
@@ -201,38 +233,6 @@ const AddProduct = () => {
             </div>
 
             {/* tags needs to be the specific for the multi select component */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">
-                  Tags<span className=" text-red-600">*</span>
-                </span>
-              </label>
-              <input
-                type="text"
-                value={tagValue}
-                onChange={handleTagInputChange}
-                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
-                placeholder="Enter a tag and press Enter"
-                className="input input-primary"
-              />
-
-              <div className="mt-4 flex gap-4 flex-wrap">
-                {tagsArray.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
-                  >
-                    <span>{tag}</span>
-                    <button
-                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
-                      onClick={() => removeTag(tag)}
-                    >
-                      <GrFormClose />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className="form-control mt-4">
               <label className="label">
@@ -243,10 +243,75 @@ const AddProduct = () => {
               </label>
               <input
                 onChange={(e) => handleInputChange(e)}
-                className="input input-primary  w-full"
+                className="input input-primary w-full"
                 placeholder="Enter SKU"
                 type="text"
                 name="sku"
+                id=""
+              />
+            </div>
+
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Min Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                type="number"
+                name="minquantity"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  MRP
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter mrp"
+                type="number"
+                name="mrp"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Price
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter price"
+                type="number"
+                name="price"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Stock Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter stockQuantity"
+                type="number"
+                name="stockQuantity"
                 id=""
               />
             </div>
@@ -342,8 +407,8 @@ const AddProduct = () => {
                     position: "absolute",
                     top: 0,
                     left: 0,
-                    width: `${foregroundWidth}px`,
-                    height: `${foregroundHeight}px`,
+                    width: `${foregroundWidth}%`,
+                    height: `${foregroundHeight}%`,
                     border: "2px solid red",
                     borderRadius: selectedShape === "circle" ? "50%" : "0", // Apply border radius based on selected shape
                   }}

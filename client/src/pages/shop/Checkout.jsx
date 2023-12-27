@@ -1,7 +1,7 @@
 import { BiSolidOffer } from "react-icons/bi";
 import ShopBanner from "../../assets/shop/bannerImages/checkoutBaner.png";
 import Banner from "./Banner";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
 import { Card } from "../../components";
 import { RxCross2 } from "react-icons/rx";
@@ -13,6 +13,8 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { AiOutlineHome } from "react-icons/ai";
 import { useQuery } from "react-query";
 import { fetchAddresses } from "../../api/apiCalls";
+import { ItemsLoading } from "../common/ItemsLoading";
+import { LoadingComponent } from "../../components/LoadinComponent/LoadingComponent";
 
 const Checkout = () => {
   const [items, setItems] = useState();
@@ -21,15 +23,67 @@ const Checkout = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [showAddress, setshowAddress] = useState(false);
   const [selectedAddress, setselectedAddress] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [CouponChange, handleCouponChange] = useState("");
+  const [error, setError] = useState("");
+  const [loadingCoupon, setLoadingCoupon] = useState(false);
+  const [Applycoupons, setApplyCoupons] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [prevTotal, setPrevTotal] = useState([]);
+  const [storeData, setstoreData] = useState([]);
+
   const getCheckedOutItems = async () => {
     const response = await API_WRAPPER.get("/cart/mycart");
     console.log(response);
     setItems(response.data);
+    let datatotal = [];
+    for (let i = 0; i < response?.data?.length; i++) {
+      let datas = await getWishListdata(response.data[i]?.product_id);
+      datatotal.push(datas);
+    }
+    setstoreData(datatotal);
   };
 
-  const { data, isLoading, error } = useQuery("get_addresses", fetchAddresses, {
-    onSuccess: () => setAddresses(data?.data),
-  });
+  const getWishListdata = async (product) => {
+    try {
+      const result = await API_WRAPPER(
+        `/check/products/data?productId=${product?._id}`
+      );
+      if (result?.data?.success) {
+        return {
+          show: true,
+          data: result?.data?.data[0],
+        };
+      } else {
+        return {
+          show: false,
+          data: {},
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log("99999****-<", storeData);
+
+  // const { data, isLoading, error } = useQuery("get_addresses", fetchAddresses, {
+  //   onSuccess: () => setAddresses(data?.data),
+  // });
+
+  const getAllAddress = async () => {
+    try {
+      let responce = await API_WRAPPER.get("/getCustomerAddress");
+      setAddresses(responce?.data);
+      setselectedAddress(responce?.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllAddress();
+  }, []);
 
   // useEffect(() => {
   //   setselectedAddress(data?.data[0]);
@@ -39,9 +93,9 @@ const Checkout = () => {
   const addAddress = async (e) => {
     e.preventDefault();
     const response = await API_WRAPPER.post("/addCustomerAddress", address);
-    console.log(response);
     setApiTrigger((a) => !a);
     address_modal.close();
+    getAllAddress();
   };
 
   // handle input change
@@ -60,10 +114,17 @@ const Checkout = () => {
 
   // payment handler
   const paymentHandler = async (e) => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    setLoading(true);
     e.preventDefault();
-    const orderUrl = `http://localhost:8080/order/create`;
+    // const orderUrl = `http://localhost:8080/order/create`;
+    const orderUrl = `https://souvnirs-be.el.r.appspot.com/order/create`;
     const response = await API_WRAPPER.post(orderUrl);
     const { data } = response;
+    setLoading(false);
     const options = {
       key: "rzp_live_80LvVdqLPUaiKR",
       name: "Souvnirs Bulk Gifting",
@@ -72,7 +133,8 @@ const Checkout = () => {
       handler: async (response) => {
         try {
           const paymentId = response.razorpay_payment_id;
-          const url = `http://localhost:8080/order/capture/${paymentId}`;
+          // const url = `http://localhost:8080/order/capture/${paymentId}`;
+          const url = `https://souvnirs-be.el.r.appspot.com/order/capture/${paymentId}`;
           const captureResponse = await Axios.post(url, {});
           console.log(captureResponse.data);
         } catch (err) {
@@ -93,11 +155,132 @@ const Checkout = () => {
     setshowAddress(false);
   };
 
-  console.log(
-    "++++++++++>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",
-    selectedAddress,
-    data?.data[0]
-  );
+  console.log("---+++===,,,>>>,,<<<....>>>", addresses);
+
+  const hanldeCoupon = async () => {
+    if (CouponChange.trim() === "") {
+      setError("Please enter a value.");
+    } else {
+      setError("");
+      setLoadingCoupon(true);
+      let data = {
+        code: CouponChange,
+        productIds: items?.map((item) => item?.product_id?._id),
+      };
+      if (!Applycoupons) {
+        setApplyCoupons(true);
+        let responce = await API_WRAPPER.post("/check/coupon/code", data);
+        setLoadingCoupon(false);
+        if (responce?.data?.success) {
+          if (responce?.data?.productDiscount.length > 0) {
+            let productDiscount = responce?.data?.productDiscount;
+            let cloneData = [...items];
+            cloneData?.map((itm, index) => {
+              let checkIndex = productDiscount.findIndex(
+                (itn) => itn?.id == itm?.product_id?._id
+              );
+              if (checkIndex >= 0) {
+                let price = itm?.variant_id
+                  ? itm?.variant_id?.price
+                  : itm?.product_id?.price;
+                let checkVariante = itm?.variant_id ? 1 : 2;
+                cloneData[index].mainprice = price;
+                if (productDiscount[checkIndex]?.type == "percentage") {
+                  cloneData[
+                    index
+                  ].discount = `${productDiscount[checkIndex]?.discount}%`;
+                  if (checkVariante == 1) {
+                    let subtraction =
+                      (Number(productDiscount[checkIndex]?.discount) / 100) *
+                      Number(price);
+                    let result = Number(price) - subtraction;
+                    cloneData[index].variant_id.price = result;
+                  } else {
+                    let subtraction =
+                      (Number(productDiscount[checkIndex]?.discount) / 100) *
+                      Number(price);
+                    let result = Number(price) - subtraction;
+
+                    cloneData[index].product_id.price = result;
+                  }
+                } else {
+                  cloneData[index].discount =
+                    productDiscount[checkIndex]?.discount;
+                  if (checkVariante == 1) {
+                    let result =
+                      Number(price) -
+                      Number(productDiscount[checkIndex]?.discount);
+                    cloneData[index].variant_id.price = result;
+                  } else {
+                    let result =
+                      Number(price) -
+                      Number(productDiscount[checkIndex]?.discount);
+                    cloneData[index].product_id.price = result;
+                  }
+                }
+              }
+            });
+            console.log("---->>>>>999___>", cloneData);
+            setItems(cloneData);
+          } else {
+            setError(responce?.data?.msg);
+          }
+        } else {
+          setLoadingCoupon(false);
+          setError(responce?.data?.msg);
+        }
+      } else {
+        setLoadingCoupon(false);
+      }
+
+      // let cloneData = [...items];
+      // setItems(cloneData);
+      // setCoupons(responce?.data?.productDiscount);
+    }
+  };
+
+  const getActualPrice = (type, per, price) => {
+    console.log("type, per, price", { type, per, price });
+    let check = type == "percentage" ? true : false;
+    if (type && per && price !== undefined) {
+      if (check) {
+        let decimalPercentage = Number(per) / 100;
+
+        // Calculate the subtraction
+        let result = Number(price) - decimalPercentage * Number(price);
+        return result;
+      } else {
+        let result = Number(price) - Number(per);
+        return result;
+      }
+    } else {
+      return Number(price);
+    }
+  };
+
+  const calculatedata = () => {
+    console.log("==>datas", items);
+    let totalPice = 0;
+    items?.map((itm) => {
+      let checkVariante = itm?.variant_id ? 1 : 2;
+      if (checkVariante == 1) {
+        let price =
+          Number(itm?.variant_id?.price) * Number(itm?.product_quantity);
+        totalPice += price;
+      } else {
+        let price =
+          Number(itm?.product_id?.price) * Number(itm?.product_quantity);
+        totalPice += price;
+      }
+    });
+    setTotalPrice(totalPice);
+  };
+
+  useEffect(() => {
+    calculatedata();
+  }, [items, hanldeCoupon]);
+
+  console.log("0000____------_____----->", items);
 
   return (
     <div>
@@ -107,8 +290,8 @@ const Checkout = () => {
         text={"Checkout"}
       />
       <div className="my-8">
-        <div className="grid grid-cols-4 gap-4 mt-4 ">
-          <div className="col-span-4 md:col-span-3 bg-base-200 p-4 px-8 rounded-xl">
+        <div className="grid grid-cols-4 gap-2 mt-4 ">
+          <div className="col-span-4 md:col-span-2 bg-base-200 p-2 px-4 rounded-xl">
             <h1 className="font-semibold text-2xl my-4">Delivery Address</h1>
             <div>
               <button
@@ -224,26 +407,119 @@ const Checkout = () => {
               </motion.div>
             )}
           </div>
-          <div className="col-span-4 md:col-span-1 bg-base-200 p-4 rounded-xl">
+          <div className="col-span-4 md:col-span-2 bg-base-200 p-4 rounded-xl">
+            <div className="py-4">
+              <h4>Coupon code</h4>
+              <hr className="my-4" />
+              <div className="border-b">
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    className={`border p-2 mr-2 rounded-md ${
+                      error && "border-red-500 p-0 mr-2"
+                    }`}
+                    // className="border p-2 mr-2 rounded-md"
+                    placeholder="Enter Coupon code..."
+                    onChange={(e) => handleCouponChange(e.target?.value)}
+                  />
+                  <button
+                    onClick={hanldeCoupon}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  >
+                    {loadingCoupon ? (
+                      <svg
+                        aria-hidden="true"
+                        class="inline w-6 h-6 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                        viewBox="0 0 100 101"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                          fill="currentColor"
+                        />
+                        <path
+                          d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                          fill="currentFill"
+                        />
+                      </svg>
+                    ) : (
+                      "Apply"
+                    )}
+                  </button>
+                </div>
+                {error && <p className="text-red-500 mb-2">{error}</p>}
+              </div>
+            </div>
+
             <div className="py-4">
               <h4>Order Summary</h4>
               <hr className="my-4" />
               <div className="border-b">
                 {items &&
-                  items.map((item) => (
-                    <div
-                      key={nanoid()}
-                      className="flex justify-between w-full my-4"
-                    >
-                      <span className="text-sm">
-                        {item?.product_id?.name} X {item.product_quantity}
-                      </span>
-                      <span className="text-sm">
-                        {" "}
-                        ₹{item.product_quantity * item?.product_id?.price}
-                      </span>
-                    </div>
-                  ))}
+                  items.map((item, index) => {
+                    // if (storeData[index]?.show) {
+                    //   if (item?.variant_id) {
+                    //   }
+                    // }
+
+                    let totalPrice = 0;
+                    if (item?.variant_id) {
+                      let variPrice =
+                        item.product_quantity *
+                        item?.variant_id?.price.toFixed(2);
+                      if (storeData[index]?.show) {
+                        totalPrice = getActualPrice(
+                          storeData[index]?.data?.typeTitle,
+                          storeData[index]?.data?.typeValue,
+                          variPrice
+                        );
+                      } else {
+                        totalPrice = variPrice;
+                      }
+                    } else {
+                      let produPrice =
+                        item.product_quantity *
+                        item?.product_id?.price.toFixed(2);
+                      if (storeData[index]?.show) {
+                        totalPrice = getActualPrice(
+                          storeData[index]?.data?.typeTitle,
+                          storeData[index]?.data?.typeValue,
+                          produPrice
+                        );
+                      } else {
+                        totalPrice = produPrice;
+                      }
+                    }
+
+                    return (
+                      <div
+                        key={nanoid()}
+                        className="flex justify-between w-full my-4"
+                      >
+                        <span className="text-sm">
+                          {item?.product_id?.name} X {item.product_quantity}
+                        </span>
+                        <span className="text-sm">
+                          {" "}
+                          {/* mainprice */}₹
+                          {item?.discount
+                            ? `${
+                                storeData[index]?.show
+                                  ? getActualPrice(
+                                      storeData[index]?.data?.typeTitle,
+                                      storeData[index]?.data?.typeValue,
+                                      item?.mainprice * item.product_quantity
+                                    )
+                                  : item?.mainprice * item.product_quantity
+                              } - ${item?.discount} = ${totalPrice}`
+                            : totalPrice}
+                          {/* {item?.discount && `- ${item?.discount}`} */}
+                        </span>
+                      </div>
+                    );
+                    12;
+                  })}
               </div>
               <div className="my-4 flex justify-between">
                 {/* <span className="text-sm">Sub Total</span>
@@ -265,15 +541,7 @@ const Checkout = () => {
               <div className="my-4 flex justify-between">
                 <span className="text-sm font-semibold">Total (Rupees)</span>
                 <span className="text-sm font-semibold">
-                  ₹
-                  {items && items.length > 0
-                    ? items.reduce((total, item) => {
-                        return (
-                          total +
-                          item?.product_quantity * +item?.product_id?.price
-                        );
-                      }, 0)
-                    : 0}
+                  ₹{totalPrice.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -491,6 +759,7 @@ const Checkout = () => {
           </div> */}
         </div>
       </div>
+      {loading && <ItemsLoading />}
     </div>
   );
 };

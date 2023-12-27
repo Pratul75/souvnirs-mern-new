@@ -80,7 +80,12 @@ const RegisterForm = () => {
           // console.log("ROLE AND ID: ", id, role);
           const levelTwoResponse = await API_WRAPPER.post(
             "/store/create-store",
-            { ...levelTwoRegisterData, vendorId: id }
+            {
+              ...levelTwoRegisterData,
+              vendorId: id,
+              organization_type: levelTwoRegisterData?.organizationType,
+              organization_name: levelTwoRegisterData?.organizationName,
+            }
           );
           if (levelTwoResponse.status === 200) {
             // console.log("LEVEL TWO RESPONSE: ", levelTwoResponse?.data);
@@ -111,8 +116,8 @@ const RegisterForm = () => {
         }
       }
     } catch (error) {
-      console.log("RegisterForm.jsx", error);
-      // debouncedShowToast(error, "error");
+      // console.log("RegisterForm.jsx", error?.response?.data);
+      debouncedShowToast(error?.response?.data, "error");
     }
   };
 

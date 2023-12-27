@@ -4,6 +4,8 @@ import { Header, ReusableTable } from "../../components";
 import API_WRAPPER from "../../api";
 import { getStatusStyles } from "../../utils";
 import OrderManagementBanner from "../../assets/bannerImages/orderManagementImage.png";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
+import { Link } from "react-router-dom";
 
 let orderStatus = [
   "ordered",
@@ -19,12 +21,20 @@ const OrderManagement = () => {
   const [orderToBeEdited, setOrderToBeEdited] = useState({});
   const [orderEditedObject, setOrderEditedObject] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const getOrderTableData = async () => {
     try {
-      const response = await API_WRAPPER.get("/order/get-orders");
+      const response = await API_WRAPPER.get(
+        `/order/all/get-orders?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setOrderTableList(response?.data);
+        setOrderTableList(response?.data?.orders);
+        setTotalPagesShow(response?.data?.totalPages);
         console.log("ORDER TABLE DATA: ", response?.data);
       }
     } catch (error) {
@@ -35,41 +45,110 @@ const OrderManagement = () => {
   const columns = useMemo(
     () => [
       {
+        Header: "Product name",
+        accessor: "product.name",
+        Cell: ({ row }) => {
+          return (
+            <Link
+              style={{ color: "blue" }}
+              to={`/invoice/page/${row?.original?.invoice_id}/${row?.original?._id}`}
+            >
+              {row?.original?.product.name}
+            </Link>
+          );
+        },
+      },
+      {
+        Header: "Order Id",
+        accessor: "_id",
+      },
+      {
         Header: "Invoice ID",
         accessor: "invoice_id",
+        Cell: ({ row }) => {
+          return (
+            <Link
+              style={{ color: "blue" }}
+              to={`/invoice/page/${row?.original?.invoice_id}/${row?.original?._id}`}
+            >
+              {row?.original?.invoice_id}
+            </Link>
+          );
+        },
       },
+      {
+        Header: "Vendor Name",
+        accessor: "vendors.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>{row?.original?.vendors?.firstName}</p>
+              <p>{row?.original?.vendors?.lastName}</p>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "User Name",
+        accessor: "customer.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>{row?.original?.customer?.firstName}</p>
+              <p>{row?.original?.customer?.lastName}</p>
+            </div>
+          );
+        },
+      },
+
       // payment_method
+      {
+        Header: "Total Order",
+        accessor: "total_price",
+        Cell: ({ row }) => {
+          return <div>{row?.original?.total_price}₹</div>;
+        },
+      },
       {
         Header: "Payment Method",
         accessor: "payment_method",
       },
       {
-        Header: "Billing ID",
-        accessor: "billing_id",
+        Header: "Payment status",
+        accessor: "payment_status",
       },
-      {
-        Header: "Coupon Code",
-        accessor: "coupon_code",
-      },
-      {
-        Header: "Courier ID",
-        accessor: "courier_id",
-      },
-      {
-        Header: "Price",
-        accessor: "price",
-      },
+      // {
+      //   Header: "Billing ID",
+      //   accessor: "billing_id",
+      // },
+      // {
+      //   Header: "Coupon Code",
+      //   accessor: "coupon_code",
+      // },
+      // {
+      //   Header: "Payment status",
+      //   accessor: "payment_status",
+      // },
+
+      // {
+      //   Header: "Price",
+      //   accessor: "price",
+      // },
       {
         Header: "Order Status",
         accessor: "order_status",
       },
       {
-        Header: "Status",
-        accessor: "status",
-        Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
-        },
+        Header: "Tracking ID",
+        accessor: "courier_id",
       },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(row?.original?.status);
+      //   },
+      // },
     ],
     []
   );
@@ -112,7 +191,7 @@ const OrderManagement = () => {
 
   useEffect(() => {
     getOrderTableData();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return (
     <div>
@@ -122,8 +201,27 @@ const OrderManagement = () => {
         image={OrderManagementBanner}
       />
       <div className="mt-10">
-        {data && data.length > 0 ? (
-          <ReusableTable
+        <ReuseTable
+          tableTitle="Order List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          // enableDelete
+          onEdit={handleEditModal}
+          // onDelete={handleDeleteModal}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
             tableTitle="Orders List"
             columns={columns}
             data={data}
@@ -135,9 +233,7 @@ const OrderManagement = () => {
             onDelete={handleDeleteModal}
             onEdit={handleEditModal}
           />
-        ) : (
-          <div className="flex justify-center font-semibold">No orders</div>
-        )}
+         */}
 
         {/* edit modal */}
         <dialog id="order_management_edit_modal" className="modal">
@@ -151,7 +247,7 @@ const OrderManagement = () => {
           >
             <h3 className="font-bold text-lg">Hello!</h3>
             <div>
-              <div className="form-control">
+              {/* <div className="form-control">
                 <label className="label">
                   <span className="label-text">Invoice ID</span>
                 </label>
@@ -234,7 +330,7 @@ const OrderManagement = () => {
                   type="text"
                   id=""
                 />
-              </div>
+              </div> */}
               <div className="form-control col-span-1">
                 <label className="label">
                   <span className="label-text">Status</span>
@@ -257,7 +353,7 @@ const OrderManagement = () => {
                   ))}
                 </select>
               </div>
-              <div className="form-control col-span-1">
+              {/* <div className="form-control col-span-1">
                 <label className="label">
                   <span className="label-text">Status</span>
                 </label>
@@ -276,7 +372,7 @@ const OrderManagement = () => {
                   <option value="DEACTIVE">DEACTIVE</option>
                   <option value="PENDING">PENDING</option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="modal-action">
               {/* if there is a button in form, it will close the modal */}

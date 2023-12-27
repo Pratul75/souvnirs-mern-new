@@ -5,6 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
+import { Button } from "antd";
+import { IoMdArrowBack } from "react-icons/io";
 // route -> /menu to get all menus
 const AddMenus = () => {
   const navigate = useNavigate();
@@ -35,6 +37,7 @@ const AddMenus = () => {
         heading="Add Menu Header"
         subheading="This sections provides ability to add various types of menu headers in the application"
       />
+
       <Card>
         <div className="p-4 mt-8">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -51,6 +54,13 @@ const AddMenus = () => {
               />
               <p className="text-rose-500">{errors?.headerTitle?.message}</p>
             </div>
+            <Link onClick={() => navigate(-1)} className="btn mt-10 mr-4">
+              <IoMdArrowBack
+                className="text-2xl"
+                style={{ fontSize: "13px" }}
+              />
+              Back
+            </Link>
             <input className="btn btn-primary mt-4" type="submit" />
             <Link
               className="btn btn-secondary ml-4"

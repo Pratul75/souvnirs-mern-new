@@ -12,6 +12,8 @@ const productSchema = new mongoose.Schema(
       // temperorly disabled until its figured out from where to get creatorId
       required: false,
     },
+    sku: { type: String },
+    commission: { type: String },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Vendor",
@@ -22,6 +24,7 @@ const productSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
     },
+    minquantity: { type: String },
     slug: {
       type: String,
       required: true,
@@ -99,6 +102,7 @@ const productSchema = new mongoose.Schema(
     customization: {
       type: mongoose.Schema.Types.Mixed,
     },
+    uniqueKey: { type: String },
     status: {
       type: String,
       enum: ["ACTIVE", "DEACTIVE", "PENDING"],

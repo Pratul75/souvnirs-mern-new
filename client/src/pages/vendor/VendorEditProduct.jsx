@@ -1,6 +1,6 @@
 import { Dropzone, Header, Tabs } from "../../components";
 import { useEffect, useState } from "react";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import ReactQuill from "react-quill";
 import { nanoid } from "nanoid";
 import { debouncedShowToast } from "../../utils";
@@ -132,13 +132,6 @@ const EditProduct = () => {
     setTagValue(event.target.value);
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter" && tagValue.trim() !== "") {
-      setTagsArray([...tagsArray, tagValue.trim()]);
-      setTagValue("");
-    }
-  };
-
   // Example usage:
   const dataArray = [];
 
@@ -157,6 +150,13 @@ const EditProduct = () => {
     setTagsArray(filteredTags);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && tagValue.trim() !== "") {
+      setTagsArray([...tagsArray, tagValue.trim()]);
+      setTagValue("");
+    }
+  };
+
   useEffect(() => {
     getAllCategories();
     getAllVendors();
@@ -173,7 +173,7 @@ const EditProduct = () => {
   return (
     <div>
       <Header
-        heading="Add Products"
+        heading="Edit Products"
         subheading="Lorem Ipsum is simply dummy text of the printing and typesetting industry. isadjv oiasreoi ihusdf bquhwdi euh."
         image={ProductBannerImage}
       />
@@ -201,6 +201,38 @@ const EditProduct = () => {
                 id=""
               />
             </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Tags<span className=" text-red-600">*</span>
+                </span>
+              </label>
+              <input
+                type="text"
+                value={tagValue}
+                onChange={handleTagInputChange}
+                onKeyDown={handleKeyDown} // Use onKeyDown instead of onKeyPress
+                placeholder="Enter a tag and press Enter"
+                className="input input-primary"
+              />
+
+              <div className="mt-4 flex gap-4 flex-wrap">
+                {tagsArray.map((tag, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
+                  >
+                    <span>{tag}</span>
+                    <button
+                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
+                      onClick={() => removeTag(tag)}
+                    >
+                      <GrFormClose />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
           <motion.div
             variants={fadeInFromRightVariant}
@@ -209,7 +241,7 @@ const EditProduct = () => {
             className="col-span-6 md:col-span-2 bg-base-100 rounded-xl border-[1px] border-base-300 p-4  "
           >
             <hr className="mt-4" />
-            <div className="form-control mt-4">
+            {/* <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
                   Status<span className=" text-red-600">*</span>
@@ -219,7 +251,7 @@ const EditProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="select select-primary"
                 name="status"
-                defaultValue={formData.status}
+                value={formData?.status}
               >
                 <option disabled selected>
                   select status
@@ -227,7 +259,7 @@ const EditProduct = () => {
                 <option value="ACTIVE">Active</option>
                 <option value="INACTIVE">Inactive</option>
               </select>
-            </div>
+            </div> */}
             <div className="form-control mt-4">
               <label className="label">
                 <span className="label-text">
@@ -237,6 +269,7 @@ const EditProduct = () => {
               <select
                 onChange={(e) => handleInputChange(e)}
                 className="select select-primary"
+                value={formData?.readyToShip}
                 name="readyToShip"
               >
                 <option disabled selected>
@@ -255,6 +288,7 @@ const EditProduct = () => {
               <select
                 onChange={(e) => handleInputChange(e)}
                 className="select select-primary"
+                value={formData?.freeShipping}
                 name="freeShipping"
               >
                 <option disabled selected>
@@ -298,63 +332,7 @@ const EditProduct = () => {
             <h3 className="font-semibold">Product Organisation</h3>
             <hr className="mt-4" />
 
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">
-                  Vendor<span className=" text-red-600">*</span>
-                </span>
-              </label>
-              <select
-                onChange={(e) => handleInputChange(e)}
-                className="select select-primary"
-                name="vendorId"
-                value={formData?.vendorId}
-              >
-                <option value="" disabled selected>
-                  select vendor
-                </option>
-                {vendorsList?.map((vendor) => {
-                  return (
-                    <option key={nanoid()} value={vendor._id}>
-                      {vendor?.firstName ? vendor.firstName : vendor?.email}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-
             {/* tags needs to be the specific for the multi select component */}
-            <div className="form-control mt-4">
-              <label className="label">
-                <span className="label-text">
-                  Tags<span className=" text-red-600">*</span>
-                </span>
-              </label>
-              <input
-                type="text"
-                value={tagValue}
-                onChange={handleTagInputChange}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter a tag and press Enter"
-                className="input input-primary"
-              />
-              <div className="mt-4 flex gap-4 flex-wrap">
-                {tagsArray?.map((tag, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center bg-base-200 rounded-lg px-2 py- w-autos"
-                  >
-                    <span>{tag}</span>
-                    <button
-                      className="btn btn-circle btn-xs ml-4 my-1 btn-error"
-                      onClick={() => removeTag(tag)}
-                    >
-                      <GrFormClose />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className="form-control mt-4">
               <label className="label">
@@ -367,8 +345,79 @@ const EditProduct = () => {
                 onChange={(e) => handleInputChange(e)}
                 className="input input-primary  w-full"
                 placeholder="Enter SKU"
+                defaultValue={formData?.sku}
                 type="text"
                 name="sku"
+                id=""
+              />
+            </div>
+
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Min Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                defaultValue={formData?.minquantity}
+                defaultChecked
+                type="text"
+                name="minquantity"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  MRP
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                defaultValue={formData?.mrp}
+                type="number"
+                name="mrp"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Price
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter price"
+                defaultValue={formData?.price}
+                type="number"
+                name="price"
+                id=""
+              />
+            </div>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">
+                  Stock Quantity
+                  {/* <span className=" text-red-600">*</span> */}
+                </span>
+              </label>
+              <input
+                onChange={(e) => handleInputChange(e)}
+                className="input input-primary  w-full"
+                placeholder="Enter Min Quantity"
+                defaultValue={formData?.stockQuantity}
+                type="number"
+                name="stockQuantity"
                 id=""
               />
             </div>
@@ -389,19 +438,34 @@ const EditProduct = () => {
 
             <div className="border-[1px]  border-primary rounded-xl flex items-center justify-center mt-4">
               <Dropzone
-                accept={".jpeg,.png"}
+                accept={",.png"}
                 onFilesChange={(data) => {
                   setFormData({ ...formData, img: data });
                 }}
               />
             </div>
           </motion.div>
-          <motion.div className="col-span-6  md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4 flex items-center">
-            {preview ? (
-              <img src={preview} alt="" />
-            ) : (
-              <img src={formData?.coverImage} alt="" />
-            )}
+          <motion.div
+            animate="animate"
+            initial="initial"
+            className="col-span-6 md:col-span-2 bg-base-100 border-[1px] border-base-300 rounded-xl p-4"
+          >
+            <h3 className="font-semibold">Image Preview</h3>
+            <hr className="mt-4" />
+            <img
+              id="parentElement"
+              src={
+                preview
+                  ? preview
+                  : !formData?.coverImage?.includes("res.cloudinary") &&
+                    !formData?.coverImage?.includes("cdn.shopify")
+                  ? `${baseUrl}/${formData?.coverImage}`
+                  : formData?.coverImage
+              }
+              alt="Cover Image"
+              style={{ width: "100%" }}
+            />
+            {/* tags needs to be the specific for the multi select component */}
           </motion.div>
         </div>
         <div className="grid grid-cols-6 gap-4 mt-4">

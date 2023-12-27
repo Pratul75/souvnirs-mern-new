@@ -128,7 +128,7 @@ const EditCollection = () => {
   };
   // post raw filter data that gets handled in backend
   const postRawFilterData = async () => {
-    const changedTitleFilterArr = filterDivStates?.map((filter) => {
+    let changedTitleFilterArr = filterDivStates?.map((filter) => {
       switch (filter.selectedTitle) {
         case "compare at price":
           return { ...filter, selectedTitle: "compareAtPrice" };
@@ -162,14 +162,12 @@ const EditCollection = () => {
       }
     });
 
-    console.log("CHANGED TITLE FILTER ARR: ", changedTitleFilterArr);
-
     try {
       setLoading(false);
-      const response = await API_WRAPPER.post(
-        "/collection/filter-data",
-        changedTitleFilterArr
-      );
+      const response = await API_WRAPPER.post("/collection/filter-data", {
+        conditionsArray: changedTitleFilterArr,
+        checkAll: radioSelection,
+      });
 
       if (response.status === 200) {
         if (response?.data.length > 0) {

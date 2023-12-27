@@ -6,20 +6,29 @@ import { ToastContainer } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import CustomerListBannerImage from "../../assets/bannerImages/customerListImage.png";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const Customer = () => {
   const [customerList, setCustomerList] = useState([]);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const navigate = useNavigate();
 
   const getAllCustomers = async () => {
     try {
-      const response = await API_WRAPPER.get("customers/get-customers");
+      const response = await API_WRAPPER.get(
+        `customers/get-customers/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
+        console.log("CUSTOMER DATA: ", response?.data);
         setCustomerList(response?.data?.customers);
-        console.log("CUSTOMER DATA: ", response?.data?.customers);
-        debouncedShowToast("Successfully loaded customer list", "success");
+        setTotalPagesShow(response?.data?.totalPages);
+        // debouncedShowToast("Successfully loaded customer list", "success");
       }
     } catch (error) {
       debouncedShowToast(error.message, "error");
@@ -85,17 +94,17 @@ const Customer = () => {
         Header: "Pin Code",
         accessor: "pincode",
       },
-      {
-        Header: "Status",
-        accessor: "status",
-        Cell: ({ row }) => {
-          return getStatusStyles(
-            row?.original?.status,
-            row?.original,
-            getAllCustomers
-          );
-        },
-      },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(
+      //       row?.original?.status,
+      //       row?.original,
+      //       getAllCustomers
+      //     );
+      //   },
+      // },
     ],
     []
   );
@@ -104,6 +113,7 @@ const Customer = () => {
   const handleDelete = (row) => {
     console.log("ROW TO BE DELETED: ", row);
     setSelectedRow(row);
+    // window.edit_customer_modal.showModal();
   };
 
   const handleEdit = (row) => {
@@ -120,7 +130,7 @@ const Customer = () => {
   };
   useEffect(() => {
     getAllCustomers();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   useEffect(() => {
     console.log("CUSTOMER LIST: ", customerList);
@@ -140,8 +150,27 @@ const Customer = () => {
           </Link>
         </div>
       </div>
-
-      <ReusableTable
+      <ReuseTable
+        tableTitle="Customer List"
+        columns={columns}
+        data={data}
+        showButtons
+        enableEdit
+        enableDelete
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        enablePagination
+        pageSize={10}
+        setPageSizeshow={setPageSize}
+        setPageNumber={setPage}
+        pageSizeShow={pageSize}
+        pageNumber={page}
+        totalPagesShow={totalPagesShow}
+        productLoading={productLoading}
+        SetSearchTex={SetSearchTex}
+        seacrhText={seacrhText}
+      />
+      {/* <ReusableTable
         tableTitle="Customer List Table"
         columns={columns}
         data={data}
@@ -152,7 +181,7 @@ const Customer = () => {
         pageSize={10}
         onDelete={handleDelete}
         onEdit={handleEdit}
-      />
+      /> */}
       <Modal
         id="edit_customer_modal"
         title="Are you sure you want to delete the selected value?"

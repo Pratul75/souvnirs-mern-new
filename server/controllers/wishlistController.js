@@ -4,11 +4,16 @@ const { success, error } = require("../utils/errorHandler");
 exports.createWishlist = async (req, res) => {
   try {
     if (req.role === "customer") {
+      console.log("===____..<", req.body.productId);
       const exists = await Wishlist.findOne({
+        customerId: req.userId,
         productId: req.body.productId,
       });
       if (exists) {
-        await Wishlist.findOneAndDelete({ productId: req.body.productId });
+        await Wishlist.findOneAndDelete({
+          customerId: req.userId,
+          productId: req.body.productId,
+        });
       } else {
         const wishlist = await Wishlist.create({
           customerId: req.userId,

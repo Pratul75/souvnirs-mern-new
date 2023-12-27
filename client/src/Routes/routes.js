@@ -108,7 +108,14 @@ import EdiDiscount from "../pages/admin/EditDiscount";
 import EditMenus from "../pages/admin/EditMenus";
 import MainMenue from "../pages/admin/Menus/MainMenue";
 import { DailyDeal } from "../pages/admin/DailyDeal/DailyDeal";
-
+import { DetailsCheckOut } from "../pages/admin/Checkout/DetailsCheckOut";
+import { VendorDetails } from "../pages/admin/Vendor/VendorDetails";
+import { VendorDetailsCheckOut } from "../pages/admin/Checkout/VendorCheckOutDetails";
+import { InvicePage } from "../pages/admin/InvicePage";
+import { InqueryList } from "../pages/admin/inquery/InqueryList";
+import { InqueryDetails } from "../pages/admin/inquery/InqueryDetails";
+import { CategoryDetails } from "../pages/admin/Categories/CategoryDetails";
+import { CollectionDetails } from "../pages/admin/Collection/CollectionDetails";
 // admin routes
 export const adminRoutes = [
   {
@@ -125,15 +132,34 @@ export const adminRoutes = [
   },
   {
     id: nanoid(),
+    path: `${PATHS.adminCollectionDetails}/:id`,
+    defaultRole: "admin",
+    Component: CollectionDetails,
+  },
+  {
+    id: nanoid(),
     path: PATHS.adminCategories,
     defaultRole: "admin",
     Component: Categories,
   },
   {
     id: nanoid(),
+    path: `${PATHS.adminCategoryDetails}/:id`,
+    defaultRole: "admin",
+    Component: CategoryDetails,
+  },
+  {
+    id: nanoid(),
     path: PATHS.adminCheckout,
     defaultRole: "admin",
     Component: Checkouts,
+  },
+  // checkoutDetails
+  {
+    id: nanoid(),
+    path: PATHS.checkoutDetails,
+    defaultRole: "admin",
+    Component: DetailsCheckOut,
   },
   {
     id: nanoid(),
@@ -152,6 +178,24 @@ export const adminRoutes = [
     path: `${PATHS.adminChildMenu}/:id`,
     defaultRole: "admin",
     Component: MainMenue,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.getInvoicePage}`,
+    defaultRole: "admin",
+    Component: InvicePage,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.getInqueryPage}`,
+    defaultRole: "admin",
+    Component: InqueryList,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.getInqueryDetails}/:id/:variantId`,
+    defaultRole: "admin",
+    Component: InqueryDetails,
   },
   {
     id: nanoid(),
@@ -296,6 +340,12 @@ export const adminRoutes = [
     path: PATHS.adminCreateVendor,
     defaultRole: "admin",
     Component: AddVendor,
+  },
+  {
+    id: nanoid(),
+    path: PATHS.vendorDetailsProduct,
+    defaultRole: "admin",
+    Component: VendorDetails,
   },
   {
     id: nanoid(),
@@ -447,9 +497,27 @@ export const vendorRoutes = [
   },
   {
     id: nanoid(),
+    path: PATHS.checkoutDetailsshow,
+    defaultRole: "vendor",
+    Component: VendorDetailsCheckOut,
+  },
+  {
+    id: nanoid(),
     path: PATHS.vendorProductManagement,
     defaultRole: "vendor",
     Component: VendorProductManagement,
+  },
+  {
+    id: nanoid(),
+    path: `/vendor${PATHS.getInvoicePage}`,
+    defaultRole: "vendor",
+    Component: InvicePage,
+  },
+  {
+    id: nanoid(),
+    path: `${PATHS.getInvoicePage}`,
+    defaultRole: "vendor",
+    Component: InvicePage,
   },
   {
     id: nanoid(),
@@ -538,6 +606,12 @@ export const customerRoutes = [
     path: PATHS.customerCart,
     Component: CustomerCartList,
     defaultRole: "customer",
+  },
+  {
+    id: nanoid(),
+    path: PATHS.checkoutDetailsuser,
+    defaultRole: "customer",
+    Component: DetailsCheckOut,
   },
   {
     id: nanoid(),

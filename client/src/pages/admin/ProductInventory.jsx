@@ -2,10 +2,17 @@ import { Header, ReusableTable } from "../../components";
 import HeaderImage from "../../assets/images/headerImgOne.png";
 import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const ProductInventory = () => {
   const [productsList, setProductsList] = useState([]);
   const [editedProduct, setEditedProduct] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
+  const [varientstore, setVarientstore] = useState([]);
 
   const columns = useMemo(
     () => [
@@ -13,26 +20,26 @@ const ProductInventory = () => {
         Header: "Product Name",
         accessor: "name",
       },
-      {
-        Header: "Variant",
-        Cell: ({ row }) => {
-          if (row?.original?.variant?.length > 0) {
-            return (
-              <ul>
-                {row.original.variant.map((item) => (
-                  <li key={item._id}>{item.name}</li>
-                ))}
-              </ul>
-            );
-          } else {
-            return <span>No Variants</span>;
-          }
-        },
-      },
-      {
-        Header: "Product Price",
-        accessor: "price", // Assuming "price" is directly under the product object
-      },
+      // {
+      //   Header: "Variant",
+      //   Cell: ({ row }) => {
+      //     if (row?.original?.variant?.length > 0) {
+      //       return (
+      //         <ul>
+      //           {row.original.variant.map((item) => (
+      //             <li key={item._id}>{item.name}</li>
+      //           ))}
+      //         </ul>
+      //       );
+      //     } else {
+      //       return <span>No Variants</span>;
+      //     }
+      //   },
+      // },
+      // {
+      //   Header: "Product Price",
+      //   accessor: "price", // Assuming "price" is directly under the product object
+      // },
       {
         Header: "Stock Quantity",
         accessor: "stockQuantity", // Assuming "stockQuantity" is directly under the product object
@@ -40,6 +47,17 @@ const ProductInventory = () => {
       {
         Header: "Stock Status",
         accessor: "stockStatus",
+        Cell: ({ row }) => {
+          if (row.original?.stockStatus == "IN_STOCK") {
+            return (
+              <div style={{ color: "green" }}>{row.original?.stockStatus}</div>
+            );
+          } else {
+            return (
+              <div style={{ color: "red" }}>{row.original?.stockStatus}</div>
+            );
+          }
+        },
       },
     ],
     []
@@ -49,9 +67,14 @@ const ProductInventory = () => {
 
   const getAllProducts = async () => {
     try {
-      const response = await API_WRAPPER.get("/products/get-all-products");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/products/get-all-products/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setProductsList(response?.data);
+        setProductLoading(false);
+        setProductsList(response?.data?.productsList);
+        setTotalPagesShow(response?.data?.totalPages);
         console.log("ALL PRODUCTS LIST: ", response?.data);
       }
     } catch (error) {
@@ -61,7 +84,7 @@ const ProductInventory = () => {
 
   useEffect(() => {
     getAllProducts();
-  }, [editedProduct, apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   const handleDelete = async (data) => {
     try {
@@ -76,7 +99,18 @@ const ProductInventory = () => {
     console.log("DELETE ID: ", data._id);
   };
 
+  const getAllVarients = async (proid) => {
+    try {
+      const result = await API_WRAPPER.get(`/product/variants/${proid}`);
+      setVarientstore(result?.data?.result);
+      console.log("resultL ->", result?.data?.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleEdit = (data) => {
+    getAllVarients(data?._id);
     setEditedProduct(data);
     window.editProduct_modal.showModal();
     console.log("EDIT ID: ", data._id);
@@ -85,9 +119,12 @@ const ProductInventory = () => {
   const handleSave = async () => {
     if (editedProduct) {
       try {
+        //     if (editedProduct?.variant) {
+        //   editedProduct?.variant = varientstore
+        // }
         const response = await API_WRAPPER.put(
-          `/products/edit-product/${editedProduct._id}`,
-          editedProduct
+          `/admin/products/edit/inventory/${editedProduct._id}`,
+          { editedProduct, varientstore }
         );
         console.log("EDITED RESPONSE", response.data);
         setProductsList((prevList) =>
@@ -104,6 +141,18 @@ const ProductInventory = () => {
     }
   };
 
+  useEffect(() => {
+    let clone = [...varientstore];
+    let totalqty = 0;
+    clone?.map((item) => {
+      totalqty += Number(item?.quantity);
+    });
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      stockQuantity: totalqty,
+    }));
+  }, [varientstore]);
+
   return (
     <div>
       <Header
@@ -112,7 +161,7 @@ const ProductInventory = () => {
         image={HeaderImage}
       />
       <div className="mt-20">
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Product Inventory List"
           columns={columns}
           data={data}
@@ -123,6 +172,27 @@ const ProductInventory = () => {
           enablePagination
           pageSize={10}
           enableDelete
+        /> */}
+
+        <ReuseTable
+          tableTitle="Product Inventory List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
 
         {/* edit modal */}
@@ -164,9 +234,48 @@ const ProductInventory = () => {
                       <option value="">Select Stock Status</option>
                       <option value="IN_STOCK">In Stock</option>
                       <option value="OUT_OF_STOCK">Out of Stock</option>
-                      <option value="BACK_ORDER">Back Order</option>
+                      {/* <option value="BACK_ORDER">Back Order</option> */}
                     </select>
                   </label>
+                </div>
+                {varientstore.length > 0 && (
+                  <h style={{ fontSize: "20px" }}>Variants Quantity:</h>
+                )}
+                <div>
+                  {varientstore?.map((items, index) => {
+                    return (
+                      <>
+                        <div className="form-control">
+                          <label className="label">
+                            <span className="label-text">
+                              {Object.keys(items?.variant)?.map((itm, ind) => {
+                                return (
+                                  <div>{`${itm}:  ${items?.variant[itm]}`}</div>
+                                );
+                              })}
+                              {/* varient Quantity:{items?.variant} ) */}
+                            </span>
+                            <input
+                              className="input input-primary"
+                              type="text"
+                              value={varientstore[index]?.quantity}
+                              onChange={
+                                (e) => {
+                                  let clone = [...varientstore];
+                                  clone[index].quantity = e?.target?.value;
+                                  setVarientstore(clone);
+                                }
+                                // setEditedProduct((prevProduct) => ({
+                                //   ...prevProduct,
+                                //   stockQuantity: e.target.value,
+                                // }))
+                              }
+                            />
+                          </label>
+                        </div>
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             )}

@@ -7,7 +7,11 @@ function useCart() {
   const [selectedRow, setSelectedRow] = useState({});
   const [editedCart, setEditedCart] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
   const handleEditChange = (e) => {
     setEditedCart({ ...editedCart, [e.target.name]: e.target.value });
   };
@@ -31,10 +35,13 @@ function useCart() {
 
   const getCartList = async () => {
     try {
-      const response = await API_WRAPPER.get("/cart/get-all-carts");
+      const response = await API_WRAPPER.get(
+        `/cart/get-all-carts/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setCartList(response.data);
-        debouncedShowToast("Cart list loaded successfully", "success");
+        setCartList(response.data?.carts);
+        setTotalPagesShow(response.data?.totalPages);
+        // debouncedShowToast("Cart list loaded successfully", "success");
         console.log("Cart List: ", response?.data);
       }
     } catch (error) {
@@ -59,7 +66,7 @@ function useCart() {
 
   useEffect(() => {
     getCartList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return {
     cartList,
@@ -70,6 +77,14 @@ function useCart() {
     onHandleSubmit,
     selectedRow,
     getCartList,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   };
 }
 

@@ -8,8 +8,12 @@ import { AiOutlineClockCircle } from "react-icons/ai";
 import { FaVolleyballBall } from "react-icons/fa";
 import { RiComputerLine } from "react-icons/ri";
 import BlogImagePng from "../../assets/shop/blogImages/blogImage.png";
+import { useEffect } from "react";
 
 const Blog = () => {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
   return (
     <div>
       <Banner text={"Blog"} navigation={"Home/Blog"} bannerImage={ShopBanner} />

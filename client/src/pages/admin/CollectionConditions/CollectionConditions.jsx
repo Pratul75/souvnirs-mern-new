@@ -6,6 +6,7 @@ import { fadeInVariants } from "../../../animation";
 import { ToastContainer } from "react-toastify";
 import CollectionBannerImage from "../../../assets/bannerImages/collectionImage.png";
 import useCollectionConditions from "./useCollectionConditions";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 
 const CollectionConditions = () => {
   const {
@@ -23,6 +24,14 @@ const CollectionConditions = () => {
     selected,
     selectedRow,
     setSelected,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useCollectionConditions();
   return (
     <div>
@@ -68,7 +77,7 @@ const CollectionConditions = () => {
           Add Title
         </button>
         <div className="mt-4">
-          <ReusableTable
+          {/* <ReusableTable
             tableTitle="Collection Condition List"
             columns={columns}
             data={data}
@@ -79,6 +88,27 @@ const CollectionConditions = () => {
             enablePagination
             pageSize={10}
             onDelete={handleDelete}
+          /> */}
+
+          <ReuseTable
+            tableTitle="Collection Conditions List"
+            columns={columns}
+            data={data}
+            showButtons
+            enableEdit
+            enableDelete
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            enablePagination
+            pageSize={10}
+            setPageSizeshow={setPageSize}
+            setPageNumber={setPage}
+            pageSizeShow={pageSize}
+            pageNumber={page}
+            totalPagesShow={totalPagesShow}
+            productLoading={productLoading}
+            SetSearchTex={SetSearchTex}
+            seacrhText={seacrhText}
           />
         </div>
       </motion.form>
@@ -155,7 +185,7 @@ const CollectionConditions = () => {
       </dialog>
 
       {/* delete modal */}
-      <dialog id="collection_condition_delete_modal" className="modal">
+      <dialog id="collection_condition_delete_modals" className="modal">
         <form method="dialog" className="modal-box">
           <h3 className="font-bold text-lg">Hello!</h3>
           <p className="py-4">

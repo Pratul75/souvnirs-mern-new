@@ -11,8 +11,11 @@ const TotalSalesTab = () => {
   const [dateData, setDateData] = useState();
   const [monthData, setMonthData] = useState();
   const [yearData, setYearData] = useState();
-
-  const [totalSales, setTotalSales] = useState();
+  const [DashBoardData, setDashboardData] = useState({
+    week: {},
+    month: {},
+    year: {},
+  });
   console.log(chartData);
 
   const getBarChartData = async () => {
@@ -24,12 +27,25 @@ const TotalSalesTab = () => {
     setMonthData(response.data.monthData.counts);
     setYearLables(response.data.yearData.labels);
     setYearData(response.data.yearData.counts);
-    setTotalSales(response.data.totalSales);
   };
-  console.log("TotalSalesTa..b.jsx===>", monthData, monthLabels);
+
+  const getAllData = async () => {
+    try {
+      let mainData = ["year", "week", "month"];
+      for (let i = 0; i < mainData.length; i++) {
+        const response = await API_WRAPPER.get(
+          `/order/all/count?takeBy=${mainData[i]}`
+        );
+        setDashboardData((pre) => ({ ...pre, [mainData[i]]: response.data }));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
     getBarChartData();
+    getAllData("year");
   }, []);
 
   const tabs = [
@@ -64,20 +80,28 @@ const TotalSalesTab = () => {
           <div className="col-span-2 md:col-span-1 flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>{chartData?.yearData?.totalYearsSells}$</p>
+                <p>Ongoing Orders:</p>
+                <p>{DashBoardData?.year?.OnGoingOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Sales</p>
-                <p>{chartData?.totalSales}$</p>
+                <p>In Transit:</p>
+                <p>{DashBoardData?.year?.ShippedData}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Vendors</p>
-                <p>340$</p>
+                <p>Completed Orders:</p>
+                <p>{DashBoardData?.year?.completedOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
+                <p>Pending Payment:</p>
+                <p>{DashBoardData?.year?.paymentPending}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Orders Pending:</p>
+                <p>{DashBoardData?.year?.PendingOrder}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Sales:</p>
+                <p>{DashBoardData?.year?.TotalSales}₹</p>
               </div>
             </div>
           </div>
@@ -115,20 +139,28 @@ const TotalSalesTab = () => {
           <div className="col-span-2 md:col-span-1 flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>{chartData?.monthData?.totalMothsSells}$</p>
+                <p>Ongoing Orders:</p>
+                <p>{DashBoardData?.month?.OnGoingOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Sales</p>
-                <p>{chartData?.totalSales}$</p>
+                <p>In Transit:</p>
+                <p>{DashBoardData?.month?.ShippedData}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Vendors</p>
-                <p>340$</p>
+                <p>Completed Orders:</p>
+                <p>{DashBoardData?.month?.completedOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
+                <p>Pending Payment:</p>
+                <p>{DashBoardData?.month?.paymentPending}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Orders Pending:</p>
+                <p>{DashBoardData?.month?.PendingOrder}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Sales:</p>
+                <p>{DashBoardData?.month?.TotalSales}₹</p>
               </div>
             </div>
           </div>
@@ -166,20 +198,28 @@ const TotalSalesTab = () => {
           <div className="col-span-2 md:col-span-1 flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 w-full">
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>{chartData?.dateData?.totalDateSells}$</p>
+                <p>Ongoing Orders:</p>
+                <p>{DashBoardData?.week?.OnGoingOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Sales</p>
-                <p>{chartData?.totalSales}$</p>
+                <p>In Transit:</p>
+                <p>{DashBoardData?.week?.ShippedData}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Vendors</p>
-                <p>340$</p>
+                <p>Completed Orders:</p>
+                <p>{DashBoardData?.week?.completedOrder}</p>
               </div>
               <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
-                <p>Total Income</p>
-                <p>340$</p>
+                <p>Pending Payment:</p>
+                <p>{DashBoardData?.week?.paymentPending}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Orders Pending:</p>
+                <p>{DashBoardData?.week?.PendingOrder}</p>
+              </div>
+              <div className="flex items-center justify-center col-span-2 md:col-span-1 gap-2 p-4 bg-base-200 rounded-xl shadow-lg">
+                <p>Total Sales:</p>
+                <p>{DashBoardData?.week?.TotalSales}₹</p>
               </div>
             </div>
           </div>

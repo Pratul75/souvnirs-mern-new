@@ -4,18 +4,29 @@ import { useEffect, useMemo, useState } from "react";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { nanoid } from "nanoid";
 import RefundBannerImage from "../../assets/bannerImages/refundImage.png";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 
 const Refund = () => {
   const [refundList, setRefundList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const getRefundsList = async () => {
     try {
-      const response = await API_WRAPPER.get("/refund/get-all-refunds");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/refund/list/get-refunds?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setRefundList(response?.data);
+        setProductLoading(false);
+        setRefundList(response?.data?.refunds);
+        setTotalPagesShow(response?.data?.totalPages);
         // refund specifics are already provided
         console.log("REFUND LIST: ", response?.data);
       }
@@ -115,7 +126,7 @@ const Refund = () => {
 
   useEffect(() => {
     getRefundsList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   const tableData = refundList.map((refundItem) => {
     return {
@@ -150,7 +161,7 @@ const Refund = () => {
         image={RefundBannerImage}
       />
       <div className="mt-8">
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Refund List"
           columns={columns}
           data={data}
@@ -160,6 +171,26 @@ const Refund = () => {
           pageSize={10}
           onDelete={handleDelete}
           onEdit={handleEdit}
+        /> */}
+        <ReuseTable
+          tableTitle="Refund List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
       {/* edit modal */}

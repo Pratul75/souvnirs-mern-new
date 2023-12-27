@@ -5,6 +5,7 @@ const {
   getAllCollectionConditions,
   getCollectionConditionById,
   updateCollectionConditionById,
+  getAllCollectionConditionsList,
 } = require("../controllers/collectionConditionController");
 const authMiddleware = require("../middlewares");
 
@@ -21,6 +22,12 @@ router.get(
 );
 
 router.get(
+  "/collection-condition/get-all-collection-conditions/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllCollectionConditionsList
+);
+
+router.get(
   "/collection-condition/get-collection-condition-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),
   getCollectionConditionById
@@ -34,7 +41,7 @@ router.put(
 
 router.delete(
   "/collection-condition/delete-collection-condition/:id",
-  authMiddleware(),
+  authMiddleware(["vendor", "admin", "customer"]),
   deleteCollectionCondition
 );
 

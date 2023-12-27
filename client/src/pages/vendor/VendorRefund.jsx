@@ -4,18 +4,29 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { nanoid } from "nanoid";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 
 const VendorRefund = () => {
   const [refundList, setRefundList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const getRefundsList = async () => {
     try {
-      const response = await API_WRAPPER.get("/refund/get-all-refunds");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/refund/list/get-refunds?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setRefundList(response?.data);
+        setProductLoading(false);
+        setRefundList(response?.data?.refunds);
+        setTotalPagesShow(response?.data?.totalPages);
         // refund specifics are already provided
         console.log("REFUND LIST: ", response?.data);
       }
@@ -25,16 +36,16 @@ const VendorRefund = () => {
   };
   const columns = [
     {
-      Header: "Order ID",
-      accessor: "orderId",
+      Header: "courierId",
+      accessor: "courierId",
     },
     {
-      Header: "Product ID",
+      Header: "product Name",
       accessor: "productId",
       Cell: ({ row }) => {
         return (
           <>
-            {row.original.productId.map((id) => (
+            {row.original.productName.map((id) => (
               <p className="" key={nanoid()}>
                 {id}
               </p>
@@ -81,7 +92,6 @@ const VendorRefund = () => {
       },
     },
   ];
-
   const handleDelete = (row) => {
     console.log("ROW TO BE DELETED: ", selectedRow);
     setSelectedRow(row);
@@ -115,7 +125,7 @@ const VendorRefund = () => {
 
   useEffect(() => {
     getRefundsList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   const tableData = refundList.map((refundItem) => {
     return {
@@ -130,6 +140,9 @@ const VendorRefund = () => {
       price: refundItem.refundDetails.map(
         (refundDetailItem) => refundDetailItem.price
       ),
+      // courier_id
+      productName: refundItem.product.map((product) => product.name),
+      courierId: refundItem.orders.map((product) => product.courier_id),
       totalPrice: refundItem.totalPrice,
       status: refundItem.status,
     };
@@ -145,7 +158,7 @@ const VendorRefund = () => {
         // image={HeaderImgTwo}
       />
       <div className="mt-8">
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Refund List"
           columns={columns}
           data={data}
@@ -154,6 +167,21 @@ const VendorRefund = () => {
           enableDelete
           onDelete={handleDelete}
           onEdit={handleEdit}
+        /> */}
+        <ReuseTable
+          tableTitle="Refund List"
+          columns={columns}
+          data={data}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
       {/* edit modal */}

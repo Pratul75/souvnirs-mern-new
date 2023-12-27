@@ -11,6 +11,7 @@ const {
   updateCustomerCart,
   checkout,
   getCheckedOutItems,
+  getAllCartsList,
 } = require("../controllers/cartController");
 const authMiddleware = require("../middlewares");
 
@@ -19,6 +20,13 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getAllCarts
 );
+
+router.get(
+  "/cart/get-all-carts/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllCartsList
+);
+
 router.get(
   "/cart/get-cart-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),

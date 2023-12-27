@@ -2,7 +2,11 @@ import { useParams } from "react-router-dom";
 import FilterCard from "../../components/shop/components/FilterCard";
 import { useEffect, useState } from "react";
 import { MdOutlineDashboard } from "react-icons/md";
-import { AiOutlineUnorderedList } from "react-icons/ai";
+import {
+  AiOutlineLeft,
+  AiOutlineRight,
+  AiOutlineUnorderedList,
+} from "react-icons/ai";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { Card, ProductCard } from "../../components";
 import { nanoid } from "nanoid";
@@ -10,6 +14,7 @@ import API_WRAPPER from "../../api";
 import debounce from "lodash/debounce";
 import Loading from "../common/Loading";
 import { Slider } from "antd";
+import { ItemsLoading } from "../common/ItemsLoading";
 
 const CategoryProducts = () => {
   const [filterType, setFilterType] = useState(false);
@@ -28,23 +33,34 @@ const CategoryProducts = () => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(2);
   const [selctedFilter, setSelctedFilter] = useState("new");
+  const [bulkFilter, setBulkFilter] = useState([]);
+  const [selectedPrice, setSelectedPrice] = useState({});
+  const [productLoading, setProductsLoading] = useState(false);
   console.log("LOCATION OBJECT: ", location);
 
   const getProducts = async () => {
     setLoading(true);
     try {
-      const response = await API_WRAPPER.post(`/products/category/${slug}`, {
-        data: filters,
-        priceMin: inputRangeValue[0],
-        priceMax: inputRangeValue[1],
-        page: page,
-        sort: selctedFilter,
-      });
+      const response = await API_WRAPPER.post(
+        `/products/category/list/${slug}`,
+        {
+          data: filters,
+          priceMin: inputRangeValue[0],
+          priceMax: inputRangeValue[1],
+          page: page,
+          bulkFilter: bulkFilter,
+          sort: selctedFilter,
+        }
+      );
       console.log("CategoryProducts.jsx", response);
       setProducts(response?.data?.products);
       setFilterList(response?.data?.filters);
-      setMax(response?.data?.max);
+      setMax(response?.data?.maxPrice);
       setLastPage(response?.data?.lastPage);
+      setSelectedPrice({
+        min: response?.data?.minPrice,
+        max: response?.data?.maxPrice,
+      });
     } catch (e) {
       console.log(e);
     } finally {
@@ -53,27 +69,41 @@ const CategoryProducts = () => {
   };
 
   const handleFilterSelection = (filterData) => {
-    const filterKey = filterData.key;
-    const filterValues = filterData.values;
-    // Check if the filter with the same key already exists in the filters array
-    const existingFilterIndex = filters.findIndex(
-      (filter) => filter.key === filterKey
-    );
+    // setBulkFilter(filterData);
+    console.log("0000____-------_____------->", filterData);
+    setBulkFilter(filterData);
+    // const filterKey = filterData.key;
+    // const filterValues = filterData.values;
+    // // Check if the filter with the same key already exists in the filters array
+    // const existingFilterIndex = filters.findIndex(
+    //   (filter) => filter.key === filterKey
+    // );
 
-    if (existingFilterIndex !== -1) {
-      // Update the values of the existing filter
-      const updatedFilters = [...filters];
-      updatedFilters[existingFilterIndex].values = filterValues;
-      setFilters(updatedFilters);
-    } else {
-      // Add a new filter object to the filters array
-      const newFilter = {
-        key: filterKey,
-        values: filterValues,
-      };
-      setFilters((prevFilters) => [...prevFilters, newFilter]);
-    }
+    // if (existingFilterIndex !== -1) {
+    //   // Update the values of the existing filter
+    //   const updatedFilters = [...filters];
+    //   updatedFilters[existingFilterIndex].values = filterValues;
+    //   setFilters(updatedFilters);
+    // } else {
+    //   // Add a new filter object to the filters array
+    //   const newFilter = {
+    //     key: filterKey,
+    //     values: filterValues,
+    //   };
+    //   setFilters((prevFilters) => [...prevFilters, newFilter]);
+    // }
   };
+
+  useEffect(() => {
+    setFilterList();
+    setBulkFilter([]);
+    setInputRangeValue([0, 1000]);
+  }, [slug]);
+
+  useEffect(() => {
+    setPage(1);
+    setInputRangeValue([0, 1000]);
+  }, [bulkFilter]);
 
   console.log("CategoryProducts.jsx", inputRangeValue);
 
@@ -84,6 +114,7 @@ const CategoryProducts = () => {
 
   console.log(inputRangeValue);
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     const debouncedGetProducts = debounce(getProducts, 900);
 
     // Call the debounced function when any of the dependencies change
@@ -93,7 +124,7 @@ const CategoryProducts = () => {
     return () => {
       debouncedGetProducts.cancel();
     };
-  }, [filters, page, inputRangeValue, selctedFilter, slug]);
+  }, [filters, page, inputRangeValue, selctedFilter, slug, bulkFilter]);
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-4">
@@ -106,33 +137,41 @@ const CategoryProducts = () => {
                 </div>
                 <Slider
                   range
-                  min={0}
-                  max={100000}
-                  step={50} // Set the step value to 50
-                  onChange={(value) => setInputRangeValue(value)} // Update the state when the slider value changes
+                  min={selectedPrice?.min}
+                  max={selectedPrice?.max}
+                  onChange={(value) => {
+                    setInputRangeValue(value);
+                    console.log("RANGE VALUE: ", value);
+                  }}
                   value={inputRangeValue}
                   className="range"
                 />
                 <div>
                   <span>
-                    {inputRangeValue[0]} - {inputRangeValue[1]}
+                    {selectedPrice?.min
+                      ? selectedPrice?.min
+                      : inputRangeValue[0]}{" "}
+                    -{" "}
+                    {selectedPrice?.max
+                      ? selectedPrice?.max
+                      : inputRangeValue[1]}
                   </span>
                 </div>
               </div>
             </Card>
             {filterList &&
-              Object.keys(filterList).map((filter) => {
-                console.log("CategoryProducts.jsx", filter);
-                return (
-                  <FilterCard
-                    key={filter} // You should add a unique key for each item in the list
-                    title="Product Filter"
-                    onSelect={handleFilterSelection}
-                    heading={filter}
-                    filters={filterList[filter].map((a) => ({ filterName: a }))} // Return an object with filterName property
-                  />
-                );
-              })}
+              Object.keys(filterList).map((filter) => (
+                <FilterCard
+                  key={filter}
+                  title="Product Filter"
+                  onSelect={handleFilterSelection}
+                  heading={filter}
+                  bulkFilter={bulkFilter}
+                  filters={filterList[filter].map((a) => ({
+                    filterName: a,
+                  }))}
+                />
+              ))}
           </div>
         </div>
         <div className="lg:col-span-3 container px-8">
@@ -216,40 +255,45 @@ const CategoryProducts = () => {
               </div>
             )}
           </div>
-          <div className="flex  w-full justify-center my-4">
-            {products.length > 0 && (
-              <div className="flex justify-center items-center gap-5 w-1/3">
-                <button
-                  onClick={() => {
-                    if (page === 1) {
-                      return;
-                    }
-                    setPage((prev) => prev - 1);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="btn btn-circle btn-primary"
-                >
-                  -
-                </button>
-                <span className="text-3xl ">{page}</span>
-                <button
-                  onClick={() => {
-                    if (page == lastPage) {
-                      return;
-                    }
-                    setPage((prev) => prev + 1);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
-                  className="btn btn-circle btn-primary text-white"
-                >
-                  +
-                </button>
-              </div>
-            )}
+          <div className="flex w-full justify-center my-4">
+            <div className="flex items-center gap-5">
+              <button
+                onClick={() => {
+                  if (page === 1) {
+                    return;
+                  }
+                  setPage((prev) => prev - 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className={`btn btn-circle btn-primary ${
+                  page === 1 ? "btn-disabled" : ""
+                }`}
+                disabled={page === 1}
+              >
+                <AiOutlineLeft />
+              </button>
+              <span className="text-lg">{page}</span>
+              <span className="text-lg">of {lastPage}</span>
+              <button
+                onClick={() => {
+                  if (page === lastPage) {
+                    return;
+                  }
+                  setPage((prev) => prev + 1);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+                className={`btn btn-circle btn-primary ${
+                  page === lastPage ? "btn-disabled" : ""
+                }`}
+                disabled={page === lastPage}
+              >
+                <AiOutlineRight />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      {loading && <Loading />}
+      {loading && <ItemsLoading />}
     </div>
   );
 };

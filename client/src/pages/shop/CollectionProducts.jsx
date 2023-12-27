@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { MdOutlineDashboard } from "react-icons/md";
 import {
+  AiOutlineLeft,
   AiOutlineMinus,
   AiOutlinePlus,
+  AiOutlineRight,
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { Slider } from "antd";
@@ -14,6 +16,7 @@ import { Card, ProductCard } from "../../components";
 import Loading from "../common/Loading";
 import ProductCardMini from "../../components/shop/cards/ProductCardMini";
 import { findMinMaxPrice } from "../../utils";
+import { ItemsLoading } from "../common/ItemsLoading";
 
 // page to show the collections of products and their filters
 
@@ -29,24 +32,26 @@ const CollectionProducts = () => {
   const [selectedFilter, setSelectedFilter] = useState("new");
   const [inputRangeValue, setInputRangeValue] = useState([0, 1000]);
   const [selectedPrice, setSelectedPrice] = useState({});
+  const [bulkFilter, setBulkFilter] = useState([]);
+  const [productLoading, setProductsLoading] = useState(false);
 
   const getProducts = async () => {
-    setLoading(true);
     try {
-      const response = await API_WRAPPER.post(`/products/collection/${slug}`, {
-        data: filters,
-        priceMin: inputRangeValue[0],
-        priceMax: inputRangeValue[1],
-        page,
-        sort: selectedFilter,
-      });
+      setLoading(true);
+      setProducts([]);
+      // `/get/products/collection/${slug}`,
+      const response = await API_WRAPPER.post(
+        `/get/all/list/products/${slug}`,
+        {
+          data: filters,
+          priceMin: inputRangeValue[0],
+          priceMax: inputRangeValue[1],
+          page,
+          bulkFilter,
+          sort: selectedFilter,
+        }
+      );
       setProducts(response?.data?.products);
-      setFilterList(response?.data?.filters);
-      setLastPage(response?.data?.lastPage);
-      setSelectedPrice({
-        min: response?.data?.minPrice,
-        max: response?.data?.maxPrice,
-      });
     } catch (error) {
       console.error("Error fetching products:", error);
     } finally {
@@ -54,31 +59,101 @@ const CollectionProducts = () => {
     }
   };
 
+  const getfilterData = async () => {
+    try {
+      const response = await API_WRAPPER.post(
+        `/get/filters/collection/${slug}`,
+        {
+          data: filters,
+          priceMin: inputRangeValue[0],
+          priceMax: inputRangeValue[1],
+          page,
+          bulkFilter,
+          sort: selectedFilter,
+        }
+      );
+      setFilterList(response?.data[0]?.filters);
+    } catch (error) {}
+  };
+
+  const getPageNumberPrice = async () => {
+    try {
+      const response = await API_WRAPPER.post(
+        `/get/products/collection/${slug}`,
+        {
+          data: filters,
+          priceMin: inputRangeValue[0],
+          priceMax: inputRangeValue[1],
+          page,
+          bulkFilter,
+          sort: selectedFilter,
+        }
+      );
+      setLastPage(response?.data?.lastPage);
+      setSelectedPrice({
+        min: response?.data?.minPrice,
+        max: response?.data?.maxPrice,
+      });
+    } catch (error) {}
+  };
+
   // check if any filters exist and renders out the specific filters
   const handleFilterSelection = (filterData) => {
-    const filterKey = filterData.key;
-    const filterValues = filterData.values;
+    console.log("filterData++>", filterData);
+    setBulkFilter(filterData);
+    // const filterKey = filterData.key;
+    // const filterValues = filterData.values;
 
-    const existingFilterIndex = filters.findIndex(
-      (filter) => filter.key === filterKey
-    );
+    // const existingFilterIndex = filters.findIndex(
+    //   (filter) => filter.key === filterKey
+    // );
 
-    if (existingFilterIndex !== -1) {
-      const updatedFilters = [...filters];
-      updatedFilters[existingFilterIndex].values = filterValues;
-      setFilters(updatedFilters);
-    } else {
-      const newFilter = {
-        key: filterKey,
-        values: filterValues,
-      };
-      setFilters((prevFilters) => [...prevFilters, newFilter]);
-    }
+    // if (existingFilterIndex !== -1) {
+    //   const updatedFilters = [...filters];
+    //   updatedFilters[existingFilterIndex].values = filterValues;
+    //   setFilters(updatedFilters);
+    // } else {
+    //   const newFilter = {
+    //     key: filterKey,
+    //     values: filterValues,
+    //   };
+    //   setFilters((prevFilters) => [...prevFilters, newFilter]);
+    // }
   };
   // fetch product data on change
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    getfilterData();
+    getPageNumberPrice();
     debounce(getProducts, 300)();
-  }, [filters, inputRangeValue, selectedFilter, page, slug]);
+  }, [filters, inputRangeValue, selectedFilter, page, slug, bulkFilter]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [bulkFilter, slug, inputRangeValue]);
+
+  useEffect(() => {
+    setFilterList();
+    setBulkFilter([]);
+    setInputRangeValue([0, 1000]);
+  }, [slug]);
+
+  useEffect(() => {
+    if (loading) {
+      // Disable scrolling when loading is true
+      document.body.style.overflow = "hidden";
+    } else {
+      // Re-enable scrolling when loading is false
+      document.body.style.overflow = "visible";
+    }
+
+    // Cleanup function to re-enable scrolling when the component unmounts
+    return () => {
+      document.body.style.overflow = "visible";
+    };
+  }, [loading]);
+
+  console.log("_____>>>>>>>------>>>", filterType, products);
 
   return (
     <div className="mt-4">
@@ -109,10 +184,15 @@ const CollectionProducts = () => {
                   value={inputRangeValue}
                   className="range"
                 />
-                <div className="text-sm">
+                <div>
                   <span>
-                    {findMinMaxPrice(products).min} -{" "}
-                    {findMinMaxPrice(products).max}
+                    {selectedPrice?.min
+                      ? selectedPrice?.min
+                      : inputRangeValue[0]}{" "}
+                    -{" "}
+                    {selectedPrice?.max
+                      ? selectedPrice?.max
+                      : inputRangeValue[1]}
                   </span>
                 </div>
               </div>
@@ -127,6 +207,7 @@ const CollectionProducts = () => {
                     title="Product Filter"
                     onSelect={handleFilterSelection}
                     heading={filter}
+                    bulkFilter={bulkFilter}
                     filters={filterList[filter].map((a) => ({
                       filterName: a,
                     }))}
@@ -173,17 +254,17 @@ const CollectionProducts = () => {
               products &&
               products.map((product) => (
                 <ProductCardMini
-                  key={product.products._id}
-                  id={product.products._id}
+                  key={product?._id}
+                  id={product?._id}
                   price={
                     product.variants.length > 0
                       ? product.variants[0].price
-                      : product.products.price
+                      : product.price
                   }
-                  slug={product.products.slug}
+                  slug={product?.slug}
                   rating={4.5}
-                  title={product.products.name}
-                  image={product.products.coverImage}
+                  title={product?.name}
+                  image={product?.coverImage}
                 />
               ))
             ) : (
@@ -191,29 +272,47 @@ const CollectionProducts = () => {
                 {products && products.length === 0 && <div>No product</div>}
 
                 {products &&
-                  products.map((product) => (
-                    <ProductCard
-                      key={product.products._id}
-                      badgeColor="badge-accent"
-                      badgeText="NEW"
-                      slug={product.products.slug}
-                      id={product.products._id}
-                      price={
-                        product.variants.length > 0
-                          ? product.variants[0].price
-                          : product.products.price
-                      }
-                      rating={4.2}
-                      title={product.products.name}
-                      image={product.products.coverImage}
-                      onClick={() => {}}
-                    />
-                  ))}
+                  products.map((product) => {
+                    return (
+                      <ProductCard
+                        key={product?._id}
+                        badgeColor="badge-accent"
+                        badgeText="NEW"
+                        slug={product?.slug}
+                        id={product?._id}
+                        price={
+                          product.variants.length > 0
+                            ? product.variants[0].price
+                            : product?.price
+                        }
+                        rating={4.2}
+                        title={product?.name}
+                        image={product?.coverImage}
+                        onClick={() => {}}
+                      />
+                      // <ProductCard
+                      //   key={product.products._id}
+                      //   badgeColor="badge-accent"
+                      //   badgeText="NEW"
+                      //   slug={product.products.slug}
+                      //   id={product.products._id}
+                      //   price={
+                      //     product.variants
+                      //       ? product.variants.price
+                      //       : product.products.price
+                      //   }
+                      //   rating={4.2}
+                      //   title={product.products.name}
+                      //   image={product.products.coverImage}
+                      //   onClick={() => {}}
+                      // />
+                    );
+                  })}
               </div>
             )}
           </div>
           <div className="flex w-full justify-center my-4">
-            <div className="flex justify-center items-center gap-5 bg-base-200 p-4 rounded-xl">
+            <div className="flex items-center gap-5">
               <button
                 onClick={() => {
                   if (page === 1) {
@@ -222,11 +321,15 @@ const CollectionProducts = () => {
                   setPage((prev) => prev - 1);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="btn btn-square btn-primary"
+                className={`btn btn-circle btn-primary ${
+                  page === 1 ? "btn-disabled" : ""
+                }`}
+                disabled={page === 1}
               >
-                <AiOutlineMinus />
+                <AiOutlineLeft />
               </button>
-              <span className="text-3xl">{page}</span>
+              <span className="text-lg">{page}</span>
+              <span className="text-lg">of {lastPage}</span>
               <button
                 onClick={() => {
                   if (page === lastPage) {
@@ -235,15 +338,18 @@ const CollectionProducts = () => {
                   setPage((prev) => prev + 1);
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="btn btn-square btn-primary text-white"
+                className={`btn btn-circle btn-primary ${
+                  page === lastPage ? "btn-disabled" : ""
+                }`}
+                disabled={page === lastPage}
               >
-                <AiOutlinePlus />
+                <AiOutlineRight />
               </button>
             </div>
           </div>
         </div>
       </div>
-      {loading && <Loading />}
+      {loading && <ItemsLoading />}
     </div>
   );
 };

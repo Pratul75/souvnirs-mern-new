@@ -12,6 +12,7 @@ import API_WRAPPER from "../../api";
 import { nanoid } from "nanoid";
 import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
+import { DeleteBtnSvg } from "../../icons/tableIcons";
 const EditCoupon = () => {
   const [couponData, setCouponData] = useState({});
   const [error, setError] = useState();
@@ -41,6 +42,7 @@ const EditCoupon = () => {
   const [categoriesList, setCategoriesList] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [collectionsList, setCollectionsList] = useState([]);
+  const [ProductDetails, setProductDetails] = useState([]);
   const [appliedToFilteredState, setAppliedToFilteredState] = useState([]);
   const [appliedToFilteredItemsObjects, setAppliedToFilteredItemsObjects] =
     useState([]);
@@ -80,6 +82,18 @@ const EditCoupon = () => {
   const getCouponData = async (id) => {
     const response = await API_WRAPPER.get(`/coupon/get-coupon-by-id/${id}`);
     setCouponData(response.data);
+    let array = ["productId", "categoryId", "collectionId"];
+    let arraylist = ["productsList", "categoriesList", "collectionsList"];
+    // let clonedata = { ...ProductDetails };
+    // for (let i = 0; i < array.length; i++) {
+    //   let mainData = {};
+    //   couponData[array[i]].map((prod) => {
+    //     const matched = arraylist[i].find((p) => p._id == prod);
+    //     mainData = matched;
+    //   });
+    //   clonedata[array[i]] = mainData;
+    // }
+    // setProductDetails(clonedata);
     setCouponCode(response.data.couponCode);
     setAppliedToSpecifiedInput(
       response.data.collectionId.length > 0
@@ -248,6 +262,7 @@ const EditCoupon = () => {
   };
 
   const handleAddFilteredItemToState = (item) => {
+    setProductDetails([...ProductDetails, item]);
     setAppliedToFilteredItemsObjects((prevState) => [...prevState, item._id]);
     window.applied_to_search_modal.close();
   };
@@ -278,10 +293,26 @@ const EditCoupon = () => {
     getCouponData(params.id);
   }, []);
 
+  const handleDeleteSearch = (data, index) => {
+    let dataDiscunt = { ...couponData };
+    const removeItem = data?._id;
+    for (let key in dataDiscunt) {
+      if (dataDiscunt[key].includes(removeItem)) {
+        dataDiscunt[key] = dataDiscunt[key].filter(
+          (item) => item !== removeItem
+        );
+      }
+    }
+    setCouponData(dataDiscunt);
+    let cloneData = [...ProductDetails];
+    cloneData.splice(index, 1);
+    setProductDetails(cloneData);
+  };
+
   return (
     <div>
       <Header
-        heading="Add Coupon"
+        heading="Edit Coupon"
         subheading="This is a sub heading for the add coupon section which reminds us to put a brief description about the Add Coupons page"
       />
       <form className="mt-4 grid grid-cols-4 gap-4">
@@ -704,6 +735,26 @@ const EditCoupon = () => {
                 </button>
               </div>
             </div>
+          </div>
+          <div style={{ marginTop: "3px" }}>
+            {ProductDetails?.map((item, index) => (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  borderRadius: "3px",
+                  borderTop: "1px solid gray",
+                  margin: "3px",
+                }}
+              >
+                <h4>{item?.name ? item?.name : item?.title}</h4>
+                <div>
+                  <div onClick={() => handleDeleteSearch(item, index)}>
+                    <DeleteBtnSvg />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </motion.div>
         {/* maximum discount uses */}

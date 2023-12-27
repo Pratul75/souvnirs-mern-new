@@ -44,7 +44,6 @@ const ReusableTable = ({
   enablePagination,
   children,
   refresh,
-  
 }) => {
   // Add the usePagination hook to the table instance
   const {
@@ -244,7 +243,7 @@ const ReusableTable = ({
                           </span>
                         )}
                         {/*  (location?.pathname=="/admin/menus") */}
-                        {(enableEdit && location.pathname != "/admin/cart") && (
+                        {enableEdit && location.pathname != "/admin/cart" && (
                           <span
                             className="cursor-pointer"
                             onClick={() => {
@@ -262,7 +261,7 @@ const ReusableTable = ({
                             <EditBtnSvg />
                           </span>
                         )}
-                        {(
+                        {enableDelete && (
                           <span
                             className="cursor-pointer"
                             onClick={() => onDelete(row.original)}

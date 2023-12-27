@@ -20,8 +20,8 @@ const useAddProduct = () => {
   const [tagValue, setTagValue] = useState("");
   const [tagsArray, setTagsArray] = useState([]);
   const [preview, setPreview] = useState();
-  const [foregroundWidth, setForegroundWidth] = useState(100); // default width
-  const [foregroundHeight, setForegroundHeight] = useState(100); // default height
+  const [foregroundWidth, setForegroundWidth] = useState(30);
+  const [foregroundHeight, setForegroundHeight] = useState(30);
   const [selectedShape, setSelectedShape] = useState("square"); // default shape is "Square"
   const [foregroundX, setForegroundX] = useState(0);
   const [foregroundY, setForegroundY] = useState(0);
@@ -39,11 +39,12 @@ const useAddProduct = () => {
 
   const handleDrag = (e, data) => {
     const parentElement = document.getElementById("parentElement"); // replace with the actual parent element ID
-    const newX = Math.floor((data.x / parentElement.clientWidth) * 100);
-    const newY = Math.floor((data.y / parentElement.clientHeight) * 100);
+    const newX = ((data.x / parentElement.clientWidth) * 100).toFixed(2);
+    const newY = ((data.y / parentElement.clientHeight) * 100).toFixed(2);
 
-    setForegroundX(newX);
-    setForegroundY(newY);
+    console.log(`{{{{{{{}}}}}}}=>`, { e, data, newX, newY });
+    setForegroundX(parseFloat(newX));
+    setForegroundY(parseFloat(newY));
 
     // TODO: Update the formData object with the new values and store in db
     setFormData((prevData) => ({
@@ -106,6 +107,7 @@ const useAddProduct = () => {
       debouncedShowToast("Fill all required fields", "info");
       return;
     }
+
     dispatch(
       setProduct({
         ...formData,

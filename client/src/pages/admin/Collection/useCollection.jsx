@@ -8,15 +8,22 @@ export const useCollection = () => {
   const [collectionList, setCollectionList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
-
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
   const [editedRow, setEditedRow] = useState({});
   const navigate = useNavigate();
 
   const fetchAllCollections = async () => {
     try {
-      const response = await API_WRAPPER.get("/collection/get-all-collections");
+      const response = await API_WRAPPER.get(
+        `/collection/get-all-collections/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response?.status === 200) {
-        setCollectionList(response?.data);
+        setCollectionList(response?.data?.collections);
+        setTotalPagesShow(response?.data?.totalPages);
         // debouncedShowToast("Collection loaded successfully!", "success");
       }
     } catch (error) {
@@ -43,16 +50,23 @@ export const useCollection = () => {
         },
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Total Product",
+        accessor: "total",
         Cell: ({ row }) => {
-          return getStatusStyles(
-            row?.original?.status,
-            row?.original,
-            fetchAllCollections
-          );
+          return <>{row?.original?.activeProducts.length}</>;
         },
       },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(
+      //       row?.original?.status,
+      //       row?.original,
+      //       fetchAllCollections
+      //     );
+      //   },
+      // },
     ],
     []
   );
@@ -110,7 +124,7 @@ export const useCollection = () => {
 
   useEffect(() => {
     fetchAllCollections();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   const getFlatRowsData = (data) => {
     console.log("Collection.jsx", data);
@@ -125,5 +139,13 @@ export const useCollection = () => {
     submitEditedRow,
     handleEditChange,
     handleDeleteSubmit,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   };
 };

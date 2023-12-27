@@ -13,15 +13,23 @@ import {
   SalesRedIcon,
 } from "../../../icons";
 import API_WRAPPER from "../../../api";
+import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../../Routes/paths";
 
 const TransactionTotalIncomeInquiries = () => {
   const [data, setData] = useState();
   const [labels, setLabels] = useState();
   const [fullData, setFullData] = useState();
   const [transactions, setTransactions] = useState({});
+  const [storeInquery, setStoreInquery] = useState([]);
+  const [filteredData, setFilterdData] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProductData();
+    getAllInquery();
   }, []);
 
   const getProductData = async () => {
@@ -30,11 +38,43 @@ const TransactionTotalIncomeInquiries = () => {
         "/dashboard/transactions/reporters"
       );
       setTransactions(response?.data);
+      console.log("=>==>==>", response?.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+
+  const getAllInquery = async () => {
+    try {
+      const responce = await API_WRAPPER.get("/get/inquery");
+      setStoreInquery(responce?.data?.data);
+      let allData = responce?.data?.data;
+      let pageNum = 1;
+      let itemsPerPage = 10;
+      let startIndex = (pageNum - 1) * itemsPerPage;
+      let currentPageElements = allData.slice(
+        startIndex,
+        startIndex + itemsPerPage
+      );
+      setFilterdData(currentPageElements);
+      console.log("00000---->", responce?.data?.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   // TODO: need to add success and pending transaction based on the transaction status, map accordingly the DashboardChartCart Component
+
+  useEffect(() => {
+    let allData = [...storeInquery];
+    let pageNum = page;
+    let itemsPerPage = 10;
+    let startIndex = (pageNum - 1) * itemsPerPage;
+    let currentPageElements = allData.slice(
+      startIndex,
+      startIndex + itemsPerPage
+    );
+    setFilterdData(currentPageElements);
+  }, [page]);
 
   const transactionTabs = [
     {
@@ -43,16 +83,18 @@ const TransactionTotalIncomeInquiries = () => {
         <div className="max-h-[400px] overflow-y-scroll">
           {transactions?.AllTrasication?.map((item, index) => (
             <DashboardChartCart
-              percentage={`${item?.discounts}%`}
+              // percentage={`${item?.discounts}%`}
               percentageColor={
                 item?.payment_status == "failed"
                   ? "text-red-500"
                   : "text-green-500"
               }
-              label="Apple Inc"
-              totalAmount="#APLE-PRO-T00232"
-              iconText="AI"
-              dynamicAmount={`$${item?.total_price}`}
+              label={item?.payment_method}
+              totalAmount={
+                item?.product.length > 0 && `#${item?.product[0]?.name}`
+              }
+              iconText={item?.product.length > 0 && item?.product[0]?.name[0]}
+              dynamicAmount={`₹${item?.total_price}`}
             />
           ))}
         </div>
@@ -64,16 +106,18 @@ const TransactionTotalIncomeInquiries = () => {
         <div className="max-h-[400px] overflow-y-scroll">
           {transactions?.AllSuccessTrasication?.map((item, index) => (
             <DashboardChartCart
-              percentage={`${item?.discounts}%`}
+              // percentage={`${item?.discounts}%`}
               percentageColor={
                 item?.payment_status == "failed"
                   ? "text-red-500"
                   : "text-green-500"
               }
-              label="Apple Inc"
-              totalAmount="#APLE-PRO-T00232"
-              iconText="AI"
-              dynamicAmount={`$${item?.total_price}`}
+              label={item?.payment_method}
+              totalAmount={
+                item?.product.length > 0 && `#${item?.product[0]?.name}`
+              }
+              iconText={item?.product.length > 0 && item?.product[0]?.name[0]}
+              dynamicAmount={`₹${item?.total_price}`}
             />
           ))}
         </div>
@@ -85,16 +129,18 @@ const TransactionTotalIncomeInquiries = () => {
         <div className="max-h-[400px] overflow-y-scroll">
           {transactions?.AllPendingTrasication?.map((item, index) => (
             <DashboardChartCart
-              percentage={`${item?.discounts}%`}
+              // percentage={`${item?.discounts}%`}
               percentageColor={
                 item?.payment_status == "failed"
                   ? "text-red-500"
                   : "text-green-500"
               }
-              label="Apple Inc"
-              totalAmount="#APLE-PRO-T00232"
-              iconText="AI"
-              dynamicAmount={`$${item?.total_price}`}
+              label={item?.payment_method}
+              totalAmount={
+                item?.product.length > 0 && `#${item?.product[0]?.name}`
+              }
+              iconText={item?.product.length > 0 && item?.product[0]?.name[0]}
+              dynamicAmount={`₹${item?.total_price}`}
             />
           ))}
         </div>
@@ -157,14 +203,14 @@ const TransactionTotalIncomeInquiries = () => {
                 label="Income"
                 addAmount={fullData?.income}
                 labelColor="bg-blue-500"
-                amount={fullData?.income}
+                amount={fullData?.income + "₹"}
                 icon={<BlueIncomeIcon />}
               />
               <DashboardPieChartCard
                 label="Sales"
                 addAmount=""
                 labelColor="bg-orange-500"
-                amount={fullData?.sales}
+                amount={fullData?.sales + "₹"}
                 icon={<SalesRedIcon />}
               />
               <DashboardPieChartCard
@@ -189,39 +235,37 @@ const TransactionTotalIncomeInquiries = () => {
         <div className=" bg-base-100 border-[1px] border-base-300 rounded-xl py-4">
           <div className="flex justify-between px-4">
             <h2 className="text-lg font-semibold">Pending Inquiries</h2>
-            <p className="text-blue-500 font-thin cursor-pointer">View all</p>
+            <p
+              className="text-blue-900 font-thin cursor-pointer"
+              style={{ fontWeight: "500" }}
+              onClick={() => {
+                navigate(PATHS.getInqueryPage);
+              }}
+            >
+              View all
+            </p>
           </div>
           <div className="flex flex-col mt-4">
-            <span className="p-4 border-y-[1px] border-base-200">
-              income requests
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              You have 2 pending requests
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              You have 3 pending orders
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              You have 2 pending inquiries
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              New order received
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              You have 2 pending requests
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              You have 3 pending orders
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              New order received
-            </span>
-            <span className="p-4 border-y-[1px] border-base-200">
-              New order received
-            </span>
-            <p className="flex justify-end text-blue-500 font-semibold pr-4 mt-4 cursor-pointer">
-              Show More
-            </p>
+            {filteredData?.map((item, index) => (
+              <span
+                onClick={() => {
+                  navigate(
+                    `${PATHS?.getInqueryDetails}/${item?._id}/${item?.variant}`
+                  );
+                }}
+                className="p-4 text-blue-400 border-y-[1px] border-base-200 cursor-pointer"
+              >
+                {item?.msg}
+              </span>
+            ))}
+            {storeInquery.length > 10 && (
+              <p
+                onClick={() => setPage(page + 1)}
+                className="flex justify-end text-blue-500 font-semibold pr-4 mt-4 cursor-pointer"
+              >
+                Show More
+              </p>
+            )}
           </div>
         </div>
       </div>

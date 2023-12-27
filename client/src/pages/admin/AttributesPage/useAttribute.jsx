@@ -7,14 +7,22 @@ const useAttribute = () => {
   const [getApiTrigger, setGetApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRowObject, setEditedRowObject] = useState({});
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const fetchAllAttributes = async () => {
     try {
-      const response = await API_WRAPPER.get("/attribute/get-all-attributes");
+      const response = await API_WRAPPER.get(
+        `/attribute/get-all-attributes/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
         console.log("ALL ATTRIBUTES LIST: ", response?.data);
-        setAttributesList(response?.data);
-        debouncedShowToast("Attributes loaded successfully!", "success");
+        setAttributesList(response?.data?.attributes);
+        setTotalPagesShow(response?.data?.totalPages);
+        // debouncedShowToast("Attributes loaded successfully!", "success");
       }
     } catch (error) {
       console.error("Error occurred while fetching all attributes list", error);
@@ -76,7 +84,7 @@ const useAttribute = () => {
 
   useEffect(() => {
     fetchAllAttributes();
-  }, [getApiTrigger]);
+  }, [getApiTrigger, page, pageSize, seacrhText]);
 
   return {
     handleDeleteSubmit,
@@ -87,6 +95,14 @@ const useAttribute = () => {
     attributesList,
     selectedRow,
     setSelectedRow,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   };
 };
 

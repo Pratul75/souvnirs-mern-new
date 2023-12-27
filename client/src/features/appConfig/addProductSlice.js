@@ -15,6 +15,7 @@ const initialState = {
   freeShipping: null,
   customization: {},
   commission: {},
+  minquantity: "",
 };
 
 export const productSlice = createSlice({
@@ -33,13 +34,29 @@ export const productSlice = createSlice({
         status,
         attributes,
         img,
+        price,
+        mrp,
         readyToShip,
         freeShipping,
         customization,
         commission,
+        minquantity,
+        stockQuantity,
       } = action.payload;
+      if (stockQuantity) {
+        state.stockQuantity = stockQuantity;
+      }
+      if (price) {
+        state.price = price;
+      }
+      if (mrp) {
+        state.mrp = mrp;
+      }
       if (name) {
         state.name = name;
+      }
+      if (minquantity) {
+        state.minquantity = minquantity;
       }
       if (description) {
         state.desc = description;

@@ -14,6 +14,7 @@ import {
   BrandsCardImageList,
   blogCardData,
   caroselMapppingDailyDeals,
+  caroselMapppingDailyDealsShowDynamic,
   gradiantCardListCardData,
 } from "../../mappings";
 import SmallCardBackgroundOne from "../../assets/shop/cardImages/smallCardBackground.jpg";
@@ -36,32 +37,63 @@ import GiftTwo from "../../assets/shop/productImages/giftTwo.png";
 import GiftThree from "../../assets/shop/productImages/giftThree.png";
 import TabContent from "../../components/shop/components/TabContent";
 import { debouncedShowToast, selectRandomValues } from "../../utils";
+import { useEffect, useState } from "react";
+import { ItemsLoading } from "../common/ItemsLoading";
+import API_WRAPPER from "../../api";
+import { API_TOKEN } from "../../api";
+import axios from "axios";
 
 // landing page
 const LandingPage = () => {
-  const {
-    data: productsList,
-    isLoading,
-    error,
-  } = useQuery("get-all-products", fetchAllProducts, {
-    cacheTime: 120000,
-    staleTime: 50000,
-    onSuccess: () =>
-      debouncedShowToast("Products fetched successfully", "success"),
-  });
+  // debugger;
+  const [sortproductList, setsortProductList] = useState({});
+  const [productsList, setproductsList] = useState({ data: [] });
+  // const {
+  //   data: productsList,
+  //   isLoading,
+  //   error,
+  // } = useQuery("get-all-products", fetchAllProducts, {
+  //   cacheTime: 120000,
+  //   staleTime: 50000,
+  // });
+  const getProductsListData = async () => {
+    try {
+      const responce = await API_TOKEN.get("/products/get-all-products");
+      setproductsList(responce);
+      console.log("=====>>>>,,,,", API_TOKEN, responce);
+    } catch (error) {}
+  };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center">
-        <span className="loading loading-ring loading-lg"></span>
-      </div>
-    );
-  }
+  useEffect(() => {
+    getProductsListData();
+  }, []);
 
-  if (error) {
-    return <div className="text-error">Error: {error.message}</div>;
-  }
+  const getRecentBudgetTrendingData = async () => {
+    try {
+      const result = await API_WRAPPER.get("/get/all/budget/recelt/product");
+      setsortProductList(result?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  const [dailyDealData, setDeailyDeal] = useState([]);
+  useEffect(() => {
+    getDataDeaiyDeal();
+    getRecentBudgetTrendingData();
+  }, []);
+
+  const getDataDeaiyDeal = async () => {
+    setDeailyDeal(await caroselMapppingDailyDealsShowDynamic());
+  };
+
+  // if (isLoading) {
+  //   return <ItemsLoading />;
+  // }
+
+  // if (error) {
+  //   return <div className="text-error">Error: {error.message}</div>;
+  // }
   return (
     <div>
       <HeaderCards
@@ -99,7 +131,7 @@ const LandingPage = () => {
       />
       <div className="grid grid-cols-5 mt-5 gap-4">
         <div className="col-span-5 md:col-span-2">
-          <ProductCarosel className="" items={caroselMapppingDailyDeals} />
+          <ProductCarosel className="" items={dailyDealData} />
         </div>
         <div className="col-span-5 md:col-span-3 bg-white">
           <ScrollAnimationWrapper>
@@ -144,7 +176,6 @@ const LandingPage = () => {
         imageOne={BudsImage}
         imageTwo={WatchImage}
       />
-
       <Carosal productList={productsList} />
       <HalfWidthBannerCard
         backgroundImageOne={HalfWidthBannerImgOne}
@@ -166,15 +197,15 @@ const LandingPage = () => {
       <div className="flex justify-between  mt-5">
         <div className="flex flex-col md:flex-row ">
           <SingleTab
-            productsList={productsList?.data?.slice(10, 20)}
+            productsList={sortproductList?.budgetProducts}
             heading="Budget Buy"
           />
           <SingleTab
-            productsList={productsList?.data}
+            productsList={sortproductList?.RecentProduct}
             heading="Recently Added"
           />
           <SingleTab
-            productsList={productsList?.data}
+            productsList={sortproductList?.TrendingProduct}
             heading="Trending Products"
           />
         </div>

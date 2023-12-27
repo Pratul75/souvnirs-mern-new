@@ -147,7 +147,7 @@ const EditCategory = () => {
               placeholder="Category Description"
               className="input input-primary"
               onChange={handleInputChange}
-              value={formData?.description}
+              value={formData?.Description}
               type="text"
               name="Description"
               id=""
@@ -174,7 +174,7 @@ const EditCategory = () => {
             <input
               placeholder="Category Type"
               className="input input-primary"
-              value={formData.description}
+              value={formData.type}
               onChange={handleInputChange}
               type="text"
               name="type"
@@ -249,7 +249,7 @@ const EditCategory = () => {
             className="max-w-lg w-48 btn btn-primary "
             onClick={editCategory}
           >
-            Edit Category
+            Save
           </button>
         </form>
       </div>

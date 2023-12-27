@@ -1,7 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { BsCaretDown } from "react-icons/bs";
-const SearchableDropdown = ({ items, handleSelect, categoryName }) => {
+const SearchableDropdown = ({
+  items,
+  handleSelect,
+  categoryName,
+  categoryId,
+  commission,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   console.log("index.jsx", categoryName);
@@ -17,17 +23,40 @@ const SearchableDropdown = ({ items, handleSelect, categoryName }) => {
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  useEffect(() => {
+    filteredItems.map((item) => {
+      if (item?._id == categoryId) {
+        handleSelect({
+          id: item._id,
+          name: item.name,
+          commissionType: item.commissionType,
+          commissionTypeValue: item.commissionTypeValue,
+        });
+      }
+    });
+  }, [categoryId]);
+
   const selectItem = (item) => {
     handleSelect(item);
     setIsOpen(false);
   };
+
+  console.log("++++>>>>>>>>>'''", commission);
 
   return (
     <div
       onClick={(e) => toggleDropdown(e)}
       className="flex items-center gap-4 justify-between cursor-pointer"
     >
-      <p className="font-bold">Selected Category: {categoryName}</p>
+      <p className="font-bold">
+        Selected Category: {categoryName}{" "}
+        {commission?.commissionTypeValue &&
+          "(" +
+            "commission : " +
+            commission?.commissionTypeValue +
+            (commission?.commissionType == "PERCENTAGE" ? "%" : "") +
+            ")"}
+      </p>
       <div className="dropdown">
         <label tabIndex={0} className="m-1 btn btn-circle">
           <BsCaretDown className="text-2xl text-primary" />

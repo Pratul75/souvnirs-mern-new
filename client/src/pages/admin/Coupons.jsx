@@ -5,20 +5,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const Coupons = () => {
   const [couponsList, setCouponsList] = useState([]);
   const [couponId, setCouponId] = useState(null);
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const navigate = useNavigate();
 
   const fetchCoupons = async () => {
     try {
-      const response = await API_WRAPPER.get("/coupon/get-all-coupons");
+      const response = await API_WRAPPER.get(
+        `/coupon/get-all-coupons/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
         console.log("COUPONS LISTS: ", response.data);
-        setCouponsList(response?.data);
+        setCouponsList(response?.data?.coupons);
+        setTotalPagesShow(response?.data?.totalPages);
       }
       setApiTrigger((prev = !prev));
     } catch (error) {
@@ -65,6 +74,10 @@ const Coupons = () => {
       {
         Header: "Title",
         accessor: "title",
+      },
+      {
+        Header: "Code",
+        accessor: "couponCode",
       },
       {
         Header: "Total Limit",
@@ -144,7 +157,7 @@ const Coupons = () => {
   console.log("Coupons.jsx", columns);
   useEffect(() => {
     fetchCoupons();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
   console.log("Coupons.jsx", selectedRow);
   return (
     <div>
@@ -154,13 +167,33 @@ const Coupons = () => {
         image={DiscountBannerImage}
       />
       <div className="mt-4 overflow-x-auto">
-        <h1 className="text-2xl">Coupons List</h1>
+        {/* <h1 className="text-2xl">Coupons List</h1> */}
         <div className="flex justify-end mb-4">
           <Link to={PATHS.adminAddCoupon} className="btn btn-primary">
             Add Coupons
           </Link>
         </div>
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Coupons List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={editHandler}
+          onDelete={handleDiscountDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
           tableTitle="Coupon List"
           columns={columns}
           data={data}
@@ -171,7 +204,7 @@ const Coupons = () => {
           pageSize={10}
           onEdit={editHandler}
           onDelete={handleDiscountDelete}
-        />
+        /> */}
       </div>
       <dialog id="edit_coupon_modal" className="modal">
         <form method="dialog" className="modal-box">

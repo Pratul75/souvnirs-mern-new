@@ -4,31 +4,32 @@ import API_WRAPPER from "../../api";
 import { useEffect, useMemo, useState } from "react";
 import { debouncedShowToast, getStatusStyles } from "../../utils";
 import { ToastContainer } from "react-toastify";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 
 const VendorCart = () => {
   const [cartList, setCartList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedCart, setEditedCart] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const columns = useMemo(
     () => [
       {
-        Header: "Cart ID",
-        accessor: "_id",
+        Header: "Name",
+        accessor: `customer.firstName`,
       },
-      {
-        Header: "Customer ID",
-        accessor: "customer_id",
-      },
-
       {
         Header: "Product Name",
-        accessor: "product_name",
+        accessor: "product.name",
       },
       {
         Header: "Product Price",
-        accessor: "product_price",
+        accessor: "product.price",
       },
       {
         Header: "Product Quantity",
@@ -54,11 +55,13 @@ const VendorCart = () => {
   const onHandleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setProductLoading(true);
       const response = await API_WRAPPER.put(
         `/cart/update-cart/:${selectedRow._id}`,
         editedCart
       );
       if (response?.status) {
+        setProductLoading(false);
         setApiTrigger((prevState) => !prevState);
         debouncedShowToast("Selected row updated successfully!");
         window.cart_edit_modal.close();
@@ -70,12 +73,22 @@ const VendorCart = () => {
 
   const getCartList = async () => {
     try {
-      const response = await API_WRAPPER.get("/cart/get-all-carts");
+      const response = await API_WRAPPER.get(
+        `/cart/get-all-carts/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setCartList(response.data);
-        debouncedShowToast("Cart list loaded successfully", "success");
+        console.log("++++_______-___-____-___", response?.data);
+        setCartList(response.data?.carts);
+        setTotalPagesShow(response.data?.totalPages);
+        // debouncedShowToast("Cart list loaded successfully", "success");
         console.log("Cart List: ", response?.data);
       }
+      // const response = await API_WRAPPER.get("/cart/get-all-carts");
+      // if (response.status === 200) {
+      //   setCartList(response.data);
+      //   debouncedShowToast("Cart list loaded successfully", "success");
+      //   console.log("Cart List: ", response?.data);
+      // }
     } catch (error) {
       debouncedShowToast(error.message, "error");
       console.error("Error occured while fetching all cart list", error);
@@ -96,7 +109,7 @@ const VendorCart = () => {
 
   useEffect(() => {
     getCartList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return (
     <>
@@ -106,7 +119,7 @@ const VendorCart = () => {
         // image={HeaderImgTwo}
       />
       <div className="mt-8">
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Cart List"
           columns={columns}
           data={data}
@@ -115,6 +128,26 @@ const VendorCart = () => {
           enableEdit
           onEdit={handleEdit}
           onDelete={handleDelete}
+        /> */}
+        <ReuseTable
+          tableTitle="Cart List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
 

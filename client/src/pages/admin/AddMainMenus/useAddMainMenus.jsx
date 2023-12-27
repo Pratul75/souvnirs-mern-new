@@ -12,7 +12,7 @@ const useAddMainMenus = () => {
 
   // provide headers to select from
   const getAllMenuHeaderTitles = async () => {
-    const response = await API_WRAPPER.get("/menu");
+    const response = await API_WRAPPER.get("/menu/list/show");
     if (response?.status === 200) {
       setMenuHeaderTitlesList(response?.data);
     }

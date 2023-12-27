@@ -11,6 +11,11 @@ const useCollectionConditions = () => {
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   const [selectedVal, setSelectedVal] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const [editedRow, setEditedRow] = useState({});
   // table columns
@@ -35,13 +40,13 @@ const useCollectionConditions = () => {
           );
         },
       },
-      {
-        Header: "Status",
-        accessor: "status",
-        Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
-        },
-      },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(row?.original?.status);
+      //   },
+      // },
     ],
     []
   );
@@ -90,14 +95,11 @@ const useCollectionConditions = () => {
   const getAllCollectionCondition = async () => {
     try {
       const response = await API_WRAPPER.get(
-        "/collection-condition/get-all-collection-conditions"
+        `/collection-condition/get-all-collection-conditions/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
       );
       if (response.status === 200) {
-        setCollectionConditionList(response?.data);
-        debouncedShowToast(
-          "Collection conditions loaded successfully",
-          "success"
-        );
+        setCollectionConditionList(response?.data?.collectionConditions);
+        setTotalPagesShow(response?.data?.totalPages);
         console.log("COLLECTION CONDITIONS LIST: ", response?.data);
       }
     } catch (error) {
@@ -138,6 +140,7 @@ const useCollectionConditions = () => {
           "Collection Condition Deleted Successfully",
           "success"
         );
+        getAllCollectionCondition();
         console.log("DELETE RESPONSE: ", response);
       }
     } catch (error) {
@@ -153,7 +156,7 @@ const useCollectionConditions = () => {
   const handleDelete = (row) => {
     // deleteCollectionCondition(row._id);
     setSelectedRow(row);
-    window.collection_condition_delete_modal.showModal();
+    window.collection_condition_delete_modals.showModal();
   };
 
   const handleEdit = (row) => {
@@ -184,7 +187,7 @@ const useCollectionConditions = () => {
   useEffect(() => {
     getAllCollectionCondition();
     getAllConditionValues();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   useEffect(() => {
     console.log("MULTI SELECT STATE: ", selected);
@@ -205,6 +208,14 @@ const useCollectionConditions = () => {
     selectedRow,
     editFormHandler,
     deleteCollectionCondition,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   };
 };
 

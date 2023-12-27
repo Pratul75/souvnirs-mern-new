@@ -16,9 +16,105 @@ const createMenu = async (req, res) => {
   res.status(200).json(createdMenu);
 };
 
+////////////////////??????????
 const getMenu = async (req, res) => {
-  const menus = await Menu.find().sort({ _id: -1 });
-  res.status(200).json(menus);
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    const skip = (page - 1) * pageSize;
+    console.log(")", req.query, skip);
+    let totalData = 0,
+      totalPages = 0,
+      matchQuery = {};
+    if (seacrhText) {
+      matchQuery = {
+        $or: [{ title: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+    console.log("matchQuery==>", matchQuery);
+
+    const menus = await Menu.aggregate([
+      {
+        $match: matchQuery, // Apply the search query
+      },
+      {
+        $sort: { createdAt: -1 }, // Sort by creation date in descending order
+      },
+      {
+        $skip: Number(skip),
+      },
+      {
+        $limit: Number(pageSize),
+      },
+    ]);
+
+    totalData = await Menu.find(matchQuery).countDocuments();
+    totalPages = Math.ceil(totalData / pageSize);
+    res.status(200).json(menus);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const getMenuALl = async (req, res) => {
+  try {
+    const menus = await Menu.aggregate([
+      {
+        $sort: { createdAt: -1 }, // Sort by creation date in descending order
+      },
+    ]);
+
+    res.status(200).json(menus);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const getAllMenu = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    const skip = (page - 1) * pageSize;
+    console.log(")", req.query, skip);
+    let totalData = 0,
+      totalPages = 0,
+      matchQuery = {};
+    if (seacrhText) {
+      matchQuery = {
+        $or: [{ title: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+    console.log("matchQuery==>", matchQuery);
+
+    const menus = await Menu.aggregate([
+      {
+        $match: matchQuery, // Apply the search query
+      },
+      {
+        $sort: { createdAt: -1 }, // Sort by creation date in descending order
+      },
+      {
+        $skip: Number(skip),
+      },
+      {
+        $limit: Number(pageSize),
+      },
+    ]);
+
+    totalData = await Menu.find(matchQuery).countDocuments();
+    totalPages = Math.ceil(totalData / pageSize);
+    res.status(200).json({
+      message: "get data successfully",
+      totalData,
+      page,
+      totalPages,
+      menus,
+    });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
 
 const createMainMenu = async (req, res) => {
@@ -98,7 +194,7 @@ const getMainMenuData = async (req, res) => {
 const editMainMenu = async (req, res) => {
   try {
     const menuItemId = req.params.id;
-    const { title, status } = req.body;
+    const { title, status, position } = req.body;
 
     const updatedMenuItem = await MainMenu.findByIdAndUpdate(
       menuItemId,
@@ -106,6 +202,7 @@ const editMainMenu = async (req, res) => {
         $set: {
           title,
           status,
+          position,
         },
       },
       { new: true }
@@ -125,12 +222,13 @@ const editMainMenu = async (req, res) => {
 
 const createSubMenu = async (req, res) => {
   for (let elem of req.body) {
-    const { heading: title, link, type, typeValue, mainMenuId } = elem;
+    let { title, link, type, typeValue, mainMenuId } = elem;
     if (!mainMenuId) {
       return res.status(400).json("selecting main menu is required");
     }
     if (!title) {
-      return res.status(400).json("title is required");
+      title = "s";
+      // return res.status(400).json("title is required");
     }
     const subs = await SubMenu.create({
       title,
@@ -142,6 +240,28 @@ const createSubMenu = async (req, res) => {
     console.log(subs);
   }
   res.status(200).json("Sub-menu created successfully");
+};
+
+const EditSubMenu = async (req, res) => {
+  for (let elem of req.body) {
+    let { title, link, type, typeValue, mainMenuId } = elem;
+    if (!mainMenuId) {
+      return res.status(400).json("selecting main menu is required");
+    }
+    if (!title) {
+      title = "s";
+      // return res.status(400).json("title is required");
+    }
+    const subs = await MainMenu.findByIdAndUpdate(req?.body[0]?.subId, {
+      title,
+      link,
+      type,
+      typeValue,
+      mainMenuId,
+    });
+    console.log(subs);
+  }
+  return res.status(200).json("Sub-menu Updare successfully");
 };
 
 const getSubMenus = async (req, res) => {
@@ -204,6 +324,40 @@ const getNavbarData = async (req, res) => {
 
     res.status(200).json(finalData);
   } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Internal server error", error_msg: error.message });
+  }
+};
+
+const getFooterMenu = async (req, res) => {
+  try {
+    const menu = await Menu.findOne({ title: "footer" }).lean();
+    const mainMenuIds = await MainMenu.find({ menuId: menu._id })
+      .select("_id title position")
+      .sort({ _id: -1 })
+      .lean();
+
+    const mainMenuPromises = mainMenuIds.map(async (mainMenu) => {
+      const mainMenuObj = { ...mainMenu };
+      const subMenus = await SubMenu.find({ mainMenuId: mainMenu._id }).lean();
+
+      const subMenuPromises = subMenus.map(async (subMenu) => {
+        const subMenuObj = { ...subMenu };
+        subMenuObj.child = await SubMenuChild.find({
+          subMenuId: subMenu._id,
+        }).lean();
+        return subMenuObj;
+      });
+
+      mainMenuObj.submenus = await Promise.all(subMenuPromises);
+      return mainMenuObj;
+    });
+
+    const finalData = await Promise.all(mainMenuPromises);
+
+    res.status(200).json(finalData);
+  } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
@@ -234,6 +388,12 @@ const UpdateMenue = async (req, res) => {
   res.status(200).json(UpdateData);
 };
 
+const UpdateMenueOne = async (req, res) => {
+  const { id } = req.params;
+  const UpdateData = await Menu.findByIdAndDelete(id);
+  res.status(200).json(UpdateData);
+};
+
 module.exports = {
   getSubMenus,
   createChildMenu,
@@ -249,4 +409,9 @@ module.exports = {
   getMainMenuData,
   getDataById,
   UpdateMenue,
+  getFooterMenu,
+  getAllMenu,
+  UpdateMenueOne,
+  getMenuALl,
+  EditSubMenu,
 };

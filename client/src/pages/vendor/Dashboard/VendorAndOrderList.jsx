@@ -35,8 +35,32 @@ const VendorAndOrderList = () => {
   const orderTableColumns = useMemo(
     () => [
       {
+        Header: "Billing ID",
+        accessor: "billing_id",
+      },
+      {
+        Header: "Courier ID",
+        accessor: "courier_id",
+      },
+      {
+        Header: "Vendor Name",
+        accessor: "vendor_id",
+        Cell: ({ row }) => {
+          return (
+            <>
+              <div>{row?.original?.vendor_id?.firstName}</div>
+              <div>{row?.original?.vendor_id?.lastName}</div>
+            </>
+          );
+        },
+      },
+      {
         Header: "Payment Status",
         accessor: "payment_status",
+      },
+      {
+        Header: "Payment Method",
+        accessor: "payment_method",
       },
       {
         Header: "Order Status",
@@ -44,7 +68,15 @@ const VendorAndOrderList = () => {
       },
       {
         Header: "Address ID",
-        accessor: "address_id",
+        accessor: "address_id.address",
+        Cell: ({ row }) => {
+          return (
+            <>
+              <div>{row?.original?.address_id.city}</div>
+              <div>{row?.original?.address_id.address}</div>
+            </>
+          );
+        },
       },
     ],
     []

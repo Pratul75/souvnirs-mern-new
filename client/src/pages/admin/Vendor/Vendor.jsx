@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { PATHS } from "../../../Routes/paths";
 import VendorBannerImage from "../../../assets/bannerImages/vendorImage.png";
 import useVendor from "./useVendor";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 
 const Vendor = () => {
   const {
@@ -17,6 +18,16 @@ const Vendor = () => {
     setSelectedStore,
     submitHandleDelete,
     vendorList,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
+    handleShowVendor,
+    fetchVendorList,
   } = useVendor();
   return (
     <div className="relative">
@@ -33,7 +44,28 @@ const Vendor = () => {
         </div>
       </div>
       <div className="mt-4">
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Vendor List"
+          columns={columns}
+          data={vendorList}
+          showButtons
+          enableEdit
+          enableDelete
+          onShow={handleShowVendor}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
           tableTitle="Vendor List"
           columns={columns}
           data={vendorList}
@@ -44,7 +76,7 @@ const Vendor = () => {
           enablePagination
           pageSize={10}
           onEdit={handleEdit}
-        />
+        /> */}
       </div>
       <Modal
         id="vendor_edit_modal"
@@ -60,7 +92,8 @@ const Vendor = () => {
           organizationType: selectedRow?.store?.organization_type,
           country: selectedRow?.store?.country,
           city: selectedRow?.store?.city,
-          pincode: selectedRow?.store?.pin_code,
+          pincode: selectedRow?.store?.pinCode,
+          // password: selectedRow?.password,
           status: selectedRow?.status,
         }}
         inputs={[
@@ -83,6 +116,11 @@ const Vendor = () => {
             label: "Mobile",
             type: "tel",
             name: "mobile",
+          },
+          {
+            label: "Password",
+            type: "text",
+            name: "password",
           },
           {
             label: "Organisation Name",

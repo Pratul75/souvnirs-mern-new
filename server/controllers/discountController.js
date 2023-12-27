@@ -11,6 +11,57 @@ const getAllDiscounts = async (req, res) => {
   }
 };
 
+const getAllDiscountsList = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      matchQuery = {
+        $or: [{ title: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+
+    const discounts = await Discount.aggregate([
+      {
+        $match: matchQuery,
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
+
+    totalData = await Discount.find(matchQuery).countDocuments();
+    totalPages = Math.ceil(totalData / pageSize);
+    // const discounts = await Discount.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      message: "get data successfully",
+      totalData,
+      page,
+      totalPages,
+      discounts,
+    });
+  } catch (error) {
+    console.error("Error occurred while fetching discounts", error);
+    res.status(400).json({ error: "somthing went wrong" });
+  }
+};
+
 // Get a discount by ID
 const getDiscountById = async (req, res) => {
   const { id } = req.params;
@@ -27,7 +78,7 @@ const getDiscountById = async (req, res) => {
 };
 const getLatestDiscout = async (req, res) => {
   try {
-    const discount = await Discount.find({ status : "ACTIVE"})
+    const discount = await Discount.find({ status: "ACTIVE" })
       .limit(1)
       .sort({ createdAt: -1 });
     res.status(200).json(discount ? discount[0] : {});
@@ -131,6 +182,7 @@ const deleteDiscount = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createDiscount,
   deleteDiscount,
@@ -138,4 +190,5 @@ module.exports = {
   getAllDiscounts,
   getDiscountById,
   getLatestDiscout,
+  getAllDiscountsList,
 };

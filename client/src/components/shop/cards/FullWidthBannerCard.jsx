@@ -26,7 +26,7 @@ const FullWidthBannerCard = ({
             </div>
             <div className="flex gap-2 flex-1  justify-center">
               <Link
-                to={"/collection/Rainwear"}
+                to={"/category/Clothing%20and%20Apparel"}
                 className="btn btn-sm md:btn-md bg-shopPrimaryColor text-white border-none outline-none md:mt-4  "
               >
                 Shop Now

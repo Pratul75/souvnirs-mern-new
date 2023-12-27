@@ -4,6 +4,8 @@ import { ToastContainer } from "react-toastify";
 import { PATHS } from "../../../Routes/paths";
 import Loading from "../../common/Loading";
 import useAddSubMenus from "./useAddSubMenus";
+import { Link } from "react-router-dom";
+import { IoMdArrowBack } from "react-icons/io";
 
 const AddSubMenus = () => {
   const {
@@ -245,6 +247,10 @@ const AddSubMenus = () => {
         </Card>
       ))}
       <div className="flex justify-end mt-4 p-4">
+        <Link onClick={() => navigate(-1)} className="btn mr-4">
+          <IoMdArrowBack className="text-2xl" style={{ fontSize: "13px" }} />
+          Back
+        </Link>
         <button className="btn btn-primary" onClick={createSubMenus}>
           {" "}
           Submit

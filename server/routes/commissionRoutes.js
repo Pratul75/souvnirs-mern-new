@@ -6,6 +6,7 @@ const {
   getAllCommissions,
   getCommissionById,
   updateCommissionById,
+  getAllCommissionslist,
 } = require("../controllers/commissionController");
 
 router.post(
@@ -15,10 +16,15 @@ router.post(
 );
 
 router.get(
-  
   "/commission/get-all-commissions",
   authMiddleware(["vendor", "admin", "customer"]),
   getAllCommissions
+);
+
+router.get(
+  "/commission/get-all-commissions/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllCommissionslist
 );
 
 router.get(

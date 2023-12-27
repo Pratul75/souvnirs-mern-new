@@ -13,6 +13,15 @@ const useProductManagement = () => {
   const [loading, setLoading] = useState(false);
   const [disapprovalComment, setDisapprovalComment] = useState("");
   const [error, seterror] = useState("");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
+  const [storeFilter, setStoreFilter] = useState({
+    sortBy: "",
+    name: "",
+  });
 
   const alterApproval = async (id, approved, comment = "") => {
     await API_WRAPPER.post(`/product/approval/${id}`, { approved, comment });
@@ -20,18 +29,53 @@ const useProductManagement = () => {
     window.disapproval_modal.close();
     fetchProductsList();
   };
+
   useEffect(() => {
     fetchProductsList();
-  }, [apiTrigger]);
+  }, [
+    apiTrigger,
+    page,
+    pageSize,
+    seacrhText,
+    storeFilter?.name,
+    storeFilter?.sortBy,
+  ]);
+
+  const FilterDataCall = (item, selectedSort) => {
+    setStoreFilter({
+      ...storeFilter,
+      name: selectedSort?.name,
+      sortBy: item?.value,
+    });
+    setPage(1);
+  };
 
   const data = useMemo(() => productsList, [productsList]);
 
   const fetchProductsList = async () => {
     try {
-      const response = await API_WRAPPER.get("/products/get-all-products");
-      if (response.status === 200) {
-        setProductsList(response?.data);
-        console.log("RESPONSE: ", response?.data);
+      if (storeFilter?.sortBy && storeFilter?.name) {
+        setProductLoading(true);
+        const response = await API_WRAPPER.get(
+          `/get/products?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}&sortBy=${storeFilter?.sortBy}&name=${storeFilter?.name}`
+        );
+        if (response.status === 200) {
+          setProductLoading(false);
+          setProductsList(response?.data.productsList);
+          setTotalPagesShow(response?.data?.totalPages);
+          console.log("RESPONSE: ", response?.data);
+        }
+      } else {
+        setProductLoading(true);
+        const response = await API_WRAPPER.get(
+          `/get/products?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+        );
+        if (response.status === 200) {
+          setProductLoading(false);
+          setProductsList(response?.data.productsList);
+          setTotalPagesShow(response?.data?.totalPages);
+          console.log("RESPONSE: ", response?.data);
+        }
       }
     } catch (error) {
       console.error({ error, messge: error.message });
@@ -107,12 +151,23 @@ const useProductManagement = () => {
       );
       if (response.status == 200) {
         setLoading(false);
+        toast.success("uploaded successfully");
+        fetchProductsList();
+        // window.product_management_Product_success.showModal();
       }
       console.log("ProductManagement.jsx", response);
     } catch (e) {
       setLoading(false);
       console.log(e);
     }
+  };
+
+  const ResetFilter = () => {
+    setStoreFilter({
+      sortBy: "",
+      name: "",
+    });
+    SetSearchTex("");
   };
 
   useEffect(() => {
@@ -136,6 +191,16 @@ const useProductManagement = () => {
     error,
     setSelectedRow,
     bulkData,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
+    FilterDataCall,
+    ResetFilter,
   };
 };
 

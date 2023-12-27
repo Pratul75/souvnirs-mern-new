@@ -23,7 +23,8 @@ const Dropzone = ({ onFilesChange }) => {
       } else {
         setShowModal(false);
         setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
-        onFilesChange([...files, ...acceptedFiles]);
+        // onFilesChange([...files, ...acceptedFiles]);
+        onFilesChange([...acceptedFiles]);
       }
     },
     [files, onFilesChange]

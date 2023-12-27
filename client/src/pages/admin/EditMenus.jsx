@@ -4,10 +4,11 @@ import API_WRAPPER from "../../api";
 import { RiDeleteBin7Line } from "react-icons/ri";
 import { debouncedShowToast } from "../../utils";
 import { ToastContainer } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../../Routes/paths";
 import Loading from "../common/Loading";
 import { AiOutlineEdit } from "react-icons/ai";
+import { IoMdArrowBack } from "react-icons/io";
 
 const EditMenu = () => {
   const [subMenuHeading, setSubMenuHeading] = useState("");
@@ -19,13 +20,13 @@ const EditMenu = () => {
   const [areInputsValid, setAreInputsValid] = useState(false);
   const [mainMenus, setMainMenus] = useState([]);
   const [mainMenuId, setMainMenuId] = useState("");
+  const [menuListshow, setMenuListShow] = useState([]);
   const [childMenuToggle, setChildMenuToggle] = useState(false);
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
 
   const getMainMenus = async () => {
     const response = await API_WRAPPER.get("/main-menu/" + id);
-    console.log("EditMenu.jsx", response);
     setMainMenus(response.data);
     if (response.data[0].submenus?.length > 0) {
       setChildMenuToggle(true);
@@ -33,6 +34,20 @@ const EditMenu = () => {
     console.log(response.data[0].submenus);
     setCreatedCards(response.data[0].submenus);
   };
+  console.log("EditMenu.jsx===>///", mainMenus);
+
+  const getManuList = async () => {
+    try {
+      const result = await API_WRAPPER.get("/menu/list/show");
+      setMenuListShow(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getManuList();
+  }, []);
 
   const handleApiCalls = async () => {
     if (subMenuType === "collection") {
@@ -54,6 +69,11 @@ const EditMenu = () => {
       // TODO: Handle page API call
     }
   };
+  const changeValue = (value, name) => {
+    let clondeMenu = [...mainMenus];
+    clondeMenu[0][name] = value;
+    setMainMenus(clondeMenu);
+  };
 
   const handleCardDelete = (index) => {
     const updatedCards = [...createdCards];
@@ -62,17 +82,47 @@ const EditMenu = () => {
     ``;
     debouncedShowToast("Submenu deleted successfully", "success");
   };
+  // const createSubMenus = async () => {
+  //   setLoading(true);
+  //   let mainData =
+  //     createdCards.length < 1
+  //       ? [
+  //           {
+  //             mainMenuId: id,
+  //             title: subMenuHeading,
+  //             type: subMenuType,
+  //             typeValue: selectedTypeDataValue,
+  //             link: link,
+  //           },
+  //         ]
+  //       : createdCards;
+  //   await API_WRAPPER.post("/sub-menu/create", mainData);
+  //   setLoading(false);
+  //   navigate("/admin/menus");
+  // };
+
   const createSubMenus = async () => {
     setLoading(true);
-    await API_WRAPPER.post("/sub-menu/create", createdCards);
+    let { title, link, type, typeValue, menuId } = mainMenus[0];
+    await API_WRAPPER.post("/menu/edit/menu", [
+      {
+        mainMenuId: menuId,
+        title,
+        type,
+        typeValue: selectedTypeDataValue,
+        link,
+        subId: id,
+      },
+    ]);
     setLoading(false);
     navigate("/admin/menus");
   };
+
   const handleCardSubmit = (e) => {
     e.preventDefault();
     const newCard = {
-      mainMenuId,
-      heading: subMenuHeading,
+      mainMenuId: id,
+      title: subMenuHeading,
       type: subMenuType,
       typeValue: selectedTypeDataValue,
       link: link,
@@ -128,11 +178,11 @@ const EditMenu = () => {
                 className="select select-primary"
                 name="menuId"
                 id="menuTitle"
-                value={mainMenuId}
-                onChange={(e) => setMainMenuId(e.target.value)}
+                value={mainMenus[0]?.menuId}
+                onChange={(e) => changeValue(e.target.value, "menuId")}
               >
-                {mainMenus &&
-                  mainMenus.map((item) => (
+                {menuListshow &&
+                  menuListshow.map((item) => (
                     <option
                       selected={item._id === mainMenuId}
                       value={item._id}
@@ -148,20 +198,34 @@ const EditMenu = () => {
                 <span className="label-text">Sub Menu Heading</span>
               </label>
               <input
-                onChange={(e) => setSubMenuHeading(e.target.value)}
-                value={subMenuHeading}
+                onChange={(e) => changeValue(e.target.value, "title")}
+                value={mainMenus ? mainMenus[0]?.title : subMenuHeading}
                 className="input input-primary"
                 type="text"
                 name=""
                 id=""
               />
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Main Menu Position</span>
+                </label>
+                <input
+                  className="input input-primary"
+                  type="number"
+                  name="position"
+                  id=""
+                  value={mainMenus[0]?.position}
+                  onChange={(e) => changeValue(e.target.value, "position")}
+                />
+              </div>
             </div>
+
             <div className="form-control">
               <label htmlFor="isSubMenu" className="label">
                 <span className="label-text">Create Child Menu</span>
               </label>
               <input
-                onChange={(e) => setChildMenuToggle(e.target.checked)}
+                onChange={(e) => changeValue(e.target.value, "type")}
                 checked={childMenuToggle}
                 className="toggle toggle-primary"
                 type="checkbox"
@@ -176,7 +240,10 @@ const EditMenu = () => {
                     <span className="label-text">Sub Menu Type</span>
                   </label>
                   <select
-                    onChange={(e) => setSubMenuType(e.target.value)}
+                    onChange={(e) => {
+                      changeValue(e.target.value, "submenus");
+                      setSubMenuType(e.target.value);
+                    }}
                     className="select select-primary"
                     name=""
                     id=""
@@ -184,10 +251,18 @@ const EditMenu = () => {
                     <option selected disabled>
                       Select Menu Type
                     </option>
-                    <option value="collection">Collection</option>
-                    <option value="category">Category</option>
-                    <option value="productInfo">Product</option>
-                    <option value="page">Page</option>
+                    <option selected={mainMenus[0]?.type} value="collection">
+                      Collection
+                    </option>
+                    <option selected={mainMenus[0]?.type} value="category">
+                      Category
+                    </option>
+                    <option selected={mainMenus[0]?.type} value="productInfo">
+                      Product
+                    </option>
+                    <option selected={mainMenus[0]?.type} value="page">
+                      Page
+                    </option>
                   </select>
                 </div>
                 <div className="form-control col-span-2 md:col-span-1">
@@ -332,6 +407,10 @@ const EditMenu = () => {
       ))}
 
       <div className="flex justify-end mt-4 p-4">
+        <Link onClick={() => navigate(-1)} className="btn mr-4">
+          <IoMdArrowBack className="text-2xl" style={{ fontSize: "13px" }} />
+          Back
+        </Link>
         <button className="btn btn-primary" onClick={createSubMenus}>
           {" "}
           Submit

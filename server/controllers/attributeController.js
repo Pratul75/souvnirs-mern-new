@@ -22,34 +22,88 @@ const getAllAttributes = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+const getAllAttributesList = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      console.log("--->", seacrhText);
+      matchQuery = {
+        $or: [{ name: { $regex: new RegExp(seacrhText, "i") } }],
+      };
+    }
+    const attributes = await Attribute.aggregate([
+      {
+        $match: matchQuery,
+      },
+      {
+        $sort: {
+          updatedAt: -1,
+        },
+      },
+      {
+        $skip: skip,
+      },
+      {
+        $limit: pageSize,
+      },
+    ]);
+
+    totalData = await Attribute.find(matchQuery).countDocuments();
+
+    totalPages = Math.ceil(totalData / pageSize);
+
+    res.json({
+      message: "get data successfully",
+      totalData,
+      page,
+      totalPages,
+      attributes,
+    });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
 const getattributesbyCategoryId = async (req, res) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const attributes = await Category.aggregate([
       {
-        '$match': {
-          '_id': new mongoose.Types.ObjectId(id)
-        }
-      }, {
-        '$lookup': {
-          'from': 'attributes',
-          'localField': 'attributes',
-          'foreignField': '_id',
-          'as': 'result'
-        }
-      }, {
-        '$project': {
-          'result': 1
-        }
-      }
-    ])
-    const data = attributes[0].result
-    console.log('attributeController.js', attributes[0].result);
-    res.status(200).json(data)
+        $match: {
+          _id: new mongoose.Types.ObjectId(id),
+        },
+      },
+      {
+        $lookup: {
+          from: "attributes",
+          localField: "attributes",
+          foreignField: "_id",
+          as: "result",
+        },
+      },
+      {
+        $project: {
+          result: 1,
+        },
+      },
+    ]);
+    const data = attributes[0].result;
+    console.log("attributeController.js", attributes[0].result);
+    res.status(200).json(data);
   } catch (err) {
-    res.status(400).json("somwthing went wrong")
+    res.status(400).json("somwthing went wrong");
   }
-}
+};
 
 // Get a single attribute by ID
 const getAttributeById = async (req, res) => {
@@ -105,5 +159,6 @@ module.exports = {
   getAttributeById,
   updateAttributeById,
   deleteAttributeById,
-  getattributesbyCategoryId
+  getattributesbyCategoryId,
+  getAllAttributesList,
 };

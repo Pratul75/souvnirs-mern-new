@@ -7,23 +7,54 @@ import {
   getStatusStyles,
   getStockStatusStyles,
 } from "../../utils";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { GoPlus } from "react-icons/go";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { BsUpload } from "react-icons/bs";
 import ProductManagementBannerImage from "../../assets/bannerImages/productManagementImage.png";
 import { Dropzone } from "../../components";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
+import { saveAs } from "file-saver";
+
 const ProductManagement = () => {
   const [productsList, setProductsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
-  const [bulkData, setBulkData] = useState();
+  const [bulkData, setBulkData] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [isValidCSV, setIsValidCSV] = useState();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Product Image",
+        Cell: ({ row }) => {
+          const img = row?.original?.coverImage;
+          return (
+            <Link
+              to={`/productInfo/${row?.original?.slug}`}
+              className="cursor-pointer"
+            >
+              <img
+                className="w-12 h-12 text-center rounded-lg hover:scale-105"
+                src={
+                  !img?.includes("res.cloudinary") &&
+                  !img?.includes("cdn.shopify")
+                    ? `${baseUrl}/${img}`
+                    : img
+                }
+              />
+            </Link>
+          );
+        },
+      },
       {
         Header: "Product Name",
         accessor: "name",
@@ -31,53 +62,18 @@ const ProductManagement = () => {
       {
         Header: "Variant",
         Cell: ({ row }) => {
-          if (row?.original?.result?.variant) {
-            const keys = Object.keys(row?.original?.result?.variant);
-
-            return keys.map((key) => (
-              <p>
-                {key}:{row?.original?.result?.variant[key]}
-              </p>
-            ));
-          } else {
-            return <p> </p>;
-          }
-        },
-      },
-      {
-        Header: "Price",
-        accessor: "result.price",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.price
-            : row?.original?.price;
-        },
-      },
-      {
-        Header: "On Sale",
-        accessor: "onSale",
-        Cell: ({ row }) => {
           return (
-            <p>
-              {row?.original?.onSale ? (
-                <span className="text-green-600">YES</span>
-              ) : (
-                <span className="text-rose-600">NO</span>
-              )}
-            </p>
+            <ul>
+              {row?.original?.variant?.map((item) => (
+                <li>{item?.name}</li>
+              ))}
+            </ul>
           );
         },
       },
       {
-        Header: "Stock Quantity",
-        accessor: "result.quantity",
-        Cell: ({ row }) => {
-          console.log("ProductManagement.jsx", row);
-          return row.original?.result?.price
-            ? row?.original?.result?.quantity
-            : row?.original?.stockQuantity;
-        },
+        Header: "Category Name",
+        accessor: "category[0].name",
       },
       {
         Header: "Stock Status",
@@ -87,13 +83,16 @@ const ProductManagement = () => {
         },
       },
       {
-        Header: "Approved",
-        accessor: "approved",
-        Cell: ({ row }) => {
-          return (
-            <span>{row?.original?.approved ? "approved" : "disapproved"}</span>
-          );
-        },
+        Header: "Total Sales",
+        accessor: "totalSales",
+      },
+      {
+        Header: "Stock Quantity",
+        accessor: "stockQuantity",
+      },
+      {
+        Header: "Price",
+        accessor: "price",
       },
       {
         Header: "Status",
@@ -110,9 +109,14 @@ const ProductManagement = () => {
 
   const fetchProductsList = async () => {
     try {
-      const response = await API_WRAPPER.get("/products/get-vendor-products");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/get/products?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
-        setProductsList(response?.data);
+        setProductLoading(false);
+        setProductsList(response?.data.productsList);
+        setTotalPagesShow(response?.data?.totalPages);
         console.log("RESPONSE: ", response?.data);
       }
     } catch (error) {
@@ -186,13 +190,18 @@ const ProductManagement = () => {
       setLoading(true);
       console.log("ProductManagement.jsx", bulkData);
       const buFormData = new FormData();
-      buFormData.append("file", bulkData[0]);
-      const response = await API_WRAPPER.post(
-        "/products/bulk-upload",
-        buFormData
-      );
-      if (response.status == 200) {
-        setLoading(false);
+      buFormData.append("file", bulkData);
+      if (bulkData) {
+        const response = await API_WRAPPER.post(
+          "/vendor/products/bulk-upload",
+          buFormData
+        );
+        if (response.status == 200) {
+          // toast.success("uploaded successfully");
+          window.product_management_Product_success.showModal();
+          setLoading(false);
+          fetchProductsList();
+        }
       }
       console.log("ProductManagement.jsx", response);
     } catch (e) {
@@ -201,9 +210,25 @@ const ProductManagement = () => {
     }
   };
 
+  const handleDownloadExcel = () => {
+    // Function to handle downloading the XLSX file
+    // Replace 'sample.xlsx' with your file name or fetch it from an API or a specific URL
+    const url =
+      "https://storage.cloud.google.com/staging.souvnirs-be.appspot.com/1702463462252Template456.xlsx"; //`${baseUrl}/1701254699154new.xlsx`;
+
+    // Use 'saveAs' from file-saver library to initiate file download
+    saveAs(url, "sample.xlsx");
+  };
+
+  const handleFileUpload = (event) => {
+    console.log("...?", event.target?.files[0]);
+    const file = event.target.files[0];
+    setBulkData(file);
+  };
+
   useEffect(() => {
     fetchProductsList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return (
     <div>
@@ -227,7 +252,7 @@ const ProductManagement = () => {
               <li>
                 <p
                   onClick={() => window.my_modal_1.showModal()}
-                  onChange={(e) => bulkUpload(e.target.files[0])}
+                  // onChange={(e) => bulkUpload(e.target.files[0])}
                 >
                   <BsUpload size={20} />
                   Bulk Upload
@@ -244,7 +269,8 @@ const ProductManagement = () => {
         </div>
 
         <div className="mt-4">
-          <ReusableTable
+          <ReuseTable
+            tableTitle="Product List"
             columns={columns}
             data={data}
             showButtons
@@ -252,8 +278,16 @@ const ProductManagement = () => {
             enableDelete
             onEdit={handleEdit}
             onDelete={handleDelete}
-            pageSize={10}
             enablePagination
+            pageSize={10}
+            setPageSizeshow={setPageSize}
+            setPageNumber={setPage}
+            pageSizeShow={pageSize}
+            pageNumber={page}
+            totalPagesShow={totalPagesShow}
+            productLoading={productLoading}
+            SetSearchTex={SetSearchTex}
+            seacrhText={seacrhText}
           />
         </div>
       </div>
@@ -280,16 +314,47 @@ const ProductManagement = () => {
       <dialog id="my_modal_1" className="modal">
         <form method="dialog" className="modal-box p-0  w-3/4 max-w-5xl">
           <div className="p-4">
-            <h3 className="font-bold text-xl ">Import products by CSV</h3>
+            <h3 className="font-bold text-xl ">Import products by XLSX</h3>
             <h4 className="mt-2">
-              Download a sample SVG template to see an examble of the format
+              Download a sample XLSX template to see an examble of the format
               required.
             </h4>
             <hr className="mt-4" />
             <div className="w-full h-80 rounded-xl border-[1px] border-base-200 mt-4">
-              <Dropzone onFilesChange={(data) => setBulkData(data)} />
+              {/* <Dropzone onFilesChange={(data) => setBulkData(data)} /> */}
+              <input
+                type="file"
+                // value={bulkData}
+                accept=".csv, .xlsx"
+                onChange={(e) => {
+                  handleFileUpload(e);
+                  // setBulkData(e.target.files[0]);
+                }}
+              />
+              {isValidCSV == false && <p>CSV or XLSX file is invalid</p>}
             </div>
             <div className="modal-action">
+              <button
+                onClick={handleDownloadExcel}
+                className="btn bg-themeColor text-white flex items-center"
+              >
+                {/* Tailwind CSS icon for download */}
+                <svg
+                  className="w-5 h-5 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+                Download XLSX FORMATE
+              </button>
               {/* if there is a button in form, it will close the modal */}
               <button
                 onClick={bulkUpload}
@@ -299,6 +364,22 @@ const ProductManagement = () => {
               </button>
               <button className="btn">Close</button>
             </div>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="product_management_Product_success" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Changes submitted</h3>
+          <p className="py-4">
+            Thanks for submitting your changes. if approved, changes will be
+            reflected within 24 hours.
+          </p>
+          <div className="modal-action">
+            {/* <button onClick={deleteSelectedRow} className="btn btn-error">
+              Delete
+            </button> */}
+            <button className="btn">Done</button>
           </div>
         </form>
       </dialog>

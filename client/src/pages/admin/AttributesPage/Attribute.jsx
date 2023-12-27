@@ -8,6 +8,7 @@ import { getStatusStyles } from "../../../utils";
 import "react-toastify/dist/ReactToastify.css";
 import AttributeBannerImage from "../../../assets/bannerImages/attributesImage.png";
 import useAttribute from "./useAttribute";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 const Attributes = () => {
   const columns = [
     // {
@@ -18,13 +19,13 @@ const Attributes = () => {
       Header: "Attribute Name",
       accessor: "name",
     },
-    {
-      Header: "Status",
-      accessor: "status",
-      Cell: ({ row }) => {
-        return getStatusStyles(row?.original?.status);
-      },
-    },
+    // {
+    //   Header: "Status",
+    //   accessor: "status",
+    //   Cell: ({ row }) => {
+    //     return getStatusStyles(row?.original?.status);
+    //   },
+    // },
   ];
 
   const {
@@ -36,7 +37,17 @@ const Attributes = () => {
     handleFormSubmit,
     selectedRow,
     setSelectedRow,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useAttribute();
+
+  console.log("---->selectedRow", selectedRow);
 
   return (
     <>
@@ -54,7 +65,28 @@ const Attributes = () => {
             Add Attribute
           </Link>
         </div>
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Attributes List"
+          columns={columns}
+          data={attributesList}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+
+        {/* <ReusableTable
           tableTitle="Attributes List"
           data={attributesList}
           columns={columns}
@@ -65,7 +97,7 @@ const Attributes = () => {
           onEdit={handleEdit}
           pageSize={10}
           enablePagination
-        />
+        /> */}
         {/* edit modal */}
         <dialog id="attributes_edit_modal" className="modal">
           <form method="dialog" className="modal-box">
@@ -91,7 +123,7 @@ const Attributes = () => {
                   id=""
                 />
               </div>
-              <div className="form-control">
+              {/* <div className="form-control">
                 <label className="label">
                   <span className="label-text">Status</span>
                 </label>
@@ -101,18 +133,33 @@ const Attributes = () => {
                     setSelectedRow({
                       ...selectedRow,
                       name: selectedRow?.name,
-                      status: selectedRow?.status,
+                      status: e.target.value,
                     });
                     handleEditChange(e);
                   }}
                   className="select select-primary"
                   name="status"
                 >
-                  <option value="ACTIVE">ACTIVE</option>
-                  <option value="DEACTIVE">DEACTIVE</option>
-                  <option value="PENDING">PENDING</option>
+                  <option
+                    selected={selectedRow?.status === "ACTIVE"}
+                    value="ACTIVE"
+                  >
+                    ACTIVE
+                  </option>
+                  <option
+                    selected={selectedRow?.status === "DEACTIVE"}
+                    value="DEACTIVE"
+                  >
+                    DEACTIVE
+                  </option>
+                  <option
+                    selected={selectedRow?.status === "PENDING"}
+                    value="PENDING"
+                  >
+                    PENDING
+                  </option>
                 </select>
-              </div>
+              </div> */}
             </div>
             <div className="modal-action flex gap-4">
               <button

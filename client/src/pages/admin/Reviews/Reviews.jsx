@@ -1,4 +1,4 @@
-import { Header, ReusableTable } from "../../../components";
+import { Header, Ratings, ReusableTable } from "../../../components";
 import ReviewsBannerImage from "../../../assets/bannerImages/reviewsImage.png";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
@@ -12,7 +12,7 @@ const Reviews = () => {
   const columns = [
     {
       Header: "Product Name",
-      accessor: "product.name",
+      accessor: "productDetails.name",
     },
     {
       Header: "Customer Name",
@@ -21,32 +21,53 @@ const Reviews = () => {
         return (
           <div>
             <p>
-              {row?.original?.customer?.firstName}{" "}
-              {row?.original?.customer?.lastName}
+              {row?.original?.customerDetails?.firstName}{" "}
+              {row?.original?.customerDetails?.lastName}
             </p>
           </div>
         );
       },
     },
     {
-      Header: "Description",
+      Header: "Vendor Name",
+      accessor: "vendor",
+      Cell: ({ row }) => {
+        return (
+          <div>
+            <p>
+              {row?.original?.vendorDetails?.firstName}{" "}
+              {row?.original?.vendorDetails?.lastName}
+            </p>
+          </div>
+        );
+      },
+    },
+    {
+      Header: "Review message",
       accessor: "description",
     },
     {
       Header: "Rating",
       accessor: "rating",
-    },
-    {
-      Header: "Status",
-      accessor: "status",
       Cell: ({ row }) => {
-        return getStatusStyles(
-          row?.original?.status,
-          row?.original,
-          getAllReviews
+        return (
+          <div>
+            <Ratings rating={row?.original?.rating} />
+          </div>
         );
       },
     },
+    // {
+    //   Header: "Status",
+    //   accessor: "status",
+    //   Cell: ({ row }) => {
+    //     return getStatusStyles(
+    //       row?.original?.status,
+    //       row?.original,
+    //       getAllReviews
+    //     );
+    //   },
+    // },
   ];
 
   const getAllReviews = async () => {
@@ -79,7 +100,7 @@ const Reviews = () => {
         image={ReviewsBannerImage}
       />
       <ReusableTable
-        tableTitle="Attributes List"
+        tableTitle="Review List"
         data={state?.data}
         columns={columns}
         showButtons

@@ -35,7 +35,7 @@ const DashboardCardsList = () => {
           {role === "admin" && (
             <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
               <DashboardCard
-                number={cardData?.sales}
+                number={cardData?.sales + "₹"}
                 subheading="Total Sales"
                 iconColor="bg-red-500"
                 textColor="text-red-500"

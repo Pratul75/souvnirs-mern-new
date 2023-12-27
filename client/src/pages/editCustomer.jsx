@@ -10,7 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PATHS } from "../Routes/paths";
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
+  // lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   mobile: yup.string().required("Mobile number is required"),
   password: yup.string().required("Password is required"),

@@ -85,7 +85,9 @@ const TransactionTotalIncomeInquiries = () => {
       <div className="col-span-3 bg-base-200 rounded-xl py-4">
         <div className="flex justify-between px-4">
           <h2 className="text-lg font-semibold">Pending Inquiries</h2>
-          <p className="text-blue-500 font-thin">View all</p>
+          <p className="text-blue-900 font-thin" style={{ fontWeight: "500" }}>
+            View all
+          </p>
         </div>
         <div className="flex flex-col mt-4">
           <span className="p-4 border-y-[1px] border-base-300">

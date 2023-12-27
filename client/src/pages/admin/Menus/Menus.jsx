@@ -4,6 +4,7 @@ import { Header, ReusableTable } from "../../../components";
 import { useEffect, useMemo } from "react";
 import { getStatusStyles } from "../../../utils";
 import useMenus from "./useMenus";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
 
 const Menus = () => {
   const {
@@ -17,6 +18,14 @@ const Menus = () => {
     menuToBeEdited,
     setPrductid,
     fetchMenuData,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useMenus();
 
   const { id } = useParams();
@@ -41,6 +50,7 @@ const Menus = () => {
     []
   );
 
+  console.log("----->>>>>>>>", totalPagesShow);
   return (
     <div>
       <Header
@@ -54,22 +64,42 @@ const Menus = () => {
       </div>
       <div className="mt-5">
         {menuData.length > 0 && (
-          <ReusableTable
-            tableTitle="Main menu List"
-            data={extractedMenuData}
+          <ReuseTable
+            tableTitle="Menu List"
             columns={columns}
+            data={extractedMenuData}
             showButtons
-            enableDelete
             enableEdit
+            enableDelete
+            onEdit={handleEditModal}
+            onDelete={handleDelete}
             enablePagination
             pageSize={10}
-            onDelete={(row) => {
-              setSelectedRow(row);
-              window.delete_menu_modal.showModal();
-            }}
-            onEdit={handleEditModal}
-            refresh={fetchMenuData}
+            setPageSizeshow={setPageSize}
+            setPageNumber={setPage}
+            pageSizeShow={pageSize}
+            pageNumber={page}
+            totalPagesShow={totalPagesShow}
+            productLoading={productLoading}
+            SetSearchTex={SetSearchTex}
+            seacrhText={seacrhText}
           />
+          // <ReusableTable
+          //   tableTitle="Main menu List"
+          //   data={extractedMenuData}
+          //   columns={columns}
+          //   showButtons
+          //   enableDelete
+          //   enableEdit
+          //   enablePagination
+          //   pageSize={10}
+          //   onDelete={(row) => {
+          //     setSelectedRow(row);
+          //     window.delete_menu_modal.showModal();
+          //   }}
+          //   onEdit={handleEditModal}
+          //   refresh={fetchMenuData}
+          // />
         )}
       </div>
       <dialog id="delete_menu_modal" className="modal">

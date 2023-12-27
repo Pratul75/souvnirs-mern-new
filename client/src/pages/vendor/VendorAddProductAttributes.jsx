@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card, Header } from "../../components";
 import AttributeBannerImage from "../../assets/bannerImages/attributesImage.png";
 import useCategories from "../../hooks/useCategories";
@@ -18,6 +18,7 @@ import { AiFillInfoCircle } from "react-icons/ai";
 import { Select } from "antd";
 import { useQuery } from "react-query";
 import { fetchAllCollections } from "../../api/apiCalls";
+import { DeleteBtnSvg, EyeBtnSvg } from "../../icons/tableIcons";
 
 const AddProductAttributes = () => {
   const [categoryId, setCategoryId] = useState("");
@@ -29,10 +30,21 @@ const AddProductAttributes = () => {
   const [combinations, setCombinations] = useState([]);
   const [variantData, setVariantData] = useState([]);
   const [showData, setShowData] = useState(false);
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [price, setPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const [catDropdown, setCatDropdown] = useState(false);
   const [commission, setcommission] = useState(null);
+  const [viewAndeditData, setViewAndEditData] = useState();
+  const [indexs, setIndexs] = useState({
+    IndexNum: "",
+    dataIndex: "",
+  });
+  const darkMode = useSelector((x) => x.appConfig.darkMode);
+
+  const inputRefs = useRef([]);
+  const inputRefs1 = useRef([]);
+  const inputRefs2 = useRef([]);
+  const inputRefs3 = useRef([]);
 
   const p = useSelector((state) => state.product);
   const navigate = useNavigate();
@@ -74,23 +86,80 @@ const AddProductAttributes = () => {
     return nanoid(10);
   };
 
+  const handleDeleteVariant = (index) => {
+    let cloneAttribute = [...variantData];
+    // let clonecombination = [...combinations];
+
+    cloneAttribute.splice(index, 1);
+    // clonecombination.splice(index, 1);
+    setVariantData(cloneAttribute);
+    if (cloneAttribute.length == 0) {
+      setCombinations([]);
+      setVariantData([]);
+      setAttributeValues([]);
+    }
+  };
+
+  const pushCollectionProduct = async (data) => {
+    try {
+      // console.log(
+      //   "++++++++++++++++<<<<<<<<<>",
+      //   collections,
+      //   "_---->",
+      //   activeCollection,
+      //   ">>>",
+      //   data
+      // );
+      let collectionResponse;
+      let CollectionDatA = collections?.data || [];
+      CollectionDatA.map(async (item, index) => {
+        const checkdata = checkdataFilter(variantData, item, p);
+        // console.log(
+        //   "++++++<><><>++++++++++<<<<<<<<<>",
+        //   collections,
+        //   "_---->",
+        //   activeCollection,
+        //   "???",
+        //   checkdata
+        // );
+        if (checkdata) {
+          collectionResponse = await API_WRAPPER.put(
+            `/collection/update-collection-by-id/:${item._id}`,
+            data
+          );
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const createProduct = async () => {
     try {
       console.log("AddProductAttributes.jsx", p);
       console.log(variantData);
+      const uniqueKey =
+        String(Math.floor(Math.random() * 4877578000000) + 100000) + "unique";
       const productFormData = new FormData();
       productFormData.append("name", p.name);
       productFormData.append("vendorId", p.vendorId);
       productFormData.append("description", p.desc);
       productFormData.append("tags", p.tags);
+      productFormData.append("minquantity", p?.minquantity);
       productFormData.append("img", p.coverImg);
+      productFormData.append("sku", p.sku);
+      productFormData.append("mrp", p?.mrp);
+      productFormData.append("price", p?.price);
+      productFormData.append("stockQuantity", p?.stockQuantity);
+      productFormData.append("uniqueKey", uniqueKey);
       productFormData.append("attributes", JSON.stringify(p.attributes));
       productFormData.append("slug", randomSlug());
-      productFormData.append("price", price);
-      productFormData.append("quantity", quantity);
+      // productFormData.append("price", price);
+      // productFormData.append("quantity", quantity);
       productFormData.append("freeShipping", p.freeShipping);
       productFormData.append("readyToShip", p.readyToShip);
       productFormData.append("categoryId", categoryId);
+      productFormData.append("status", "PENDING");
       productFormData.append("customization", JSON.stringify(p.customization));
 
       const prodResponse = await API_WRAPPER.post(
@@ -100,51 +169,49 @@ const AddProductAttributes = () => {
       const productId = prodResponse.data.data._id;
       console.log("AddProductAttributes.jsx", productId);
       if (prodResponse.status == 201) {
-        setActiveCollection((prevState) => [
-          {
-            ...prevState,
-            activeProducts: prevState?.activeProducts.push(productId),
-          },
-        ]);
+        window.product_management_Product_success.showModal();
+        // setActiveCollection((prevState) => [
+        //   {
+        //     ...prevState,
+        //     activeProducts: prevState?.activeProducts.push(productId),
+        //   },
+        // ]);
 
-        console.log(
-          "SELECTED COLLECTION: ",
-          activeCollection,
-          "ID: ",
-          productId
-        );
-        const collectionResponse = await API_WRAPPER.put(
-          `/collection/update-collection-by-id/:${activeCollection._id}`,
-          activeCollection
-        );
+        const collectionResponse = await pushCollectionProduct({
+          activeProducts: productId,
+        });
 
-        console.log("COLLECTION RESPONSE: ", collectionResponse);
+        let count = 0;
         for (let variant of variantData) {
           console.log(variant);
-          const { mrp, productQuantity, files, ...variantName } = variant;
+          const { mrp, price, QTY, productQuantity, files, ...variantName } =
+            variant;
           console.log("AddProductAttributes.jsx", files);
           const variantFormData = new FormData();
           variantFormData.append("variant", JSON.stringify(variantName));
           variantFormData.append("mrp", mrp);
+          variantFormData.append("QTY", QTY);
+          variantFormData.append("uniqueKey", `${uniqueKey},${count}`);
+          variantFormData.append("price", price);
           variantFormData.append("quantity", productQuantity);
-
           variantFormData.append("productId", productId);
+
           if (files) {
             for (let file of files) {
               variantFormData.append("images", file);
             }
           }
           await API_WRAPPER.post("/products/create-variant", variantFormData);
+          count++;
         }
       }
-      navigate(PATHS.vendorProductManagement);
+      // navigate(PATHS.vendorProductManagement);
     } catch (error) {
       debouncedShowToast(error.message, "error");
     }
   };
 
   const handleSelectedValue = (category) => {
-    console.log(category);
     setcommission({
       commissionType: category.commissionType,
       commissionTypeValue: category.commissionTypeValue,
@@ -152,6 +219,7 @@ const AddProductAttributes = () => {
     setCategoryId(category?.id);
     setCategoryName(category?.name);
     setSelectedAttributes([]);
+    setCombinations([]);
     dispatch(setProduct({ categoryId: category?.id }));
   };
   const scrollToSection = () => {
@@ -254,11 +322,23 @@ const AddProductAttributes = () => {
   }, []);
   const handleDataChange = (index, dataIndex, e) => {
     const { name, value } = e.target;
+    setIndexs((pre) => ({ ...pre, IndexNum: index, dataIndex: dataIndex }));
     setVariantData((prevVariantData) => {
       const updatedVariantData = [...prevVariantData];
       updatedVariantData[index].data[dataIndex][name] = value;
       return updatedVariantData;
     });
+    setTimeout(() => {
+      if (name == "minQuantity") {
+        inputRefs.current[index][dataIndex].focus();
+      } else if (name == "maxQuantity") {
+        inputRefs1.current[index][dataIndex].focus();
+      } else if (name == "currency") {
+        inputRefs2.current[index][dataIndex].focus();
+      } else if (name == "price") {
+        inputRefs3.current[index][dataIndex].focus();
+      }
+    }, 10);
     // e.target.focus();
   };
 
@@ -321,6 +401,82 @@ const AddProductAttributes = () => {
     );
   };
 
+  useEffect(() => {
+    console.log(
+      "updatedVariantData[indexs?.index].data[indexs?.dataIndex",
+      indexs
+    );
+    if (
+      indexs?.dataIndex >= 0 &&
+      indexs?.IndexNum >= 0 &&
+      variantData[indexs?.IndexNum]?.data.length > indexs?.dataIndex + 1
+    ) {
+      setVariantData((prevVariantData) => {
+        const updatedVariantData = [...prevVariantData];
+        updatedVariantData[indexs?.IndexNum].data[indexs?.dataIndex + 1][
+          "minQuantity"
+        ] =
+          Number(
+            updatedVariantData[indexs?.IndexNum].data[indexs?.dataIndex][
+              "maxQuantity"
+            ]
+          ) + 1;
+        return updatedVariantData;
+      });
+    }
+  }, [indexs]);
+
+  useEffect(() => {
+    if (attributeValues.length > 0) {
+      generateValueCombinations();
+      dispatch(setProduct({ attributes: selectedAttributes }));
+      setAttSelected(true);
+    }
+  }, [attributeValues, selectedAttributes]);
+
+  const handleDeleteVariante = (index) => {
+    console.log(index);
+    let cloneVariate = [...combinations];
+    cloneVariate.splice(index, 1);
+    setCombinations(cloneVariate);
+  };
+
+  const handleDeleteAttribute = (index) => {
+    let cloneAttribute = [...selectedAttributes];
+    cloneAttribute.splice(index, 1);
+    setSelectedAttributes(cloneAttribute);
+  };
+
+  const handleViewData = (valueData, index) => {
+    setViewAndEditData({ ...valueData, index });
+    window.selectAttribute_edit_modal.showModal();
+  };
+
+  const handleRemoveImage = (fileIndex) => {
+    if (!viewAndeditData || !viewAndeditData.files) {
+      return;
+    }
+    let cloneData = { ...viewAndeditData };
+    const updatedFiles = [...cloneData.files];
+    updatedFiles.splice(fileIndex, 1);
+    cloneData.files = updatedFiles;
+    // const [variantData, setVariantData] = useState([]);
+
+    setViewAndEditData(cloneData);
+  };
+
+  const handleNaviagte = () => {
+    navigate("/vendor/product-management");
+  };
+
+  const handleImageSave = () => {
+    const { index } = viewAndeditData;
+    let VariantClone = [...variantData];
+    VariantClone[index] = viewAndeditData;
+    setVariantData(VariantClone);
+    window.selectAttribute_edit_modal.close();
+  };
+
   // COLLECTION LOGIC END
   console.log("AddProductAttributes.jsx", combinations);
   useEffect(() => {
@@ -342,7 +498,7 @@ const AddProductAttributes = () => {
           subheading="Add attributes, categories and their configuration on this page"
           image={AttributeBannerImage}
         />
-        <Select
+        {/* <Select
           showSearch
           placeholder="Select a collection"
           optionFilterProp="children"
@@ -350,95 +506,93 @@ const AddProductAttributes = () => {
           // onSearch={onSearch}
           filterOption={filterOption}
           options={collectionOptions()}
-        />
+        /> */}
 
-        <div>
-          {selectedAttributes.length < 1 ? (
-            <div>
-              <Card>
-                <div className="grid grid-cols-6">
-                  <div className="col-span-2">
-                    <label className="label">Price</label>
-                    <input
-                      type="number"
-                      onChange={(e) => setPrice(e.target.value)}
-                      className="input input-primary"
-                    />
-                  </div>
-                  <div className="col-span-2">
-                    <label className="label">Quantity</label>
-                    <input
-                      type="number"
-                      onChange={(e) => setQuantity(e.target.value)}
-                      className="input input-primary"
-                    />
-                  </div>
-                  <div className="col-span-2 flex justify-end items-center">
-                    <button
-                      className="btn  btn-primary"
-                      onClick={createProduct}
-                    >
-                      Publish
-                    </button>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          ) : (
-            <Card>
-              {console.log("ALL PRODUCT DATA: ", p, variantData[0])}
-              <div className="p-4">
-                <div>
-                  <h3>Product Name: {p.name}</h3>
-                  {/* <h3>Vendor ID: {p.vendorId}</h3>
+        <div className="mt-10">
+          <Card>
+            {console.log("ALL PRODUCT DATA: ", p, variantData[0])}
+            <div className="p-4">
+              <div>
+                <h3>Product Name: {p.name}</h3>
+                {/* <h3>Vendor ID: {p.vendorId}</h3>
                   <h3>CategoryID: {p.categoryId}</h3> */}
-                  <h3>
-                    Description: {p.desc.split("<p>").join().split("</p>")[0]}
-                  </h3>
-                  <h3>tags: {p.tags.join(",")}</h3>
-                  <h3>status: {p.status}</h3>
-                </div>
+                <h3>
+                  Description:{" "}
+                  {p.desc.split("<p>").join().split("</p>")[0].substring(1)}
+                </h3>
+                <h3>tags: {p.tags.join(",")}</h3>
+                <h3>status: {p.status}</h3>
               </div>
+            </div>
 
-              <label>
-                <div>
+            <label>
+              <div>
+                <label
+                  className="text-2xl"
+                  style={{ marginLeft: "15px", marginBottom: "30px" }}
+                >
                   variantData:{" "}
-                  <table className="table table-sm ">
-                    <thead>
-                      <tr>
-                        <th>Variant</th>
-                        <th>price</th>
-                        <th>Quantity</th>
-                        <th>images</th>
-                      </tr>
-                    </thead>
-                    <tbody id="rowChange">
-                      {variantData.map((variant, index) => {
-                        const {
-                          price,
-                          productQuantity,
-                          files,
-                          mrp,
-                          data,
-                          ...variantName
-                        } = variant;
-                        if (!mrp) {
-                          return null;
-                        }
+                </label>
+                <table
+                  style={{ marginTop: "20px" }}
+                  className="table table-sm "
+                >
+                  <thead>
+                    <tr>
+                      {combinations.length > 0
+                        ? Object.keys(combinations[0]).map((item, index) => (
+                            <th key={index}>{item}</th>
+                          ))
+                        : null}
+                      <th>MRP</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="rowChange">
+                    {" "}
+                    {/* ////////////////////////////////////////////////////////////////     */}
+                    {variantData.map((variant, index) => {
+                      const {
+                        price,
+                        productQuantity,
+                        files,
+                        mrp,
+                        data,
+                        ...variantName
+                      } = variant;
+                      if (!mrp) {
+                        return null;
+                      }
 
-                        return (
-                          <>
-                            <tr key={index}>
-                              <td>
-                                <pre>{JSON.stringify(variantName)}</pre>
-                              </td>
-                              <td>
-                                <label>{mrp}</label>
-                              </td>
-                              <td>
-                                <label>{productQuantity}</label>
-                              </td>
-                              <td className="w-72 md:flex gap-2 overflow-auto">
+                      return (
+                        <>
+                          <tr
+                            style={{
+                              backgroundColor: "rgb(211, 233, 242)",
+                              border: "2px solid rgb(211, 233, 242)",
+                            }}
+                            key={index}
+                          >
+                            {/* <td>
+                                <pre> */}
+                            {Object.keys(variantName).map((key) => (
+                              <td key={key}>{variantName[key]}</td>
+                            ))}
+                            {/* </pre>
+                              </td> */}
+                            <td>
+                              <label>{mrp}</label>
+                            </td>
+                            <td>
+                              <label>{price}</label>
+                            </td>
+                            <td>
+                              <label>{productQuantity}</label>
+                            </td>
+                            <td></td>
+                            {/* <td className="w-72 md:flex gap-2 overflow-auto">
                                 {files !== null ? (
                                   Array.from(files).map((file, fileIndex) => {
                                     console.log(
@@ -456,94 +610,327 @@ const AddProductAttributes = () => {
                                 ) : (
                                   <h2>No images selected</h2>
                                 )}
-                              </td>
-                            </tr>
+                              </td> */}
+                            <td>
+                              <div onClick={() => handleDeleteVariant(index)}>
+                                <DeleteBtnSvg />
+                              </div>
+                            </td>
+                          </tr>
 
-                            {data.map(
-                              ({ price, minQuantity, currency }, dataIndex) => (
-                                <tr key={nanoid()}>
-                                  <td>
-                                    <input
-                                      type="text"
-                                      placeholder="price"
-                                      name="price"
-                                      value={price}
-                                      onChange={(e) =>
-                                        handleDataChange(index, dataIndex, e)
+                          {data?.map(
+                            (
+                              { price, maxQuantity, minQuantity, currency },
+                              dataIndex
+                            ) => (
+                              <tr
+                                style={{
+                                  backgroundColor: "rgb(211, 233, 242)",
+                                  border: "2px solid rgb(211, 233, 242)",
+                                  borderBottom:
+                                    data?.length - 1 == dataIndex &&
+                                    "5px solid white",
+                                }}
+                                key={nanoid()}
+                              >
+                                {/* {Object.keys(variantName).map((key) => (
+                                  <td key={key}></td>
+                                ))} */}
+                                <td></td>
+                                <td>
+                                  <label className="label">
+                                    <span className="label-text">
+                                      Min Quantity
+                                    </span>
+                                  </label>
+                                  <input
+                                    type="number"
+                                    ref={(input) => {
+                                      if (input) {
+                                        inputRefs.current[index] =
+                                          inputRefs.current[index] || [];
+                                        inputRefs.current[index][dataIndex] =
+                                          input;
                                       }
-                                    />
-                                  </td>
-                                  <td>
+                                    }}
+                                    placeholder="minQuantity"
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid gray",
+                                      borderRadius: "3px",
+                                    }}
+                                    name="minQuantity"
+                                    value={minQuantity}
+                                    disabled={dataIndex == 0 ? false : true}
+                                    onChange={(e) =>
+                                      handleDataChange(
+                                        index,
+                                        dataIndex,
+                                        e,
+                                        minQuantity,
+                                        "minQuantity"
+                                      )
+                                    }
+                                  />
+                                </td>
+                                <td>
+                                  <label className="label">
+                                    <span className="label-text">
+                                      Max Quantity
+                                    </span>
+                                  </label>
+                                  <input
+                                    type="number"
+                                    ref={(input) => {
+                                      if (input) {
+                                        inputRefs1.current[index] =
+                                          inputRefs1.current[index] || [];
+                                        inputRefs1.current[index][dataIndex] =
+                                          input;
+                                      }
+                                    }}
+                                    placeholder="maxQuantity"
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid gray",
+                                      borderRadius: "3px",
+                                    }}
+                                    name="maxQuantity"
+                                    value={maxQuantity}
+                                    onChange={(e) => {
+                                      handleDataChange(
+                                        index,
+                                        dataIndex,
+                                        e,
+                                        maxQuantity,
+                                        "maxQuantity"
+                                      );
+                                      if (
+                                        data.length > 1 &&
+                                        data.length > dataIndex + 1
+                                      ) {
+                                        handleDataChange(
+                                          index,
+                                          dataIndex + 1,
+                                          {
+                                            target: {
+                                              name: "minQuantity",
+                                              value: Number(maxQuantity) + 1,
+                                            },
+                                          },
+                                          Number(maxQuantity) + 1,
+                                          "minQuantity"
+                                        );
+                                      }
+                                    }}
+                                  />
+                                </td>
+                                <td>
+                                  <label className="label">
+                                    <span className="label-text">Currency</span>
+                                  </label>
+                                  <select
+                                    placeholder="currency"
+                                    name="currency"
+                                    value={currency}
+                                    ref={(input) => {
+                                      if (input) {
+                                        inputRefs2.current[index] =
+                                          inputRefs2.current[index] || [];
+                                        inputRefs2.current[index][dataIndex] =
+                                          input;
+                                      }
+                                    }}
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid gray",
+                                      borderRadius: "3px",
+                                    }}
+                                    className="h-7 "
+                                    onChange={(e) =>
+                                      handleDataChange(
+                                        index,
+                                        dataIndex,
+                                        e,
+                                        "currency"
+                                      )
+                                    }
+                                  >
+                                    <option disabled selected={currency == ""}>
+                                      Select Currency
+                                    </option>
+                                    <option
+                                      selected={currency == "ruppee"}
+                                      value={"ruppee"}
+                                    >
+                                      RS
+                                    </option>
+                                    <option
+                                      selected={currency == "USD"}
+                                      value={"USD"}
+                                    >
+                                      USD
+                                    </option>
+                                  </select>
+                                  {/* <input
+                                    ref={(input) => {
+                                      if (input) {
+                                        inputRefs1.current[index] =
+                                          inputRefs1.current[index] || [];
+                                        inputRefs1.current[index][dataIndex] =
+                                          input;
+                                      }
+                                    }}
+                                    type="text"
+                                    placeholder="currency"
+                                    name="currency"
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid gray",
+                                      borderRadius: "3px",
+                                    }}
+                                    value={currency}
+                                    onChange={(e) =>
+                                      handleDataChange(
+                                        index,
+                                        dataIndex,
+                                        e,
+                                        "currency"
+                                      )
+                                    }
+                                  /> */}
+                                </td>
+
+                                <td>
+                                  <label className="label">
+                                    <span className="label-text">Price</span>
+                                  </label>
+                                  <input
+                                    type="number"
+                                    ref={(input) => {
+                                      if (input) {
+                                        inputRefs3.current[index] =
+                                          inputRefs3.current[index] || [];
+                                        inputRefs3.current[index][dataIndex] =
+                                          input;
+                                      }
+                                    }}
+                                    placeholder="price"
+                                    style={{
+                                      padding: "5px",
+                                      border: "1px solid gray",
+                                      borderRadius: "3px",
+                                    }}
+                                    name="price"
+                                    value={price}
+                                    onChange={(e) =>
+                                      handleDataChange(
+                                        index,
+                                        dataIndex,
+                                        e,
+                                        "price"
+                                      )
+                                    }
+                                  />
+                                </td>
+                                {/* <td>
                                     {console.log(
                                       variantData[index].data[dataIndex]
                                     )}
-                                  </td>
-                                  <td>
-                                    <input
-                                      type="text"
-                                      placeholder="minQuantity"
-                                      name="minQuantity"
-                                      value={minQuantity}
-                                      onChange={(e) =>
-                                        handleDataChange(index, dataIndex, e)
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <input
-                                      type="text"
-                                      placeholder="currency"
-                                      name="currency"
-                                      value={currency}
-                                      onChange={(e) =>
-                                        handleDataChange(index, dataIndex, e)
-                                      }
-                                    />
-                                  </td>
-                                  <td>
-                                    <button
-                                      id="addRow"
-                                      onClick={() => {
-                                        addRow(index);
-                                      }}
-                                    >
-                                      +
-                                    </button>
-                                  </td>
-                                  {commission &&
-                                    commission?.commissionTypeValue && (
-                                      <td>
-                                        You get{" "}
-                                        {commission?.commissionType ===
-                                        "PERCENTAGE"
-                                          ? ((100 -
-                                              commission?.commissionTypeValue) /
-                                              100) *
-                                            price
-                                          : price -
-                                            commission?.commissionTypeValue}
-                                      </td>
+                                  </td> */}
+
+                                <td></td>
+                                <td>
+                                  <div
+                                    style={{
+                                      width: "160px",
+                                      justifyContent: "space-between",
+                                    }}
+                                  >
+                                    {dataIndex == 0 && (
+                                      <button
+                                        id="addRow"
+                                        style={{
+                                          padding: "7px",
+                                          border: "1px solid gray",
+                                          borderRadius: "3px",
+                                          margin: "5px",
+                                        }}
+                                        onClick={() => {
+                                          addRow(index);
+                                        }}
+                                      >
+                                        +
+                                      </button>
                                     )}
-                                </tr>
-                              )
-                            )}
-                          </>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </label>
+                                    {dataIndex != 0 && (
+                                      <button
+                                        id="addRow"
+                                        style={{
+                                          padding: "7px",
+                                          border: "1px solid gray",
+                                          borderRadius: "3px",
+                                          margin: "5px",
+                                        }}
+                                        onClick={() => {
+                                          ReduceRow(index, dataIndex);
+                                        }}
+                                      >
+                                        -
+                                      </button>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          )}
+                        </>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </label>
+            <div className="col-span-2 flex justify-end items-center">
+              <button
+                className="btn  btn-primary"
+                onClick={() => setShowData(false)}
+              >
+                Back
+              </button>
               <button
                 className="btn btn-accent float-right"
                 onClick={createProduct}
               >
                 Publish
               </button>
-            </Card>
-          )}
+            </div>
+            {/* <button
+                className="btn btn-accent float-right"
+                onClick={createProduct}
+              >
+                Publish
+              </button> */}
+          </Card>
         </div>
         <ToastContainer />
+        <dialog id="product_management_Product_success" className="modal">
+          <form method="dialog" className="modal-box">
+            <h3 className="font-bold text-lg">Changes submitted</h3>
+            <p className="py-4">
+              Thanks for submitting your changes. if approved, changes will be
+              reflected within 24 hours.
+            </p>
+            <div className="modal-action">
+              {/* <button onClick={deleteSelectedRow} className="btn btn-error">
+              Delete
+            </button> */}
+              <button onClick={handleNaviagte} className="btn">
+                Done
+              </button>
+            </div>
+          </form>
+        </dialog>
       </div>
     );
   }
@@ -557,276 +944,459 @@ const AddProductAttributes = () => {
         subheading="Add attributes, categories and their configuration on this page"
         image={AttributeBannerImage}
       />
-      {!attSelected && !showData ? (
-        <div className="mt-4">
-          <div className="grid grid-cols-2 gap-4 p-4">
-            <div className="col-span-2 md:col-span-1 p-4 bg-base-100 rounded-xl">
-              <SearchableDropdown
-                handleSelect={handleSelectedValue}
-                items={categories}
-                categoryName={categoryName}
-              />
-            </div>
-            {categoryId && (
-              <Card>
-                <div className="col-span-2 md:col-span-1 p-4">
-                  <div className="flex items-center justify-between">
-                    <p className="label font-bold">
-                      Select Attributes:(Optional){" "}
-                    </p>
-                    <div className="flex items-center">
-                      <div
-                        className="tooltip  tooltip-top text-2xl"
-                        data-tip="Attributes are optional fields, Add only if product has variants"
+      <div className="mt-4">
+        <div className="grid grid-cols-2 gap-4 p-4">
+          <div className="col-span-2 md:col-span-1 p-4 bg-base-100 rounded-xl">
+            <SearchableDropdown
+              handleSelect={handleSelectedValue}
+              items={categories}
+              categoryName={categoryName}
+              commission={categories?.find((item) => item?._id == categoryId)}
+            />
+          </div>
+          {categoryId && (
+            <Card>
+              <div className="col-span-2 md:col-span-1 p-4">
+                <div className="flex items-center justify-between">
+                  <p className="label font-bold">
+                    Select Attributes:(Optional){" "}
+                  </p>
+                  <div className="flex items-center">
+                    <div
+                      className="tooltip  tooltip-top text-2xl"
+                      data-tip="Attributes are optional fields, Add only if product has variants"
+                    >
+                      <AiFillInfoCircle />
+                    </div>
+                    <div className="dropdown dropdown-left">
+                      <label tabIndex={0}>
+                        <button className="btn btn-circle">
+                          <BsCaretDown className="text-2xl text-primary" />
+                        </button>
+                      </label>
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
                       >
-                        <AiFillInfoCircle />
-                      </div>
-                      <div className="dropdown dropdown-left">
-                        <label tabIndex={0}>
-                          <button className="btn btn-circle">
-                            <BsCaretDown className="text-2xl text-primary" />
-                          </button>
-                        </label>
-                        <ul
-                          tabIndex={0}
-                          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
-                        >
-                          <li>
-                            <select
-                              className="block bg-transparent w-full"
-                              name=""
-                              onChange={(e) => {
-                                attributeSelection(e);
-                              }}
-                              multiple={true}
-                            >
-                              {convertAttributesList(attributesList).map(
-                                (item) => (
-                                  <option
-                                    className="border-[1px] border-base-200 shadow-lg rounded-lg cursor-pointer my-3 py-2 px-4 bg-base-100"
-                                    key={item.value}
-                                    value={item.value}
-                                  >
-                                    {item.label}
-                                  </option>
-                                )
-                              )}
-                            </select>
-                          </li>
-                        </ul>
-                      </div>
+                        <li>
+                          <select
+                            className="block bg-transparent w-full"
+                            name=""
+                            onChange={(e) => {
+                              attributeSelection(e);
+                            }}
+                            multiple={true}
+                          >
+                            {convertAttributesList(attributesList).map(
+                              (item) => (
+                                <option
+                                  className="border-[1px] border-base-200 shadow-lg rounded-lg cursor-pointer my-3 py-2 px-4 bg-base-100"
+                                  key={item.value}
+                                  value={item.value}
+                                >
+                                  {item.label}
+                                </option>
+                              )
+                            )}
+                          </select>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </div>
-                <Tooltip
-                  effect="solid"
-                  id="my-tooltip"
-                  style={{ zIndex: 9999, background: "#4680ff36" }}
-                />
-              </Card>
-            )}
-          </div>
-          <div id="selectedattributes" className="mx-4">
-            {selectedAttributes.length > 0 && (
-              <Card id="selectedAtt" className="w-full">
-                <div className="flex items-center">
-                  <label className="label font-bold p-4">
-                    Selecteed Attributes:{" "}
-                  </label>
-                  <div
-                    className="tooltip  tooltip-top text-2xl"
-                    data-tip="Enter values for selected attributes,press enter to select"
-                  >
-                    <AiFillInfoCircle />
-                  </div>
-                </div>
-                {selectedAttributes.map((att) => (
-                  <div className="p-1 mx-2" key={att._id}>
-                    <div className="flex justify-between w-auto bg-base-200 p-4 items-center rounded-xl my-2 ">
-                      <div className="flex justify-around w-96">
-                        <span className="font-bold">{att.name}:</span>
-                        <input
-                          placeholder="enter attribute values"
-                          className="input input-sm input-primary ml-4"
-                          name={att._id}
-                          onKeyDown={(e) =>
-                            handleAtttributeValueSelection(e, att)
-                          }
-                        />
-                      </div>
-                      <div className="flex gap-4">
-                        {attributeValues.map((elem) => {
-                          if (elem.id === att._id) {
-                            return elem?.values?.map((a, index) => (
-                              <div
-                                className="flex gap-4 items-center bg-base-100 p-2 rounded-full"
-                                onClick={(e) =>
-                                  removeAttributeValue(att._id, index)
-                                }
-                                key={index}
-                              >
-                                {a}
-                                <button className="btn btn-xs btn-circle btn-error">
-                                  <GrFormClose className="text-xl text-base-100" />
-                                </button>
-                              </div>
-                            ));
-                          }
-                          return null;
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Card>
-            )}
-            <button
-              className="btn btn-accent float-right right-10 bottom-5"
-              onClick={() => {
-                if (!categoryId) {
-                  debouncedShowToast("select Category First");
-                  return;
-                }
-                if (selectedAttributes.length < 1) {
-                  setShowData(true);
-                  return;
-                } else {
-                  generateValueCombinations();
-                  dispatch(setProduct({ attributes: selectedAttributes }));
-
-                  setAttSelected(true);
-                }
-              }}
-            >
-              Next
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <Card className="relative">
-            <div className="flex flex-col mt-4">
-              <div className="overflow-x-auto">
-                <div className="text-center flex justify-center items-center flex">
-                  <label htmlFor="" className="text-2xl ">
-                    Variant Data
-                  </label>
-                  <div
-                    className="tooltip  tooltip-bottom "
-                    data-tip="Enter price quantity and images only for variants you want to create."
-                  >
-                    <AiFillInfoCircle />
-                  </div>
-                </div>
-                <table className="table  table-sm min-w-full">
-                  <thead>
-                    <tr>
-                      <th>Variant Name</th>
-                      <th>MRP</th>
-                      <th>Quantity</th>
-                      <th>Images</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {combinations.map((x, index) => {
-                      const matchingVariantIndex = variantData.findIndex(
-                        (variant) => isEqualVariants(variant, x)
-                      );
-                      return (
-                        <>
-                          <tr key={index}>
-                            <td>
-                              <div className="label">
-                                {Object.entries(x).map(([key, value]) => (
-                                  <div key={key}>
-                                    <span className="font-semibold ">
-                                      {key}:
-                                    </span>{" "}
-                                    <span className="text-primary ml-2">
-                                      {value}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </td>
-                            <td className="px-4 py-2">
-                              <div className="flex justify-center items-center">
-                                <input
-                                  placeholder="enter price"
-                                  type="number"
-                                  name={`mrp-${index}`}
-                                  className="input input-primary input-sm"
-                                  onChange={(e) =>
-                                    handleTableInputChange(
-                                      e,
-                                      matchingVariantIndex !== -1
-                                        ? matchingVariantIndex
-                                        : index,
-                                      "mrp"
-                                    )
-                                  }
-                                />
-                              </div>
-                            </td>
-                            <td className="px-4 py-2">
-                              <div className="flex justify-center items-center">
-                                <input
-                                  type="number"
-                                  name={`productQuantity-${index}`}
-                                  placeholder="enter quantity"
-                                  className="input input-primary input-sm"
-                                  onChange={(e) =>
-                                    handleTableInputChange(
-                                      e,
-                                      matchingVariantIndex !== -1
-                                        ? matchingVariantIndex
-                                        : index,
-                                      "productQuantity"
-                                    )
-                                  }
-                                />
-                              </div>
-                            </td>
-                            <td className="px-4 py-2">
-                              <div className="flex justify-center items-center">
-                                <input
-                                  type="file"
-                                  name={`file-${index}`}
-                                  accept="image/*"
-                                  multiple
-                                  className="file-input file-input-sm"
-                                  onChange={(e) =>
-                                    handleTableFileChange(
-                                      e,
-                                      matchingVariantIndex !== -1
-                                        ? matchingVariantIndex
-                                        : index
-                                    )
-                                  }
-                                />
-                              </div>
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })}
-                  </tbody>
-                </table>
               </div>
+              <Tooltip
+                effect="solid"
+                id="my-tooltip"
+                style={{ zIndex: 9999, background: "#4680ff36" }}
+              />
+            </Card>
+          )}
+        </div>
+        <div id="selectedattributes" className="mx-4">
+          {selectedAttributes.length > 0 && (
+            <Card id="selectedAtt" className="w-full">
+              <div className="flex items-center">
+                <label className="label font-bold p-4">
+                  Selecteed Attributes:{" "}
+                </label>
+                <div
+                  className="tooltip  tooltip-top text-2xl"
+                  data-tip="Enter values for selected attributes,press enter to select"
+                >
+                  <AiFillInfoCircle />
+                </div>
+              </div>
+              {selectedAttributes.map((att, inde) => (
+                <div className="p-1 mx-2" key={att._id}>
+                  <div className="flex justify-between w-auto bg-base-200 p-4 items-center rounded-xl my-2 ">
+                    <div className="flex justify-around w-96">
+                      <span className="font-bold">{att.name}:</span>
+                      <input
+                        placeholder="enter attribute values"
+                        className="input input-sm input-primary ml-4"
+                        name={att._id}
+                        onKeyDown={(e) =>
+                          handleAtttributeValueSelection(e, att)
+                        }
+                      />
+                    </div>
+                    <div className="flex gap-4">
+                      {attributeValues.map((elem) => {
+                        if (elem.id === att._id) {
+                          return elem?.values?.map((a, index) => (
+                            <div
+                              className="flex gap-4 items-center bg-base-100 p-2 rounded-full"
+                              onClick={(e) =>
+                                removeAttributeValue(att._id, index)
+                              }
+                              key={index}
+                            >
+                              {a}
+                              <button className="btn btn-xs btn-circle btn-error">
+                                <GrFormClose className="text-xl text-base-100" />
+                              </button>
+                            </div>
+                          ));
+                        }
+                        return null;
+                      })}
+                    </div>
+                    <div onClick={() => handleDeleteAttribute(inde)}>
+                      <DeleteBtnSvg />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Card>
+          )}
+          {/* <button
+            className="btn btn-accent float-right right-10 bottom-5"
+            onClick={() => {
+              if (!categoryId) {
+                debouncedShowToast("select Category First");
+                return;
+              }
+              if (selectedAttributes.length < 1) {
+                setShowData(true);
+                return;
+              } else {
+                generateValueCombinations();
+                dispatch(setProduct({ attributes: selectedAttributes }));
+
+                setAttSelected(true);
+              }
+            }}
+          >
+            Next
+          </button> */}
+        </div>
+      </div>
+
+      <div>
+        <Card className="relative">
+          <div className="flex flex-col mt-4">
+            <div className="overflow-x-auto">
+              <div className="text-center flex justify-center items-center flex">
+                <label htmlFor="" className="text-2xl ">
+                  Variant Data
+                </label>
+                <div
+                  className="tooltip  tooltip-bottom "
+                  data-tip="Enter price quantity and images only for variants you want to create."
+                >
+                  <AiFillInfoCircle />
+                </div>
+              </div>
+              <table className="table  table-sm min-w-full">
+                <thead>
+                  <tr>
+                    {combinations.length > 0
+                      ? Object.keys(combinations[0]).map((item, index) => (
+                          <th key={index}>{item}</th>
+                        ))
+                      : null}
+                    <th>MRP</th>
+                    <th>Price</th>
+                    <th>Min Quantity</th>
+                    <th>Quantity</th>
+                    <th>Images</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {combinations.map((x, index) => {
+                    const matchingVariantIndex = variantData.findIndex(
+                      (variant) => isEqualVariants(variant, x)
+                    );
+                    return (
+                      <>
+                        <tr key={index}>
+                          {Object.entries(x).map(([key, value]) => (
+                            <td className="text-primary ml-2">{value}</td>
+                          ))}
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <input
+                                placeholder="enter mrp"
+                                type="number"
+                                name={`mrp-${index}`}
+                                value={variantData[index]?.mrp}
+                                className="input input-primary input-sm"
+                                onChange={(e) =>
+                                  handleTableInputChange(
+                                    e,
+                                    matchingVariantIndex !== -1
+                                      ? matchingVariantIndex
+                                      : index,
+                                    "mrp"
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <input
+                                placeholder="enter price"
+                                type="number"
+                                name={`price-${index}`}
+                                value={variantData[index]?.price}
+                                className="input input-primary input-sm"
+                                onChange={(e) =>
+                                  handleTableInputChange(
+                                    e,
+                                    matchingVariantIndex !== -1
+                                      ? matchingVariantIndex
+                                      : index,
+                                    "price"
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <input
+                                type="number"
+                                name={`productQuantity-${index}`}
+                                value={variantData[index]?.productQuantity}
+                                placeholder="enter min quantity"
+                                className="input input-primary input-sm"
+                                onChange={(e) =>
+                                  handleTableInputChange(
+                                    e,
+                                    matchingVariantIndex !== -1
+                                      ? matchingVariantIndex
+                                      : index,
+                                    "productQuantity"
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <input
+                                type="number"
+                                name={`QTY-${index}`}
+                                placeholder="enter quantity"
+                                className="input input-primary input-sm"
+                                value={variantData[index]?.QTY}
+                                onChange={(e) =>
+                                  handleTableInputChange(
+                                    e,
+                                    matchingVariantIndex !== -1
+                                      ? matchingVariantIndex
+                                      : index,
+                                    "QTY"
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <input
+                                type="file"
+                                name={`file-${index}`}
+                                accept="image/*"
+                                multiple
+                                className="file-input file-input-sm"
+                                onChange={(e) =>
+                                  handleTableFileChange(
+                                    e,
+                                    matchingVariantIndex !== -1
+                                      ? matchingVariantIndex
+                                      : index
+                                  )
+                                }
+                              />
+                            </div>
+                          </td>
+                          <td className="px-4 py-2">
+                            <div className="flex justify-center items-center">
+                              <div
+                                style={{ marginRight: "5px" }}
+                                onClick={() =>
+                                  handleViewData(variantData[index], index)
+                                }
+                              >
+                                <EyeBtnSvg />
+                              </div>
+                              <div onClick={() => handleDeleteVariante(index)}>
+                                <DeleteBtnSvg />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
+          </div>
+
+          <div
+            style={{ margin: "5px" }}
+            className="col-span-2 flex justify-end items-center"
+          >
             <button
-              className="btn btn-accent float-right mt-4 w-full"
+              style={{ margin: "5px" }}
+              className="btn  btn-primary"
+              onClick={() => navigate(-1)}
+            >
+              {" "}
+              Back
+            </button>
+            <button
+              className="btn btn-accent float-right"
               onClick={() => setShowData(true)}
             >
               {" "}
               Next
             </button>
-          </Card>
+          </div>
+        </Card>
+      </div>
+      <dialog id="selectAttribute_edit_modal" className="modal">
+        <div className="modal-box">
+          {/* <h3 className="font-bold text-lg">Hello!</h3> */}
+          {/* <p className="py-4">
+            Are you sure you want to delete the selected commission?
+          </p> */}
+          <div className="grid grid-cols-3 gap-4">
+            {viewAndeditData?.files &&
+            Object.keys(viewAndeditData.files).length > 0 ? (
+              Object.values(viewAndeditData.files).map((file, fileIndex) => {
+                return (
+                  <div key={fileIndex} className="relative">
+                    <img
+                      className="w-20 h-20 rounded-md"
+                      src={URL.createObjectURL(file)}
+                      alt={`Image ${fileIndex}`}
+                    />
+                    <button
+                      className="absolute top-2 right-2 text-red-600"
+                      onClick={() => handleRemoveImage(fileIndex)}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                );
+              })
+            ) : (
+              <h2>No images selected</h2>
+            )}
+          </div>
+
+          <div className="modal-action">
+            <div method="dialog ">
+              <button
+                onClick={() => handleImageSave()}
+                className="btn btn-error mr-4"
+              >
+                save
+              </button>
+              <button
+                onClick={() => window.selectAttribute_edit_modal.close()}
+                className="btn"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-      )}
+      </dialog>
       <ToastContainer />
     </div>
   );
+};
+
+export const checkdataFilter = (variateData, category, p) => {
+  console.log("+++++>>>>??????>>>>>><<<<<>>>", variateData, category, p);
+  let categoryKeys = category?.collectionConditionId || [];
+  categoryKeys = categoryKeys
+    .map((value) => value.trim())
+    .filter((value, index, self) => self.indexOf(value) === index);
+  let methods = category?.conditionValue || []; // Use empty array as default value if category?.conditionValue is undefined
+  let matchvalue = category?.inputValue || []; // Use empty array as default value if category?.inputValue is undefined
+  let checkPresent = categoryKeys.map((item, index) => {
+    if (item == "Price") {
+      return variateData.map((variant, ind) => {
+        let mainPrice = Number(variant?.price);
+        if (matchvalue.length === 2) {
+          // Check if matchvalue has two values
+          let minValue = Number(matchvalue[0]);
+          let maxValue = Number(matchvalue[1]);
+          return mainPrice >= minValue && mainPrice <= maxValue;
+        } else if (matchvalue.length === 1) {
+          let minValue = Number(matchvalue[0]);
+          return mainPrice >= minValue;
+        } else {
+          return false; // Return false for invalid matchvalue
+        }
+      });
+    } else {
+      return methods.map((method, inx) => {
+        let isMatch = false;
+        let isContainsData = p[item] || ""; // Use an empty string as default value if p[item] is undefined
+        matchvalue.forEach((str) => {
+          if (method?.conditionValue == "contains") {
+            isMatch = isMatch || isContainsData.includes(str);
+          } else if (method?.conditionValue == "end with") {
+            isMatch = isMatch || isContainsData.endsWith(str);
+          } else if (method?.conditionValue == "start with") {
+            isMatch = isMatch || isContainsData.startsWith(str);
+          }
+        });
+        return isMatch;
+      });
+    }
+  });
+  let responce = false;
+  if (Array.isArray(checkPresent)) {
+    checkPresent.map((item) => {
+      if (Boolean(item) == Boolean(true)) {
+        responce = Boolean(true);
+      }
+    });
+  } else {
+    responce = Boolean(checkPresent);
+  }
+  return Boolean(responce);
 };
 
 export default AddProductAttributes;

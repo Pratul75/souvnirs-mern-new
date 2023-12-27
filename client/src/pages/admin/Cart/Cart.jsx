@@ -5,7 +5,9 @@ import { getStatusStyles } from "../../../utils";
 import { ToastContainer } from "react-toastify";
 import CartBannerImage from "../../../assets/bannerImages/productManagementImage.png";
 import useCart from "./useCart";
-import API_WRAPPER from "../../../api";
+import API_WRAPPER, { baseUrl } from "../../../api";
+import ReuseTable from "../../../components/ui/Table/ReuseTable";
+import { Link } from "react-router-dom";
 const Cart = () => {
   const {
     cartList,
@@ -15,6 +17,14 @@ const Cart = () => {
     onHandleSubmit,
     selectedRow,
     getCartList,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   } = useCart();
 
   const PopUpDelete = async () => {
@@ -27,8 +37,35 @@ const Cart = () => {
   const columns = useMemo(
     () => [
       {
+        Header: "Image",
+        accessor: `product.coverImage`,
+        Cell: ({ row }) => {
+          const img = row?.original?.product?.coverImage;
+          return (
+            <Link
+              to={`/productInfo/${row?.original?.slug}`}
+              className="cursor-pointer"
+            >
+              <img
+                className="w-12 h-12 text-center rounded-lg hover:scale-105"
+                src={
+                  !img?.includes("res.cloudinary") &&
+                  !img?.includes("cdn.shopify")
+                    ? `${baseUrl}/${img}`
+                    : img
+                }
+              />
+            </Link>
+          );
+        },
+      },
+      {
         Header: "Name",
         accessor: `customer.firstName`,
+      },
+      {
+        Header: "Name",
+        accessor: `customer.email`,
       },
       {
         Header: "Product Name",
@@ -43,12 +80,23 @@ const Cart = () => {
         accessor: "product_quantity",
       },
       {
-        Header: "Status",
-        accessor: "status",
+        Header: "Total Order value",
+        // accessor: "product.price",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return (
+            <>
+              {row?.original?.product?.price * row?.original?.product_quantity}
+            </>
+          );
         },
       },
+      // {
+      //   Header: "Status",
+      //   accessor: "status",
+      //   Cell: ({ row }) => {
+      //     return getStatusStyles(row?.original?.status);
+      //   },
+      // },
     ],
     []
   );
@@ -63,7 +111,7 @@ const Cart = () => {
         image={CartBannerImage}
       />
       <div className="mt-8">
-        <ReusableTable
+        {/* <ReusableTable
           tableTitle="Cart List"
           columns={columns}
           data={data}
@@ -74,6 +122,26 @@ const Cart = () => {
           pageSize={10}
           onEdit={handleEdit}
           onDelete={handleDelete}
+        /> */}
+        <ReuseTable
+          tableTitle="Cart List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
         />
       </div>
 

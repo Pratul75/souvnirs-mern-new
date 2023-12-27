@@ -5,6 +5,8 @@ const {
   getAllCoupons,
   getCouponById,
   updateCouponById,
+  getAllCouponsList,
+  checkProductCouponCode,
 } = require("../controllers/couponController");
 const authMiddleware = require("../middlewares");
 
@@ -13,6 +15,15 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getAllCoupons
 );
+
+router.get(
+  "/coupon/get-all-coupons/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllCouponsList
+);
+
+router.post("/check/coupon/code", checkProductCouponCode);
+
 router.get(
   "/coupon/get-coupon-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "souvnirs-be",
+  "private_key_id": "4456a487ee0c8c89a849e509e5c393f517bd03f6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC7mjeRY/WfNOOk\nT8snV/l53E9wJiXT7ifcVZ87f8BktwAuoEF/y2tgACGupM9mACq7ahvpz5yBgVRL\n0SSQRrAz0kECrhuWWYqW7sEwWHs83GTNCNeqDQPiKsiejftlyYrF2fT0IyWuILH8\n71RbMN4OPJNJM3M8FVYGokzuh12S9tjIpX3PeeF0bcGUJU6JOM57yqLMSz0CFTWy\nmooIcQl+aWwzu8EhtzcNgxeSSWonr/PMJF30p3r/ryHANtjLpfhshfDQPqESTxz8\n5HV7Yes7mkayNGLrsCnoTk84zmGiqLyPawmxzgTK9VSkwQav2LF3wk6WQRwQnV1c\nnoee2sz7AgMBAAECggEAHBYYOvsf0HMRoGLrLlERzOMP6Da93mm/AVIMTH3G0bft\nc2LotiI/9BfGSH2Xff+JEOqaPTn+MLaqZnjBpEarpfEqFyWhLwmUIclNllhY3aFo\nB05LQ26UEJiJKpEP0eBc7LFskTRwirjjDNQj6Ux6ojUCyVMbmHjf7+RSkjolPJWD\nLm98jcvgx2GKJSlC0FMN/vh74MhozfzdPOvBtKwVjj5GNbslv0zU/GGtEsFIqEEL\nOfr2ZSDxA4/e3jZDByM1+O2Vst/gxu8HLRZod0PGSi2EU9ckoVjCroJuZxl/oCxu\nWhtkZ7nZ8734gbGenb+os4ycvlFoHTfAA/xYKsAnsQKBgQDptwitlC7Jz8RzMpcX\n/3JWwndy2e9k0DjDLxRp8EgTp3sZEmd1xgfh3gWsb3QJzFPfsyCTIg2jMCDrsNe2\n49vmpBSmCmhPTNGET26k9IQBkzrdBZ7xK21uhYCsli82hF8fsQ6GbYaVK0YXXxWX\nHADTShtBPuyh5fflmhy+YTwZ8wKBgQDNfZQkhE2bs82uZYCKs9IUJCFtH8JMe3/p\npNn5tiGmFkkIXF+bBVeSPhM7aZEO8keygbBDkjvA9X7SzCyYio7+5dvtukW4qdSD\nPHOtkqmerBvbkjXiqWlsvU16CCnOzo0AdnjekyWIyVZLx21zt2hFoBBU+PZUBab+\nDx6KBwl62QKBgQCyni9ksbaciEykmgp9zb3t7svpnAPo8XYgPhAE8x2y37IltDob\n+ZA2oD+HzNpLTrzfX4BK0qDHklXmq44Bed2rRMV/LL8RtC0ASNDQAwwMRCCdoNkb\nikwlRqTTwigtKzej+eaW+If940e7PvE6Pq2mzaFM2TFyflZaRNEo8xlC3wKBgDJM\nrPiLUhvs1Un9GovZHHFFrtDxVzQ1fsgITDrttCrdhZ8ATX66vgbUHw0J+DH6aEZv\nrF+96dZ/wT2EMN5d/Ea0qTL1x58+IwDEyWQRZGespV0H2xzSbzXo2JAoc2Nl9+nH\nFisVRbjH39HIzSfoGyP/3D+QeWtzvr6toMIUmuNxAoGBAIYkmIzH0GITkPrbb+No\nPRll55tGnBtsiqENwWPbcwPak/I4dcdcPRqS7IF44UtvzmXJ9B1vp/EPQnA49BVZ\nbFtvKae6GO5lPF9a1rISu+BC1mZS6QzM2JmG9Je37P1tO5Ye+aU3XtI9XQ9XnRyR\nxJVOWJqA8AiVgkiWrl/8UsAv\n-----END PRIVATE KEY-----\n",
+  "client_email": "sournirs-storage@souvnirs-be.iam.gserviceaccount.com",
+  "client_id": "112080568012958157534",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/sournirs-storage%40souvnirs-be.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

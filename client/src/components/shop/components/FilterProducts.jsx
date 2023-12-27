@@ -13,6 +13,24 @@ const FilterProducts = () => {
     readyToShip: false,
   });
 
+
+    const getWishlist = async () => {
+      try {
+        const getdata = await API.get("/wishlist/getmywishlist");
+        setWishList(getdata?.data?.data?.wishlist);
+        console.log(
+          "-----___---___--===_-===__==+_+_-==-__=>",
+          getdata?.data?.data
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    useEffect(() => {
+      getWishlist();
+    }, []);
+
   return (
     <div className="mx-16 mt-4">
       <div className="grid grid-cols-4">

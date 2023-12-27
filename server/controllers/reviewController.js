@@ -14,6 +14,20 @@ const getReviewList = async (req, res) => {
         },
       },
       {
+        $unwind: "$product",
+      },
+      {
+        $lookup: {
+          from: "vendors",
+          localField: "product.vendorId",
+          foreignField: "_id",
+          as: "vendor",
+        },
+      },
+      {
+        $unwind: "$vendor",
+      },
+      {
         $lookup: {
           from: "customers",
           localField: "customer_id",
@@ -21,12 +35,27 @@ const getReviewList = async (req, res) => {
           as: "customer",
         },
       },
+      {
+        $unwind: "$customer",
+      },
+      {
+        $project: {
+          _id: 1, // Include other fields as needed
+          description: 1,
+          rating: 1,
+          createdAt: 1,
+          productDetails: "$product",
+          vendorDetails: "$vendor",
+          customerDetails: "$customer",
+        },
+      },
     ]);
+
     // }
-    reviewList.map((item) => {
-      item.customer = item.customer.length > 0 ? item.customer[0] : {};
-      item.product = item.product.length > 0 ? item.product[0] : {};
-    });
+    // reviewList.map((item) => {
+    //   item.customer = item.customer.length > 0 ? item.customer[0] : {};
+    //   item.product = item.product.length > 0 ? item.product[0] : {};
+    // });
     res.status(200).json(reviewList);
   } catch (error) {
     res.status(500).json({ error: error.message });

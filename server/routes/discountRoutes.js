@@ -6,6 +6,7 @@ const {
   getDiscountById,
   updateDiscount,
   getLatestDiscout,
+  getAllDiscountsList,
 } = require("../controllers/discountController");
 const authMiddleware = require("../middlewares");
 
@@ -14,6 +15,13 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getAllDiscounts
 );
+
+router.get(
+  "/discount/get-all-discounts/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getAllDiscountsList
+);
+
 router.get(
   "/discount/get-discount-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),

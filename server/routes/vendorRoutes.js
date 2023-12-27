@@ -5,6 +5,7 @@ const {
   getVendorById,
   getVendorsCount,
   updateVendor,
+  getVendorsList,
 } = require("../controllers/vendorController");
 const authMiddleware = require("../middlewares");
 
@@ -20,6 +21,13 @@ router.get(
   authMiddleware(["vendor", "admin", "customer"]),
   getVendors
 );
+
+router.get(
+  "/vendors/get-vendors/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getVendorsList
+);
+
 router.get(
   "/vendors/get-vendor/:id",
   authMiddleware(["vendor", "admin", "customer"]),

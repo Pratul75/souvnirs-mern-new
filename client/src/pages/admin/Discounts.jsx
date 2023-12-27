@@ -6,19 +6,30 @@ import { PATHS } from "../../Routes/paths";
 import { getStatusStyles } from "../../utils";
 import { Modal } from "../../components";
 import DiscountBannerImage from "../../assets/bannerImages/discountImage.png";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const Discounts = () => {
   const [discountsList, setDiscountsList] = useState([]);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const navigate = useNavigate();
 
   const fetchDiscounts = async () => {
     try {
-      const response = await API_WRAPPER.get("/discount/get-all-discounts");
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/discount/get-all-discounts/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
+        setProductLoading(false);
         console.log("DISCOUNTS LISTS: ", response.data);
-        setDiscountsList(response?.data);
+        setDiscountsList(response?.data?.discounts);
+        setTotalPagesShow(response?.data?.totalPages);
       }
     } catch (error) {
       console.error("ERROR occured whule fetching discounts list", error);
@@ -53,7 +64,6 @@ const Discounts = () => {
         Header: "Title",
         accessor: "title",
       },
-
       {
         Header: "Total Limit",
         accessor: "totalLimit",
@@ -103,7 +113,6 @@ const Discounts = () => {
           return <p>{formattedDate}</p>;
         },
       },
-
       {
         Header: "Status",
         accessor: "status",
@@ -123,7 +132,7 @@ const Discounts = () => {
 
   useEffect(() => {
     fetchDiscounts();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   return (
     <div>
@@ -138,7 +147,29 @@ const Discounts = () => {
             Add Discounts
           </Link>
         </div>
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Discount List"
+          columns={columns}
+          data={data}
+          showButtons
+          enableEdit
+          enableDelete
+          onEdit={(row) => {
+            navigate(`${PATHS.editDiscount}/${row._id}`);
+          }}
+          onDelete={handleDelete}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
           tableTitle="Discount List"
           columns={columns}
           data={data}
@@ -151,7 +182,7 @@ const Discounts = () => {
           }}
           pageSize={10}
           onDelete={handleDelete}
-        />
+        /> */}
       </div>
       <dialog id="delete_discount_modal" className="modal">
         <form method="dialog" className="modal-box">

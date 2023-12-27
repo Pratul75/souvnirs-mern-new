@@ -8,11 +8,15 @@ import Team from "../../assets/shop/aboutUsPage/Team.svg";
 import ListedProducts from "../../assets/shop/aboutUsPage/Listed_Products.svg";
 import ClientsEveryYear from "../../assets/shop/aboutUsPage/Clients_Every_Year.svg";
 import { Carousel } from "antd";
-import { BrandsCardImageList } from "../../mappings";
+import {
+  BrandsCardImageList,
+  caroselMapppingDailyDealsShowDynamic,
+} from "../../mappings";
 import { BrandsCard, FeaturesCard } from "../../components";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 import { BsBoxSeam, BsCreditCard2Front } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
+import { useEffect } from "react";
 const contentStyle = {
   margin: 0,
   height: "160px",

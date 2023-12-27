@@ -4,6 +4,7 @@ const {
   getCustomerById,
   getCustomers,
   updateCustomerById,
+  getCustomersList,
 } = require("../controllers/customerController");
 const authMiddleware = require("../middlewares");
 const { verifyToken } = require("../middlewares");
@@ -18,6 +19,11 @@ router.get(
   "/customers/get-customers",
   authMiddleware(["vendor", "admin", "customer"]),
   getCustomers
+);
+router.get(
+  "/customers/get-customers/list",
+  authMiddleware(["vendor", "admin", "customer"]),
+  getCustomersList
 );
 router.get(
   "/customers/get-customer/:id",

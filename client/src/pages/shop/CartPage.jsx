@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import Banner from "./Banner";
-import API_WRAPPER from "../../api";
+import API_WRAPPER, { baseUrl } from "../../api";
 import { useDispatch } from "react-redux";
 import { toggleRefresh } from "../../features/appConfig/appSlice";
 import { ReusableTable } from "../../components";
@@ -12,6 +12,8 @@ import { BsPlus } from "react-icons/bs";
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [apitrigger, setApiTrigger] = useState(false);
+  const [storeData, setstoreData] = useState([]);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -19,6 +21,33 @@ const CartPage = () => {
     const response = await API_WRAPPER.get("/cart/mycart");
     console.log("CART DATA: ", response.data);
     setCartItems(response.data);
+    let datasb = [];
+    for (let i = 0; i < response?.data?.length; i++) {
+      let datas = await getWishListdata(response.data[i]?.product_id);
+      datasb.push(datas);
+    }
+    setstoreData(datasb);
+  };
+
+  const getWishListdata = async (product) => {
+    try {
+      const result = await API_WRAPPER(
+        `/check/products/data?productId=${product?._id}`
+      );
+      if (result?.data?.success) {
+        return {
+          show: true,
+          data: result?.data?.data[0],
+        };
+      } else {
+        return {
+          show: false,
+          data: {},
+        };
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteCartItem = async (id) => {
@@ -60,21 +89,60 @@ const CartPage = () => {
     getCartItems();
   }, [apitrigger]);
 
-  console.log("CART ITEMS: ", cartItems);
+  console.log("CART ITEMS: ==>", cartItems);
 
   function extractCartData(cartItems) {
     return cartItems.map((item) => ({
-      product_id: item?.product_id._id,
-      productQuantity: item.product_quantity,
-      customer_id: item.customer_id,
-      variant_id: item.variant_id,
-      productName: item.product_id.name,
-      productPrice: item.product_id.price,
-      productImage: item.product_id.images[0],
+      product_id: item?.product_id?._id,
+      productQuantity: item?.product_quantity,
+      customer_id: item?.customer_id,
+      variant_id: item?.variant_id,
+      productName: item?.product_id?.name,
+      productPrice: item?.product_id?.price,
+      productImage: item?.product_id?.images[0],
     }));
   }
 
   console.log(extractCartData(cartItems));
+
+  const getActualPrice = (type, per, price) => {
+    console.log("type, per, price", { type, per, price });
+    let check = type == "percentage" ? true : false;
+    if (check) {
+      let decimalPercentage = Number(per) / 100;
+
+      // Calculate the subtraction
+      let result = Number(price) - decimalPercentage * Number(price);
+      return result;
+    } else {
+      let result = Number(price) - Number(per);
+      return result;
+    }
+  };
+
+  const handleImageShow = (productImage) => {
+    if (productImage?.variant_id) {
+      if (
+        !productImage?.variant_id?.images[0]?.includes("res.cloudinary") &&
+        !productImage?.variant_id?.images[0]?.includes("cdn.shopify")
+      ) {
+        return `${baseUrl}/${productImage?.variant_id?.images[0]}`;
+      } else {
+        return productImage?.variant_id?.images[0];
+      }
+    } else {
+      if (
+        !productImage?.product_id?.coverImage?.includes("res.cloudinary") &&
+        !productImage?.product_id?.coverImage?.includes("cdn.shopify")
+      ) {
+        return `${baseUrl}/${productImage?.product_id?.coverImage}`;
+      } else {
+        return productImage?.product_id?.coverImage;
+      }
+    }
+  };
+
+  console.log("00000---->", storeData);
 
   const columns = [
     {
@@ -82,16 +150,17 @@ const CartPage = () => {
       accessor: "product_id.coverImage",
       Cell: ({ row }) => {
         return (
-          <Link to={`/productInfo/${row.original.product_id.slug}`}>
+          <Link to={`/productInfo/${row.original?.product_id?.slug}`}>
             <img
               className="w-10 h-10"
-              src={row.original.product_id.coverImage}
+              src={handleImageShow(row.original)}
               alt=""
             />
           </Link>
         );
       },
     },
+    // variant_id
     {
       Header: "Product Name",
       accessor: "product_id.name",
@@ -99,6 +168,31 @@ const CartPage = () => {
     {
       Header: "Price",
       accessor: "product_id.price",
+      Cell: ({ row }) => {
+        let totalPrice = 0;
+        if (row?.original?.variant_id) {
+          totalPrice =
+            row?.original?.product_quantity * row?.original?.variant_id.price;
+          if (storeData[row?.index]?.show) {
+            totalPrice = getActualPrice(
+              storeData[row?.index]?.data?.typeTitle,
+              storeData[row?.index]?.data?.typeValue,
+              totalPrice
+            );
+          }
+        } else {
+          totalPrice =
+            row?.original?.product_quantity * row?.original?.product_id?.price;
+          if (storeData[row?.index]?.show) {
+            totalPrice = getActualPrice(
+              storeData[row?.index]?.data?.typeTitle,
+              storeData[row?.index]?.data?.typeValue,
+              totalPrice
+            );
+          }
+        }
+        return totalPrice;
+      },
     },
     {
       Header: "Quantity",
@@ -136,6 +230,7 @@ const CartPage = () => {
               &minus;
             </button>
             <input
+              className="w-16"
               type="number"
               id="Quantity"
               value={product_quantity}
@@ -179,23 +274,28 @@ const CartPage = () => {
 
       <section>
         <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-          <div className="mx-auto max-w-3xl">
+          <div className="">
+            {" "}
+            {/* mx-auto max-w-3xl */}
             <header className="text-center">
               <h1 className="text-xl font-bold text-gray-900 sm:text-3xl">
                 Your Cart
               </h1>
             </header>
-
             <div className="mt-8">
-              <ReusableTable
-                columns={columns}
-                data={tableData}
-                pageSize={10}
-                showButtons
-                enableDelete
-                onDelete={(row) => deleteCartItem(row._id)}
-                enablePagination
-              />{" "}
+              {tableData?.length == 0 ? (
+                <div>No data found</div>
+              ) : (
+                <ReusableTable
+                  columns={columns}
+                  data={tableData}
+                  pageSize={10}
+                  showButtons
+                  enableDelete
+                  onDelete={(row) => deleteCartItem(row._id)}
+                  enablePagination
+                />
+              )}{" "}
               {/* Use the Table component with correct props */}
               <div className="mt-8 flex justify-end border-t border-gray-100 pt-8">
                 <div className="w-screen max-w-lg space-y-4">

@@ -8,7 +8,7 @@ import { useState } from "react";
 
 const schema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
-  lastName: yup.string().required("Last name is required"),
+  // lastName: yup.string().required("Last name is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   mobile: yup.string().required("Mobile number is required"),
   password: yup.string().required("Password is required"),
@@ -50,7 +50,7 @@ const useAddCustomer = () => {
         navigate("/admin/customer");
       }
     } catch (error) {
-      debouncedShowToast(error.message, "error");
+      debouncedShowToast(error?.response?.data, "error");
     }
   };
   return {
@@ -58,7 +58,7 @@ const useAddCustomer = () => {
     handleSubmit,
     errors,
     onSubmit,
-    loading
+    loading,
   };
 };
 

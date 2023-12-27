@@ -9,10 +9,12 @@ export const PATHS = {
   adminDashboard: "/admin/dashboard",
   adminCart: "/admin/cart",
   adminCategories: "/admin/categories",
+  adminCategoryDetails: "/admin/categories/details",
   adminCheckout: "/admin/checkout",
   adminCmsAndSeo: "/admin/cms-seo",
   adminCollection: "/admin/collection",
   adminCollectionConditions: "/admin/collection-conditions",
+  adminCollectionDetails: "/admin/collection/details/show",
   adminDiscounts: "/admin/discounts",
   adminCoupons: "/admin/coupons",
   editCoupon: "/admin/coupon",
@@ -78,6 +80,7 @@ export const PATHS = {
   vendorAddProductAttributes: "/vendor/addProducts/add-product-attributes",
   vendorEditProduct: "/vendor/edit-product",
   vendorEditVariants: "/vendor/edit-variants",
+  vendorDetailsProduct: "/vendor/details/details-product/:id",
 
   // customer routes
   customerDashboard: "/customer/dashboard",
@@ -90,6 +93,13 @@ export const PATHS = {
   customerReplacements: "/customer/replacements",
 
   customerWishlist: "/customer/wishlist",
+
+  // invoice page
+  getInvoicePage: `/invoice/page/:inviceId/:id`,
+
+  // inquery page
+  getInqueryPage: `/inquery/page`,
+  getInqueryDetails: `/inquery/details`,
 
   // shop routes
   landingPage: "/",
@@ -104,6 +114,9 @@ export const PATHS = {
   compareProduct: "/compare_product",
   cartPage: "/cart_page",
   checkout: "/checkout",
+  checkoutDetails: "/checkout/details/:userId/:id",
+  checkoutDetailsshow: "/checkout/show/details/:userId",
+  checkoutDetailsuser: "/customer/checkout/details/:userId/:id",
   shopWishlist: "/shop/wishlist",
   blogs: "/blogs",
   shopAboutUs: "/shop/about_us",
@@ -118,5 +131,5 @@ export const PATHS = {
   footerSellerRegistration: "/footer/sellerRegistration",
 
   //daiy deal
-  dailyDeal: "/admin/daily/deals"
+  dailyDeal: "/admin/daily/deals",
 };

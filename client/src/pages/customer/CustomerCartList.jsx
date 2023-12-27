@@ -17,28 +17,33 @@ const CustomerCartList = () => {
         Header: "Cart ID",
         accessor: "_id",
       },
-      {
-        Header: "Customer ID",
-        accessor: "customer_id",
-      },
-
+      // {
+      //   Header: "Customer ID",
+      //   accessor: "customer_id",
+      // },
       {
         Header: "Product Name",
-        accessor: "product_name",
+        accessor: "product_id.name",
       },
       {
         Header: "Product Price",
-        accessor: "product_price",
+        accessor: "product_id.price",
       },
       {
         Header: "Product Quantity",
         accessor: "product_quantity",
       },
       {
-        Header: "Status",
+        Header: "Total amount",
         accessor: "status",
         Cell: ({ row }) => {
-          return getStatusStyles(row?.original?.status);
+          return (
+            <div>
+              {Number(row.original.product_quantity) *
+                Number(row.original.product_id.price)}{" "}
+              ₹
+            </div>
+          );
         },
       },
     ],
@@ -70,16 +75,20 @@ const CustomerCartList = () => {
 
   const getCartList = async () => {
     try {
-      const response = await API_WRAPPER.get("/cart/get-all-carts");
-      if (response.status === 200) {
-        setCartList(response.data);
-        debouncedShowToast("Cart list loaded successfully", "success");
-        console.log("Cart List: ", response?.data);
-      }
+      const response = await API_WRAPPER.get("/cart/mycart");
+      setCartList(response.data);
+      console.log("Cart List: ", response?.data);
     } catch (error) {
-      debouncedShowToast(error.message, "error");
+      // debouncedShowToast(error.message, "error");
       console.error("Error occured while fetching all cart list", error);
     }
+  };
+
+  const deleteCartItem = async (id) => {
+    await API_WRAPPER.delete(`/cart/delete-cart/${id}`);
+    setApiTrigger((a) => !a);
+    getCartList();
+    dispatch(toggleRefresh());
   };
 
   const handleDelete = (row) => {
@@ -96,7 +105,7 @@ const CustomerCartList = () => {
 
   useEffect(() => {
     getCartList();
-  }, [apiTrigger]);
+  }, []);
 
   return (
     <>
@@ -106,15 +115,25 @@ const CustomerCartList = () => {
         // image={HeaderImgTwo}
       />
       <div className="mt-8">
+        {/* <ReusableTable
+          columns={columns}
+          data={data}
+          pageSize={10}
+          showButtons
+          enableDelete
+          onDelete={(row) => deleteCartItem(row._id)}
+          enablePagination
+        /> */}
         <ReusableTable
           tableTitle="Cart List"
           columns={columns}
+          pageSize={10}
           data={data}
           showButtons
           enableDelete
-          enableEdit
-          onEdit={handleEdit}
-          onDelete={handleDelete}
+          // enableEdit
+          // onEdit={handleEdit}
+          onDelete={(row) => deleteCartItem(row._id)}
         />
       </div>
 

@@ -4,7 +4,14 @@ import { motion } from "framer-motion";
 import { fadeInVariants } from "../../../animation";
 import Card from "../../ui/Card";
 
-const Tabs = ({ tabs, enableBorder, hasCard, alignCenter, tabBackground }) => {
+const Tabs = ({
+  tabs,
+  enableBorder,
+  hasCard,
+  alignCenter,
+  tabBackground,
+  setLabalName,
+}) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return hasCard ? (
@@ -26,7 +33,10 @@ const Tabs = ({ tabs, enableBorder, hasCard, alignCenter, tabBackground }) => {
                   ? "text-blue-500 text-lg  border-b-2 border-blue-500 py-4"
                   : ""
               }`}
-              onClick={() => setActiveTab(index)}
+              onClick={() => {
+                setActiveTab(index);
+                setLabalName(tab);
+              }}
             >
               {tab.label}
             </button>

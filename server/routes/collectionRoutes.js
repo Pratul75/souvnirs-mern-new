@@ -6,6 +6,7 @@ const {
   getAllCollections,
   getCollectionById,
   updateCollectionById,
+  getAllCollectionsList,
 } = require("../controllers/collectionController");
 const authMiddleware = require("../middlewares");
 
@@ -29,6 +30,13 @@ router.get(
   // authMiddleware(["vendor", "admin", "customer"]),
   getAllCollections
 );
+
+router.get(
+  "/collection/get-all-collections/list",
+  // authMiddleware(["vendor", "admin", "customer"]),
+  getAllCollectionsList
+);
+
 router.get(
   "/collection/get-collection-by-id/:id",
   authMiddleware(["vendor", "admin", "customer"]),

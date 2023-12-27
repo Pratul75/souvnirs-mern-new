@@ -40,7 +40,7 @@ const HeaderCards = ({
               </h3>
               <h6 className="text-white font-normal">{mainSubHeading}</h6>
               <Link
-                to={"/productInfo/5e76ef16"}
+                to={"/category/Home%20Decor"}
                 className="btn mt-4 animate animate-bounce "
               >
                 <span className="font-semibold ">Shop Now</span>{" "}
@@ -116,7 +116,7 @@ const HeaderCards = ({
               </h6>
 
               <Link
-                to={"/productInfo/15b3dae3"}
+                to={"/category/Stationery"}
                 className="btn btn-xs mt-4 md:btn-md md:mt-2 "
               >
                 <span className="font-semibold text-black ">Shop Now</span>

@@ -1,4 +1,4 @@
-import API_WRAPPER from ".";
+import API_WRAPPER, { API_TOKEN } from ".";
 
 export const fetchDashboardsCardData = () => {
   return API_WRAPPER.get("/dashboard/cards");
@@ -13,7 +13,7 @@ export const getProductsData = () => {
 };
 
 export const fetchNavbarData = () => {
-  return API_WRAPPER.get("/getNavbarMenu");
+  return API_TOKEN.get("/getNavbarMenu");
 };
 
 export const fetchCategoryData = () => {

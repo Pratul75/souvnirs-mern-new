@@ -62,6 +62,10 @@ import { ShopIcon } from "../icons";
 import GiftFour from "../assets/shop/productImages/giftFour.png";
 import GiftFive from "../assets/shop/productImages/giftFive.png";
 import GiftSix from "../assets/shop/productImages/giftSix.png";
+import axios from "axios";
+import API_WRAPPER, { API_TOKEN, baseUrl } from "../api";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 // admin sidebar mapping
 export const adminSidebarMapping = [
   {
@@ -140,12 +144,12 @@ export const adminSidebarMapping = [
     Icon: TbTruckDelivery,
   },
   {
-    title: "Refund",
+    title: "Return",
     navLink: PATHS.adminRefund,
     Icon: RiRefund2Fill,
   },
   {
-    title: "Replacement",
+    title: "Exchange",
     navLink: PATHS.adminReplacement,
     Icon: TbReplace,
   },
@@ -190,11 +194,11 @@ export const adminSidebarMapping = [
     navLink: PATHS.adminEmailMarketing,
     Icon: MdAttachEmail,
   },
-  {
-    title: "Couriers",
-    navLink: PATHS.adminCouriers,
-    Icon: TbPackage,
-  },
+  // {
+  //   title: "Couriers",
+  //   navLink: PATHS.adminCouriers,
+  //   Icon: TbPackage,
+  // },
   {
     title: "Vendor",
     navLink: PATHS.adminVendor,
@@ -234,16 +238,16 @@ export const vendorSidebarMapping = [
     navLink: PATHS.vendorOrderManagement,
     Icon: TbTruckDelivery,
   },
-  {
-    title: "Cart",
-    navLink: PATHS.vendorCart,
-    Icon: MdShoppingCart,
-  },
-  {
-    title: "Checkouts",
-    navLink: PATHS.vendorCheckout,
-    Icon: MdShoppingCartCheckout,
-  },
+  // {
+  //   title: "Cart",
+  //   navLink: PATHS.vendorCart,
+  //   Icon: MdShoppingCart,
+  // },
+  // {
+  //   title: "Checkouts",
+  //   navLink: PATHS.vendorCheckout,
+  //   Icon: MdShoppingCartCheckout,
+  // },
   {
     title: "Shipments",
     navLink: PATHS.vendorShipments,
@@ -254,16 +258,16 @@ export const vendorSidebarMapping = [
     navLink: PATHS.vendorProductInventory,
     Icon: MdInventory2,
   },
-  {
-    title: "Discounts",
-    navLink: PATHS.vendorDiscounts,
-    Icon: BiSolidDiscount,
-  },
-  {
-    title: "Coupons",
-    navLink: PATHS.vendorCoupons,
-    Icon: BiSolidCoupon,
-  },
+  // {
+  //   title: "Discounts",
+  //   navLink: PATHS.vendorDiscounts,
+  //   Icon: BiSolidDiscount,
+  // },
+  // {
+  //   title: "Coupons",
+  //   navLink: PATHS.vendorCoupons,
+  //   Icon: BiSolidCoupon,
+  // },
   {
     title: "Refund",
     navLink: PATHS.vendorRefund,
@@ -313,11 +317,11 @@ export const customerSidebarMapping = [
     navLink: PATHS.customerReplacements,
     Icon: TbReplace,
   },
-  {
-    title: "Wishlist",
-    navLink: PATHS.customerWishlist,
-    Icon: MdOutlineStore,
-  },
+  // {
+  //   title: "Wishlist",
+  //   navLink: PATHS.customerWishlist,
+  //   Icon: MdOutlineStore,
+  // },
 ];
 
 // SHOP MAPPINGS ____________________________________
@@ -406,36 +410,36 @@ export const productListFiltersAndProducts = {
 export const gradiantCardListCardData = [
   {
     id: nanoid(),
-    title: "lorem ipsum",
+    title: "",
     heading: "Diary and Pen combo",
     subheading: "",
     background: TexturePurple,
     image: GiftFour,
     // Link will be changed in future to desired page
-    link: "/productInfo/98d635a6",
+    link: "/category/Stationery",
     btnColorCode: "653A4F",
   },
   {
     id: nanoid(),
-    title: "lorem ipsum",
-    heading: "Diary and Pen combo",
+    title: "",
+    heading: "Confectionery",
     subheading: "",
     background: TexturePink,
     // add spartwatch image
     image: GiftFive,
     // Link will be changed in future to desired page
-    link: "/collection/Gift%20Hamper",
+    link: "/category/Confectionery",
     btnColorCode: "8d473f",
   },
   {
     id: nanoid(),
-    title: "lorem ipsum",
-    heading: "Diary and Pen combo",
+    title: "",
+    heading: "Electronics Accessories",
     subheading: "",
     background: TexturePaleYellow,
     image: GiftSix,
     // Link will be changed in future to desired page
-    link: "/collection/smartwatch",
+    link: "/category/Electronics%20Accessories",
     btnColorCode: "83541e",
   },
 ];
@@ -514,6 +518,97 @@ export const caroselMapppingDailyDeals = [
     <img className=" aspect-square" src={GiftOnePng} alt="" />
   </div>,
 ];
+
+export const caroselMapppingDailyDealsShowDynamic = async () => {
+  let stateData = [];
+
+  const getActualPrice = (type, per, price) => {
+    console.log("type, per, price", { type, per, price });
+    let check = type == "percentage" ? true : false;
+    if (check) {
+      let decimalPercentage = Number(per) / 100;
+
+      // Calculate the subtraction
+      let result = Number(price) - decimalPercentage * Number(price);
+      return result;
+    } else {
+      let result = Number(price) - Number(per);
+      return result;
+    }
+  };
+
+  const caroselMapppingDaily = async () => {
+    try {
+      let result = await API_TOKEN.get(`/daily/deals/getData`);
+      return result?.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  stateData = await caroselMapppingDaily();
+  console.log("====>>>", stateData);
+
+  let sendDataclone = [];
+  stateData?.map((item, index) => {
+    item?.productId[0]?.length > 0 &&
+      item?.productId[0]?.map((itm, ind) => {
+        sendDataclone.push(
+          <div
+            className="flex flex-col md:flex-row gap-1  bg-base-100 "
+            key={nanoid()}
+          >
+            <div className="flex item-center justify-center w-full">
+              <div className="p-4">
+                <TimerComponent total_time={item?.total_time} />
+                <div className="mt-8">
+                  <h className="bg-red-400 p-1 rounded-sm">
+                    Deal {item?.typeValue}
+                    {item?.typeTitle == "percentage" ? "%" : ""} Off
+                  </h>
+                  <h3>{itm?.name}</h3>
+                  <div className="flex items-center mt-2">
+                    <p className="font-semibold text-1 mr-4 line-through text-shopPrimaryColor">
+                      ₹{itm?.price}
+                    </p>
+                    <h4 className="font-semibold text-2xl text-shopPrimaryColor">
+                      ₹
+                      {getActualPrice(
+                        item?.typeTitle,
+                        item?.typeValue,
+                        itm?.price
+                      )}
+                    </h4>
+                  </div>
+                  <div className="flex justify-between">
+                    <Ratings rating={3.5} />
+                    <div className="cursor-pointer rounded-full border py-1 px-4 flex justify-center items-center">
+                      <ShopIcon />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <Link to={`/productInfo/${itm?.slug}`}>
+              <img
+                style={{ width: "200px", height: "200px" }}
+                className="aspect-square"
+                // src={
+                //   itm?.images[0]?.includes("res.cloudinary") &&
+                //   itm?.images[0]?.includes("cdn.shopify")
+                //     ? itm?.images[0]
+                //     : `${baseUrl}/${images[0]}`
+                // }
+                src={itm?.images[0]}
+                alt=""
+              />
+            </Link>
+          </div>
+        );
+      });
+  });
+
+  return sendDataclone;
+};
 
 export const BrandsCardImageList = [
   {

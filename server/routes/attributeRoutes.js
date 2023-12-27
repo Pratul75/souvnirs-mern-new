@@ -5,6 +5,7 @@ const {
   deleteAttributeById,
   updateAttributeById,
   getattributesbyCategoryId,
+  getAllAttributesList,
 } = require("../controllers/attributeController");
 const authMiddleware = require("../middlewares");
 
@@ -15,6 +16,12 @@ router.post(
   authMiddleware(["admin"]),
   addAttribute
 );
+router.get(
+  "/attribute/get-all-attributes/list",
+  authMiddleware(["vendor", "admin"]),
+  getAllAttributesList
+);
+
 router.get(
   "/attribute/get-all-attributes",
   authMiddleware(["vendor", "admin"]),

@@ -52,8 +52,16 @@ const getAllCarts = async (req, res) => {
     if (role === "vendor") {
       const aggregationQuery = [
         {
-          $match: {
-            status: "ACTIVE",
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
           },
         },
         {
@@ -86,6 +94,207 @@ const getAllCarts = async (req, res) => {
     res.status(400).json({ error: "somthing went wrong" });
   }
 };
+
+const getAllCartsList = async (req, res) => {
+  try {
+    const { role } = req;
+    let carts;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+    console.log("====>", pageSize, page);
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0;
+
+    let matchQuery = {};
+    if (seacrhText) {
+      console.log("--->", seacrhText);
+      matchQuery = {
+        $or: [
+          { "customer.firstName": { $regex: new RegExp(seacrhText, "i") } },
+        ],
+      };
+    }
+
+    if (role === "admin") {
+      carts = await Cart.aggregate([
+        {
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: pageSize,
+        },
+        // {
+        //   $project: {
+        //     name: {
+        //       $concat: ["$customer.firstName", "  ", "$customer.lastName"],
+        //     },
+        //     product_name: 1,
+        //     customer_id: 1,
+        //     product_quantity: 1,
+        //     product_price: 1,
+        //   },
+        // },
+      ]);
+      totalData = await Cart.aggregate([
+        {
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+      ]);
+      totalPages = Math.ceil(totalData.length / pageSize);
+    }
+    if (role === "vendor") {
+      const aggregationQuery = [
+        {
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
+        {
+          $match: {
+            "product.vendorId": new mongoose.Types.ObjectId(req.userId),
+          },
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: pageSize,
+        },
+        {
+          $match: matchQuery,
+        },
+      ];
+      carts = await Cart.aggregate(aggregationQuery);
+      totalData = await Cart.aggregate([
+        {
+          $lookup: {
+            from: "customers",
+            localField: "customer_id",
+            foreignField: "_id",
+            as: "customer",
+          },
+        },
+        {
+          $unwind: {
+            path: "$customer",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "product_id",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $unwind: {
+            path: "$product",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $match: {
+            "product.vendorId": new mongoose.Types.ObjectId(req.userId),
+          },
+        },
+      ]);
+      totalPages = Math.ceil(totalData.length / pageSize);
+    }
+    if (role === "customer") {
+      carts = await Cart.find({ customer_id: req.userId });
+    }
+    res.status(200).json({
+      message: "get data successfully",
+      totalData: totalData.length,
+      page,
+      totalPages,
+      carts,
+    });
+  } catch (error) {
+    console.error("Error fetching carts:", error);
+    res.status(400).json({ error: "somthing went wrong" });
+  }
+};
+
 const addItemToCart = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -101,10 +310,13 @@ const addItemToCart = async (req, res) => {
 };
 const getMycartItems = async (req, res) => {
   try {
+    console.log("+000+", req.userId);
     const carts = await Cart.find({
       customer_id: req.userId,
       checkedOut: false,
-    }).populate("product_id");
+    })
+      .populate("product_id")
+      .populate("variant_id");
     res.status(200).json(carts);
   } catch (e) {
     res.status(400).json("something went wrong");
@@ -257,4 +469,5 @@ module.exports = {
   createCustomerCart,
   checkout,
   getCheckedOutItems,
+  getAllCartsList,
 };

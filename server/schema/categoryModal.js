@@ -27,6 +27,12 @@ const CategorySchema = new Schema(
     hsn_code: {
       type: String,
     },
+    gst_value: {
+      type: String,
+    },
+    gst_type: {
+      type: String,
+    },
     type: {
       type: String,
     },

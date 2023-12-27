@@ -1,11 +1,40 @@
 import { Card, Header } from "../../../components";
 import { MediaCard } from "../../../components";
 import { nanoid } from "nanoid";
-import Loading from "../../common/loading";
+// import Loading from "../../common/loading";
 import useAdminMedia from "./useAdminMedia";
+import {
+  BiFirstPage,
+  BiLastPage,
+  BiLeftArrowAlt,
+  BiRightArrowAlt,
+} from "react-icons/bi";
+import { ToastContainer } from "react-toastify";
 const AdminMedia = () => {
-  const { addFiles, baseUrl, loading, medias, setMedia, userRole } =
-    useAdminMedia();
+  const {
+    addFiles,
+    baseUrl,
+    loading,
+    medias,
+    setMedia,
+    userRole,
+    setPage,
+    page,
+    totalPagesShow,
+    setPageSize,
+    pageSize,
+    deletMedia,
+  } = useAdminMedia();
+
+  const handlePageChange = (num) => {
+    setPage(num);
+  };
+
+  const handlePageSizeChange = (event) => {
+    const eventSize = Number(event.target.value);
+    setPage(1);
+    setPageSize(eventSize);
+  };
 
   return (
     <div className="m-5">
@@ -13,46 +42,115 @@ const AdminMedia = () => {
       <Card>
         <div className="p-5 w-full">
           <button
-            className="btn btn-primary"
+            className="btn btn-primary mb-3"
             onClick={() => {
               window.add_media_modal.showModal();
             }}
           >
             Add media Files{" "}
           </button>
-          <div className="flex flex-col gap-5">
+          <div className="grid grid-cols-5 gap-3">
             {userRole === "vendor" &&
-              medias?.links?.map((a) => {
-                console.log(a);
+              medias &&
+              medias?.map((a, index) => {
                 return (
                   <MediaCard
+                    index={index}
                     key={nanoid()}
+                    deletMedia={deletMedia}
+                    id={a?._id}
+                    url={
+                      !a?.links?.includes("res.cloudinary") &&
+                      !a?.links?.includes("cdn.shopify")
+                        ? a?.links
+                        : a
+                    }
                     link={
-                      !a?.includes("res.cloudinary") &&
-                      !a?.includes("cdn.shopify")
-                        ? `${baseUrl}/${a}`
+                      !a?.links?.includes("res.cloudinary") &&
+                      !a?.links?.includes("cdn.shopify")
+                        ? `${baseUrl}/${a?.links}`
                         : a
                     }
                   />
                 );
               })}
             {userRole == "admin" &&
-              medias?.map((a) => (
-                <MediaCard
-                  key={nanoid()}
-                  link={
-                    !a?.links?.includes("res.cloudinary") &&
-                    !a?.links?.includes("cdn.shopify")
-                      ? `${baseUrl}/${a?.links}`
-                      : a?.links
-                  }
-                  vendorName={
-                    a.vendorId
-                      ? `${a.vendorId.firstName} ${a.vendorId.lastName}`
-                      : "admin"
-                  }
-                />
-              ))}
+              medias?.map((a, index) =>
+                a.links ? ( // Check if the 'links' property is available
+                  <MediaCard
+                    key={nanoid()}
+                    index={index}
+                    id={a?._id}
+                    deletMedia={deletMedia}
+                    url={a?.links}
+                    link={
+                      !a?.links?.includes("res.cloudinary") &&
+                      !a?.links?.includes("cdn.shopify")
+                        ? `${baseUrl}/${a?.links}`
+                        : a?.links
+                    }
+                    vendorName={
+                      a.vendorId
+                        ? `${a.vendorId.firstName} ${a.vendorId.lastName}`
+                        : "admin"
+                    }
+                  />
+                ) : null
+              )}
+          </div>
+          <div className="flex gap-1 justify-between w-full items-center mt-4 bg-base-300 rounded-xl p-4">
+            <div>
+              <label>Page Size</label>
+              <select
+                value={pageSize}
+                // disabled={page > totalPagesShow - 10}
+                onChange={handlePageSizeChange}
+                className=" select select-sm select-primary input-bordered mx-2"
+              >
+                {[5, 10, 25, 50, 100].map((size) => (
+                  <option key={size} value={size}>
+                    {size}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <button
+                onClick={() => handlePageChange(1)}
+                disabled={page === 1}
+                className="btn btn-square btn-sm btn-primary"
+              >
+                <BiFirstPage className="text-xl" />
+              </button>
+              <button
+                onClick={() => handlePageChange(page - 1)}
+                disabled={page === 1}
+                className="btn btn-square btn-sm btn-primary mx-2"
+              >
+                <BiLeftArrowAlt className="text-xl" />
+              </button>
+              <span className="text-lg">
+                Page{" "}
+                <strong>
+                  {page} of {totalPagesShow}
+                </strong>{" "}
+              </span>
+              <button
+                onClick={() => handlePageChange(page + 1)}
+                disabled={page === totalPagesShow}
+                className="btn btn-square btn-sm btn-primary mx-2"
+              >
+                <BiRightArrowAlt className="text-xl" />
+              </button>
+              <button
+                onClick={() => handlePageChange(totalPagesShow)}
+                disabled={page === totalPagesShow}
+                className="btn btn-square btn-primary btn-sm"
+              >
+                <BiLastPage className="text-xl" />
+              </button>
+              {/* Select for page size */}
+            </div>
           </div>
         </div>
       </Card>
@@ -71,18 +169,9 @@ const AdminMedia = () => {
               onChange={(e) => {
                 const selectedFiles = e.target.files;
                 // Check if any selected file is not a PNG
-                const isInvalidFile = Array.from(selectedFiles).some(
-                  (file) => !file.name.toLowerCase().endsWith(".png")
-                );
-                if (isInvalidFile) {
-                  alert("Please select only .png files.");
-                  e.target.value = null; // Clear the file input
-                  setMedia(null); // Reset the media state
-                } else {
-                  setMedia(selectedFiles);
-                }
+                setMedia(selectedFiles);
               }}
-              accept=".png,"
+              accept=".png,.jpg"
             />
           </div>
           <div className=" flex justify-end gap-5 mt-8">
@@ -136,7 +225,20 @@ const AdminMedia = () => {
           </div>
         </div>
       </dialog> */}
-      {loading && <Loading />}
+      {/* {loading && <It />} */}
+      <dialog id="product_management_Media_success" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Changes submitted</h3>
+          <p className="py-4">Thanks for submitting your changes.</p>
+          <div className="modal-action">
+            {/* <button onClick={deleteSelectedRow} className="btn btn-error">
+              Delete
+            </button> */}
+            <button className="btn">Done</button>
+          </div>
+        </form>
+      </dialog>
+      <ToastContainer />
     </div>
   );
 };

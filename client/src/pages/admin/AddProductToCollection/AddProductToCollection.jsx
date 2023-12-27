@@ -10,6 +10,7 @@ import { Select, Spin } from "antd";
 import { useEffect, useState } from "react";
 import API_WRAPPER from "../../../api";
 import { debouncedShowToast } from "../../../utils";
+import { useNavigate } from "react-router-dom";
 const AddProductToCollection = () => {
   const [selectedProduct, setSelectedProduct] = useState("");
   const [selectedCollection, setSelectedCollection] = useState("");
@@ -17,6 +18,7 @@ const AddProductToCollection = () => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState({});
   const [loadingProducts, setLoadingProducts] = useState(false);
+  const navigate = useNavigate();
   // collections query
   const {
     data: collections,
@@ -80,10 +82,11 @@ const AddProductToCollection = () => {
     filteredCollection[0].activeProducts.push(selectedProduct);
     const response = await API_WRAPPER.put(
       `/collection/update-collection-by-id/:${selectedCollection}`,
-      filteredCollection[0]
+      { activeProducts: [selectedProduct] }
     );
     if (response.status === 200) {
       debouncedShowToast("Product Added Successfully to Collection", "success");
+      navigate("/admin/collection");
     }
   };
 
@@ -120,6 +123,26 @@ const AddProductToCollection = () => {
     }
   };
 
+  // <div className="form-control mt-4">
+  //   <label className="label">
+  //     <span className="label-text">
+  //       Status<span className=" text-red-600">*</span>
+  //     </span>
+  //   </label>
+  //   <select
+  //     onChange={(e) => handleInputChange(e)}
+  //     className="select select-primary"
+  //     name="status"
+  //     defaultValue={formData.status}
+  //   >
+  //     <option disabled selected>
+  //       select status
+  //     </option>
+  //     <option value="ACTIVE">Active</option>
+  //     <option value="INACTIVE">Inactive</option>
+  //   </select>
+  // </div>;
+
   return (
     <div className="my-4">
       <Header
@@ -128,32 +151,46 @@ const AddProductToCollection = () => {
         key={nanoid()}
       />
       <div className="grid grid-cols-2 mt-8 gap-4">
-        <Select
-          className="col-span-1"
-          size="large"
-          showSearch
-          isSearchable
-          isClearable
-          optionFilterProp="children"
-          placeholder="Select a Collection"
-          onChange={onCollectionChange}
-          filterOption={filterOption}
-          options={collectionOptions()}
-        />
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">
+              Select a Collection<span className=" text-red-600">*</span>
+            </span>
+          </label>
+          <Select
+            className="col-span-1"
+            size="large"
+            showSearch
+            isSearchable
+            isClearable
+            optionFilterProp="children"
+            placeholder="Select a Collection"
+            onChange={onCollectionChange}
+            filterOption={filterOption}
+            options={collectionOptions()}
+          />
+        </div>
         {/* <Spin spinning={true}/> */}
-        <Select
-          className="col-span-1"
-          size="large"
-          showSearch
-          isSearchable
-          isClearable
-          optionFilterProp="children"
-          placeholder="Select a product"
-          onChange={onProductChange}
-          filterOption={filterOption}
-          options={productOptions()}
-          onPopupScroll={handleMenuScroll}
-        />
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">
+              Select a product<span className=" text-red-600">*</span>
+            </span>
+          </label>
+          <Select
+            className="col-span-1"
+            size="large"
+            showSearch
+            isSearchable
+            isClearable
+            optionFilterProp="children"
+            placeholder="Select a product"
+            onChange={onProductChange}
+            filterOption={filterOption}
+            options={productOptions()}
+            onPopupScroll={handleMenuScroll}
+          />
+        </div>
       </div>
       <div className="mt-4 flex justify-end">
         <button onClick={(e) => handleSubmit(e)} className="btn btn-primary">

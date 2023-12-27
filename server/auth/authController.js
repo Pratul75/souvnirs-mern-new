@@ -74,7 +74,7 @@ const registerVendor = async (req, res) => {
 
 const registerCustomer = async (req, res) => {
   try {
-    const { city, pincode, country, email } = req.body;
+    const { city, pinCode, country, email } = req.body;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const alreadyExists = await Customer.findOne({ email });
     if (alreadyExists) {
@@ -87,7 +87,7 @@ const registerCustomer = async (req, res) => {
     Address.create({
       customer_id: customer._id,
       city,
-      pin_code: pincode,
+      pin_code: pinCode,
       country,
     });
     const token = jwt.sign({ role: "customer", id: customer._id }, secretKey, {
@@ -106,7 +106,7 @@ const registerCustomer = async (req, res) => {
     res.status(200).json({ message: "User registered successfully!", token });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(400).json({ error: "somthing went wrong" });
+    res.status(400).json({ error: "somthing went wrong", msg: error.message });
   }
 };
 

@@ -10,6 +10,11 @@ const useVendor = () => {
   const [selectedStore, setSelectedStore] = useState(null);
   const [selectedRow, setSelectedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   console.log("Vendor.jsx", selectedStore);
   const handleDeleteModalClose = () => {
@@ -74,9 +79,12 @@ const useVendor = () => {
 
   const fetchVendorList = async () => {
     try {
-      const response = await API_WRAPPER.get("/vendors/get-vendors");
+      const response = await API_WRAPPER.get(
+        `/vendors/get-vendors/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
         setVendorList(response?.data?.data);
+        setTotalPagesShow(response?.data?.totalPages);
       }
     } catch (error) {
       console.error("Error occurred while fetching all vendorList", error);
@@ -135,14 +143,19 @@ const useVendor = () => {
     console.log("ROW TO BE EDITED: ", row);
   };
 
+  const handleShowVendor = (row) => {
+    navigate(`/vendor/details/details-product/${row?._id}`);
+    console.log("++++>>>>????", row?._id);
+  };
+
   const handleModalFormSubmit = async (e) => {
     try {
       const response = await API_WRAPPER.put(
         `/store/update-store/:${selectedStore._id}`,
         selectedStore
       );
-      console.log("EDITED RESPONSE", response.data);
-
+      console.log("EDITED RESPONSE==>", response.data);
+      fetchVendorList();
       window.storeFilterModal.close();
 
       setEditedProduct(null);
@@ -154,7 +167,7 @@ const useVendor = () => {
   useEffect(() => {
     fetchVendorList();
     fetchStoreList();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   useEffect(() => {
     convertToDesiredOutcome(vendorList, storeList);
@@ -171,6 +184,16 @@ const useVendor = () => {
     setSelectedStore,
     handleModalFormSubmit,
     submitHandleDelete,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
+    handleShowVendor,
+    fetchVendorList,
   };
 };
 

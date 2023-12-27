@@ -11,12 +11,21 @@ const useCategories = () => {
   const [editedRow, setEditedRow] = useState({});
   const [apiTrigger, setApiTrigger] = useState(false);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
+
   const getAllCategories = async () => {
     try {
-      const response = await API_WRAPPER.get("/category/get-all-categories");
+      const response = await API_WRAPPER.get(
+        `/category/get-all-categories/list?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
       if (response.status === 200) {
         console.log("ALL CATEGORIES LIST: ", response.data);
-        setCategoriesList(response?.data);
+        setCategoriesList(response?.data?.categoryList);
+        setTotalPagesShow(response?.data?.totalPages);
       }
     } catch (error) {
       console.error("Error occurred while fetching all categories", {
@@ -88,7 +97,7 @@ const useCategories = () => {
 
   useEffect(() => {
     getAllCategories();
-  }, [apiTrigger]);
+  }, [apiTrigger, page, pageSize, seacrhText]);
 
   useEffect(() => {
     getAllAttributes();
@@ -127,6 +136,14 @@ const useCategories = () => {
     selectedAttributes,
     setSelectedAttributes,
     getAllCategories,
+    setPageSize,
+    setPage,
+    pageSize,
+    page,
+    totalPagesShow,
+    productLoading,
+    SetSearchTex,
+    seacrhText,
   };
 };
 

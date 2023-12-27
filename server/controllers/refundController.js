@@ -1,5 +1,6 @@
 const Refund = require("../schema/refundModal");
 const Product = require("../schema/productModal");
+const mongoose = require("mongoose");
 
 // Get all refunds
 const getAllRefunds = async (req, res) => {
@@ -14,6 +15,9 @@ const getAllRefunds = async (req, res) => {
           as: "orders",
         },
       },
+      // {
+      //   $unwind:
+      // }
       {
         $lookup: {
           from: "products",
@@ -28,6 +32,195 @@ const getAllRefunds = async (req, res) => {
     //   item.product = item?.product[0];
     // });
     res.status(200).json(refunds);
+  } catch (error) {
+    console.error("Error fetching refunds:", error);
+    res.status(400).json({ error: "somthing went wrong" });
+  }
+};
+
+const getAllRefundsList = async (req, res) => {
+  try {
+    // req.role , req.userId
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 10;
+    const seacrhText = req?.query?.seacrhText;
+
+    const skip = (page - 1) * pageSize;
+    let totalData = 0,
+      totalPages = 0,
+      refunds = [];
+
+    let matchQuery = {};
+    if (seacrhText) {
+      matchQuery = {
+        $or: [
+          { "orders.courier_id": { $regex: new RegExp(seacrhText, "i") } },
+          { "product.name": { $regex: new RegExp(seacrhText, "i") } },
+        ],
+      };
+    }
+    if (req.role == "admin") {
+      refunds = await Refund.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "orderId",
+            foreignField: "_id",
+            as: "orders",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "refundDetails.productId",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: pageSize,
+        },
+      ]);
+
+      totalData = await Refund.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "orderId",
+            foreignField: "_id",
+            as: "orders",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "refundDetails.productId",
+            foreignField: "_id",
+            as: "product",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+      ]);
+      totalPages = Math.ceil(totalData.length / pageSize);
+    } else if (req.role == "vendor") {
+      refunds = await Refund.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "orderId",
+            foreignField: "_id",
+            as: "orders",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "refundDetails.productId",
+            foreignField: "_id",
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: [
+                          "$vendorId",
+                          new mongoose.Types.ObjectId(req?.userId),
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "product",
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+        {
+          $match: {
+            product: { $ne: [] }, // Remove documents where the 'product' array is empty
+          },
+        },
+        {
+          $sort: {
+            updatedAt: -1,
+          },
+        },
+        {
+          $skip: skip,
+        },
+        {
+          $limit: pageSize,
+        },
+      ]);
+
+      totalData = await Refund.aggregate([
+        {
+          $lookup: {
+            from: "orders",
+            localField: "orderId",
+            foreignField: "_id",
+            as: "orders",
+          },
+        },
+        {
+          $lookup: {
+            from: "products",
+            localField: "refundDetails.productId",
+            foreignField: "_id",
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      {
+                        $eq: [
+                          "$vendorId",
+                          new mongoose.Types.ObjectId(req?.userId),
+                        ],
+                      },
+                    ],
+                  },
+                },
+              },
+            ],
+            as: "product",
+          },
+        },
+        {
+          $match: {
+            product: { $ne: [] }, // Remove documents where the 'product' array is empty
+          },
+        },
+        {
+          $match: matchQuery,
+        },
+      ]);
+      totalPages = Math.ceil(totalData.length / pageSize);
+    }
+    res.status(200).json({
+      message: "get data successfully",
+      totalData: totalData.length,
+      page,
+      totalPages,
+      refunds,
+    });
   } catch (error) {
     console.error("Error fetching refunds:", error);
     res.status(400).json({ error: "somthing went wrong" });
@@ -140,4 +333,5 @@ module.exports = {
   deleteRefund,
   getAllRefunds,
   getRefundById,
+  getAllRefundsList,
 };

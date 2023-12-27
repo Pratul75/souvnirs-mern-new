@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { AiOutlineHeart, AiOutlineLogin } from "react-icons/ai";
 import Ratings from "../components/Ratings";
@@ -24,8 +24,10 @@ const ProductCard = ({
   isDiscounted,
   isLoading,
   clasName,
+  setProductId,
 }) => {
-  const [heartColor, setHeartColor] = useState("black");
+  const [heartColor, setHeartColor] = useState();
+  const [wishList, setWishList] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(price);
@@ -54,14 +56,37 @@ const ProductCard = ({
     }
   };
 
-  const handleHeartClick = () => {
+  const getWishlist = async () => {
+    try {
+      const getdata = await API_WRAPPER.get("/wishlist/getmywishlist");
+      setWishList(getdata?.data?.data?.wishlist);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getWishlist();
+  }, []);
+
+  const handleHeartClick = (id) => {
     if (heartColor === "black") {
+      setHeartColor("red");
+      addToWishlist();
+    } else {
+      setHeartColor("black");
+      addToWishlist();
+    }
+  };
+
+  useEffect(() => {
+    const findind = wishList?.findIndex((item) => item?.productId?._id == id);
+    if (findind >= 0) {
       setHeartColor("red");
     } else {
       setHeartColor("black");
     }
-    addToWishlist();
-  };
+  }, [id, wishList]);
 
   return (
     <motion.div
@@ -69,8 +94,15 @@ const ProductCard = ({
       animate="animate"
       initial="initial"
       key={id}
-      className={`card  border  px-3 py-4 cursor-pointer w-auto md:w-96  shadow-lg ${clasName}`}
-      onClick={() => navigate(`/productInfo/${slug}`)}
+      // style={{ border: "1px solid" }}
+      className={`card  border px-3 py-4 cursor-pointer w-auto md:w-96  shadow-lg ${clasName}`}
+      onClick={() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        navigate(`/productInfo/${slug}`);
+      }}
     >
       {isLoading ? (
         // Skeleton layout
@@ -86,7 +118,7 @@ const ProductCard = ({
               className="btn btn-circle bg-base-200 rounded-full"
               onClick={(e) => {
                 e.stopPropagation();
-                handleHeartClick();
+                handleHeartClick(id);
               }}
             >
               <AiOutlineHeart
@@ -98,7 +130,7 @@ const ProductCard = ({
           <div className="flex justify-center items-center">
             <div className="flex py-4 justify-center w-2/3">
               <img
-                className="aspect-square"
+                className="aspect-square h-48"
                 style={{
                   mixBlendMode: "multiply",
                 }}
@@ -113,16 +145,16 @@ const ProductCard = ({
             </div>
           </div>
           <div className="flex justify-center flex-col items-center gap-2">
-            <h3 className="text-center text-neutral-700 text-base font-medium leading-[25px]">
+            <h3 className="text-center text-neutral-700 text-base font-medium leading-[25px] h-8 overflow-hidden">
               {title}
             </h3>
             {isDiscounted ? (
-              <h5 className="justify-center flex w-36 items-center gap-4">
+              <h5 className="justify-center flex w-36 items-center gap-4 h-6">
                 <span className="line-through">${price}</span>
                 <span className="text-primary">${discountPrice}</span>
               </h5>
             ) : (
-              <h5 className="text-center  text-lg font-medium leading-[18px]">
+              <h5 className="text-center  text-lg font-medium leading-[18px] h-6">
                 {token ? (
                   `₹ ${price}`
                 ) : (
@@ -145,6 +177,10 @@ const ProductCard = ({
               </h5>
             )}
             <Ratings rating={rating} />
+            {/* <div className="flex justify-center items-center flex-col gap-4 mt-4">
+              <button className="btn btn-primary">Add to Cart</button>
+              <button className="btn btn-accent w-32">Buy Now</button>
+            </div> */}
           </div>
         </>
       )}

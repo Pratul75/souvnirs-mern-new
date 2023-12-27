@@ -10,21 +10,21 @@ const DashboardCard = ({
   iconColor,
   textColor,
 }) => {
-  const [animatedNumber, setAnimatedNumber] = useState(0);
+  const [animatedNumber, setAnimatedNumber] = useState(number);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (animatedNumber < number) {
-        setAnimatedNumber(animatedNumber + 1);
-      } else {
-        clearInterval(interval);
-      }
-    }, 1);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (animatedNumber < number) {
+  //       setAnimatedNumber(animatedNumber + 50);
+  //     } else {
+  //       clearInterval(interval);
+  //     }
+  //   }, 1);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [number, animatedNumber]);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [number, animatedNumber]);
 
   return (
     <Card>

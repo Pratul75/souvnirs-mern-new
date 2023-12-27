@@ -1,36 +1,58 @@
 import { Header, ReusableTable } from "../../components";
 import { useEffect, useMemo, useState } from "react";
 import API_WRAPPER from "../../api";
+import ReuseTable from "../../components/ui/Table/ReuseTable";
 const Payment = () => {
   const [ordersList, setOrdersList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPagesShow, setTotalPagesShow] = useState(0);
+  const [productLoading, setProductLoading] = useState(false);
+  const [seacrhText, SetSearchTex] = useState("");
 
   const getOrders = async () => {
     try {
-      const response = await API_WRAPPER.get("/order/get-orders");
-      setOrdersList(response?.data);
+      setProductLoading(true);
+      const response = await API_WRAPPER.get(
+        `/order/payment/success/get-orders?page=${page}&pageSize=${pageSize}&seacrhText=${seacrhText}`
+      );
+      setProductLoading(false);
+      setOrdersList(response?.data?.orders);
+      setTotalPagesShow(response?.data?.totalPages);
     } catch (error) {
       console.error("Error occured while fetching orders");
     }
   };
 
   useEffect(() => {
-    console.log("ORDER LIST: ", ordersList);
-  }, [ordersList]);
-  useEffect(() => {
     getOrders();
-  }, []);
+  }, [page, pageSize, seacrhText]);
 
   const columns = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Vendor Name",
         accessor: "vendor_id.firstName",
         Cell: ({ row }) => {
           return (
             <div>
               <p>
-                {row?.original?.vendor_id?.firstName}{" "}
-                {row?.original?.vendor_id?.lastName}
+                {row?.original?.vendors?.firstName}{" "}
+                {row?.original?.vendors?.lastName}
+              </p>
+            </div>
+          );
+        },
+      },
+      {
+        Header: "Customer Name",
+        accessor: "customer.firstName",
+        Cell: ({ row }) => {
+          return (
+            <div>
+              <p>
+                {row?.original?.customer?.firstName}{" "}
+                {row?.original?.customer?.lastName}
               </p>
             </div>
           );
@@ -39,6 +61,10 @@ const Payment = () => {
       {
         Header: "Order ID",
         accessor: "courier_id",
+      },
+      {
+        Header: "Coupon Code",
+        accessor: "coupon_code",
       },
       {
         Header: "Total Price",
@@ -71,14 +97,29 @@ const Payment = () => {
       />
 
       <div className="mt-4">
-        <ReusableTable
+        <ReuseTable
+          tableTitle="Payment List"
+          columns={columns}
+          data={data}
+          enablePagination
+          pageSize={10}
+          setPageSizeshow={setPageSize}
+          setPageNumber={setPage}
+          pageSizeShow={pageSize}
+          pageNumber={page}
+          totalPagesShow={totalPagesShow}
+          productLoading={productLoading}
+          SetSearchTex={SetSearchTex}
+          seacrhText={seacrhText}
+        />
+        {/* <ReusableTable
           tableTitle="Payment List"
           columns={columns}
           data={data}
           enablePagination
           pageSize={10}
           showButtons={false}
-        />
+        /> */}
       </div>
     </div>
   );
